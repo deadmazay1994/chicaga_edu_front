@@ -1,9 +1,14 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark />
-
     <v-main>
-      <router-view />
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="12" lg="7" style="background-color: #eee;">
+            <router-view />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
