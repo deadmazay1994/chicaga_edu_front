@@ -1,15 +1,26 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark />
-
+    <header-app />
     <v-main>
-      <router-view />
+      <!-- <router-view /> -->
+      <lesson />
     </v-main>
+    <modals />
   </v-app>
 </template>
 
 <script>
+import HeaderApp from "@/components/Base/Header";
+import Modals from "@/components/Base/Modals";
+
+import Lesson from "@/components/Lesson.vue";
+
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    HeaderApp,
+    Modals,
+    Lesson
+  }
 };
 </script>

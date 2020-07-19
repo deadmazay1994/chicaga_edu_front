@@ -1,19 +1,17 @@
 <template>
-  <div class="video-miniature vue-component">
-    <video class="video" :src="src"></video>
-  </div>
+  <div class="add-attach vue-component"></div>
 </template>
 
 <script>
 export default {
-  name: "video-miniature",
+  name: "add-attach",
   data: function() {
     return {};
   },
   methods: {},
   computed: {},
   components: {},
-  props: ["src"],
+  props: [],
   mixins: {},
   beforeMount() {}
 };

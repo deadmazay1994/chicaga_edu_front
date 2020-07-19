@@ -4,13 +4,15 @@ export default {
   data() {
     return {
       socket: false,
-      url: "http://localhost:3000"
+      socketUrl: "http://localhost:5000"
+      // socketUrl: "https://edu.chicaga.ru:5000"
     };
   },
   methods: {
     connectToSocket(roomId) {
       roomId;
-      this.socket = Io(this.url);
+      let socket = Io(this.socketUrl);
+      return socket;
     }
   }
 };
