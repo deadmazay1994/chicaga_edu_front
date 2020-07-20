@@ -1,10 +1,27 @@
 <template>
   <div class="header-app vue-component">
     <v-app-bar class="header-app__bar white--text">
-      <v-spacer></v-spacer>
-      <template v-if="!user">
-        <span class="header__sign" @click="showSignIn">Вход</span>
-      </template>
+      <v-row>
+        <v-col cols="12" md="4" class="d-flex align-center">
+          <router-link to="/">
+            <logo class="header-app__logo" />
+          </router-link>
+        </v-col>
+        <v-col cols="12" md="4" class="d-flex align-center justify-center">
+          <dict-add />
+        </v-col>
+        <v-col cols="12" md="4" class="d-flex justify-end align-center">
+          <template v-if="!user">
+            <span
+              class="header__sign"
+              style="cursor: pointer"
+              @click="showSignIn"
+              >Вход</span
+            >
+          </template>
+        </v-col>
+      </v-row>
+
       <!-- <span class="mx-1">/</span>
       <span class="header__sign">Регистрция</span>-->
     </v-app-bar>
@@ -12,6 +29,9 @@
 </template>
 
 <script>
+import DictAdd from "@/components/Lk/DictAdd";
+import Logo from "@/components/Icons/Logo";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -27,7 +47,10 @@ export default {
   computed: {
     ...mapGetters(["user"])
   },
-  components: {},
+  components: {
+    DictAdd,
+    Logo
+  },
   props: [],
   mixins: {},
   beforeMount() {}
@@ -38,6 +61,8 @@ export default {
 @import "@/components/Sass/Varibles.sass"
 
 .header-app
+  &__logo
+    transform: scale(0.8)
   &__sign
     cursor: pointer
   &__bar

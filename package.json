@@ -17,6 +17,7 @@
     "vue-beautiful-chat": "^2.4.1",
     "vue-router": "^3.2.0",
     "vue-spinner": "^1.0.4",
+    "vue2-perfect-scrollbar": "^1.5.0",
     "vuetify": "^2.2.11",
     "vuetify-audio": "^0.3.3",
     "vuex": "^3.4.0"

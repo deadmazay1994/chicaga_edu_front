@@ -151,7 +151,6 @@ export default {
   &__video
     display: block
     width: 100%
-    background: #dedede
   &__avatar
     max-width: 100%
     display: block

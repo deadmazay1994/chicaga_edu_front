@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import chat from "./modules/chat";
 import user from "./modules/user";
 import modals from "./modules/modals";
+import snackbars from "./modules/snackbars";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   modules: {
     chat,
     user,
-    modals
+    modals,
+    snackbars
   }
 });

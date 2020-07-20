@@ -317,7 +317,6 @@ export default {
   display: flex
   overflow-y: auto
   flex-direction: column
-  background: #efefef
   align-items: center
   justify-content: space-between
   &__big-video-wrap

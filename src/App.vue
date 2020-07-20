@@ -6,12 +6,14 @@
       <lesson />
     </v-main>
     <modals />
+    <snackbars />
   </v-app>
 </template>
 
 <script>
 import HeaderApp from "@/components/Base/Header";
 import Modals from "@/components/Base/Modals";
+import Snackbars from "@/components/Base/Snackbars";
 
 import Lesson from "@/components/Lesson.vue";
 
@@ -20,6 +22,7 @@ export default {
   components: {
     HeaderApp,
     Modals,
+    Snackbars,
     Lesson
   }
 };
