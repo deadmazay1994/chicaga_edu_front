@@ -1,6 +1,6 @@
 <template>
   <div class="header-app vue-component">
-    <v-app-bar app color="primary" dark>
+    <v-app-bar class="header-app__bar white--text">
       <v-spacer></v-spacer>
       <template v-if="!user">
         <span class="header__sign" @click="showSignIn">Вход</span>
@@ -35,7 +35,12 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.header
+@import "@/components/Sass/Varibles.sass"
+
+.header-app
   &__sign
     cursor: pointer
+  &__bar
+    color: #000
+    background: $main_color + aa !important
 </style>

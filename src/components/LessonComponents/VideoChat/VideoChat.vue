@@ -3,8 +3,8 @@
     <div class="video-chat__big-video-wrap mb-2">
       <video-component
         class="video-chat__video video-chat__video--active"
-        v-if="medias.medias[activeVideoIndex]"
-        :mediaObject="medias.medias[activeVideoIndex]"
+        v-if="activeMedia"
+        :mediaObject="activeMedia"
         :indexVideo="activeVideoIndex"
         :active="true"
         @toggleFullSize="onFullSizeToggle"
@@ -284,7 +284,11 @@ export default {
       });
     }
   },
-  computed: {},
+  computed: {
+    activeMedia() {
+      return this.medias.medias[this.activeVideoIndex];
+    }
+  },
   components: {
     VideoComponent
   },

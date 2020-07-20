@@ -26,7 +26,6 @@
           ></v-img>
         </div>
       </v-col>
-      <v-btn @click="checkTask" color="primary">Проверить</v-btn>
     </v-row>
   </div>
 </template>
@@ -82,7 +81,8 @@ export default {
         "img-task--in-correct": this.task.shuffled[i].correct == 0
       };
     },
-    checkTask() {
+    check() {
+      console.log(1);
       this.task.shuffled.forEach(e => {
         e.correct = 0;
       });

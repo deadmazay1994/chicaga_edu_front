@@ -41,3 +41,10 @@ export default {
   beforeMount() {}
 };
 </script>
+
+<style lang="sass" scoped>
+@import "@/components/Sass/Varibles.sass"
+
+.edu-panel
+  overflow: auto
+</style>

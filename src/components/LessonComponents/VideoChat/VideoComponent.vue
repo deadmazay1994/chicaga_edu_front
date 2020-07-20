@@ -120,6 +120,9 @@ export default {
     },
     "mediaObject.audioOff": function() {
       this.audioOff();
+    },
+    "mediaObject.id": function() {
+      this.setStream();
     }
   },
   components: {

@@ -4,8 +4,8 @@ export default {
   data() {
     return {
       socket: false,
-      socketUrl: "http://localhost:5000"
-      // socketUrl: "https://edu.chicaga.ru:5000"
+      // socketUrl: "http://localhost:5000"
+      socketUrl: "https://edu.chicaga.ru:5000"
     };
   },
   methods: {

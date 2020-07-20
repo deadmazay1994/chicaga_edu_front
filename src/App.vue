@@ -24,3 +24,8 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+#app
+  background: #F5F5DC
+</style>

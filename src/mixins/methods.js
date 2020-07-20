@@ -2,6 +2,15 @@ import Vue from "vue";
 
 Vue.mixin({
   methods: {
+    clear(text) {
+      // Убирает все пробелы, приводит текст к стандартному виду
+      // Нужно для провеки
+      return text.toLowerCase().replace(/ /g, "");
+    },
+    clearDeeper(text) {
+      // Оставляет только текст и цифры
+      return text.replace(/[^A-Za-z0-9]+/g, "").toLowerCase();
+    },
     shuffle(arr) {
       for (let i = 0; i < 5; i++) {
         arr = arr.sort(() => Math.random() - 0.5);
