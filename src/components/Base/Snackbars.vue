@@ -3,10 +3,16 @@
     <v-snackbar
       v-for="(snack, i) in snuckbarsActive"
       :key="i"
+      :color="snack.success ? 'success ' : ''"
       v-model="snack.active"
     >
-      {{ snack.text }}
-      <v-btn color="red" text @click="snack.active = false">Close</v-btn>
+      {{ snack.val }}
+      <v-btn
+        :color="snack.success ? 'white' : 'error'"
+        text
+        @click="snack.active = false"
+        >Закрыть</v-btn
+      >
     </v-snackbar>
   </div>
 </template>

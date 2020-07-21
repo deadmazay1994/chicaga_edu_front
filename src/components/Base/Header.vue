@@ -1,6 +1,6 @@
 <template>
   <div class="header-app vue-component">
-    <v-app-bar class="header-app__bar white--text">
+    <v-app-bar class="header-app__bar main-color main-color--text">
       <v-row>
         <v-col cols="12" md="4" class="d-flex align-center">
           <router-link to="/">
@@ -67,5 +67,5 @@ export default {
     cursor: pointer
   &__bar
     color: #000
-    background: $main_color + aa !important
+    // background: $main_color + aa !important
 </style>

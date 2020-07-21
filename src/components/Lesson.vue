@@ -14,12 +14,14 @@
         </v-col>
       </v-row>
     </v-container>
+    <lesson-start :display="false" />
   </div>
 </template>
 
 <script>
 import VideoChat from "@/components/LessonComponents/VideoChat/VideoChat";
 import EduPanel from "@/components/LessonComponents/EduPanel";
+import LessonStart from "@/components/LessonComponents/LessonStart";
 
 export default {
   name: "lesson",
@@ -30,7 +32,8 @@ export default {
   computed: {},
   components: {
     VideoChat,
-    EduPanel
+    EduPanel,
+    LessonStart
   },
   props: [],
   mixins: {},

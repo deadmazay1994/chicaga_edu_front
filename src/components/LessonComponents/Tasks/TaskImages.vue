@@ -38,28 +38,6 @@ export default {
   data: function() {
     return {
       task: {
-        groups: [
-          {
-            img:
-              "https://via.placeholder.com/600x500/2196f3/FFFFFF?text=(1)First+in+array",
-            answer: 1
-          },
-          {
-            img:
-              "https://via.placeholder.com/600x500/82b1ff/FFFFFF?text=(2)Second+in+array",
-            answer: 2
-          },
-          {
-            img:
-              "https://via.placeholder.com/600x500/4caf50/FFFFFF?text=(3)Three+in+array",
-            answer: 3
-          },
-          {
-            img:
-              "https://via.placeholder.com/600x500/ff5252/FFFFFF?text=(4)Four+in+array",
-            answer: 4
-          }
-        ],
         answers: [],
         shuffled: []
       }
@@ -82,7 +60,6 @@ export default {
       };
     },
     check() {
-      console.log(1);
       this.task.shuffled.forEach(e => {
         e.correct = 0;
       });
@@ -111,10 +88,14 @@ export default {
   },
   computed: {},
   components: {},
-  props: [],
+  props: ["input"],
   mixins: {},
   mounted() {},
   beforeMount() {
+    this.task = {
+      ...this.task,
+      ...this.input
+    };
     this.setAnswers();
     this.setShuffled();
     this.setAlphabetical();
@@ -123,6 +104,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/components/Sass/Varibles.sass"
+
 .img-task
 	position: relative
 	display: flex
@@ -157,19 +140,19 @@ export default {
 	&--correct
 		.img-task
 			&__check
-				border-color: #1976d2
+				border-color: $success_color
 
 			&__word
-				background-color: #1976d2
-				border-color: #1976d2
-				color: #fff
+				background-color: $success_color
+				border-color: $success_color
+				color: $success_color--text
 	&--in-correct
 		.img-task
 			&__check
-				border-color: #f44336
+				border-color: $error_color
 
 			&__word
-				background-color: #f44336
-				border-color: #f44336
-				color: #fff
+				background-color: $error_color
+				border-color: $error_color
+				color: $error_color--text
 </style>

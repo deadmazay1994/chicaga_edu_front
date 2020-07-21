@@ -133,7 +133,6 @@ export default {
         let userId = user.id;
         // Создаем и пушим пир в массив пиров
         let initiator = true;
-        console.log(userId);
         let peer = this.createPeer(stream, userId, initiator);
         this.peers.push({
           id: userId,
@@ -175,7 +174,7 @@ export default {
     getMedia(callback) {
       navigator.mediaDevices
         .getUserMedia({
-          video: { width: 102, height: 76 },
+          video: { width: 1024, height: 768 },
           audio: true
         })
         .then(stream => {
@@ -186,7 +185,11 @@ export default {
     createPeer(stream, user = "", initiator = false) {
       let peer = new Peer({
         initiator,
-        stream
+        stream,
+        trickle: false
+      });
+      peer.on("error", e => {
+        console.log(e);
       });
       peer.on("stream", stream => {
         this.medias.push(

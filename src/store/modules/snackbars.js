@@ -4,7 +4,7 @@ export default {
   mutations: {
     pushShuckbar(state, text) {
       state.snuckbars.push({
-        text,
+        ...text,
         active: true
       });
       console.log(state.snuckbars);

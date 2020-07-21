@@ -1,6 +1,6 @@
 <template>
   <div class="edu-panel vue-component">
-    <v-tabs v-model="tab" fixed-tabs>
+    <v-tabs color="orange accent-2" dark v-model="tab" fixed-tabs>
       <v-tab>Задания</v-tab>
       <v-tab>Чат</v-tab>
       <v-tab>Материалы урока</v-tab>

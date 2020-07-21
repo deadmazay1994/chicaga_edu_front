@@ -2,22 +2,22 @@
   <div class="dict-add vue-component">
     <v-form class="d-flex align-center">
       <v-text-field
-        label="RU"
-        dense
-        outlined
-        background-color="white"
-        hide-details
-        class="dict-add__field rounded-0 rounded-l"
-        v-model="dict.ru"
-      ></v-text-field>
-      <v-text-field
         label="EN"
         dense
         outlined
         background-color="white"
         hide-details
-        class="dict-add__field rounded-0"
+        class="dict-add__field rounded-0 rounded-l"
         v-model="dict.en"
+      ></v-text-field>
+      <v-text-field
+        label="RU"
+        dense
+        outlined
+        background-color="white"
+        hide-details
+        class="dict-add__field rounded-0"
+        v-model="dict.ru"
       ></v-text-field>
       <v-btn
         @click="add"
@@ -43,19 +43,25 @@ export default {
   methods: {
     addSnackbar() {
       if (this.dict.en.length == 0 && this.dict.ru.length == 0) {
-        this.$store.commit("pushShuckbar", "Вы не указали не одного слова");
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "Вы не указали ни одного слова"
+        });
       } else if (this.dict.en.length == 0) {
-        this.$store.commit(
-          "pushShuckbar",
-          "Вы не указлаи слово на английском языке"
-        );
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "Вы не указлаи слово на английском языке"
+        });
       } else if (this.dict.ru.length == 0) {
-        this.$store.commit(
-          "pushShuckbar",
-          "Вы не указлаи слово на руссоком языке"
-        );
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "Вы не указлаи слово на руссоком языке"
+        });
       } else {
-        this.$store.commit("pushShuckbar", "Слово успешно добавлено в словарь");
+        this.$store.commit("pushShuckbar", {
+          success: true,
+          val: "Слово успешно добавлено в словарь"
+        });
       }
     },
     add() {

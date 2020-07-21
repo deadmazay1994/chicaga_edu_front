@@ -10,14 +10,17 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "draggable": "^4.2.0",
     "js-sha256": "^0.9.0",
     "simple-peer": "^9.7.2",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-beautiful-chat": "^2.4.1",
+    "vue-image-crop-upload": "^2.5.0",
     "vue-router": "^3.2.0",
     "vue-spinner": "^1.0.4",
     "vue2-perfect-scrollbar": "^1.5.0",
+    "vuedraggable": "^2.24.0",
     "vuetify": "^2.2.11",
     "vuetify-audio": "^0.3.3",
     "vuex": "^3.4.0"

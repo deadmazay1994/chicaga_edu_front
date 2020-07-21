@@ -56,7 +56,10 @@ export default {
   props: [],
   mixins: {},
   mounted() {
-    console.log(this);
+    this.login({
+      username: "Имя пользователя",
+      avatar: ""
+    });
   }
 };
 </script>

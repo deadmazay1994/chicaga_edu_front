@@ -27,23 +27,37 @@ export default {
           h(
             "span",
             {
-              class: "fill-gaps-item__text",
-              ref: "sentencePart",
-              refInFor: true
+              class: "fill-gaps-item__text"
             },
             letters
           )
         );
         letters = [];
+        this.pushMissingAnswers(gapNum);
         res.push(
           h("input", {
-            class: "fill-gaps-item__input",
+            class: {
+              "fill-gaps-item__input": true,
+              "fill-gaps-item__input--correct":
+                this.answers[gapNum].correct == true,
+              "fill-gaps-item__input--uncorrect":
+                !this.answers[gapNum].correct && this.answered
+            },
             style: {
-              // Ширина инпута в зависимости от пропущенного слова
+              // Ширина инпута в зависимости от длинны пропущенного слова
               width: String(this.sentenceMap[gapNum] * 10 + 10) + "px"
             },
-            ref: "sentencePart",
-            refInFor: true
+            on: {
+              input: event => {
+                this.updateModelInput(
+                  event.target.value,
+                  event.target.dataset.index
+                );
+              }
+            },
+            attrs: {
+              "data-index": gapNum
+            }
           })
         );
         gap = false;
@@ -57,9 +71,7 @@ export default {
           h(
             "span",
             {
-              class: "fill-gaps-item__text",
-              ref: "sentencePart",
-              refInFor: true
+              class: "fill-gaps-item__text"
             },
             letters
           )
@@ -67,26 +79,32 @@ export default {
         letters = [];
       }
     }
-    return h(
-      "div",
-      {
-        class: {
-          "fill-gaps-item": true,
-          "fill-gaps-item--correct": this.correct,
-          "fill-gaps-item--uncorrect": !this.correct && this.correct != null
-        }
-      },
-      res
-    );
+    return h("div", {}, res);
   },
   data() {
     return {
       newSentence: "",
       sentenceMap: [],
-      correct: null
+      correct: null,
+      answers: [],
+      answered: false
     };
   },
   methods: {
+    updateModelInput(val, inputIndex) {
+      this.answers[inputIndex].val = val;
+    },
+    pushMissingAnswers(inputIndex) {
+      // Если в массиве ответа слишком мало элементов, то добавляем их ровно до inputIndex + 1
+      if (inputIndex >= this.answers.length) {
+        for (let i = 0; i < inputIndex - this.answers.length + 1; i++) {
+          this.answers.push({
+            val: "",
+            correct: null
+          });
+        }
+      }
+    },
     setSentenceMap() {
       this.sentence.match(/\[(.*?)\]/g).forEach(gap => {
         this.sentenceMap.push(gap.length - 2);
@@ -104,26 +122,35 @@ export default {
       );
     },
     check() {
-      let res = "";
-      this.$refs.sentencePart.forEach(part => {
-        res += part.value != undefined ? part.value : part.textContent;
-      });
-      if (
-        this.clear(res) ==
-        this.clearDeeper(this.sentence.replace(/<(.*?)>/g, ""))
-      ) {
-        this.correct = true;
-      } else {
-        this.correct = false;
+      this.answered = true;
+      let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
+      for (let i = 0; i < this.answers.length; i++) {
+        if (
+          this.clearDeeper(trueAnswers[i]) ==
+          this.clearDeeper(this.answers[i].val)
+        ) {
+          this.answers[i].correct = true;
+        } else {
+          this.answers[i].correct = false;
+        }
+      }
+    },
+    setAnswersInput() {
+      if (this.answersInput) {
+        this.answers = this.answersInput;
       }
     }
   },
   beforeMount() {
     this.setSentenceMap();
     this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "[ ]");
+    this.setAnswersInput();
   },
   props: {
-    sentence: { required: true }
+    sentence: { required: true },
+    answersInput: {
+      required: false
+    }
   }
 };
 </script>
@@ -150,6 +177,12 @@ export default {
     text-align: center
     border-bottom: 1px solid #000
     margin: 0 5px
+    &--correct
+      color: $success_color
+      border-bottom-color: $success_color
+    &--uncorrect
+      color: $error_color
+      border-bottom-color: $error_color
 
 .fill-gaps-item--uncorrect
   .fill-gaps-item__input
