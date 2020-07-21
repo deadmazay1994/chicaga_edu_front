@@ -10,11 +10,29 @@
         }}</router-link>
         <v-divider class="my-4"></v-divider>
         <div>{{ description }}</div>
-        <v-divider class="my-4"></v-divider>
       </div>
-      <v-btn large class="main-color main-color--text mt-4">
-        Купить
-      </v-btn>
+      <div v-if="!buy">
+        <v-divider class="my-4"></v-divider>
+        <div class="text-h5">{{ course.price }} &#8381;</div>
+        <v-divider class="my-4"></v-divider>
+        <v-btn large block class="main-color main-color--text mt-4">
+          Купить
+        </v-btn>
+      </div>
+      <div v-else="">
+        <v-divider class="my-4"></v-divider>
+        <div class="text-subtitile-2 blue--text">
+          Пройденно уроков {{ course.progress.copmlite }} из
+          {{ course.progress.all }}
+        </div>
+        <v-progress-linear
+          class="my-4"
+          :striped="true"
+          height="7"
+          rounded
+          :value="(course.progress.copmlite / course.progress.all) * 100"
+        />
+      </div>
     </v-card>
   </div>
 </template>

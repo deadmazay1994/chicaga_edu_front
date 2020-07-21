@@ -1,5 +1,7 @@
 <template>
   <div class="catalog-c vue-component">
+    <div class="relative front text-h2">{{ title }}</div>
+    <div class="text-subtitle-2 mt-2 front relative">{{ subtitle }}</div>
     <v-row>
       <v-col v-for="course in courses" :key="course.id" cols="12" lg="4">
         <course-card :course="course" :buy="false" />
@@ -14,6 +16,8 @@ export default {
   name: "catalog-c",
   data: function() {
     return {
+      title: "Каталог курсов",
+      subtitle: "",
       courses: [
         {
           title: "Название курса 1",

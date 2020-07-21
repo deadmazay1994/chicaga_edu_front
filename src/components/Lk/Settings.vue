@@ -51,19 +51,19 @@
                 <img :src="user.avatar" alt="avatar" />
               </v-avatar>
             </div>
-            <!-- // Когда будет сервер исправить  на cropUploadSuccess -->
-            <upload-avatar
-              langType="ru"
-              field="img"
-              v-model="showUpladAvatar"
-              @crop-success="updateAvatar"
-            />
           </v-card>
         </v-col>
       </v-row>
       <v-btn class="main-color main-color--text front" @click="safe"
         >Сохранить настройки</v-btn
       >
+      <!-- // Когда будет сервер исправить  на cropUploadSuccess -->
+      <upload-avatar
+        langType="ru"
+        field="img"
+        v-model="showUpladAvatar"
+        @crop-success="updateAvatar"
+      />
     </v-form>
   </div>
 </template>
