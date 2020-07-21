@@ -1,7 +1,7 @@
 <template>
   <div class="navigation vue-component">
     <v-navigation-drawer
-      absolute
+      fixed
       dark
       :expand-on-hover="true"
       class="navigation__drawer rounded-0 main-color"

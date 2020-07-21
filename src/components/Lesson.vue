@@ -3,12 +3,12 @@
     <v-container>
       <v-row>
         <v-col lg="6" cols="12">
-          <v-card>
+          <v-card class="front">
             <video-chat class="lesson__chat lesson__item" />
           </v-card>
         </v-col>
         <v-col lg="6" cols="12">
-          <v-card>
+          <v-card class="front">
             <edu-panel class="lesson__edu-panel lesson__item" />
           </v-card>
         </v-col>

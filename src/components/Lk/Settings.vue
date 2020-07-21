@@ -1,11 +1,11 @@
 <template>
   <div class="user-settings vue-component">
-    <div class="text-h2">{{ pageTitle }}</div>
-    <div class="text-subtitle-2 mt-2">{{ subtitle }}</div>
+    <div class="text-h2 front relative">{{ pageTitle }}</div>
+    <div class="text-subtitle-2 mt-2 front relative">{{ subtitle }}</div>
     <v-form v-model="valid" :lazy-validatio="true" ref="form">
       <v-row class="mt-10" style="justify-content: space-between">
         <v-col cols="12" md="6">
-          <v-card class="pa-5" style="height: 100%">
+          <v-card class="pa-5 front" style="height: 100%">
             <div class="text-subtitle-2">Изменить ФИО</div>
             <v-text-field
               v-model="user.name"
@@ -38,7 +38,7 @@
           </v-card>
         </v-col>
         <v-col cols="12" md="6">
-          <v-card class="pa-5" style="height: 100%">
+          <v-card class="pa-5 front" style="height: 100%">
             <div class="text-subtitle-2">
               Для загрузки аватара, нажмите на изображение
             </div>
@@ -61,7 +61,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-btn class="main-color main-color--text" @click="safe"
+      <v-btn class="main-color main-color--text front" @click="safe"
         >Сохранить настройки</v-btn
       >
     </v-form>

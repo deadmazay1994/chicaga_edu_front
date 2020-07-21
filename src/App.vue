@@ -2,11 +2,14 @@
   <v-app>
     <header-app />
     <navigation />
-    <v-main style="width: calc(100vw - 56px); margin-left: 56px">
-      <router-view />
+    <v-main
+      style="width: calc(100vw - 56px); margin-left: 56px; margin-top: 64px;"
+    >
+      <router-view class="main-view" />
     </v-main>
     <modals />
     <snackbars />
+    <bg-component />
   </v-app>
 </template>
 
@@ -15,6 +18,7 @@ import HeaderApp from "@/components/Base/Header";
 import Modals from "@/components/Base/Modals";
 import Snackbars from "@/components/Base/Snackbars";
 import Navigation from "@/components/Lk/Navigation";
+import BgComponent from "@/components/Base/Background";
 
 export default {
   name: "App",
@@ -22,7 +26,8 @@ export default {
     HeaderApp,
     Modals,
     Snackbars,
-    Navigation
+    Navigation,
+    BgComponent
   }
 };
 </script>
@@ -31,11 +36,16 @@ export default {
 @import "@/components/Sass/Varibles.sass"
 
 #app
-  background: #F5F5DC
+  background: $bg_color
 .main-color
   background: $main-color !important
   &--text
     color: white !important
 .pointer
   cursor: pointer
+.front
+  z-index: 1
+  opacity: 0.99
+.relative
+  position: relative
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="header-app vue-component">
-    <v-app-bar class="header-app__bar main-color main-color--text">
+    <v-app-bar fixed class="header-app__bar main-color main-color--text">
       <v-row>
         <v-col cols="12" md="4" class="d-flex align-center">
           <router-link to="/">
