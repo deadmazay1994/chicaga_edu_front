@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Lesson from "@/components/Lesson";
 import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
+import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
+import MyCourses from "@/components/Lk/Courses/MyCourses";
 
 Vue.use(VueRouter);
 
@@ -20,6 +22,14 @@ const routes = [
       {
         path: "settings",
         component: Settings
+      },
+      {
+        path: "catalog-coursers",
+        component: CatalogCourses
+      },
+      {
+        path: "my-coursers",
+        component: MyCourses
       }
     ]
   }
