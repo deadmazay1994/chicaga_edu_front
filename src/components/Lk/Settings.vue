@@ -1,7 +1,6 @@
 <template>
   <div class="user-settings vue-component">
-    <div class="text-h2 front relative">{{ pageTitle }}</div>
-    <div class="text-subtitle-2 mt-2 front relative">{{ subtitle }}</div>
+    <page-title :title="pageTitle" :subtitle="subtitle" />
     <v-form v-model="valid" :lazy-validatio="true" ref="form">
       <v-row class="mt-10" style="justify-content: space-between">
         <v-col cols="12" md="6">
@@ -70,6 +69,7 @@
 
 <script>
 import UploadAvatar from "vue-image-crop-upload";
+import PageTitle from "@/components/Base/PageTitle";
 
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
@@ -127,7 +127,8 @@ export default {
     ...mapGetters(["user"])
   },
   components: {
-    UploadAvatar
+    UploadAvatar,
+    PageTitle
   },
   props: [],
   mixins: {},

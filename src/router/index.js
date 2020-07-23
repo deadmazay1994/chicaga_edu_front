@@ -6,6 +6,7 @@ import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
+import Dictionary from "@/components/Lk/Dictionary";
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,10 @@ const routes = [
       {
         path: "course/:id",
         component: CoursePage
+      },
+      {
+        path: "dictionary",
+        component: Dictionary
       }
     ]
   }

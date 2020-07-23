@@ -8,13 +8,13 @@
     >
       <v-list dense nav class="py-0">
         <v-list-item two-line class="px-0">
-          <router-link to="/lk">
+          <router-link to="/lk/my-coursers">
             <v-list-item-avatar>
               <img :src="user.avatar" />
             </v-list-item-avatar>
           </router-link>
           <v-list-item-content>
-            <router-link to="/lk" class="white--text">
+            <router-link to="/lk/my-coursers" class="white--text">
               <v-list-item-title>{{ user.username }}</v-list-item-title>
             </router-link>
           </v-list-item-content>
@@ -37,6 +37,16 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Мои курсы</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link to="/lk/dictionary" class="white--text">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-book</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Словарь</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>

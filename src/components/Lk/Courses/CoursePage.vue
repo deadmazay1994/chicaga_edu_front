@@ -1,7 +1,6 @@
 <template>
   <div class="course-page vue-component">
-    <div class="relative front text-h2">{{ courseRes.title }}</div>
-    <div class="text-subtitle-2 mt-2 front relative">{{ subtitle }}</div>
+    <page-title :title="courseRes.title" />
     <course-my v-if="courseRes.buyed" :course="courseRes" />
     <v-row v-else class="d-flex justify-center">
       <v-col cols="12" lg="10">
@@ -12,6 +11,7 @@
 </template>
 
 <script>
+import PageTitle from "@/components/Base/PageTitle";
 import CourseMy from "./CoursePageMy";
 import CourseCatalog from "./CoursePageCatalog";
 
@@ -36,6 +36,7 @@ export default {
     ...mapGetters(["course"])
   },
   components: {
+    PageTitle,
     CourseMy,
     CourseCatalog
   },
