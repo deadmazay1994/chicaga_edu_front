@@ -55,12 +55,7 @@ export default {
   components: {},
   props: [],
   mixins: {},
-  mounted() {
-    this.login({
-      username: "Имя пользователя",
-      avatar: ""
-    });
-  }
+  mounted() {}
 };
 </script>
 

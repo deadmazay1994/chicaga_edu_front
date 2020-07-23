@@ -8,15 +8,18 @@
           </router-link>
         </v-col>
         <v-col cols="12" md="4" class="d-flex align-center justify-center">
-          <dict-add />
+          <dict-add v-if="user" />
         </v-col>
         <v-col cols="12" md="4" class="d-flex justify-end align-center">
           <template v-if="!user">
-            <span
-              class="header__sign"
-              style="cursor: pointer"
-              @click="showSignIn"
-              >Вход</span
+            <router-link to="/auth/login" class="header__sign main-color--text"
+              >Авторизация</router-link
+            >
+            <span class="mx-1">/</span>
+            <router-link
+              to="/auth/register"
+              class="header__sign main-color--text"
+              >Регистрация</router-link
             >
           </template>
         </v-col>

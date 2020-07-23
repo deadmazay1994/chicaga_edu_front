@@ -4,7 +4,12 @@ export default {
   namespaces: true,
   actions: {
     login({ commit }, formdata) {
-      let response = formdata;
+      formdata;
+      let response = {
+        username: "Равиль Гиззатуллин",
+        email: "147rawil147@gmail.com",
+        avatar: ""
+      };
       commit("setUser", response);
     },
     setAvatar({ commit }, avatarUri) {

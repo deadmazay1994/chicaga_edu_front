@@ -1,10 +1,8 @@
 <template>
   <v-app>
     <header-app />
-    <navigation />
-    <v-main
-      style="width: calc(100vw - 56px); margin-left: 56px; margin-top: 64px;"
-    >
+    <navigation v-if="user" />
+    <v-main class="v-main" :class="{ 'v-main--resize': user }">
       <router-view class="main-view" />
     </v-main>
     <modals />
@@ -20,6 +18,8 @@ import Snackbars from "@/components/Base/Snackbars";
 import Navigation from "@/components/Lk/Navigation";
 import BgComponent from "@/components/Base/Background";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "App",
   components: {
@@ -28,7 +28,11 @@ export default {
     Snackbars,
     Navigation,
     BgComponent
-  }
+  },
+  computed: {
+    ...mapGetters(["user"])
+  },
+  beforeMount() {}
 };
 </script>
 
@@ -37,6 +41,12 @@ export default {
 
 #app
   background: $bg_color
+.v-main
+  width: 100%
+  margin-top: 64px
+  &--resize
+    width: calc(100vw - 56px)
+    margin-left: 56px
 .main-color
   background: $main-color !important
   &--text
