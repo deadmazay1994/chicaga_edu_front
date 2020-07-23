@@ -11,10 +11,7 @@ export default {
       ],
       passwordRules: [
         v => !!v || "Пароль обязательное поле",
-        v => (v && v.length >= 5) || "Password must have 5+ characters",
-        v => /(?=.*[A-Z])/.test(v) || "Must have one uppercase character",
-        v => /(?=.*\d)/.test(v) || "Must have one number",
-        v => /([!@$%])/.test(v) || "Must have one special character [!@#$%]"
+        v => (v && v.length >= 5) || "Пароль должен содержать более 5 символов"
       ],
       passwordAuthRules: [v => !!v || "Пароль обязательное поле"]
     };

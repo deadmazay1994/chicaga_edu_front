@@ -32,7 +32,10 @@ export default {
   computed: {
     ...mapGetters(["user"])
   },
-  beforeMount() {}
+  beforeMount() {
+    // Если у пользователя есть токен, то авторизация происходит при помощи него
+    this.$store.dispatch("login");
+  }
 };
 </script>
 

@@ -60,20 +60,39 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
+        <v-divider></v-divider>
+        <v-list-item link class="mt-3" @click="exit">
+          <v-list-item-icon>
+            <v-icon>mdi-account-cancel</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Выйти</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "navigation",
   data: function() {
     return {};
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["logout"]),
+    exit() {
+      this.logout();
+      this.$router.push("/auth/login");
+      this.$store.commit("pushShuckbar", {
+        val: "Вы успешно вышли из личного кабинета",
+        success: true
+      });
+    }
+  },
   computed: {
     ...mapGetters(["user"])
   },

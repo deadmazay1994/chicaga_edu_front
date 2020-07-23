@@ -71,8 +71,7 @@
 import UploadAvatar from "vue-image-crop-upload";
 import PageTitle from "@/components/Base/PageTitle";
 
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "user-settings",
@@ -100,7 +99,7 @@ export default {
       //   v => /(?=.*\d)/.test(v) || "Must have one number",
       //   v => /([!@$%])/.test(v) || "Must have one special character [!@#$%]"
       // ],
-      valid: false
+      valid: true
     };
   },
   methods: {

@@ -36,10 +36,10 @@ export default {
   name: "login",
   data: function() {
     return {
-      valid: false,
+      valid: true,
       user: {
-        email: "",
-        password: ""
+        email: "test@mail.ru",
+        password: "password"
       }
     };
   },
