@@ -8,7 +8,7 @@
           <v-card class="pa-5 front" style="height: 100%">
             <div class="text-subtitle-2">Изменить ФИО</div>
             <v-text-field
-              v-model="user.name"
+              v-model="user.username"
               required
               :rules="nameRules"
               label="ФИО"

@@ -41,6 +41,8 @@ export default {
   background: $main-color !important
   &--text
     color: white !important
+  &-text
+    color: darken($main-color, 15%) !important
 .pointer
   cursor: pointer
 .front

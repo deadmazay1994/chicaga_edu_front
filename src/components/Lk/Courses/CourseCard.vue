@@ -5,32 +5,25 @@
       style="height: 100%"
     >
       <div>
-        <router-link :to="'/lk/course/' + course.id" class="text-h6">{{
-          course.title
-        }}</router-link>
+        <router-link :to="'/lk/course/' + course.id" class="text-h6">
+          {{ course.title }}
+        </router-link>
         <v-divider class="my-4"></v-divider>
         <div>{{ description }}</div>
       </div>
       <div v-if="!buy">
         <v-divider class="my-4"></v-divider>
-        <div class="text-h5">{{ course.price }} &#8381;</div>
+        <div class="text-h5 main-color-text">{{ course.price }} &#8381;</div>
         <v-divider class="my-4"></v-divider>
-        <v-btn large block class="main-color main-color--text mt-4">
-          Купить
-        </v-btn>
+        <v-btn large block class="main-color main-color--text mt-4"
+          >Купить</v-btn
+        >
       </div>
-      <div v-else="">
+      <div v-else>
         <v-divider class="my-4"></v-divider>
-        <div class="text-subtitile-2 blue--text">
-          Пройденно уроков {{ course.progress.copmlite }} из
-          {{ course.progress.all }}
-        </div>
-        <v-progress-linear
-          class="my-4"
-          :striped="true"
-          height="7"
-          rounded
-          :value="(course.progress.copmlite / course.progress.all) * 100"
+        <progress-info
+          :complite="course.progress.copmlite"
+          :all="course.lessons.length"
         />
       </div>
     </v-card>
@@ -38,6 +31,8 @@
 </template>
 
 <script>
+import ProgressInfo from "./ProgressInfo";
+
 export default {
   name: "course-card",
   data: function() {
@@ -58,7 +53,9 @@ export default {
     }
   },
   computed: {},
-  components: {},
+  components: {
+    ProgressInfo
+  },
   props: ["course", "buy"],
   mixins: {},
   beforeMount() {

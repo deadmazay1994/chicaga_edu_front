@@ -5,12 +5,13 @@ import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
+import CoursePage from "@/components/Lk/Courses/CoursePage";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/lesson",
+    path: "/lesson/:id",
     name: "Lesson",
     component: Lesson
   },
@@ -30,6 +31,10 @@ const routes = [
       {
         path: "my-coursers",
         component: MyCourses
+      },
+      {
+        path: "course/:id",
+        component: CoursePage
       }
     ]
   }

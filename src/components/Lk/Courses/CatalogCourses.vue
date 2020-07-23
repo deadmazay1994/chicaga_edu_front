@@ -3,7 +3,7 @@
     <div class="relative front text-h2">{{ title }}</div>
     <div class="text-subtitle-2 mt-2 front relative">{{ subtitle }}</div>
     <v-row>
-      <v-col v-for="course in courses" :key="course.id" cols="12" lg="4">
+      <v-col v-for="course in catalogCourses" :key="course.id" cols="12" lg="4">
         <course-card :course="course" :buy="false" />
       </v-col>
     </v-row>
@@ -12,49 +12,35 @@
 
 <script>
 import CourseCard from "@/components/Lk/Courses/CourseCard";
+
+import { mapGetters } from "vuex";
+
 export default {
   name: "catalog-c",
   data: function() {
     return {
       title: "Каталог курсов",
-      subtitle: "",
-      courses: [
-        {
-          title: "Название курса 1",
-          description:
-            "Товарищи! укрепление и развитие структуры в значительной степени обуславливает создание систем массового участия. Равным образом укрепление и развитие структуры способствует",
-          price: 1000,
-          id: "1"
-        },
-        {
-          title: "Название курса 2",
-          description: "Описание курса 2",
-          price: 1000,
-          id: "2"
-        },
-        {
-          title: "Название курса 3",
-          description: "Описание курса 3",
-          price: 1000,
-          id: "2"
-        },
-        {
-          title: "Название курса 4",
-          description: "Описание курса 4",
-          price: 1000,
-          id: "3"
-        }
-      ]
+      subtitle: ""
     };
   },
-  methods: {},
-  computed: {},
+  methods: {
+    setCourses() {
+      // Данный метод работает только если мы еще не запрашивали курсы
+      this.$store.dispatch("setCatalogCourses");
+      console.log(this.catalogCourses);
+    }
+  },
+  computed: {
+    ...mapGetters(["catalogCourses"])
+  },
   components: {
     CourseCard
   },
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    this.setCourses();
+  }
 };
 </script>
 
