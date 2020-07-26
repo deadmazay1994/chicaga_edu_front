@@ -8,20 +8,21 @@
     </draggable>
     <div class="d-flex">
       <div class="grouping__col" v-for="(group, i) in groups" :key="i">
-        <table-title>{{ group.name }}</table-title>
+        <div class="table-title">{{ group.name }}</div>
         <draggable
           :list="group.words"
           group="words"
           style="height: 100%"
           @change="reset"
         >
-          <table-item
+          <div
+            class="table-item"
             v-for="(word, i) in group.words"
             :key="i"
             :class="statusClass(group)"
           >
             {{ word }}
-          </table-item>
+          </div>
         </draggable>
       </div>
     </div>
@@ -30,8 +31,6 @@
 
 <script>
 import Description from "./TasksDescription";
-import TableItem from "./TableItem";
-import TableTitle from "./TableTitle";
 
 import Draggable from "vuedraggable";
 export default {
@@ -95,9 +94,7 @@ export default {
   computed: {},
   components: {
     Description,
-    Draggable,
-    TableItem,
-    TableTitle
+    Draggable
   },
   props: ["input"],
   mixins: {},

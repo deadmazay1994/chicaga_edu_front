@@ -9,25 +9,27 @@
             :class="statusClass(i)"
             v-for="(word, i) in l1"
             :key="i"
-          >{{ word }}</div> -->
-          <table-item
-            class="comp__item"
+          >{{ word }}</div>-->
+          <div
+            class="comp__item table-item"
             :class="statusClass(i)"
             v-for="(word, i) in l1"
             :key="i"
-            >{{ word }}
-          </table-item>
+          >
+            {{ word }}
+          </div>
         </draggable>
       </div>
       <div class="comp__col">
         <draggable :list="l2" @change="reset">
-          <table-item
-            class="comp__item"
+          <div
+            class="comp__item table-item"
             :class="statusClass(i)"
             v-for="(word, i) in l1"
             :key="i"
-            >{{ word }}
-          </table-item>
+          >
+            {{ word }}
+          </div>
         </draggable>
       </div>
     </div>
@@ -36,7 +38,6 @@
 
 <script>
 import Description from "./TasksDescription";
-import TableItem from "./TableItem";
 
 import Draggable from "vuedraggable";
 
@@ -86,8 +87,7 @@ export default {
   computed: {},
   components: {
     Description,
-    Draggable,
-    TableItem
+    Draggable
   },
   props: ["input"],
   mixins: {},

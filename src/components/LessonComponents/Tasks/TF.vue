@@ -1,81 +1,45 @@
 <template>
   <div class="tf-task vue-component">
-    <div class="d-flex align-center" v-for="tf in task.tasks" :key="tf.text">
-      <span
-        :class="{ 'blue--text': tf.error == 0, 'red--text': tf.error == 1 }"
-        class="text-h5 mr-5"
-      >
-        {{ tf.text }}
-      </span>
-      <v-radio-group row v-model="tf.correct" :mandatory="false">
-        <v-radio label="T" :value="true"></v-radio>
-        <v-radio label="F" :value="false"></v-radio>
-      </v-radio-group>
-    </div>
+    <description>{{ input.description }}</description>
+    <table>
+      <tr v-for="tf in input.body.tasks" :key="tf.text">
+        <td class="table-item" :class="statusClass(tf)">
+          <span class="mr-5">{{ tf.text }}</span>
+        </td>
+        <td class="table-item" :class="statusClass(tf)">
+          <v-radio-group row v-model="tf.correct" :mandatory="false">
+            <v-radio
+              label="T"
+              :class="vRadioStatus(tf)"
+              :value="true"
+              :color="getColor(tf)"
+            ></v-radio>
+            <v-radio
+              label="F"
+              :class="vRadioStatus(tf)"
+              :value="false"
+              :color="getColor(tf)"
+            ></v-radio>
+          </v-radio-group>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
+import Description from "./TasksDescription";
+
 export default {
   name: "tf-task",
   data: function() {
     return {
-      task: {
-        tasks: [
-          {
-            text: "2+2=4",
-            correct: null,
-            right: true,
-            error: null
-          },
-          {
-            text: "3+4=6",
-            correct: null,
-            right: false,
-            error: null
-          },
-          {
-            text: "1+1=2+2",
-            correct: null,
-            right: false,
-            error: null
-          },
-          {
-            text: "4-3=1",
-            correct: null,
-            right: true,
-            error: null
-          }
-        ],
-        questions: [
-          {
-            text:
-              "Как с русского языка на английский язык переводится слово ручка?",
-            answer: "pen",
-            correct: null,
-            userAnswer: ""
-          },
-          {
-            text:
-              "Как с русского языка на английский язык переводится слово ручка?",
-            answer: "pen",
-            correct: null,
-            userAnswer: ""
-          },
-          {
-            text:
-              "Как с русского языка на английский язык переводится слово ручка?",
-            answer: "pen",
-            correct: null,
-            userAnswer: ""
-          }
-        ]
-      }
+      task: {}
     };
   },
   methods: {
     check() {
-      this.task.tasks.forEach(e => {
+      this.input.body.tasks.forEach(e => {
         if (e.correct == e.right) {
           e.error = false;
         } else {
@@ -84,18 +48,34 @@ export default {
       });
     },
     checkQuesion() {
-      this.task.questions.forEach(e => {
+      this.input.body.questions.forEach(e => {
         if (e.answer == e.userAnswer) {
           e.correct = true;
         } else {
           e.correct = false;
         }
       });
+    },
+    statusClass(tf) {
+      return {
+        "table-item--correct": tf.error == 0,
+        "table-item--uncorrect": tf.error == 1
+      };
+    },
+    getColor(tf) {
+      if (tf.error != null) {
+        return "white";
+      }
+    },
+    vRadioStatus(tf) {
+      return { "v-radio--white": tf.error != null };
     }
   },
   computed: {},
-  components: {},
-  props: [],
+  components: {
+    Description
+  },
+  props: ["input"],
   mixins: {}
 };
 </script>
@@ -104,4 +84,9 @@ export default {
 .question-field {
   width: 100px;
 }
+</style>
+
+<style lang="sass">
+.v-radio--white label
+  color: #fff !important
 </style>

@@ -36,7 +36,7 @@
         ref="task"
         class="tasks__task"
       />
-      <!--<t-f
+      <t-f
         v-if="task.type == 'true_false'"
         :input="task"
         :key="index"
@@ -49,7 +49,14 @@
         :key="index"
         ref="task"
         class="tasks__task"
-      /> -->
+      />
+      <selection-box
+        v-if="task.type == 'selection_box'"
+        :input="task"
+        :key="index"
+        ref="task"
+        class="tasks__task"
+      />
     </template>
     <v-btn @click="check" class="tasks__check-btn" large color="white--text"
       >Проверить</v-btn
@@ -60,11 +67,12 @@
 <script>
 import TaskImages from "./TaskImages";
 import FillGaps from "./FillGaps";
-// import TF from "./TF";
-// import MatchImgs from "./MatchImgs";
+import TF from "./TF";
+import MatchImgs from "./MatchImgs";
 import Syllable from "./ChooseSyllable";
 import Comparison from "./Comparison";
 import Grouping from "./Grouping";
+import SelectionBox from "./SelectionBox";
 
 import Api from "@/mixins/api";
 
@@ -72,55 +80,7 @@ export default {
   name: "tasks",
   data() {
     return {
-      tasks: [
-        // {
-        //   type: "images_orders",
-        //   groups: [
-        //     {
-        //       img:
-        //         "https://via.placeholder.com/600x500/2196f3/FFFFFF?text=(1)First+in+array",
-        //       answer: 1
-        //     },
-        //     {
-        //       img:
-        //         "https://via.placeholder.com/600x500/82b1ff/FFFFFF?text=(2)Second+in+array",
-        //       answer: 2
-        //     },
-        //     {
-        //       img:
-        //         "https://via.placeholder.com/600x500/4caf50/FFFFFF?text=(3)Three+in+array",
-        //       answer: 3
-        //     },
-        //     {
-        //       img:
-        //         "https://via.placeholder.com/600x500/ff5252/FFFFFF?text=(4)Four+in+array",
-        //       answer: 4
-        //     }
-        //   ]
-        // },
-        // {
-        //   body: [
-        //     {
-        //       sentence: "<A> What [is] your [name]"
-        //     },
-        //     {
-        //       sentence: "<A> What [is] your [name]"
-        //     },
-        //     {
-        //       sentence: "<A> What [is] your name"
-        //     }
-        //   ],
-        //   options: ["is", "my", "is", "my", "is"],
-        //   description: "Fill gaps",
-        //   type: "insert_slipped_word"
-        // },
-        // {
-        //   type: "true_false"
-        // },
-        // {
-        //   type: "match s"
-        // }
-      ]
+      tasks: []
     };
   },
   methods: {
@@ -134,17 +94,72 @@ export default {
   components: {
     TaskImages,
     FillGaps,
-    // TF,
-    // MatchImgs,
+    TF,
+    MatchImgs,
     Syllable,
     Comparison,
-    Grouping
+    Grouping,
+    SelectionBox
   },
   mixins: [Api],
   async beforeMount() {
     await this.setLesson();
     this.tasks = [
-      ...this.tasks,
+      {
+        description: "Данные высказывания истины или ложны",
+        type: "true_false",
+        body: {
+          tasks: [
+            {
+              text: "Цвет синего кита - это красный",
+              correct: null,
+              right: false,
+              error: null
+            },
+            {
+              text: "3+4=6",
+              correct: null,
+              right: false,
+              error: null
+            },
+            {
+              text: "1+1=2+2",
+              correct: null,
+              right: false,
+              error: null
+            },
+            {
+              text: "4-3=1",
+              correct: null,
+              right: true,
+              error: null
+            }
+          ],
+          questions: [
+            {
+              text:
+                "Как с русского языка на английский язык переводится слово ручка?",
+              answer: "pen",
+              correct: null,
+              userAnswer: ""
+            },
+            {
+              text:
+                "Как с русского языка на английский язык переводится слово ручка?",
+              answer: "pen",
+              correct: null,
+              userAnswer: ""
+            },
+            {
+              text:
+                "Как с русского языка на английский язык переводится слово ручка?",
+              answer: "pen",
+              correct: null,
+              userAnswer: ""
+            }
+          ]
+        }
+      },
       {
         description: "Сопоставить 2 слова",
         type: "comprasion",
@@ -180,7 +195,33 @@ export default {
             words: ["hospital", "police"]
           }
         ]
-      }
+      },
+      {
+        description: "Выделите правильные утверждения",
+        type: "selection_box",
+        body: {
+          statements: ["Зеленый", "Черный", "Красный"],
+          tasks: [
+            {
+              text: "Яблоки бывают",
+              answers: [true, false, true]
+            },
+            {
+              text: "Трава бывает",
+              answers: [true, false, false]
+            },
+            {
+              text: "Шкаф бывает",
+              answers: [true, true, true]
+            },
+            {
+              text: "Вода бывает",
+              answers: [false, false, false]
+            }
+          ]
+        }
+      },
+      ...this.tasks
     ];
   }
 };
@@ -205,4 +246,24 @@ export default {
       margin-left: -5.5%
   &__check-btn
     background-color: $main_color !important
+</style>
+
+<style lang="sass">
+@import "@/components/Sass/Varibles.sass"
+
+.table-item
+  padding: 10px
+  background: #dedede
+  margin-top: 2px
+  cursor: pointer
+  &--correct
+    background: $success_color
+    color: $success_color--text
+  &--uncorrect
+    background: $error_color
+    color: $error_color--text
+.table-title
+  background: $main_color
+  color: $main_color--text
+  padding: 10px
 </style>
