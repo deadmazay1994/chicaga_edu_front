@@ -221,7 +221,25 @@ export default {
           ]
         }
       },
-      ...this.tasks
+      ...this.tasks,
+      {
+        description: "Впишите нужные номера",
+        type: "match",
+        body: [
+          {
+            name: "_45f1c2026b9de41595678758.png",
+            word: "Математическте формулы 1"
+          },
+          {
+            name: "_15f1c2026b9ebb1595678758.jpg",
+            word: "Математическте формулы 2"
+          },
+          {
+            name: "_25f1c2026b9f2b1595678758.jpg",
+            word: "Математическте формулы 3"
+          }
+        ]
+      }
     ];
   }
 };
@@ -235,15 +253,15 @@ export default {
   max-height: 100%
   overflow: auto
   &__task
-    margin-bottom: 10px
-    &::after
-      margin-top: 10px
-      display: block
-      content: ""
-      width: 111%
-      background: $main_color
-      height: 2px
-      margin-left: -5.5%
+    margin-bottom: 30px
+    // &::after
+    //   margin-top: 10px
+    //   display: block
+    //   content: ""
+    //   width: 111%
+    //   background: $main_color
+    //   height: 2px
+    //   margin-left: -5.5%
   &__check-btn
     background-color: $main_color !important
 </style>

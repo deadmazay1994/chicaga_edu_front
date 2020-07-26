@@ -1,64 +1,65 @@
 <template>
   <div class="task-match vue-component">
-    <div class="d-flex" style="align-items: interit">
+    <description>{{ input.description }}</description>
+    <div class="d-flex" style="align-items: interit; margin-bottom: 15px">
       <div
         class="pr-10 img-task d-flex align-end"
         v-for="(group, index) in task.shuffled"
-        :key="group.img"
+        :key="index"
       >
-        <v-img contain max-width="100" :src="group.img" />
-        <span :class="answeredImg(index)" class="img-index white--text">
-          {{ index + 1 }}
-        </span>
+        <v-img contain max-width="100" :src="IMGSTORE + group.img" />
+        <span :class="answeredImg(index)" class="img-index white--text">{{
+          index + 1
+        }}</span>
       </div>
     </div>
-    <v-chip-group class="d-flex">
-      <v-chip
-        class="d-flex pa-5 align-center main-color main-color--text"
-        v-for="(group, index) in task.shuffled"
-        :key="group.word"
-      >
-        <div>
-          <v-text-field
-            color="#fff"
-            class="number mr-3  task-match__match-inp"
-            v-model="task.answers[index]"
-          ></v-text-field>
-        </div>
-        <span>{{ group.word }}</span>
-      </v-chip>
-    </v-chip-group>
+    <div
+      class="d-flex align-center"
+      v-for="(group, index) in task.shuffled"
+      :key="index"
+    >
+      <div style="width: 40px">
+        <v-text-field
+          class="number mr-3 task-match__match-inp pa-0"
+          style="text-align: center"
+          v-model="task.answers[index]"
+        ></v-text-field>
+      </div>
+      <span>{{ group.word }}</span>
+    </div>
   </div>
 </template>
 
 <script>
+import Description from "./TasksDescription";
+
 export default {
   name: "task-match",
   data: function() {
     return {
       task: {
-        groups: [
-          {
-            img:
-              "https://s3.amazonaws.com/images.ecwid.com/images/9850151/423102537.jpg",
-            word: "man"
-          },
-          {
-            img:
-              "https://img1.freepng.ru/20180607/bxt/kisspng-icon-steve-jobs-apple-computer-icons-s-5b18b4aecd7570.4954131515283457748416.jpg",
-            word: "apple"
-          },
-          {
-            img:
-              "https://p7.hiclipart.com/preview/737/508/1012/emoji-laptop-personal-computer-desktop-computers-emoji-thumbnail.jpg",
-            word: "desktop"
-          },
-          {
-            img:
-              "https://c7.uihere.com/files/522/586/563/computer-icons-fruit-clip-art-pineapple-icon-thumb.jpg",
-            word: "pineapple"
-          }
-        ],
+        // groups: [
+        //   {
+        //     img:
+        //       "https://s3.amazonaws.com/images.ecwid.com/images/9850151/423102537.jpg",
+        //     word: "man"
+        //   },
+        //   {
+        //     img:
+        //       "https://img1.freepng.ru/20180607/bxt/kisspng-icon-steve-jobs-apple-computer-icons-s-5b18b4aecd7570.4954131515283457748416.jpg",
+        //     word: "apple"
+        //   },
+        //   {
+        //     img:
+        //       "https://p7.hiclipart.com/preview/737/508/1012/emoji-laptop-personal-computer-desktop-computers-emoji-thumbnail.jpg",
+        //     word: "desktop"
+        //   },
+        //   {
+        //     img:
+        //       "https://c7.uihere.com/files/522/586/563/computer-icons-fruit-clip-art-pineapple-icon-thumb.jpg",
+        //     word: "pineapple"
+        //   }
+        // ],
         shuffled: [],
         answers: []
       }
@@ -66,8 +67,8 @@ export default {
   },
   methods: {
     setShuffled() {
-      let imgs = this.shuffle(this.task.groups.map(e => e.img));
-      let words = this.shuffle(this.task.groups.map(e => e.word));
+      let imgs = this.shuffle(this.input.body.map(e => e.name));
+      let words = this.shuffle(this.input.body.map(e => e.word));
       for (let i = 0; i < imgs.length; i++) {
         this.task.shuffled.push({
           img: imgs[i],
@@ -76,31 +77,46 @@ export default {
         });
       }
     },
-    getGroup(word) {
-      for (const i in this.task.groups) {
-        if (this.task.groups[i].word == word) {
-          return this.task.groups[i];
+    getGroup(number) {
+      for (const i in this.input.body) {
+        if (this.input.body[i].number == number) {
+          console.log(this.input.body, number);
+          return this.input.body[i];
         }
       }
     },
     setAnswers() {
-      this.task.groups.forEach(() => this.task.answers.push(""));
+      this.input.body.forEach(() => this.task.answers.push(""));
     },
     check() {
       this.task.shuffled.forEach(e => {
         e.correct = 0;
       });
-      for (let i = 0; i < this.task.shuffled.length; i++) {
-        const e = this.task.shuffled[i];
-        let group = this.getGroup(e.word);
-        let ans = this.task.answers[i] - 1;
-        let img = this.task.shuffled[ans].img;
-        if (group.img == img) {
-          this.task.shuffled[ans].correct = 1;
-        } else {
-          this.task.shuffled[ans].correct = 0;
+      this.task.answers.forEach((indexImg, indexWord) => {
+        let img = "",
+          word = "";
+        if (this.task.shuffled[indexImg - 1] != undefined) {
+          img = this.task.shuffled[indexImg - 1].img;
         }
-      }
+        if (this.task.shuffled[indexWord] != undefined) {
+          word = this.task.shuffled[indexWord].word;
+        }
+        if (this.input.body.find(i => i.word == word).name == img) {
+          console.log(indexImg);
+          this.task.shuffled[indexImg - 1].correct = true;
+        }
+      });
+      // for (let i = 0; i < this.task.shuffled.length; i++) {
+      //   const e = this.task.shuffled[i];
+      //   let group = this.getGroup(e.number);
+      //   let ans = this.task.answers[i] - 1;
+      //   let img = this.task.shuffled[ans].name;
+      //   if (group.name == img) {
+      //     this.task.shuffled[ans].correct = 1;
+      //   } else {
+      //     this.task.shuffled[ans].correct = 0;
+      //   }
+      // }
     },
     answeredImg(i) {
       return {
@@ -117,8 +133,10 @@ export default {
     }
   },
   computed: {},
-  components: {},
-  props: [],
+  components: {
+    Description
+  },
+  props: ["input"],
   mixins: {},
   beforeMount() {
     this.setAnswers();
@@ -130,8 +148,6 @@ export default {
 <style scoped="scoped" lang="sass">
 @import "@/components/Sass/Varibles.sass"
 
-.number
-  width: 30px
 .img-task
   position: relative
 .img-index

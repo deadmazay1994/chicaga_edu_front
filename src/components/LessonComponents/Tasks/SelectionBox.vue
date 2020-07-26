@@ -33,7 +33,7 @@
           <v-checkbox
             v-model="answers[i][j]"
             class="pa-0 selection-box__checkbox"
-            color="black"
+            :color="checkboxColor(i)"
           ></v-checkbox>
         </td>
       </tr>
@@ -80,6 +80,11 @@ export default {
         "table-item--correct": this.results[i] == true,
         "table-item--uncorrect": this.results[i] == false
       };
+    },
+    checkboxColor(i) {
+      if (this.results[i] != undefined) {
+        return "white";
+      }
     }
   },
   computed: {},
