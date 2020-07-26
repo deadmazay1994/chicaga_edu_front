@@ -1,0 +1,121 @@
+<template>
+  <div class="grouping vue-component">
+    <description>{{ input.description }}</description>
+    <draggable class="d-flex" :list="shuffled" group="words">
+      <span v-for="(word, i) in shuffled" :key="i" class="grouping__all-word">
+        {{ word }}
+      </span>
+    </draggable>
+    <div class="d-flex">
+      <div class="grouping__col" v-for="(group, i) in groups" :key="i">
+        <table-title>{{ group.name }}</table-title>
+        <draggable
+          :list="group.words"
+          group="words"
+          style="height: 100%"
+          @change="reset"
+        >
+          <table-item
+            v-for="(word, i) in group.words"
+            :key="i"
+            :class="statusClass(group)"
+          >
+            {{ word }}
+          </table-item>
+        </draggable>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Description from "./TasksDescription";
+import TableItem from "./TableItem";
+import TableTitle from "./TableTitle";
+
+import Draggable from "vuedraggable";
+export default {
+  name: "grouping",
+  data: function() {
+    return {
+      shuffled: [],
+      groups: []
+    };
+  },
+  methods: {
+    setShuffled() {
+      this.input.body.forEach(group => {
+        group.words.forEach(word => {
+          this.shuffled.push(word);
+        });
+      });
+      this.shuffled = this.shuffle(this.shuffled);
+    },
+    setGropus() {
+      this.input.body.forEach(group => {
+        this.groups.push({
+          name: group.name,
+          words: [],
+          correct: null
+        });
+      });
+    },
+    check() {
+      this.input.body.forEach((e, i) => {
+        let error = false;
+        e.words.forEach(word => {
+          if (!(this.groups[i].words.indexOf(word) + 1)) {
+            error = 1;
+          }
+        });
+        if (e.words.length != this.groups[i].words.length) {
+          error = 1;
+        }
+        if (error) {
+          // Vue не позволяет имзенять значения массива на прямую
+          this.$set(this.groups, i, { ...this.groups[i], correct: false });
+        } else {
+          // Vue не позволяет имзенять значения массива на прямую
+          this.$set(this.groups, i, { ...this.groups[i], correct: true });
+        }
+      });
+    },
+    statusClass(group) {
+      return {
+        "table-item--correct": group.correct == true,
+        "table-item--uncorrect": group.correct == false
+      };
+    },
+    reset() {
+      this.groups.forEach((group, i) => {
+        this.$set(this.groups, i, { ...this.groups[i], correct: null });
+      });
+    }
+  },
+  computed: {},
+  components: {
+    Description,
+    Draggable,
+    TableItem,
+    TableTitle
+  },
+  props: ["input"],
+  mixins: {},
+  beforeMount() {
+    this.setShuffled();
+    this.setGropus();
+  }
+};
+</script>
+
+<style scoped="scoped" lang="sass">
+.grouping
+  &__all-word
+    margin-right: 5px
+    display: block
+    cursor: pointer
+  &__col
+    margin-right: 2px
+    min-height: 200px
+    background: #eee
+</style>

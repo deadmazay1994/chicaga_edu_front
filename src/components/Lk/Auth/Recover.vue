@@ -21,6 +21,12 @@
             :rules="emailRules"
             :lazy-validatio="true"
           ></v-text-field>
+          <v-divider class="my-2"></v-divider>
+          <div class="text-subtitle-1 d-block text-right">
+            <router-link to="/auth/login" link
+              >Вернуться на страницу авторизации</router-link
+            >
+          </div>
           <v-divider class="mt-2"></v-divider>
           <v-btn
             large
@@ -39,9 +45,11 @@
             оказалось в папке спам.
           </div>
           <v-divider class="mt-2"></v-divider>
-          <router-link to="/auth/login" link
-            >Вернуться на страницу авторизации</router-link
-          >
+          <div class="text-subtitle-1 d-block text-right">
+            <router-link to="/auth/login" link
+              >Вернуться на страницу авторизации</router-link
+            >
+          </div>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -59,16 +67,19 @@ export default {
     return {
       email: "",
       e1: 1,
-      valid: false
+      valid: true
     };
   },
   methods: {
     recover() {
       if (!this.valid) {
+        console.log(this.e1);
         this.$store.commit("pushShuckbar", {
           val: "Вы допустили ошибку при заполнении формы",
           success: false
         });
+      } else {
+        this.e1++;
       }
     }
   },

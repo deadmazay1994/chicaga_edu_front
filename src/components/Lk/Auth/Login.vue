@@ -17,9 +17,9 @@
       :rules="passwordAuthRules"
     ></v-text-field>
     <v-divider class="mb-2"></v-divider>
-    <router-link to="recover" class="text-subtitle-1 d-block text-right"
-      >Забыли пароль?</router-link
-    >
+    <div class="text-subtitle-1 d-block text-right">
+      <router-link to="recover" link>Забыли пароль?</router-link>
+    </div>
     <v-divider class="mt-2"></v-divider>
     <v-btn large class="main-color main-color--text mt-5" block @click="login"
       >Войти</v-btn

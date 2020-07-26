@@ -134,23 +134,14 @@ export default {
           this.answers[i].correct = false;
         }
       }
-    },
-    setAnswersInput() {
-      if (this.answersInput) {
-        this.answers = this.answersInput;
-      }
     }
   },
   beforeMount() {
     this.setSentenceMap();
     this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "[ ]");
-    this.setAnswersInput();
   },
   props: {
-    sentence: { required: true },
-    answersInput: {
-      required: false
-    }
+    sentence: { required: true }
   }
 };
 </script>

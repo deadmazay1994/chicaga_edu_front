@@ -1,16 +1,15 @@
 <template>
   <div class="fill-gaps vue-component">
     <span class="fill-gaps__description text-subtitle-2">
-      {{ task.description }}
+      {{ input.description }}
     </span>
     <v-row>
       <!-- <draggable v-model="task.options">
         <div v-for="(option, i) in task.options" :key="i">{{ option }}</div>
       </draggable> -->
-      <v-col cols="12" v-for="(item, index) in task.body" :key="index">
+      <v-col cols="12" v-for="(item, index) in input.body" :key="index">
         <fill-gaps-item
           :sentence="item.sentence"
-          :answersInput="t"
           ref="childTask"
           class="fill-gaps__item"
         />
@@ -50,10 +49,9 @@ export default {
     // Draggable
   },
   props: {
-    task: { required: true }
+    input: { required: true }
   },
-  mixins: {},
-  beforeMount() {}
+  mixins: {}
 };
 </script>
 

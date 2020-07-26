@@ -15,8 +15,6 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 
-import store from "@/store/index.js";
-
 Vue.use(VueRouter);
 const routes = [
   {
@@ -32,7 +30,8 @@ const routes = [
     name: "auth",
     component: Auth,
     meta: {
-      guest: true
+      guest: true,
+      requiresAuth: false
     },
     children: [
       {
@@ -58,7 +57,8 @@ const routes = [
     name: "Lk",
     component: Lk,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      guest: false
     },
     children: [
       {
@@ -96,7 +96,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
-    if (!store.getters.user) {
+    if (!localStorage.getItem("token")) {
       next({
         path: "/auth/login",
         query: { redirect: to.fullPath }
@@ -106,7 +106,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (to.matched.some(record => record.meta.guest)) {
-    if (store.getters.user) {
+    if (localStorage.getItem("token")) {
       next({
         path: "/lk/my-coursers",
         query: { redirect: to.fullPath }

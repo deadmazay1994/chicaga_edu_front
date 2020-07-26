@@ -66,6 +66,7 @@ export default {
           state.user.avatar = DEFAULT_AVATAR;
         }
       return state.user;
-    }
+    },
+    logined: state => state.logined
   }
 };
