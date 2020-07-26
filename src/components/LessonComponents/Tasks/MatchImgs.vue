@@ -102,7 +102,6 @@ export default {
           word = this.task.shuffled[indexWord].word;
         }
         if (this.input.body.find(i => i.word == word).name == img) {
-          console.log(indexImg);
           this.task.shuffled[indexImg - 1].correct = true;
         }
       });

@@ -51,7 +51,8 @@
         class="tasks__task"
       />
       <selection-box
-        v-if="task.type == 'selection_box'"
+        v-if="task.type == 'selection_box' || task.type == 'underline_box'"
+        :underline="task.type == 'underline_box'"
         :input="task"
         :key="index"
         ref="task"
@@ -217,6 +218,57 @@ export default {
             {
               text: "Вода бывает",
               answers: [false, false, false]
+            }
+          ]
+        }
+      },
+      {
+        description: "Выделите правильные утверждения",
+        type: "underline_box",
+        body: {
+          tasks: [
+            {
+              text: "Яблоки бывают",
+              answers: [
+                {
+                  text: "Красные",
+                  correct: true
+                },
+                {
+                  text: "Черные",
+                  correct: false
+                }
+              ]
+            },
+            {
+              text: "Трава бывает",
+              answers: [
+                {
+                  text: "Красной",
+                  correct: false
+                },
+                {
+                  text: "Черной",
+                  correct: false
+                }
+              ]
+            },
+            {
+              text: "Вода бывает",
+              answers: [
+                {
+                  text: "Зеленой",
+                  correct: false
+                },
+                {
+                  text: "Белой",
+                  correct: false
+                },
+                {
+                  text: "Прозрачной",
+                  correct: true
+                }
+              ]
             }
           ]
         }

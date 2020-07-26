@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>-->
-      <tr>
+      <tr v-if="!underline">
         <td class="table-title"></td>
         <td
           class="table-title"
@@ -26,15 +26,24 @@
         <td class="table-item" :class="statusClass(i)">{{ task.text }}</td>
         <td
           class="table-item"
-          :class="statusClass(i)"
+          :class="{ ...statusClass(i), ...{ 'pa-0': underline } }"
           v-for="(ans, j) in task.answers"
           :key="j + 'a'"
         >
           <v-checkbox
+            v-if="!underline"
             v-model="answers[i][j]"
             class="pa-0 selection-box__checkbox"
             :color="checkboxColor(i)"
           ></v-checkbox>
+          <div
+            :class="{ ...activeAnswerClass(i, j), ...statusClass(i) }"
+            v-if="underline"
+            class="pa-3"
+            @click="toggleAnswer(i, j)"
+          >
+            {{ ans.text }}
+          </div>
         </td>
       </tr>
     </table>
@@ -53,6 +62,17 @@ export default {
     };
   },
   methods: {
+    activeAnswerClass(i, j) {
+      return {
+        "selection-box__box--active--underline": this.answers[i][j]
+      };
+    },
+    toggleAnswer(i, j) {
+      // Copy
+      let tmp = this.answers[i].slice();
+      tmp[j] = !tmp[j];
+      this.$set(this.answers, i, tmp);
+    },
     setAnswersArr() {
       this.input.body.tasks.forEach(task => {
         let answersRow = [];
@@ -60,15 +80,32 @@ export default {
         this.answers.push(answersRow);
       });
     },
-    check() {
-      this.input.body.tasks.forEach((task, i) => {
+    checkErrorUnderline(task, i) {
+      let error = false;
+      task.answers.forEach((ans, j) => {
+        if (ans.correct != this.answers[i][j]) {
+          error = true;
+        }
+        this.answers[i][j] = false;
+      });
+      return error;
+    },
+    checkError(task, i) {
+      if (this.underline) {
+        return this.checkErrorUnderline(task, i);
+      } else {
         let error = false;
         task.answers.forEach((ans, j) => {
           if (ans != this.answers[i][j]) {
             error = true;
           }
         });
-        if (error) {
+        return error;
+      }
+    },
+    check() {
+      this.input.body.tasks.forEach((task, i) => {
+        if (this.checkError(task, i)) {
           this.$set(this.results, i, false);
         } else {
           this.$set(this.results, i, true);
@@ -91,7 +128,7 @@ export default {
   components: {
     Description
   },
-  props: ["input"],
+  props: ["input", "underline"],
   mixins: {},
   beforeMount() {
     this.setAnswersArr();
@@ -100,7 +137,13 @@ export default {
 </script>
 
 <style lang="sass">
+@import "@/components/Sass/Varibles.sass"
 
+.selection-box
+  &__box--active--underline
+    background: $main_color !important
+    color: $main_color--text !important
+    padding: 10px
 .selection-box__checkbox .v-input--selection-controls__input
   margin: 0 auto !important
 </style>

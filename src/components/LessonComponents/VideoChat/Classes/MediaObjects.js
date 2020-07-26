@@ -18,7 +18,6 @@ export default class {
         mediaData.videoOff = user.videoOff;
         mediaData.audioOff = user.audioOff;
       }
-      console.log(user);
       this.medias.push(new myMedia(mediaData));
       return true;
     } else {
@@ -42,7 +41,6 @@ export default class {
     console.log("This user does't exitst ", id);
   }
   delete(id) {
-    console.log(this.medias[this.mediaId(id)]);
     if (!this.medias[this.mediaId(id)].im) {
       this.medias.splice(this.mediaId(id), 1);
     }
