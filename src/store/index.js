@@ -7,6 +7,7 @@ import modals from "./modules/modals";
 import snackbars from "./modules/snackbars";
 import course from "./modules/course";
 import dictionary from "./modules/dictionary";
+import tasks from "./modules/tasks";
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     modals,
     snackbars,
     course,
-    dictionary
+    dictionary,
+    tasks
   }
 });
