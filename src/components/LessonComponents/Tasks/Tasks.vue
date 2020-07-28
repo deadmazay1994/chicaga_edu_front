@@ -1,52 +1,58 @@
 <template>
   <div class="tasks vue-component">
-    <template v-for="(task, index) in tasks">
+    <div class="tasks__wrap" v-for="(task, index) in tasks" :key="index">
       <grouping
         v-if="task.type == 'grouping'"
         :input="task"
-        :key="index"
+        ref="task"
+        class="tasks__task"
+      />
+      <gaps-imgs
+        v-if="task.type == 'gaps_imgs'"
+        :input="task"
         ref="task"
         class="tasks__task"
       />
       <syllable
         v-if="task.type == 'select_stressed_syllable'"
         :input="task"
-        :key="index"
         ref="task"
         class="tasks__task"
       />
       <task-images
         v-if="task.type == 'images_order'"
         :input="task"
-        :key="index"
         ref="task"
         class="tasks__task"
       />
       <fill-gaps
-        v-if="task.type == 'insert_skipped_word'"
+        v-if="task.type == 'drag_skipped_word'"
+        :drag="true"
         :input="task"
-        :key="index"
         ref="task"
         class="tasks__task"
       />
       <comparison
         v-if="task.type == 'comprasion'"
         :input="task"
-        :key="index"
         ref="task"
         class="tasks__task"
       />
       <t-f
         v-if="task.type == 'true_false'"
         :input="task"
-        :key="index"
+        ref="task"
+        class="tasks__task"
+      />
+      <crossword
+        v-if="task.type == 'crosswordы'"
+        :input="task"
         ref="task"
         class="tasks__task"
       />
       <match-imgs
         v-if="task.type == 'match'"
         :input="task"
-        :key="index"
         ref="task"
         class="tasks__task"
       />
@@ -54,14 +60,20 @@
         v-if="task.type == 'selection_box' || task.type == 'underline_box'"
         :underline="task.type == 'underline_box'"
         :input="task"
-        :key="index"
         ref="task"
         class="tasks__task"
       />
-    </template>
-    <v-btn @click="check" class="tasks__check-btn" large color="white--text"
-      >Проверить</v-btn
-    >
+    </div>
+    <div class="ma-5">
+      <v-btn
+        @click="check"
+        class="tasks__check-btn"
+        block
+        large
+        color="white--text"
+        >Проверить</v-btn
+      >
+    </div>
   </div>
 </template>
 
@@ -74,6 +86,8 @@ import Syllable from "./ChooseSyllable";
 import Comparison from "./Comparison";
 import Grouping from "./Grouping";
 import SelectionBox from "./SelectionBox";
+import Crossword from "./Crossword";
+import GapsImgs from "./GapsImgs";
 
 import Api from "@/mixins/api";
 
@@ -100,12 +114,69 @@ export default {
     Syllable,
     Comparison,
     Grouping,
-    SelectionBox
+    SelectionBox,
+    Crossword,
+    GapsImgs
   },
   mixins: [Api],
   async beforeMount() {
     await this.setLesson();
     this.tasks = [
+      {
+        body: [
+          {
+            sentence: "hello [my] name is [rawil]"
+          },
+          {
+            sentence: "my [name] is Oleg"
+          }
+        ],
+        type: "drag_skipped_word",
+        addons: ["garbage", "garbage"],
+        description: "Перетащите слова на место пропусков"
+      },
+      {
+        description: "Заполните кроссворд",
+        type: "crossword",
+        body: [
+          {
+            word: "Tucan"
+          },
+          {
+            word: "Dingo"
+          },
+          {
+            word: "Dolphin"
+          },
+          {
+            word: "Pig"
+          },
+          {
+            word: "Kangaroo"
+          },
+          {
+            word: "Octopus"
+          },
+          {
+            word: "Hamster"
+          },
+          {
+            word: "Alligator"
+          },
+          {
+            word: "Ostrich"
+          },
+          {
+            word: "Koala"
+          },
+          {
+            word: "Mouse"
+          },
+          {
+            word: "Antelope"
+          }
+        ]
+      },
       {
         description: "Данные высказывания истины или ложны",
         type: "true_false",
@@ -291,19 +362,54 @@ export default {
             word: "Математическте формулы 3"
           }
         ]
+      },
+      {
+        description: "Заполните пропуски",
+        type: "gaps_imgs",
+        body: [
+          {
+            title: "Материальное",
+            tasks: [
+              {
+                text: "Это [зонт]",
+                img: "https://files.gifts.ru/reviewer/tb/99/7550.30_1.jpg"
+              },
+              {
+                text: "Это [ручка]",
+                img:
+                  "https://images.officeworks.com.au/api/2/img/https://s3-ap-southeast-2.amazonaws.com/wc-prod-pim/JPEG_300x300/BI801867_bic_4_colour_medium_retractable_ballpoint_pen.jpg/resize?size=300&auth=MjA5OTcwODkwMg__"
+              }
+            ]
+          },
+          {
+            title: "Не материальное",
+            tasks: [
+              {
+                text: "Это [душа] (душа)",
+                img: ""
+              },
+              {
+                text: "Это [совесть] (совесть)",
+                img: ""
+              }
+            ]
+          }
+        ]
       }
     ];
   }
 };
 </script>
 
-<style scoped lang="sass">
+<style lang="sass">
 @import "@/components/Sass/Varibles.sass"
 
 .tasks
-  padding: 5%
   max-height: 100%
   overflow: auto
+  &__wrap
+    background: #e6e3dd
+    padding: 15px 30px
   &__task
     margin-bottom: 30px
     // &::after

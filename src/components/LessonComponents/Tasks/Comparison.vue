@@ -4,12 +4,6 @@
     <div class="d-flex">
       <div class="comp__col">
         <draggable :list="l1" @change="reset">
-          <!-- <div
-            class="comp__item"
-            :class="statusClass(i)"
-            v-for="(word, i) in l1"
-            :key="i"
-          >{{ word }}</div>-->
           <div
             class="comp__item table-item"
             :class="statusClass(i)"
@@ -25,7 +19,7 @@
           <div
             class="comp__item table-item"
             :class="statusClass(i)"
-            v-for="(word, i) in l1"
+            v-for="(word, i) in l2"
             :key="i"
           >
             {{ word }}

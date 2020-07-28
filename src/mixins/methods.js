@@ -9,7 +9,7 @@ Vue.mixin({
     },
     clearDeeper(text) {
       // Оставляет только текст и цифры
-      return text.replace(/[^A-Za-z0-9]+/g, "").toLowerCase();
+      return text.replace(/[^A-Za-z0-9-Яа-яЁё]+/g, "").toLowerCase();
     },
     shuffle(arr) {
       for (let i = 0; i < 5; i++) {

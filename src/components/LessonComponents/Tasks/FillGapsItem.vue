@@ -4,7 +4,7 @@ import "@/mixins/methods";
 export default {
   name: "fill-gaps-item",
   render(h) {
-    const res = [this.getTitle(h)];
+    const res = [this.getImg(h), this.getTitle(h)];
     let gap = false;
     let letters = [];
     // Номер пропуска
@@ -57,7 +57,9 @@ export default {
             },
             attrs: {
               "data-index": gapNum
-            }
+            },
+            refInFor: true,
+            ref: "input"
           })
         );
         gap = false;
@@ -79,7 +81,13 @@ export default {
         letters = [];
       }
     }
-    return h("div", {}, res);
+    return h(
+      "div",
+      {
+        class: "fill-gaps-item"
+      },
+      res
+    );
   },
   data() {
     return {
@@ -93,6 +101,8 @@ export default {
   methods: {
     updateModelInput(val, inputIndex) {
       this.answers[inputIndex].val = val;
+      this.$set(this.answers, inputIndex, this.answers[inputIndex]);
+      this.$refs.input[inputIndex].value = val;
     },
     pushMissingAnswers(inputIndex) {
       // Если в массиве ответа слишком мало элементов, то добавляем их ровно до inputIndex + 1
@@ -112,7 +122,10 @@ export default {
     },
     getTitle(h) {
       this.newSentence = this.newSentence.replace(/<(.*?)>/g, "");
-      let titleText = this.sentence.match(/<(.*?)>/g)[0];
+      let titleText = "";
+      if (this.sentence.match(/<(.*?)>/g)) {
+        titleText = this.sentence.match(/<(.*?)>/g)[0];
+      }
       return h(
         "span",
         {
@@ -120,6 +133,16 @@ export default {
         },
         titleText.slice(1, titleText.length - 1)
       );
+    },
+    getImg(h) {
+      if (this.img) {
+        return h("img", {
+          attrs: {
+            src: this.img
+          },
+          class: "fill-gaps-item__img"
+        });
+      }
     },
     check() {
       this.answered = true;
@@ -137,11 +160,14 @@ export default {
     }
   },
   beforeMount() {
-    this.setSentenceMap();
-    this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "[ ]");
+    if (this.sentence) {
+      this.setSentenceMap();
+      this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "[ ]");
+    }
   },
   props: {
-    sentence: { required: true }
+    sentence: { required: true },
+    img: { required: false }
   }
 };
 </script>
@@ -151,7 +177,8 @@ export default {
 
 .fill-gaps-item
   border-radius: 10px
-  display: inline-block
+  display: inline-flex
+  align-items: center
   padding: 10px
   &--correct
     background: $success_color
@@ -161,8 +188,7 @@ export default {
     color: $error_color--text
   &__title
     font-weight: bold
-    font-size: 20px
-    margin-right: 3px
+    margin-right: 5px
   &__input
     outline: none
     text-align: center
@@ -174,6 +200,10 @@ export default {
     &--uncorrect
       color: $error_color
       border-bottom-color: $error_color
+  &__img
+    display: inline-block
+    max-height: 50px
+    width: auto
 
 .fill-gaps-item--uncorrect
   .fill-gaps-item__input

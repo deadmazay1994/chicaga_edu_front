@@ -124,7 +124,7 @@ export default class Rocket {
   subscribe(room) {
     this.send({
       msg: "sub",
-      id: this.randomStr(20, "1234567890asdfghjkl;zxcvbnm,qwertyuio"),
+      id: "subscribe",
       name: "stream-room-messages",
       params: [room, false]
     });
@@ -350,7 +350,7 @@ export default class Rocket {
         roomId
       };
     }
-    return this.get("groups.members", query);
+    return this.get("channels.members", query);
   }
   getChannel(roomName, roomId) {
     let query = {};

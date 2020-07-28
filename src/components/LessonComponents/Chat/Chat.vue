@@ -38,9 +38,9 @@ export default {
       // login: this.user.username,
       login: "rawil",
       password: "password",
-      room: "1",
+      room: "two",
       // room: window.location.hash.substr(1),
-      socketUrl: "wss://edu.chicaga.ru/websocket",
+      socketUrl: "wss://chat.edu.chicaga.ru/websocket",
       chatElem: this.$refs.chat
     });
   }

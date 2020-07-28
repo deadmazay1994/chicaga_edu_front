@@ -1,18 +1,20 @@
 <template>
   <div class="task-match vue-component">
     <description>{{ input.description }}</description>
-    <div class="d-flex" style="align-items: interit; margin-bottom: 15px">
-      <div
+    <v-row style="align-items: interit; margin-bottom: 15px">
+      <v-col
+        cols="12"
+        lg="6"
         class="pr-10 img-task d-flex align-end"
         v-for="(group, index) in task.shuffled"
         :key="index"
       >
-        <v-img contain max-width="100" :src="IMGSTORE + group.img" />
+        <v-img contain :src="IMGSTORE + group.img" />
         <span :class="answeredImg(index)" class="img-index white--text">{{
           index + 1
         }}</span>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
     <div
       class="d-flex align-center"
       v-for="(group, index) in task.shuffled"

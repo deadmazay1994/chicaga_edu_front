@@ -1,4 +1,4 @@
-const API_URL = "http://edu.chicaga.ru/api/";
+const API_URL = "https://edu.chicaga.ru/api/";
 
 import Axios from "axios";
 

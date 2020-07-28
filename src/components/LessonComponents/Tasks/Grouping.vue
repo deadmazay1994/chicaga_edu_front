@@ -1,10 +1,18 @@
 <template>
   <div class="grouping vue-component">
     <description>{{ input.description }}</description>
-    <draggable class="d-flex" :list="shuffled" group="words">
-      <span v-for="(word, i) in shuffled" :key="i" class="grouping__all-word">
-        {{ word }}
-      </span>
+    <draggable
+      class="d-flex"
+      style="flex-wrap: wrap"
+      :list="shuffled"
+      group="words"
+    >
+      <span
+        v-for="(word, i) in shuffled"
+        :key="i"
+        class="grouping__all-word table-item mb-2"
+        >{{ word }}</span
+      >
     </draggable>
     <div class="d-flex">
       <div class="grouping__col" v-for="(group, i) in groups" :key="i">
@@ -12,7 +20,7 @@
         <draggable
           :list="group.words"
           group="words"
-          style="height: 100%"
+          style="height: 100%; "
           @change="reset"
         >
           <div
