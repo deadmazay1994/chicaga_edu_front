@@ -1,6 +1,6 @@
 <template>
   <div class="grouping vue-component">
-    <description>{{ input.description }}</description>
+    <description>{{ inputCopy.description }}</description>
     <draggable
       class="d-flex"
       style="flex-wrap: wrap"
@@ -46,12 +46,13 @@ export default {
   data: function() {
     return {
       shuffled: [],
-      groups: []
+      groups: [],
+      inputCopy: {}
     };
   },
   methods: {
     setShuffled() {
-      this.input.body.forEach(group => {
+      this.inputCopy.body.forEach(group => {
         group.words.forEach(word => {
           this.shuffled.push(word);
         });
@@ -59,7 +60,7 @@ export default {
       this.shuffled = this.shuffle(this.shuffled);
     },
     setGropus() {
-      this.input.body.forEach(group => {
+      this.inputCopy.body.forEach(group => {
         this.groups.push({
           name: group.name,
           words: [],
@@ -68,7 +69,7 @@ export default {
       });
     },
     check() {
-      this.input.body.forEach((e, i) => {
+      this.inputCopy.body.forEach((e, i) => {
         let error = false;
         e.words.forEach(word => {
           if (!(this.groups[i].words.indexOf(word) + 1)) {
@@ -104,11 +105,21 @@ export default {
     Description,
     Draggable
   },
-  props: ["input"],
+  props: ["input", "saved"],
   mixins: {},
   beforeMount() {
-    this.setShuffled();
-    this.setGropus();
+    if ("inputCopy" in this.input) {
+      // Если данное свойство есть, то ученик уже проходил данный урок
+      // Мы заменяем все свойства компонента на архивные
+      this._data = this.input;
+    } else {
+      this.inputCopy = this.input;
+      this.setShuffled();
+      this.setGropus();
+    }
+    // setInterval(() => {
+    //   console.log(JSON.stringify(this._data))
+    // }, 5000);
   }
 };
 </script>

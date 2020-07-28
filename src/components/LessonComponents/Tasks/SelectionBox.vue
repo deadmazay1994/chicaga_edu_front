@@ -1,12 +1,12 @@
 <template>
   <div class="selection-box vue-component">
-    <description>{{ input.description }}</description>
+    <description>{{ inputCopy.description }}</description>
     <table>
       <!-- <div>
-        <div v-for="(task, i) in input.body.tasks" :key="i">{{ task.text }}</div>
+        <div v-for="(task, i) in inputCopy.body.tasks" :key="i">{{ task.text }}</div>
       </div>
       <div>
-        <div class="d-flex" v-for="(task, i) in input.body.tasks" :key="i">
+        <div class="d-flex" v-for="(task, i) in inputCopy.body.tasks" :key="i">
           <div v-for="(ans, i) in task.answers" :key="i + 'a'">
             <v-checkbox></v-checkbox>
           </div>
@@ -16,13 +16,13 @@
         <td class="table-title"></td>
         <td
           class="table-title"
-          v-for="(state, i) in input.body.statements"
+          v-for="(state, i) in inputCopy.body.statements"
           :key="i + 'b'"
         >
           {{ state }}
         </td>
       </tr>
-      <tr v-for="(task, i) in input.body.tasks" :key="i">
+      <tr v-for="(task, i) in inputCopy.body.tasks" :key="i">
         <td class="table-item" :class="statusClass(i)">{{ task.text }}</td>
         <td
           class="table-item"
@@ -58,7 +58,8 @@ export default {
   data: function() {
     return {
       answers: [],
-      results: []
+      results: [],
+      inputCopy: {}
     };
   },
   methods: {
@@ -74,7 +75,7 @@ export default {
       this.$set(this.answers, i, tmp);
     },
     setAnswersArr() {
-      this.input.body.tasks.forEach(task => {
+      this.inputCopy.body.tasks.forEach(task => {
         let answersRow = [];
         task.answers.forEach(() => answersRow.push(false));
         this.answers.push(answersRow);
@@ -104,7 +105,7 @@ export default {
       }
     },
     check() {
-      this.input.body.tasks.forEach((task, i) => {
+      this.inputCopy.body.tasks.forEach((task, i) => {
         if (this.checkError(task, i)) {
           this.$set(this.results, i, false);
         } else {
@@ -131,6 +132,7 @@ export default {
   props: ["input", "underline"],
   mixins: {},
   beforeMount() {
+    this.inputCopy = this.input;
     this.setAnswersArr();
   }
 };

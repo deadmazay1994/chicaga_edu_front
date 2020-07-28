@@ -85,7 +85,7 @@ export default {
       this.id = this.generateId();
     },
     setLessonId() {
-      this.lessonId = window.location.hash.substr(1);
+      this.lessonId = this.$route.params.id;
     },
     generateId() {
       return (
@@ -104,7 +104,7 @@ export default {
     },
     imHere() {
       // Передаем свой уникальный id, чтобы получить всех список участников чата
-      this.socket.emit("im here", { senderId: this.id });
+      this.socket.emit("im here", { senderId: this.id, roomId: this.lessonId });
       // Ожидаем пока сервер отправит всех юзеров
     },
     onSendUsers() {
@@ -218,7 +218,8 @@ export default {
     sendMsgToUser(msg, id) {
       this.socket.emit("send msg for user", {
         msg,
-        id
+        id,
+        roomId: this.lessonId
       });
     },
     myPeerForSender(stream, senderId) {
@@ -298,18 +299,17 @@ export default {
   props: [],
   mixins: [Socket],
   mounted() {
-    this.setLessonId();
-    this.setId();
-    this.socket = this.connectToSocket();
-    this.onSendUsers();
-    this.onGetMsg();
-    this.joinToChat();
-    this.onToggleCameraSocket();
-    this.onToggleMicroSocket();
-
-    this.socket.on("ping", () => {
-      this.socket.emit("pong");
-    });
+    // this.setLessonId();
+    // this.setId();
+    // this.socket = this.connectToSocket(this.lessonId);
+    // this.onSendUsers();
+    // this.onGetMsg();
+    // this.joinToChat();
+    // this.onToggleCameraSocket();
+    // this.onToggleMicroSocket();
+    // this.socket.on("ping", () => {
+    //   this.socket.emit("pong");
+    // });
   }
 };
 </script>

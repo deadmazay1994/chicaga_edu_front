@@ -10,8 +10,8 @@ export default {
   },
   methods: {
     connectToSocket(roomId) {
-      roomId;
       let socket = Io(this.socketUrl);
+      socket.emit("connect to room", roomId);
       return socket;
     }
   }

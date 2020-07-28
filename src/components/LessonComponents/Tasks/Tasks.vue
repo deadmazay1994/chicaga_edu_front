@@ -1,69 +1,11 @@
 <template>
   <div class="tasks vue-component">
-    <div class="tasks__wrap" v-for="(task, index) in tasks" :key="index">
-      <grouping
-        v-if="task.type == 'grouping'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <gaps-imgs
-        v-if="task.type == 'gaps_imgs'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <syllable
-        v-if="task.type == 'select_stressed_syllable'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <task-images
-        v-if="task.type == 'images_order'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <fill-gaps
-        v-if="task.type == 'drag_skipped_word'"
-        :drag="true"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <comparison
-        v-if="task.type == 'comprasion'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <t-f
-        v-if="task.type == 'true_false'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <crossword
-        v-if="task.type == 'crosswordы'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <match-imgs
-        v-if="task.type == 'match'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-      <selection-box
-        v-if="task.type == 'selection_box' || task.type == 'underline_box'"
-        :underline="task.type == 'underline_box'"
-        :input="task"
-        ref="task"
-        class="tasks__task"
-      />
-    </div>
+    <task-manager
+      class="tasks__wrap"
+      :input="tasks"
+      :saved="savedTasks"
+      ref="taskManager"
+    />
     <div class="ma-5">
       <v-btn
         @click="check"
@@ -78,16 +20,7 @@
 </template>
 
 <script>
-import TaskImages from "./TaskImages";
-import FillGaps from "./FillGaps";
-import TF from "./TF";
-import MatchImgs from "./MatchImgs";
-import Syllable from "./ChooseSyllable";
-import Comparison from "./Comparison";
-import Grouping from "./Grouping";
-import SelectionBox from "./SelectionBox";
-import Crossword from "./Crossword";
-import GapsImgs from "./GapsImgs";
+import TaskManager from "./TaskManager";
 
 import Api from "@/mixins/api";
 
@@ -95,28 +28,20 @@ export default {
   name: "tasks",
   data() {
     return {
-      tasks: []
+      tasks: [],
+      savedTasks: []
     };
   },
   methods: {
     check() {
-      this.$refs.task.forEach(task => task.check());
+      this.$refs.taskManager.check();
     },
     async setLesson() {
       this.tasks = await this.getLesson(this.$route.params.id);
     }
   },
   components: {
-    TaskImages,
-    FillGaps,
-    TF,
-    MatchImgs,
-    Syllable,
-    Comparison,
-    Grouping,
-    SelectionBox,
-    Crossword,
-    GapsImgs
+    TaskManager
   },
   mixins: [Api],
   async beforeMount() {
@@ -397,6 +322,26 @@ export default {
         ]
       }
     ];
+    this.savedTasks = [
+      {
+        shuffled: [],
+        groups: [
+          { name: "food", words: ["apple", "orange", "salat"], correct: true },
+          { name: "sport", words: ["bycycle", "tshurt", "run"], correct: true },
+          { name: "place", words: ["police", "hospital"], correct: true }
+        ],
+        inputCopy: {
+          description: "Сопоставить слолва группам",
+          type: "grouping",
+          body: [
+            { name: "food", words: ["apple", "orange", "salat"] },
+            { name: "sport", words: ["bycycle", "run", "tshurt"] },
+            { name: "place", words: ["hospital", "police"] }
+          ]
+        },
+        IMGSTORE: "https://edu.chicaga.ru/public/images/"
+      }
+    ];
   }
 };
 </script>
@@ -408,7 +353,7 @@ export default {
   max-height: 100%
   overflow: auto
   &__wrap
-    background: #e6e3dd
+    // background: #e6e3dd
     padding: 15px 30px
   &__task
     margin-bottom: 30px
