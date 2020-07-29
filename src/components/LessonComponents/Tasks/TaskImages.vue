@@ -17,6 +17,7 @@
                 ref="input"
                 v-model="task.answers[index]"
                 maxlength="1"
+                @input="onChangeTask"
                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 type="number"
               />
@@ -35,6 +36,8 @@
 
 <script>
 import "@/mixins/methods";
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
 
 export default {
   name: "task-images",
@@ -48,6 +51,9 @@ export default {
     };
   },
   methods: {
+    onChangeTask() {
+      this.sendTaskToTeacher(this.index, this._data);
+    },
     setShuffled() {
       let arr = this.shuffle(this.input.body);
       this.task.shuffled = arr;
@@ -95,10 +101,12 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["socket", "teacherId"])
+  },
   components: {},
-  props: ["input"],
-  mixins: {},
+  props: ["input", "index"],
+  mixins: [Methods],
   beforeMount() {
     this.description = this.input.description;
     this.setAnswers();

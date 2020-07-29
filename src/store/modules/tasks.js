@@ -18,11 +18,15 @@ export default {
     },
     setSavedTasks(state, data) {
       state.savedTasks = data;
+    },
+    setTeacherId(state, teacherId) {
+      state.teacherId = teacherId;
     }
   },
   state: {
     clearTasks: [],
-    savedTasks: []
+    savedTasks: [],
+    teacherId: ""
   },
   getters: {
     clearTasks: state => {
@@ -30,6 +34,9 @@ export default {
     },
     savedTasks: state => {
       return state.savedTasks;
+    },
+    teacherId: state => {
+      return state.teacherId;
     }
   }
 };

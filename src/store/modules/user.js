@@ -9,14 +9,16 @@ export default {
         let response = {
           username: "Равиль Гиззатуллин",
           email: "147rawil147@gmail.com",
-          avatar: ""
+          avatar: "",
+          role: "teacher"
         };
         commit("setUser", response);
       } else if (formdata) {
         let response = {
           username: "Равиль Гиззатуллин",
           email: "147rawil147@gmail.com",
-          avatar: ""
+          avatar: "",
+          role: "teacher"
         };
         commit("setUser", response);
         commit("setToken", "token");

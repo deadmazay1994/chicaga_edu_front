@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import Socket from "@/mixins/socket.js";
 import VideoComponent from "./VideoComponent";
 import Peer from "simple-peer";
 
 import Medias from "./Classes/MediaObjects";
+import { mapGetters } from "vuex";
 
 export default {
   name: "video-chat",
@@ -44,7 +44,6 @@ export default {
       activeVideoIndex: 0,
       // Connection data
       lessonId: "lessonId",
-      socket: false,
       initiator: false,
       medias: new Medias(),
       mediaObjects: [],
@@ -289,6 +288,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["socket"]),
     activeMedia() {
       return this.medias.medias[this.activeVideoIndex];
     }
@@ -296,12 +296,9 @@ export default {
   components: {
     VideoComponent
   },
-  props: [],
-  mixins: [Socket],
   mounted() {
     // this.setLessonId();
     // this.setId();
-    // this.socket = this.connectToSocket(this.lessonId);
     // this.onSendUsers();
     // this.onGetMsg();
     // this.joinToChat();

@@ -8,6 +8,7 @@ import snackbars from "./modules/snackbars";
 import course from "./modules/course";
 import dictionary from "./modules/dictionary";
 import tasks from "./modules/tasks";
+import socket from "./modules/socket";
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     snackbars,
     course,
     dictionary,
-    tasks
+    tasks,
+    socket
   }
 });

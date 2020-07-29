@@ -23,13 +23,38 @@ import VideoChat from "@/components/LessonComponents/VideoChat/VideoChat";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 import LessonStart from "@/components/LessonComponents/LessonStart";
 
+import { mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "lesson",
   data: function() {
     return {};
   },
-  methods: {},
-  computed: {},
+  methods: {
+    ...mapActions(["socketConnect"]),
+    ...mapMutations(["setTeacherId"]),
+    sendTeacher() {
+      if (window.location.hash.substr(1)) {
+        this.socket.emit("im teacher", { roomId: this.$route.params.id });
+      }
+    },
+    onSendTeacher() {
+      this.socket.on("send teacher", teacherId => {
+        this.setTeacherId(teacherId);
+      });
+    },
+    getTeacher() {
+      this.socket.emit("get teacher", { roomId: this.$route.params.id });
+    },
+    onGetTeacher() {
+      this.socket.on("on get teacher", () => {
+        this.sendTeacher();
+      });
+    }
+  },
+  computed: {
+    ...mapGetters(["socket", "user", "teacherId"])
+  },
   components: {
     VideoChat,
     EduPanel,
@@ -37,7 +62,14 @@ export default {
   },
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    this.socketConnect(this.$route.params.id);
+    this.onSendTeacher();
+    this.onGetTeacher();
+    this.sendTeacher();
+    // Если пользователь пропустил событие, когда учиьель отправил свой id
+    this.getTeacher();
+  }
 };
 </script>
 

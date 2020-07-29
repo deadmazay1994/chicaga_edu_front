@@ -9,6 +9,7 @@ import Grouping from "./Grouping";
 import SelectionBox from "./SelectionBox";
 import Crossword from "./Crossword";
 import GapsImgs from "./GapsImgs";
+import { mapGetters } from "vuex";
 
 export default {
   name: "task-manager",
@@ -17,14 +18,14 @@ export default {
     // Если прогресс пустой
     if (!this.saved.length) {
       // Перебираем все таски
-      this.input.forEach(task => {
+      this.input.forEach((task, index) => {
         // Манагер уже сам выбирает какой таск когда подключать
-        tasks.push(this.manager(h, task, task.type));
+        tasks.push(this.manager(h, task, task.type, index));
       });
     } else {
       // Перебираем таски из прогресса
-      this.saved.forEach(task => {
-        let saved = this.manager(h, task, task.inputCopy.type);
+      this.saved.forEach((task, index) => {
+        let saved = this.manager(h, task, task.inputCopy.type, index);
         tasks.push(saved);
       });
     }
@@ -37,10 +38,11 @@ export default {
     check() {
       this.$refs.task.forEach(task => task.check());
     },
-    getAttrsForTask(data) {
+    getAttrsForTask(data, index) {
       let attrs = {
         props: {
-          input: data
+          input: data,
+          index
         },
         ref: "task",
         refInFor: true,
@@ -48,10 +50,9 @@ export default {
       };
       return attrs;
     },
-    manager(h, data, type) {
-      this.getAttrsForTask(data);
+    manager(h, data, type, index) {
       let res = false;
-      let attrs = this.getAttrsForTask(data);
+      let attrs = this.getAttrsForTask(data, index);
       switch (type) {
         case "grouping":
           res = h("grouping", attrs);
@@ -91,9 +92,24 @@ export default {
           break;
       }
       return res;
+    },
+    onSendTask() {
+      if (window.location.hash.substr(1)) {
+        this.socket.on("send task to teacher", data => {
+          // Как только получаем данные от ученика
+          // Принудительно обновляем данне учителя
+          this.updateTask(this.$refs.task[data.taskIndex], data.taskData);
+        });
+      }
+    },
+    updateTask(component, data) {
+      component._data = data;
+      component.$forceUpdate();
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["user", "socket"])
+  },
   components: {
     TaskImages,
     FillGaps,
@@ -108,7 +124,9 @@ export default {
   },
   props: ["input", "saved"],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    this.onSendTask();
+  }
 };
 </script>
 
