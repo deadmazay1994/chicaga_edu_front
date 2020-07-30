@@ -4,7 +4,10 @@
       class="syllable__sy"
       v-for="(sy, i) in input.slogs"
       :key="i"
-      @click="activate(i)"
+      @click="
+        activate(i);
+        onChange();
+      "
       :class="{
         'syllable__sy--active': i == activeIndex,
         'syllable__sy--correct': correct == true && i == activeIndex,
@@ -38,11 +41,17 @@ export default {
       } else {
         this.correct = false;
       }
+    },
+    onChange() {
+      this.$emit("sendChanges", {
+        data: this._data,
+        index: this.index
+      });
     }
   },
   computed: {},
   components: {},
-  props: ["input"],
+  props: ["input", "index"],
   mixins: {},
   beforeMount() {}
 };

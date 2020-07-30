@@ -1,5 +1,6 @@
 <script>
 import "@/mixins/methods";
+import { mapGetters } from "vuex";
 
 export default {
   name: "fill-gaps-item",
@@ -84,7 +85,8 @@ export default {
     return h(
       "div",
       {
-        class: "fill-gaps-item"
+        class: "fill-gaps-item",
+        props: ["index"]
       },
       res
     );
@@ -103,6 +105,13 @@ export default {
       this.answers[inputIndex].val = val;
       this.$set(this.answers, inputIndex, this.answers[inputIndex]);
       this.$refs.input[inputIndex].value = val;
+      this.sendData();
+    },
+    sendData() {
+      this.$emit("sendChanges", {
+        data: this._data,
+        index: this.index
+      });
     },
     pushMissingAnswers(inputIndex) {
       // Если в массиве ответа слишком мало элементов, то добавляем их ровно до inputIndex + 1
@@ -157,7 +166,15 @@ export default {
           this.answers[i].correct = false;
         }
       }
+    },
+    customForceUpdate(data) {
+      data.data.answers.forEach((ans, i) => {
+        this.updateModelInput(ans.val, i);
+      });
     }
+  },
+  computed: {
+    ...mapGetters(["socket"])
   },
   beforeMount() {
     if (this.sentence) {
@@ -167,7 +184,8 @@ export default {
   },
   props: {
     sentence: { required: true },
-    img: { required: false }
+    img: { required: false },
+    index: { required: false }
   }
 };
 </script>

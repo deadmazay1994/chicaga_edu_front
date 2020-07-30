@@ -51,9 +51,6 @@ export default {
     };
   },
   methods: {
-    onChangeTask() {
-      this.sendTaskToTeacher(this.index, this._data);
-    },
     setShuffled() {
       let arr = this.shuffle(this.input.body);
       this.task.shuffled = arr;

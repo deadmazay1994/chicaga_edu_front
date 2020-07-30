@@ -11,6 +11,19 @@ export default {
         taskData: data,
         teacherId: this.teacherId
       });
+    },
+    onChangeTask() {
+      this.sendTaskToTeacher(this.index, this._data);
+    },
+    setInputCopy(callback = () => {}) {
+      if ("inputCopy" in this.input) {
+        // Если данное свойство есть, то ученик уже проходил данный урок
+        // Мы заменяем все свойства компонента на архивные
+        this._data = this.input;
+      } else {
+        this.inputCopy = this.input;
+        callback();
+      }
     }
   },
   computed: {

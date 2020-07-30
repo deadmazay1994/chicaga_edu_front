@@ -54,10 +54,10 @@ export default {
       let res = false;
       let attrs = this.getAttrsForTask(data, index);
       switch (type) {
-        case "grouping":
+        case "type5":
           res = h("grouping", attrs);
           break;
-        case "gaps_imgs":
+        case "write_word_to_picture":
           res = h("gaps-imgs", attrs);
           break;
         case "select_stressed_syllable":
@@ -66,10 +66,11 @@ export default {
         case "images_order":
           res = h("task-images", attrs);
           break;
-        case "drag_skipped_word":
+        case "drag_and_drop_words":
+          attrs.props.drag = true;
           res = h("fill-gaps", attrs);
           break;
-        case "comprasion":
+        case "match_words":
           res = h("comparison", attrs);
           break;
         case "true_false":
@@ -78,7 +79,7 @@ export default {
         case "crosswordы":
           res = h("crossword", attrs);
           break;
-        case "match":
+        case "match_picture_and_word":
           res = h("match-imgs", attrs);
           break;
         case "selection_box":
@@ -88,7 +89,8 @@ export default {
           attrs.props.underline = true;
           res = h("selection-box", attrs);
           break;
-        default:
+        case "insert_skipped_word":
+          res = h("fill-gaps", attrs);
           break;
       }
       return res;
@@ -96,15 +98,31 @@ export default {
     onSendTask() {
       if (window.location.hash.substr(1)) {
         this.socket.on("send task to teacher", data => {
-          // Как только получаем данные от ученика
-          // Принудительно обновляем данне учителя
-          this.updateTask(this.$refs.task[data.taskIndex], data.taskData);
+          if ("childIndex" in data.taskData) {
+            // Если у таска есть дочерние компоненты, то надо обновлять их данные, а не родителя
+            this.updateChildComponent(
+              this.$refs.task[data.taskIndex],
+              data.taskData
+            );
+          } else {
+            // Если у таска нет дочерних компонентов, то заменяем данные на прямую
+            this.updateTask(this.$refs.task[data.taskIndex], data.taskData);
+          }
         });
       }
     },
     updateTask(component, data) {
+      // component.update(data);
       component._data = data;
       component.$forceUpdate();
+    },
+    updateChildComponent(component, data) {
+      let child = component.$refs[data.childRef][data.childIndex];
+      child._data = data.data;
+      child.$forceUpdate();
+      if ("customForceUpdate" in child) {
+        child.customForceUpdate(data);
+      }
     }
   },
   computed: {

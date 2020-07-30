@@ -6,6 +6,7 @@
       style="flex-wrap: wrap"
       :list="shuffled"
       group="words"
+      @change="onChange"
     >
       <span
         v-for="(word, i) in shuffled"
@@ -21,7 +22,7 @@
           :list="group.words"
           group="words"
           style="height: 100%; "
-          @change="reset"
+          @change="onChange"
         >
           <div
             class="table-item"
@@ -41,6 +42,9 @@
 import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
+
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
 export default {
   name: "grouping",
   data: function() {
@@ -94,20 +98,27 @@ export default {
         "table-item--uncorrect": group.correct == false
       };
     },
+    onChange() {
+      this.reset();
+      this.onChangeTask();
+    },
     reset() {
       this.groups.forEach((group, i) => {
         this.$set(this.groups, i, { ...this.groups[i], correct: null });
       });
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["socket"])
+  },
   components: {
     Description,
     Draggable
   },
-  props: ["input", "saved"],
-  mixins: {},
+  props: ["input", "saved", "index"],
+  mixins: [Methods],
   beforeMount() {
+    this.setInputCopy();
     if ("inputCopy" in this.input) {
       // Если данное свойство есть, то ученик уже проходил данный урок
       // Мы заменяем все свойства компонента на архивные

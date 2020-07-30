@@ -35,12 +35,16 @@
             v-model="answers[i][j]"
             class="pa-0 selection-box__checkbox"
             :color="checkboxColor(i)"
+            @click.native="onChangeTask"
           ></v-checkbox>
           <div
             :class="{ ...activeAnswerClass(i, j), ...statusClass(i) }"
             v-if="underline"
             class="pa-3"
-            @click="toggleAnswer(i, j)"
+            @click="
+              toggleAnswer(i, j);
+              onChangeTask();
+            "
           >
             {{ ans.text }}
           </div>
@@ -52,6 +56,9 @@
 
 <script>
 import Description from "./TasksDescription";
+
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
 
 export default {
   name: "selection-box",
@@ -125,12 +132,14 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["socket"])
+  },
   components: {
     Description
   },
-  props: ["input", "underline"],
-  mixins: {},
+  props: ["input", "underline", "index"],
+  mixins: [Methods],
   beforeMount() {
     this.inputCopy = this.input;
     this.setAnswersArr();

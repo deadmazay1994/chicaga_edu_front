@@ -1,23 +1,21 @@
 <template>
   <div class="gaps-imgs vue-component">
     <description>{{ inputCopy.description }}</description>
-    <!-- <div class="d-flex">
-      <div v-for="(item, i) in inputCopy.body" :key="i" class="gaps-imgs__col">
-        <div class="table-title">{{ item.title }}</div>
-        <div class="table-item" v-for="(task, i) in item.tasks" :key="i + 'b'">
-          <gap ref="gap" :sentence="task.text" :img="task.img" />
-        </div>
-      </div>
-    </div>-->
     <table>
       <tr>
-        <th class="table-title" v-for="(item, i) in inputCopy.body" :key="i">
+        <!-- <th class="table-title" v-for="(item, i) in inputCopy.body" :key="i">
           {{ item.title }}
-        </th>
+        </th> -->
       </tr>
       <tr v-for="(item, i) in tasks" :key="i + 'a'">
-        <td class="table-item" v-for="(task, i) in item" :key="i + 'b'">
-          <gap ref="gap" :sentence="task.text" :img="task.img" />
+        <td class="table-item" v-for="(task, j) in item" :key="j + 'b'">
+          <gap
+            @sendChanges="onChange"
+            ref="gap"
+            :sentence="task.text"
+            :img="task.img"
+            :index="i * item.length + j"
+          />
         </td>
       </tr>
     </table>
@@ -27,6 +25,9 @@
 <script>
 import Description from "./TasksDescription";
 import Gap from "./FillGapsItem";
+
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
 
 export default {
   name: "gaps-imgs",
@@ -39,9 +40,21 @@ export default {
   methods: {
     check() {
       this.$refs.gap.forEach(child => child.check());
+    },
+    onChange(data) {
+      // // Если у учителя как-то отличаются данные родительского компонента
+      // // То их надо обновить
+      // // Обновляем
+      this.onChangeTask();
+      // // Эти данные нужны чтобы обновить дочерний компонент, а не родительский
+      // // В данном случае дочерний это syllable
+      data.childIndex = data.index;
+      data.childRef = "gap";
+      this.sendTaskToTeacher(this.index, data);
     }
   },
   computed: {
+    ...mapGetters(["socket"]),
     tasks: function() {
       let tasks = [];
       for (let i = 0; i < this.maxItemLen; i++) {
@@ -70,9 +83,10 @@ export default {
     Description,
     Gap
   },
-  props: ["input", "saved"],
-  mixins: {},
+  props: ["input", "saved", "index"],
+  mixins: [Methods],
   beforeMount() {
+    this.setInputCopy();
     if (this.saved) {
       this._data = JSON.parse(this.saved);
     } else {

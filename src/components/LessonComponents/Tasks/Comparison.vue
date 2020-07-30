@@ -3,6 +3,7 @@
     <description>{{ input.description }}</description>
     <div class="d-flex">
       <div class="comp__col">
+        <div class="table-title">{{ input.addons[0].t1 }}</div>
         <draggable :list="l1" @change="reset">
           <div
             class="comp__item table-item"
@@ -15,7 +16,8 @@
         </draggable>
       </div>
       <div class="comp__col">
-        <draggable :list="l2" @change="reset">
+        <div class="table-title">{{ input.addons[0].t2 }}</div>
+        <draggable :list="l2" @change="onChange">
           <div
             class="comp__item table-item"
             :class="statusClass(i)"
@@ -35,31 +37,35 @@ import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
 
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
+
 export default {
   name: "comparison",
   data: function() {
     return {
       l1: [],
       l2: [],
-      res: []
+      res: [],
+      inputCopy: {}
     };
   },
   methods: {
     setShuffled() {
-      this.l1 = this.shuffle(this.input.body).map(w => w.word1);
+      this.l1 = this.shuffle(this.input.body).map(w => w.w1);
       // Нужно чтобы перемешалось по разному
       setTimeout(() => {}, 10);
-      this.l2 = this.shuffle(this.input.body).map(w => w.word2);
+      this.l2 = this.shuffle(this.input.body).map(w => w.w2);
       this.l1.forEach(() => {
         this.res.push(null);
       });
     },
     check() {
       this.l1.forEach((word, i) => {
-        let original = this.input.body.find(words => words.word1 == word);
+        let original = this.input.body.find(words => words.w1 == word);
         // Vue не умеет изменять значение массивов на прямую
         // Нужно изменять так как это указано ниже
-        if (this.l2[i] == original.word2) {
+        if (this.l2[i] == original.w2) {
           this.$set(this.res, i, true);
         } else {
           this.$set(this.res, i, false);
@@ -72,20 +78,27 @@ export default {
         "table-item--uncorrect": this.res[i] == false
       };
     },
+    onChange() {
+      this.reset();
+      this.onChangeTask();
+    },
     reset() {
       for (let i = 0; i < this.res.length; i++) {
         this.$set(this.res, i, null);
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["socket"])
+  },
   components: {
     Description,
     Draggable
   },
-  props: ["input"],
-  mixins: {},
+  props: ["input", "index"],
+  mixins: [Methods],
   beforeMount() {
+    this.setInputCopy();
     this.setShuffled();
   }
 };

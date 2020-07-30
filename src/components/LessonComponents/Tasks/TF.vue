@@ -1,8 +1,8 @@
 <template>
   <div class="tf-task vue-component">
-    <description>{{ input.description }}</description>
+    <description>{{ inputCopy.description }}</description>
     <table>
-      <tr v-for="tf in input.body.tasks" :key="tf.text">
+      <tr v-for="tf in inputCopy.body" :key="tf.text">
         <td class="table-item" :class="statusClass(tf)">
           <span class="mr-5">{{ tf.text }}</span>
         </td>
@@ -13,12 +13,14 @@
               :class="vRadioStatus(tf)"
               :value="true"
               :color="getColor(tf)"
+              @click.native="onChangeTask"
             ></v-radio>
             <v-radio
               label="F"
               :class="vRadioStatus(tf)"
               :value="false"
               :color="getColor(tf)"
+              @click.native="onChangeTask"
             ></v-radio>
           </v-radio-group>
         </td>
@@ -30,16 +32,20 @@
 <script>
 import Description from "./TasksDescription";
 
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
+
 export default {
   name: "tf-task",
   data: function() {
     return {
-      task: {}
+      task: {},
+      inputCopy: {}
     };
   },
   methods: {
     check() {
-      this.input.body.tasks.forEach(e => {
+      this.inputCopy.body.forEach(e => {
         if (e.correct == e.right) {
           e.error = false;
         } else {
@@ -48,7 +54,7 @@ export default {
       });
     },
     checkQuesion() {
-      this.input.body.questions.forEach(e => {
+      this.inputCopy.body.questions.forEach(e => {
         if (e.answer == e.userAnswer) {
           e.correct = true;
         } else {
@@ -69,14 +75,20 @@ export default {
     },
     vRadioStatus(tf) {
       return { "v-radio--white": tf.error != null };
+    },
+    update(data) {
+      this._data = data;
     }
   },
-  computed: {},
+  computed: { ...mapGetters(["socket"]) },
   components: {
     Description
   },
-  props: ["input"],
-  mixins: {}
+  props: ["input", "index"],
+  mixins: [Methods],
+  beforeMount() {
+    this.setInputCopy();
+  }
 };
 </script>
 

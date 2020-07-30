@@ -25,6 +25,7 @@
           class="number mr-3 task-match__match-inp pa-0"
           style="text-align: center"
           v-model="task.answers[index]"
+          @change="onChangeTask"
         ></v-text-field>
       </div>
       <span>{{ group.word }}</span>
@@ -35,36 +36,18 @@
 <script>
 import Description from "./TasksDescription";
 
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
+
 export default {
   name: "task-match",
   data: function() {
     return {
       task: {
-        // groups: [
-        //   {
-        //     img:
-        //       "https://s3.amazonaws.com/images.ecwid.com/images/9850151/423102537.jpg",
-        //     word: "man"
-        //   },
-        //   {
-        //     img:
-        //       "https://img1.freepng.ru/20180607/bxt/kisspng-icon-steve-jobs-apple-computer-icons-s-5b18b4aecd7570.4954131515283457748416.jpg",
-        //     word: "apple"
-        //   },
-        //   {
-        //     img:
-        //       "https://p7.hiclipart.com/preview/737/508/1012/emoji-laptop-personal-computer-desktop-computers-emoji-thumbnail.jpg",
-        //     word: "desktop"
-        //   },
-        //   {
-        //     img:
-        //       "https://c7.uihere.com/files/522/586/563/computer-icons-fruit-clip-art-pineapple-icon-thumb.jpg",
-        //     word: "pineapple"
-        //   }
-        // ],
         shuffled: [],
         answers: []
-      }
+      },
+      inputCopy: {}
     };
   },
   methods: {
@@ -133,13 +116,16 @@ export default {
       };
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["socket"])
+  },
   components: {
     Description
   },
-  props: ["input"],
-  mixins: {},
+  props: ["input", "index"],
+  mixins: [Methods],
   beforeMount() {
+    this.setInputCopy();
     this.setAnswers();
     this.setShuffled();
   }

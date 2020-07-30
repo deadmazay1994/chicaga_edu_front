@@ -14,8 +14,10 @@
       <v-col cols="12" v-for="(item, index) in input.body" :key="index">
         <fill-gaps-item
           :sentence="item.sentence"
-          ref="childTask"
+          :index="index"
+          ref="gap"
           class="fill-gaps__item"
+          @sendChanges="onChange"
         />
       </v-col>
     </v-row>
@@ -26,6 +28,9 @@
 import FillGapsItem from "./FillGapsItem";
 import Draggable from "vuedraggable";
 import Description from "./TasksDescription";
+
+import Methods from "@/mixins/tasks";
+import { mapGetters } from "vuex";
 
 import "@/mixins/methods";
 
@@ -44,12 +49,24 @@ export default {
         }
       ],
       dragList: [],
-      draging: false
+      draging: false,
+      inputCopy: {}
     };
   },
   methods: {
+    onChange(data) {
+      // Если у учителя как-то отличаются данные родительского компонента
+      // То их надо обновить
+      // Обновляем
+      this.onChangeTask();
+      // Эти данные нужны чтобы обновить дочерний компонент, а не родительский
+      // В данном случае дочерний это syllable
+      data.childIndex = data.index;
+      data.childRef = "gap";
+      this.sendTaskToTeacher(this.index, data);
+    },
     check() {
-      this.$refs.childTask.forEach(child => child.check());
+      this.$refs.gap.forEach(child => child.check());
     },
     setDragList() {
       this.input.body.forEach(e => {
@@ -71,7 +88,8 @@ export default {
           input.parentElement.parentElement
         );
         let inputIndex = this.getElementIndex(input, true);
-        this.$refs.childTask[parentIndex].updateModelInput(text, inputIndex);
+        this.$refs.gap[parentIndex].updateModelInput(text, inputIndex);
+        this.$refs.gap[parentIndex].sendData();
       }
     },
     getElementIndex(element, onlyThisElement = false) {
@@ -95,7 +113,9 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["socket"])
+  },
   components: {
     FillGapsItem,
     Description,
@@ -103,10 +123,12 @@ export default {
   },
   props: {
     input: { required: true },
-    drag: { required: false }
+    drag: { required: false },
+    index: { required: false }
   },
-  mixins: {},
+  mixins: [Methods],
   beforeMount() {
+    this.setInputCopy();
     if (this.drag) {
       this.setDragList();
     }
