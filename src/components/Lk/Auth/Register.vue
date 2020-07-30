@@ -3,6 +3,13 @@
     <auth-title>Регистрация</auth-title>
     <v-form v-model="valid" :lazy-validatio="true">
       <v-text-field
+        type="text"
+        required
+        v-model="user.name"
+        :rules="nameRules"
+        label="ФИО"
+      />
+      <v-text-field
         type="email"
         required
         v-model="user.email"
@@ -19,7 +26,7 @@
       <v-text-field
         type="password"
         required
-        v-model="repeatPassword"
+        v-model="user.password_confirmation"
         label="Повторите пароль"
       />
       <v-divider class="mb-5"></v-divider>
@@ -58,18 +65,18 @@ export default {
     register() {
       if (this.valid) {
         this.$store.dispatch("register", this.user);
-        this.$router.push({
-          path: "/lk/my-coursers"
-        });
-        this.$store.commit("pushShuckbar", {
-          val: "Вы успешно зарегистрировались",
-          success: true
-        });
-      } else {
-        this.$store.commit("pushShuckbar", {
-          val: "Вы допустили ошибку при заполнении формы",
-          success: false
-        });
+        //   this.$router.push({
+        //     path: "/lk/my-coursers"
+        //   });
+        //   this.$store.commit("pushShuckbar", {
+        //     val: "Вы успешно зарегистрировались",
+        //     success: true
+        //   });
+        // } else {
+        //   this.$store.commit("pushShuckbar", {
+        //     val: "Вы допустили ошибку при заполнении формы",
+        //     success: false
+        //   });
       }
     }
   },
@@ -81,7 +88,12 @@ export default {
   },
   props: [],
   mixins: [Validation],
-  beforeMount() {}
+  beforeMount() {
+    this.user.email = "testuser@mail.com";
+    this.user.name = "testuser@mail.com";
+    this.user.password_confirmation = "password";
+    this.user.password = "password";
+  }
 };
 </script>
 

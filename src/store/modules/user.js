@@ -1,9 +1,12 @@
 const DEFAULT_AVATAR = "/imgs/user.png";
+import api from "@/mixins/api";
+
+import { router } from "@/router";
 
 export default {
   namespaces: true,
   actions: {
-    login({ commit, state }, formdata = false) {
+    async login({ commit, state }, formdata = false) {
       if (state.token) {
         formdata;
         let response = {
@@ -14,22 +17,47 @@ export default {
         };
         commit("setUser", response);
       } else if (formdata) {
-        let response = {
-          username: "Равиль Гиззатуллин",
-          email: "147rawil147@gmail.com",
-          avatar: "",
-          role: "teacher"
-        };
-        commit("setUser", response);
-        commit("setToken", "token");
-        console.log(state.token);
+        let response = await api.methods.login(formdata);
+        let barText = "";
+        let barStatus = false;
+        if ("success" in response) {
+          if (response.success) {
+            commit("setUser", response);
+            commit("setToken", "token");
+            router.push({ path: "/lk/my-coursers" });
+            barText = "Вы успешно авторизировались";
+            barStatus = true;
+          }
+        }
+        if ("error" in response) {
+          barText = api.methods.getErrorText(response);
+          barStatus = false;
+        }
+        commit("pushShuckbar", {
+          val: barText,
+          success: barStatus
+        });
       }
     },
-    register({ dispatch }, formdata) {
-      let response = true;
-      if (response) {
-        dispatch("login", formdata);
+    async register({ dispatch, commit }, formdata) {
+      let response = await api.methods.register(formdata);
+      let barText = "";
+      let barStatus = false;
+      if ("success" in response) {
+        if (response.success) {
+          dispatch("login", formdata);
+          barText = "Вы успешно зарегистрировались";
+          barStatus = true;
+        }
       }
+      if ("error" in response) {
+        barText = api.methods.getErrorText(response);
+        barStatus = false;
+      }
+      commit("pushShuckbar", {
+        val: barText,
+        success: barStatus
+      });
     },
     setAvatar({ commit }, avatarUri) {
       commit("setAvatar", avatarUri);

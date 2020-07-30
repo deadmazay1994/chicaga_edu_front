@@ -7,7 +7,6 @@ export default {
         ...text,
         active: true
       });
-      console.log(state.snuckbars);
     }
   },
   state: {

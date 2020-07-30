@@ -2,8 +2,30 @@ const API_URL = "https://edu.chicaga.ru/api/";
 
 import Axios from "axios";
 
+async function post(method, data, error = "") {
+  let r = Axios({
+    method: "POST",
+    url: API_URL + method,
+    data
+  });
+  let res = false;
+  await r.then(data => {
+    let d = data.data;
+    if ("errors" in d) {
+      console.log(error, method, d.errors);
+      res = {
+        error: d.errors
+      };
+    } else {
+      res = d;
+    }
+  });
+  return res;
+}
+
 export default {
   methods: {
+    // Lesson
     async getLesson(id) {
       let response = await Axios.get(API_URL + "get/" + id);
       if (response.status == 200) {
@@ -316,6 +338,29 @@ export default {
         // }
       ];
       return resonse;
+    },
+    // User
+    async register(userData) {
+      return post("user", userData);
+    },
+    async login(userData) {
+      return post("user/login", userData);
+    },
+    getErrorText(response) {
+      let errorText = "";
+      if ("error" in response) {
+        for (const key in response.error) {
+          let e = response.error[key];
+          if (typeof e == "object") {
+            e.forEach(eText => {
+              errorText += eText + " ";
+            });
+          } else {
+            errorText = e;
+          }
+        }
+      }
+      return errorText;
     }
   }
 };
