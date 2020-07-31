@@ -10,20 +10,23 @@ export default {
       if (state.token) {
         formdata;
         let response = {
-          username: "Равиль Гиззатуллин",
-          email: "147rawil147@gmail.com",
-          avatar: "",
-          role: "teacher"
+          id: 2,
+          name: "test@mail.ru",
+          email: "test@mail.ru",
+          api_token:
+            "9TFX7mN9lCAvaM8g0R7NE8992kB8vMg43To9hHFkAtfEk4nyvr9JoFoZMoxF2W2n6bHGNOUjX6IYAk2p"
         };
         commit("setUser", response);
+        commit("setToken", response.api_token);
       } else if (formdata) {
         let response = await api.methods.login(formdata);
         let barText = "";
         let barStatus = false;
         if ("success" in response) {
           if (response.success) {
-            commit("setUser", response);
-            commit("setToken", "token");
+            console.log(response);
+            commit("setUser", response.data);
+            commit("setToken", response.data.api_token);
             router.push({ path: "/lk/my-coursers" });
             barText = "Вы успешно авторизировались";
             barStatus = true;

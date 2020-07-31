@@ -21,6 +21,14 @@ export default {
     },
     setTeacherId(state, teacherId) {
       state.teacherId = teacherId;
+    },
+    saveTask(state, data) {
+      state.savedTasks[data.index] = data.taskData;
+      state.savedTasks[data.index].child = [];
+    },
+    saveChildTask(state, data) {
+      state.savedTasks[data.parentIndex].child.push(data.childData);
+      // console.log(JSON.stringify(state.savedTasks[data.parentIndex]));
     }
   },
   state: {

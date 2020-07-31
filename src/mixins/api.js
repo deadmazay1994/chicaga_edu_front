@@ -2,14 +2,9 @@ const API_URL = "https://edu.chicaga.ru/api/";
 
 import Axios from "axios";
 
-async function post(method, data, error = "") {
-  let r = Axios({
-    method: "POST",
-    url: API_URL + method,
-    data
-  });
+async function responseProcessing(response, method, error = "") {
   let res = false;
-  await r.then(data => {
+  await response.then(data => {
     let d = data.data;
     if ("errors" in d) {
       console.log(error, method, d.errors);
@@ -21,6 +16,52 @@ async function post(method, data, error = "") {
     }
   });
   return res;
+}
+
+async function get(method, token = localStorage.getItem("token")) {
+  let r = Axios({
+    method: "GET",
+    url: API_URL + method,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+  return responseProcessing(r, method);
+}
+
+async function post(method, data, token = localStorage.getItem("token")) {
+  let r = Axios({
+    method: "POST",
+    url: API_URL + method,
+    data,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+  return responseProcessing(r, method);
+}
+
+async function put(method, data, token = localStorage.getItem("token")) {
+  let r = Axios({
+    method: "PUT",
+    url: API_URL + method,
+    data,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+  return responseProcessing(r);
+}
+
+async function del(method, data, token = localStorage.getItem("token")) {
+  let r = Axios({
+    method: "DELETE",
+    url: API_URL + method + "/" + data,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+  return responseProcessing(r);
 }
 
 export default {
@@ -309,34 +350,7 @@ export default {
     },
     async getLessonProgress(id) {
       id;
-      let resonse = [
-        // {
-        //   shuffled: [],
-        //   groups: [
-        //     {
-        //       name: "food",
-        //       words: ["apple", "orange", "salat"],
-        //       correct: true
-        //     },
-        //     {
-        //       name: "sport",
-        //       words: ["bycycle", "tshurt", "run"],
-        //       correct: true
-        //     },
-        //     { name: "place", words: ["police", "hospital"], correct: true }
-        //   ],
-        //   inputCopy: {
-        //     description: "Сопоставить слолва группам",
-        //     type: "grouping",
-        //     body: [
-        //       { name: "food", words: ["apple", "orange", "salat"] },
-        //       { name: "sport", words: ["bycycle", "run", "tshurt"] },
-        //       { name: "place", words: ["hospital", "police"] }
-        //     ]
-        //   },
-        //   IMGSTORE: "https://edu.chicaga.ru/public/images/"
-        // }
-      ];
+      let resonse = [];
       return resonse;
     },
     // User
@@ -345,6 +359,19 @@ export default {
     },
     async login(userData) {
       return post("user/login", userData);
+    },
+    async updateUser(userData) {
+      return put("user", userData);
+    },
+    // Vocalibry (Dictionary)
+    async addToVocalibry(word, transcription) {
+      return post("user/vocabulary", { word, transcription });
+    },
+    async getVocalibry() {
+      return get("user/vocabularies");
+    },
+    async deleteWordFronVacalibry(id) {
+      return del("user/vocabulary", id);
     },
     getErrorText(response) {
       let errorText = "";

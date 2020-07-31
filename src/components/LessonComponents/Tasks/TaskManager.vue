@@ -9,6 +9,7 @@ import Grouping from "./Grouping";
 import SelectionBox from "./SelectionBox";
 import Crossword from "./Crossword";
 import GapsImgs from "./GapsImgs";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -48,6 +49,9 @@ export default {
         refInFor: true,
         class: "tasks__task"
       };
+      if (data.child) {
+        attrs.props.childSaved = data.child;
+      }
       return attrs;
     },
     manager(h, data, type, index) {
@@ -123,6 +127,11 @@ export default {
       if ("customForceUpdate" in child) {
         child.customForceUpdate(data);
       }
+    },
+    saveTasks() {
+      this.$refs.task.forEach(task => {
+        task.saveProgress();
+      });
     }
   },
   computed: {
@@ -144,6 +153,7 @@ export default {
   mixins: {},
   beforeMount() {
     this.onSendTask();
+    this.$parent.$on("saveTasks", this.saveTasks);
   }
 };
 </script>

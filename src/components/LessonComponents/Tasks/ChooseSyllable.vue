@@ -7,6 +7,7 @@
         :key="i"
         :index="i"
         :input="sy"
+        :childSaved="childSaved"
         ref="sy"
         @sendChanges="onChange"
       />
@@ -19,7 +20,7 @@ import Description from "./TasksDescription";
 import Syllable from "./Syllable";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "choose-syllable",
@@ -30,6 +31,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["saveTask", "saveChildTask"]),
     check() {
       this.$refs.sy.forEach(sy => sy.check());
     },
@@ -52,7 +54,7 @@ export default {
     Description,
     Syllable
   },
-  props: ["input", "index"],
+  props: ["input", "index", "childSaved"],
   mixins: [Methods],
   beforeMount() {
     this.setInputCopy();

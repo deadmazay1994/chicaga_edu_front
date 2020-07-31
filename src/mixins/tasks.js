@@ -24,6 +24,25 @@ export default {
         this.inputCopy = this.input;
         callback();
       }
+    },
+    saveProgress() {
+      this.saveTask({
+        index: this.index,
+        taskData: this._data
+      });
+      // Если там есть еще и потомки у которых надо сохранить данные
+      this.$children.forEach((child, childIndex) => {
+        if ("index" in child) {
+          this.saveProgressChild(this.index, childIndex, child._data);
+        }
+      });
+    },
+    saveProgressChild(parentIndex, childIndex, childData) {
+      this.saveChildTask({
+        parentIndex,
+        childIndex,
+        childData
+      });
     }
   },
   computed: {

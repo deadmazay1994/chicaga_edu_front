@@ -36,6 +36,7 @@ export default {
   methods: {
     check() {
       this.$refs.taskManager.check();
+      this.$emit("saveTasks");
     }
   },
   computed: {

@@ -44,7 +44,7 @@ import Description from "./TasksDescription";
 import Draggable from "vuedraggable";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "grouping",
   data: function() {
@@ -55,6 +55,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["saveTask", "saveChildTask"]),
     setShuffled() {
       this.inputCopy.body.forEach(group => {
         group.words.forEach(word => {

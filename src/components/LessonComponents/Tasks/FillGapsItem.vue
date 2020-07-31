@@ -107,6 +107,11 @@ export default {
       this.$refs.input[inputIndex].value = val;
       this.sendData();
     },
+    updateAllmodels() {
+      this.answers.forEach((ans, i) => {
+        this.$refs.input[i].value = ans.val;
+      });
+    },
     sendData() {
       this.$emit("sendChanges", {
         data: this._data,
@@ -177,15 +182,24 @@ export default {
     ...mapGetters(["socket"])
   },
   beforeMount() {
+    if (this.childSaved) {
+      this._data = this.childSaved[this.index];
+    }
     if (this.sentence) {
       this.setSentenceMap();
       this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "[ ]");
     }
   },
+  mounted() {
+    if (this.childSaved) {
+      this.updateAllmodels();
+    }
+  },
   props: {
     sentence: { required: true },
     img: { required: false },
-    index: { required: false }
+    index: { required: false },
+    childSaved: { required: false }
   }
 };
 </script>

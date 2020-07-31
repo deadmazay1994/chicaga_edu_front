@@ -51,9 +51,13 @@ export default {
   },
   computed: {},
   components: {},
-  props: ["input", "index"],
+  props: ["input", "index", "childSaved"],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    if (this.childSaved) {
+      this._data = this.childSaved[this.index];
+    }
+  }
 };
 </script>
 

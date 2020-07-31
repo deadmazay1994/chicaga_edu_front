@@ -1,7 +1,7 @@
 <template>
   <div class="fill-gaps vue-component">
-    <description>{{ input.description }}</description>
-    <v-row no-gutters>
+    <description>{{ inputCopy.description }}</description>
+    <v-row no-gutters class="test">
       <draggable v-model="dragList" @end="dragEnd" v-if="dragList.length">
         <div
           class="fill-gaps__drag-word table-item"
@@ -11,10 +11,11 @@
           {{ word }}
         </div>
       </draggable>
-      <v-col cols="12" v-for="(item, index) in input.body" :key="index">
+      <v-col cols="12" v-for="(item, index) in inputCopy.body" :key="index">
         <fill-gaps-item
           :sentence="item.sentence"
           :index="index"
+          :childSaved="childSaved"
           ref="gap"
           class="fill-gaps__item"
           @sendChanges="onChange"
@@ -30,7 +31,7 @@ import Draggable from "vuedraggable";
 import Description from "./TasksDescription";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 import "@/mixins/methods";
 
@@ -54,6 +55,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["saveTask", "saveChildTask"]),
     onChange(data) {
       // Если у учителя как-то отличаются данные родительского компонента
       // То их надо обновить
@@ -69,12 +71,14 @@ export default {
       this.$refs.gap.forEach(child => child.check());
     },
     setDragList() {
-      this.input.body.forEach(e => {
+      this.inputCopy.body.forEach(e => {
         e.sentence
           .match(/\[(.*?)\]/g)
           .forEach(word => this.dragList.push(this.clearDeeper(word)));
       });
-      this.dragList = [...this.dragList, ...this.input.addons];
+      if (this.inputCopy.addons[0]) {
+        this.dragList = [...this.dragList, ...this.inputCopy.addons];
+      }
       this.dragList = this.shuffle(this.dragList);
     },
     dragEnd(e) {
@@ -124,7 +128,8 @@ export default {
   props: {
     input: { required: true },
     drag: { required: false },
-    index: { required: false }
+    index: { required: false },
+    childSaved: { required: false }
   },
   mixins: [Methods],
   beforeMount() {
@@ -132,8 +137,6 @@ export default {
     if (this.drag) {
       this.setDragList();
     }
-    // console.log(document.getElementsByClassName("fill-gaps-item__input")[0].getBoundingClientRect())
-    // console.log(document.elementFromPoint(152.1732940673828, 244.8295440673828))
   }
 };
 </script>

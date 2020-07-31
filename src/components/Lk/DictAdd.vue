@@ -65,6 +65,7 @@ export default {
       }
     },
     add() {
+      this.$store.dispatch("addDictionary", this.dict);
       this.addSnackbar();
       this.dict = {
         en: "",
