@@ -2,8 +2,13 @@
   <div class="catalog-c vue-component">
     <page-title title="Мои курсы" />
     <v-row>
-      <v-col v-for="course in myCourses" :key="course.id" cols="12" lg="4">
-        <course-card :course="course" :buy="true" />
+      <template v-if="myCourses.length">
+        <v-col v-for="course in myCourses" :key="course.id" cols="12" lg="4">
+          <course-card :course="course" :buy="true" />
+        </v-col>
+      </template>
+      <v-col v-else cols="12" class="front relative text-h4 mt-15 text-center">
+        Вы еще не приобрели курсы
       </v-col>
     </v-row>
   </div>

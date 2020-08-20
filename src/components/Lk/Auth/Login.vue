@@ -8,6 +8,7 @@
       required
       :rules="emailRules"
       :lazy-validatio="true"
+      @keyup.enter="login"
     ></v-text-field>
     <v-text-field
       label="Пароль"
@@ -15,6 +16,7 @@
       type="password"
       required
       :rules="passwordAuthRules"
+      @keyup.enter="login"
     ></v-text-field>
     <v-divider class="mb-2"></v-divider>
     <div class="text-subtitle-1 d-block text-right">
@@ -38,8 +40,8 @@ export default {
     return {
       valid: true,
       user: {
-        email: "test@mail.ru",
-        password: "password"
+        email: "",
+        password: ""
       }
     };
   },

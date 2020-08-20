@@ -47,7 +47,7 @@
                 size="90"
                 @click.native="showUpladAvatar = true"
               >
-                <img :src="user.avatar" alt="avatar" />
+                <img :src="avatar" alt="avatar" />
               </v-avatar>
             </div>
           </v-card>
@@ -71,7 +71,7 @@
 import UploadAvatar from "vue-image-crop-upload";
 import PageTitle from "@/components/Base/PageTitle";
 
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "user-settings",
@@ -103,17 +103,22 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["setAvatar"]),
     updateAvatar(avatarUri) {
-      this.newUserData.avatar.val = avatarUri;
+      this.$store.commit("setAvatar", avatarUri);
     },
     safe() {
       this.$refs.form.validate();
       if (this.valid) {
-        this.$store.commit("pushShuckbar", {
-          val: "Настройки успешно сохранены",
-          success: true
-        });
+        // Если изображение п прежнему стандартное
+        // this.avatar = this.avatar != "/imgs/user.png" ? this.avatar : null;
+        let data = {
+          name: this.user.name,
+          email: this.user.email
+        };
+        if (this.avatar != "/imgs/user.png") {
+          data.avatar = this.avatar;
+        }
+        this.$store.dispatch("updateUser", data);
       } else {
         this.$store.commit("pushShuckbar", {
           val: "Форма заполненна не верно",
@@ -123,7 +128,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "avatar"])
   },
   components: {
     UploadAvatar,

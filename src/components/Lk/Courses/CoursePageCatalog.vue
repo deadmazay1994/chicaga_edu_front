@@ -5,22 +5,35 @@
       <v-divider class="my-4"></v-divider>
       <div class="text-h3 main-color-text">{{ course.price }} &#8381;</div>
       <v-divider class="my-4"></v-divider>
-      <v-btn block large class="main-color main-color--text">Купить</v-btn>
+      <v-btn block large class="main-color main-color--text" @click="pay"
+        >Купить</v-btn
+      >
     </v-card>
   </div>
 </template>
 
 <script>
+import api from "@/mixins/api";
+
 export default {
   name: "course-page-catalog",
   data: function() {
     return {};
   },
-  methods: {},
+  methods: {
+    async pay() {
+      let response = await this.getPayCourseLink(this.course.id);
+      if ("success" in response) {
+        if (response.success) {
+          window.location.href = response.data.payment_url;
+        }
+      }
+    }
+  },
   computed: {},
   components: {},
   props: ["course"],
-  mixins: {},
+  mixins: [api],
   beforeMount() {}
 };
 </script>

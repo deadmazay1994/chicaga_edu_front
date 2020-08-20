@@ -23,6 +23,7 @@ import VideoChat from "@/components/LessonComponents/VideoChat/VideoChat";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 import LessonStart from "@/components/LessonComponents/LessonStart";
 
+import Io from "socket.io-client";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -31,11 +32,24 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["socketConnect"]),
-    ...mapMutations(["setTeacherId"]),
+    ...mapActions([
+      "socketConnect",
+      "onSendUsers",
+      "queryGetUsers",
+      "onUpdateUsers",
+      "onRecconnect",
+      "initSocketEvents",
+      "onSendErrors"
+    ]),
+    ...mapMutations(["setTeacherId", "setRoomId", "setSocket"]),
     sendTeacher() {
-      if (window.location.hash.substr(1)) {
+      if (this.user.role == "teacher") {
         this.socket.emit("im teacher", { roomId: this.$route.params.id });
+      }
+    },
+    onGetErrors() {
+      if (this.user.role == "teacher") {
+        this.onSendErrors();
       }
     },
     onSendTeacher() {
@@ -48,12 +62,13 @@ export default {
     },
     onGetTeacher() {
       this.socket.on("on get teacher", () => {
+        console.log("on get");
         this.sendTeacher();
       });
     }
   },
   computed: {
-    ...mapGetters(["socket", "user", "teacherId"])
+    ...mapGetters(["socket", "user", "teacherId", "socketUrl"])
   },
   components: {
     VideoChat,
@@ -63,12 +78,28 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {
+    this.setRoomId(this.$route.params.id);
     this.socketConnect(this.$route.params.id);
+    // Инициируем события сокетов
+    this.initSocketEvents();
     this.onSendTeacher();
+    this.onGetErrors();
     this.onGetTeacher();
+    this.queryGetUsers();
     this.sendTeacher();
     // Если пользователь пропустил событие, когда учиьель отправил свой id
     this.getTeacher();
+  },
+  beforeRouteLeave(to, from, next) {
+    const answer = window.confirm("Вы действительно хотите покинуть урок?");
+    if (answer) {
+      next();
+      // Сбрасываем соеденение с сокетом
+      this.socket.disconnect();
+      this.setSocket(Io(this.socketUrl));
+    } else {
+      next(false);
+    }
   }
 };
 </script>

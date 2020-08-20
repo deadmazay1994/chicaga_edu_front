@@ -60,6 +60,7 @@
 import AuthTitle from "./AuthTitle";
 
 import Validation from "@/mixins/validation.js";
+import { mapActions } from "vuex";
 
 export default {
   name: "recover",
@@ -71,15 +72,14 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["recoverPassword"]),
     recover() {
-      if (!this.valid) {
-        console.log(this.e1);
-        this.$store.commit("pushShuckbar", {
-          val: "Вы допустили ошибку при заполнении формы",
-          success: false
-        });
-      } else {
-        this.e1++;
+      if (this.valid) {
+        this.recoverPassword(this.email);
+        // this.$store.commit("pushShuckbar", {
+        //   val: "Вы допустили ошибку при заполнении формы",
+        //   success: false
+        // });
       }
     }
   },

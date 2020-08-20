@@ -18,7 +18,9 @@ export default {
       if ("success" in response) {
         if (response.success) {
           // Сортировка по алфавиту
-          commit("pushWords", [{ transcription: data.en, word: data.ru }]);
+          commit("pushWords", [
+            { transcription: data.en, word: data.ru, id: response.data.id }
+          ]);
         }
       }
     },

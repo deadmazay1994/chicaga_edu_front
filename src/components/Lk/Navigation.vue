@@ -8,14 +8,14 @@
     >
       <v-list dense nav class="py-0">
         <v-list-item two-line class="px-0">
-          <router-link to="/lk/my-coursers">
+          <router-link to="/lk/settings">
             <v-list-item-avatar>
-              <img :src="user.avatar" />
+              <img :src="user.avatar_link" />
             </v-list-item-avatar>
           </router-link>
           <v-list-item-content>
-            <router-link to="/lk/my-coursers" class="white--text">
-              <v-list-item-title>{{ user.username }}</v-list-item-title>
+            <router-link to="/lk/settings" class="white--text">
+              <v-list-item-title>{{ user.name }}</v-list-item-title>
             </router-link>
           </v-list-item-content>
         </v-list-item>
@@ -23,7 +23,7 @@
         <router-link to="/lk/catalog-coursers" class="white--text">
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon>mdi-domain</v-icon>
+              <v-icon>mdi-book-multiple</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Каталог курсов</v-list-item-title>
@@ -33,7 +33,7 @@
         <router-link to="/lk/my-coursers" class="white--text">
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon>mdi-domain</v-icon>
+              <v-icon>mdi-book-open</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Мои курсы</v-list-item-title>
@@ -61,6 +61,18 @@
           </v-list-item>
         </router-link>
         <v-divider></v-divider>
+        <template v-if="user.role == 'teacher'">
+          <router-link to="/course-list-teacher" class="white--text">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-clipboard-check</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Результаты</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+        </template>
         <v-list-item link class="mt-3" @click="exit">
           <v-list-item-icon>
             <v-icon>mdi-account-cancel</v-icon>
@@ -94,7 +106,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "draver"])
   },
   components: {},
   props: [],

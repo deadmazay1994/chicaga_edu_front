@@ -2,7 +2,12 @@
   <div class="fill-gaps vue-component">
     <description>{{ inputCopy.description }}</description>
     <v-row no-gutters class="test">
-      <draggable v-model="dragList" @end="dragEnd" v-if="dragList.length">
+      <draggable
+        v-model="dragList"
+        @end="dragEnd"
+        v-if="dragList.length"
+        :move="dragMove"
+      >
         <div
           class="fill-gaps__drag-word table-item"
           v-for="(word, i) in dragList"
@@ -22,6 +27,7 @@
         />
       </v-col>
     </v-row>
+    <slot></slot>
   </div>
 </template>
 
@@ -39,23 +45,17 @@ export default {
   name: "fill-gaps",
   data: function() {
     return {
-      t: [
-        {
-          correct: null,
-          val: "a"
-        },
-        {
-          correct: null,
-          val: "b"
-        }
-      ],
       dragList: [],
       draging: false,
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
+    dragMove() {
+      return false;
+    },
     onChange(data) {
       // Если у учителя как-то отличаются данные родительского компонента
       // То их надо обновить
@@ -68,16 +68,27 @@ export default {
       this.sendTaskToTeacher(this.index, data);
     },
     check() {
-      this.$refs.gap.forEach(child => child.check());
+      this.error = false;
+      this.$refs.gap.forEach(child => {
+        if (!this.error) {
+          this.error = child.check();
+        } else {
+          child.check();
+        }
+      });
     },
     setDragList() {
+      this.dragList = [];
       this.inputCopy.body.forEach(e => {
         e.sentence
           .match(/\[(.*?)\]/g)
           .forEach(word => this.dragList.push(this.clearDeeper(word)));
       });
       if (this.inputCopy.addons[0]) {
-        this.dragList = [...this.dragList, ...this.inputCopy.addons];
+        this.dragList = [
+          ...this.dragList,
+          ...this.inputCopy.addons[0].split(",")
+        ];
       }
       this.dragList = this.shuffle(this.dragList);
     },

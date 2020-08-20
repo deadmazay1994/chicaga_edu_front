@@ -11,9 +11,10 @@
     ></video>
     <img
       v-show="mediaObject.videoOff"
-      src="https://sun1-90.userapi.com/c847121/v847121181/1ef2aa/WlKTRNqt72s.jpg"
+      :src="mediaObject.avatar"
       class="video-component__avatar"
     />
+    <div class="video-component__name">{{ mediaObject.name }}</div>
     <div class="video-component__ctrls">
       <expand
         @click.native="toggleFullSize"
@@ -155,10 +156,17 @@ export default {
     max-width: 100%
     display: block
     max-height: 100%
+  &__name
+    position: absolute
+    left: 0
+    bottom: 0
+    background: #0005
+    padding: 5px 15px
+    color: #fff
   &__ctrls
     position: absolute
-    right: 5px
-    top: 5px
+    right: 0
+    top: 0
     background: #0005
     padding: 5px
     align-items: center
@@ -190,6 +198,8 @@ export default {
   margin: 0
   width: 100%
   height: 100%
+  .video-component__name
+    font-size: 21px
   .video-component__video
     display: block
     width: 100%

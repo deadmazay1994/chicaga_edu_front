@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="v-app" v-if="canRenderChild">
     <header-app />
     <navigation v-if="user" />
     <v-main class="v-main" :class="{ 'v-main--resize': user }">
@@ -22,6 +22,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "App",
+  data() {
+    return {
+      canRenderChild: false
+    };
+  },
   components: {
     HeaderApp,
     Modals,
@@ -32,9 +37,11 @@ export default {
   computed: {
     ...mapGetters(["user"])
   },
-  beforeMount() {
+  async beforeMount() {
     // Если у пользователя есть токен, то авторизация происходит при помощи него
-    this.$store.dispatch("login");
+    await this.$store.dispatch("login");
+    // Пока авторизация не закончена мы не создаем дочерних компонентов
+    this.canRenderChild = true;
   }
 };
 </script>
@@ -42,8 +49,10 @@ export default {
 <style lang="sass">
 @import "@/components/Sass/Varibles.sass"
 
-#app
-  background: $bg_color
+body
+  overflow-x: hidden
+.v-app
+  min-width: 1264px
 .v-main
   width: 100%
   margin-top: 64px
@@ -63,4 +72,10 @@ export default {
   opacity: 0.99
 .relative
   position: relative
+.response-content
+  display: block
+  max-width: 100%
+  height: auto
+.rotate-180
+  transform: rotate(180deg)
 </style>

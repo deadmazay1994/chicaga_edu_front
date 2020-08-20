@@ -1,9 +1,10 @@
 <template>
   <div class="choose-syllable vue-component">
     <description>{{ inputCopy.description }}</description>
-    <div class="d-flex">
+    <div class="d-flex" style="flex-wrap: wrap">
       <syllable
         v-for="(sy, i) in inputCopy.body"
+        class="mt-2"
         :key="i"
         :index="i"
         :input="sy"
@@ -12,6 +13,7 @@
         @sendChanges="onChange"
       />
     </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -27,13 +29,21 @@ export default {
   data: function() {
     return {
       shuffled: [],
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
     check() {
-      this.$refs.sy.forEach(sy => sy.check());
+      this.error = false;
+      this.$refs.sy.forEach(sy => {
+        if (!this.error) {
+          this.error = sy.check();
+        } else {
+          sy.check();
+        }
+      });
     },
     onChange(data) {
       // Если у учителя как-то отличаются данные родительского компонента
@@ -58,7 +68,8 @@ export default {
   mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
-    this.shuffled = this.shuffle(this.inputCopy.body);
+    // this.shuffled = this.shuffle(this.inputCopy.body);
+    this.shuffled = this.inputCopy.body;
   }
 };
 </script>

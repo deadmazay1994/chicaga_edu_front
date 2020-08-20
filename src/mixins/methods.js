@@ -8,8 +8,12 @@ Vue.mixin({
       return text.toLowerCase().replace(/ /g, "");
     },
     clearDeeper(text) {
-      // Оставляет только текст и цифры
-      return text.replace(/[^A-Za-z0-9-Яа-яЁё]+/g, "").toLowerCase();
+      if (typeof text == "string") {
+        // Оставляет только текст и цифры
+        return text.replace(/[^A-Za-z0-9-Яа-яЁё]+/g, "").toLowerCase();
+      } else {
+        return "";
+      }
     },
     shuffle(arr) {
       for (let i = 0; i < 5; i++) {

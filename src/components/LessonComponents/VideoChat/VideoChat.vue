@@ -26,7 +26,6 @@
         />
       </template>
     </div>
-    <!-- <v-btn v-on:click="joinToChat()">Присоедениться</v-btn> -->
   </div>
 </template>
 
@@ -35,7 +34,7 @@ import VideoComponent from "./VideoComponent";
 import Peer from "simple-peer";
 
 import Medias from "./Classes/MediaObjects";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "video-chat",
@@ -52,11 +51,13 @@ export default {
       connectedId: [],
       outherIds: [],
       sockets: [],
+      dependentPeers: [],
       socketId: false,
       users: []
     };
   },
   methods: {
+    ...mapActions(["socketConnect", "toggleChannel"]),
     // Логика переключения FullSize
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
@@ -79,27 +80,17 @@ export default {
       });
     },
     // Логика подключения
-    setId() {
-      // this.id = window.location.hash;
-      this.id = this.generateId();
-    },
     setLessonId() {
       this.lessonId = this.$route.params.id;
     },
-    generateId() {
-      return (
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15)
-      );
-    },
     joinToChat() {
+      // Удаляем все прошлые подключения
+      this.peers = [];
       // 1
       // Говорим остальным участникам чата, что мы подключились
+      console.log("Пытаемся сказать, что мы тут");
       this.imHere();
+      console.log("Успешно сказали что я тут");
     },
     imHere() {
       // Передаем свой уникальный id, чтобы получить всех список участников чата
@@ -110,6 +101,8 @@ export default {
       // 2
       // Сервер отправляет всех участников чата
       this.socket.on("send users", data => {
+        console.log("Получаем всех юзеров в чате");
+        console.log(data);
         // data = {
         // senderId,
         // users
@@ -124,6 +117,7 @@ export default {
           // Для каждого юзера создаем пир
           this.createPeersForUsers(data.users, stream);
         });
+        console.log("Получили всех юзеров и создали для них пиры");
       });
     },
     createPeersForUsers(users, stream) {
@@ -132,34 +126,19 @@ export default {
         let userId = user.id;
         // Создаем и пушим пир в массив пиров
         let initiator = true;
-        let peer = this.createPeer(stream, userId, initiator);
+        let peer = this.createPeer(
+          stream,
+          { id: userId, avatar: user.avatar, name: user.username },
+          initiator
+        );
+        this.intiatorOnSignal(peer, userId);
         this.peers.push({
           id: userId,
           peer,
           signaling: false
         });
-        this.intiatorOnSignal(peer, userId);
       });
       this.onUserDisconnect();
-    },
-    intiatorOnSignal(peer, userId) {
-      // Как только инитатор просигналил
-      peer.on("signal", signal => {
-        // Проверка на то, что этот пир еще не сигналил и то, что сигнал это не новое предложение о подключении
-        if (!this.getPeerById(userId).signaling || signal.type != "offer") {
-          this.getPeerById(userId).signaling = true;
-          // Отправляем предложение о соеденении
-          this.sendMsgToUser(
-            {
-              signal,
-              name: "signaling initiator",
-              sender: this.socketId,
-              forPeer: userId
-            },
-            userId
-          );
-        }
-      });
     },
     createMyVideo(stream) {
       this.medias.push({
@@ -167,13 +146,17 @@ export default {
         stream,
         id: this.socket.id,
         audioOff: false,
-        videoOff: false
+        videoOff: false,
+        avatar: this.user.avatar_link,
+        name: this.user.name
       });
+      this.$forceUpdate();
     },
     getMedia(callback) {
       navigator.mediaDevices
         .getUserMedia({
-          video: { width: 1024, height: 768 },
+          video: { width: 102, height: 76 },
+          // video: { width: 1024, height: 768 },
           audio: true
         })
         .then(stream => {
@@ -181,28 +164,46 @@ export default {
         })
         .catch(() => {});
     },
-    createPeer(stream, user = "", initiator = false) {
+    createPeer(stream, user = {}, initiator = false) {
       let peer = new Peer({
         initiator,
         stream,
-        trickle: false
+        trickle: true,
+        allowHalfTrickle: true,
+        config: {
+          iceServers: [
+            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "stun:global.stun.twilio.com:3478?transport=udp" }
+          ]
+        }
       });
       peer.on("error", e => {
         console.log(e);
+        console.log(this.medias);
+        // this.getMedia(stream => {
+
+        // })
+        // location.reload();
+        // this.medias = new Medias();
+        // this.joinToChat();
+      });
+      peer.on("connect", () => {
+        console.log("connect");
       });
       peer.on("stream", stream => {
         this.medias.push(
           {
             im: false,
             stream,
-            id: user,
-            audioOff: false,
-            videoOff: false
+            id: user.id,
+            avatar: user.avatar_link,
+            name: user.name
           },
           // Передаем только того юзера чьи настройи надо отразить в объекте
-          this.getUserById(user)
+          this.getUserById(user.id)
         );
       });
+      console.log("Создали пир", initiator ? "Инитатор" : "Не инитатор");
       return peer;
     },
     getUserById(id) {
@@ -221,26 +222,52 @@ export default {
         roomId: this.lessonId
       });
     },
-    myPeerForSender(stream, senderId) {
-      // Каждый сендер может посылать сигнал несколько раз
-      // Чтобы на каждый сигнал не создавать пира, а создавать пира только для каждого инитатора делаем проверки
-      // id = peer.id + "-" + sender гарантирует, что для каждого сендера будет создан свой пир
-      let peer = false;
-      if (this.peers.find(() => this.socketId + "-" + senderId) != undefined) {
-        peer = this.peers.find(() => this.socketId + "-" + senderId);
-      } else {
-        this.peers.push({
-          id: this.socketId + "-" + senderId,
-          signaling: false,
-          peer: this.createPeer(stream, senderId)
-        });
-        peer = this.peers[this.peers.length - 1];
-      }
+    createDependedPeer(stream, data) {
+      let peer = this.createPeer(stream, {
+        id: data.msg.sender,
+        avatar: data.msg.avatar,
+        name: data.msg.username
+      });
+      this.dependentPeers.push({
+        peer,
+        id: data.msg.sender
+      });
+      return peer;
+    },
+    getDependedPeer(stream, data) {
+      let peer = this.dependentPeers.find(peer => peer.id == data.msg.sender);
       if (peer) {
-        return peer.peer;
+        return { peer, isNewPeer: false };
+      } else {
+        return {
+          peer: this.createDependedPeer(stream, data),
+          isNewPeer: true
+        };
       }
-      console.log("Не получилось вернуть текущего пира для сендера");
-      return false;
+    },
+    intiatorOnSignal(peer, userId) {
+      // Как только инитатор просигналил
+      peer.on("signal", signal => {
+        console.log("Пытаемся просигналить (инитатор)");
+        // Проверка на то, что этот пир еще не сигналил и то, что сигнал это не новое предложение о подключении
+        // if (!this.getPeerById(userId).signaling || signal.type != "offer") {
+        this.getPeerById(userId).signaling = true;
+        // Отправляем предложение о соеденении
+        console.log("Инитатор отправляет сигнал ", userId);
+        this.sendMsgToUser(
+          {
+            signal,
+            name: "signaling initiator",
+            username: this.user.name,
+            avatar: this.user.avatar_link,
+            sender: this.socketId,
+            forPeer: userId
+          },
+          userId
+        );
+        console.log("Успешно просигналили юзеру");
+        // }
+      });
     },
     onGetMsg() {
       this.socket.on("get msg", data => {
@@ -249,15 +276,18 @@ export default {
           case "signaling initiator":
             // 4
             this.getMedia(stream => {
-              // let peer = this.myPeerForSender(stream, data.msg.sender);
-              let peer = this.createPeer(stream, data.msg.sender);
-              peer.signal(data.msg.signal);
-              // Как только просигналили
+              let depended = this.getDependedPeer(stream, data);
+              let peer = depended.peer;
+              // Как только просигналили,
+              // if (depended.isNewPeer) {
               peer.on("signal", signal => {
+                console.log("Получили сигнал инитатора");
                 // Отправляем инитатору ответный сигнал
+                console.log("Отправляеум ответный сигнал ", data.msg.forPeer);
                 this.sendMsgToUser(
                   {
                     sendeId: this.id,
+                    sender: this.socketId,
                     signal,
                     name: "signaling answer",
                     forPeer: data.msg.forPeer
@@ -265,17 +295,29 @@ export default {
                   data.msg.sender
                 );
               });
+              // }
+              peer.signal(data.msg.signal);
             });
             break;
           case "signaling answer":
+            console.log("Получили сигнал ответа");
             // 5
             // Получаем ответный сигнал от пира и соеденеяемся с ним
-            this.getPeerById(data.msg.forPeer).peer.signal(data.msg.signal);
-            break;
-          default:
+            // if (data.msg.signal.type == "answer") {
+            if (this.getPeerById(data.msg.forPeer)) {
+              console.log(this.getPeerById(data.msg.forPeer));
+              this.getPeerById(data.msg.forPeer).peer.signal(data.msg.signal);
+              console.log("Использовали сигнал ответа");
+            }
+            // }
             break;
         }
       });
+    },
+    disconnectPeers() {
+      this.peers.forEach(peer => peer.peer.destroy());
+      this.medias = false;
+      this.$forceUpdate();
     },
     getPeerById(id) {
       return this.peers.find(peer => peer.id == id);
@@ -285,28 +327,51 @@ export default {
         socketId;
         this.medias.delete(socketId);
       });
+    },
+    onConnectToGroup() {
+      this.socket.on("connect to group", data => {
+        this.lessonId = data.roomId;
+        this.medias = new Medias();
+        this.joinToChat();
+        // console.log(this.$route.params.id + data.groupName)
+        // this.toggleChannel(this.$route.params.id + "___" + data.groupName);
+      });
+    },
+    onReturnInGroup() {
+      this.socket.on("on return in group", () => {
+        this.lessonId = this.$route.params.id;
+        this.medias = new Medias();
+        this.joinToChat();
+      });
+    },
+    pingpong() {
+      this.socket.on("ping", () => {
+        this.socket.emit("pong");
+      });
     }
   },
   computed: {
-    ...mapGetters(["socket"]),
+    ...mapGetters(["socket", "user"]),
     activeMedia() {
-      return this.medias.medias[this.activeVideoIndex];
+      if (this.activeVideoIndex in this.medias.medias) {
+        return this.medias.medias[this.activeVideoIndex];
+      }
+      return false;
     }
   },
   components: {
     VideoComponent
   },
   mounted() {
-    // this.setLessonId();
-    // this.setId();
-    // this.onSendUsers();
-    // this.onGetMsg();
-    // this.joinToChat();
-    // this.onToggleCameraSocket();
-    // this.onToggleMicroSocket();
-    // this.socket.on("ping", () => {
-    //   this.socket.emit("pong");
-    // });
+    this.setLessonId();
+    this.onSendUsers();
+    this.onGetMsg();
+    this.onConnectToGroup();
+    this.onToggleCameraSocket();
+    this.onToggleMicroSocket();
+    this.onReturnInGroup();
+    this.joinToChat();
+    this.pingpong();
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="task-image-numbers">
-    <span class="text-subtitle-2">{{ description }}</span>
+    <description>{{ inputCopy.description }}</description>
     <v-row>
       <v-col
         lg="6"
@@ -31,13 +31,16 @@
         </div>
       </v-col>
     </v-row>
+    <slot></slot>
   </div>
 </template>
 
 <script>
+import Description from "./TasksDescription";
+
 import "@/mixins/methods";
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "task-images",
@@ -47,13 +50,19 @@ export default {
       task: {
         answers: [],
         shuffled: []
-      }
+      },
+      error: true,
+      inputCopy: false
     };
   },
   methods: {
+    ...mapMutations(["saveTask"]),
     setShuffled() {
-      let arr = this.shuffle(this.input.body);
-      this.task.shuffled = arr;
+      // let arr = this.shuffle(this.inputCopy.body);
+      // Перемешивание отключено
+      if (!this._data.isSavedTask) {
+        this.task.shuffled = this.inputCopy.body;
+      }
     },
     setAlphabetical() {
       let arr = this.alphabetical(this.task.shuffled);
@@ -69,26 +78,18 @@ export default {
       };
     },
     check() {
+      this.error = false;
       this.task.shuffled.forEach((task, i) => {
         if (task.number == Number(this.task.answers[i])) {
           task.correct = 1;
         } else {
           task.correct = 0;
+          this.error = true;
         }
       });
-      // for (let i = 0; i < this.task.shuffled.length; i++) {
-      //   // let group = this.getGroup(this.task.shuffled[i].answer);
-      //   // let ans = this.task.answers[i];
-
-      //   // if (group.answer == ans) {
-      //   //   this.task.shuffled[i].correct = 1;
-      //   // } else {
-      //   //   this.task.shuffled.correct = 0;
-      //   // }
-      // }
     },
     setAnswers() {
-      this.input.body.forEach(() => this.task.answers.push(""));
+      this.inputCopy.body.forEach(() => this.task.answers.push(""));
     },
     getGroup(answer) {
       for (const i in this.task.groups) {
@@ -101,14 +102,19 @@ export default {
   computed: {
     ...mapGetters(["socket", "teacherId"])
   },
-  components: {},
+  components: {
+    Description
+  },
   props: ["input", "index"],
   mixins: [Methods],
   beforeMount() {
-    this.description = this.input.description;
+    this.setInputCopy();
+    this.description = this.inputCopy.description;
     this.setAnswers();
     this.setShuffled();
-    this.setAlphabetical();
+    if (!this._data.isSavedTask) {
+      this.setAlphabetical();
+    }
   }
 };
 </script>

@@ -13,8 +13,19 @@ import socket from "./modules/socket";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    draver: false
+  },
+  mutations: {
+    toggleDraver(state) {
+      state.draver = !state.draver;
+    }
+  },
+  getters: {
+    draver: state => {
+      return state.draver;
+    }
+  },
   actions: {},
   modules: {
     chat,

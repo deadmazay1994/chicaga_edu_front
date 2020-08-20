@@ -1,27 +1,32 @@
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   data: function() {
     return {};
   },
   methods: {
-    sendTaskToTeacher(index, data) {
+    ...mapMutations(["saveTask", "saveChildTask"]),
+    sendTaskToTeacher(index, data = false) {
       this.socket.emit("send task to teacher", {
         taskIndex: index,
-        taskData: data,
-        teacherId: this.teacherId
+        taskData: data ? data : this._data,
+        teacherId: this.teacherId,
+        senderId: this.$parent.socket.id
       });
     },
     onChangeTask() {
-      this.sendTaskToTeacher(this.index, this._data);
+      this.sendTaskToTeacher(this.index);
     },
     setInputCopy(callback = () => {}) {
       if ("inputCopy" in this.input) {
         // Если данное свойство есть, то ученик уже проходил данный урок
         // Мы заменяем все свойства компонента на архивные
         this._data = this.input;
+        this._data.isSavedTask = true;
+        this.$forceUpdate();
       } else {
         this.inputCopy = this.input;
+        this._data.isSavedTask = false;
         callback();
       }
     },
@@ -50,6 +55,8 @@ export default {
   },
   components: {},
   props: [],
-  mixins: {},
-  beforeMount() {}
+  mixins: [],
+  beforeMount() {
+    this.setInputCopy();
+  }
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="task-match vue-component">
-    <description>{{ input.description }}</description>
+    <description>{{ inputCopy.description }}</description>
     <v-row style="align-items: interit; margin-bottom: 15px">
       <v-col
         cols="12"
@@ -20,24 +20,36 @@
       v-for="(group, index) in task.shuffled"
       :key="index"
     >
-      <div style="width: 40px">
-        <v-text-field
+      <span :class="answeredImg(index)" class="gap-index white--text">{{
+        index + 1
+      }}</span>
+      <gap
+        :sentence="group.word"
+        :index="index"
+        :childSaved="childSaved"
+        ref="gap"
+        class="fill-gaps__item"
+        @sendChanges="onChange"
+        @oncheck="oncheck"
+      />
+      <!-- <v-text-field
           class="number mr-3 task-match__match-inp pa-0"
           style="text-align: center"
           v-model="task.answers[index]"
           @change="onChangeTask"
-        ></v-text-field>
-      </div>
-      <span>{{ group.word }}</span>
+        ></v-text-field> -->
+      <!-- <span>{{ group.word }}</span> -->
     </div>
+    <slot></slot>
   </div>
 </template>
 
 <script>
 import Description from "./TasksDescription";
+import Gap from "./FillGapsItem";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "task-match",
@@ -47,60 +59,61 @@ export default {
         shuffled: [],
         answers: []
       },
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
+    ...mapMutations(["saveTask", "saveChildTask"]),
+    onChange(data) {
+      // Если у учителя как-то отличаются данные родительского компонента
+      // То их надо обновить
+      // Обновляем
+      this.onChangeTask();
+      // Эти данные нужны чтобы обновить дочерний компонент, а не родительский
+      // В данном случае дочерний это syllable
+      data.childIndex = data.index;
+      data.childRef = "gap";
+      this.sendTaskToTeacher(this.index, data);
+    },
+    oncheck(data) {
+      let error = 0;
+      data.result.forEach(r => (error = r.correct));
+      this.task.shuffled[data.index].correct = error;
+      // this.$set(this.task.shuffled, data.index, !error);
+    },
     setShuffled() {
-      let imgs = this.shuffle(this.input.body.map(e => e.name));
-      let words = this.shuffle(this.input.body.map(e => e.word));
-      for (let i = 0; i < imgs.length; i++) {
-        this.task.shuffled.push({
-          img: imgs[i],
-          word: words[i],
-          correct: -1
+      // Если прогресса нет
+      if (!this.task.shuffled.length) {
+        // this.shuffle(this.inputCopy.body).forEach(task => {
+        this.inputCopy.body.forEach(task => {
+          this.task.shuffled.push({
+            img: task.image,
+            word: task.word,
+            correct: -1
+          });
         });
       }
     },
     getGroup(number) {
-      for (const i in this.input.body) {
-        if (this.input.body[i].number == number) {
-          console.log(this.input.body, number);
-          return this.input.body[i];
+      for (const i in this.inputCopy.body) {
+        if (this.inputCopy.body[i].number == number) {
+          return this.inputCopy.body[i];
         }
       }
     },
     setAnswers() {
-      this.input.body.forEach(() => this.task.answers.push(""));
+      this.inputCopy.body.forEach(() => this.task.answers.push(""));
     },
     check() {
-      this.task.shuffled.forEach(e => {
-        e.correct = 0;
-      });
-      this.task.answers.forEach((indexImg, indexWord) => {
-        let img = "",
-          word = "";
-        if (this.task.shuffled[indexImg - 1] != undefined) {
-          img = this.task.shuffled[indexImg - 1].img;
-        }
-        if (this.task.shuffled[indexWord] != undefined) {
-          word = this.task.shuffled[indexWord].word;
-        }
-        if (this.input.body.find(i => i.word == word).name == img) {
-          this.task.shuffled[indexImg - 1].correct = true;
+      this.error = false;
+      this.$refs.gap.forEach(child => {
+        if (!this.error) {
+          this.error = child.check();
+        } else {
+          child.check();
         }
       });
-      // for (let i = 0; i < this.task.shuffled.length; i++) {
-      //   const e = this.task.shuffled[i];
-      //   let group = this.getGroup(e.number);
-      //   let ans = this.task.answers[i] - 1;
-      //   let img = this.task.shuffled[ans].name;
-      //   if (group.name == img) {
-      //     this.task.shuffled[ans].correct = 1;
-      //   } else {
-      //     this.task.shuffled[ans].correct = 0;
-      //   }
-      // }
     },
     answeredImg(i) {
       return {
@@ -120,9 +133,10 @@ export default {
     ...mapGetters(["socket"])
   },
   components: {
-    Description
+    Description,
+    Gap
   },
-  props: ["input", "index"],
+  props: ["input", "index", "childSaved"],
   mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
@@ -140,7 +154,7 @@ export default {
 .img-index
   position: absolute
   bottom: 0
-  left: -13px
+  // left: -13px
   border-radius: 100%
   width: 30px
   height: 30px
@@ -150,4 +164,14 @@ export default {
   font-size: 20px
   font-weight: bold
   // border: 2px solid $main-color--text
+.gap-index
+  border-radius: 100%
+  width: 25px
+  height: 25px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 14px
+  font-weight: bold
+  margin-right: -10px
 </style>

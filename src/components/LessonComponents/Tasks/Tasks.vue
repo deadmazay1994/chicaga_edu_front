@@ -1,13 +1,19 @@
 <template>
   <div class="tasks vue-component">
-    <task-manager
-      class="tasks__wrap"
-      :input="clearTasks"
-      :saved="savedTasks"
-      ref="taskManager"
-    />
-    <div class="ma-5">
+    <div class="relative">
+      <task-manager
+        class="tasks__wrap"
+        :input="tasks"
+        :saved="savedTasks"
+        :savedHomework="savedHomework"
+        :type="isHomework ? 'homework' : 'lesson'"
+        ref="taskManager"
+      />
+      <paint v-if="loaded" class="tasks__paint" />
+    </div>
+    <div v-if="user.role != 'teacher'" class="tasks__fixed ma-5">
       <v-btn
+        v-if="this.attemptNum == 0 || !this.noAddAtempt"
         @click="check"
         class="tasks__check-btn"
         block
@@ -21,6 +27,7 @@
 
 <script>
 import TaskManager from "./TaskManager";
+import Paint from "./Paint";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -30,28 +37,89 @@ export default {
   name: "tasks",
   data() {
     return {
-      ...mapActions(["setSavedTasks", "setClearTasks"])
+      attemptNum: 0,
+      loaded: false
     };
   },
   methods: {
+    ...mapActions([
+      "setSavedTasks",
+      "setClearTasks",
+      "saveProgressLesson",
+      "saveProgressHomework",
+      "setProgressForTeacher"
+    ]),
     check() {
-      this.$refs.taskManager.check();
-      this.$emit("saveTasks");
+      if (this.attemptNum == 0 || !this.noAddAtempt) {
+        this.$refs.taskManager.check();
+        this.$emit("saveTasks");
+        this.attemptNum++;
+        if (this.isHomework) {
+          this.saveProgressHomework({
+            lessonId: this.$route.params.id,
+            courseId: this.$route.params.courseId
+          });
+        } else {
+          this.saveProgressLesson({
+            lessonId: this.$route.params.id,
+            courseId: this.$route.params.courseId
+          });
+        }
+      }
+    },
+    async setProgressTeacher() {
+      if (this.user.role == "teacher" && "userid" in this.$route.params) {
+        await this.setProgressForTeacher({
+          courseId: this.$route.params.courseId,
+          lessonId: this.$route.params.id,
+          userId: this.$route.params.userid
+        });
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   computed: {
-    ...mapGetters(["clearTasks", "savedTasks"])
+    ...mapGetters([
+      "savedTasks",
+      "lessonTasks",
+      "homework",
+      "savedHomework",
+      "user"
+    ]),
+    tasks() {
+      // Устанавливаем дз это или нет
+      if (this.isHomework) {
+        console.log(this.homework);
+        return this.homework;
+      } else {
+        return this.lessonTasks;
+      }
+    }
   },
   components: {
-    TaskManager
+    TaskManager,
+    Paint
   },
+  props: ["isHomework", "noAddAtempt"],
   mixins: [Api],
   async beforeMount() {
-    this.setSavedTasks();
-    // Если прогресс пустой
-    if (!this.savedTasks.length) {
-      this.setClearTasks(this.$route.params.id);
+    // Если это учитель, то мы устанавливаем прогресс для него
+    let tasksForTeacher = await this.setProgressTeacher();
+    // Если нет, то получаем прогресс ученика
+    if (!tasksForTeacher) {
+      // Получаем прогресс
+      await this.setSavedTasks({
+        lessonId: this.$route.params.id,
+        courseId: this.$route.params.courseId
+      });
+      // Если прогресс пустой получаем сам урок
+      if (!this.savedTasks.length || !this.savedHomework) {
+        await this.$store.dispatch("setLesson", this.$route.params.id);
+      }
     }
+    this.loaded = true;
   }
 };
 </script>
@@ -63,8 +131,9 @@ export default {
   max-height: 100%
   overflow: auto
   &__wrap
-    // background: #e6e3dd
-    padding: 15px 30px
+    z-index: 1
+    opacity: 0.99
+    position: relative
   &__task
     margin-bottom: 30px
     // &::after

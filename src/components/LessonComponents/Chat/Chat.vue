@@ -34,12 +34,11 @@ export default {
   async mounted() {
     // Инициализация чата
     // Первым делом это!!!
+    console.log(this.user);
     await this.$store.dispatch("initChat", {
-      // login: this.user.username,
-      login: "rawil",
-      password: "password",
-      room: "two",
-      // room: window.location.hash.substr(1),
+      login: this.user.chat_auth_info.username,
+      password: this.user.chat_auth_info.password,
+      room: this.$route.params.id,
       socketUrl: "wss://chat.edu.chicaga.ru/websocket",
       chatElem: this.$refs.chat
     });

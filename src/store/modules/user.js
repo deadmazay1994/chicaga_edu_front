@@ -8,16 +8,18 @@ export default {
   actions: {
     async login({ commit, state }, formdata = false) {
       if (state.token) {
-        formdata;
-        let response = {
-          id: 2,
-          name: "test@mail.ru",
-          email: "test@mail.ru",
-          api_token:
-            "9TFX7mN9lCAvaM8g0R7NE8992kB8vMg43To9hHFkAtfEk4nyvr9JoFoZMoxF2W2n6bHGNOUjX6IYAk2p"
-        };
-        commit("setUser", response);
-        commit("setToken", response.api_token);
+        let response = await api.methods.reLogin();
+        if ("error" in response) {
+          commit("logout");
+          router.push({ path: "/auth/login" });
+          commit("pushShuckbar", {
+            val: "Не правильная токен сессия. Авторизируйтесь заново",
+            success: false
+          });
+        } else {
+          console.log(response.data);
+          commit("setUser", response.data);
+        }
       } else if (formdata) {
         let response = await api.methods.login(formdata);
         let barText = "";
@@ -62,6 +64,31 @@ export default {
         success: barStatus
       });
     },
+    async updateUser({ commit }, formdata) {
+      let response = await api.methods.updateUser(formdata);
+      let barText = "";
+      let barStatus = false;
+      if ("success" in response) {
+        if (response.success) {
+          console.log(response);
+          barText = "Вы успешно изменили свои персональные данные";
+          barStatus = true;
+        }
+      }
+      if ("error" in response) {
+        barText = api.methods.getErrorText(response);
+        barStatus = false;
+      }
+      commit("pushShuckbar", {
+        val: barText,
+        success: barStatus
+      });
+    },
+    async recoverPassword({ commit }, email) {
+      commit;
+      let response = await api.methods.recoverPassword(email);
+      console.log(response);
+    },
     setAvatar({ commit }, avatarUri) {
       commit("setAvatar", avatarUri);
     }
@@ -69,11 +96,14 @@ export default {
   mutations: {
     setAvatar(state, avatarUri) {
       if (state.logined) {
-        state.user.avatar = avatarUri;
+        state.user.avatar_link = avatarUri;
       }
     },
     setUser(state, user) {
       state.user = user;
+      if (user.avatar_link == "") {
+        user.avatar_link = DEFAULT_AVATAR;
+      }
       state.logined = true;
     },
     setToken(state, token) {
@@ -94,11 +124,14 @@ export default {
   },
   getters: {
     user: state => {
-      if (state.user)
-        if (state.logined) {
-          state.user.avatar = DEFAULT_AVATAR;
-        }
       return state.user;
+    },
+    avatar: state => {
+      if (state.user) {
+        console.log(state.user);
+        return state.user.avatar_link;
+      }
+      return false;
     },
     logined: state => state.logined
   }

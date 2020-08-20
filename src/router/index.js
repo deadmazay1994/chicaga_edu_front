@@ -2,11 +2,15 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Lesson from "@/components/Lesson";
+import Homework from "@/components/Homework";
+import LessonPreview from "@/components/LessonPreview";
 
 import Auth from "@/components/Lk/Auth/index.vue";
 import Login from "@/components/Lk/Auth/Login";
 import Register from "@/components/Lk/Auth/Register";
 import Recover from "@/components/Lk/Auth/Recover";
+
+import CourseListTeacher from "@/components/Teacher/CourseListTeacher";
 
 import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
@@ -15,13 +19,61 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 
+import store from "@/store";
+
 Vue.use(VueRouter);
 const routes = [
   {
-    path: "/lesson/:id",
-    name: "Lesson",
+    path: "/",
+    redirect: "/lk/my-coursers"
+  },
+  {
+    path: "/lesson/:courseId/:id",
+    name: "lesson",
     component: Lesson,
     meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/lesson/:courseId/:id/:userid",
+    name: "lesson",
+    component: Lesson,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/homework/:courseId/:id",
+    name: "homework",
+    component: Homework,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/homework/:courseId/:id/:userid",
+    name: "homework",
+    component: Homework,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/lesson-preview/:id",
+    name: "lesson-preview",
+    component: LessonPreview,
+    meta: {
+      // forTeacher: true,
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/course-list-teacher",
+    name: "course-list-teacher",
+    component: CourseListTeacher,
+    meta: {
+      // forTeacher: true,
       requiresAuth: true
     }
   },
@@ -88,6 +140,7 @@ const routes = [
 export const router = new VueRouter({
   mode: "hash",
   // mode: "history",
+  // base: process.env.BASE_URL,
   base: process.env.BASE_URL + "/edu/",
   routes
 });
@@ -102,6 +155,10 @@ router.beforeEach((to, from, next) => {
         path: "/auth/login",
         query: { redirect: to.fullPath }
       });
+      store.commit("pushShuckbar", {
+        val: "Пожалуйста, авторизируйтесь",
+        success: false
+      });
     } else {
       next();
     }
@@ -111,6 +168,21 @@ router.beforeEach((to, from, next) => {
       next({
         path: "/lk/my-coursers",
         query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  }
+  if (to.matched.some(record => record.meta.forTeacher)) {
+    console.log(store.getters.user.role);
+    if (store.getters.user.role != "teacher") {
+      next({
+        path: "/lk/my-coursers",
+        query: { redirect: to.fullPath }
+      });
+      store.commit("pushShuckbar", {
+        val: "Пожалуйста, авторизируйтесь под аккаунтом учителя",
+        success: false
       });
     } else {
       next();

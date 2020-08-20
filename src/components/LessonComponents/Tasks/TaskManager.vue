@@ -9,6 +9,9 @@ import Grouping from "./Grouping";
 import SelectionBox from "./SelectionBox";
 import Crossword from "./Crossword";
 import GapsImgs from "./GapsImgs";
+import Attachs from "./Attachs";
+import Results from "./Results";
+import CheckBtn from "./CheckBtn";
 
 import { mapGetters } from "vuex";
 
@@ -17,27 +20,83 @@ export default {
   render(h) {
     let tasks = [];
     // Если прогресс пустой
-    if (!this.saved.length) {
-      // Перебираем все таски
-      this.input.forEach((task, index) => {
-        // Манагер уже сам выбирает какой таск когда подключать
-        tasks.push(this.manager(h, task, task.type, index));
-      });
-    } else {
+    // console.log((!Object.keys(this.saved).length && this.type == "lesson") ||
+    //   (!Object.keys(this.savedHomework).length && this.type == "homework"))
+    this.setTaskNum();
+    if (
+      (!this.saved.length && this.type == "lesson") ||
+      (!this.savedHomework.length && this.type == "homework")
+    ) {
+      if (this.input) {
+        this.input.forEach((task, index) => {
+          // Манагер уже сам выбирает какой таск когда подключать
+          tasks.push(this.manager(h, task, task.type, index));
+        });
+      }
+    } else if (this.saved.length && this.type == "lesson") {
       // Перебираем таски из прогресса
-      this.saved.forEach((task, index) => {
-        let saved = this.manager(h, task, task.inputCopy.type, index);
-        tasks.push(saved);
-      });
+      for (const index in this.saved) {
+        const task = this.saved[index];
+        if (!task.inputCopy) {
+          console.log("Проверь задание под номером", index + 1);
+        } else {
+          let saved = this.manager(h, task, task.inputCopy.type, index);
+          tasks.push(saved);
+        }
+      }
+    } else if (this.savedHomework.length && this.type == "homework") {
+      // console.log(this.savedHomework)
+      for (const index in this.savedHomework) {
+        const task = this.savedHomework[index];
+        if (!task.inputCopy) {
+          console.log("Проверь задание под номером", index + 1);
+        } else {
+          let saved = this.manager(h, task, task.inputCopy.type, index);
+          tasks.push(saved);
+        }
+      }
     }
-    return h("div", tasks);
+    let results = this.results;
+    let slots = [...tasks, results];
+    return h("div", slots);
   },
   data: function() {
-    return {};
+    return {
+      errorCounter: 0,
+      checked: false,
+      tasksNum: 0
+    };
   },
   methods: {
+    setTaskNum() {
+      if (this.input) {
+        let ifSaved = typeof this.saved != "object";
+        let ifHomeworkSaved = typeof this.savedHomework != "object";
+        let addonsNum = 0;
+        if (
+          (!ifSaved && this.type == "lesson") ||
+          (!ifHomeworkSaved && this.type == "homework")
+        ) {
+          addonsNum = this.input.filter(
+            task => task.type == "lesson_addons_files"
+          ).length;
+        } else {
+          addonsNum = this.input.filter(
+            task => task.inputCopy.type == "lesson_addons_files"
+          ).length;
+        }
+        this.tasksNum = this.input.length - addonsNum;
+      }
+    },
     check() {
-      this.$refs.task.forEach(task => task.check());
+      this.errorCounter = 0;
+      this.$refs.task.forEach(task => {
+        if (task.check) {
+          task.check();
+        }
+        this.errorCounter += Number(task.error);
+      });
+      this.checked = true;
     },
     getAttrsForTask(data, index) {
       let attrs = {
@@ -49,6 +108,9 @@ export default {
         refInFor: true,
         class: "tasks__task"
       };
+      if (data.inputCopy) {
+        attrs.props.input = data;
+      }
       if (data.child) {
         attrs.props.childSaved = data.child;
       }
@@ -56,61 +118,67 @@ export default {
     },
     manager(h, data, type, index) {
       let res = false;
+      let slots = [h("check-btn")];
       let attrs = this.getAttrsForTask(data, index);
       switch (type) {
-        case "type5":
-          res = h("grouping", attrs);
+        case "group_by_dragging":
+          res = h("grouping", attrs, slots);
           break;
         case "write_word_to_picture":
-          res = h("gaps-imgs", attrs);
+          res = h("gaps-imgs", attrs, slots);
           break;
         case "select_stressed_syllable":
-          res = h("syllable", attrs);
+          res = h("syllable", attrs, slots);
           break;
         case "images_order":
-          res = h("task-images", attrs);
+          res = h("task-images", attrs, slots);
           break;
         case "drag_and_drop_words":
           attrs.props.drag = true;
-          res = h("fill-gaps", attrs);
+          res = h("fill-gaps", attrs, slots);
           break;
         case "match_words":
-          res = h("comparison", attrs);
+          res = h("comparison", attrs, slots);
           break;
         case "true_false":
-          res = h("t-f", attrs);
+          res = h("t-f", attrs, slots);
           break;
         case "crosswordы":
-          res = h("crossword", attrs);
+          res = h("crossword", attrs, slots);
           break;
         case "match_picture_and_word":
-          res = h("match-imgs", attrs);
+          res = h("match-imgs", attrs, slots);
           break;
-        case "selection_box":
-          res = h("selection-box", attrs);
+        case "select_correct_answer":
+          res = h("selection-box", attrs, slots);
           break;
-        case "underline_box":
+        case "select_correct_variant":
           attrs.props.underline = true;
-          res = h("selection-box", attrs);
+          res = h("selection-box", attrs, slots);
           break;
         case "insert_skipped_word":
-          res = h("fill-gaps", attrs);
+          res = h("fill-gaps", attrs, slots);
           break;
+        case "lesson_addons_files":
+          res = h("attachs", attrs, slots);
       }
       return res;
     },
     onSendTask() {
-      if (window.location.hash.substr(1)) {
+      let self = this;
+      if (this.socket) {
         this.socket.on("send task to teacher", data => {
-          if ("childIndex" in data.taskData) {
-            // Если у таска есть дочерние компоненты, то надо обновлять их данные, а не родителя
-            this.updateChildComponent(
-              this.$refs.task[data.taskIndex],
-              data.taskData
-            );
-          } else {
-            // Если у таска нет дочерних компонентов, то заменяем данные на прямую
-            this.updateTask(this.$refs.task[data.taskIndex], data.taskData);
+          if (data.senderId == this.activeUser) {
+            if ("childRef" in data.taskData) {
+              // Если данные прислал дочерний таск, то обновляем дочерний таск
+              this.updateChildComponent(
+                self.$refs.task[data.taskIndex],
+                data.taskData
+              );
+            } else {
+              // Если у таска нет дочерних компонентов, то заменяем данные на прямую
+              this.updateTask(this.$refs.task[data.taskIndex], data.taskData);
+            }
           }
         });
       }
@@ -129,13 +197,52 @@ export default {
       }
     },
     saveTasks() {
-      this.$refs.task.forEach(task => {
-        task.saveProgress();
+      this.errorCounter = 0;
+      if (this.$refs) {
+        this.$refs.task.forEach(task => {
+          task.saveProgress();
+          task.sendTaskToTeacher(task.index, task._data);
+          if (!isNaN(task.error)) {
+            this.errorCounter += Number(task.error);
+          }
+          // Передаем данные в дочерних тасках
+          for (let i in task.$refs) {
+            let childRefs = task.$refs[i];
+            for (let j in childRefs) {
+              let childTasks = childRefs[j];
+              if ("sendData" in childTasks) {
+                childTasks.sendData();
+              }
+            }
+          }
+          console.log(task.$refs);
+        });
+      }
+      if (this.socket) {
+        this.socket.emit("i was wrong", {
+          errorCounter: this.errorCounter,
+          teacher: this.teacherId,
+          myId: this.socket.id
+        });
+      }
+    },
+    onSendAllTasks() {
+      this.socket.on("send all tasks", () => {
+        this.$refs.task.forEach(task => {
+          task.sendTaskToTeacher(task.index, task._data);
+        });
       });
     }
   },
   computed: {
-    ...mapGetters(["user", "socket"])
+    ...mapGetters(["user", "socket", "teacherId", "activeUser"]),
+    results() {
+      return this.checked ? (
+        <results errorsNum={this.errorCounter} tasksNum={this.tasksNum} />
+      ) : (
+        ""
+      );
+    }
   },
   components: {
     TaskImages,
@@ -147,12 +254,16 @@ export default {
     Grouping,
     SelectionBox,
     Crossword,
-    GapsImgs
+    GapsImgs,
+    Attachs,
+    Results,
+    CheckBtn
   },
-  props: ["input", "saved"],
+  props: ["input", "saved", "savedHomework", "type"],
   mixins: {},
   beforeMount() {
     this.onSendTask();
+    this.onSendAllTasks();
     this.$parent.$on("saveTasks", this.saveTasks);
   }
 };

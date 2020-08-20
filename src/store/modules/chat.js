@@ -47,7 +47,7 @@ export default {
       let rocket = ctx.getters.getRocket;
       // Чтобы каждый раз не загружаеть юзера, который отправил сообщение
       // Загружаем всех изеров в комнате сразу
-      // Передаем либо roomName, либо roomID
+      // Передаем либо roomName, либо roomId
       await ctx.dispatch("setMembers", {
         roomName: ctx.getters.getRoom,
         roomId: false
@@ -68,7 +68,18 @@ export default {
           // Данные, которые приходят с сервера не удовлетворяют нам
           // Их надо дополнять при помощи данной функции
           data.data = rocket.updateMsgs(data.data.reverse());
-
+          data.data.forEach(msg => {
+            console.log(ctx.getters.getRoomId);
+            for (let i in ctx.getters.getMembers) {
+              let user = ctx.getters.getMembers[i].find(
+                member => member.username == msg.u.username
+              );
+              if (user) {
+                console.log(user, msg.u);
+                msg.u.name = user.name;
+              }
+            }
+          });
           // Записываем данные
           ctx.commit("appendMsgs", data);
           // Изменяем текущие сообщения
@@ -271,6 +282,7 @@ export default {
       return state.chatElem;
     },
     getCurrentMsgs(state) {
+      console.log(state.currentMsgs);
       return state.currentMsgs;
     },
     getRocket(state) {

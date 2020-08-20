@@ -210,7 +210,7 @@ export default class Rocket {
 
     msgs.forEach(msg => {
       let date = new Date(msg._updatedAt.$date || msg._updatedAt);
-      msg.u.avatar = this.getAvatar(msg.u.username);
+      // msg.u.avatar = this.getAvatar(msg.u.username);
       msg.time =
         uppendToDate(date.getHours()) + ":" + uppendToDate(date.getMinutes());
     });

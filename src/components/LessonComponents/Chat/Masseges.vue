@@ -5,7 +5,7 @@
       :key="i"
       :text="msg.msg"
       :author="msg.u.name"
-      :avatar="msg.u.avatar"
+      :avatar="IMGSTORE + 'avatars/' + msg.u.username"
       :time="msg.time"
       :attachments="msg.attachments"
       role="executor"

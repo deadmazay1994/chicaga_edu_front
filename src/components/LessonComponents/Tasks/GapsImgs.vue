@@ -3,9 +3,9 @@
     <description>{{ inputCopy.description }}</description>
     <table>
       <tr>
-        <!-- <th class="table-title" v-for="(item, i) in inputCopy.body" :key="i">
+        <th class="table-title" v-for="(item, i) in inputCopy.body" :key="i">
           {{ item.title }}
-        </th> -->
+        </th>
       </tr>
       <tr v-for="(item, i) in tasks" :key="i + 'a'">
         <td class="table-item" v-for="(task, j) in item" :key="j + 'b'">
@@ -14,11 +14,14 @@
             ref="gap"
             :sentence="task.text"
             :img="task.img"
+            :childSaved="childSaved"
             :index="i * item.length + j"
           />
         </td>
       </tr>
     </table>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -27,19 +30,28 @@ import Description from "./TasksDescription";
 import Gap from "./FillGapsItem";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "gaps-imgs",
   data: function() {
     return {
       shuffled: [],
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
+    ...mapMutations(["saveTask", "saveChildTask"]),
     check() {
-      this.$refs.gap.forEach(child => child.check());
+      this.error = true;
+      this.$refs.gap.forEach(child => {
+        if (!this.error) {
+          this.error = child.check();
+        } else {
+          child.check();
+        }
+      });
     },
     onChange(data) {
       // // Если у учителя как-то отличаются данные родительского компонента
@@ -71,6 +83,7 @@ export default {
     },
     maxItemLen() {
       let m = 0;
+      console.log(this.input);
       this.inputCopy.body.forEach(e => {
         if (e.tasks.length > m) {
           m = e.tasks.length;
@@ -83,15 +96,16 @@ export default {
     Description,
     Gap
   },
-  props: ["input", "saved", "index"],
+  props: ["input", "childSaved", "index"],
   mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
-    if (this.saved) {
-      this._data = JSON.parse(this.saved);
-    } else {
-      this.inputCopy = this.input;
-    }
+    console.log(this._data);
+    // if (this.saved) {
+    //   this._data = JSON.parse(this.saved);
+    // } else {
+    //   this.inputCopy = this.input;
+    // }
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="select-true vue-component">
-    <description>{{ input.description }}</description>
+    <description>{{ inputCopy.description }}</description>
   </div>
 </template>
 

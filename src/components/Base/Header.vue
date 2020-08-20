@@ -2,26 +2,27 @@
   <div class="header-app vue-component">
     <v-app-bar fixed class="header-app__bar main-color main-color--text">
       <v-row>
-        <v-col cols="12" md="4" class="d-flex align-center">
+        <v-col cols="4" md="4" class="d-flex align-center">
           <router-link to="/">
             <logo class="header-app__logo" />
           </router-link>
         </v-col>
-        <v-col cols="12" md="4" class="d-flex align-center justify-center">
+        <v-col cols="8" md="4" class="d-flex align-center justify-center">
           <dict-add v-if="user" />
         </v-col>
-        <v-col cols="12" md="4" class="d-flex justify-end align-center">
-          <template v-if="!user">
-            <router-link to="/auth/login" class="header__sign main-color--text"
-              >Авторизация</router-link
-            >
-            <span class="mx-1">/</span>
-            <router-link
-              to="/auth/register"
-              class="header__sign main-color--text"
-              >Регистрация</router-link
-            >
-          </template>
+        <v-col
+          v-if="!user"
+          cols="4"
+          md="4"
+          class="d-flex justify-end align-center"
+        >
+          <router-link to="/auth/login" class="header__sign main-color--text"
+            >Авторизация</router-link
+          >
+          <span class="mx-1">/</span>
+          <router-link to="/auth/register" class="header__sign main-color--text"
+            >Регистрация</router-link
+          >
         </v-col>
       </v-row>
 
@@ -56,7 +57,18 @@ export default {
   },
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    // api;
+    // for (let i = 1; i < 31; i++) {
+    //   let r = api.methods.register({
+    //     name: "teacher" + i,
+    //     email: "t@t" + i + ".ru",
+    //     password: "12345678",
+    //     password_confirmation: "12345678"
+    //   });
+    //   console.log(r);
+    // }
+  }
 };
 </script>
 

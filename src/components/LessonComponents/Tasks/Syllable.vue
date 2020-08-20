@@ -1,5 +1,11 @@
 <template>
-  <div class="syllable d-flex vue-component">
+  <div
+    class="syllable d-flex vue-component table-item"
+    :class="{
+      'syllable--correct': correct == true,
+      'syllable--uncorrect': correct == false
+    }"
+  >
     <div
       class="syllable__sy"
       v-for="(sy, i) in input.slogs"
@@ -41,8 +47,12 @@ export default {
       } else {
         this.correct = false;
       }
+      return !this.correct;
     },
     onChange() {
+      this.sendData();
+    },
+    sendData() {
       this.$emit("sendChanges", {
         data: this._data,
         index: this.index
@@ -85,7 +95,19 @@ export default {
     &--active
       border-bottom: 2px solid #000
     &--correct
-      border-bottom: 2px solid $success_color
+      border-bottom: 2px solid $success_color--text
     &--uncorrect
-      border-bottom: 2px solid $error_color
+      border-bottom: 2px solid $error_color--text
+  &--correct
+    background: $success_color
+    color: $success_color--text
+    .syllable__sy
+      &:after
+        background: $success_color--text
+  &--uncorrect
+    background: $error_color
+    color: $error_color--text
+    .syllable__sy
+      &:after
+        background: $error_color--text
 </style>

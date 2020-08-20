@@ -6,7 +6,7 @@
     >
       <div>
         <router-link :to="'/lk/course/' + course.id" class="text-h6">
-          {{ course.title }}
+          {{ course.name }}
         </router-link>
         <v-divider class="my-4"></v-divider>
         <div>{{ description }}</div>
@@ -15,15 +15,15 @@
         <v-divider class="my-4"></v-divider>
         <div class="text-h5 main-color-text">{{ course.price }} &#8381;</div>
         <v-divider class="my-4"></v-divider>
-        <v-btn large block class="main-color main-color--text mt-4"
+        <v-btn large block @click="pay" class="main-color main-color--text mt-4"
           >Купить</v-btn
         >
       </div>
       <div v-else>
         <v-divider class="my-4"></v-divider>
         <progress-info
-          :complite="course.progress.copmlite"
-          :all="course.lessons.length"
+          :complite="course.current_step"
+          :all="course.total_steps"
         />
       </div>
     </v-card>
@@ -32,6 +32,7 @@
 
 <script>
 import ProgressInfo from "./ProgressInfo";
+import api from "@/mixins/api";
 
 export default {
   name: "course-card",
@@ -50,6 +51,14 @@ export default {
       if (this.course.description.split(" ").length > this.maxDescriptionSize) {
         this.description += " ...";
       }
+    },
+    async pay() {
+      let response = await this.getPayCourseLink(this.course.id);
+      if ("success" in response) {
+        if (response.success) {
+          window.location.href = response.data.payment_url;
+        }
+      }
     }
   },
   computed: {},
@@ -57,7 +66,7 @@ export default {
     ProgressInfo
   },
   props: ["course", "buy"],
-  mixins: {},
+  mixins: [api],
   beforeMount() {
     this.setDescription();
   }
@@ -67,5 +76,4 @@ export default {
 <style scoped="scoped" lang="sass">
 .course-card
   height: 100%
-  &__card
 </style>

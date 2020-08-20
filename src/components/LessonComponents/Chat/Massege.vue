@@ -1,11 +1,11 @@
 <template>
   <div class="massege vue-component">
-    <avatar class="massege__avatar" :path="avatar" />
+    <avatar class="massege__avatar" :path="user.avatar_link" />
     <div class="content__massege content-massege">
       <div class="content-massege__info">
         <title-chat class="content-massege__user">
-          {{ role }}
-          <div class="massege__author">{{ author }}</div>
+          {{ author || "Пользователь" }}
+          <!-- <div class="massege__author">{{ author }}</div> -->
         </title-chat>
         <div class="content-massege__time">{{ time }}</div>
       </div>
@@ -20,13 +20,17 @@ import Avatar from "./Thumbnail";
 import TitleChat from "./Title";
 import Attachments from "./Attachments";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "massege",
   data: function() {
     return {};
   },
   methods: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["user"])
+  },
   components: {
     Avatar,
     TitleChat,

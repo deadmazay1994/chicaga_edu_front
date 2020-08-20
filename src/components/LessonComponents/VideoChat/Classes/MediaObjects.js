@@ -9,7 +9,6 @@ export default class {
       // Если такой юзер уже существует, то не добавляем его
       if (mediaData.id == media.id) {
         error = 1;
-        console.log(mediaData.id);
         console.log("This user is exist ", mediaData.id);
       }
     });
@@ -41,8 +40,10 @@ export default class {
     console.log("This user does't exitst ", id);
   }
   delete(id) {
-    if (!this.medias[this.mediaId(id)].im) {
-      this.medias.splice(this.mediaId(id), 1);
+    if (this.medias[this.mediaId(id)]) {
+      if (!this.medias[this.mediaId(id)].im) {
+        this.medias.splice(this.mediaId(id), 1);
+      }
     }
   }
 }
@@ -54,5 +55,7 @@ class myMedia {
     this.id = data.id;
     this.audioOff = data.audioOff;
     this.videoOff = data.videoOff;
+    this.avatar = data.avatar;
+    this.name = data.name;
   }
 }

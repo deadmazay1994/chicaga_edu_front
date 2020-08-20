@@ -1,9 +1,9 @@
 <template>
   <div class="comparison vue-component">
-    <description>{{ input.description }}</description>
+    <description>{{ inputCopy.description }}</description>
     <div class="d-flex">
       <div class="comp__col">
-        <div class="table-title">{{ input.addons[0].t1 }}</div>
+        <div class="table-title">{{ inputCopy.addons[0].t1 }}</div>
         <draggable :list="l1" @change="reset">
           <div
             class="comp__item table-item"
@@ -16,7 +16,7 @@
         </draggable>
       </div>
       <div class="comp__col">
-        <div class="table-title">{{ input.addons[0].t2 }}</div>
+        <div class="table-title">{{ inputCopy.addons[0].t2 }}</div>
         <draggable :list="l2" @change="onChange">
           <div
             class="comp__item table-item"
@@ -29,6 +29,7 @@
         </draggable>
       </div>
     </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -38,7 +39,7 @@ import Description from "./TasksDescription";
 import Draggable from "vuedraggable";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "comparison",
@@ -47,28 +48,32 @@ export default {
       l1: [],
       l2: [],
       res: [],
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
+    ...mapMutations(["saveTask"]),
     setShuffled() {
-      this.l1 = this.shuffle(this.input.body).map(w => w.w1);
+      this.l1 = this.shuffle(this.inputCopy.body).map(w => w.w1);
       // Нужно чтобы перемешалось по разному
       setTimeout(() => {}, 10);
-      this.l2 = this.shuffle(this.input.body).map(w => w.w2);
+      this.l2 = this.shuffle(this.inputCopy.body).map(w => w.w2);
       this.l1.forEach(() => {
         this.res.push(null);
       });
     },
     check() {
+      this.error = false;
       this.l1.forEach((word, i) => {
-        let original = this.input.body.find(words => words.w1 == word);
+        let original = this.inputCopy.body.find(words => words.w1 == word);
         // Vue не умеет изменять значение массивов на прямую
         // Нужно изменять так как это указано ниже
         if (this.l2[i] == original.w2) {
           this.$set(this.res, i, true);
         } else {
           this.$set(this.res, i, false);
+          this.error = true;
         }
       });
     },

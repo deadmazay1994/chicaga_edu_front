@@ -35,6 +35,7 @@
         </draggable>
       </div>
     </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -51,7 +52,8 @@ export default {
     return {
       shuffled: [],
       groups: [],
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
@@ -74,6 +76,7 @@ export default {
       });
     },
     check() {
+      this.error = false;
       this.inputCopy.body.forEach((e, i) => {
         let error = false;
         e.words.forEach(word => {
@@ -87,6 +90,7 @@ export default {
         if (error) {
           // Vue не позволяет имзенять значения массива на прямую
           this.$set(this.groups, i, { ...this.groups[i], correct: false });
+          this.error = true;
         } else {
           // Vue не позволяет имзенять значения массива на прямую
           this.$set(this.groups, i, { ...this.groups[i], correct: true });

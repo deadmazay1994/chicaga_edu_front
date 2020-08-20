@@ -2,27 +2,17 @@
   <div class="selection-box vue-component">
     <description>{{ inputCopy.description }}</description>
     <table>
-      <!-- <div>
-        <div v-for="(task, i) in inputCopy.body.tasks" :key="i">{{ task.text }}</div>
-      </div>
-      <div>
-        <div class="d-flex" v-for="(task, i) in inputCopy.body.tasks" :key="i">
-          <div v-for="(ans, i) in task.answers" :key="i + 'a'">
-            <v-checkbox></v-checkbox>
-          </div>
-        </div>
-      </div>-->
       <tr v-if="!underline">
         <td class="table-title"></td>
         <td
           class="table-title"
-          v-for="(state, i) in inputCopy.body.statements"
+          v-for="(state, i) in inputCopy.addons"
           :key="i + 'b'"
         >
           {{ state }}
         </td>
       </tr>
-      <tr v-for="(task, i) in inputCopy.body.tasks" :key="i">
+      <tr v-for="(task, i) in inputCopy.body" :key="i">
         <td class="table-item" :class="statusClass(i)">{{ task.text }}</td>
         <td
           class="table-item"
@@ -51,6 +41,8 @@
         </td>
       </tr>
     </table>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -58,7 +50,7 @@
 import Description from "./TasksDescription";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "selection-box",
@@ -66,10 +58,12 @@ export default {
     return {
       answers: [],
       results: [],
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
+    ...mapMutations(["saveTask"]),
     activeAnswerClass(i, j) {
       return {
         "selection-box__box--active--underline": this.answers[i][j]
@@ -82,7 +76,7 @@ export default {
       this.$set(this.answers, i, tmp);
     },
     setAnswersArr() {
-      this.inputCopy.body.tasks.forEach(task => {
+      this.inputCopy.body.forEach(task => {
         let answersRow = [];
         task.answers.forEach(() => answersRow.push(false));
         this.answers.push(answersRow);
@@ -112,9 +106,11 @@ export default {
       }
     },
     check() {
-      this.inputCopy.body.tasks.forEach((task, i) => {
+      this.error = false;
+      this.inputCopy.body.forEach((task, i) => {
         if (this.checkError(task, i)) {
           this.$set(this.results, i, false);
+          this.error = true;
         } else {
           this.$set(this.results, i, true);
         }
@@ -141,7 +137,7 @@ export default {
   props: ["input", "underline", "index"],
   mixins: [Methods],
   beforeMount() {
-    this.inputCopy = this.input;
+    this.setInputCopy();
     this.setAnswersArr();
   }
 };

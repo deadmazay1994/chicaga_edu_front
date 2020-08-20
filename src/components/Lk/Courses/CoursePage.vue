@@ -1,6 +1,6 @@
 <template>
   <div class="course-page vue-component">
-    <page-title :title="courseRes.title" />
+    <page-title :title="courseRes.name" />
     <course-my v-if="courseRes.buyed" :course="courseRes" />
     <v-row v-else class="d-flex justify-center">
       <v-col cols="12" lg="10">
@@ -26,9 +26,9 @@ export default {
     };
   },
   methods: {
-    setCourse() {
+    async setCourse() {
       // Данный метод работает только если мы еще не запрашивали курсы
-      this.$store.dispatch("setAllCourses");
+      await this.$store.dispatch("setAllCourses");
       this.courseRes = this.course(this.$route.params.id);
     }
   },

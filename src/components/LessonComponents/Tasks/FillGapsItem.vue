@@ -102,15 +102,19 @@ export default {
   },
   methods: {
     updateModelInput(val, inputIndex) {
-      this.answers[inputIndex].val = val;
-      this.$set(this.answers, inputIndex, this.answers[inputIndex]);
-      this.$refs.input[inputIndex].value = val;
-      this.sendData();
+      if (this.answers) {
+        this.answers[inputIndex].val = val;
+        this.$set(this.answers, inputIndex, this.answers[inputIndex]);
+        this.$refs.input[inputIndex].value = val;
+        this.sendData();
+      }
     },
     updateAllmodels() {
-      this.answers.forEach((ans, i) => {
-        this.$refs.input[i].value = ans.val;
-      });
+      if (this.answers) {
+        this.answers.forEach((ans, i) => {
+          this.$refs.input[i].value = ans.val;
+        });
+      }
     },
     sendData() {
       this.$emit("sendChanges", {
@@ -119,20 +123,24 @@ export default {
       });
     },
     pushMissingAnswers(inputIndex) {
-      // Если в массиве ответа слишком мало элементов, то добавляем их ровно до inputIndex + 1
-      if (inputIndex >= this.answers.length) {
-        for (let i = 0; i < inputIndex - this.answers.length + 1; i++) {
-          this.answers.push({
-            val: "",
-            correct: null
-          });
+      if (this.answers) {
+        // Если в массиве ответа слишком мало элементов, то добавляем их ровно до inputIndex + 1
+        if (inputIndex >= this.answers.length) {
+          for (let i = 0; i < inputIndex - this.answers.length + 1; i++) {
+            this.answers.push({
+              val: "",
+              correct: null
+            });
+          }
         }
       }
     },
     setSentenceMap() {
-      this.sentence.match(/\[(.*?)\]/g).forEach(gap => {
-        this.sentenceMap.push(gap.length - 2);
-      });
+      if (this.sentence.match(/\[(.*?)\]/g)) {
+        this.sentence.match(/\[(.*?)\]/g).forEach(gap => {
+          this.sentenceMap.push(gap.length - 2);
+        });
+      }
     },
     getTitle(h) {
       this.newSentence = this.newSentence.replace(/<(.*?)>/g, "");
@@ -152,24 +160,33 @@ export default {
       if (this.img) {
         return h("img", {
           attrs: {
-            src: this.img
+            src: this.IMGSTORE + this.img
           },
           class: "fill-gaps-item__img"
         });
       }
     },
     check() {
-      this.answered = true;
-      let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
-      for (let i = 0; i < this.answers.length; i++) {
-        if (
-          this.clearDeeper(trueAnswers[i]) ==
-          this.clearDeeper(this.answers[i].val)
-        ) {
-          this.answers[i].correct = true;
-        } else {
-          this.answers[i].correct = false;
+      if (this.answers) {
+        let error = 0;
+        this.answered = true;
+        let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
+        for (let i = 0; i < this.answers.length; i++) {
+          if (
+            this.clearDeeper(trueAnswers[i]) ==
+            this.clearDeeper(this.answers[i].val)
+          ) {
+            this.answers[i].correct = true;
+          } else {
+            error = true;
+            this.answers[i].correct = false;
+          }
         }
+        this.$emit("oncheck", {
+          index: this.index,
+          result: this.answers
+        });
+        return error;
       }
     },
     customForceUpdate(data) {

@@ -2,7 +2,7 @@
   <div class="tf-task vue-component">
     <description>{{ inputCopy.description }}</description>
     <table>
-      <tr v-for="tf in inputCopy.body" :key="tf.text">
+      <tr v-for="(tf, index) in inputCopy.body" :key="index">
         <td class="table-item" :class="statusClass(tf)">
           <span class="mr-5">{{ tf.text }}</span>
         </td>
@@ -26,6 +26,8 @@
         </td>
       </tr>
     </table>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -33,23 +35,27 @@
 import Description from "./TasksDescription";
 
 import Methods from "@/mixins/tasks";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "tf-task",
   data: function() {
     return {
       task: {},
-      inputCopy: {}
+      inputCopy: {},
+      error: true
     };
   },
   methods: {
+    ...mapMutations(["saveTask"]),
     check() {
+      this.error = false;
       this.inputCopy.body.forEach(e => {
         if (e.correct == e.right) {
           e.error = false;
         } else {
           e.error = true;
+          this.error = true;
         }
       });
     },

@@ -26,6 +26,7 @@
       <v-text-field
         type="password"
         required
+        @keyup.enter="register"
         v-model="user.password_confirmation"
         label="Повторите пароль"
       />
@@ -89,10 +90,10 @@ export default {
   props: [],
   mixins: [Validation],
   beforeMount() {
-    this.user.email = "testuser@mail.com";
-    this.user.name = "testuser@mail.com";
-    this.user.password_confirmation = "password";
-    this.user.password = "password";
+    this.user.email = "";
+    this.user.name = "";
+    this.user.password_confirmation = "";
+    this.user.password = "";
   }
 };
 </script>
