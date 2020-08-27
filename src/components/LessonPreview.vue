@@ -44,7 +44,14 @@
                   >Проверить</v-btn
                 >
               </v-tab-item>
-              <v-tab-item>sdg</v-tab-item>
+              <v-tab-item>
+                <attachs
+                  v-for="(material, index) in materials"
+                  :key="index"
+                  :input="material"
+                  class="mx-5"
+                />
+              </v-tab-item>
             </v-tabs-items>
           </v-card>
         </v-col>
@@ -55,6 +62,7 @@
 
 <script>
 import TaskManager from "@/components/LessonComponents/Tasks/TaskManager";
+import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -76,7 +84,8 @@ export default {
     ...mapGetters(["homework", "lessonTasks", "materials", "socketUrl"])
   },
   components: {
-    TaskManager
+    TaskManager,
+    Attachs
   },
   props: [],
   mixins: {},

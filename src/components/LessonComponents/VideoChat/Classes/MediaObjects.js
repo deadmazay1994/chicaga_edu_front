@@ -12,6 +12,7 @@ export default class {
         console.log("This user is exist ", mediaData.id);
       }
     });
+    error;
     if (!error) {
       if (user) {
         mediaData.videoOff = user.videoOff;
@@ -40,6 +41,7 @@ export default class {
     console.log("This user does't exitst ", id);
   }
   delete(id) {
+    console.log(id, this.medias);
     if (this.medias[this.mediaId(id)]) {
       if (!this.medias[this.mediaId(id)].im) {
         this.medias.splice(this.mediaId(id), 1);

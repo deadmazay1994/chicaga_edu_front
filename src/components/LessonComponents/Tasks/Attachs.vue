@@ -34,7 +34,6 @@ export default {
       let components = [];
       this.inputCopy.body.forEach(files => {
         files.forEach(e => {
-          console.log(e);
           switch (this.getFileType(e.file_type)) {
             case "image":
               components.push(
@@ -48,6 +47,7 @@ export default {
               components.push(
                 <video
                   class="response-content"
+                  controls="true"
                   src={this.getFileName(e.file_name)}
                 />
               );

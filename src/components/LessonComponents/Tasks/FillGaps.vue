@@ -79,15 +79,16 @@ export default {
     },
     setDragList() {
       this.dragList = [];
+      console.log(this.inputCopy);
       this.inputCopy.body.forEach(e => {
         e.sentence
           .match(/\[(.*?)\]/g)
           .forEach(word => this.dragList.push(this.clearDeeper(word)));
       });
-      if (this.inputCopy.addons[0]) {
+      if (this.inputCopy.extra_words[0]) {
         this.dragList = [
           ...this.dragList,
-          ...this.inputCopy.addons[0].split(",")
+          ...this.inputCopy.extra_words[0].split(",")
         ];
       }
       this.dragList = this.shuffle(this.dragList);

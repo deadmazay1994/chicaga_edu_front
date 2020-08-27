@@ -94,7 +94,9 @@ export default {
         if (task.check) {
           task.check();
         }
-        this.errorCounter += Number(task.error);
+        if (task.error != undefined) {
+          this.errorCounter += Number(task.error);
+        }
       });
       this.checked = true;
     },
@@ -140,7 +142,7 @@ export default {
         case "match_words":
           res = h("comparison", attrs, slots);
           break;
-        case "true_false":
+        case "true_or_false":
           res = h("t-f", attrs, slots);
           break;
         case "crosswordы":
@@ -265,6 +267,7 @@ export default {
     this.onSendTask();
     this.onSendAllTasks();
     this.$parent.$on("saveTasks", this.saveTasks);
+    console.log(this);
   }
 };
 </script>

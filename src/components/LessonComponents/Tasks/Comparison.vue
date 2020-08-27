@@ -3,7 +3,7 @@
     <description>{{ inputCopy.description }}</description>
     <div class="d-flex">
       <div class="comp__col">
-        <div class="table-title">{{ inputCopy.addons[0].t1 }}</div>
+        <div class="table-title">{{ inputCopy.addons.t1 }}</div>
         <draggable :list="l1" @change="reset">
           <div
             class="comp__item table-item"
@@ -16,7 +16,7 @@
         </draggable>
       </div>
       <div class="comp__col">
-        <div class="table-title">{{ inputCopy.addons[0].t2 }}</div>
+        <div class="table-title">{{ inputCopy.addons.t2 }}</div>
         <draggable :list="l2" @change="onChange">
           <div
             class="comp__item table-item"
@@ -105,6 +105,7 @@ export default {
   beforeMount() {
     this.setInputCopy();
     this.setShuffled();
+    console.log(this.input);
   }
 };
 </script>

@@ -85,6 +85,9 @@ export default {
     checkErrorUnderline(task, i) {
       let error = false;
       task.answers.forEach((ans, j) => {
+        if (ans.correct == undefined) {
+          ans.correct = false;
+        }
         if (ans.correct != this.answers[i][j]) {
           error = true;
         }
@@ -139,6 +142,7 @@ export default {
   beforeMount() {
     this.setInputCopy();
     this.setAnswersArr();
+    console.log(this.input);
   }
 };
 </script>

@@ -10,7 +10,8 @@
       class="video-component__video"
     ></video>
     <img
-      v-show="mediaObject.videoOff"
+      v-if="mediaObject.videoOff"
+      style="display: block; width: 100px; height: auto"
       :src="mediaObject.avatar"
       class="video-component__avatar"
     />
