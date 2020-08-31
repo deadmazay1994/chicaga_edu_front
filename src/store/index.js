@@ -9,6 +9,7 @@ import course from "./modules/course";
 import dictionary from "./modules/dictionary";
 import tasks from "./modules/tasks";
 import socket from "./modules/socket";
+import lightbox from "./modules/lightbox";
 
 Vue.use(Vuex);
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     course,
     dictionary,
     tasks,
-    socket
+    socket,
+    lightbox
   }
 });

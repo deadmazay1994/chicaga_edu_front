@@ -1,14 +1,16 @@
 <script>
-import Methods from "@/mixins/tasks";
-import { mapGetters, mapMutations } from "vuex";
 import VuetifyAudio from "vuetify-audio";
+
+import Methods from "@/mixins/tasks";
+import Magnifier from "@/mixins/magnifier";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "attachs",
   render() {
     let texts = [];
     this.inputCopy.addons.forEach(addon =>
-      texts.push(<pre class="text-subtitle-2">{addon.text}</pre>)
+      texts.push(<pre class="text-subtitle-2 pre">{addon.text}</pre>)
     );
     return (
       <div class="attachs">
@@ -23,7 +25,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask", "saveChildTask"]),
+    ...mapMutations(["saveTask", "saveChildTask", "user"]),
     getFileName(filename) {
       return this.IMGSTORE + filename;
     },
@@ -39,6 +41,8 @@ export default {
               components.push(
                 <img
                   class="response-content"
+                  vLigthbox
+                  vMagnifier
                   src={this.getFileName(e.file_name)}
                 />
               );
@@ -54,25 +58,62 @@ export default {
               break;
             case "audio":
               components.push(
-                <vuetify-audio file={this.getFileName(e.file_name)} />
+                <vuetify-audio
+                  ref="audio"
+                  refInFor={true}
+                  file={this.getFileName(e.file_name)}
+                />
               );
               break;
           }
         });
       });
       return components;
+    },
+    addEventsToAudio() {
+      if (this.$refs.audio) {
+        this.$refs.audio.forEach(audio => {
+          audio.$el
+            .querySelector("audio")
+            .addEventListener("playing", this.audioPlaying);
+          audio.$el
+            .querySelector("audio")
+            .addEventListener("pause", this.audioStoping);
+        });
+      }
+    },
+    audioPlaying() {
+      this.$store.dispatch("changeUserSetting", {
+        name: "audioOff",
+        val: true,
+        text: "Ваш микрофон выключен",
+        snuckbarStatus: true,
+        roomId: this.lessonId
+      });
+    },
+    audioStoping() {
+      this.$store.dispatch("changeUserSetting", {
+        name: "audioOff",
+        val: false,
+        text: "Ваш микрофон включен",
+        snuckbarStatus: true,
+        roomId: this.lessonId
+      });
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "lessonId"])
   },
   components: {
     VuetifyAudio
   },
   props: ["input", "index"],
-  mixins: [Methods],
+  mixins: [Methods, Magnifier],
   beforeMount() {
     this.setInputCopy();
+  },
+  mounted() {
+    this.addEventsToAudio();
   }
 };
 </script>

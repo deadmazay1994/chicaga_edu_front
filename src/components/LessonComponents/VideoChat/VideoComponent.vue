@@ -119,9 +119,11 @@ export default {
   watch: {
     "mediaObject.videoOff": function() {
       this.videoOff();
+      this.$emit("toggleCamera", this.mediaObject.videoOff);
     },
     "mediaObject.audioOff": function() {
       this.audioOff();
+      this.$emit("toggleMicro", this.mediaObject.audioOff);
     },
     "mediaObject.id": function() {
       this.setStream();

@@ -91,7 +91,7 @@ export default {
         if (ans.correct != this.answers[i][j]) {
           error = true;
         }
-        this.answers[i][j] = false;
+        // this.answers[i][j] = false;
       });
       return error;
     },
@@ -118,6 +118,7 @@ export default {
           this.$set(this.results, i, true);
         }
       });
+      console.log(this.error);
     },
     statusClass(i) {
       return {

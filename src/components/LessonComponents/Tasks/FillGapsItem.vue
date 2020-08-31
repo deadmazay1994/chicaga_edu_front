@@ -5,7 +5,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "fill-gaps-item",
   render(h) {
-    const res = [this.getImg(h), this.getTitle(h)];
+    const res = [this.getImg(h)];
     let gap = false;
     let letters = [];
     // Номер пропуска
@@ -86,7 +86,8 @@ export default {
       "div",
       {
         class: "fill-gaps-item",
-        props: ["index"]
+        props: ["index"],
+        ref: "fillGapsItem"
       },
       res
     );
@@ -115,6 +116,13 @@ export default {
           this.$refs.input[i].value = ans.val;
         });
       }
+    },
+    createElementFromHTML(htmlString) {
+      var div = document.createElement("div");
+      div.innerHTML = htmlString.trim();
+
+      // Change this to div.childNodes to support multiple top-level nodes
+      return div.firstChild;
     },
     sendData() {
       this.$emit("sendChanges", {
@@ -193,6 +201,21 @@ export default {
       data.data.answers.forEach((ans, i) => {
         this.updateModelInput(ans.val, i);
       });
+    },
+    parseText() {
+      this.$refs.fillGapsItem
+        .querySelectorAll(".fill-gaps-item__text")
+        .forEach(el => {
+          let parsed = el.textContent.replace(
+            /</g,
+            "<span class='fill-gaps-item__title'"
+          );
+          parsed = parsed
+            .replace(/>/g, "</span>")
+            .replace(/__title'/g, "__title'>");
+          el.textContent = "";
+          el.insertAdjacentHTML("beforeend", parsed);
+        });
     }
   },
   computed: {
@@ -208,6 +231,7 @@ export default {
     }
   },
   mounted() {
+    this.parseText();
     if (this.childSaved) {
       this.updateAllmodels();
     }
@@ -221,13 +245,14 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
+// Scoped не ставить!!!
 @import "@/components/Sass/Varibles.sass"
 
 .fill-gaps-item
   border-radius: 10px
-  display: inline-flex
-  align-items: center
+  // display: inline-flex
+  // align-items: center
   padding: 10px
   &--correct
     background: $success_color
@@ -237,12 +262,13 @@ export default {
     color: $error_color--text
   &__title
     font-weight: bold
-    margin-right: 5px
   &__input
     outline: none
     text-align: center
     border-bottom: 1px solid #000
-    margin: 0 5px
+    margin: 0 8px
+    &:first-child
+      margin: 0
     &--correct
       color: $success_color
       border-bottom-color: $success_color
@@ -250,7 +276,10 @@ export default {
       color: $error_color
       border-bottom-color: $error_color
   &__img
-    display: inline-block
+    display: block
+    max-width: 100%
+    margin: 0 auto
+    margin-bottom: 5px
     max-height: 50px
     width: auto
 

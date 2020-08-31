@@ -69,26 +69,29 @@ export default {
     },
     check() {
       this.error = false;
-      this.$refs.gap.forEach(child => {
-        if (!this.error) {
-          this.error = child.check();
-        } else {
-          child.check();
-        }
-      });
+      if (this.$refs.gap) {
+        this.$refs.gap.forEach(child => {
+          if (!this.error) {
+            this.error = child.check();
+          } else {
+            child.check();
+          }
+        });
+      }
     },
     setDragList() {
       this.dragList = [];
-      console.log(this.inputCopy);
       this.inputCopy.body.forEach(e => {
-        e.sentence
-          .match(/\[(.*?)\]/g)
-          .forEach(word => this.dragList.push(this.clearDeeper(word)));
+        if (e.sentence.match(/\[(.*?)\]/g)) {
+          e.sentence.match(/\[(.*?)\]/g).forEach(word => {
+            this.dragList.push(word.replace("[", "").replace("]", ""));
+          });
+        }
       });
-      if (this.inputCopy.extra_words[0]) {
+      if (this.inputCopy.extra_words) {
         this.dragList = [
           ...this.dragList,
-          ...this.inputCopy.extra_words[0].split(",")
+          ...this.inputCopy.extra_words.split(",").filter(word => word)
         ];
       }
       this.dragList = this.shuffle(this.dragList);

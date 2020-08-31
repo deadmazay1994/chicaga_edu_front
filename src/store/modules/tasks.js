@@ -89,10 +89,14 @@ export default {
       state.savedTasks = [];
       state.materials = false;
       console.log(state.lesson);
+    },
+    setLessonId(state, lessonId) {
+      state.lessonId = lessonId;
     }
   },
   state: {
     lesson: [],
+    lessonId: "",
     homework: [],
     savedTasks: [],
     savedHomework: [],
@@ -120,6 +124,7 @@ export default {
     },
     teacherId: state => {
       return state.teacherId;
-    }
+    },
+    lessonId: state => state.lessonId
   }
 };

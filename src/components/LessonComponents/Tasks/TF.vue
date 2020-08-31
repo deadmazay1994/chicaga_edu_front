@@ -51,6 +51,9 @@ export default {
     check() {
       this.error = false;
       this.inputCopy.body.forEach(e => {
+        if (!e.right) {
+          e.right = false;
+        }
         if (e.correct == e.right) {
           e.error = false;
         } else {
@@ -58,15 +61,7 @@ export default {
           this.error = true;
         }
       });
-    },
-    checkQuesion() {
-      this.inputCopy.body.questions.forEach(e => {
-        if (e.answer == e.userAnswer) {
-          e.correct = true;
-        } else {
-          e.correct = false;
-        }
-      });
+      this.$forceUpdate();
     },
     statusClass(tf) {
       return {

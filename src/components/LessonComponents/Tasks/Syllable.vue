@@ -42,7 +42,7 @@ export default {
       this.correct = null;
     },
     check() {
-      if (this.input.answer == this.answer) {
+      if (this.input.slogs[this.input.answer] == this.answer) {
         this.correct = true;
       } else {
         this.correct = false;

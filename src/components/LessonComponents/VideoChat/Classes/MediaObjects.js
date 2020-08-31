@@ -24,6 +24,9 @@ export default class {
       return false;
     }
   }
+  getMyMedia() {
+    return this.medias.find(media => media.im);
+  }
   getById(id) {
     if (this.medias.find(media => media.id == id)) {
       return this.medias.find(media => media.id == id);

@@ -4,11 +4,11 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
-Vue.config.productionTip = false;
+import VueZoomer from "vue-zoomer";
 
-import PerfectScrollbar from "vue2-perfect-scrollbar";
-import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
-Vue.use(PerfectScrollbar);
+Vue.use(VueZoomer);
+
+Vue.config.productionTip = false;
 
 Vue.mixin({
   data() {
@@ -18,10 +18,19 @@ Vue.mixin({
   }
 });
 
-new Vue({
+const VueObject = new Vue({
   router,
   store,
   vuetify,
-  PerfectScrollbar,
   render: h => h(App)
 }).$mount("#app");
+
+Vue.directive("ligthbox", {
+  inserted: function(el) {
+    el.style = "cursor: pointer";
+    el.onclick = () => {
+      VueObject.$store.commit("setLightboxImg", el.src);
+      VueObject.$store.commit("toggleLightbox", true);
+    };
+  }
+});

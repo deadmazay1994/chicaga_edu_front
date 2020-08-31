@@ -64,7 +64,7 @@ export default {
           this.shuffled.push(word);
         });
       });
-      this.shuffled = this.shuffle(this.shuffled);
+      this.shuffled = this.shuffle(this.shuffled).filter(item => item);
     },
     setGropus() {
       this.inputCopy.body.forEach(group => {
@@ -80,13 +80,13 @@ export default {
       this.inputCopy.body.forEach((e, i) => {
         let error = false;
         e.words.forEach(word => {
-          if (!(this.groups[i].words.indexOf(word) + 1)) {
+          if (!(this.groups[i].words.indexOf(word) + 1) && word) {
             error = 1;
           }
         });
-        if (e.words.length != this.groups[i].words.length) {
-          error = 1;
-        }
+        // if (e.words.length != this.groups[i].words.length) {
+        //   error = 1;
+        // }
         if (error) {
           // Vue не позволяет имзенять значения массива на прямую
           this.$set(this.groups, i, { ...this.groups[i], correct: false });

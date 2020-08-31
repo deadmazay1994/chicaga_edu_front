@@ -20,7 +20,7 @@
                 class="d-flex justify-space-between align-center"
                 style="width: 100%"
               >
-                <div class="d-flex align-center">
+                <div class="d-flex align-center" style="width: 70%">
                   <v-avatar
                     size="30"
                     :color="lesson.finished ? 'success' : 'error'"
@@ -41,7 +41,7 @@
                     >
                   </div>
                 </div>
-                <div>
+                <div style="width: 30%">
                   <router-link
                     class="d-block mb-2"
                     link

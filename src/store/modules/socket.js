@@ -43,6 +43,9 @@ export default {
       state.socket.on("send errors", data => {
         commit("setSocketUserErrors", data);
       });
+    },
+    changeUserSetting({ state }, setting) {
+      state.socket.emit("change setting", setting);
     }
   },
   mutations: {

@@ -7,6 +7,7 @@
     </v-main>
     <modals />
     <snackbars />
+    <lightbox />
     <bg-component />
   </v-app>
 </template>
@@ -17,6 +18,9 @@ import Modals from "@/components/Base/Modals";
 import Snackbars from "@/components/Base/Snackbars";
 import Navigation from "@/components/Lk/Navigation";
 import BgComponent from "@/components/Base/Background";
+import Lightbox from "@/components/Base/Lightbox";
+
+import Magnifier from "@/directives/magnifier.js";
 
 import { mapGetters } from "vuex";
 
@@ -32,10 +36,14 @@ export default {
     Modals,
     Snackbars,
     Navigation,
-    BgComponent
+    BgComponent,
+    Lightbox
   },
   computed: {
     ...mapGetters(["user"])
+  },
+  directives: {
+    ...Magnifier
   },
   async beforeMount() {
     // Если у пользователя есть токен, то авторизация происходит при помощи него
@@ -78,4 +86,26 @@ body
   height: auto
 .rotate-180
   transform: rotate(180deg)
+.pre
+  white-space: pre-wrap
+  white-space: -moz-pre-wrap
+  white-space: -pre-wrap
+  white-space: -o-pre-wrap
+  word-wrap: break-word
+</style>
+
+// Magnifier
+<style>
+.img-magnifier-container {
+  position: relative;
+}
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
 </style>

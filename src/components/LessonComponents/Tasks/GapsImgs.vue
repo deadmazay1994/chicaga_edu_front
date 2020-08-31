@@ -8,7 +8,12 @@
         </th>
       </tr>
       <tr v-for="(item, i) in tasks" :key="i + 'a'">
-        <td class="table-item" v-for="(task, j) in item" :key="j + 'b'">
+        <td
+          class="table-item"
+          style="cursor: initial"
+          v-for="(task, j) in item"
+          :key="j + 'b'"
+        >
           <gap
             @sendChanges="onChange"
             ref="gap"
@@ -38,13 +43,13 @@ export default {
     return {
       shuffled: [],
       inputCopy: {},
-      error: true
+      error: false
     };
   },
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
     check() {
-      this.error = true;
+      this.error = false;
       this.$refs.gap.forEach(child => {
         if (!this.error) {
           this.error = child.check();

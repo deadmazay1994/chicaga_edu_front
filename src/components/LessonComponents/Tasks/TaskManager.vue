@@ -12,6 +12,7 @@ import GapsImgs from "./GapsImgs";
 import Attachs from "./Attachs";
 import Results from "./Results";
 import CheckBtn from "./CheckBtn";
+import YoutubeAddons from "./YoutubeAddons";
 
 import { mapGetters } from "vuex";
 
@@ -69,6 +70,9 @@ export default {
   },
   methods: {
     setTaskNum() {
+      let addonsType = ["youtube_addons", "lesson_addons_files"];
+      const inAddons = taskType =>
+        addonsType.find(task => (task == taskType ? true : false));
       if (this.input) {
         let ifSaved = typeof this.saved != "object";
         let ifHomeworkSaved = typeof this.savedHomework != "object";
@@ -77,15 +81,16 @@ export default {
           (!ifSaved && this.type == "lesson") ||
           (!ifHomeworkSaved && this.type == "homework")
         ) {
-          addonsNum = this.input.filter(
-            task => task.type == "lesson_addons_files"
-          ).length;
+          addonsNum = this.input.filter(task => inAddons(task.type)).length;
         } else {
-          addonsNum = this.input.filter(
-            task => task.inputCopy.type == "lesson_addons_files"
-          ).length;
+          addonsNum = this.input.filter(task => inAddons(task.inputCopy.type))
+            .length;
         }
         this.tasksNum = this.input.length - addonsNum;
+      } else if (this.saved) {
+        let addonsNum = this.saved.filter(task => inAddons(task.inputCopy.type))
+          .length;
+        this.tasksNum = this.saved.length - addonsNum;
       }
     },
     check() {
@@ -94,6 +99,7 @@ export default {
         if (task.check) {
           task.check();
         }
+        // console.log(task, task.check)
         if (task.error != undefined) {
           this.errorCounter += Number(task.error);
         }
@@ -161,8 +167,12 @@ export default {
         case "insert_skipped_word":
           res = h("fill-gaps", attrs, slots);
           break;
+        case "youtube_addons":
+          res = h("youtubeAddons", attrs, slots);
+          break;
         case "lesson_addons_files":
           res = h("attachs", attrs, slots);
+          break;
       }
       return res;
     },
@@ -217,7 +227,6 @@ export default {
               }
             }
           }
-          console.log(task.$refs);
         });
       }
       if (this.socket) {
@@ -259,7 +268,8 @@ export default {
     GapsImgs,
     Attachs,
     Results,
-    CheckBtn
+    CheckBtn,
+    YoutubeAddons
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: {},
@@ -267,9 +277,12 @@ export default {
     this.onSendTask();
     this.onSendAllTasks();
     this.$parent.$on("saveTasks", this.saveTasks);
-    console.log(this);
   }
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.tasks
+  &__task
+    overflow: auto
+</style>

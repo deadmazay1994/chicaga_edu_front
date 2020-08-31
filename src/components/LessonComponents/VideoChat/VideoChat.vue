@@ -35,7 +35,7 @@ import Peer from "simple-peer";
 import P from "peerjs";
 
 import Medias from "./Classes/MediaObjects";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "video-chat",
@@ -96,7 +96,6 @@ export default {
       },
       activeVideoIndex: 0,
       // Connection data
-      lessonId: "lessonId",
       initiator: false,
       medias: new Medias(),
       mediaObjects: [],
@@ -114,6 +113,7 @@ export default {
   },
   methods: {
     ...mapActions(["socketConnect", "toggleChannel"]),
+    ...mapMutations(["setLessonId"]),
     // Логика переключения FullSize
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
@@ -135,10 +135,21 @@ export default {
         this.medias.getById(data.id).audioOff = data.state;
       });
     },
-    // Логика подключения
-    setLessonId() {
-      this.lessonId = this.$route.params.id;
+    onChangeSettings() {
+      this.socket.on("on change settings", data => {
+        if (data.data.toAllUsers) {
+          this.medias.getMyMedia()[data.data.name] = data.data.val;
+        }
+        let user = this.medias.getById(data.id);
+        if (user) {
+          if (data.data.name in user) {
+            user[data.data.name] = data.data.val;
+            console.log(data.data);
+          }
+        }
+      });
     },
+    // Логика подключения
     joinToChat() {
       // Удаляем все прошлые подключения
       this.peers = [];
@@ -198,8 +209,8 @@ export default {
     getMedia(callback) {
       navigator.mediaDevices
         .getUserMedia({
-          // video: { width: 102, height: 76 },
-          video: { width: 1024, height: 768 },
+          video: { width: 102, height: 76 },
+          // video: { width: 1024, height: 768 },
           audio: true
         })
         .then(stream => {
@@ -468,7 +479,7 @@ export default {
     },
     onConnectToGroup() {
       this.socket.on("connect to group", data => {
-        this.lessonId = data.roomId;
+        this.setLessonId(data.roomId);
         this.medias = new Medias();
         this.joinToChat();
         // console.log(this.$route.params.id + data.groupName)
@@ -477,11 +488,12 @@ export default {
     },
     onReturnInGroup() {
       this.socket.on("on return in group", () => {
-        this.lessonId = this.$route.params.id;
+        this.setLessonId(this.$route.params.id);
         this.medias = new Medias();
         this.joinToChat();
       });
     },
+
     pingpong() {
       this.socket.on("ping", () => {
         this.socket.emit("pong");
@@ -489,7 +501,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "user"]),
+    ...mapGetters(["socket", "user", "lessonId"]),
     activeMedia() {
       if (this.activeVideoIndex in this.medias.medias) {
         return this.medias.medias[this.activeVideoIndex];
@@ -502,7 +514,7 @@ export default {
   },
   mounted() {
     MediaStream.prototype.user = null;
-    this.setLessonId();
+    this.setLessonId(this.$route.params.id);
     this.onSendUsers();
     this.onGetMsg();
     this.onConnectToGroup();
@@ -510,6 +522,7 @@ export default {
     this.onToggleMicroSocket();
     this.onReturnInGroup();
     this.onUserDisconnect();
+    this.onChangeSettings();
     this.joinToChat();
     this.pingpong();
   }
