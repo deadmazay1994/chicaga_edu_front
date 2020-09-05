@@ -254,6 +254,8 @@ export default {
   // display: inline-flex
   // align-items: center
   padding: 10px
+  width: calc( 100% - 40px )
+  margin-left: 8px
   &--correct
     background: $success_color
     color: $success_color--text

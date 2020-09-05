@@ -97,6 +97,8 @@ export default {
       // Сбрасываем соеденение с сокетом
       this.socket.disconnect();
       this.setSocket(Io(this.socketUrl));
+      // Перезагружаем страницу, чтобы уж точно сбросить соеденение
+      location.reload();
     } else {
       next(false);
     }

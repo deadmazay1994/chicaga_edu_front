@@ -1,10 +1,12 @@
 <template>
   <div class="comparison vue-component">
     <description>{{ inputCopy.description }}</description>
-    <div class="d-flex">
+    <div class="d-flex" ref="colsWrap">
       <div class="comp__col">
-        <div class="table-title">{{ inputCopy.addons.t1 }}</div>
-        <draggable :list="l1" @change="reset">
+        <div class="table-title" v-if="inputCopy.addons.t1">
+          {{ inputCopy.addons.t1 }}
+        </div>
+        <draggable :list="l1" @change="onChange">
           <div
             class="comp__item table-item"
             :class="statusClass(i)"
@@ -16,7 +18,9 @@
         </draggable>
       </div>
       <div class="comp__col">
-        <div class="table-title">{{ inputCopy.addons.t2 }}</div>
+        <div class="table-title" v-if="inputCopy.addons.t2">
+          {{ inputCopy.addons.t2 }}
+        </div>
         <draggable :list="l2" @change="onChange">
           <div
             class="comp__item table-item"
@@ -84,13 +88,42 @@ export default {
       };
     },
     onChange() {
+      this.resetHeight();
       this.reset();
       this.onChangeTask();
+      this.setRowHeights();
     },
     reset() {
       for (let i = 0; i < this.res.length; i++) {
         this.$set(this.res, i, null);
       }
+    },
+    resetHeight() {
+      if ("querySelectorAll" in this.$refs.colsWrap) {
+        this.$refs.colsWrap.querySelectorAll(".comp__item").forEach(item => {
+          item.style.height = "auto";
+        });
+      }
+    },
+    setRowHeights() {
+      let cols = this.$refs.colsWrap.querySelectorAll(".comp__col");
+      cols[0].querySelectorAll(".comp__item").forEach((item, index) => {
+        let maxH = this.getMaxHeightColsInRow(item, cols, index);
+        cols.forEach(col => {
+          col.querySelectorAll(".comp__item")[index].style.height = maxH + "px";
+        });
+      });
+    },
+    getMaxHeightColsInRow(first, cols, rowIndex) {
+      let maxHeight = first.offsetHeight;
+      for (let i = 1; i < cols.length; i++) {
+        let currentrCol = cols[i].querySelectorAll(".comp__item")[rowIndex];
+        maxHeight =
+          currentrCol.offsetHeight > maxHeight
+            ? currentrCol.offsetHeight
+            : maxHeight;
+      }
+      return maxHeight;
     }
   },
   computed: {
@@ -105,7 +138,13 @@ export default {
   beforeMount() {
     this.setInputCopy();
     this.setShuffled();
-    console.log(this.input);
+  },
+  mounted() {
+    this.setRowHeights();
+    window.addEventListener("resize", () => {
+      this.resetHeight();
+      this.setRowHeights();
+    });
   }
 };
 </script>

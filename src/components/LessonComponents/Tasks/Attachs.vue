@@ -2,7 +2,9 @@
 import VuetifyAudio from "vuetify-audio";
 
 import Methods from "@/mixins/tasks";
-import Magnifier from "@/mixins/magnifier";
+import MediaEvents from "@/mixins/mediaEvents";
+import Magnifier from "@/directives/magnifier";
+import Zoom from "@/directives/zoom";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -39,19 +41,32 @@ export default {
           switch (this.getFileType(e.file_type)) {
             case "image":
               components.push(
-                <img
-                  class="response-content"
-                  vLigthbox
-                  vMagnifier
-                  src={this.getFileName(e.file_name)}
-                />
+                // Подгружаем, чтобы узнать размеры изображения
+                <div style="position: relative">
+                  <img
+                    src={this.getFileName(e.file_name)}
+                    style="opacity: 1"
+                    class="response-content"
+                  />
+                </div>
               );
+              //               <div
+              //   class="response-content attachs__img"
+              //   vZoom
+              //   style={
+              //     "background-image: url(" +
+              //     this.getFileName(e.file_name) +
+              //     ")"
+              //   }
+              // />
               break;
             case "video":
               components.push(
                 <video
                   class="response-content"
                   controls="true"
+                  ref="video"
+                  refInFor={true}
                   src={this.getFileName(e.file_name)}
                 />
               );
@@ -70,50 +85,34 @@ export default {
       });
       return components;
     },
-    addEventsToAudio() {
+    addEventsToMedia() {
       if (this.$refs.audio) {
         this.$refs.audio.forEach(audio => {
-          audio.$el
-            .querySelector("audio")
-            .addEventListener("playing", this.audioPlaying);
-          audio.$el
-            .querySelector("audio")
-            .addEventListener("pause", this.audioStoping);
+          this.addPlayPauseEvent(audio.$el.querySelector("audio"));
         });
       }
-    },
-    audioPlaying() {
-      this.$store.dispatch("changeUserSetting", {
-        name: "audioOff",
-        val: true,
-        text: "Ваш микрофон выключен",
-        snuckbarStatus: true,
-        roomId: this.lessonId
-      });
-    },
-    audioStoping() {
-      this.$store.dispatch("changeUserSetting", {
-        name: "audioOff",
-        val: false,
-        text: "Ваш микрофон включен",
-        snuckbarStatus: true,
-        roomId: this.lessonId
-      });
+      if (this.$refs.video) {
+        this.$refs.video.forEach(video => this.addPlayPauseEvent(video));
+      }
     }
   },
   computed: {
     ...mapGetters(["socket", "lessonId"])
   },
+  directives: {
+    ...Magnifier,
+    ...Zoom
+  },
   components: {
     VuetifyAudio
   },
   props: ["input", "index"],
-  mixins: [Methods, Magnifier],
+  mixins: [Methods, MediaEvents],
   beforeMount() {
     this.setInputCopy();
   },
   mounted() {
-    this.addEventsToAudio();
+    this.addEventsToMedia();
   }
 };
 </script>
@@ -122,4 +121,7 @@ export default {
 .attachs
   &__files *
     margin-top: 15px
+  &__img
+    width: 100%
+    height: 100%
 </style>

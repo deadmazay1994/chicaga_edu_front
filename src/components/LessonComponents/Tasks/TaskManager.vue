@@ -13,6 +13,7 @@ import Attachs from "./Attachs";
 import Results from "./Results";
 import CheckBtn from "./CheckBtn";
 import YoutubeAddons from "./YoutubeAddons";
+import ChooseImage from "./ChooseImage";
 
 import { mapGetters } from "vuex";
 
@@ -38,11 +39,13 @@ export default {
       // Перебираем таски из прогресса
       for (const index in this.saved) {
         const task = this.saved[index];
-        if (!task.inputCopy) {
-          console.log("Проверь задание под номером", index + 1);
-        } else {
-          let saved = this.manager(h, task, task.inputCopy.type, index);
-          tasks.push(saved);
+        if (task) {
+          if (!task.inputCopy) {
+            console.log("Проверь задание под номером", index + 1);
+          } else {
+            let saved = this.manager(h, task, task.inputCopy.type, index);
+            tasks.push(saved);
+          }
         }
       }
     } else if (this.savedHomework.length && this.type == "homework") {
@@ -88,8 +91,12 @@ export default {
         }
         this.tasksNum = this.input.length - addonsNum;
       } else if (this.saved) {
-        let addonsNum = this.saved.filter(task => inAddons(task.inputCopy.type))
-          .length;
+        let addonsNum = this.saved.filter(task => {
+          if (task) {
+            return inAddons(task.inputCopy.type);
+          }
+          return false;
+        }).length;
         this.tasksNum = this.saved.length - addonsNum;
       }
     },
@@ -173,6 +180,9 @@ export default {
         case "lesson_addons_files":
           res = h("attachs", attrs, slots);
           break;
+        case "select_correct_image_answer":
+          res = h("choose-image", attrs, slots);
+          break;
       }
       return res;
     },
@@ -197,15 +207,19 @@ export default {
     },
     updateTask(component, data) {
       // component.update(data);
-      component._data = data;
-      component.$forceUpdate();
+      if (component) {
+        component._data = data;
+        component.$forceUpdate();
+      }
     },
     updateChildComponent(component, data) {
-      let child = component.$refs[data.childRef][data.childIndex];
-      child._data = data.data;
-      child.$forceUpdate();
-      if ("customForceUpdate" in child) {
-        child.customForceUpdate(data);
+      if (component) {
+        let child = component.$refs[data.childRef][data.childIndex];
+        child._data = data.data;
+        child.$forceUpdate();
+        if ("customForceUpdate" in child) {
+          child.customForceUpdate(data);
+        }
       }
     },
     saveTasks() {
@@ -269,7 +283,8 @@ export default {
     Attachs,
     Results,
     CheckBtn,
-    YoutubeAddons
+    YoutubeAddons,
+    ChooseImage
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: {},

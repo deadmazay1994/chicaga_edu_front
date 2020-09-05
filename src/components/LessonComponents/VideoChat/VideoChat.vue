@@ -94,6 +94,7 @@ export default {
           ]
         }
       },
+      allPeers: [],
       activeVideoIndex: 0,
       // Connection data
       initiator: false,
@@ -132,7 +133,9 @@ export default {
     },
     onToggleMicroSocket() {
       this.socket.on("on toggle micro", data => {
-        this.medias.getById(data.id).audioOff = data.state;
+        if (this.medias.getById(data.id)) {
+          this.medias.getById(data.id).audioOff = data.state;
+        }
       });
     },
     onChangeSettings() {
@@ -152,7 +155,12 @@ export default {
     // Логика подключения
     joinToChat() {
       // Удаляем все прошлые подключения
-      this.peers = [];
+      console.log(this.allPeers);
+      this.allPeers.forEach(peer => {
+        console.log(peer);
+        peer.destroy();
+      });
+      this.medias = new Medias();
       // 1
       // Говорим остальным участникам чата, что мы подключились
       console.log("Пытаемся сказать, что мы тут");
@@ -209,14 +217,17 @@ export default {
     getMedia(callback) {
       navigator.mediaDevices
         .getUserMedia({
-          video: { width: 102, height: 76 },
-          // video: { width: 1024, height: 768 },
+          // video: { width: 102, height: 76 },
+          video: { width: 1024, height: 768 },
           audio: true
         })
         .then(stream => {
           callback(stream);
         })
-        .catch(() => {});
+        .catch(e => {
+          alert("Не удалось получить доступ к веб-камере");
+          console.log("Не удалось получить доступ к веб-камере по причине", e);
+        });
     },
     createPeer(stream, user = {}, initiator = false) {
       user;
@@ -232,6 +243,7 @@ export default {
           ]
         }
       });
+      this.allPeers.push(peer);
       peer.on("error", e => {
         console.log(e);
         console.log(this.medias);
@@ -337,6 +349,7 @@ export default {
           );
           data.users.forEach(user => {
             let peer = new P(this.randomStr(), this.peerServer);
+            this.allPeers.push(peer);
             // let peer = new P(user.id, this.peerServer);
             peer.on("open", () => {
               console.log(
@@ -395,6 +408,7 @@ export default {
           // Получаем предложение о соеденении
           case "inititor signal":
             var peer = new P(this.randomStr(), this.peerServer);
+            this.allPeers.push(peer);
             // var peer = new P(this.socketId, this.peerServer);
             peer.on("open", () => {
               console.log("open peer depended", data.msg.user.name);
@@ -480,7 +494,6 @@ export default {
     onConnectToGroup() {
       this.socket.on("connect to group", data => {
         this.setLessonId(data.roomId);
-        this.medias = new Medias();
         this.joinToChat();
         // console.log(this.$route.params.id + data.groupName)
         // this.toggleChannel(this.$route.params.id + "___" + data.groupName);
@@ -489,7 +502,6 @@ export default {
     onReturnInGroup() {
       this.socket.on("on return in group", () => {
         this.setLessonId(this.$route.params.id);
-        this.medias = new Medias();
         this.joinToChat();
       });
     },

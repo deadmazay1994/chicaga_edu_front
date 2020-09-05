@@ -16,7 +16,7 @@
       </v-col>
     </v-row>
     <div
-      class="d-flex align-center"
+      class="d-flex align-center flex-wrap"
       v-for="(group, index) in task.shuffled"
       :key="index"
     >

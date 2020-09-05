@@ -20,8 +20,6 @@ import Navigation from "@/components/Lk/Navigation";
 import BgComponent from "@/components/Base/Background";
 import Lightbox from "@/components/Base/Lightbox";
 
-import Magnifier from "@/directives/magnifier.js";
-
 import { mapGetters } from "vuex";
 
 export default {
@@ -41,9 +39,6 @@ export default {
   },
   computed: {
     ...mapGetters(["user"])
-  },
-  directives: {
-    ...Magnifier
   },
   async beforeMount() {
     // Если у пользователя есть токен, то авторизация происходит при помощи него
@@ -92,6 +87,8 @@ body
   white-space: -pre-wrap
   white-space: -o-pre-wrap
   word-wrap: break-word
+.zoom-wrapper
+  overflow: auto
 </style>
 
 // Magnifier
