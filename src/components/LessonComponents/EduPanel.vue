@@ -4,6 +4,7 @@
       <v-tab>{{ taskTabTitle }}</v-tab>
       <v-tab>Чат</v-tab>
       <v-tab>Материалы урока</v-tab>
+      <v-tab>Домашнее задание</v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item class="edu-panel__tasks">
@@ -20,6 +21,9 @@
           :input="material"
           class="mx-5"
         />
+      </v-tab-item>
+      <v-tab-item class="edu-panel__tasks">
+        <tasks :isHomework="true" :noAddAtempt="true" class="mt-7" />
       </v-tab-item>
     </v-tabs-items>
   </div>
