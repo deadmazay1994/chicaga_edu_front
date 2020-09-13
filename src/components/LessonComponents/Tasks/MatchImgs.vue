@@ -9,7 +9,7 @@
         v-for="(group, index) in task.shuffled"
         :key="index"
       >
-        <v-img contain :src="IMGSTORE + group.img" />
+        <v-img v-zoom contain :src="IMGSTORE + group.img" />
         <span :class="answeredImg(index)" class="img-index white--text">{{
           index + 1
         }}</span>
@@ -48,6 +48,7 @@
 import Description from "./TasksDescription";
 import Gap from "./FillGapsItem";
 
+import Zoom from "@/directives/zoom";
 import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
@@ -135,6 +136,9 @@ export default {
   components: {
     Description,
     Gap
+  },
+  directives: {
+    ...Zoom
   },
   props: ["input", "index", "childSaved"],
   mixins: [Methods],

@@ -10,6 +10,7 @@ import dictionary from "./modules/dictionary";
 import tasks from "./modules/tasks";
 import socket from "./modules/socket";
 import lightbox from "./modules/lightbox";
+import videoChat from "./modules/video_chat";
 
 Vue.use(Vuex);
 
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     dictionary,
     tasks,
     socket,
-    lightbox
+    lightbox,
+    videoChat
   }
 });

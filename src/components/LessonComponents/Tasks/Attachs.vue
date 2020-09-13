@@ -7,6 +7,8 @@ import Magnifier from "@/directives/magnifier";
 import Zoom from "@/directives/zoom";
 import { mapGetters, mapMutations } from "vuex";
 
+import { VImg } from "vuetify/lib";
+
 export default {
   name: "attachs",
   render() {
@@ -27,7 +29,13 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask", "saveChildTask", "user"]),
+    ...mapMutations([
+      "saveTask",
+      "saveChildTask",
+      "user",
+      "setVideoOff",
+      "setAudioOff"
+    ]),
     getFileName(filename) {
       return this.IMGSTORE + filename;
     },
@@ -41,14 +49,7 @@ export default {
           switch (this.getFileType(e.file_type)) {
             case "image":
               components.push(
-                // Подгружаем, чтобы узнать размеры изображения
-                <div style="position: relative">
-                  <img
-                    src={this.getFileName(e.file_name)}
-                    style="opacity: 1"
-                    class="response-content"
-                  />
-                </div>
+                <v-img src={this.getFileName(e.file_name)} vZoom />
               );
               //               <div
               //   class="response-content attachs__img"
@@ -104,7 +105,8 @@ export default {
     ...Zoom
   },
   components: {
-    VuetifyAudio
+    VuetifyAudio,
+    VImg
   },
   props: ["input", "index"],
   mixins: [Methods, MediaEvents],

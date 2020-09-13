@@ -8,7 +8,6 @@
         :indexVideo="activeVideoIndex"
         :active="true"
         @toggleFullSize="onFullSizeToggle"
-        @toggleCamera="onToggleCamera"
         @toggleMicro="onToggleMicro"
       />
     </div>
@@ -20,7 +19,6 @@
           :mediaObject="mediaObject"
           :indexVideo="index"
           @toggleFullSize="onFullSizeToggle"
-          @toggleCamera="onToggleCamera"
           @toggleMicro="onToggleMicro"
           :key="index"
         />
@@ -31,10 +29,8 @@
 
 <script>
 import VideoComponent from "./VideoComponent";
-import Peer from "simple-peer";
-import P from "peerjs";
+import Peer from "peerjs";
 
-import Medias from "./Classes/MediaObjects";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
@@ -45,6 +41,9 @@ export default {
         host: "edu.chicaga.ru",
         port: 8000,
         secure: true,
+        iceTransportPolicy: "relay",
+        debug: 3,
+        sdpSemantics: "unified-plan",
         config: {
           iceServers: [
             { url: "stun:stun01.sipphone.com" },
@@ -66,6 +65,7 @@ export default {
             { url: "stun:stun.voipstunt.com" },
             { url: "stun:stun.voxgratia.org" },
             { url: "stun:stun.xten.com" },
+            { url: "stun:45.90.32.84:3478" },
             {
               url: "turn:numb.viagenie.ca",
               credential: "muazkh",
@@ -90,15 +90,23 @@ export default {
               url: "turn:turn.anyfirewall.com:443?transport=tcp",
               credential: "webrtc",
               username: "webrtc"
+            },
+            {
+              url: "turn:45.90.32.84:3478",
+              credential: "edupassword",
+              username: "chicaga"
+            },
+            {
+              url: "turn:45.90.32.84:3478?transport=tcp",
+              credential: "edupassword",
+              username: "chicaga"
             }
           ]
         }
       },
-      allPeers: [],
       activeVideoIndex: 0,
       // Connection data
       initiator: false,
-      medias: new Medias(),
       mediaObjects: [],
       peers: [],
       id: false,
@@ -114,7 +122,7 @@ export default {
   },
   methods: {
     ...mapActions(["socketConnect", "toggleChannel"]),
-    ...mapMutations(["setLessonId"]),
+    ...mapMutations(["setLessonId", "destroyPeers", "initMedias"]),
     // Логика переключения FullSize
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
@@ -125,7 +133,9 @@ export default {
     },
     onToggleCameraSocket() {
       this.socket.on("on toggle camera", data => {
-        this.medias.getById(data.id).videoOff = data.state;
+        if (this.medias.getById(data.id)) {
+          this.medias.getById(data.id).videoOff = data.state;
+        }
       });
     },
     onToggleMicro(state) {
@@ -155,12 +165,8 @@ export default {
     // Логика подключения
     joinToChat() {
       // Удаляем все прошлые подключения
-      console.log(this.allPeers);
-      this.allPeers.forEach(peer => {
-        console.log(peer);
-        peer.destroy();
-      });
-      this.medias = new Medias();
+      this.destroyPeers();
+      this.initMedias();
       // 1
       // Говорим остальным участникам чата, что мы подключились
       console.log("Пытаемся сказать, что мы тут");
@@ -182,26 +188,6 @@ export default {
           .substring(2, 15)
       );
     },
-    createPeersForUsers(users, stream) {
-      // Создание пира для каждого подключенного юзера
-      users.forEach(user => {
-        let userId = user.id;
-        // Создаем и пушим пир в массив пиров
-        let initiator = true;
-        let peer = this.createPeer(
-          stream,
-          { id: userId, avatar: user.avatar, name: user.username },
-          initiator
-        );
-        this.intiatorOnSignal(peer, userId);
-        this.peers.push({
-          id: userId,
-          peer,
-          signaling: false
-        });
-      });
-      this.onUserDisconnect();
-    },
     createMyVideo(stream) {
       this.medias.push({
         im: true,
@@ -218,8 +204,10 @@ export default {
       navigator.mediaDevices
         .getUserMedia({
           // video: { width: 102, height: 76 },
-          video: { width: 1024, height: 768 },
+          // video: { width: 1024, height: 768 },
+          video: { width: 624, height: 480 },
           audio: true
+          // video: !this.videoOff ? { width: 102, height: 76 } : false
         })
         .then(stream => {
           callback(stream);
@@ -228,37 +216,6 @@ export default {
           alert("Не удалось получить доступ к веб-камере");
           console.log("Не удалось получить доступ к веб-камере по причине", e);
         });
-    },
-    createPeer(stream, user = {}, initiator = false) {
-      user;
-      let peer = new Peer({
-        initiator,
-        stream,
-        trickle: true,
-        allowHalfTrickle: true,
-        config: {
-          iceServers: [
-            { urls: "stun:stun.l.google.com:19302" },
-            { urls: "stun:global.stun.twilio.com:3478?transport=udp" }
-          ]
-        }
-      });
-      this.allPeers.push(peer);
-      peer.on("error", e => {
-        console.log(e);
-        console.log(this.medias);
-        // this.getMedia(stream => {
-
-        // })
-        // location.reload();
-        // this.medias = new Medias();
-        // this.joinToChat();
-      });
-      peer.on("connect", () => {
-        console.log("connect");
-      });
-      console.log("Создали пир", initiator ? "Инитатор" : "Не инитатор");
-      return peer;
     },
     getUserById(id) {
       for (var i in this.users) {
@@ -275,18 +232,6 @@ export default {
         id,
         roomId: this.lessonId
       });
-    },
-    createDependedPeer(stream, data) {
-      let peer = this.createPeer(stream, {
-        id: data.msg.sender,
-        avatar: data.msg.avatar,
-        name: data.msg.username
-      });
-      this.dependentPeers.push({
-        peer,
-        id: data.msg.sender
-      });
-      return peer;
     },
     getDependedPeer(stream, data) {
       let peer = this.dependentPeers.find(peer => peer.id == data.msg.sender);
@@ -328,12 +273,6 @@ export default {
       // Сервер отправляет всех участников чата
       this.socket.on("send users", data => {
         console.log("Получаем всех юзеров в чате");
-        console.log(data);
-        // data = {
-        // senderId,
-        // users
-        // socketId:
-        // }
         // Записываем свой socket id
         this.socketId = data.socketId;
         // Получаем свое изображение и звук
@@ -341,16 +280,19 @@ export default {
           this.users = data.users;
           this.createMyVideo(stream);
           // Для каждого юзера создаем пир
-          // this.createPeersForUsers(data.users, stream);
           console.log(
             data.users,
             "количество пользователей",
             data.users.length
           );
           data.users.forEach(user => {
-            let peer = new P(this.randomStr(), this.peerServer);
+            let peer = new Peer(this.randomStr(), this.peerServer);
+            peer.on("error", e => {
+              console.log("Соеденение закрыто по причине", e);
+              console.log(peer);
+              peer.reconnect();
+            });
             this.allPeers.push(peer);
-            // let peer = new P(user.id, this.peerServer);
             peer.on("open", () => {
               console.log(
                 "Пир открылся для пользователя",
@@ -371,6 +313,7 @@ export default {
                       im: false,
                       stream,
                       id: user.id,
+                      peerId: peer.id,
                       avatar: user.avatar_link,
                       name: user.username
                     },
@@ -407,9 +350,8 @@ export default {
         switch (data.msg.name) {
           // Получаем предложение о соеденении
           case "inititor signal":
-            var peer = new P(this.randomStr(), this.peerServer);
+            var peer = new Peer(this.randomStr(), this.peerServer);
             this.allPeers.push(peer);
-            // var peer = new P(this.socketId, this.peerServer);
             peer.on("open", () => {
               console.log("open peer depended", data.msg.user.name);
               var conn = peer.connect(data.msg.peerId);
@@ -423,6 +365,7 @@ export default {
                     this.medias.push(
                       {
                         im: false,
+                        peerId: peer.id,
                         stream,
                         id: data.msg.sender,
                         avatar: data.msg.user.avatar_link,
@@ -436,51 +379,8 @@ export default {
               });
             });
             break;
-          case "signaling initiator":
-            // 4
-            this.getMedia(stream => {
-              let depended = this.getDependedPeer(stream, data);
-              let peer = depended.peer;
-              // Как только просигналили,
-              // if (depended.isNewPeer) {
-              peer.on("signal", signal => {
-                console.log("Получили сигнал инитатора");
-                // Отправляем инитатору ответный сигнал
-                console.log("Отправляеум ответный сигнал ", data.msg.forPeer);
-                this.sendMsgToUser(
-                  {
-                    sendeId: this.id,
-                    sender: this.socketId,
-                    signal,
-                    name: "signaling answer",
-                    forPeer: data.msg.forPeer
-                  },
-                  data.msg.sender
-                );
-              });
-              // }
-              peer.signal(data.msg.signal);
-            });
-            break;
-          case "signaling answer":
-            console.log("Получили сигнал ответа");
-            // 5
-            // Получаем ответный сигнал от пира и соеденеяемся с ним
-            // if (data.msg.signal.type == "answer") {
-            if (this.getPeerById(data.msg.forPeer)) {
-              console.log(this.getPeerById(data.msg.forPeer));
-              this.getPeerById(data.msg.forPeer).peer.signal(data.msg.signal);
-              console.log("Использовали сигнал ответа");
-            }
-            // }
-            break;
         }
       });
-    },
-    disconnectPeers() {
-      this.peers.forEach(peer => peer.peer.destroy());
-      this.medias = false;
-      this.$forceUpdate();
     },
     getPeerById(id) {
       return this.peers.find(peer => peer.id == id);
@@ -505,7 +405,6 @@ export default {
         this.joinToChat();
       });
     },
-
     pingpong() {
       this.socket.on("ping", () => {
         this.socket.emit("pong");
@@ -513,7 +412,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "user", "lessonId"]),
+    ...mapGetters([
+      "socket",
+      "user",
+      "lessonId",
+      "videoOff",
+      "allPeers",
+      "medias"
+    ]),
     activeMedia() {
       if (this.activeVideoIndex in this.medias.medias) {
         return this.medias.medias[this.activeVideoIndex];
@@ -525,7 +431,6 @@ export default {
     VideoComponent
   },
   mounted() {
-    MediaStream.prototype.user = null;
     this.setLessonId(this.$route.params.id);
     this.onSendUsers();
     this.onGetMsg();

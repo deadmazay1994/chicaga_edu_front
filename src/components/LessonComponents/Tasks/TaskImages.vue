@@ -24,6 +24,7 @@
             </div>
           </div>
           <v-img
+            v-zoom
             :src="IMGSTORE + tasks.name"
             lazy-src="data:image/gif;base64,R0lGODlhBgAFAIAAAP///wAAACH5BAEAAAEALAAAAAAGAAUAAAIFjI+pawUAOw=="
             contain
@@ -41,6 +42,7 @@ import Description from "./TasksDescription";
 import "@/mixins/methods";
 import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
+import Zoom from "@/directives/zoom";
 
 export default {
   name: "task-images",
@@ -104,6 +106,9 @@ export default {
   },
   components: {
     Description
+  },
+  directives: {
+    ...Zoom
   },
   props: ["input", "index"],
   mixins: [Methods],

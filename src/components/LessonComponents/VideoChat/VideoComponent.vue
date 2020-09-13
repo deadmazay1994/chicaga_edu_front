@@ -49,6 +49,8 @@ import Speaker from "@/components/Icons/Speaker.vue";
 import MuteMicro from "@/components/Icons/Mute.vue";
 import Camera from "@/components/Icons/Camera.vue";
 
+import { mapActions } from "vuex";
+
 export default {
   name: "video-component",
   data: function() {
@@ -61,6 +63,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setVideoOff", "setAudioOff"]),
     toggleFullSize() {
       this.$emit("toggleFullSize", this.indexVideo);
     },
@@ -79,11 +82,11 @@ export default {
     },
     toggleCamera() {
       this.mediaObject.videoOff = !this.mediaObject.videoOff;
-      this.$emit("toggleCamera", this.mediaObject.videoOff);
+      this.setVideoOff(this.mediaObject.videoOff);
     },
     toggleMicro() {
       this.mediaObject.audioOff = !this.mediaObject.audioOff;
-      this.$emit("toggleMicro", this.mediaObject.audioOff);
+      this.setAudioOff(this.mediaObject.audioOff);
     },
     setStream(stream = this.mediaObject.stream) {
       let video = this.$refs.video;
@@ -94,17 +97,17 @@ export default {
       }
       video.play();
     },
-    videoOff() {
-      // if (this.mediaObject.videoOff) {
-      //   this.$refs.video.pause();
-      //   this.setStream(null);
-      //   console.log(1);
-      // } else {
-      //   this.setStream();
-      //   this.$refs.video.play();
-      //   console.log(2);
-      // }
-    },
+    // videoOff() {
+    //   // if (this.mediaObject.videoOff) {
+    //   //   this.$refs.video.pause();
+    //   //   this.setStream(null);
+    //   //   console.log(1);
+    //   // } else {
+    //   //   this.setStream();
+    //   //   this.$refs.video.play();
+    //   //   console.log(2);
+    //   // }
+    // },
     audioOff() {
       if (!this.mediaObject.im) {
         if (this.mediaObject.audioOff) {
@@ -117,13 +120,8 @@ export default {
   },
   computed: {},
   watch: {
-    "mediaObject.videoOff": function() {
-      this.videoOff();
-      this.$emit("toggleCamera", this.mediaObject.videoOff);
-    },
     "mediaObject.audioOff": function() {
       this.audioOff();
-      this.$emit("toggleMicro", this.mediaObject.audioOff);
     },
     "mediaObject.id": function() {
       this.setStream();
@@ -141,7 +139,6 @@ export default {
   mounted() {
     this.setStream();
     this.mutingMe();
-    this.videoOff();
     this.audioOff();
   }
 };

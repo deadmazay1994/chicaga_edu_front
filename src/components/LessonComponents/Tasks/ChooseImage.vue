@@ -11,6 +11,7 @@
         <v-img
           class="choose-img__img"
           :src="IMGSTORE + answer.image"
+          v-zoom
           :class="{
             'choose-img__img--correct': answer.correctAnsewered == true,
             'choose-img__img--uncorrect': answer.correctAnsewered == false
@@ -34,6 +35,7 @@ import Tick from "@/components/Icons/Tick";
 
 import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
+import Zoom from "@/directives/zoom";
 
 export default {
   name: "choose-img",
@@ -79,6 +81,9 @@ export default {
   components: {
     Description,
     Tick
+  },
+  directives: {
+    ...Zoom
   },
   props: ["input", "saved", "index"],
   mixins: [Methods],

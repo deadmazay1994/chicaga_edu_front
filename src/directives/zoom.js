@@ -1,34 +1,20 @@
 export default {
   zoom: {
     inserted: function(el) {
+      el.style.cursor = "pointer";
       let clicked = false;
       const k = 2;
       el.addEventListener("dblclick", function() {
         if (clicked) {
-          addStyles(el.parentElement, {
-            width: "auto",
-            height: "auto"
-          });
-          addStyles(el, {
-            width: el.offsetWidth / k + "px",
-            height: el.offsetHeight / k + "px",
-            "max-width": "100%"
-          });
-          clicked = false;
+          el.classList.remove("zoom-wrapper");
+          el.querySelector(".v-image__image").style.backgroundSize = 100 + "%";
           el.removeEventListener("mousemove", navigateBuyMouse);
-          el.parentElement.classList.remove("zoom-wrapper");
+          clicked = false;
         } else {
-          addStyles(el.parentElement, {
-            width: el.parentElement.offsetWidth + "px",
-            height: el.parentElement.offsetHeight + "px"
-          });
-          addStyles(el, {
-            width: el.offsetWidth * k + "px",
-            height: el.offsetHeight * k + "px",
-            "max-width": "ineterit"
-          });
-          el.parentElement.classList.add("zoom-wrapper");
-          el.parentElement.addEventListener("mousemove", navigateBuyMouse);
+          el.querySelector(".v-image__image").style.backgroundSize =
+            k * 100 + "%";
+          el.classList.add("zoom-wrapper");
+          el.addEventListener("mousemove", navigateBuyMouse);
           clicked = true;
         }
       });
@@ -36,19 +22,27 @@ export default {
   }
 };
 
-function addStyles(el, styles) {
-  for (const name in styles) {
-    el.style = name + ": " + styles[name];
-  }
-}
+// function addStyles(el, styles) {
+//   for (const name in styles) {
+//     el.style = name + ": " + styles[name];
+//   }
+// }
 
 function navigateBuyMouse(e) {
-  const t = e.currentTarget;
-  const xx = Math.min(1, e.clientX / t.clientWidth);
-  const yy = Math.min(1, e.clientY / t.clientHeight);
-  const block = document.querySelector(".zoom-wrapper");
-  if (block) {
-    block.scrollLeft = (t.scrollWidth - t.clientWidth) * xx;
-    block.scrollTop = (t.scrollHeight - t.clientHeight) * yy;
-  }
+  let coords = e.target.getBoundingClientRect();
+  let xMin = coords.left;
+  let yMin = coords.top;
+  let newPosX = (e.clientX - xMin) / coords.width;
+  let newPosY = (e.clientY - yMin) / coords.height;
+  let positionX = newPosX * 120 + "%";
+  let positionY = newPosY * 120 + "%";
+  let img = document.querySelector(".zoom-wrapper .v-image__image");
+  img.style.backgroundPosition = positionX + " " + positionY;
+  // const xx = Math.min(1, e.clientX / t.clientWidth);
+  // const yy = Math.min(1, e.clientY / t.clientHeight);
+  // const block = document.querySelector(".zoom-wrapper");
+  // if (block) {
+  //   block.scrollLeft = (t.scrollWidth - t.clientWidth) * xx;
+  //   block.scrollTop = (t.scrollHeight - t.clientHeight) * yy;
+  // }
 }

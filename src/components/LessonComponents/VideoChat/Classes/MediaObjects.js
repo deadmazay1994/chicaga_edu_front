@@ -41,7 +41,6 @@ export default class {
         return i;
       }
     }
-    console.log("This user does't exitst ", id);
   }
   delete(id) {
     console.log(id, this.medias);
@@ -62,5 +61,6 @@ class myMedia {
     this.videoOff = data.videoOff;
     this.avatar = data.avatar;
     this.name = data.name;
+    this.peerId = data.peerId || "has no peer";
   }
 }
