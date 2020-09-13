@@ -3,26 +3,20 @@ import api from "@/mixins/api";
 export default {
   namespaces: true,
   actions: {
-    async setMyCourses({ commit, state }) {
-      // Если мы еще не получили курсы, то получаем их
-      if (!state.myCourses.length) {
-        let response = await api.methods.getMyCourses();
-        console.log(response);
-        let data = response.data;
-        // Даем понять фронту, что курс куплен
-        data.map(e => (e.buyed = true));
-        commit("setMyCourses", data);
-      }
+    async setMyCourses({ commit }) {
+      let response = await api.methods.getMyCourses();
+      console.log(response);
+      let data = response.data;
+      // Даем понять фронту, что курс куплен
+      data.map(e => (e.buyed = true));
+      commit("setMyCourses", data);
     },
-    async setCatalogCourses({ commit, state }) {
-      // Если мы еще не получили курсы, то получаем их
-      if (!state.catalogCourses.length) {
-        let response = await api.methods.getCatalogCaourses();
-        let data = response.data;
-        // Даем понять фронту, что курс не куплен
-        data.map(e => (e.buyed = false));
-        commit("setCatalogCourse", data);
-      }
+    async setCatalogCourses({ commit }) {
+      let response = await api.methods.getCatalogCaourses();
+      let data = response.data;
+      // Даем понять фронту, что курс не куплен
+      data.map(e => (e.buyed = false));
+      commit("setCatalogCourse", data);
     },
     async setAllCourses({ dispatch, commit }) {
       await dispatch("setMyCourses");
