@@ -1,6 +1,6 @@
 <template>
   <div class="tf-task vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <table>
       <tr v-for="(tf, index) in inputCopy.body" :key="index">
         <td class="table-item" :class="statusClass(tf)">

@@ -1,6 +1,6 @@
 <template>
   <div class="selection-box vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <table>
       <tr v-if="!underline">
         <td class="table-title"></td>

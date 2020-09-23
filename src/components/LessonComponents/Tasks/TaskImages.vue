@@ -1,6 +1,6 @@
 <template>
   <div class="task-image-numbers">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <v-row>
       <v-col
         lg="6"

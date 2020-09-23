@@ -72,5 +72,5 @@ export default {
 .edu-panel
   overflow: auto
   &__tasks
-    padding: 15px 30px
+    padding: 15px 0
 </style>

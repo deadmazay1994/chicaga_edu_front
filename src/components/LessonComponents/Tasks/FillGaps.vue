@@ -1,6 +1,6 @@
 <template>
   <div class="fill-gaps vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <v-row no-gutters class="test">
       <draggable
         v-model="dragList"

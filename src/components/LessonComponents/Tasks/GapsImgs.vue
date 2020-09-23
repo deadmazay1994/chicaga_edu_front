@@ -1,6 +1,6 @@
 <template>
   <div class="gaps-imgs vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <table>
       <tr>
         <th class="table-title" v-for="(item, i) in inputCopy.body" :key="i">

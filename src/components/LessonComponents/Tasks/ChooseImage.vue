@@ -1,6 +1,6 @@
 <template>
   <div class="choose-img vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <div v-for="(choose, i) in task" :key="i" class="choose-img__item">
       <p>{{ choose.text }}</p>
       <div

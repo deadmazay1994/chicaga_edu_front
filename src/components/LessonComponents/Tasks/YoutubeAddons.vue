@@ -1,6 +1,6 @@
 <template>
   <div class="youtube-addons vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <!-- <iframe
       v-for="(video, i) in inputCopy.body"
       class="response-content"

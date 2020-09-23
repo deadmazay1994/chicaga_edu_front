@@ -1,6 +1,6 @@
 <template>
   <div class="grouping vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <draggable
       class="d-flex"
       style="flex-wrap: wrap"

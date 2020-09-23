@@ -1,6 +1,6 @@
 <template>
   <div class="choose-syllable vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <div class="d-flex" style="flex-wrap: wrap">
       <syllable
         v-for="(sy, i) in inputCopy.body"

@@ -1,6 +1,6 @@
 <template>
   <div class="comparison vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <div class="d-flex" ref="colsWrap">
       <div class="comp__col">
         <div class="table-title" v-if="inputCopy.addons.t1">

@@ -1,6 +1,6 @@
 <template>
   <div class="task-match vue-component">
-    <description>{{ inputCopy.description }}</description>
+    <description :index="index">{{ inputCopy.description }}</description>
     <v-row style="align-items: interit; margin-bottom: 15px">
       <v-col
         cols="12"
