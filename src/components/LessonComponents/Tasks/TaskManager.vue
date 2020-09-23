@@ -14,6 +14,7 @@ import Results from "./Results";
 import CheckBtn from "./CheckBtn";
 import YoutubeAddons from "./YoutubeAddons";
 import ChooseImage from "./ChooseImage";
+import PaymentOption from "./PaymentOption/";
 
 import { mapGetters } from "vuex";
 
@@ -25,6 +26,7 @@ export default {
     // console.log((!Object.keys(this.saved).length && this.type == "lesson") ||
     //   (!Object.keys(this.savedHomework).length && this.type == "homework"))
     this.setTaskNum();
+    tasks.push(this.manager(h, "", true, 1));
     if (
       (!this.saved.length && this.type == "lesson") ||
       (!this.savedHomework.length && this.type == "homework")
@@ -183,6 +185,9 @@ export default {
         case "select_correct_image_answer":
           res = h("choose-image", attrs, slots);
           break;
+        // Для конслуьтации
+        case this.isConsultation():
+          res = h("payment-option", attrs);
       }
       return res;
     },
@@ -257,6 +262,9 @@ export default {
           task.sendTaskToTeacher(task.index, task._data);
         });
       });
+    },
+    isConsultation() {
+      return true;
     }
   },
   computed: {
@@ -284,7 +292,8 @@ export default {
     Results,
     CheckBtn,
     YoutubeAddons,
-    ChooseImage
+    ChooseImage,
+    PaymentOption
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: {},

@@ -110,13 +110,17 @@ export default {
     // Если нет, то получаем прогресс ученика
     if (!tasksForTeacher) {
       // Получаем прогресс
-      await this.setSavedTasks({
-        lessonId: this.$route.params.id,
-        courseId: this.$route.params.courseId
-      });
-      // Если прогресс пустой получаем сам урок
-      if (!this.savedTasks.length || !this.savedHomework) {
-        await this.$store.dispatch("setLesson", this.$route.params.id);
+      try {
+        await this.setSavedTasks({
+          lessonId: this.$route.params.id,
+          courseId: this.$route.params.courseId
+        });
+        // Если прогресс пустой получаем сам урок
+        if (!this.savedTasks.length || !this.savedHomework) {
+          await this.$store.dispatch("setLesson", this.$route.params.id);
+        }
+      } catch (e) {
+        e;
       }
     }
     this.loaded = true;
