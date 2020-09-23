@@ -16,17 +16,21 @@ import YoutubeAddons from "./YoutubeAddons";
 import ChooseImage from "./ChooseImage";
 import PaymentOption from "./PaymentOption/";
 
+import Choose from "./Consultation/Choose";
+import Gaps from "./Consultation/Gaps";
+
 import { mapGetters } from "vuex";
 
 export default {
   name: "task-manager",
   render(h) {
-    let tasks = [];
+    let tasks = this.renderConsultation();
+    // let tasks = [this.renderConsultation()];
     // Если прогресс пустой
     // console.log((!Object.keys(this.saved).length && this.type == "lesson") ||
     //   (!Object.keys(this.savedHomework).length && this.type == "homework"))
     this.setTaskNum();
-    tasks.push(this.manager(h, "", true, 1));
+    // tasks.push(this.manager(h, "", true, 1));
     if (
       (!this.saved.length && this.type == "lesson") ||
       (!this.savedHomework.length && this.type == "homework")
@@ -70,10 +74,71 @@ export default {
     return {
       errorCounter: 0,
       checked: false,
-      tasksNum: 0
+      tasksNum: 0,
+      consultation: [
+        {
+          type: "choose",
+          description: "Расскажите о своем опыте изучения английского языка",
+          select: [
+            {
+              img: "./imgs/icon-home.png",
+              title: "SCHOOL",
+              subtitle: "ШКОЛА"
+            },
+            {
+              img: "./imgs/icon-home.png",
+              title: "UNIVERSITY",
+              subtitle: "УНИВЕРСИТЕТ"
+            },
+            {
+              img: "./imgs/icon-home.png",
+              title: "COURSES",
+              subtitle: "КУРСЫ"
+            },
+            {
+              img: "./imgs/icon-home.png",
+              title: "TUTOR",
+              subtitle: "РЕПЕТИТОР"
+            }
+          ]
+        },
+        {
+          type: "gaps",
+          description: "Аудиотест",
+          audio: "https://edu.chicaga.ru/public/images/_5f5f1c7208f42.mp3",
+          audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
+          tasks: [
+            {
+              title: "I like to ________ in the ________ with my ________.",
+              options: [
+                {
+                  text: "driving",
+                  correct: true
+                },
+                {
+                  text: "running",
+                  correct: true
+                },
+                {
+                  text: "hiking",
+                  correct: true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
   },
   methods: {
+    renderConsultation() {
+      let tasks = [];
+      this.consultation.forEach((task, index) => {
+        console.log(task);
+        tasks.push(this.manager(this.$createElement, task, task.type, index));
+      });
+      return tasks;
+    },
     setTaskNum() {
       let addonsType = ["youtube_addons", "lesson_addons_files"];
       const inAddons = taskType =>
@@ -188,6 +253,13 @@ export default {
         // Для конслуьтации
         case this.isConsultation():
           res = h("payment-option", attrs);
+          break;
+        case "choose":
+          res = h("choose", attrs, slots);
+          break;
+        case "gaps":
+          res = h("gaps", attrs, slots);
+          break;
       }
       return res;
     },
@@ -264,7 +336,7 @@ export default {
       });
     },
     isConsultation() {
-      return true;
+      return location.href.includes("consultation");
     }
   },
   computed: {
@@ -293,7 +365,9 @@ export default {
     CheckBtn,
     YoutubeAddons,
     ChooseImage,
-    PaymentOption
+    PaymentOption,
+    Choose,
+    Gaps
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: {},
