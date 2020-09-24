@@ -1,16 +1,28 @@
 <template>
   <div class="choose vue-component">
-    <description :index="index"> {{ input.description }} </description>
-    <div class="choose__cards">
-      <div
-        class="choose__card select"
-        v-for="(select, i) in input.select"
-        :key="i"
-      >
-        <div class="select__substrate"></div>
-        <v-img class="select__img" :src="select.img" />
-        <div class="select__title">{{ select.title }}</div>
-        <div class="select__subtitle">{{ select.subtitle }}</div>
+    <description :index="index"> {{ inputCopy.description }} </description>
+    <div class="task-wrap">
+      <div class="choose__cards">
+        <v-row no-gutters class="justify-center">
+          <v-col
+            cols="12"
+            lg="4"
+            xl="3"
+            class="mb-10"
+            v-for="(select, i) in inputCopy.select"
+            :key="i"
+          >
+            <div class="choose__card select">
+              <div class="select__substrate"></div>
+              <v-img class="select__img" :src="select.img" />
+              <div class="select__title" :style="titleStyle(select.title)">
+                {{ select.title }}
+              </div>
+              <div class="select__subtitle">{{ select.subtitle }}</div>
+              <checkbox class="select_checkbox checkbox" />
+            </div>
+          </v-col>
+        </v-row>
       </div>
     </div>
   </div>
@@ -18,6 +30,7 @@
 
 <script>
 import Description from "./../TasksDescription";
+import Checkbox from "./../Checkbox";
 
 import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
@@ -25,16 +38,27 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "choose",
   data: function() {
-    return {};
+    return {
+      inputCopy: {}
+    };
   },
   methods: {
-    ...mapMutations(["saveTask"])
+    ...mapMutations(["saveTask"]),
+    titleStyle(letters) {
+      letters;
+      let fs = 18;
+      // if (letters.length >= 9) {
+      //   fs = 14;
+      // }
+      return "font-size: " + fs + "px;";
+    }
   },
   computed: {
     ...mapGetters(["socket"])
   },
   components: {
-    Description
+    Description,
+    Checkbox
   },
   props: ["input", "index"],
   mixins: [Methods],
@@ -43,35 +67,40 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.choose
-  &__cards
-    display: flex
-    justify-content: space-between
-    margin: 5px 0
 .select
-  width: 125px
-  background: #FBFBFB
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25)
+  // background: #FBFBFB
+  background: transparent
+  background-position: -2px
+  background-image: url("/imgs/cardBg.png")
+  background-size: 100% 100%
+  box-shadow: 2px -5px 6px rgba(0, 0, 0, 0.25)
   border-radius: 20px
   text-align: center
-  padding: 10px
+  padding: 25px 10px
   position: relative
+  margin: 0 5px
+  height: 100%
+  min-height: 100px
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
   &__substrate
     background: radial-gradient(50% 50% at 50% 50%, #F3F3F3 0%, #BEBEBE 100%)
-    width: 48px
-    height: 48px
+    width: 40px
+    height: 40px
     border-radius: 100%
     position: absolute
-    top: -15px
-    left: calc(50% - 24px)
+    top: -20px
+    left: calc(50% - 21px)
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25)
   &__img
     width: 28px
     height: 28px
     border-radius: 100%
-    margin: 0 auto
-    margin-top: -16px
-    margin-bottom: 16px
+    position: absolute
+    left: calc( 50% - 14px )
+    top: -12px
   &__title
     font-weight: 500
     margin-top: 10
@@ -80,4 +109,7 @@ export default {
   &__subtitle
     font-size: 15px
     line-height: 18px
+.choose
+  &__cards
+    margin: 5px 0
 </style>

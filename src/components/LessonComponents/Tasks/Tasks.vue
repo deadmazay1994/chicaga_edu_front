@@ -12,15 +12,16 @@
       <paint v-if="loaded" class="tasks__paint" />
     </div>
     <div v-if="user.role != 'teacher'" class="tasks__fixed ma-5">
-      <v-btn
-        v-if="this.attemptNum == 0 || !this.noAddAtempt"
-        @click="check"
-        class="tasks__check-btn"
-        block
-        large
-        color="white--text"
-        >Проверить</v-btn
-      >
+      <div class="d-flex justify-center">
+        <v-btn
+          v-if="this.attemptNum == 0 || !this.noAddAtempt"
+          @click="check"
+          class="tasks__check-btn"
+          large
+          color="white--text"
+          >ПОДТВЕРДИТЬ</v-btn
+        >
+      </div>
     </div>
   </div>
 </template>

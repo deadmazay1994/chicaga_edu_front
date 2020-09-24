@@ -5,7 +5,7 @@
       class="text-subtitle-1 task-description__title"
     >
       <span class="task-description__index">
-        {{ index }}
+        {{ index + 1 }}
       </span>
       <slot></slot>
     </div>
@@ -22,7 +22,10 @@ export default {
   computed: {},
   components: {},
   props: ["index"],
-  mixins: {}
+  mixins: {},
+  mounted() {
+    console.log("1345");
+  }
 };
 </script>
 
@@ -33,11 +36,12 @@ export default {
   padding: 20px
   background: linear-gradient(90deg, $main_color 60%, transparent)
   color: #fff
-  margin-bottom: 20px
+  margin-bottom: 30px
   &__title
     max-width: 70%
     position: relative
     padding-left: 48px
+    line-height: 21px
   &__index
     position: absolute
     left: 0

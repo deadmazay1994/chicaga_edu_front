@@ -89,6 +89,10 @@ body
   word-wrap: break-word
 .zoom-wrapper
   overflow: auto
+.checkbox
+  position: absolute
+  bottom: -7px
+  left: calc(50% - 12px)
 </style>
 
 // Magnifier
@@ -104,5 +108,8 @@ body
   /*Set the size of the magnifier glass:*/
   width: 100px;
   height: 100px;
+}
+.task-wrap {
+  padding: 0 20px;
 }
 </style>

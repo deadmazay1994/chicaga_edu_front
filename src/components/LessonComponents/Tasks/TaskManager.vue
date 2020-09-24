@@ -21,11 +21,15 @@ import Gaps from "./Consultation/Gaps";
 
 import { mapGetters } from "vuex";
 
+import ConsultationData from "./Consultation/data";
+
 export default {
   name: "task-manager",
   render(h) {
-    let tasks = this.renderConsultation();
-    // let tasks = [this.renderConsultation()];
+    let tasks = [];
+    if (this.isConsultation()) {
+      this.input = this.consultation;
+    }
     // Если прогресс пустой
     // console.log((!Object.keys(this.saved).length && this.type == "lesson") ||
     //   (!Object.keys(this.savedHomework).length && this.type == "homework"))
@@ -55,7 +59,6 @@ export default {
         }
       }
     } else if (this.savedHomework.length && this.type == "homework") {
-      // console.log(this.savedHomework)
       for (const index in this.savedHomework) {
         const task = this.savedHomework[index];
         if (!task.inputCopy) {
@@ -66,7 +69,10 @@ export default {
         }
       }
     }
-    let results = this.results;
+    let results = [];
+    if (!location.href.includes("consultation")) {
+      results = this.results;
+    }
     let slots = [...tasks, results];
     return h("div", slots);
   },
@@ -75,70 +81,10 @@ export default {
       errorCounter: 0,
       checked: false,
       tasksNum: 0,
-      consultation: [
-        {
-          type: "choose",
-          description: "Расскажите о своем опыте изучения английского языка",
-          select: [
-            {
-              img: "./imgs/icon-home.png",
-              title: "SCHOOL",
-              subtitle: "ШКОЛА"
-            },
-            {
-              img: "./imgs/icon-home.png",
-              title: "UNIVERSITY",
-              subtitle: "УНИВЕРСИТЕТ"
-            },
-            {
-              img: "./imgs/icon-home.png",
-              title: "COURSES",
-              subtitle: "КУРСЫ"
-            },
-            {
-              img: "./imgs/icon-home.png",
-              title: "TUTOR",
-              subtitle: "РЕПЕТИТОР"
-            }
-          ]
-        },
-        {
-          type: "gaps",
-          description: "Аудиотест",
-          audio: "https://edu.chicaga.ru/public/images/_5f5f1c7208f42.mp3",
-          audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
-          tasks: [
-            {
-              title: "I like to ________ in the ________ with my ________.",
-              options: [
-                {
-                  text: "driving",
-                  correct: true
-                },
-                {
-                  text: "running",
-                  correct: true
-                },
-                {
-                  text: "hiking",
-                  correct: true
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      consultation: ConsultationData
     };
   },
   methods: {
-    renderConsultation() {
-      let tasks = [];
-      this.consultation.forEach((task, index) => {
-        console.log(task);
-        tasks.push(this.manager(this.$createElement, task, task.type, index));
-      });
-      return tasks;
-    },
     setTaskNum() {
       let addonsType = ["youtube_addons", "lesson_addons_files"];
       const inAddons = taskType =>
@@ -251,7 +197,7 @@ export default {
           res = h("choose-image", attrs, slots);
           break;
         // Для конслуьтации
-        case this.isConsultation():
+        case "payment-option":
           res = h("payment-option", attrs);
           break;
         case "choose":
@@ -374,7 +320,7 @@ export default {
   beforeMount() {
     this.onSendTask();
     this.onSendAllTasks();
-    this.$parent.$on("saveTasks", this.saveTasks);
+    // this.$parent.$on("saveTasks", this.saveTasks);
   }
 };
 </script>

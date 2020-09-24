@@ -5,6 +5,8 @@ import Methods from "@/mixins/tasks";
 import MediaEvents from "@/mixins/mediaEvents";
 import Magnifier from "@/directives/magnifier";
 import Zoom from "@/directives/zoom";
+import Description from "./TasksDescription";
+
 import { mapGetters, mapMutations } from "vuex";
 
 import { VImg } from "vuetify/lib";
@@ -13,11 +15,16 @@ export default {
   name: "attachs",
   render() {
     let texts = [];
-    this.inputCopy.addons.forEach(addon =>
-      texts.push(<pre class="text-subtitle-2 pre">{addon.text}</pre>)
-    );
+    if (this.inputCopy.addons) {
+      this.inputCopy.addons.forEach(addon =>
+        texts.push(<pre class="text-subtitle-2 pre">{addon.text}</pre>)
+      );
+    }
     return (
       <div class="attachs">
+        <description index={this.index}>
+          {this.inputCopy.description}
+        </description>
         {...texts}
         <div class="attachs__files">{this.getAttachComponents()}</div>
       </div>
@@ -106,7 +113,8 @@ export default {
   },
   components: {
     VuetifyAudio,
-    VImg
+    VImg,
+    Description
   },
   props: ["input", "index"],
   mixins: [Methods, MediaEvents],

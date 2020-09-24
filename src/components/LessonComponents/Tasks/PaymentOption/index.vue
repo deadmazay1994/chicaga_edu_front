@@ -1,46 +1,47 @@
 <template>
   <div class="payment-option vue-component">
-    <description :index="index"
-      >Какой из 3 вариантов оплаты <br />
-      для вас наиболее удобен</description
-    >
-    <div class="payment__slider-wrap">
-      <div class="payment__slider" ref="slider">
-        <div
-          class="payment__slider-item"
-          v-for="(group, index) in offers"
-          :key="index"
-        >
-          <div class="payment__wrap">
-            <div class="d-flex justify-center">
-              <div class="payment__title">{{ group.title }}</div>
-            </div>
-            <div class="payment__cards">
-              <div
-                class="offer-card payment__card"
-                :class="'offer-card__' + offer.style"
-                v-for="(offer, i) in group.content"
-                :key="i"
-              >
-                <div>
-                  <div class="offer-card__title">{{ offer.title }}</div>
-                  <div class="offer-card__subtitle">{{ offer.subTitle }}</div>
-                </div>
-                <div>
-                  <div class="offer-card__offer">{{ offer.offer }}</div>
-                  <div class="offer-card__description">
-                    {{ offer.description }}
+    <description :index="index">{{ inputCopy.description }}</description>
+    <div class="task-wrap">
+      <div class="payment__slider-wrap">
+        <div class="payment__slider" ref="slider">
+          <div
+            class="payment__slider-item"
+            v-for="(group, index) in inputCopy.offers"
+            :key="index"
+          >
+            <div class="payment__wrap">
+              <div class="d-flex justify-center">
+                <div class="payment__title">{{ group.title }}</div>
+              </div>
+              <div class="payment__cards">
+                <div
+                  class="offer-card payment__card"
+                  :class="'offer-card__' + offer.style"
+                  v-for="(offer, i) in group.content"
+                  :key="i"
+                >
+                  <div>
+                    <div class="offer-card__title">{{ offer.title }}</div>
+                    <div class="offer-card__subtitle">{{ offer.subTitle }}</div>
                   </div>
+                  <div>
+                    <div class="offer-card__offer">{{ offer.offer }}</div>
+                    <div class="offer-card__description">
+                      {{ offer.description }}
+                    </div>
+                  </div>
+                  <!-- Для правильного позиционирования -->
+                  <span></span>
+                  <checkbox class="offer-card__checkbox" />
                 </div>
-                <span><checkbox /></span>
               </div>
             </div>
+            <arrows
+              class="payment__arrows"
+              :class="{ 'payment__arrows--reverse': index == 1 }"
+              @click.native="slide()"
+            />
           </div>
-          <arrows
-            class="payment__arrows"
-            :class="{ 'payment__arrows--reverse': index == 1 }"
-            @click.native="slide()"
-          />
         </div>
       </div>
     </div>
@@ -62,67 +63,13 @@ export default {
     return {
       inputCopy: {},
       activeIndex: 0,
-      error: false,
-      offers: [
-        {
-          title: "ГРУППОВЫЕ ЗАНЯТИЯ",
-          content: [
-            {
-              title: "1 месяц",
-              subTitle: "",
-              offer: "7000",
-              description: "р/месяц",
-              style: ""
-            },
-            {
-              title: "3 месяца",
-              subTitle: "Половина курса",
-              offer: "5900",
-              description: "р/месяц",
-              style: "silver"
-            },
-            {
-              title: "6 месяцев",
-              subTitle: "Весь курс",
-              offer: "5300",
-              description: "р/месяц",
-              style: "gold"
-            }
-          ]
-        },
-        {
-          title: "ИНДИВИДУАЛЬНЫЕ ЗАНЯТИЯ",
-          content: [
-            {
-              title: "1 месяц",
-              subTitle: "",
-              offer: "7000",
-              description: "р/месяц",
-              style: ""
-            },
-            {
-              title: "3 месяца",
-              subTitle: "Половина курса",
-              offer: "5900",
-              description: "р/месяц",
-              style: "silver"
-            },
-            {
-              title: "6 месяцев",
-              subTitle: "Весь курс",
-              offer: "5300",
-              description: "р/месяц",
-              style: "gold"
-            }
-          ]
-        }
-      ]
+      error: false
     };
   },
   methods: {
     ...mapMutations(["saveTask"]),
     slide() {
-      if (this.activeIndex <= this.offers.length - 2) {
+      if (this.activeIndex <= this.inputCopy.offers.length - 2) {
         this.activeIndex++;
       } else {
         this.activeIndex--;
@@ -141,7 +88,7 @@ export default {
   props: ["input", "index"],
   mixins: [Methods],
   mounted() {
-    this.$refs.slider.style["width"] = this.offers.length * 100 + "%";
+    this.$refs.slider.style["width"] = this.inputCopy.offers.length * 100 + "%";
   }
 };
 </script>
@@ -187,15 +134,20 @@ export default {
       transform: rotate(180deg)
 .offer-card
   width: 125px
-  background: #f3f3f3
+  background: transparent
+  background-position: -2px
+  background-image: url("/imgs/tasksBgs/price.png")
+  background-size: 100% 100%
   text-align: center
   padding: 15px
+  padding-bottom: 0
   border-radius: 20px
   min-height: 145px
   display: flex
   flex-wrap: wrap
   flex-direction: column
   justify-content: space-between
+  position: relative
   &__title
     font-size: 16px
     line-height: 16px
@@ -208,8 +160,12 @@ export default {
     line-height: 18px
   &__description
     font-size: 14px
+  &__checkbox
+    position: absolute
+    bottom: 0px
+    left: calc(50% - 12px)
   &__silver
-    background: linear-gradient(111.41deg, #BEBDBD 5.63%, #FFFFFF 26.74%, #CBCACA 49.72%, #FFFDFD 72.7%, #CCCACA 95.69%)
+    background-image: url("/imgs/tasksBgs/silver.png")
   &__gold
-    background: linear-gradient(109.42deg, #E7A148 5.44%, #FCE2C1 25.87%, #EDA74E 49.08%, #FADFBC 72.3%, #E5A451 94.59%)
+    background-image: url("/imgs/tasksBgs/gold.png")
 </style>
