@@ -14,7 +14,7 @@
           >
             <div class="choose__card select">
               <div class="select__substrate"></div>
-              <v-img class="select__img" :src="select.img" />
+              <v-img contain class="select__img" :src="select.img" />
               <div class="select__title" :style="titleStyle(select.title)">
                 {{ select.title }}
               </div>
@@ -97,7 +97,6 @@ export default {
   &__img
     width: 28px
     height: 28px
-    border-radius: 100%
     position: absolute
     left: calc( 50% - 14px )
     top: -12px

@@ -25,8 +25,10 @@ export default {
         <description index={this.index}>
           {this.inputCopy.description}
         </description>
-        {...texts}
-        <div class="attachs__files">{this.getAttachComponents()}</div>
+        <div class="task-wrap">
+          {...texts}
+          <div class="attachs__files">{this.getAttachComponents()}</div>
+        </div>
       </div>
     );
   },

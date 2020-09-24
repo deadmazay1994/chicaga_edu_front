@@ -4,22 +4,22 @@ export default [
     description: "Расскажите о своем опыте изучения английского языка",
     select: [
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/scool.png",
         title: "SCHOOL",
         subtitle: "ШКОЛА"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/univer.png",
         title: "UNIVERSITY",
         subtitle: "УНИВЕРСИТЕТ"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/courses.png",
         title: "COURSES",
         subtitle: "КУРСЫ"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/tutor.png",
         title: "TUTOR",
         subtitle: "РЕПЕТИТОР"
       }
@@ -30,42 +30,42 @@ export default [
     description: "Какие ваши цели в изучении английского языка",
     select: [
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/work.png",
         title: "WORK",
         subtitle: "РАБОТА"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/travelling.png",
         title: "TRAVELLING",
         subtitle: "ПУТЕШЕСТВИЕ"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/friends.png",
         title: "EDUCATION",
         subtitle: "НОВЫЕ ДРУЗЬЯ"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/education.png",
         title: "EDUCATION",
         subtitle: "УЧЁБА"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/immigration.png",
         title: "IMMIGRATION",
         subtitle: "ИММИГРАЦИЯ"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/movie.png",
         title: "MOVIE IN ENGLISH",
         subtitle: "ФИЛЬМЫ НА АНГЛИЙСКОМ"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/child.png",
         title: "CHILD’S PROGRESS",
         subtitle: "УСПЕХ РЕБЕНКА"
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/brain.png",
         title: "BRAIN TRANING",
         subtitle: "ТРЕНИРОВКА МОЗГА"
       }
@@ -254,17 +254,17 @@ export default [
     description: "Выберите удобное время для обучения",
     select: [
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/10.png",
         title: "10:00-12:00",
         subtitle: ""
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/12.png",
         title: "12:00-18:00",
         subtitle: ""
       },
       {
-        img: "./imgs/icon-home.png",
+        img: "./imgs/consultationIcons/18.png",
         title: "18:00-22:00",
         subtitle: ""
       }
@@ -276,7 +276,7 @@ export default [
     body: [
       [
         {
-          file_name: "consultation-img.png",
+          file_name: "consultation-img-2.png",
           file_type: "image/png"
         }
       ]
