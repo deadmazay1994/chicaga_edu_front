@@ -1,7 +1,6 @@
 <template>
   <div class="checkbox vue-component">
     <input :value="state" type="checkbox" style="display: none" />
-    {{ error }}
     <div class="checkbox__btn" @click="toggle" :class="checkboxClass"></div>
   </div>
 </template>
@@ -16,7 +15,9 @@ export default {
   },
   methods: {
     toggle() {
-      this.state = !this.state;
+      if (!this.disabled) {
+        this.state = !this.state;
+      }
     },
     getState() {
       return this.state;
@@ -36,7 +37,7 @@ export default {
     }
   },
   components: {},
-  props: ["error"],
+  props: ["error", "disabled"],
   mixins: {},
   beforeMount() {}
 };

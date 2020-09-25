@@ -9,7 +9,7 @@
         <div class="gap__options" ref="gap">
           <div
             class="gap__option gap__front option"
-            :class="selectClass(option)"
+            :class="selectClass(option, gap.options)"
             v-for="(option, i) in gap.options"
             :key="i"
           >
@@ -23,6 +23,11 @@
             />
           </div>
         </div>
+      </div>
+      <div class="d-flex justify-center">
+        <v-btn class="main-color main-color--text" @click.native="check"
+          >ПРОВЕРИТЬ</v-btn
+        >
       </div>
     </div>
   </div>
@@ -60,14 +65,21 @@ export default {
             option.status = false;
           }
           option.answered = true;
-          console.log(option);
         });
       });
+      // this.$forceUpdate();
     },
-    selectClass(option) {
+    selectClass(option, neighbors) {
+      let existCorrectNeigbor = false;
+      neighbors.forEach(n => {
+        if (!existCorrectNeigbor && n.status) {
+          existCorrectNeigbor = true;
+        }
+      });
       return {
         "option--correct": option.status && option.answered,
-        "option--uncorrect": !option.status && option.answered
+        "option--uncorrect":
+          !option.status && !option.answered && !existCorrectNeigbor
       };
     }
   },
@@ -87,7 +99,14 @@ export default {
   },
   props: ["input", "index"],
   mixins: [Methods],
-  beforeMount() {}
+  beforeMount() {
+    this.inputCopy.tasks.forEach((task, i) => {
+      task.options.forEach((option, j) => {
+        this.$set(this.inputCopy.tasks[i].options[j], "status", null);
+        this.$set(this.inputCopy.tasks[i].options[j], "answered", false);
+      });
+    });
+  }
 };
 </script>
 

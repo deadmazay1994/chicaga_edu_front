@@ -6,20 +6,24 @@
         <v-row no-gutters class="justify-center">
           <v-col
             cols="12"
-            lg="4"
+            lg="3"
             xl="3"
             class="mb-10"
             v-for="(select, i) in inputCopy.select"
             :key="i"
           >
-            <div class="choose__card select">
+            <div class="choose__card select" :class="activeClass(i)">
               <div class="select__substrate"></div>
               <v-img contain class="select__img" :src="select.img" />
               <div class="select__title" :style="titleStyle(select.title)">
                 {{ select.title }}
               </div>
               <div class="select__subtitle">{{ select.subtitle }}</div>
-              <checkbox class="select_checkbox checkbox" />
+              <checkbox
+                @click.native="activate(i)"
+                :error="select.success"
+                class="select_checkbox checkbox"
+              />
             </div>
           </v-col>
         </v-row>
@@ -46,11 +50,28 @@ export default {
     ...mapMutations(["saveTask"]),
     titleStyle(letters) {
       letters;
-      let fs = 18;
+      let fs = 16;
       // if (letters.length >= 9) {
       //   fs = 14;
       // }
       return "font-size: " + fs + "px;";
+    },
+    activate(i) {
+      if (!("success" in this.inputCopy.select[i])) {
+        this.inputCopy.select[i].success = "correct";
+      } else {
+        if (this.inputCopy.select[i].success == "correct") {
+          this.inputCopy.select[i].success = null;
+        } else {
+          this.inputCopy.select[i].success = "correct";
+        }
+      }
+      this.$forceUpdate();
+    },
+    activeClass(i) {
+      return {
+        "select--correct": this.inputCopy.select[i].success == "correct"
+      };
     }
   },
   computed: {
@@ -62,7 +83,11 @@ export default {
   },
   props: ["input", "index"],
   mixins: [Methods],
-  beforeMount() {}
+  beforeMount() {
+    this.inputCopy.select.forEach(select => {
+      this.$set(select, "success", null);
+    });
+  }
 };
 </script>
 
@@ -85,6 +110,8 @@ export default {
   align-items: center
   justify-content: center
   flex-direction: column
+  &--correct
+    background-image: url("/imgs/tasksBgs/change--success.png")
   &__substrate
     background: radial-gradient(50% 50% at 50% 50%, #F3F3F3 0%, #BEBEBE 100%)
     width: 40px
@@ -103,10 +130,10 @@ export default {
   &__title
     font-weight: 500
     margin-top: 10
-    font-size: 18px
+    font-size: 16px
     line-height: 24px
   &__subtitle
-    font-size: 15px
+    font-size: 12px
     line-height: 18px
 .choose
   &__cards

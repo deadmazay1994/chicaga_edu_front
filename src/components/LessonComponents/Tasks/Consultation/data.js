@@ -4,22 +4,22 @@ export default [
     description: "Расскажите о своем опыте изучения английского языка",
     select: [
       {
-        img: "./imgs/consultationIcons/scool.png",
+        img: "/imgs/consultationIcons/scool.png",
         title: "SCHOOL",
         subtitle: "ШКОЛА"
       },
       {
-        img: "./imgs/consultationIcons/univer.png",
+        img: "/imgs/consultationIcons/univer.png",
         title: "UNIVERSITY",
         subtitle: "УНИВЕРСИТЕТ"
       },
       {
-        img: "./imgs/consultationIcons/courses.png",
+        img: "/imgs/consultationIcons/courses.png",
         title: "COURSES",
         subtitle: "КУРСЫ"
       },
       {
-        img: "./imgs/consultationIcons/tutor.png",
+        img: "/imgs/consultationIcons/tutor.png",
         title: "TUTOR",
         subtitle: "РЕПЕТИТОР"
       }
@@ -30,42 +30,42 @@ export default [
     description: "Какие ваши цели в изучении английского языка",
     select: [
       {
-        img: "./imgs/consultationIcons/work.png",
+        img: "/imgs/consultationIcons/work.png",
         title: "WORK",
         subtitle: "РАБОТА"
       },
       {
-        img: "./imgs/consultationIcons/travelling.png",
+        img: "/imgs/consultationIcons/travelling.png",
         title: "TRAVELLING",
         subtitle: "ПУТЕШЕСТВИЕ"
       },
       {
-        img: "./imgs/consultationIcons/friends.png",
+        img: "/imgs/consultationIcons/friends.png",
         title: "EDUCATION",
         subtitle: "НОВЫЕ ДРУЗЬЯ"
       },
       {
-        img: "./imgs/consultationIcons/education.png",
+        img: "/imgs/consultationIcons/education.png",
         title: "EDUCATION",
         subtitle: "УЧЁБА"
       },
       {
-        img: "./imgs/consultationIcons/immigration.png",
+        img: "/imgs/consultationIcons/immigration.png",
         title: "IMMIGRATION",
         subtitle: "ИММИГРАЦИЯ"
       },
       {
-        img: "./imgs/consultationIcons/movie.png",
+        img: "/imgs/consultationIcons/movie.png",
         title: "MOVIE IN ENGLISH",
         subtitle: "ФИЛЬМЫ НА АНГЛИЙСКОМ"
       },
       {
-        img: "./imgs/consultationIcons/child.png",
+        img: "/imgs/consultationIcons/child.png",
         title: "CHILD’S PROGRESS",
         subtitle: "УСПЕХ РЕБЕНКА"
       },
       {
-        img: "./imgs/consultationIcons/brain.png",
+        img: "/imgs/consultationIcons/brain.png",
         title: "BRAIN TRANING",
         subtitle: "ТРЕНИРОВКА МОЗГА"
       }
@@ -74,7 +74,7 @@ export default [
   {
     type: "gaps",
     description: "Аудиотест",
-    audio: "https://edu.chicaga.ru/public/images/_5f5f1c7208f42.mp3",
+    audio: "https://edu.chicaga.ru/public/images/b-hobbies-quiz1.mp3",
     audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
     tasks: [
       {
@@ -254,17 +254,17 @@ export default [
     description: "Выберите удобное время для обучения",
     select: [
       {
-        img: "./imgs/consultationIcons/10.png",
+        img: "/imgs/consultationIcons/10.png",
         title: "10:00-12:00",
         subtitle: ""
       },
       {
-        img: "./imgs/consultationIcons/12.png",
+        img: "/imgs/consultationIcons/12.png",
         title: "12:00-18:00",
         subtitle: ""
       },
       {
-        img: "./imgs/consultationIcons/18.png",
+        img: "/imgs/consultationIcons/18.png",
         title: "18:00-22:00",
         subtitle: ""
       }
@@ -316,24 +316,24 @@ export default [
         title: "ИНДИВИДУАЛЬНЫЕ ЗАНЯТИЯ",
         content: [
           {
-            title: "1 месяц",
-            subTitle: "",
-            offer: "7000",
-            description: "р/месяц",
+            title: "10 часов",
+            subTitle: "академических",
+            offer: "1 100",
+            description: "р/час",
             style: ""
           },
           {
-            title: "3 месяца",
-            subTitle: "Половина курса",
-            offer: "5900",
-            description: "р/месяц",
+            title: "20 часов",
+            subTitle: "академических",
+            offer: "990",
+            description: "р/час",
             style: "silver"
           },
           {
-            title: "6 месяцев",
-            subTitle: "Весь курс",
-            offer: "5300",
-            description: "р/месяц",
+            title: "30 часов",
+            subTitle: "академических",
+            offer: "890",
+            description: "р/час",
             style: "gold"
           }
         ]

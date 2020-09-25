@@ -4,7 +4,7 @@
       :style="String(index).length == 2 ? 'padding-left: 75px' : ''"
       class="text-subtitle-1 task-description__title"
     >
-      <span class="task-description__index">
+      <span class="task-description__index" v-if="isConsultation">
         {{ index + 1 }}
       </span>
       <slot></slot>
@@ -18,7 +18,11 @@ export default {
   data: function() {
     return {};
   },
-  methods: {},
+  methods: {
+    isConsultation() {
+      return location.href.includes("consultation") + 1;
+    }
+  },
   computed: {},
   components: {},
   props: ["index"],
