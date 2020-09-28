@@ -1,12 +1,19 @@
 <template>
-  <div class="task-description vue-component">
+  <div
+    class="task-description vue-component"
+    :class="{ 'task-description--consultation': isConsultation }"
+  >
     <div
+      v-if="isConsultation"
       :style="String(index).length == 2 ? 'padding-left: 75px' : ''"
       class="text-subtitle-1 task-description__title"
     >
       <span class="task-description__index" v-if="isConsultation">
         {{ index + 1 }}
       </span>
+      <slot></slot>
+    </div>
+    <div v-else class="text-subtitle-1">
       <slot></slot>
     </div>
   </div>
@@ -18,12 +25,12 @@ export default {
   data: function() {
     return {};
   },
-  methods: {
+  methods: {},
+  computed: {
     isConsultation() {
-      return location.href.includes("consultation") + 1;
+      return location.href.includes("consultation");
     }
   },
-  computed: {},
   components: {},
   props: ["index"],
   mixins: {},
@@ -37,10 +44,11 @@ export default {
 @import "@/components/Sass/Varibles.sass"
 
 .task-description
-  padding: 20px
-  background: linear-gradient(90deg, $main_color 60%, transparent)
-  color: #fff
-  margin-bottom: 30px
+  &--consultation
+    padding: 20px
+    background: linear-gradient(90deg, $main_color 60%, transparent)
+    color: #fff
+    margin-bottom: 30px
   &__title
     max-width: 70%
     position: relative
