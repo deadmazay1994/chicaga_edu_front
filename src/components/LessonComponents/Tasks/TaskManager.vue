@@ -145,69 +145,72 @@ export default {
       return attrs;
     },
     manager(h, data, type, index) {
-      let res = false;
       let slots = [h("check-btn")];
       let attrs = this.getAttrsForTask(data, index);
+      let componentName = "";
       switch (type) {
         case "group_by_dragging":
-          res = h("grouping", attrs, slots);
+          componentName = "grouping";
           break;
         case "write_word_to_picture":
-          res = h("gaps-imgs", attrs, slots);
+          componentName = "gaps-imgs";
           break;
         case "select_stressed_syllable":
-          res = h("syllable", attrs, slots);
+          componentName = "syllable";
           break;
         case "images_order":
-          res = h("task-images", attrs, slots);
+          componentName = "task-images";
           break;
         case "drag_and_drop_words":
           attrs.props.drag = true;
-          res = h("fill-gaps", attrs, slots);
+          componentName = "fill-gaps";
           break;
         case "match_words":
-          res = h("comparison", attrs, slots);
+          componentName = "comparison";
           break;
         case "true_or_false":
-          res = h("t-f", attrs, slots);
+          componentName = "t-f";
           break;
         case "crosswordы":
-          res = h("crossword", attrs, slots);
+          componentName = "crossword";
           break;
         case "match_picture_and_word":
-          res = h("match-imgs", attrs, slots);
+          componentName = "match-imgs";
           break;
         case "select_correct_answer":
-          res = h("selection-box", attrs, slots);
+          componentName = "selection-box";
           break;
         case "select_correct_variant":
           attrs.props.underline = true;
-          res = h("selection-box", attrs, slots);
+          componentName = "selection-box";
           break;
         case "insert_skipped_word":
-          res = h("fill-gaps", attrs, slots);
+          componentName = "fill-gaps";
           break;
         case "youtube_addons":
-          res = h("youtubeAddons", attrs, slots);
+          componentName = "youtubeAddons";
           break;
         case "lesson_addons_files":
-          res = h("attachs", attrs, slots);
+          componentName = "attachs";
           break;
         case "select_correct_image_answer":
-          res = h("choose-image", attrs, slots);
+          componentName = "choose-image";
           break;
         // Для конслуьтации
         case "payment-option":
-          res = h("payment-option", attrs);
+          slots = [];
+          componentName = "payment-option";
           break;
         case "choose":
-          res = h("choose", attrs, slots);
+          slots = [];
+          componentName = "choose";
           break;
         case "gaps":
-          res = h("gaps", attrs, slots);
+          slots = [];
+          componentName = "gaps";
           break;
       }
-      return res;
+      return h(componentName, attrs, slots);
     },
     onSendTask() {
       let self = this;
