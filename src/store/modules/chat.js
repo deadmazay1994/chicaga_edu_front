@@ -1,6 +1,6 @@
 import Rocket from "@/assets/Rocket.js";
 
-const SITEURL = "http://crm.trivers.ru";
+const SITEURL = "https://edu.chicaga.ru";
 
 function scrollToBottom(chat) {
   setTimeout(() => {

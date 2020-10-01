@@ -39,7 +39,7 @@ export default {
       login: this.user.chat_auth_info.username,
       password: this.user.chat_auth_info.password,
       room: this.$route.params.id,
-      socketUrl: "wss://chat.edu.chicaga.ru/websocket",
+      socketUrl: "wss://chat.edu.chicaga.ru/websocket/",
       chatElem: this.$refs.chat
     });
   }

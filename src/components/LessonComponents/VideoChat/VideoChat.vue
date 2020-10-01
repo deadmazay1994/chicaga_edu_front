@@ -47,6 +47,7 @@ export default {
         config: {
           iceServers: [
             { url: "stun:stun01.sipphone.com" },
+            { url: "stun:23.21.150.121" },
             { url: "stun:stun.ekiga.net" },
             { url: "stun:stun.fwdnet.net" },
             { url: "stun:stun.ideasip.com" },

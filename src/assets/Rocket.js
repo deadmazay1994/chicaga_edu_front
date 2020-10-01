@@ -275,6 +275,8 @@ export default class Rocket {
   setRestApiUrl() {
     this.restApiUrl =
       "https://" + this.socketUrl.split("wss://")[1].split("/websocket")[0];
+    // Удаляем порт
+    this.restApiUrl = this.restApiUrl.replace(":3000", "");
   }
 
   async searchMsg(roomId, searchText, count = 10) {
@@ -305,10 +307,6 @@ export default class Rocket {
 
   getAvatar(name) {
     return this.restApiUrl + "/avatar/" + name;
-    // return await this.get("users.getAvatar", {
-    //     userId: id
-    // })
-    // return await axios.get("http://chat.trivers.ru/avatar/rawil")
   }
   getRoom(roomName, roomId) {
     let query = {};

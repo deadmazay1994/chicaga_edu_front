@@ -15,7 +15,7 @@
 //       login: "rawil",
 //       password: "зфыыцщкв",
 //       room: "testchanel3",
-//       socketUrl: "wss://chat.trivers.ru/websocket",
+//       socketUrl: "wss://chat.ru/websocket",
 //       chatElem: this.$refs.chat
 //     });
 
