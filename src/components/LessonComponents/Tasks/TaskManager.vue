@@ -202,11 +202,9 @@ export default {
           componentName = "payment-option";
           break;
         case "choose":
-          slots = [];
           componentName = "choose";
           break;
         case "gaps":
-          slots = [];
           componentName = "gaps";
           break;
       }

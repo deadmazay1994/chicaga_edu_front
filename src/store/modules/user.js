@@ -17,7 +17,6 @@ export default {
             success: false
           });
         } else {
-          console.log(response.data);
           commit("setUser", response.data);
         }
       } else if (formdata) {

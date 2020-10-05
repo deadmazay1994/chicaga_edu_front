@@ -250,6 +250,363 @@ export default [
     ]
   },
   {
+    type: "gaps",
+    description: "Аудиотест",
+    audio:
+      "https://esllab.b-cdn.net/audio/mp3/b-introductions-smalltalk-quiz1.mp3?_=1",
+    audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
+    tasks: [
+      {
+        title: "What's your ______?",
+        options: [
+          {
+            text: "I'm Nancy.",
+            correct: true
+          },
+          {
+            text: "I'm a student.",
+            correct: false
+          },
+          {
+            text: "I'm from Russia.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "Where do you _______?",
+        options: [
+          {
+            text: "I live in Chicago.",
+            correct: true
+          },
+          {
+            text: "I'm fine.",
+            correct: false
+          },
+          {
+            text: "I'm from Canada.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "How's ______?",
+        options: [
+          {
+            text: "I'm going to school.",
+            correct: false
+          },
+          {
+            text: "No problem.",
+            correct: false
+          },
+          {
+            text: "Okay.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: " ______ does she ______?",
+        options: [
+          {
+            text: "She's a teacher.",
+            correct: false
+          },
+          {
+            text: "She likes to work.",
+            correct: false
+          },
+          {
+            text: "She works at City Bank.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: " ________ they ______?",
+        options: [
+          {
+            text: "They live in Tokyo.",
+            correct: false
+          },
+          {
+            text: "They are in school.",
+            correct: false
+          },
+          {
+            text: "They're from Mexico.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "____________?",
+        options: [
+          {
+            text: "My father is a doctor.",
+            correct: false
+          },
+          {
+            text: "I'm getting married soon.",
+            correct: false
+          },
+          {
+            text: "I have three brothers.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "____________?",
+        options: [
+          {
+            text: "That's too bad.",
+            correct: false
+          },
+          {
+            text: "Nothing much.",
+            correct: true
+          },
+          {
+            text: "I'm fine.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "____________?",
+        options: [
+          {
+            text: "He's from Italy.",
+            correct: false
+          },
+          {
+            text: "He's an engineer.",
+            correct: true
+          },
+          {
+            text: "He's Japanese.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "____________?",
+        options: [
+          {
+            text: "I like to exercise.",
+            correct: true
+          },
+          {
+            text: "I'm busy this weekend.",
+            correct: false
+          },
+          {
+            text: "I don't like sports.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "____________?",
+        options: [
+          {
+            text: "He works downtown.",
+            correct: false
+          },
+          {
+            text: "He's a doctor.",
+            correct: true
+          },
+          {
+            text: "He lives in Hong Kong.",
+            correct: false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    type: "gaps",
+    description: "Аудиотест",
+    audio: "https://esllab.b-cdn.net/audio/mp3/b-movies-quiz1.mp3?_=1",
+    audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
+    tasks: [
+      {
+        title: "Have you _______ this movie _________?",
+        options: [
+          {
+            text: "Yes. I do.",
+            correct: false
+          },
+          {
+            text: "No. I haven't.",
+            correct: true
+          },
+          {
+            text: "I really enjoy action movies.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "_________ do you want to __________?",
+        options: [
+          {
+            text: "I want to buy the movie.",
+            correct: false
+          },
+          {
+            text: "It's a love story.",
+            correct: false
+          },
+          {
+            text: "How about 7:00 o'clock?",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "__________ movie ________?",
+        options: [
+          {
+            text: "The movie is for children.",
+            correct: false
+          },
+          {
+            text: "Downtown at the mall.",
+            correct: true
+          },
+          {
+            text: "I like to play in movies.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "Have you __________ about the movie?",
+        options: [
+          {
+            text: "Yes. They want to see the movie.",
+            correct: false
+          },
+          {
+            text: "The book about the movie is good.",
+            correct: false
+          },
+          {
+            text: "Not yet, but I heard the movie is good.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "Do you want any ___________?",
+        options: [
+          {
+            text: "Don't bother. The line at the concessions is too long.",
+            correct: true
+          },
+          {
+            text: "No, I'm not thirsty right now, but maybe later.",
+            correct: false
+          },
+          {
+            text: "Yes. A drink would be great right now.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "Don't forget ___________.",
+        options: [
+          {
+            text: "Thanks. I had better check my car lights.",
+            correct: false
+          },
+          {
+            text: "Yes. I didn't forget to bring my glasses.",
+            correct: false
+          },
+          {
+            text: "Oh, thanks for reminding me.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "________________.",
+        options: [
+          {
+            text: "Yes. It was a great show.",
+            correct: false
+          },
+          {
+            text: "No. I don't like horror movies.",
+            correct: false
+          },
+          {
+            text: "It was okay, but it wasn't fantastic.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "________________.",
+        options: [
+          {
+            text: "I think it's around $7.00.",
+            correct: true
+          },
+          {
+            text: "You can buy tickets over there.",
+            correct: false
+          },
+          {
+            text: "Okay. I see you tonight.",
+            correct: false
+          }
+        ]
+      },
+      {
+        title: "________________.",
+        options: [
+          {
+            text: "Yes, please clean off the seat.",
+            correct: false
+          },
+          {
+            text: "No, I want to go see the movie tonight.",
+            correct: false
+          },
+          {
+            text: "Well, actually, I'd rather sit more in the middle.",
+            correct: true
+          }
+        ]
+      },
+      {
+        title: "_______________.",
+        options: [
+          {
+            text: "It starts at noon.",
+            correct: false
+          },
+          {
+            text: "It runs about two hours.",
+            correct: true
+          },
+          {
+            text: "It ends at 3:00 p.m.",
+            correct: false
+          }
+        ]
+      }
+    ]
+  },
+  {
     type: "choose",
     description: "Выберите удобное время для обучения",
     select: [

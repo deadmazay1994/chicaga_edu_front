@@ -1,6 +1,5 @@
 <template>
   <div class="task-image-numbers">
-    <description :index="index">{{ inputCopy.description }}</description>
     <v-row>
       <v-col
         lg="6"
@@ -37,8 +36,6 @@
 </template>
 
 <script>
-import Description from "./TasksDescription";
-
 import "@/mixins/methods";
 import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
@@ -104,9 +101,7 @@ export default {
   computed: {
     ...mapGetters(["socket", "teacherId"])
   },
-  components: {
-    Description
-  },
+  components: {},
   directives: {
     ...Zoom
   },

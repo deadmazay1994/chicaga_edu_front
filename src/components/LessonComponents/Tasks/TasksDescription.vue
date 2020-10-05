@@ -33,10 +33,7 @@ export default {
   },
   components: {},
   props: ["index"],
-  mixins: {},
-  mounted() {
-    console.log("1345");
-  }
+  mixins: {}
 };
 </script>
 
