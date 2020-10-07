@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: "/lesson/:courseId/:id",
-    name: "lesson",
+    name: "lesson_teacher",
     component: Lesson,
     meta: {
       requiresAuth: true
@@ -45,7 +45,7 @@ const routes = [
   },
   {
     path: "/homework/:courseId/:id",
-    name: "homework",
+    name: "homework_teacher",
     component: Homework,
     meta: {
       requiresAuth: true
@@ -79,7 +79,6 @@ const routes = [
   },
   {
     path: "/auth",
-    name: "auth",
     component: Auth,
     meta: {
       guest: true,
