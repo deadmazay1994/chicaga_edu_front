@@ -151,7 +151,7 @@ export default {
   position: relative
   &__text
     font-weight: bold
-    font-size: 22px
+    font-size: 20px
     line-height: 26px
     display: flex
     align-items: center
@@ -160,6 +160,7 @@ export default {
     width: 150px
     min-height: 80px
     text-align: center
+    padding: 10px
   &__checkbox
     position: absolute
     bottom: -7px
