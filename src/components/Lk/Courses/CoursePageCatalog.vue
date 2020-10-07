@@ -14,22 +14,14 @@
 
 <script>
 import api from "@/mixins/api";
+import "@/mixins/methods";
 
 export default {
   name: "course-page-catalog",
   data: function() {
     return {};
   },
-  methods: {
-    async pay() {
-      let response = await this.getPayCourseLink(this.course.id);
-      if ("success" in response) {
-        if (response.success) {
-          window.location.href = response.data.payment_url;
-        }
-      }
-    }
-  },
+  methods: {},
   computed: {},
   components: {},
   props: ["course"],

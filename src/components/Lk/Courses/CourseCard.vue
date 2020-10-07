@@ -33,6 +33,7 @@
 <script>
 import ProgressInfo from "./ProgressInfo";
 import api from "@/mixins/api";
+import "@/mixins/methods";
 
 export default {
   name: "course-card",
@@ -50,14 +51,6 @@ export default {
         .join(" ");
       if (this.course.description.split(" ").length > this.maxDescriptionSize) {
         this.description += " ...";
-      }
-    },
-    async pay() {
-      let response = await this.getPayCourseLink(this.course.id);
-      if ("success" in response) {
-        if (response.success) {
-          window.location.href = response.data.payment_url;
-        }
       }
     }
   },

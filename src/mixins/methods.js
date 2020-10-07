@@ -2,6 +2,25 @@ import Vue from "vue";
 
 Vue.mixin({
   methods: {
+    async pay() {
+      let response = await this.getPayCourseLink(this.course.id);
+      let errorText = "";
+      if ("success" in response) {
+        if (response.success) {
+          window.location.href = response.data.payment_url;
+        }
+      } else if ("error" in response) {
+        errorText = response.error.order;
+      } else {
+        errorText = "Что-то пошло не так. Попробуйте совершить покупку позже";
+      }
+      if (errorText) {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: errorText
+        });
+      }
+    },
     clear(text) {
       // Убирает все пробелы, приводит текст к стандартному виду
       // Нужно для провеки
