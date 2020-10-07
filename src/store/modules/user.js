@@ -25,7 +25,6 @@ export default {
         let barStatus = false;
         if ("success" in response) {
           if (response.success) {
-            console.log(response);
             commit("setUser", response.data);
             commit("setToken", response.data.api_token);
             router.push({ path: "/lk/my-coursers" });
@@ -69,7 +68,6 @@ export default {
       let barStatus = false;
       if ("success" in response) {
         if (response.success) {
-          console.log(response);
           barText = "Вы успешно изменили свои персональные данные";
           barStatus = true;
         }
@@ -86,7 +84,7 @@ export default {
     async recoverPassword({ commit }, email) {
       commit;
       let response = await api.methods.recoverPassword(email);
-      console.log(response);
+      response;
     },
     setAvatar({ commit }, avatarUri) {
       commit("setAvatar", avatarUri);

@@ -5,11 +5,19 @@ export default {
   actions: {
     async setMyCourses({ commit }) {
       let response = await api.methods.getMyCourses();
-      console.log(response);
       let data = response.data;
       // Даем понять фронту, что курс куплен
       data.map(e => (e.buyed = true));
-      commit("setMyCourses", data);
+      let idsCourses = [];
+      const removeRepeat = arr =>
+        arr.filter(item => {
+          let repeat = idsCourses.find(id => id == item.id);
+          if (!repeat) {
+            idsCourses.push(item.id);
+          }
+          return !repeat;
+        });
+      commit("setMyCourses", removeRepeat(data));
     },
     async setCatalogCourses({ commit }) {
       let response = await api.methods.getCatalogCaourses();
