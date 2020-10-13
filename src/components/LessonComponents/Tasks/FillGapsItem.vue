@@ -2,6 +2,10 @@
 import "@/mixins/methods";
 import { mapGetters } from "vuex";
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 export default {
   name: "fill-gaps-item",
   render(h) {
@@ -46,7 +50,9 @@ export default {
               },
               style: {
                 // Ширина инпута в зависимости от длинны пропущенного слова
-                width: String(this.sentenceMap[gapNum] * 10 + 10) + "px"
+                width:
+                  String(this.sentenceMap[gapNum] * 10 + getRandomInt(25)) +
+                  "px"
               },
               on: {
                 input: event => {
