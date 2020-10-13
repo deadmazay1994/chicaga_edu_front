@@ -9,7 +9,7 @@
       class="text-subtitle-1 task-description__title"
     >
       <span class="task-description__index" v-if="isConsultation">
-        {{ index + 1 }}
+        {{ Number(index) + 1 }}
       </span>
       <slot></slot>
     </div>
