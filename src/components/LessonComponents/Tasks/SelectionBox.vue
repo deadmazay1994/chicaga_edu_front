@@ -143,7 +143,6 @@ export default {
   beforeMount() {
     this.setInputCopy();
     this.setAnswersArr();
-    console.log(this.input);
   }
 };
 </script>

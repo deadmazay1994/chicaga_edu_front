@@ -214,7 +214,10 @@ export default {
           callback(stream);
         })
         .catch(e => {
-          alert("Не удалось получить доступ к веб-камере");
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Не удалось получить доступ к веб-камере"
+          });
           console.log("Не удалось получить доступ к веб-камере по причине", e);
         });
     },

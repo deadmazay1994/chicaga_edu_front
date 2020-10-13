@@ -179,7 +179,13 @@ export default {
   border-radius: 100%
   z-index: 10
 .students
+  top: 20px
+  z-index: 1000
   &__student
+    &:first-child
+      border-radius: 7px 0 0 7px
+    &:last-child
+      border-radius: 0 7px 7px 0
     &--active
       background: $success_color
       color: $success_color--text

@@ -76,7 +76,6 @@ export default {
           existCorrectNeigbor = true;
         }
       });
-      console.log(!option.status && option.answered && !existCorrectNeigbor);
       return {
         "option--correct": option.status && option.answered,
         "option--uncorrect":

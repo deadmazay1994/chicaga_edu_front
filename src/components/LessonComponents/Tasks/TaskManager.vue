@@ -216,7 +216,6 @@ export default {
         this.socket.on("send task to teacher", data => {
           if (data.senderId == this.activeUser) {
             if ("childRef" in data.taskData) {
-              // Если данные прислал дочерний таск, то обновляем дочерний таск
               this.updateChildComponent(
                 self.$refs.task[data.taskIndex],
                 data.taskData
@@ -237,7 +236,7 @@ export default {
       }
     },
     updateChildComponent(component, data) {
-      if (component) {
+      if (component && data.data) {
         let child = component.$refs[data.childRef][data.childIndex];
         child._data = data.data;
         child.$forceUpdate();
@@ -251,20 +250,10 @@ export default {
       if (this.$refs) {
         this.$refs.task.forEach(task => {
           task.saveProgress();
-          task.sendTaskToTeacher(task.index, task._data);
           if (!isNaN(task.error)) {
             this.errorCounter += Number(task.error);
           }
-          // Передаем данные в дочерних тасках
-          for (let i in task.$refs) {
-            let childRefs = task.$refs[i];
-            for (let j in childRefs) {
-              let childTasks = childRefs[j];
-              if ("sendData" in childTasks) {
-                childTasks.sendData();
-              }
-            }
-          }
+          this.sendTasksToTeacher(task);
         });
       }
       if (this.socket) {
@@ -277,10 +266,21 @@ export default {
     },
     onSendAllTasks() {
       this.socket.on("send all tasks", () => {
-        this.$refs.task.forEach(task => {
-          task.sendTaskToTeacher(task.index, task._data);
-        });
+        this.$refs.task.forEach(task => this.sendTasksToTeacher(task));
       });
+    },
+    sendTasksToTeacher(task) {
+      task.sendTaskToTeacher(task.index, task._data);
+      // Передаем данные в дочерних тасках
+      for (let i in task.$refs) {
+        let childRefs = task.$refs[i];
+        for (let j in childRefs) {
+          let childTasks = childRefs[j];
+          if ("sendData" in childTasks) {
+            childTasks.sendData();
+          }
+        }
+      }
     },
     isConsultation() {
       return location.href.includes("consultation");
@@ -321,7 +321,7 @@ export default {
   beforeMount() {
     this.onSendTask();
     this.onSendAllTasks();
-    // this.$parent.$on("saveTasks", this.saveTasks);
+    this.$parent.$on("saveTasks", this.saveTasks);
   }
 };
 </script>

@@ -48,7 +48,8 @@ export default {
       dragList: [],
       draging: false,
       inputCopy: {},
-      error: true
+      error: true,
+      childRef: "gap"
     };
   },
   methods: {
@@ -64,7 +65,7 @@ export default {
       // Эти данные нужны чтобы обновить дочерний компонент, а не родительский
       // В данном случае дочерний это syllable
       data.childIndex = data.index;
-      data.childRef = "gap";
+      data.childRef = this.childRef;
       this.sendTaskToTeacher(this.index, data);
     },
     check() {

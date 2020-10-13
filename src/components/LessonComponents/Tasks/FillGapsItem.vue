@@ -10,77 +10,79 @@ export default {
     let letters = [];
     // Номер пропуска
     let gapNum = 0;
-    for (let i = 0; i < this.newSentence.split("").length; i++) {
-      // Перебираем каждую букву в слове
-      let l = this.newSentence.split("")[i];
-      // Если условвие выполнено значит дальше идет gap
-      if (l == "[") {
-        // Перескакиваем с [ на следующею букву
-        i++;
-        l = this.newSentence.split("")[i];
-      } else if (l == "]") {
-        gap = true;
+    if (this.newSentence) {
+      for (let i = 0; i < this.newSentence.split("").length; i++) {
+        // Перебираем каждую букву в слове
+        let l = this.newSentence.split("")[i];
+        // Если условвие выполнено значит дальше идет gap
+        if (l == "[") {
+          // Перескакиваем с [ на следующею букву
+          i++;
+          l = this.newSentence.split("")[i];
+        } else if (l == "]") {
+          gap = true;
+        }
+        // Если это пропуск
+        if (gap) {
+          res.push(
+            h(
+              "span",
+              {
+                class: "fill-gaps-item__text"
+              },
+              letters
+            )
+          );
+          letters = [];
+          this.pushMissingAnswers(gapNum);
+          res.push(
+            h("input", {
+              class: {
+                "fill-gaps-item__input": true,
+                "fill-gaps-item__input--correct":
+                  this.answers[gapNum].correct == true,
+                "fill-gaps-item__input--uncorrect":
+                  !this.answers[gapNum].correct && this.answered
+              },
+              style: {
+                // Ширина инпута в зависимости от длинны пропущенного слова
+                width: String(this.sentenceMap[gapNum] * 10 + 10) + "px"
+              },
+              on: {
+                input: event => {
+                  this.updateModelInput(
+                    event.target.value,
+                    event.target.dataset.index
+                  );
+                }
+              },
+              attrs: {
+                "data-index": gapNum
+              },
+              refInFor: true,
+              ref: "input"
+            })
+          );
+          gap = false;
+          gapNum++;
+        } else if (!gap) {
+          letters.push(l);
+        }
+        if (i == this.newSentence.split("").length - 1) {
+          res.push(
+            h(
+              "span",
+              {
+                class: "fill-gaps-item__text"
+              },
+              letters
+            )
+          );
+          letters = [];
+        }
       }
-
-      // Если это пропуск
-      if (gap) {
-        res.push(
-          h(
-            "span",
-            {
-              class: "fill-gaps-item__text"
-            },
-            letters
-          )
-        );
-        letters = [];
-        this.pushMissingAnswers(gapNum);
-        res.push(
-          h("input", {
-            class: {
-              "fill-gaps-item__input": true,
-              "fill-gaps-item__input--correct":
-                this.answers[gapNum].correct == true,
-              "fill-gaps-item__input--uncorrect":
-                !this.answers[gapNum].correct && this.answered
-            },
-            style: {
-              // Ширина инпута в зависимости от длинны пропущенного слова
-              width: String(this.sentenceMap[gapNum] * 10 + 10) + "px"
-            },
-            on: {
-              input: event => {
-                this.updateModelInput(
-                  event.target.value,
-                  event.target.dataset.index
-                );
-              }
-            },
-            attrs: {
-              "data-index": gapNum
-            },
-            refInFor: true,
-            ref: "input"
-          })
-        );
-        gap = false;
-        gapNum++;
-      } else if (!gap) {
-        letters.push(l);
-      }
-
-      if (i == this.newSentence.split("").length - 1) {
-        res.push(
-          h(
-            "span",
-            {
-              class: "fill-gaps-item__text"
-            },
-            letters
-          )
-        );
-        letters = [];
-      }
+    } else {
+      console.log("this.newSentence is false: render:parseText");
     }
     return h(
       "div",
@@ -181,14 +183,18 @@ export default {
         if (this.sentence) {
           let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
           for (let i = 0; i < this.answers.length; i++) {
-            if (
-              this.clearDeeper(trueAnswers[i]) ==
-              this.clearDeeper(this.answers[i].val)
-            ) {
-              this.answers[i].correct = true;
+            if (trueAnswers) {
+              if (
+                this.clearDeeper(trueAnswers[i]) ==
+                this.clearDeeper(this.answers[i].val)
+              ) {
+                this.answers[i].correct = true;
+              } else {
+                error = true;
+                this.answers[i].correct = false;
+              }
             } else {
-              error = true;
-              this.answers[i].correct = false;
+              console.log("trueAnswers is false: FillGapsItem:check");
             }
           }
           this.$emit("oncheck", {
@@ -205,19 +211,23 @@ export default {
       });
     },
     parseText() {
-      this.$refs.fillGapsItem
-        .querySelectorAll(".fill-gaps-item__text")
-        .forEach(el => {
-          let parsed = el.textContent.replace(
-            /</g,
-            "<span class='fill-gaps-item__title'"
-          );
-          parsed = parsed
-            .replace(/>/g, "</span>")
-            .replace(/__title'/g, "__title'>");
-          el.textContent = "";
-          el.insertAdjacentHTML("beforeend", parsed);
-        });
+      if (this.$refs.fillGapsItem) {
+        this.$refs.fillGapsItem
+          .querySelectorAll(".fill-gaps-item__text")
+          .forEach(el => {
+            let parsed = el.textContent.replace(
+              /</g,
+              "<span class='fill-gaps-item__title'"
+            );
+            parsed = parsed
+              .replace(/>/g, "</span>")
+              .replace(/__title'/g, "__title'>");
+            el.textContent = "";
+            el.insertAdjacentHTML("beforeend", parsed);
+          });
+      } else {
+        console.log("this.$refs.fillGapsItem is false: FillGapsItem:parseText");
+      }
     }
   },
   computed: {
