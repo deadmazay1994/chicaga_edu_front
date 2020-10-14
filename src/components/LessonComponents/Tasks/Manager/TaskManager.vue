@@ -1,27 +1,26 @@
 <script>
-import TaskImages from "./TaskImages";
-import FillGaps from "./FillGaps";
-import TF from "./TF";
-import MatchImgs from "./MatchImgs";
-import Syllable from "./ChooseSyllable";
-import Comparison from "./Comparison";
-import Grouping from "./Grouping";
-import SelectionBox from "./SelectionBox";
-import Crossword from "./Crossword";
-import GapsImgs from "./GapsImgs";
-import Attachs from "./Attachs";
-import Results from "./Results";
-import CheckBtn from "./CheckBtn";
-import YoutubeAddons from "./YoutubeAddons";
-import ChooseImage from "./ChooseImage";
-import PaymentOption from "./PaymentOption/";
+import TaskImages from "Tasks/TaskImages";
+import FillGaps from "Tasks/FillGaps";
+import TF from "Tasks/TF";
+import MatchImgs from "Tasks/MatchImgs";
+import Syllable from "Tasks/ChooseSyllable";
+import Comparison from "Tasks/Comparison";
+import Grouping from "Tasks/Grouping";
+import SelectionBox from "Tasks/SelectionBox";
+import Crossword from "Tasks/Crossword";
+import GapsImgs from "Tasks/GapsImgs";
+import Attachs from "Tasks/Attachs";
+import Results from "Tasks/Results";
+import CheckBtn from "Tasks/CheckBtn";
+import YoutubeAddons from "Tasks/YoutubeAddons";
+import ChooseImage from "Tasks/ChooseImage";
+import PaymentOption from "Tasks/PaymentOption/";
 
-import Choose from "./Consultation/Choose";
-import Gaps from "./Consultation/Gaps";
+import Choose from "Tasks/Consultation/Choose";
+import Gaps from "Tasks/Consultation/Gaps";
+import ConsultationData from "Tasks/Consultation/data";
 
 import { mapGetters } from "vuex";
-
-import ConsultationData from "./Consultation/data";
 
 export default {
   name: "task-manager",
@@ -42,7 +41,7 @@ export default {
       if (this.input) {
         this.input.forEach((task, index) => {
           // Манагер уже сам выбирает какой таск когда подключать
-          tasks.push(this.manager(h, task, task.type, index));
+          tasks.push(this.manager(task, task.type, index));
         });
       }
     } else if (this.saved.length && this.type == "lesson") {
@@ -53,7 +52,7 @@ export default {
           if (!task.inputCopy) {
             console.log("Проверь задание под номером", index + 1);
           } else {
-            let saved = this.manager(h, task, task.inputCopy.type, index);
+            let saved = this.manager(task, task.inputCopy.type, index);
             tasks.push(saved);
           }
         }
@@ -64,7 +63,7 @@ export default {
         if (!task.inputCopy) {
           console.log("Проверь задание под номером", index + 1);
         } else {
-          let saved = this.manager(h, task, task.inputCopy.type, index);
+          let saved = this.manager(task, task.inputCopy.type, index);
           tasks.push(saved);
         }
       }
@@ -144,7 +143,8 @@ export default {
       }
       return attrs;
     },
-    manager(h, data, type, index) {
+    manager(data, type, index) {
+      let h = this.$createElement;
       let slots = [h("check-btn")];
       let attrs = this.getAttrsForTask(data, index);
       let componentName = "";
