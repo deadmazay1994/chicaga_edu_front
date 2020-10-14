@@ -38,7 +38,6 @@ import Description from "./../TasksDescription";
 import VuetifyAudio from "vuetify-audio";
 import Checkbox from "./../Checkbox";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -98,7 +97,6 @@ export default {
     Checkbox
   },
   props: ["input", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.inputCopy.tasks.forEach((task, i) => {
       task.options.forEach((option, j) => {

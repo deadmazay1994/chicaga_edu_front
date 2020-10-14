@@ -36,7 +36,6 @@
 import Description from "./../TasksDescription";
 import Checkbox from "./../Checkbox";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -82,7 +81,6 @@ export default {
     Checkbox
   },
   props: ["input", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.inputCopy.select.forEach(select => {
       this.$set(select, "success", null);

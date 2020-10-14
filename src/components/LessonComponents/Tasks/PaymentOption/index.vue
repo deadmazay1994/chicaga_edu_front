@@ -40,7 +40,6 @@ import Description from "./../TasksDescription";
 import Card from "./Card";
 import Arrows from "@/components/Icons/SliderArrows";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -72,7 +71,6 @@ export default {
     Card
   },
   props: ["input", "index"],
-  mixins: [Methods],
   mounted() {
     this.$refs.slider.style["width"] = this.inputCopy.offers.length * 100 + "%";
   }

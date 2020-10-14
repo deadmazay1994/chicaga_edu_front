@@ -36,10 +36,7 @@ import FillGapsItem from "./FillGapsItem";
 import Draggable from "vuedraggable";
 import Description from "./TasksDescription";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
-
-import "@/mixins/methods";
 
 export default {
   name: "fill-gaps",
@@ -147,7 +144,6 @@ export default {
     index: { required: false },
     childSaved: { required: false }
   },
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     if (this.drag) {

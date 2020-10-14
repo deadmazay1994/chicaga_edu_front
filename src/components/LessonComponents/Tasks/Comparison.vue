@@ -42,7 +42,6 @@ import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -134,7 +133,6 @@ export default {
     Draggable
   },
   props: ["input", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     this.setShuffled();

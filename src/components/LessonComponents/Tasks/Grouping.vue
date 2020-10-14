@@ -44,7 +44,6 @@ import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "grouping",
@@ -121,7 +120,6 @@ export default {
     Draggable
   },
   props: ["input", "saved", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     if ("inputCopy" in this.input) {

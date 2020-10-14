@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import Methods from "@/mixins/tasks";
 import MediaEvents from "@/mixins/mediaEvents";
 import Description from "./TasksDescription";
 import { mapGetters } from "vuex";
@@ -72,7 +71,7 @@ export default {
     Description
   },
   props: ["input", "index"],
-  mixins: [Methods, MediaEvents],
+  mixins: [MediaEvents],
   beforeMount() {
     this.setInputCopy();
   },

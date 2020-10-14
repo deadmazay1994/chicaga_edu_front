@@ -1,7 +1,6 @@
 <script>
 import VuetifyAudio from "vuetify-audio";
 
-import Methods from "@/mixins/tasks";
 import MediaEvents from "@/mixins/mediaEvents";
 import Magnifier from "@/directives/magnifier";
 import Zoom from "@/directives/zoom";
@@ -119,7 +118,7 @@ export default {
     Description
   },
   props: ["input", "index"],
-  mixins: [Methods, MediaEvents],
+  mixins: [MediaEvents],
   beforeMount() {
     this.setInputCopy();
   },

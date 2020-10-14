@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import TaskManager from "Tasks/Manager/TaskManager";
+import TaskManager from "Tasks/Manager/";
 import Paint from "./Paint";
 
 import { mapGetters, mapActions } from "vuex";

@@ -18,16 +18,18 @@ export default {
       this.sendTaskToTeacher(this.index);
     },
     setInputCopy(callback = () => {}) {
-      if ("inputCopy" in this.input) {
-        // Если данное свойство есть, то ученик уже проходил данный урок
-        // Мы заменяем все свойства компонента на архивные
-        this._data = this.input;
-        this._data.isSavedTask = true;
-        this.$forceUpdate();
-      } else {
-        this.inputCopy = this.input;
-        this._data.isSavedTask = false;
-        callback();
+      if (this.input) {
+        if ("inputCopy" in this.input) {
+          // Если данное свойство есть, то ученик уже проходил данный урок
+          // Мы заменяем все свойства компонента на архивные
+          this._data = this.input;
+          this._data.isSavedTask = true;
+          this.$forceUpdate();
+        } else {
+          this.inputCopy = this.input;
+          this._data.isSavedTask = false;
+          callback();
+        }
       }
     },
     saveProgress() {
@@ -35,7 +37,7 @@ export default {
         index: this.index,
         taskData: this._data
       });
-      // Если там есть еще и потомки у которых надо сохранить данные
+      // Если есть еще и потомки у которых надо сохранить данные
       this.$children.forEach((child, childIndex) => {
         if ("index" in child) {
           this.saveProgressChild(this.index, childIndex, child._data);

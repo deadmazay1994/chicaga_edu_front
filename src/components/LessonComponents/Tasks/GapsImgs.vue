@@ -34,7 +34,6 @@
 import Description from "./TasksDescription";
 import Gap from "./FillGapsItem";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -102,7 +101,6 @@ export default {
     Gap
   },
   props: ["input", "childSaved", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     console.log(this._data);

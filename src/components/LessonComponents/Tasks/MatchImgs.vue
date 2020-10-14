@@ -49,7 +49,6 @@ import Description from "./TasksDescription";
 import Gap from "./FillGapsItem";
 
 import Zoom from "@/directives/zoom";
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -141,7 +140,6 @@ export default {
     ...Zoom
   },
   props: ["input", "index", "childSaved"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     this.setAnswers();

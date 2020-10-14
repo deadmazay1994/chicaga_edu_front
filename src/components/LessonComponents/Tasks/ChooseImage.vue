@@ -33,7 +33,6 @@
 import Description from "./TasksDescription";
 import Tick from "@/components/Icons/Tick";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 import Zoom from "@/directives/zoom";
 
@@ -86,7 +85,6 @@ export default {
     ...Zoom
   },
   props: ["input", "saved", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.setTask();
   }

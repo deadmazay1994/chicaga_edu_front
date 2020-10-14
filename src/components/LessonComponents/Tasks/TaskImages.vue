@@ -37,7 +37,6 @@
 
 <script>
 import "@/mixins/methods";
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 import Zoom from "@/directives/zoom";
 
@@ -106,7 +105,6 @@ export default {
     ...Zoom
   },
   props: ["input", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     this.description = this.inputCopy.description;

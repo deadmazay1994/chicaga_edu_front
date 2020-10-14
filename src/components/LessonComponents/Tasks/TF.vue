@@ -34,7 +34,6 @@
 <script>
 import Description from "./TasksDescription";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -86,7 +85,6 @@ export default {
     Description
   },
   props: ["input", "index"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
   }

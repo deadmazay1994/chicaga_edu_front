@@ -1,26 +1,11 @@
 <script>
-import TaskImages from "Tasks/TaskImages";
-import FillGaps from "Tasks/FillGaps";
-import TF from "Tasks/TF";
-import MatchImgs from "Tasks/MatchImgs";
-import Syllable from "Tasks/ChooseSyllable";
-import Comparison from "Tasks/Comparison";
-import Grouping from "Tasks/Grouping";
-import SelectionBox from "Tasks/SelectionBox";
-import Crossword from "Tasks/Crossword";
-import GapsImgs from "Tasks/GapsImgs";
-import Attachs from "Tasks/Attachs";
-import Results from "Tasks/Results";
-import CheckBtn from "Tasks/CheckBtn";
-import YoutubeAddons from "Tasks/YoutubeAddons";
-import ChooseImage from "Tasks/ChooseImage";
-import PaymentOption from "Tasks/PaymentOption/";
+import TaskComponents from "./exportAllTaskComponents";
 
-import Choose from "Tasks/Consultation/Choose";
-import Gaps from "Tasks/Consultation/Gaps";
 import ConsultationData from "Tasks/Consultation/data";
 
 import { mapGetters } from "vuex";
+
+import { manager } from "./functions.js";
 
 export default {
   name: "task-manager",
@@ -30,10 +15,7 @@ export default {
       this.input = this.consultation;
     }
     // Если прогресс пустой
-    // console.log((!Object.keys(this.saved).length && this.type == "lesson") ||
-    //   (!Object.keys(this.savedHomework).length && this.type == "homework"))
     this.setTaskNum();
-    // tasks.push(this.manager(h, "", true, 1));
     if (
       (!this.saved.length && this.type == "lesson") ||
       (!this.savedHomework.length && this.type == "homework")
@@ -125,90 +107,10 @@ export default {
       });
       this.checked = true;
     },
-    getAttrsForTask(data, index) {
-      let attrs = {
-        props: {
-          input: data,
-          index
-        },
-        ref: "task",
-        refInFor: true,
-        class: "tasks__task"
-      };
-      if (data.inputCopy) {
-        attrs.props.input = data;
-      }
-      if (data.child) {
-        attrs.props.childSaved = data.child;
-      }
-      return attrs;
-    },
     manager(data, type, index) {
       let h = this.$createElement;
-      let slots = [h("check-btn")];
-      let attrs = this.getAttrsForTask(data, index);
-      let componentName = "";
-      switch (type) {
-        case "group_by_dragging":
-          componentName = "grouping";
-          break;
-        case "write_word_to_picture":
-          componentName = "gaps-imgs";
-          break;
-        case "select_stressed_syllable":
-          componentName = "syllable";
-          break;
-        case "images_order":
-          componentName = "task-images";
-          break;
-        case "drag_and_drop_words":
-          attrs.props.drag = true;
-          componentName = "fill-gaps";
-          break;
-        case "match_words":
-          componentName = "comparison";
-          break;
-        case "true_or_false":
-          componentName = "t-f";
-          break;
-        case "crosswordы":
-          componentName = "crossword";
-          break;
-        case "match_picture_and_word":
-          componentName = "match-imgs";
-          break;
-        case "select_correct_answer":
-          componentName = "selection-box";
-          break;
-        case "select_correct_variant":
-          attrs.props.underline = true;
-          componentName = "selection-box";
-          break;
-        case "insert_skipped_word":
-          componentName = "fill-gaps";
-          break;
-        case "youtube_addons":
-          componentName = "youtubeAddons";
-          break;
-        case "lesson_addons_files":
-          componentName = "attachs";
-          break;
-        case "select_correct_image_answer":
-          componentName = "choose-image";
-          break;
-        // Для конслуьтации
-        case "payment-option":
-          slots = [];
-          componentName = "payment-option";
-          break;
-        case "choose":
-          componentName = "choose";
-          break;
-        case "gaps":
-          componentName = "gaps";
-          break;
-      }
-      return h(componentName, attrs, slots);
+      // Данная функция создает компонент согласно его названию
+      return manager(data, type, index, h);
     },
     onSendTask() {
       let self = this;
@@ -297,24 +199,7 @@ export default {
     }
   },
   components: {
-    TaskImages,
-    FillGaps,
-    TF,
-    MatchImgs,
-    Syllable,
-    Comparison,
-    Grouping,
-    SelectionBox,
-    Crossword,
-    GapsImgs,
-    Attachs,
-    Results,
-    CheckBtn,
-    YoutubeAddons,
-    ChooseImage,
-    PaymentOption,
-    Choose,
-    Gaps
+    ...TaskComponents
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: {},

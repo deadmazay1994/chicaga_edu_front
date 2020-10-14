@@ -21,7 +21,6 @@
 import Description from "./TasksDescription";
 import Syllable from "./Syllable";
 
-import Methods from "@/mixins/tasks";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -65,7 +64,6 @@ export default {
     Syllable
   },
   props: ["input", "index", "childSaved"],
-  mixins: [Methods],
   beforeMount() {
     this.setInputCopy();
     // this.shuffled = this.shuffle(this.inputCopy.body);

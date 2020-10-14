@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
+import TaskFunctions from "@/mixins/tasks";
+
 import VueZoomer from "vue-zoomer";
 
 Vue.use(VueZoomer);
@@ -17,6 +19,9 @@ Vue.mixin({
     };
   }
 });
+
+// Стандарные функции тасков
+Vue.mixin(TaskFunctions);
 
 const VueObject = new Vue({
   router,

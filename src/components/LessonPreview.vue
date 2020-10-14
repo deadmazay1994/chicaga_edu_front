@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import TaskManager from "Tasks/Manager/TaskManager";
+import TaskManager from "Tasks/Manager/";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 
 import { mapGetters, mapMutations } from "vuex";
