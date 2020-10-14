@@ -5,56 +5,20 @@ import ConsultationData from "Tasks/Consultation/data";
 
 import { mapGetters } from "vuex";
 
-import { manager } from "./functions.js";
+import { manager, getContext, renderTasks } from "./functions.js";
 
 export default {
   name: "task-manager",
   render(h) {
-    let tasks = [];
     if (this.isConsultation()) {
       this.input = this.consultation;
     }
-    // Если прогресс пустой
     this.setTaskNum();
-    if (
-      (!this.saved.length && this.type == "lesson") ||
-      (!this.savedHomework.length && this.type == "homework")
-    ) {
-      if (this.input) {
-        this.input.forEach((task, index) => {
-          // Манагер уже сам выбирает какой таск когда подключать
-          tasks.push(this.manager(task, task.type, index));
-        });
-      }
-    } else if (this.saved.length && this.type == "lesson") {
-      // Перебираем таски из прогресса
-      for (const index in this.saved) {
-        const task = this.saved[index];
-        if (task) {
-          if (!task.inputCopy) {
-            console.log("Проверь задание под номером", index + 1);
-          } else {
-            let saved = this.manager(task, task.inputCopy.type, index);
-            tasks.push(saved);
-          }
-        }
-      }
-    } else if (this.savedHomework.length && this.type == "homework") {
-      for (const index in this.savedHomework) {
-        const task = this.savedHomework[index];
-        if (!task.inputCopy) {
-          console.log("Проверь задание под номером", index + 1);
-        } else {
-          let saved = this.manager(task, task.inputCopy.type, index);
-          tasks.push(saved);
-        }
-      }
-    }
     let results = [];
     if (!location.href.includes("consultation")) {
       results = this.results;
     }
-    let slots = [...tasks, results];
+    let slots = [...renderTasks(getContext(this), this.manager), results];
     return h("div", slots);
   },
   data: function() {
