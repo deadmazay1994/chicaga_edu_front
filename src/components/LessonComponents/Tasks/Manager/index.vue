@@ -18,7 +18,8 @@ export default {
     if (!location.href.includes("consultation")) {
       results = this.results;
     }
-    let slots = [...renderTasks(getContext(this), this.manager), results];
+    let tasksInput = getContext(this);
+    let slots = [...renderTasks(tasksInput, this.manager), results];
     return h("div", slots);
   },
   data: function() {

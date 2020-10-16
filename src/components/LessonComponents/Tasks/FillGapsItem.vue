@@ -39,6 +39,7 @@ export default {
           );
           letters = [];
           this.pushMissingAnswers(gapNum);
+          if (!this.inputSize) this.setInputSize(this.sentenceMap[gapNum] * 10);
           res.push(
             h("input", {
               class: {
@@ -50,9 +51,7 @@ export default {
               },
               style: {
                 // Ширина инпута в зависимости от длинны пропущенного слова
-                width:
-                  String(this.sentenceMap[gapNum] * 10 + getRandomInt(25)) +
-                  "px"
+                width: this.inputSize + "px"
               },
               on: {
                 input: event => {
@@ -102,6 +101,7 @@ export default {
   },
   data() {
     return {
+      inputSize: 0,
       newSentence: "",
       sentenceMap: [],
       correct: null,
@@ -110,6 +110,9 @@ export default {
     };
   },
   methods: {
+    setInputSize(number) {
+      this.inputSize = number + getRandomInt(number + 10) + 10;
+    },
     updateModelInput(val, inputIndex) {
       if (this.answers) {
         this.answers[inputIndex].val = val;
