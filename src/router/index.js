@@ -19,6 +19,8 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 
+import Page404 from "Base/404";
+
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -76,6 +78,18 @@ const routes = [
       // forTeacher: true,
       requiresAuth: true
     }
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: Page404,
+    meta: {
+      all: true
+    }
+  },
+  {
+    path: "*",
+    redirect: "/404"
   },
   {
     path: "/auth",
@@ -161,8 +175,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  }
-  if (to.matched.some(record => record.meta.guest)) {
+  } else if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
         path: "/lk/my-coursers",
@@ -171,8 +184,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  }
-  if (to.matched.some(record => record.meta.forTeacher)) {
+  } else if (to.matched.some(record => record.meta.forTeacher)) {
     console.log(store.getters.user.role);
     if (store.getters.user.role != "teacher") {
       next({
@@ -186,6 +198,8 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
+  } else {
+    next();
   }
 });
 

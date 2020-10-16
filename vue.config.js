@@ -5,6 +5,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
+        Base: path.resolve(__dirname, "src/components/Base/"),
         // eslint-disable-next-line prettier/prettier
         Tasks: path.resolve(__dirname, "src/components/LessonComponents/Tasks/"),
         LC: path.resolve(__dirname, "src/components/LessonComponents/"),

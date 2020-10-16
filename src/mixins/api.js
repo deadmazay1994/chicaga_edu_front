@@ -7,7 +7,7 @@ async function responseProcessing(response, method, error = "") {
   await response.then(data => {
     let d = data.data;
     if ("errors" in d) {
-      console.log(error, method, d.errors);
+      console.error(error, method, d.errors);
       res = {
         error: d.errors
       };
@@ -104,7 +104,6 @@ export default {
       );
     },
     async saveProgressHomework(data) {
-      console.log(data.progress);
       return post(
         `user/course/${data.courseId}/lesson/${data.lessonId}/home-work-progress`,
         {
