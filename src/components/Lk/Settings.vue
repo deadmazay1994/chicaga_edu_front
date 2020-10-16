@@ -22,18 +22,18 @@
               label="Email"
             />
             <v-divider class="mb-5"></v-divider>
-            <!-- <div class="text-subtitle-2">Сменить пароль</div>
+            <div class="text-subtitle-2">Сменить пароль</div>
             <v-text-field
               type="password"
-              v-model="additionalUserData.oldPassword"
-              label="Введите старый пароль"
+              v-model="oldPassword"
+              label="Введите пароль"
             />
             <v-text-field
               type="password"
-              v-model="additionalUserData.newPassword"
-              label="Введите новый пароль"
+              v-model="newPassword"
+              label="Повторите пароль"
             />
-            <v-divider class="mb-5"></v-divider>-->
+            <v-divider class="mb-5"></v-divider>
           </v-card>
         </v-col>
         <v-col cols="12" md="6">
@@ -53,7 +53,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-btn class="main-color main-color--text front" @click="safe"
+      <v-btn class="main-color main-color--text front" @click="save"
         >Сохранить настройки</v-btn
       >
       <!-- // Когда будет сервер исправить  на cropUploadSuccess -->
@@ -80,10 +80,8 @@ export default {
       pageTitle: "Настройки",
       subtitle: "На данной странице вы можете изменить данные о себе",
       showUpladAvatar: false,
-      additionalUserData: {
-        oldPassword: "",
-        newPassword: ""
-      },
+      oldPassword: "",
+      newPassword: "",
       nameRules: [
         v => !!v || "ФИО обязательное поле",
         v => (v && v.length >= 2) || "Введено не верное значение"
@@ -92,13 +90,6 @@ export default {
         v => !!v || "E-mail обязательное поле",
         v => /.+@.+\..+/.test(v) || "Введен не верный E-mail"
       ],
-      // passwordRules: [
-      //   v => !!v || "Password is required",
-      //   v => (v && v.length >= 5) || "Password must have 5+ characters",
-      //   v => /(?=.*[A-Z])/.test(v) || "Must have one uppercase character",
-      //   v => /(?=.*\d)/.test(v) || "Must have one number",
-      //   v => /([!@$%])/.test(v) || "Must have one special character [!@#$%]"
-      // ],
       valid: true
     };
   },
@@ -106,18 +97,13 @@ export default {
     updateAvatar(avatarUri) {
       this.$store.commit("setAvatar", avatarUri);
     },
-    safe() {
+    save() {
       this.$refs.form.validate();
       if (this.valid) {
-        // Если изображение п прежнему стандартное
-        // this.avatar = this.avatar != "/imgs/user.png" ? this.avatar : null;
-        let data = {
+        let data = this.addingUserData({
           name: this.user.name,
           email: this.user.email
-        };
-        if (this.avatar != "/imgs/user.png") {
-          data.avatar = this.avatar;
-        }
+        });
         this.$store.dispatch("updateUser", data);
       } else {
         this.$store.commit("pushShuckbar", {
@@ -125,6 +111,12 @@ export default {
           success: false
         });
       }
+    },
+    addingUserData(data) {
+      if (this.newPassword) data.password = this.newPassword;
+      if (this.oldPassword) data.password_confirmation = this.oldPassword;
+      if (this.avatar != "/imgs/user.png") data.avatar = this.avatar;
+      return data;
     }
   },
   computed: {
