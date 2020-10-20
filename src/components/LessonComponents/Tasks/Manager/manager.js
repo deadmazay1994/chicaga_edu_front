@@ -25,9 +25,6 @@ export default function manager(data, type, index, h) {
     case "true_or_false":
       componentName = "t-f";
       break;
-    case "crosswordы":
-      componentName = "crossword";
-      break;
     case "match_picture_and_word":
       componentName = "match-imgs";
       break;

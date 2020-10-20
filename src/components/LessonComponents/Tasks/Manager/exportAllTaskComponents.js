@@ -6,7 +6,6 @@ import Syllable from "Tasks/ChooseSyllable";
 import Comparison from "Tasks/Comparison";
 import Grouping from "Tasks/Grouping";
 import SelectionBox from "Tasks/SelectionBox";
-import Crossword from "Tasks/Crossword";
 import GapsImgs from "Tasks/GapsImgs";
 import Attachs from "Tasks/Attachs";
 import Results from "Tasks/Results";
@@ -26,7 +25,6 @@ export default {
   Comparison,
   Grouping,
   SelectionBox,
-  Crossword,
   GapsImgs,
   Attachs,
   Results,
