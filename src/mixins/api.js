@@ -1,3 +1,4 @@
+// const API_URL = "https://eng-test.avead.dev/api/";
 const API_URL = "https://edu.chicaga.ru/api/";
 
 import Axios from "axios";
@@ -87,6 +88,7 @@ export default {
     // Lesson
     async getLesson(id) {
       let response = await Axios.get(API_URL + "get/" + id);
+      console.log(response);
       if (response.status == 200) {
         return response.data.lesson.lesson;
       }

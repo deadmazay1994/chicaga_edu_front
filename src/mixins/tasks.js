@@ -7,6 +7,16 @@ export default {
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
     sendTaskToTeacher(index, data = false) {
+      // Передаем данные в дочерних тасках
+      for (let i in this.$refs) {
+        let childRefs = this.$refs[i];
+        for (let j in childRefs) {
+          let childTasks = childRefs[j];
+          if ("sendData" in childTasks) {
+            childTasks.sendData();
+          }
+        }
+      }
       this.socket.emit("send task to teacher", {
         taskIndex: index,
         taskData: data ? data : this._data,

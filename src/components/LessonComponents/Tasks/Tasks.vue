@@ -51,8 +51,9 @@ export default {
       "setProgressForTeacher"
     ]),
     check() {
+      // Проверяем можно ли проходить тест еще раз
       if (this.attemptNum == 0 || !this.noAddAtempt) {
-        this.$refs.taskManager.check();
+        this.$emit("check");
         this.$emit("saveTasks");
         this.attemptNum++;
         if (this.isHomework) {
@@ -141,14 +142,6 @@ export default {
     position: relative
   &__task
     margin-bottom: 30px
-    // &::after
-    //   margin-top: 10px
-    //   display: block
-    //   content: ""
-    //   width: 111%
-    //   background: $main_color
-    //   height: 2px
-    //   margin-left: -5.5%
   &__check-btn
     background-color: $main_color !important
 </style>
