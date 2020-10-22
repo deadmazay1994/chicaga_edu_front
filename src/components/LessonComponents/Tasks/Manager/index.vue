@@ -7,6 +7,8 @@ import { mapGetters } from "vuex";
 
 import { manager, getContext, renderTasks } from "./functions.js";
 
+import studentToTeacher from "./mixins/studentToTeacher.js";
+
 export default {
   name: "task-manager",
   render(h) {
@@ -31,6 +33,11 @@ export default {
     };
   },
   methods: {
+    tasksForEach(callback) {
+      if (this.$refs) {
+        this.$refs.task.forEach(task => callback(task));
+      }
+    },
     setTaskNum() {
       let addonsType = ["youtube_addons", "lesson_addons_files"];
       const inAddons = taskType =>
@@ -63,9 +70,10 @@ export default {
       this.errorCounter = 0;
       this.$refs.task.forEach(task => {
         if (task.check) {
+          // Метод проверки у каждого компоненте разный
+          // Метод зашит в компоненте
           task.check();
         }
-        // console.log(task, task.check)
         if (task.error != undefined) {
           this.errorCounter += Number(task.error);
         }
@@ -113,41 +121,15 @@ export default {
       }
     },
     saveTasks() {
+      this.tasksForEach(task => task.saveProgress());
+    },
+    setErrorsNum() {
       this.errorCounter = 0;
-      if (this.$refs) {
-        this.$refs.task.forEach(task => {
-          task.saveProgress();
-          if (!isNaN(task.error)) {
-            this.errorCounter += Number(task.error);
-          }
-          this.sendTasksToTeacher(task);
-        });
-      }
-      if (this.socket) {
-        this.socket.emit("i was wrong", {
-          errorCounter: this.errorCounter,
-          teacher: this.teacherId,
-          myId: this.socket.id
-        });
-      }
-    },
-    onSendAllTasks() {
-      this.socket.on("send all tasks", () => {
-        this.$refs.task.forEach(task => this.sendTasksToTeacher(task));
-      });
-    },
-    sendTasksToTeacher(task) {
-      task.sendTaskToTeacher(task.index, task._data);
-      // Передаем данные в дочерних тасках
-      for (let i in task.$refs) {
-        let childRefs = task.$refs[i];
-        for (let j in childRefs) {
-          let childTasks = childRefs[j];
-          if ("sendData" in childTasks) {
-            childTasks.sendData();
-          }
+      this.tasksForEach(task => {
+        if (!isNaN(task.error)) {
+          this.errorCounter += Number(task.error);
         }
-      }
+      });
     },
     isConsultation() {
       return location.href.includes("consultation");
@@ -167,10 +149,18 @@ export default {
     ...TaskComponents
   },
   props: ["input", "saved", "savedHomework", "type"],
-  mixins: {},
+  mixins: [studentToTeacher],
   beforeMount() {
+    // StudentToTeacher mixin
     this.onSendTask();
     this.onSendAllTasks();
+
+    // Обрабатываем проверку и сохранение тасков
+    this.$parent.$on("check", () => {
+      this.check();
+      // StudentToTeacher mixin
+      this.signalingToTeacherUserIsAnswred();
+    });
     this.$parent.$on("saveTasks", this.saveTasks);
   }
 };
