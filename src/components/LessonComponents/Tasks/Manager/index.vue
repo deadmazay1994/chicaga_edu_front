@@ -8,6 +8,7 @@ import { mapGetters } from "vuex";
 import { manager, getContext, renderTasks } from "./functions.js";
 
 import studentToTeacher from "./mixins/studentToTeacher.js";
+import rerender from "./mixins/rerender.js";
 
 export default {
   name: "task-manager",
@@ -15,7 +16,7 @@ export default {
     if (this.isConsultation()) {
       this.input = this.consultation;
     }
-    this.setTaskNum();
+    this.setTasksNum();
     let results = [];
     if (!location.href.includes("consultation")) {
       results = this.results;
@@ -38,7 +39,7 @@ export default {
         this.$refs.task.forEach(task => callback(task));
       }
     },
-    setTaskNum() {
+    setTasksNum() {
       let addonsType = ["youtube_addons", "lesson_addons_files"];
       const inAddons = taskType =>
         addonsType.find(task => (task == taskType ? true : false));
@@ -67,58 +68,18 @@ export default {
       }
     },
     check() {
-      this.errorCounter = 0;
-      this.$refs.task.forEach(task => {
+      this.tasksForEach(task => {
         if (task.check) {
           // Метод проверки у каждого компоненте разный
-          // Метод зашит в компоненте
           task.check();
         }
-        if (task.error != undefined) {
-          this.errorCounter += Number(task.error);
-        }
       });
+      this.setErrorsNum();
       this.checked = true;
     },
     manager(data, type, index) {
-      let h = this.$createElement;
       // Данная функция создает компонент согласно его названию
-      return manager(data, type, index, h);
-    },
-    onSendTask() {
-      let self = this;
-      if (this.socket) {
-        this.socket.on("send task to teacher", data => {
-          if (data.senderId == this.activeUser) {
-            if ("childRef" in data.taskData) {
-              this.updateChildComponent(
-                self.$refs.task[data.taskIndex],
-                data.taskData
-              );
-            } else {
-              // Если у таска нет дочерних компонентов, то заменяем данные на прямую
-              this.updateTask(this.$refs.task[data.taskIndex], data.taskData);
-            }
-          }
-        });
-      }
-    },
-    updateTask(component, data) {
-      // component.update(data);
-      if (component) {
-        component._data = data;
-        component.$forceUpdate();
-      }
-    },
-    updateChildComponent(component, data) {
-      if (component && data.data) {
-        let child = component.$refs[data.childRef][data.childIndex];
-        child._data = data.data;
-        child.$forceUpdate();
-        if ("customForceUpdate" in child) {
-          child.customForceUpdate(data);
-        }
-      }
+      return manager(data, type, index, this.$createElement);
     },
     saveTasks() {
       this.tasksForEach(task => task.saveProgress());
@@ -149,7 +110,7 @@ export default {
     ...TaskComponents
   },
   props: ["input", "saved", "savedHomework", "type"],
-  mixins: [studentToTeacher],
+  mixins: [studentToTeacher, rerender],
   beforeMount() {
     // StudentToTeacher mixin
     this.onSendTask();

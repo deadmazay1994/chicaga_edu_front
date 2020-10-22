@@ -7,13 +7,19 @@ export default {
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
     sendTaskToTeacher(index, data = false) {
-      // Передаем данные в дочерних тасках
-      for (let i in this.$refs) {
-        let childRefs = this.$refs[i];
-        for (let j in childRefs) {
-          let childTasks = childRefs[j];
-          if ("sendData" in childTasks) {
-            childTasks.sendData();
+      // Передаем данные в дочерних тасках если они есть
+      if (this.$refs) {
+        for (let i in this.$refs) {
+          let childRefs = this.$refs[i];
+          if (childRefs) {
+            for (let j in childRefs) {
+              let childTasks = childRefs[j];
+              if (childTasks) {
+                if ("sendData" in childTasks) {
+                  childTasks.sendData();
+                }
+              }
+            }
           }
         }
       }
@@ -60,6 +66,15 @@ export default {
         childIndex,
         childData
       });
+    },
+    update(data) {
+      // Метод обновляет все данные таска и ререндерит его
+      this._data = data;
+      this.$forceUpdate();
+      // Если данные компонента нужно обновить еще и особым образом, обновляем
+      if ("customForceUpdate" in this) {
+        this.customForceUpdate(data);
+      }
     }
   },
   computed: {
