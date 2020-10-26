@@ -1,6 +1,6 @@
 <template>
   <div class="tasks vue-component">
-    <div class="relative">
+    <div class="relative" style="height: 100%">
       <task-manager
         class="tasks__wrap"
         v-if="loaded"
@@ -10,26 +10,28 @@
         :type="isHomework ? 'homework' : 'lesson'"
         ref="taskManager"
       />
-      <paint v-if="loaded" class="tasks__paint" />
+      <!-- <paint v-if="loaded" class="tasks__paint" /> -->
     </div>
-    <div v-if="user.role != 'teacher'" class="tasks__fixed ma-5">
-      <div class="d-flex justify-center">
-        <v-btn
-          v-if="this.attemptNum == 0 || !this.noAddAtempt"
-          @click="check"
-          class="tasks__check-btn"
-          large
-          color="white--text"
-          >ПОДТВЕРДИТЬ</v-btn
-        >
+    <portal to="manager">
+      <div v-if="user.role != 'teacher'" class="tasks__fixed ma-5">
+        <div class="d-flex justify-center">
+          <v-btn
+            v-if="this.attemptNum == 0 || !this.noAddAtempt"
+            @click="check"
+            class="tasks__check-btn"
+            large
+            color="white--text"
+            >ПОДТВЕРДИТЬ</v-btn
+          >
+        </div>
       </div>
-    </div>
+    </portal>
   </div>
 </template>
 
 <script>
 import TaskManager from "Tasks/Manager/";
-import Paint from "./Paint";
+// import Paint from "./Paint";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -101,8 +103,8 @@ export default {
     }
   },
   components: {
-    TaskManager,
-    Paint
+    TaskManager
+    // Paint
   },
   props: ["isHomework", "noAddAtempt"],
   mixins: [Api],
@@ -140,6 +142,8 @@ export default {
     z-index: 1
     opacity: 0.99
     position: relative
+  &__fixed
+    margin: 0
   &__task
     margin-bottom: 30px
   &__check-btn
@@ -148,7 +152,10 @@ export default {
 
 <style lang="sass">
 @import "@/components/Sass/Varibles.sass"
-
+.tasks
+  &__wrap
+    // margin-top: 30px
+    height: 100%
 .table-item
   padding: 10px
   background: #dedede

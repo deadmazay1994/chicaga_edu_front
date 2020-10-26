@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import PortalVue from "portal-vue";
 
 import TaskFunctions from "@/mixins/tasks";
 
@@ -19,6 +20,8 @@ Vue.mixin({
     };
   }
 });
+
+Vue.use(PortalVue);
 
 // Стандарные функции тасков
 Vue.mixin(TaskFunctions);

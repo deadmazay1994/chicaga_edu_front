@@ -25,9 +25,14 @@ export default {
     }
     let tasksInput = this.getContext();
     let slots = [
-      ...this.renderTasks(tasksInput, this.manager),
-      results,
-      <choose-group class="manager__choose-group" lessonType={this.type} />
+      <div class="manager__workspace">
+        {...this.renderTasks(tasksInput, this.manager)}
+      </div>,
+      <div class="manager__bottom">
+        {results}
+        <choose-group class="manager__choose-group" lessonType={this.type} />
+        <portal-target name="manager" />
+      </div>
     ];
     return h("div", slots);
   },
@@ -139,5 +144,16 @@ export default {
   &__task
     overflow: auto
 .manager
-  &__choose-group
+  &__bottom
+    min-height: 104px
+    border-top: 1px solid #dedede
+    padding-top: 10px
+    height: 21%
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+  &__workspace
+    padding: 10px
+    height: 79%
+    overflow: auto
 </style>

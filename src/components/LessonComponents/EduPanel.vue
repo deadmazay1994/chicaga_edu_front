@@ -83,19 +83,12 @@ export default {
   overflow: auto
   display: flex
   flex-direction: column
-  &__tasks
-    padding-bottom: 15px
-    min-height: 100%
-    position: absolute
-    width: 100%
   &__tasks-component
-    height: 100%
-    position: absolute
-    width: 100%
+    height: calc(90vh - 63px)
     display: flex
     flex-direction: column
     justify-content: space-between
-    padding-top: 20px
+    overflow: hidden
   & .v-tabs-items
     flex: 1
 </style>
