@@ -1,6 +1,6 @@
 <template>
   <div class="lesson vue-component">
-    <v-container>
+    <v-container fluid style="padding: 0 20px">
       <v-row>
         <v-col lg="6" cols="12">
           <v-card class="front">
@@ -109,5 +109,5 @@ export default {
 <style lang="sass" scoped="">
 .lesson
   &__item
-    height: 80vh
+    height: calc(100vh - 90px)
 </style>
