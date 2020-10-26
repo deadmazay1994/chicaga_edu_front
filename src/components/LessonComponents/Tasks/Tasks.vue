@@ -13,7 +13,10 @@
       <!-- <paint v-if="loaded" class="tasks__paint" /> -->
     </div>
     <portal to="manager">
-      <div v-if="user.role != 'teacher'" class="tasks__fixed ma-5">
+      <div
+        v-if="user.role != 'teacher' && showCheckBtn"
+        class="tasks__fixed mb-2"
+      >
         <div class="d-flex justify-center">
           <v-btn
             v-if="this.attemptNum == 0 || !this.noAddAtempt"
@@ -91,7 +94,11 @@ export default {
       "lessonTasks",
       "homework",
       "savedHomework",
-      "user"
+      "user",
+      "activeGroupIndexHomework",
+      "activeGroupIndexLesson",
+      "groupsHomework",
+      "groupsLesson"
     ]),
     tasks() {
       // Устанавливаем дз это или нет
@@ -100,6 +107,17 @@ export default {
       } else {
         return this.lessonTasks;
       }
+    },
+    showCheckBtn() {
+      let res = false;
+      if (
+        (this.isHomework &&
+          this.groupsHomework.length - 1 == this.activeGroupIndexHomework) ||
+        (!this.isHomework &&
+          this.groupsLesson.length - 1 == this.activeGroupIndexLesson)
+      )
+        res = true;
+      return res;
     }
   },
   components: {
@@ -142,6 +160,9 @@ export default {
     z-index: 1
     opacity: 0.99
     position: relative
+    display: flex
+    flex-direction: column
+    justify-content: space-between
   &__fixed
     margin: 0
   &__task

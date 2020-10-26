@@ -157,10 +157,10 @@ export default {
     color: $main_color
     &--left
       left: 15px
-      top: 0
+      top: 10px
       transform: rotate(90deg)
     &--right
       right: 15px
-      top: 0
+      top: 10px
       transform: rotate(-90deg)
 </style>

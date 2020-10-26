@@ -145,15 +145,15 @@ export default {
     overflow: auto
 .manager
   &__bottom
-    min-height: 104px
     border-top: 1px solid #dedede
     padding-top: 10px
-    height: 21%
     display: flex
     flex-direction: column
     justify-content: space-around
+    background: #f3f3f3
+  &__choose-group
+    padding: 10px 0
   &__workspace
     padding: 10px
-    height: 79%
     overflow: auto
 </style>
