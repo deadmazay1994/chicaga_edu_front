@@ -29,11 +29,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["activeGroupLesson", "activeGroupHomework"]),
+    ...mapGetters(["activeGroupIndexLesson", "activeGroupIndexHomework"]),
     activeGroup() {
       let index = 0;
-      if (this.type == "lesson") index = this.activeGroupLesson;
-      else if (this.type == "homework") index = this.activeGroupHomework;
+      if (this.type == "lesson") index = this.activeGroupIndexLesson;
+      else if (this.type == "homework") index = this.activeGroupIndexHomework;
       return index;
     }
   },

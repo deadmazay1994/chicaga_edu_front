@@ -141,9 +141,9 @@ export default {
       return state.teacherId;
     },
     lessonId: state => state.lessonId,
-    activeGroupLesson: state => state.activeGroupIndexLesson,
+    activeGroupIndexLesson: state => state.activeGroupIndexLesson,
     groupsLesson: state => state.groupsNamesLesson,
-    activeGroupHomework: state => state.activeGroupIndexHomework,
+    activeGroupIndexHomework: state => state.activeGroupIndexHomework,
     groupsHomework: state => state.groupsNamesHomework
   }
 };

@@ -25,9 +25,9 @@ export default {
     }
     let tasksInput = this.getContext();
     let slots = [
-      <choose-group lessonType={this.type} />,
       ...this.renderTasks(tasksInput, this.manager),
-      results
+      results,
+      <choose-group class="manager__choose-group" lessonType={this.type} />
     ];
     return h("div", slots);
   },
@@ -138,4 +138,6 @@ export default {
 .tasks
   &__task
     overflow: auto
+.manager
+  &__choose-group
 </style>

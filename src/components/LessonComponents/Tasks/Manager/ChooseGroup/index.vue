@@ -2,25 +2,22 @@
 <template>
   <div class="choose-group vue-component" v-click-outside="hide">
     <v-icon
-      class="choose-group__toggler main-color-text"
-      size="30"
-      @click="toggleShow"
-      >mdi-menu</v-icon
+      size="40"
+      class="choose-group__nav choose-group__nav--left"
+      @click="prev"
+      v-show="prevActive"
+      >mdi-arrow-down</v-icon
     >
-    <div v-show="show" class="choose-group__list choose-list" ref="list">
-      <v-list>
-        <v-list-item-group color="rgb(169 133 64)" v-model="activeGroupIndex">
-          <v-list-item
-            class="choose-list__item"
-            v-for="(name, i) in groupsNames"
-            :key="i"
-            @click="toggleGroup(i)"
-          >
-            <v-list-item-title>{{ name }}</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+    <div class="choose-group__name text-h4 text-center main-color-text">
+      {{ activeGroupName }}
     </div>
+    <v-icon
+      size="40"
+      class="choose-group__nav choose-group__nav--right"
+      @click="next"
+      v-show="nextActive"
+      >mdi-arrow-down</v-icon
+    >
   </div>
 </template>
 
@@ -46,24 +43,57 @@ export default {
     hide() {
       this.show = false;
     },
-    toggleGroup(index) {
-      if (this.lessonType == "lesson") {
-        this.setActiveGroupLesson(index);
-      } else if (this.lessonType == "homework") {
-        this.setActiveGroupHomework(index);
-      }
-      this.hide();
+    prev() {
+      this.moveGroup(-1);
+    },
+    next() {
+      this.moveGroup(1);
+    },
+    moveGroup(step) {
+      this.ctxNav(
+        step,
+        () => this.setActiveGroupLesson(this.activeGroupIndexLesson + step),
+        () => this.setActiveGroupLesson(this.activeGroupIndexHomework + step)
+      );
+    },
+    ctxNav(step, lesson, homework) {
+      this.ctx(
+        () => {
+          if (
+            0 <= this.activeGroupIndexLesson + step &&
+            this.activeGroupIndexLesson + step < this.groupsLesson.length
+          ) {
+            lesson();
+          }
+        },
+        () => {
+          if (
+            0 <= this.activeGroupIndexHomework + step &&
+            this.activeGroupIndexHomework + step < this.groupsHomework.length
+          ) {
+            homework();
+          }
+        }
+      );
     },
     collectGropNames() {
+      this.ctx(this.collectGroupsNamesLesson, this.collectGroupsNamesHomework);
+    },
+    ctx(lessonCallback, homeworkCallback) {
       if (this.lessonType == "lesson") {
-        this.collectGroupsNamesLesson();
+        lessonCallback();
       } else if (this.lessonType == "homework") {
-        this.collectGroupsNamesHomework();
+        homeworkCallback();
       }
     }
   },
   computed: {
-    ...mapGetters(["groupsLesson", "groupsHomework"]),
+    ...mapGetters([
+      "groupsLesson",
+      "groupsHomework",
+      "activeGroupIndexLesson",
+      "activeGroupIndexHomework"
+    ]),
     groupsNames() {
       let res = [];
       if (this.lessonType == "lesson") {
@@ -73,11 +103,37 @@ export default {
       }
       return res;
     },
-    activeGroupIndex: {
-      get() {
-        return 0;
-      },
-      set() {}
+    activeGroupName() {
+      let res = "";
+      this.ctx(
+        () =>
+          (res =
+            this.groupsLesson[this.activeGroupIndexLesson] ||
+            this.activeGroupIndexLesson + 1),
+        () =>
+          (res =
+            this.groupsHomework[this.activeGroupIndexHomework] ||
+            this.activeGroupIndexHomework + 1)
+      );
+      return res;
+    },
+    nextActive() {
+      let res = false;
+      this.ctxNav(
+        1,
+        () => (res = true),
+        () => (res = true)
+      );
+      return res;
+    },
+    prevActive() {
+      let res = false;
+      this.ctxNav(
+        -1,
+        () => (res = true),
+        () => (res = true)
+      );
+      return res;
     }
   },
   components: {},
@@ -90,28 +146,21 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/components/Sass/Varibles.sass"
+
 .choose-group
   position: relative
-  &__toggler
+  width: 100%
+  &__nav
+    position: absolute
     cursor: pointer
-    position: absolute
-    z-index: 1
-    right: 10px
-    top: 10px
-  &__list
-    position: absolute
-    top: 10px
-    right: 50px
-    z-index: 10
-    background: #fff
-    box-shadow: 6px 5px 8px 0px #0008
-    min-width: 200px
-    .v-list
-      padding: 0
-.choose-list
-  &__item
-    // padding: 0 10px
-    // margin-top: 10px
-    // cursor: pointer
-    // border-bottom: 1px solid #dedede
+    color: $main_color
+    &--left
+      left: 15px
+      top: 0
+      transform: rotate(90deg)
+    &--right
+      right: 15px
+      top: 0
+      transform: rotate(-90deg)
 </style>
