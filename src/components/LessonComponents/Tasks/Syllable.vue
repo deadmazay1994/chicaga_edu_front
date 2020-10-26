@@ -59,7 +59,6 @@ export default {
       });
     }
   },
-  computed: {},
   components: {},
   props: ["input", "index", "childSaved"],
   mixins: {},

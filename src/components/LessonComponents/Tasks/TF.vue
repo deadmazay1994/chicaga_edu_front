@@ -75,9 +75,6 @@ export default {
     },
     vRadioStatus(tf) {
       return { "v-radio--white": tf.error != null };
-    },
-    update(data) {
-      this._data = data;
     }
   },
   computed: { ...mapGetters(["socket"]) },

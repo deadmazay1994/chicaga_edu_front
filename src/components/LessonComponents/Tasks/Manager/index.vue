@@ -42,7 +42,7 @@ export default {
   methods: {
     tasksForEach(callback) {
       if (this.$refs) {
-        this.$refs.task.forEach(task => callback(task));
+        this.$refs.task.forEach((task, index) => callback(task, index));
       }
     },
     setTasksNum() {
@@ -76,10 +76,9 @@ export default {
     },
     check() {
       this.tasksForEach(task => {
-        console.log(task);
         if (task.check) {
           // Метод проверки у каждого компоненте разный
-          // task.check();
+          task.check();
         }
       });
       this.setErrorsNum();
@@ -90,7 +89,7 @@ export default {
       return manager(data, type, index, this.$createElement);
     },
     saveTasks() {
-      this.tasksForEach(task => task.saveProgress());
+      // this.tasksForEach(task => task.saveProgress());
     },
     setErrorsNum() {
       this.errorCounter = 0;

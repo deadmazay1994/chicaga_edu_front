@@ -4,7 +4,8 @@ export default {
   methods: {
     renderTasks(groups, manager) {
       let renderedGrops = [];
-      groups.forEach((group, index) => {
+      let taskIndex = 0;
+      groups.forEach((group, gropIndex) => {
         // Таски в каждой группе обрабатываем отедльно
         if (group.tasks) {
           let rendered = [];
@@ -12,14 +13,15 @@ export default {
             const task = group.tasks[index];
             // Если это не сохраненный таск
             if (!task.inputCopy) {
-              rendered.push(manager(task, task.type, index));
+              rendered.push(manager(task, task.type, taskIndex));
             } else {
-              rendered.push(manager(task, task.inputCopy.type, index));
+              rendered.push(manager(task, task.inputCopy.type, taskIndex));
             }
+            taskIndex++;
           }
           // Если данная группа выбрана, то выводим ее
           renderedGrops.push(
-            <div v-show={this.activeGroup == index}>{rendered}</div>
+            <div v-show={this.activeGroup == gropIndex}>{rendered}</div>
           );
         }
       });

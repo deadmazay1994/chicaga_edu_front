@@ -14,7 +14,13 @@ export default {
   },
   methods: {
     check() {
-      this.$parent.check();
+      // this.$parent Это таск
+      if (this.$parent.sendTaskToTeacher) {
+        this.$parent.sendTaskToTeacher();
+      }
+      if (this.$parent.check) {
+        this.$parent.check();
+      }
       if (this.$parent.onChangeTask) {
         this.$parent.onChangeTask();
       }

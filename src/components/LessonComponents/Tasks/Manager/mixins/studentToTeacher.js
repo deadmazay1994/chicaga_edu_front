@@ -10,7 +10,9 @@ export default {
       this.socket.on("send all tasks", () => this.sendAllTasks());
     },
     sendAllTasks() {
-      this.tasksForEach(task => task.sendTasksToTeacher());
+      this.tasksForEach((task, i) => {
+        task.sendTaskToTeacher(i);
+      });
     },
     sendWrongSignal() {
       if (this.socket) {

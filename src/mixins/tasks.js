@@ -6,28 +6,32 @@ export default {
   },
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
-    sendTaskToTeacher(index, data = false) {
-      // Передаем данные в дочерних тасках если они есть
-      // if (this.$refs) {
-      //   for (let i in this.$refs) {
-      //     let childRefs = this.$refs[i];
-      //     if (childRefs) {
-      //       for (let j in childRefs) {
-      //         let childTasks = childRefs[j];
-      //         if (childTasks) {
-      //           if ("sendData" in childTasks) {
-      //             childTasks.sendData();
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
+    sendTaskToTeacher(index, data = this._data) {
       this.socket.emit("send task to teacher", {
         taskIndex: index,
-        taskData: data ? data : this._data,
+        taskData: data,
         teacherId: this.teacherId,
         senderId: this.$parent.socket.id
+      });
+      this.sendChilds(index);
+    },
+    sendChilds(index) {
+      // Из чайлдов получаем массив вида [refName, ref]
+      let refs = Object.keys(this.$refs).map(refName => [
+        refName,
+        this.$refs[refName]
+      ]);
+      refs.forEach(childRefs => {
+        childRefs[1].forEach(ref => {
+          if (ref.sendTaskToTeacher) {
+            ref.sendTaskToTeacher(index, {
+              // Примешиваем данные потомка
+              ...ref._data,
+              childIndex: ref.index,
+              childRef: childRefs[0]
+            });
+          }
+        });
       });
     },
     onChangeTask() {
@@ -78,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["teacherId"])
+    ...mapGetters(["teacherId", "socket"])
   },
   components: {},
   props: [],
