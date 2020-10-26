@@ -5,11 +5,12 @@ import ConsultationData from "Tasks/Consultation/data";
 
 import { mapGetters } from "vuex";
 
-import { manager, renderTasks } from "./functions.js";
+import { manager } from "./functions.js";
 import context from "./mixins/context";
 
 import studentToTeacher from "./mixins/studentToTeacher.js";
-import rerender from "./mixins/rerender.js";
+import rerender from "./mixins/rerender";
+import render from "./mixins/renderTasks";
 
 export default {
   name: "task-manager",
@@ -25,7 +26,7 @@ export default {
     let tasksInput = this.getContext();
     let slots = [
       <choose-group lessonType={this.type} />,
-      ...renderTasks(tasksInput, this.manager),
+      ...this.renderTasks(tasksInput, this.manager),
       results
     ];
     return h("div", slots);
@@ -75,9 +76,10 @@ export default {
     },
     check() {
       this.tasksForEach(task => {
+        console.log(task);
         if (task.check) {
           // Метод проверки у каждого компоненте разный
-          task.check();
+          // task.check();
         }
       });
       this.setErrorsNum();
@@ -116,7 +118,7 @@ export default {
     ...TaskComponents
   },
   props: ["input", "saved", "savedHomework", "type"],
-  mixins: [studentToTeacher, rerender, context],
+  mixins: [studentToTeacher, rerender, context, render],
   beforeMount() {
     // StudentToTeacher mixin
     this.onSendTask();

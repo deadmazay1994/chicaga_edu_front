@@ -1,11 +1,9 @@
-import { mapGetters } from "vuex";
-
 // В зависимости от некторых переменных возращает нужные таски
 export default {
   methods: {
     getContext() {
       if (this.getActualTasks()) {
-        return this.getActualTasks()[this.activeGroup].tasks;
+        return this.getActualTasks();
       } else {
         return [];
       }
@@ -26,15 +24,7 @@ export default {
       return res;
     }
   },
-  computed: {
-    ...mapGetters(["activeGroupLesson", "activeGroupHomework"]),
-    activeGroup() {
-      let index = 0;
-      if (this.type == "lesson") index = this.activeGroupLesson;
-      else if (this.type == "homework") index = this.activeGroupHomework;
-      return index;
-    }
-  },
+  computed: {},
   components: {},
   props: [],
   mixins: {},
