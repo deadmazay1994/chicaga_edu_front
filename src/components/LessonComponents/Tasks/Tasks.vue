@@ -3,6 +3,7 @@
     <div class="relative">
       <task-manager
         class="tasks__wrap"
+        v-if="loaded"
         :input="tasks"
         :saved="savedTasks"
         :savedHomework="savedHomework"
@@ -93,7 +94,6 @@ export default {
     tasks() {
       // Устанавливаем дз это или нет
       if (this.isHomework) {
-        console.log(this.homework);
         return this.homework;
       } else {
         return this.lessonTasks;

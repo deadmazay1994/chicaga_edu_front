@@ -9,12 +9,14 @@ import SelectionBox from "Tasks/SelectionBox";
 import GapsImgs from "Tasks/GapsImgs";
 import Attachs from "Tasks/Attachs";
 import Results from "Tasks/Results";
-import CheckBtn from "Tasks/CheckBtn";
 import YoutubeAddons from "Tasks/YoutubeAddons";
 import ChooseImage from "Tasks/ChooseImage";
 import PaymentOption from "Tasks/PaymentOption/";
 import Choose from "Tasks/Consultation/Choose";
 import Gaps from "Tasks/Consultation/Gaps";
+
+import CheckBtn from "Tasks/CheckBtn";
+import ChooseGroup from "./ChooseGroup";
 
 export default {
   TaskImages,
@@ -28,10 +30,11 @@ export default {
   GapsImgs,
   Attachs,
   Results,
-  CheckBtn,
   YoutubeAddons,
   ChooseImage,
   PaymentOption,
   Choose,
-  Gaps
+  Gaps,
+  CheckBtn,
+  ChooseGroup
 };

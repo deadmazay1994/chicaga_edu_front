@@ -171,6 +171,7 @@ export default {
   pointer-events: none
   position: absolute
   left: 0
+  width: 100%
   &__palet
     position: fixed
     bottom: 10px

@@ -81,7 +81,6 @@ export default {
     },
     saveChildTask(state, data) {
       state.savedTasks[data.parentIndex].child.push(data.childData);
-      // console.log(JSON.stringify(state.savedTasks[data.parentIndex]));
     },
     clearTasks(state) {
       state.lesson = [];
@@ -92,6 +91,18 @@ export default {
     },
     setLessonId(state, lessonId) {
       state.lessonId = lessonId;
+    },
+    setActiveGroupLesson(state, index) {
+      state.activeGroupIndexLesson = index;
+    },
+    setActiveGroupHomework(state, index) {
+      state.activeGroupIndexHomework = index;
+    },
+    collectGroupsNamesLesson(state) {
+      state.groupsNamesLesson = collectGroupsNames(state.lesson.lesson);
+    },
+    collectGroupsNamesHomework(state) {
+      state.groupsNamesHomework = collectGroupsNames(state.lesson.dz);
     }
   },
   state: {
@@ -101,7 +112,11 @@ export default {
     savedTasks: [],
     savedHomework: [],
     teacherId: "",
-    materials: false
+    materials: false,
+    activeGroupIndexLesson: 0,
+    groupsNamesLesson: [],
+    activeGroupIndexHomework: 0,
+    groupsNamesHomework: []
   },
   getters: {
     lesson: state => {
@@ -125,6 +140,18 @@ export default {
     teacherId: state => {
       return state.teacherId;
     },
-    lessonId: state => state.lessonId
+    lessonId: state => state.lessonId,
+    activeGroupLesson: state => state.activeGroupIndexLesson,
+    groupsLesson: state => state.groupsNamesLesson,
+    activeGroupHomework: state => state.activeGroupIndexHomework,
+    groupsHomework: state => state.groupsNamesHomework
+  }
+};
+
+const collectGroupsNames = groups => {
+  if (groups) {
+    return groups.map(group => group.group_name);
+  } else {
+    return [];
   }
 };

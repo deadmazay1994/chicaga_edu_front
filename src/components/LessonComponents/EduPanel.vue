@@ -1,6 +1,12 @@
 <template>
   <div class="edu-panel vue-component">
-    <v-tabs color="orange accent-2" dark v-model="tab" fixed-tabs>
+    <v-tabs
+      color="orange accent-2"
+      dark
+      v-model="tab"
+      fixed-tabs
+      style="flex: 0"
+    >
       <v-tab>{{ taskTabTitle }}</v-tab>
       <v-tab>Чат</v-tab>
       <v-tab>Материалы урока</v-tab>
@@ -9,7 +15,7 @@
     <v-tabs-items v-model="tab">
       <v-tab-item class="edu-panel__tasks">
         <teacher-panel v-if="user.role == 'teacher'" />
-        <tasks style="margin-top: 30px" />
+        <tasks class="edu-panel__tasks-component" />
       </v-tab-item>
       <v-tab-item>
         <text-chat />
@@ -23,7 +29,11 @@
         />
       </v-tab-item>
       <v-tab-item class="edu-panel__tasks">
-        <tasks :isHomework="true" :noAddAtempt="true" class="mt-7" />
+        <tasks
+          class="edu-panel__tasks-component mt-7"
+          :isHomework="true"
+          :noAddAtempt="true"
+        />
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -71,6 +81,28 @@ export default {
 
 .edu-panel
   overflow: auto
+  display: flex
+  flex-direction: column
   &__tasks
-    padding: 15px 0
+    padding-bottom: 15px
+    min-height: 100%
+    position: absolute
+    width: 100%
+  &__tasks-component
+    height: 100%
+    position: absolute
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding-top: 20px
+  & .v-tabs-items
+    flex: 1
+</style>
+
+<style>
+/* scoped мешает прменить стиль */
+.edu-panel .v-window__container {
+  min-height: 100% !important;
+}
 </style>

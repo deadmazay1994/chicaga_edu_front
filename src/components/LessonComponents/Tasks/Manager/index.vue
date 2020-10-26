@@ -5,7 +5,8 @@ import ConsultationData from "Tasks/Consultation/data";
 
 import { mapGetters } from "vuex";
 
-import { manager, getContext, renderTasks } from "./functions.js";
+import { manager, renderTasks } from "./functions.js";
+import context from "./mixins/context";
 
 import studentToTeacher from "./mixins/studentToTeacher.js";
 import rerender from "./mixins/rerender.js";
@@ -21,8 +22,12 @@ export default {
     if (!location.href.includes("consultation")) {
       results = this.results;
     }
-    let tasksInput = getContext(this);
-    let slots = [...renderTasks(tasksInput, this.manager), results];
+    let tasksInput = this.getContext();
+    let slots = [
+      <choose-group lessonType={this.type} />,
+      ...renderTasks(tasksInput, this.manager),
+      results
+    ];
     return h("div", slots);
   },
   data: function() {
@@ -40,32 +45,33 @@ export default {
       }
     },
     setTasksNum() {
-      let addonsType = ["youtube_addons", "lesson_addons_files"];
-      const inAddons = taskType =>
-        addonsType.find(task => (task == taskType ? true : false));
-      if (this.input) {
-        let ifSaved = typeof this.saved != "object";
-        let ifHomeworkSaved = typeof this.savedHomework != "object";
-        let addonsNum = 0;
-        if (
-          (!ifSaved && this.type == "lesson") ||
-          (!ifHomeworkSaved && this.type == "homework")
-        ) {
-          addonsNum = this.input.filter(task => inAddons(task.type)).length;
-        } else {
-          addonsNum = this.input.filter(task => inAddons(task.inputCopy.type))
-            .length;
-        }
-        this.tasksNum = this.input.length - addonsNum;
-      } else if (this.saved) {
-        let addonsNum = this.saved.filter(task => {
-          if (task) {
-            return inAddons(task.inputCopy.type);
-          }
-          return false;
-        }).length;
-        this.tasksNum = this.saved.length - addonsNum;
-      }
+      // let input = Object.keys(this.input).map(key => this.input[key]);
+      // let addonsType = ["youtube_addons", "lesson_addons_files"];
+      // const inAddons = taskType =>
+      //   addonsType.find(task => (task == taskType ? true : false));
+      // if (this.input) {
+      //   let ifSaved = typeof this.saved != "object";
+      //   let ifHomeworkSaved = typeof this.savedHomework != "object";
+      //   let addonsNum = 0;
+      //   if (
+      //     (!ifSaved && this.type == "lesson") ||
+      //     (!ifHomeworkSaved && this.type == "homework")
+      //   ) {
+      //     addonsNum = input.filter(task => inAddons(task.type)).length;
+      //   } else {
+      //     addonsNum = input.filter(task => inAddons(task.inputCopy.type))
+      //       .length;
+      //   }
+      //   this.tasksNum = input.length - addonsNum;
+      // } else if (this.saved) {
+      //   let addonsNum = this.saved.filter(task => {
+      //     if (task) {
+      //       return inAddons(task.inputCopy.type);
+      //     }
+      //     return false;
+      //   }).length;
+      //   this.tasksNum = this.saved.length - addonsNum;
+      // }
     },
     check() {
       this.tasksForEach(task => {
@@ -110,7 +116,7 @@ export default {
     ...TaskComponents
   },
   props: ["input", "saved", "savedHomework", "type"],
-  mixins: [studentToTeacher, rerender],
+  mixins: [studentToTeacher, rerender, context],
   beforeMount() {
     // StudentToTeacher mixin
     this.onSendTask();
