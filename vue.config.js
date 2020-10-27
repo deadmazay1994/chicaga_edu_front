@@ -12,7 +12,8 @@ module.exports = {
         // eslint-disable-next-line prettier/prettier
         VChat: path.resolve(__dirname, "src/components/LessonComponents/VideoChat/"),
         Chat: path.resolve(__dirname, "src/components/LessonComponents/Chat/"),
-        Components: path.resolve(__dirname, "src/components/")
+        Components: path.resolve(__dirname, "src/components/"),
+        Mixns: path.resolve(__dirname, "src/mixins")
       }
     }
   }

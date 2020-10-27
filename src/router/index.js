@@ -185,7 +185,6 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some(record => record.meta.forTeacher)) {
-    console.log(store.getters.user.role);
     if (store.getters.user.role != "teacher") {
       next({
         path: "/lk/my-coursers",

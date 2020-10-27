@@ -1,10 +1,12 @@
 <script>
 import VuetifyAudio from "vuetify-audio";
 
-import MediaEvents from "@/mixins/mediaEvents";
 import Magnifier from "@/directives/magnifier";
 import Zoom from "@/directives/zoom";
 import Description from "./TasksDescription";
+
+import SocketMixin from "@/mixins//socket";
+import MediaEvents from "@/mixins/mediaEvents";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -40,7 +42,6 @@ export default {
     ...mapMutations([
       "saveTask",
       "saveChildTask",
-      "user",
       "setVideoOff",
       "setAudioOff"
     ]),
@@ -59,15 +60,6 @@ export default {
               components.push(
                 <v-img src={this.getFileName(e.file_name)} vZoom />
               );
-              //               <div
-              //   class="response-content attachs__img"
-              //   vZoom
-              //   style={
-              //     "background-image: url(" +
-              //     this.getFileName(e.file_name) +
-              //     ")"
-              //   }
-              // />
               break;
             case "video":
               components.push(
@@ -103,10 +95,50 @@ export default {
       if (this.$refs.video) {
         this.$refs.video.forEach(video => this.addPlayPauseEvent(video));
       }
+    },
+    toggleAudioInStudents() {
+      const toggle = audio => {
+        this.socketSendToAllInLesson({
+          eventName: "toggle audio in users",
+          val: audio.$el.querySelector("audio").paused,
+          time: audio.currentTime
+        });
+      };
+      this.$refs.audio.forEach(audio => {
+        if (this.user.role == "teacher") {
+          let el = audio.$el.querySelector("audio");
+          // audio.$el.querySelector(".mdi-pause, .mdi-play").onclick = () => {
+          //   toggle(audio);
+          // };
+          // Если учитель перемотал запись
+          audio.$el.querySelector(".v-progress-linear").onclick = () => {
+            toggle(audio);
+          };
+          // // Если учитель включил или выключил запись
+          el.addEventListener("playing", () => toggle(audio));
+          el.addEventListener("pause", () => toggle(audio));
+        }
+      });
+    },
+    onToggleAudioInStudents() {
+      const toSeconds = time => {
+        let a = time.split(":");
+        return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+      };
+      this.socket.on("send data", data => {
+        this.$refs.audio.forEach(audio => {
+          audio.$el.querySelector("audio").currentTime = toSeconds(data.time);
+          // методы play, pause работают через раз по этому эмулируем клик
+          if (data.val != audio.$el.querySelector("audio").paused) {
+            // эмулируем только когда трубемое значение пазуы не совпадает с действительным
+            audio.$el.querySelector(".v-btn").click();
+          }
+        });
+      });
     }
   },
   computed: {
-    ...mapGetters(["socket", "lessonId"])
+    ...mapGetters(["socket", "lessonId", "socket", "user"])
   },
   directives: {
     ...Magnifier,
@@ -118,11 +150,13 @@ export default {
     Description
   },
   props: ["input", "index"],
-  mixins: [MediaEvents],
+  mixins: [MediaEvents, SocketMixin],
   beforeMount() {
     this.setInputCopy();
+    this.onToggleAudioInStudents();
   },
   mounted() {
+    this.toggleAudioInStudents();
     this.addEventsToMedia();
   }
 };
