@@ -1,5 +1,6 @@
 <script>
 import TaskComponents from "./exportAllTaskComponents";
+import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 
 import ConsultationData from "Tasks/Consultation/data";
 
@@ -25,13 +26,16 @@ export default {
     }
     let tasksInput = this.getContext();
     let slots = [
+      <div class="manager__top">
+        <teacher-panel v-if="user.role == 'teacher'" />
+      </div>,
       <div class="manager__workspace">
         {...this.renderTasks(tasksInput, this.manager)}
       </div>,
       <div class="manager__bottom">
         {results}
         <choose-group class="manager__choose-group" lessonType={this.type} />
-        <portal-target name="manager" />
+        <portal-target name="manager__bottom" />
       </div>
     ];
     return h("div", slots);
@@ -150,7 +154,8 @@ export default {
     }
   },
   components: {
-    ...TaskComponents
+    ...TaskComponents,
+    TeacherPanel
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: [studentToTeacher, rerender, context, render],

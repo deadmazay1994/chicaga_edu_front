@@ -14,7 +14,6 @@
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item class="edu-panel__tasks">
-        <teacher-panel v-if="user.role == 'teacher'" />
         <tasks class="edu-panel__tasks-component" />
       </v-tab-item>
       <v-tab-item>
@@ -43,7 +42,6 @@
 import TextChat from "@/components/LessonComponents/Chat/Chat";
 import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
-import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 
 export default {
@@ -67,7 +65,6 @@ export default {
   components: {
     TextChat,
     Tasks,
-    TeacherPanel,
     Attachs
   },
   props: [],

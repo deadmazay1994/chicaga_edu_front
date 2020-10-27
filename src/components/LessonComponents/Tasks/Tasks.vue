@@ -12,7 +12,7 @@
       />
       <!-- <paint v-if="loaded" class="tasks__paint" /> -->
     </div>
-    <portal to="manager">
+    <portal to="manager__bottom">
       <div
         v-if="user.role != 'teacher' && showCheckBtn"
         class="tasks__fixed mb-2"

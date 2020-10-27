@@ -1,52 +1,61 @@
 <template>
-  <div class="teacher-panel vue-component">
-    <div class="teacher-panel__students students">
-      <div
-        class="table-item d-inline-block students__student"
-        v-for="user in socketUsers"
-        :key="user.id"
-        style="position: relative;"
-        @click="toggleUser(user.id)"
-        :class="{ 'students__student--active': isActiveUser(user.id) }"
-      >
-        <div v-if="user.errorCounter" class="user-error">
-          {{ user.errorCounter }}
-        </div>
-        {{ user.username }}
-      </div>
-    </div>
-    <div class="text-subtitle-2 mt-3">Группы пользователей</div>
-    <div>
-      <div v-for="(group, i) in groups" :key="i">
+  <div class="teacher-panel mt-3 mx-3 vue-component">
+    <v-icon
+      @click.native="toggleShow"
+      class="teacher-panel__toggler"
+      size="60"
+      color="#c3ab7c"
+      >{{ showPanel ? "mdi-menu-down" : "mdi-menu-up" }}</v-icon
+    >
+    <template v-if="showPanel">
+      <div class="teacher-panel__students students">
         <div
-          class="table-title teacher-panel__group-item teacher-panel__table-title d-inline-block"
+          class="table-item d-inline-block students__student"
+          v-for="user in socketUsers"
+          :key="user.id"
+          style="position: relative;"
+          @click="toggleUser(user.id)"
+          :class="{ 'students__student--active': isActiveUser(user.id) }"
         >
-          {{ group.name }}
+          <div v-if="user.errorCounter" class="user-error">
+            {{ user.errorCounter }}
+          </div>
+          {{ user.username }}
         </div>
-        <draggable
-          v-model="group.users"
-          class="d-inline-flex"
-          group="users"
-          style="min-width: 100px; padding-right: 20px"
-          @end="updateList"
-        >
-          <span
-            class="table-item teacher-panel__group-item d-inline-flex"
-            v-for="user in group.users"
-            :key="user.id"
-            >{{ user.username }}</span
-          >
-        </draggable>
       </div>
-    </div>
-    <div class="d-flex justify-space-between">
-      <v-btn @click="createGroups()" class="mt-5 main-color main-color--text"
-        >Создать группы</v-btn
-      >
-      <v-btn @click="returnInGroup" class="mt-5 main-color main-color--text"
-        >Вернуть всех в общую группу</v-btn
-      >
-    </div>
+      <div class="text-subtitle-2">Группы пользователей</div>
+      <div>
+        <div v-for="(group, i) in groups" :key="i">
+          <div
+            class="table-title teacher-panel__group-item teacher-panel__table-title d-inline-block"
+          >
+            {{ group.name }}
+          </div>
+          <draggable
+            v-model="group.users"
+            class="d-inline-flex"
+            group="users"
+            style="min-width: 100px; padding-right: 20px"
+            @end="updateList"
+          >
+            <span
+              class="table-item teacher-panel__group-item d-inline-flex"
+              v-for="user in group.users"
+              :key="user.id"
+              >{{ user.username }}</span
+            >
+          </draggable>
+        </div>
+      </div>
+      <div class="d-flex justify-space-between">
+        <v-btn @click="createGroups()" class="mt-5 main-color main-color--text"
+          >Создать группы</v-btn
+        >
+        <v-btn @click="returnInGroup" class="mt-5 main-color main-color--text"
+          >Вернуть всех в общую группу</v-btn
+        >
+      </div>
+    </template>
   </div>
 </template>
 
@@ -59,11 +68,15 @@ export default {
   name: "teacher-panel",
   data: function() {
     return {
-      inOurRoom: true
+      inOurRoom: true,
+      showPanel: false
     };
   },
   methods: {
     ...mapMutations(["setSocketUserErrors", "setActiveUser"]),
+    toggleShow() {
+      this.showPanel = !this.showPanel;
+    },
     isActiveUser(userId) {
       return userId == this.activeUser;
     },
@@ -157,11 +170,17 @@ export default {
 @import "@/components/Sass/Varibles.sass"
 
 .teacher-panel
+  position: relative
   &__group-item
     margin-left: 1px
   &__table-title
     width: 35px
     text-align: center
+  &__toggler
+    cursor: pointer
+    right: 0
+    top: -10px
+    position: absolute
 .user-error
   position: absolute
   right: -5px
