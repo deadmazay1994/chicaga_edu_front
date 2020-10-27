@@ -29,7 +29,7 @@
       </v-tab-item>
       <v-tab-item class="edu-panel__tasks">
         <tasks
-          class="edu-panel__tasks-component mt-7"
+          class="edu-panel__tasks-component"
           :isHomework="true"
           :noAddAtempt="true"
         />

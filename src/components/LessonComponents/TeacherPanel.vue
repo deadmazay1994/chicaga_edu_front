@@ -1,5 +1,8 @@
 <template>
-  <div class="teacher-panel mt-3 mx-3 vue-component">
+  <div
+    class="teacher-panel mt-3 mx-3 vue-component"
+    v-if="this.user.role == 'teacher'"
+  >
     <v-icon
       @click.native="toggleShow"
       class="teacher-panel__toggler"
@@ -148,7 +151,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "socketUsers", "roomId", "activeUser"])
+    ...mapGetters(["socket", "socketUsers", "roomId", "activeUser", "user"])
   },
   watch: {
     socketUsers() {

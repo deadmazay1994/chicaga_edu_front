@@ -53,7 +53,7 @@ export default {
       this.ctxNav(
         step,
         () => this.setActiveGroupLesson(this.activeGroupIndexLesson + step),
-        () => this.setActiveGroupLesson(this.activeGroupIndexHomework + step)
+        () => this.setActiveGroupHomework(this.activeGroupIndexHomework + step)
       );
     },
     ctxNav(step, lesson, homework) {

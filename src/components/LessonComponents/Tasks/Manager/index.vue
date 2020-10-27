@@ -27,7 +27,7 @@ export default {
     let tasksInput = this.getContext();
     let slots = [
       <div class="manager__top">
-        <teacher-panel v-if="user.role == 'teacher'" />
+        <teacher-panel />
       </div>,
       <div class="manager__workspace">
         {...this.renderTasks(tasksInput, this.manager)}
