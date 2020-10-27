@@ -51,33 +51,36 @@ export default {
       }
     },
     setTasksNum() {
-      // let input = Object.keys(this.input).map(key => this.input[key]);
-      // let addonsType = ["youtube_addons", "lesson_addons_files"];
-      // const inAddons = taskType =>
-      //   addonsType.find(task => (task == taskType ? true : false));
-      // if (this.input) {
-      //   let ifSaved = typeof this.saved != "object";
-      //   let ifHomeworkSaved = typeof this.savedHomework != "object";
-      //   let addonsNum = 0;
-      //   if (
-      //     (!ifSaved && this.type == "lesson") ||
-      //     (!ifHomeworkSaved && this.type == "homework")
-      //   ) {
-      //     addonsNum = input.filter(task => inAddons(task.type)).length;
-      //   } else {
-      //     addonsNum = input.filter(task => inAddons(task.inputCopy.type))
-      //       .length;
-      //   }
-      //   this.tasksNum = input.length - addonsNum;
-      // } else if (this.saved) {
-      //   let addonsNum = this.saved.filter(task => {
-      //     if (task) {
-      //       return inAddons(task.inputCopy.type);
-      //     }
-      //     return false;
-      //   }).length;
-      //   this.tasksNum = this.saved.length - addonsNum;
-      // }
+      let allTasks = [];
+      this.input
+        .map(group => group.tasks)
+        .forEach(task => allTasks.push(...task));
+      let addonsType = ["youtube_addons", "lesson_addons_files"];
+      const inAddons = taskType =>
+        addonsType.find(task => (task == taskType ? true : false));
+      if (this.input) {
+        let ifSaved = typeof this.saved != "object";
+        let ifHomeworkSaved = typeof this.savedHomework != "object";
+        let addonsNum = 0;
+        if (
+          (!ifSaved && this.type == "lesson") ||
+          (!ifHomeworkSaved && this.type == "homework")
+        ) {
+          addonsNum = allTasks.filter(task => inAddons(task.type)).length;
+        } else {
+          addonsNum = allTasks.filter(task => inAddons(task.inputCopy.type))
+            .length;
+        }
+        this.tasksNum = allTasks.length - addonsNum;
+      } else if (this.saved) {
+        let addonsNum = this.saved.filter(task => {
+          if (task) {
+            return inAddons(task.inputCopy.type);
+          }
+          return false;
+        }).length;
+        this.tasksNum = this.saved.length - addonsNum;
+      }
     },
     check() {
       this.tasksForEach(task => {
@@ -146,7 +149,8 @@ export default {
 .manager
   &__bottom
     border-top: 1px solid #dedede
-    padding-top: 10px
+    padding: 10px
+    padding-bottom: 0
     display: flex
     flex-direction: column
     justify-content: space-around

@@ -156,11 +156,11 @@ export default {
     cursor: pointer
     color: $main_color
     &--left
-      left: 15px
+      left: 0
       top: 10px
       transform: rotate(90deg)
     &--right
-      right: 15px
+      right: 0
       top: 10px
       transform: rotate(-90deg)
 </style>
