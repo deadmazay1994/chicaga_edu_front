@@ -109,6 +109,34 @@ export default {
     },
     isConsultation() {
       return location.href.includes("consultation");
+    },
+    showAnswers() {
+      this.tasksForEach(task => {
+        if (task.showAnswers) {
+          task.showAnswers();
+        }
+        // Перебираем всех потомков и вызываем у них тот-же метод
+        // Рекурсивно спускаемся до последнего потомка
+        if (task.$refs) {
+          for (const i in task.$refs) {
+            const refType = task.$refs[i];
+            if (Array.isArray(refType)) {
+              refType.forEach(ref => {
+                if (ref.constructor.name == "VueComponent" && ref.showAnswers) {
+                  ref.showAnswers();
+                }
+              });
+            }
+          }
+        }
+        // if (Array.isArray(task.$refs)) {
+        //   task.$refs.forEach(ref => {
+        //     if (ref.showAnswers) {
+        //       ref.showAnswers();
+        //     }
+        //   });
+        // }
+      });
     }
   },
   computed: {

@@ -77,6 +77,13 @@ export default {
         });
       }
     },
+    showAnswers() {
+      if (this.$refs.gap) {
+        this.$refs.gap.forEach(child => {
+          if (child.showAnswers) child.showAnswers();
+        });
+      }
+    },
     setDragList() {
       this.dragList = [];
       this.inputCopy.body.forEach(e => {

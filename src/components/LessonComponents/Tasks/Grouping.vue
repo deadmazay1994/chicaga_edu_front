@@ -83,9 +83,6 @@ export default {
             error = 1;
           }
         });
-        // if (e.words.length != this.groups[i].words.length) {
-        //   error = 1;
-        // }
         if (error) {
           // Vue не позволяет имзенять значения массива на прямую
           this.$set(this.groups, i, { ...this.groups[i], correct: false });
@@ -95,6 +92,13 @@ export default {
           this.$set(this.groups, i, { ...this.groups[i], correct: true });
         }
       });
+    },
+    showAnswers() {
+      this.inputCopy.body.forEach((e, i) => {
+        this.groups[i].words = [];
+        e.words.forEach(word => this.groups[i].words.push(word));
+      });
+      this.shuffled = [];
     },
     statusClass(group) {
       return {

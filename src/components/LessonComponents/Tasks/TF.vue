@@ -62,6 +62,11 @@ export default {
       });
       this.$forceUpdate();
     },
+    showAnswers() {
+      this.inputCopy.body.forEach(e => {
+        this.$set(e, "correct", e.text === "true" ? true : false);
+      });
+    },
     statusClass(tf) {
       return {
         "table-item--correct": tf.error == 0,

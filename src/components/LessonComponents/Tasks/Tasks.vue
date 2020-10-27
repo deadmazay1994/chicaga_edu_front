@@ -26,6 +26,14 @@
             color="white--text"
             >ПОДТВЕРДИТЬ</v-btn
           >
+          <v-btn
+            v-if="isHomework"
+            @click="showAnswers"
+            class="tasks__check-btn"
+            large
+            color="white--text"
+            >ПОКАЗАТЬ ОТВЕТЫ</v-btn
+          >
         </div>
       </div>
     </portal>
@@ -86,6 +94,9 @@ export default {
       } else {
         return false;
       }
+    },
+    showAnswers() {
+      this.$refs.taskManager.showAnswers();
     }
   },
   computed: {
@@ -169,6 +180,7 @@ export default {
     margin-bottom: 30px
   &__check-btn
     background-color: $main_color !important
+    margin: 0 10px
 </style>
 
 <style lang="sass">

@@ -214,6 +214,14 @@ export default {
         return error;
       }
     },
+    showAnswers() {
+      let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
+      if (trueAnswers) {
+        trueAnswers.forEach((ans, i) =>
+          this.updateModelInput(this.clearDeeper(ans), i)
+        );
+      }
+    },
     customForceUpdate(data) {
       data.data.answers.forEach((ans, i) => {
         this.updateModelInput(ans.val, i);

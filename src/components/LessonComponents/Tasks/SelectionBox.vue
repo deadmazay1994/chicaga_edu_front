@@ -84,13 +84,13 @@ export default {
     checkErrorUnderline(task, i) {
       let error = false;
       task.answers.forEach((ans, j) => {
-        if (ans.correct == undefined) {
+        console.log(ans);
+        if (ans.correct == false) {
           ans.correct = false;
         }
         if (ans.correct != this.answers[i][j]) {
           error = true;
         }
-        // this.answers[i][j] = false;
       });
       return error;
     },
@@ -117,7 +117,15 @@ export default {
           this.$set(this.results, i, true);
         }
       });
-      console.log(this.error);
+    },
+    showAnswers() {
+      this.inputCopy.body.forEach((task, i) => {
+        task.answers.forEach((answer, j) => {
+          // Если underline, то берем свойство
+          if (this.underline) this.$set(this.answers[i], j, answer.correct);
+          else this.$set(this.answers[i], j, answer);
+        });
+      });
     },
     statusClass(i) {
       return {

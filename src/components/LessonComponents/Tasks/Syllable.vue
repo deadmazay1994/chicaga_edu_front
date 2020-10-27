@@ -49,6 +49,10 @@ export default {
       }
       return !this.correct;
     },
+    showAnswers() {
+      this.activate(this.input.answer);
+      this.$forceUpdate();
+    },
     onChange() {
       this.sendData();
     },

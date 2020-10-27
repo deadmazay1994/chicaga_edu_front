@@ -107,9 +107,6 @@ export default {
       this.$refs.audio.forEach(audio => {
         if (this.user.role == "teacher") {
           let el = audio.$el.querySelector("audio");
-          // audio.$el.querySelector(".mdi-pause, .mdi-play").onclick = () => {
-          //   toggle(audio);
-          // };
           // Если учитель перемотал запись
           audio.$el.querySelector(".v-progress-linear").onclick = () => {
             toggle(audio);

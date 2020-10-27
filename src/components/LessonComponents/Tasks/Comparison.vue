@@ -65,6 +65,7 @@ export default {
       this.l1.forEach(() => {
         this.res.push(null);
       });
+      this.onChange();
     },
     check() {
       this.error = false;
@@ -78,6 +79,14 @@ export default {
           this.$set(this.res, i, false);
           this.error = true;
         }
+      });
+    },
+    showAnswers() {
+      this.l1.forEach((word, i) => {
+        let original = this.inputCopy.body.find(words => words.w1 == word);
+        this.$set(this.l2, i, original.w2);
+        // Vue не умеет изменять значение массивов на прямую
+        // Нужно изменять так как это указано ниже
       });
     },
     statusClass(i) {
@@ -99,9 +108,11 @@ export default {
     },
     resetHeight() {
       if ("querySelectorAll" in this.$refs.colsWrap) {
-        this.$refs.colsWrap.querySelectorAll(".comp__item").forEach(item => {
-          item.style.height = "auto";
-        });
+        if (this.$refs.colsWrap.querySelectorAll(".comp__item")) {
+          this.$refs.colsWrap.querySelectorAll(".comp__item").forEach(item => {
+            item.style.height = "auto";
+          });
+        }
       }
     },
     setRowHeights() {
@@ -138,7 +149,6 @@ export default {
     this.setShuffled();
   },
   mounted() {
-    this.setRowHeights();
     window.addEventListener("resize", () => {
       this.resetHeight();
       this.setRowHeights();

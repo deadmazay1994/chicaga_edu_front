@@ -115,6 +115,15 @@ export default {
         }
       });
     },
+    showAnswers() {
+      if (Array.isArray(this.$refs.gap)) {
+        this.$refs.gap.forEach(ref => {
+          if (ref.showAnswers) {
+            ref.showAnswers();
+          }
+        });
+      }
+    },
     answeredImg(i) {
       return {
         blue: this.task.shuffled[i].correct == 1,

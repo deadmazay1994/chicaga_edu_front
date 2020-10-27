@@ -86,6 +86,11 @@ export default {
         }
       });
     },
+    showAnswers() {
+      this.task.shuffled.forEach((task, i) =>
+        this.$set(this.task.answers, i, task.number)
+      );
+    },
     setAnswers() {
       this.inputCopy.body.forEach(() => this.task.answers.push(""));
     },

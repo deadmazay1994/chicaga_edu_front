@@ -58,6 +58,14 @@ export default {
       });
       this.$forceUpdate();
     },
+    showAnswers() {
+      this.task.forEach(item => {
+        item.answers.forEach(answer =>
+          this.$set(answer, "selected", answer.correct)
+        );
+        this.$forceUpdate();
+      });
+    },
     toggleChoose(answer) {
       this.$set(answer, "selected", !answer.selected);
       // Этот костыль надо поправить в будущем

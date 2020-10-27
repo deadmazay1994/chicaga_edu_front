@@ -22,16 +22,18 @@ export default {
         this.$refs[refName]
       ]);
       refs.forEach(childRefs => {
-        childRefs[1].forEach(ref => {
-          if (ref.sendTaskToTeacher) {
-            ref.sendTaskToTeacher(index, {
-              // Примешиваем данные потомка
-              ...ref._data,
-              childIndex: ref.index,
-              childRef: childRefs[0]
-            });
-          }
-        });
+        if (Array.isArray(childRefs[1])) {
+          childRefs[1].forEach(ref => {
+            if (ref.sendTaskToTeacher) {
+              ref.sendTaskToTeacher(index, {
+                // Примешиваем данные потомка
+                ...ref._data,
+                childIndex: ref.index,
+                childRef: childRefs[0]
+              });
+            }
+          });
+        }
       });
     },
     onChangeTask() {
