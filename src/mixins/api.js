@@ -150,8 +150,15 @@ export default {
       });
     },
     // Payment
-    async getPayCourseLink(courseId) {
-      return post("payment", { course_id: courseId });
+    async getPayCourseLink(id, type = "course", count = 1) {
+      // Если покупаем курс, то автоматически выставляем количество 1
+      count = type == "course" ? 1 : count;
+      console.log(id);
+      return post("payment", {
+        type,
+        id,
+        count
+      });
     },
     // Outher
     getErrorText(response) {
