@@ -144,7 +144,8 @@ export default {
           }
         });
       });
-    }
+    },
+    onToggleVideoInStudents() {}
   },
   computed: {
     ...mapGetters(["socket", "lessonId", "socket", "user"])

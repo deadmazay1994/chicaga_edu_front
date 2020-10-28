@@ -25,7 +25,7 @@ export default {
     }
     let tasksInput = this.getContext();
     let slots = [
-      <div class="manager__top">
+      <div class="manager__top elevation-3">
         <teacher-panel />
       </div>,
       <div class="manager__workspace">
@@ -34,7 +34,7 @@ export default {
       <div class="manager__bottom">
         {results}
         <choose-group class="manager__choose-group" lessonType={this.type} />
-        <portal-target name="manager__bottom" multiple />
+        <portal-target name="manager__bottom" />
       </div>
     ];
     return h("div", slots);

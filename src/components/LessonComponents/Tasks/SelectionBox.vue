@@ -84,11 +84,11 @@ export default {
     checkErrorUnderline(task, i) {
       let error = false;
       task.answers.forEach((ans, j) => {
-        console.log(ans);
-        if (ans.correct == false) {
-          ans.correct = false;
-        }
-        if (ans.correct != this.answers[i][j]) {
+        if (ans.correct == undefined) ans.correct = false;
+        if (
+          ans.correct != this.answers[i][j] &&
+          this.answers[i][j] != undefined
+        ) {
           error = true;
         }
       });
@@ -156,6 +156,8 @@ export default {
 <style lang="sass">
 @import "@/components/Sass/Varibles.sass"
 
+.table-item
+  position: relative
 .selection-box
   &__box--active--underline
     background: $main_color !important

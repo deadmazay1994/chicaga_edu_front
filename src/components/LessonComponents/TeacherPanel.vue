@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="teacher-panel mt-3 mx-3 vue-component"
-    v-if="this.user.role == 'teacher'"
-  >
+  <div class="teacher-panel  vue-component" v-if="this.user.role == 'teacher'">
     <v-icon
       @click.native="toggleShow"
       class="teacher-panel__toggler"
@@ -10,7 +7,7 @@
       color="#c3ab7c"
       >{{ showPanel ? "mdi-menu-down" : "mdi-menu-up" }}</v-icon
     >
-    <template v-if="showPanel">
+    <div v-if="showPanel" class="mx-3 mt-3 pb-2">
       <div class="teacher-panel__students students">
         <div
           class="table-item d-inline-block students__student"
@@ -58,7 +55,7 @@
           >Вернуть всех в общую группу</v-btn
         >
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -173,6 +170,7 @@ export default {
 @import "@/components/Sass/Varibles.sass"
 
 .teacher-panel
+  z-index: 10
   position: relative
   &__group-item
     margin-left: 1px

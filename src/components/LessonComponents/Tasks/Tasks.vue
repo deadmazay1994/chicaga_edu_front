@@ -13,13 +13,13 @@
       <!-- <paint v-if="loaded" class="tasks__paint" /> -->
     </div>
     <portal to="manager__bottom">
-      <div
-        v-if="user.role != 'teacher' && showCheckBtn"
-        class="tasks__fixed mb-2"
-      >
+      <div v-if="showCheckBtn" class="tasks__fixed mb-2">
         <div class="d-flex justify-center">
           <v-btn
-            v-if="this.attemptNum == 0 || !this.noAddAtempt"
+            v-if="
+              (this.attemptNum == 0 || !this.noAddAtempt) &&
+                user.role != 'teacher'
+            "
             @click="check"
             class="tasks__check-btn"
             large
