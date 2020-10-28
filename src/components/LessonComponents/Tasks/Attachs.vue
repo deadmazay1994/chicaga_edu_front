@@ -101,34 +101,46 @@ export default {
         this.socketSendToAllInLesson({
           eventName: "toggle audio in users",
           val: audio.$el.querySelector("audio").paused,
-          time: audio.currentTime
+          time: audio.currentTime,
+          filePath: audio.$el.querySelector("audio").getAttribute("src"),
+          timeNow: Date.now()
         });
       };
-      this.$refs.audio.forEach(audio => {
-        if (this.user.role == "teacher") {
-          let el = audio.$el.querySelector("audio");
-          // Если учитель перемотал запись
-          audio.$el.querySelector(".v-progress-linear").onclick = () => {
-            toggle(audio);
-          };
-          // // Если учитель включил или выключил запись
-          el.addEventListener("playing", () => toggle(audio));
-          el.addEventListener("pause", () => toggle(audio));
-        }
-      });
+      if (this.$refs.audio) {
+        this.$refs.audio.forEach(audio => {
+          if (this.user.role == "teacher") {
+            let el = audio.$el.querySelector("audio");
+            // Если учитель перемотал запись
+            audio.$el.querySelector(".v-progress-linear").onclick = () => {
+              toggle(audio);
+            };
+            // // Если учитель включил или выключил запись
+            el.addEventListener("playing", () => toggle(audio));
+            el.addEventListener("pause", () => toggle(audio));
+          }
+        });
+      }
     },
     onToggleAudioInStudents() {
       const toSeconds = time => {
         let a = time.split(":");
         return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
       };
+      const allAudioForEach = callback =>
+        Array.from(document.querySelectorAll("audio")).forEach(audio =>
+          callback(audio)
+        );
       this.socket.on("send data", data => {
-        this.$refs.audio.forEach(audio => {
-          audio.$el.querySelector("audio").currentTime = toSeconds(data.time);
-          // методы play, pause работают через раз по этому эмулируем клик
-          if (data.val != audio.$el.querySelector("audio").paused) {
-            // эмулируем только когда трубемое значение пазуы не совпадает с действительным
-            audio.$el.querySelector(".v-btn").click();
+        allAudioForEach(audio => {
+          if (audio.getAttribute("src") == data.filePath) {
+            audio.currentTime =
+              toSeconds(data.time) - (data.timeNow - Date.now()) / 1000;
+            if (data.val != audio.paused) {
+              audio
+                .closest(".attachs__files")
+                .querySelector("button")
+                .click();
+            }
           }
         });
       });

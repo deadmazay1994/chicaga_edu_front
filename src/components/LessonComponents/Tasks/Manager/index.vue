@@ -1,7 +1,6 @@
 <script>
 import TaskComponents from "./exportAllTaskComponents";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
-
 import ConsultationData from "Tasks/Consultation/data";
 
 import { mapGetters } from "vuex";
@@ -35,7 +34,7 @@ export default {
       <div class="manager__bottom">
         {results}
         <choose-group class="manager__choose-group" lessonType={this.type} />
-        <portal-target name="manager__bottom" />
+        <portal-target name="manager__bottom" multiple />
       </div>
     ];
     return h("div", slots);
