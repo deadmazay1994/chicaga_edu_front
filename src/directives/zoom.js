@@ -4,7 +4,7 @@ export default {
       el.style.cursor = "pointer";
       let clicked = false;
       const k = 2;
-      el.addEventListener("dblclick", function() {
+      el.addEventListener("click", function() {
         if (clicked) {
           el.classList.remove("zoom-wrapper");
           el.querySelector(".v-image__image").style.backgroundSize = 100 + "%";
