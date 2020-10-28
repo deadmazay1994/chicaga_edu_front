@@ -121,6 +121,25 @@ export default {
         });
       }
     },
+    toggleVideoInStudents() {
+      if (this.$refs.video) {
+        const toggle = video => {
+          this.socketSendToAllInLesson({
+            eventName: "toggle video in users",
+            paused: video.paused,
+            time: video.currentTime,
+            filePath: video.getAttribute("src"),
+            timeNow: Date.now()
+          });
+        };
+        if (this.user.role == "teacher") {
+          this.$refs.video.forEach(v => {
+            v.addEventListener("playing", () => toggle(v));
+            v.addEventListener("pause", () => toggle(v));
+          });
+        }
+      }
+    },
     onToggleAudioInStudents() {
       const toSeconds = time => {
         let a = time.split(":");
@@ -131,21 +150,39 @@ export default {
           callback(audio)
         );
       this.socket.on("send data", data => {
-        allAudioForEach(audio => {
-          if (audio.getAttribute("src") == data.filePath) {
-            audio.currentTime =
-              toSeconds(data.time) - (data.timeNow - Date.now()) / 1000;
-            if (data.val != audio.paused) {
-              audio
-                .closest(".attachs__files")
-                .querySelector("button")
-                .click();
+        if (data.eventName == "toggle audio in users") {
+          allAudioForEach(audio => {
+            if (audio.getAttribute("src") == data.filePath) {
+              audio.currentTime =
+                toSeconds(data.time) - (data.timeNow - Date.now()) / 1000;
+              if (data.val != audio.paused) {
+                audio
+                  .closest(".attachs__files")
+                  .querySelector("button")
+                  .click();
+              }
             }
-          }
-        });
+          });
+        }
       });
     },
-    onToggleVideoInStudents() {}
+    onToggleVideoInStudents() {
+      const allvideoForEach = callback =>
+        Array.from(document.querySelectorAll("video")).forEach(video =>
+          callback(video)
+        );
+      this.socket.on("send data", data => {
+        if (data.eventName == "toggle video in users") {
+          allvideoForEach(v => {
+            if (v.getAttribute("src") == data.filePath) {
+              v.currentTime = data.time - (data.timeNow - Date.now()) / 1000;
+              console.log(data.paused);
+              data.paused ? v.pause() : v.play();
+            }
+          });
+        }
+      });
+    }
   },
   computed: {
     ...mapGetters(["socket", "lessonId", "socket", "user"])
@@ -164,9 +201,11 @@ export default {
   beforeMount() {
     this.setInputCopy();
     this.onToggleAudioInStudents();
+    this.onToggleVideoInStudents();
   },
   mounted() {
     this.toggleAudioInStudents();
+    this.toggleVideoInStudents();
     this.addEventsToMedia();
   }
 };
