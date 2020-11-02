@@ -218,7 +218,7 @@ export default {
       let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
       if (trueAnswers) {
         trueAnswers.forEach((ans, i) =>
-          this.updateModelInput(this.clearDeeper(ans), i)
+          this.updateModelInput(ans.substring(1, ans.length - 1), i)
         );
       }
     },
