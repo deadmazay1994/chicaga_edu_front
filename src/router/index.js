@@ -20,6 +20,7 @@ import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 
 import FAQ from "@/components/FAQ/";
+import Agree from "@/components/Lk/UserArgree";
 
 import Page404 from "Base/404";
 
@@ -154,6 +155,11 @@ const routes = [
     path: "/faq",
     name: "faq",
     component: FAQ
+  },
+  {
+    path: "/agree",
+    name: "agree",
+    component: Agree
   }
 ];
 

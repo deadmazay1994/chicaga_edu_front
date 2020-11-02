@@ -31,11 +31,29 @@
         label="Повторите пароль"
       />
       <v-divider class="mb-5"></v-divider>
+      <div class="d-flex">
+        <!-- <div class="text-subtitle-2">
+          Я ознакомился с пользовательским соглашением
+        </div> -->
+        <v-checkbox required v-model="agree">
+          <template v-slot:label>
+            <div>
+              Я ознакомился с
+              <router-link to="/agree"
+                >пользовательским соглашением</router-link
+              >
+            </div>
+          </template>
+        </v-checkbox>
+      </div>
+
+      <v-divider class="mb-5"></v-divider>
       <v-btn
         large
         class="main-color main-color--text mt-5"
         block
         @click="register"
+        :disabled="!btnActive"
         >Зарегистрироваться</v-btn
       >
     </v-form>
@@ -58,31 +76,30 @@ export default {
         email: "",
         password: ""
       },
-      repeatPassword: ""
+      repeatPassword: "",
+      agree: false
     };
   },
   methods: {
     ...mapActions,
     register() {
-      if (this.valid) {
-        this.$store.dispatch("register", this.user);
-        //   this.$router.push({
-        //     path: "/lk/my-coursers"
-        //   });
-        //   this.$store.commit("pushShuckbar", {
-        //     val: "Вы успешно зарегистрировались",
-        //     success: true
-        //   });
-        // } else {
-        //   this.$store.commit("pushShuckbar", {
-        //     val: "Вы допустили ошибку при заполнении формы",
-        //     success: false
-        //   });
+      if (this.agree) {
+        if (this.valid) {
+          this.$store.dispatch("register", this.user);
+        }
+      } else {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "Вы должны ознакомится с пользовательским соглашением"
+        });
       }
     }
   },
   computed: {
-    ...mapGetters
+    ...mapGetters,
+    btnActive() {
+      return this.agree;
+    }
   },
   components: {
     AuthTitle
