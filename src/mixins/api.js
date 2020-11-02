@@ -160,6 +160,19 @@ export default {
         count
       });
     },
+    // FAQ
+    async getFaq() {
+      let r = await get("faq");
+      if ("success" in r) {
+        return r.data;
+      } else {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "Не получилось получить вопросы и ответы. Попробуйте позже"
+        });
+        return [];
+      }
+    },
     // Outher
     getErrorText(response) {
       let errorText = "";

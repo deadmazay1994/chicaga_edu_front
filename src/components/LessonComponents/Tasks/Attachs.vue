@@ -176,7 +176,6 @@ export default {
           allvideoForEach(v => {
             if (v.getAttribute("src") == data.filePath) {
               v.currentTime = data.time - (data.timeNow - Date.now()) / 1000;
-              console.log(data.paused);
               data.paused ? v.pause() : v.play();
             }
           });

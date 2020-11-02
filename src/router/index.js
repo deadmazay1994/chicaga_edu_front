@@ -19,6 +19,8 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 
+import FAQ from "@/components/FAQ/";
+
 import Page404 from "Base/404";
 
 import store from "@/store";
@@ -147,6 +149,11 @@ const routes = [
         component: Dictionary
       }
     ]
+  },
+  {
+    path: "/faq",
+    name: "faq",
+    component: FAQ
   }
 ];
 

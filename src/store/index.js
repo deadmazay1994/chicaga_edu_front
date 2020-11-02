@@ -11,6 +11,7 @@ import tasks from "./modules/tasks";
 import socket from "./modules/socket";
 import lightbox from "./modules/lightbox";
 import videoChat from "./modules/video_chat";
+import faq from "./modules/faq";
 
 Vue.use(Vuex);
 
@@ -39,6 +40,7 @@ export default new Vuex.Store({
     tasks,
     socket,
     lightbox,
-    videoChat
+    videoChat,
+    faq
   }
 });

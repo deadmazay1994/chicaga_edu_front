@@ -29,6 +29,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+
+import SocketMixin from "@/mixins//socket";
+
 export default {
   name: "paint",
   data: function() {
@@ -44,6 +47,24 @@ export default {
     };
   },
   methods: {
+    do(functionName, args) {
+      // Всякую функцию нужно вызывать через этот метод
+      if (this[functionName]) {
+        this[functionName](...args);
+        this.socketSendToAllInLesson({
+          eventName: "do paint",
+          functionName,
+          args
+        });
+      }
+    },
+    onDo() {
+      this.onSendData("do paint", data => {
+        if (this[data.functionName]) {
+          this[data.functionName](...data.args);
+        }
+      });
+    },
     toggleEarser() {
       this.eraser = !this.eraser;
       if (this.eraser) {
@@ -85,24 +106,21 @@ export default {
     toggleDrawing() {
       this.drawing = !this.drawing;
     },
-    socketDraw() {
-      this.socket.on("on send paint", data => {
-        this.setFullWidth();
-        if ("type" in data) {
-          if (data.type == "eraser-start") {
-            this.eraserStart();
-          } else if (data.type == "eraser-end") {
-            this.eraserEnd();
-          }
-        }
-        if (data.startX == data.startY && data.startY == 0.00000001) {
-          this.ctx.beginPath();
-        } else {
-          this.ctx.lineTo(data.x, data.y);
-          this.ctx.strokeStyle = data.color;
-          this.ctx.stroke();
-        }
-      });
+    draw(e, startX, startY) {
+      this.setFullWidth();
+      this.ctx.fillStyle = this.color;
+      let x = e.offsetX;
+      let y = e.offsetY;
+      if (startX == startY && startY == 0.00000001) {
+        this.ctx.beginPath();
+        startY = y;
+        startX = x;
+      } else {
+        console.log(this.ctx);
+        this.ctx.lineTo(x, y);
+        this.ctx.strokeStyle = this.color;
+        this.ctx.stroke();
+      }
     }
   },
   computed: {
@@ -113,8 +131,9 @@ export default {
   },
   components: {},
   props: [],
-  mixins: {},
+  mixins: [SocketMixin],
   mounted() {
+    this.onDo();
     this.setPallet();
     this.setFullWidth();
     this.ctx = this.canvas.getContext("2d");
@@ -123,30 +142,7 @@ export default {
     let startY = 0.00000001;
     this.canvas.onmousedown = () => {
       if (this.drawing) {
-        this.canvas.onmousemove = e => {
-          this.setFullWidth();
-          this.ctx.fillStyle = this.color;
-          let x = e.offsetX;
-          let y = e.offsetY;
-          if (startX == startY && startY == 0.00000001) {
-            this.ctx.beginPath();
-            startY = y;
-            startX = x;
-          } else {
-            this.ctx.lineTo(x, y);
-            this.ctx.strokeStyle = this.color;
-            this.ctx.stroke();
-          }
-          this.socket.emit("send paint", {
-            x: x - this.lineWidth / 2,
-            y: y - this.lineWidth / 2,
-            lineWidth: this.lineWidth,
-            color: this.color,
-            roomId: this.$route.params.id,
-            startX,
-            startY
-          });
-        };
+        this.canvas.onmousemove = e => this.do("draw", [e, startX, startY]);
         this.canvas.onmouseup = () => {
           this.canvas.onmousemove = null;
           startX = 0.00000001;
@@ -154,7 +150,7 @@ export default {
         };
       }
     };
-    this.socketDraw();
+    // this.socketDraw();
   }
 };
 </script>

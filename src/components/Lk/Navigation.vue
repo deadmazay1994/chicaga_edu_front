@@ -60,6 +60,16 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
+        <router-link to="/faq" class="white--text">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-help-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Вопросы и ответы</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
         <v-divider></v-divider>
         <template v-if="user.role == 'teacher'">
           <router-link to="/course-list-teacher" class="white--text">

@@ -10,7 +10,7 @@
         :type="isHomework ? 'homework' : 'lesson'"
         ref="taskManager"
       />
-      <!-- <paint v-if="loaded" class="tasks__paint" /> -->
+      <paint v-if="loaded" class="tasks__paint" />
     </div>
     <portal to="manager__bottom">
       <div v-if="showCheckBtn" class="tasks__fixed mb-2">
@@ -42,7 +42,7 @@
 
 <script>
 import TaskManager from "Tasks/Manager/";
-// import Paint from "./Paint";
+import Paint from "./Paint";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -132,8 +132,8 @@ export default {
     }
   },
   components: {
-    TaskManager
-    // Paint
+    TaskManager,
+    Paint
   },
   props: ["isHomework", "noAddAtempt"],
   mixins: [Api],
