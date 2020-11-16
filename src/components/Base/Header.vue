@@ -1,13 +1,24 @@
 <template>
   <div class="header-app vue-component">
     <v-app-bar fixed class="header-app__bar main-color main-color--text">
+      <v-icon
+        class="header-app__burger d-block d-lg-none"
+        color="white"
+        size="30"
+        @click.native="toggleDraver"
+        >mdi-menu</v-icon
+      >
       <v-row>
-        <v-col cols="4" md="4" class="d-flex align-center">
+        <v-col cols="12" md="4" class="d-flex align-center">
           <router-link to="/">
             <logo class="header-app__logo" />
           </router-link>
         </v-col>
-        <v-col cols="8" md="4" class="d-flex align-center justify-center">
+        <v-col
+          cols="8"
+          md="4"
+          class="align-center justify-center d-md-flex d-none"
+        >
           <dict-add v-if="user" />
         </v-col>
         <v-col
@@ -36,7 +47,7 @@
 import DictAdd from "@/components/Lk/DictAdd";
 import Logo from "@/components/Icons/Logo";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "header-app",
@@ -44,6 +55,7 @@ export default {
     return {};
   },
   methods: {
+    ...mapMutations(["toggleDraver"]),
     showSignIn() {
       this.$store.commit("showSignIn");
     }

@@ -6,10 +6,11 @@ import vuetify from "./plugins/vuetify";
 import PortalVue from "portal-vue";
 
 import TaskFunctions from "@/mixins/tasks";
+import SocketFunctions from "@/mixins/socket";
 
-import VueZoomer from "vue-zoomer";
+import VueKonva from "vue-konva";
 
-Vue.use(VueZoomer);
+Vue.use(VueKonva);
 
 Vue.config.productionTip = false;
 
@@ -25,6 +26,8 @@ Vue.use(PortalVue);
 
 // Стандарные функции тасков
 Vue.mixin(TaskFunctions);
+// Стандартные функции сокетов
+Vue.mixin(SocketFunctions);
 
 const VueObject = new Vue({
   router,

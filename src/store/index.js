@@ -12,23 +12,15 @@ import socket from "./modules/socket";
 import lightbox from "./modules/lightbox";
 import videoChat from "./modules/video_chat";
 import faq from "./modules/faq";
+import paint from "./modules/paint";
+import draver from "./modules/draver";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    draver: false
-  },
-  mutations: {
-    toggleDraver(state) {
-      state.draver = !state.draver;
-    }
-  },
-  getters: {
-    draver: state => {
-      return state.draver;
-    }
-  },
+  state: {},
+  mutations: {},
+  getters: {},
   actions: {},
   modules: {
     chat,
@@ -41,6 +33,8 @@ export default new Vuex.Store({
     socket,
     lightbox,
     videoChat,
-    faq
+    faq,
+    paint,
+    draver
   }
 });

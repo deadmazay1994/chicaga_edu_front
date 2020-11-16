@@ -2,14 +2,14 @@
   <div class="lesson vue-component">
     <v-container fluid style="padding: 0 20px">
       <v-row>
-        <v-col lg="5" cols="12">
-          <v-card class="front">
-            <video-chat class="lesson__chat lesson__item" />
-          </v-card>
-        </v-col>
         <v-col lg="7" cols="12">
           <v-card class="front">
             <edu-panel class="lesson__edu-panel lesson__item" />
+          </v-card>
+        </v-col>
+        <v-col lg="5" cols="12">
+          <v-card class="front">
+            <video-chat class="lesson__chat lesson__item" />
           </v-card>
         </v-col>
       </v-row>

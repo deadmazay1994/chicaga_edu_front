@@ -8,13 +8,23 @@
       style="flex: 0"
     >
       <v-tab>{{ taskTabTitle }}</v-tab>
+      <v-tab>White board</v-tab>
       <v-tab>Чат</v-tab>
       <v-tab>Материалы урока</v-tab>
       <v-tab>Домашнее задание</v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-model="tab" ref="tabsItem">
       <v-tab-item class="edu-panel__tasks">
         <tasks class="edu-panel__tasks-component" />
+      </v-tab-item>
+      <v-tab-item>
+        <paint
+          v-if="paintWidth"
+          :width="paintWidth"
+          :height="paintHeight"
+          class="tasks__paint"
+          ref="paint"
+        />
       </v-tab-item>
       <v-tab-item>
         <text-chat />
@@ -44,11 +54,15 @@ import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 
+import Paint from "Tasks/Paint/index";
+
 export default {
   name: "edu-panel",
   data: function() {
     return {
-      tab: null
+      tab: null,
+      paintWidth: false,
+      paintHeight: false
     };
   },
   methods: {},
@@ -65,11 +79,16 @@ export default {
   components: {
     TextChat,
     Tasks,
-    Attachs
+    Attachs,
+    Paint
   },
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    this.paintWidth = this.$refs.tabsItem.$el.offsetWidth;
+    this.paintHeight = this.$refs.tabsItem.$el.offsetHeight;
+  }
 };
 </script>
 

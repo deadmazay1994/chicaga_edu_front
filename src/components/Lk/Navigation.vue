@@ -3,6 +3,7 @@
     <v-navigation-drawer
       fixed
       dark
+      v-model="draverComputed"
       :expand-on-hover="true"
       class="navigation__drawer rounded-0 main-color"
     >
@@ -105,7 +106,7 @@ export default {
     return {};
   },
   methods: {
-    ...mapMutations(["logout"]),
+    ...mapMutations(["logout", "setDraverState"]),
     exit() {
       this.logout();
       this.$router.push("/auth/login");
@@ -113,15 +114,35 @@ export default {
         val: "Вы успешно вышли из личного кабинета",
         success: true
       });
+    },
+    toggleDraverByWindowSize() {
+      if (window.innerWidth >= 1200) {
+        this.setDraverState(true);
+      } else {
+        this.setDraverState(false);
+      }
     }
   },
   computed: {
-    ...mapGetters(["user", "draver"])
+    ...mapGetters(["user", "draver"]),
+    draverComputed: {
+      get() {
+        return this.draver;
+      },
+      set() {}
+    }
   },
   components: {},
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    this.toggleDraverByWindowSize();
+  },
+  created() {
+    window.onresize = () => {
+      this.toggleDraverByWindowSize();
+    };
+  }
 };
 </script>
 
@@ -130,4 +151,7 @@ export default {
   &__drawer
     height: 100vh
     top: 64px !important
+.navigation__drawer
+  @media (max-width: 1200px)
+    margin-top: -65px
 </style>

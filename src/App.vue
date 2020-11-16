@@ -54,14 +54,13 @@ export default {
 
 body
   overflow-x: hidden
-.v-app
-  min-width: 1264px
 .v-main
   width: 100%
   margin-top: 64px
   &--resize
-    width: calc(100vw - 56px)
-    margin-left: 56px
+    @media (min-width: 1200px)
+      width: calc(100vw - 56px)
+      margin-left: 56px
 .main-color
   background: $main-color !important
   &--text

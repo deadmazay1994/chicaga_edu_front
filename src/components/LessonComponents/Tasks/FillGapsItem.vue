@@ -223,7 +223,7 @@ export default {
       }
     },
     customForceUpdate(data) {
-      data.data.answers.forEach((ans, i) => {
+      data.answers.forEach((ans, i) => {
         this.updateModelInput(ans.val, i);
       });
     },
