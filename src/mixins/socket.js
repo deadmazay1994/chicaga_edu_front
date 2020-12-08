@@ -7,23 +7,22 @@ export default {
     },
     onSendData(eventName, callback) {
       this.socket.on("send data", data => {
-        callback;
         if (data.eventName == eventName) callback(data);
       });
     },
-    do(functionName, args) {
+    do(functionName, args, eventName) {
       // При вызове любой функции через do у всех подписчиков комнаты урока вызыватся такой же метод
       if (this[functionName]) {
         this[functionName](...args);
         this.socketSendToAllInLesson({
-          eventName: "do paint",
+          eventName: eventName,
           functionName,
           args
         });
       }
     },
-    onDo() {
-      this.onSendData("do paint", data => {
+    onDo(eventName) {
+      this.onSendData(eventName, data => {
         if (this[data.functionName]) {
           this[data.functionName](...data.args);
         }
@@ -31,7 +30,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters["socket"]
+    ...mapGetters(["socket"])
   },
   components: {},
   props: [],

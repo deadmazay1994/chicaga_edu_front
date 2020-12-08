@@ -153,9 +153,13 @@ export default {
     async getPayCourseLink(id, type = "course", count = 1) {
       // Если покупаем курс, то автоматически выставляем количество 1
       count = type == "course" ? 1 : count;
-      console.log(id);
+      console.log({
+        type: type,
+        id,
+        count
+      });
       return post("payment", {
-        type,
+        type: type,
         id,
         count
       });

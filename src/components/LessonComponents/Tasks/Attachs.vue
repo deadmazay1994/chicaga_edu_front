@@ -5,7 +5,7 @@ import Magnifier from "@/directives/magnifier";
 import Zoom from "@/directives/zoom";
 import Description from "./TasksDescription";
 
-import SocketMixin from "@/mixins//socket";
+import SocketMixin from "@/mixins/socket";
 import MediaEvents from "@/mixins/mediaEvents";
 
 import { mapGetters, mapMutations } from "vuex";

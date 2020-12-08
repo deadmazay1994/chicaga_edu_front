@@ -24,6 +24,9 @@ import EduPanel from "@/components/LessonComponents/EduPanel";
 import LessonStart from "@/components/LessonComponents/LessonStart";
 
 import Io from "socket.io-client";
+import SocketMixin from "@/mixins/socket.js";
+import OurCursor from "@/mixins/ourCursor";
+
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -76,7 +79,7 @@ export default {
     LessonStart
   },
   props: [],
-  mixins: {},
+  mixins: [OurCursor, SocketMixin],
   beforeMount() {
     this.setRoomId(this.$route.params.id);
     this.socketConnect(this.$route.params.id);
@@ -89,6 +92,8 @@ export default {
     this.sendTeacher();
     // Если пользователь пропустил событие, когда учиьель отправил свой id
     this.getTeacher();
+    // Инициируем общий курсор (курсор учителя транслируется всем, как в figma)
+    // this.ourCursorInit();
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm("Вы действительно хотите покинуть урок?");

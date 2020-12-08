@@ -105,7 +105,7 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {
-    this.onDo();
+    this.onDo("do paint");
     this.setPallet();
     this.ctrls = [
       // {

@@ -111,4 +111,11 @@ body
 .task-wrap {
   padding: 0 20px;
 }
+
+/* Our cursor */
+.our-cursor {
+  position: absolute;
+  font-size: 23px;
+  z-index: 9999999;
+}
 </style>

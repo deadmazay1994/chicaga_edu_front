@@ -64,25 +64,28 @@ export default {
       this.$refs.paint.onmousedown = e => {
         let clickCoords = this.getClickPositionByRelative(e, this.$refs.paint);
         if (this.toolGroup == "shapes" && this.tool) {
-          this.do("createActiveShape", [
-            "v-" + this.tool,
-            this.color,
-            clickCoords.x,
-            clickCoords.y
-          ]);
+          this.do(
+            "createActiveShape",
+            ["v-" + this.tool, this.color, clickCoords.x, clickCoords.y],
+            "do paint"
+          );
           let canTransform = true;
           this.$refs.paint.onmouseup = () => {
             canTransform = false;
           };
           this.$refs.paint.onmousemove = eMousemove => {
             if (canTransform) {
-              this.do("transformSizes", [
-                {
-                  tool: this.tool,
-                  width: eMousemove.clientX - e.clientX,
-                  height: eMousemove.clientY - e.clientY
-                }
-              ]);
+              this.do(
+                "transformSizes",
+                [
+                  {
+                    tool: this.tool,
+                    width: eMousemove.clientX - e.clientX,
+                    height: eMousemove.clientY - e.clientY
+                  }
+                ],
+                "do paint"
+              );
             }
           };
         }
@@ -99,7 +102,7 @@ export default {
       }
     },
     clearCanvasDo() {
-      this.do("clearCanvas", []);
+      this.do("clearCanvas", [], "do paint");
     },
     clearCanvas() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -134,7 +137,7 @@ export default {
     this.setSizes();
     // Прослушиваем события типа do. В них передаеются данные от учители какие функции с какими данными вызывать
     // Требуется socket в mapGetters
-    this.onDo();
+    this.onDo("do paint");
     this.shapesConfigs.push({
       x: 0,
       y: 0,
