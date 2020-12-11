@@ -15,15 +15,25 @@ import render from "./mixins/renderTasks";
 export default {
   name: "task-manager",
   render(h) {
+    // Получает текущий контекст
+    // Дз или обычный урок
+    let tasksInput = [];
     if (this.isConsultation()) {
-      this.input = this.consultation;
+      tasksInput = ConsultationData;
+    } else {
+      tasksInput = this.getContext();
     }
-    this.setTasksNum();
-    let results = [];
-    if (!location.href.includes("consultation")) {
-      results = this.results;
+    this.setTasksNum(tasksInput);
+    let managerBottom = [];
+    if (!document.location.href.includes("consultation")) {
+      managerBottom.push(
+        <div class="manager__bottom">
+          {this.results}
+          <choose-group class="manager__choose-group" lessonType={this.type} />
+          <portal-target name="manager__bottom" />
+        </div>
+      );
     }
-    let tasksInput = this.getContext();
     let slots = [
       <div class="manager__top elevation-3">
         <teacher-panel />
@@ -31,11 +41,7 @@ export default {
       <div class="manager__workspace">
         {...this.renderTasks(tasksInput, this.manager)}
       </div>,
-      <div class="manager__bottom">
-        {results}
-        <choose-group class="manager__choose-group" lessonType={this.type} />
-        <portal-target name="manager__bottom" />
-      </div>
+      ...managerBottom
     ];
     return h("div", slots);
   },
@@ -53,37 +59,15 @@ export default {
         this.$refs.task.forEach((task, index) => callback(task, index));
       }
     },
-    setTasksNum() {
-      let allTasks = [];
-      this.input
-        .map(group => group.tasks)
-        .forEach(task => allTasks.push(...task));
+    setTasksNum(tasks) {
+      // Устанавливает количество тасков, которые проверяются
+      this.tasksNum = tasks.length;
       let addonsType = ["youtube_addons", "lesson_addons_files"];
-      const inAddons = taskType =>
-        addonsType.find(task => (task == taskType ? true : false));
-      if (this.input) {
-        let ifSaved = typeof this.saved != "object";
-        let ifHomeworkSaved = typeof this.savedHomework != "object";
-        let addonsNum = 0;
-        if (
-          (!ifSaved && this.type == "lesson") ||
-          (!ifHomeworkSaved && this.type == "homework")
-        ) {
-          addonsNum = allTasks.filter(task => inAddons(task.type)).length;
-        } else {
-          addonsNum = allTasks.filter(task => inAddons(task.inputCopy.type))
-            .length;
-        }
-        this.tasksNum = allTasks.length - addonsNum;
-      } else if (this.saved) {
-        let addonsNum = this.saved.filter(task => {
-          if (task) {
-            return inAddons(task.inputCopy.type);
-          }
-          return false;
-        }).length;
-        this.tasksNum = this.saved.length - addonsNum;
-      }
+      tasks.forEach(gropup => {
+        this.tasksNum -= gropup.tasks.filter(task =>
+          addonsType.includes(task.type)
+        ).length;
+      });
     },
     check() {
       this.tasksForEach(task => {
@@ -132,13 +116,6 @@ export default {
             }
           }
         }
-        // if (Array.isArray(task.$refs)) {
-        //   task.$refs.forEach(ref => {
-        //     if (ref.showAnswers) {
-        //       ref.showAnswers();
-        //     }
-        //   });
-        // }
       });
     }
   },

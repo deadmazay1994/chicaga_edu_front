@@ -64,7 +64,7 @@ export default {
     },
     showAnswers() {
       this.inputCopy.body.forEach(e => {
-        this.$set(e, "correct", e.text === "true" ? true : false);
+        this.$set(e, "correct", e.right ? true : false);
       });
     },
     statusClass(tf) {
@@ -89,6 +89,11 @@ export default {
   props: ["input", "index"],
   beforeMount() {
     this.setInputCopy();
+    this.inputCopy.body.forEach(e => {
+      if (!e.right) {
+        e.right = false;
+      }
+    });
   }
 };
 </script>

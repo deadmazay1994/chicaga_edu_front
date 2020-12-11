@@ -8,6 +8,7 @@ module.exports = {
         Base: path.resolve(__dirname, "src/components/Base/"),
         // eslint-disable-next-line prettier/prettier
         Tasks: path.resolve(__dirname, "src/components/LessonComponents/Tasks/"),
+        Ui: path.resolve(__dirname, "src/components/UiElements/"),
         LC: path.resolve(__dirname, "src/components/LessonComponents/"),
         // eslint-disable-next-line prettier/prettier
         VChat: path.resolve(__dirname, "src/components/LessonComponents/VideoChat/"),

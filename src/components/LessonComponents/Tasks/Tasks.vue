@@ -123,7 +123,8 @@ export default {
         (this.isHomework &&
           this.groupsHomework.length - 1 == this.activeGroupIndexHomework) ||
         (!this.isHomework &&
-          this.groupsLesson.length - 1 == this.activeGroupIndexLesson)
+          this.groupsLesson.length - 1 == this.activeGroupIndexLesson) ||
+        document.location.href.includes("consultation")
       )
         res = true;
       return res;

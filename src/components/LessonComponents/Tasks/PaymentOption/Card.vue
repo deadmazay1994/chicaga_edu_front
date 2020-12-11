@@ -12,7 +12,7 @@
         </div>
       </div>
       <div>
-        <div class="offer-card__offer">{{ offer.offer }}</div>
+        <div class="offer-card__offer">{{ convertPrice(offer.offer) }}</div>
         <div class="offer-card__description">
           {{ offer.description }}
         </div>
@@ -48,6 +48,13 @@ export default {
       } else {
         this.side = "front";
       }
+    },
+    convertPrice(price) {
+      let res = price.replace(/\s/g, "").split("");
+      if (res.length >= 4) {
+        res.splice(1, 0, " ");
+      }
+      return res.join("");
     }
   },
   computed: {

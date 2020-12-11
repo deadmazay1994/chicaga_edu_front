@@ -2,6 +2,7 @@
   <div
     class="task-description vue-component"
     :class="{ 'task-description--consultation': isConsultation }"
+    v-if="Object.keys(this.$slots)[0]"
   >
     <div
       v-if="isConsultation"

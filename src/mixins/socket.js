@@ -10,7 +10,7 @@ export default {
         if (data.eventName == eventName) callback(data);
       });
     },
-    do(functionName, args, eventName) {
+    do(functionName, args = [], eventName = functionName) {
       // При вызове любой функции через do у всех подписчиков комнаты урока вызыватся такой же метод
       if (this[functionName]) {
         this[functionName](...args);

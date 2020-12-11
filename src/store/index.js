@@ -14,6 +14,7 @@ import videoChat from "./modules/video_chat";
 import faq from "./modules/faq";
 import paint from "./modules/paint";
 import draver from "./modules/draver";
+import consultation from "./modules/consultation";
 
 Vue.use(Vuex);
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     videoChat,
     faq,
     paint,
-    draver
+    draver,
+    consultation
   }
 });

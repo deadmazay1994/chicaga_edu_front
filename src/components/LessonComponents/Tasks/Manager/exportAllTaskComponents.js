@@ -14,6 +14,7 @@ import ChooseImage from "Tasks/ChooseImage";
 import PaymentOption from "Tasks/PaymentOption/";
 import Choose from "Tasks/Consultation/Choose";
 import Gaps from "Tasks/Consultation/Gaps";
+import ConsultationLevel from "Tasks/Consultation/ConsultationLevel/index.vue";
 
 import CheckBtn from "Tasks/CheckBtn";
 import ChooseGroup from "./ChooseGroup";
@@ -36,5 +37,6 @@ export default {
   Choose,
   Gaps,
   CheckBtn,
-  ChooseGroup
+  ChooseGroup,
+  ConsultationLevel
 };

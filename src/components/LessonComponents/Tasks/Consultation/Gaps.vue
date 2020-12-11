@@ -24,6 +24,12 @@
           </div>
         </div>
       </div>
+      <div class="gaps__results">
+        Ваш результат
+        <span class="font-weight-bold">{{ errorsCounter }}</span> ошибок из
+        <span class="font-weight-bold">{{ inputCopy.tasks.length }}</span>
+        заданий
+      </div>
       <div class="d-flex justify-center">
         <v-btn class="main-color main-color--text" @click.native="check"
           >ПРОВЕРИТЬ</v-btn
@@ -46,7 +52,8 @@ export default {
     return {
       error: false,
       answered: false,
-      inputCopy: {}
+      inputCopy: {},
+      errorsCounter: 0
     };
   },
   methods: {
@@ -56,17 +63,20 @@ export default {
       option.userAnswer = Boolean(value);
     },
     check() {
+      this.errorsCounter = 0;
       this.inputCopy.tasks.forEach(task => {
+        let correct = 0;
         task.options.forEach(option => {
           if (option.userAnswer == option.correct) {
             option.status = true;
+            correct = 1;
           } else {
             option.status = false;
           }
           option.answered = true;
         });
+        this.errorsCounter += !correct;
       });
-      // this.$forceUpdate();
     },
     selectClass(option, neighbors) {
       let existCorrectNeigbor = false;
@@ -117,6 +127,8 @@ export default {
     line-height: 24px
     color: #555555
     margin-bottom: 20px
+  &__results
+    margin-bottom: 10px
 .gap
   background: #FFFFFF
   border: 1px solid #F0F0F0

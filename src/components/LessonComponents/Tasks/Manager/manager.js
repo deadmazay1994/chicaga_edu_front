@@ -58,6 +58,9 @@ export default function manager(data, type, index, h) {
     case "gaps":
       componentName = "gaps";
       break;
+    case "consultationLevel":
+      componentName = "consultationLevel";
+      break;
   }
   return h(componentName, attrs, slots);
 }
