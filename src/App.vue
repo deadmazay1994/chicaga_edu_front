@@ -20,7 +20,7 @@ import Navigation from "@/components/Lk/Navigation";
 import BgComponent from "@/components/Base/Background";
 import Lightbox from "@/components/Base/Lightbox";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "App",
@@ -37,6 +37,9 @@ export default {
     BgComponent,
     Lightbox
   },
+  methods: {
+    ...mapMutations(["checkIsConsultation"])
+  },
   computed: {
     ...mapGetters(["user"])
   },
@@ -45,6 +48,7 @@ export default {
     await this.$store.dispatch("login");
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
+    this.checkIsConsultation();
   }
 };
 </script>

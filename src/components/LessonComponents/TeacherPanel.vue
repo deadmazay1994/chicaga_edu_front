@@ -148,7 +148,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "socketUsers", "roomId", "activeUser", "user"])
+    ...mapGetters([
+      "socket",
+      "socketUsers",
+      "roomId",
+      "activeUser",
+      "user",
+      "isConsultation"
+    ])
   },
   watch: {
     socketUsers() {

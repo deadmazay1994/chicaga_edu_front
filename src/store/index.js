@@ -19,9 +19,17 @@ import consultation from "./modules/consultation";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  getters: {},
+  state: {
+    isConsultation: false
+  },
+  mutations: {
+    checkIsConsultation(state) {
+      state.isConsultation = window.location.href.includes("consultation");
+    }
+  },
+  getters: {
+    isConsultation: state => state.isConsultation
+  },
   actions: {},
   modules: {
     chat,

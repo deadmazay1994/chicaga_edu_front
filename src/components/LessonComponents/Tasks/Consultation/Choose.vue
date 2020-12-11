@@ -5,9 +5,8 @@
       <div class="choose__cards">
         <v-row no-gutters class="justify-center">
           <v-col
-            cols="12"
-            lg="3"
-            xl="3"
+            cols="3"
+            xs="4"
             class="mb-10"
             v-for="(select, i) in inputCopy.select"
             :key="i"

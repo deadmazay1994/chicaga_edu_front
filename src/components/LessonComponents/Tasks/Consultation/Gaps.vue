@@ -1,40 +1,42 @@
 <template>
   <div class="gaps vue-component">
     <description :index="index"> {{ inputCopy.description }} </description>
-    <div class="task-wrap">
-      <div class="gaps__title">{{ inputCopy.audioTitle }}</div>
-      <vuetify-audio :file="inputCopy.audio" />
-      <div class="gap gaps__gap" v-for="(gap, i) in inputCopy.tasks" :key="i">
-        <div class="gap__title gap__front">{{ i + 1 }}. {{ gap.title }}</div>
-        <div class="gap__options" ref="gap">
-          <div
-            class="gap__option gap__front option"
-            :class="selectClass(option, gap.options)"
-            v-for="(option, i) in gap.options"
-            :key="i"
-          >
-            <div class="option__text">
-              {{ option.text }}
+    <div class="task-wrap" v-for="level in inputCopy.levels" :key="level.id">
+      <template v-if="activeLevel == level.id">
+        <div class="gaps__title">{{ level.audioTitle }}</div>
+        <vuetify-audio :file="level.audio" />
+        <div class="gap gaps__gap" v-for="(gap, i) in level.tasks" :key="i">
+          <div class="gap__title gap__front">{{ i + 1 }}. {{ gap.title }}</div>
+          <div class="gap__options" ref="gap">
+            <div
+              class="gap__option gap__front option"
+              :class="selectClass(option, gap.options)"
+              v-for="(option, i) in gap.options"
+              :key="i"
+            >
+              <div class="option__text">
+                {{ option.text }}
+              </div>
+              <checkbox
+                class="option__checkbox checkbox"
+                :error="checkboxError"
+                @click.native="changeOption(option, $event)"
+              />
             </div>
-            <checkbox
-              class="option__checkbox checkbox"
-              :error="checkboxError"
-              @click.native="changeOption(option, $event)"
-            />
           </div>
         </div>
-      </div>
-      <div class="gaps__results">
-        Ваш результат
-        <span class="font-weight-bold">{{ errorsCounter }}</span> ошибок из
-        <span class="font-weight-bold">{{ inputCopy.tasks.length }}</span>
-        заданий
-      </div>
-      <div class="d-flex justify-center">
-        <v-btn class="main-color main-color--text" @click.native="check"
-          >ПРОВЕРИТЬ</v-btn
-        >
-      </div>
+        <div class="gaps__results" v-if="answered">
+          Ваш результат
+          <span class="font-weight-bold">{{ errorsCounter }}</span> ошибок из
+          <span class="font-weight-bold">{{ level.tasks.length }}</span>
+          заданий
+        </div>
+        <div class="d-flex justify-center">
+          <v-btn class="main-color main-color--text" @click.native="check"
+            >ПРОВЕРИТЬ</v-btn
+          >
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -63,8 +65,9 @@ export default {
       option.userAnswer = Boolean(value);
     },
     check() {
+      this.answered = true;
       this.errorsCounter = 0;
-      this.inputCopy.tasks.forEach(task => {
+      this.activeLevelCurrent.tasks.forEach(task => {
         let correct = 0;
         task.options.forEach(option => {
           if (option.userAnswer == option.correct) {
@@ -93,12 +96,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"]),
+    ...mapGetters(["socket", "activeLevel"]),
     checkboxError() {
       if (this.answered) {
         return this.error ? "uncorrect" : "correct";
       }
       return "";
+    },
+    activeLevelCurrent() {
+      let r = [];
+      this.inputCopy.levels.forEach(level => {
+        if (level.id == this.activeLevel) {
+          r = level;
+        }
+      });
+      return r;
     }
   },
   components: {
@@ -108,10 +120,14 @@ export default {
   },
   props: ["input", "index"],
   beforeMount() {
-    this.inputCopy.tasks.forEach((task, i) => {
+    this.activeLevelCurrent.tasks.forEach((task, i) => {
       task.options.forEach((option, j) => {
-        this.$set(this.inputCopy.tasks[i].options[j], "status", null);
-        this.$set(this.inputCopy.tasks[i].options[j], "answered", false);
+        this.$set(this.activeLevelCurrent.tasks[i].options[j], "status", null);
+        this.$set(
+          this.activeLevelCurrent.tasks[i].options[j],
+          "answered",
+          false
+        );
       });
     });
   }
