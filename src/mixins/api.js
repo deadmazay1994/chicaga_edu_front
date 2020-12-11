@@ -88,7 +88,6 @@ export default {
     // Lesson
     async getLesson(id) {
       let response = await Axios.get(API_URL + "lesson/" + id);
-      console.log(response);
       if (response.status == 200) {
         return response.data.lesson.lesson;
       }

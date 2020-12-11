@@ -76,6 +76,7 @@ export default {
               components.push(
                 <vuetify-audio
                   ref="audio"
+                  class="attachs__audio vuetify-audio"
                   refInFor={true}
                   file={this.getFileName(e.file_name)}
                 />
@@ -217,4 +218,7 @@ export default {
   &__img
     width: 100%
     height: 100%
+  &__audio
+    & .v-progress-linear *
+      background: red !important
 </style>

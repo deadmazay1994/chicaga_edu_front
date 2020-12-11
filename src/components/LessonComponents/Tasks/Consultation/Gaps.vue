@@ -4,7 +4,7 @@
     <div class="task-wrap" v-for="level in inputCopy.levels" :key="level.id">
       <template v-if="activeLevel == level.id">
         <div class="gaps__title">{{ level.audioTitle }}</div>
-        <vuetify-audio :file="level.audio" />
+        <vuetify-audio class="vuetify-audio" :file="level.audio" />
         <div class="gap gaps__gap" v-for="(gap, i) in level.tasks" :key="i">
           <div class="gap__title gap__front">{{ i + 1 }}. {{ gap.title }}</div>
           <div class="gap__options" ref="gap">
@@ -119,7 +119,7 @@ export default {
     Checkbox
   },
   props: ["input", "index"],
-  beforeMount() {
+  mounted() {
     this.activeLevelCurrent.tasks.forEach((task, i) => {
       task.options.forEach((option, j) => {
         this.$set(this.activeLevelCurrent.tasks[i].options[j], "status", null);
@@ -174,6 +174,7 @@ export default {
   background-size: 100% 100%
   background-repeat: no-repeat
   position: relative
+  width: 33%
   &__text
     font-weight: bold
     font-size: 20px
@@ -182,7 +183,6 @@ export default {
     align-items: center
     justify-content: center
     color: #555555
-    width: 150px
     min-height: 80px
     text-align: center
     padding: 10px

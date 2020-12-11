@@ -5,6 +5,7 @@
       <div v-if="activeLevel == inputCopy.levels[0].id" class="cons__level">
         <attachs
           class="cons__img"
+          :key="0"
           :input="getImgData(inputCopy.levels[0].image)"
         />
         <div class="cons__select">
@@ -15,6 +16,7 @@
           <div class="cons__chips">
             <chip
               class="cons__chip"
+              :key="0"
               :for-teacher="true"
               style="bottom: 4px; left: -170px"
               width="192px"
@@ -26,6 +28,7 @@
             >
             <chip
               class="cons__chip"
+              :key="1"
               :for-teacher="true"
               style="bottom: 79px; left: -190px"
               width="192px"
@@ -37,6 +40,7 @@
             >
             <chip
               class="cons__chip"
+              :key="2"
               :for-teacher="true"
               style="top: 32px; left: -170px"
               width="192px"
@@ -48,6 +52,7 @@
             >
             <chip
               class="cons__chip"
+              :key="3"
               :for-teacher="true"
               style="top: -57px; left: 34px"
               width="192px"
@@ -58,6 +63,7 @@
             >
             <chip
               class="cons__chip"
+              :key="4"
               :for-teacher="true"
               background="#C7D5F2"
               color="black"
@@ -68,6 +74,7 @@
             >
             <chip
               class="cons__chip"
+              :key="5"
               :for-teacher="true"
               background="#A9E9E2"
               color="black"
@@ -78,6 +85,7 @@
             >
             <chip
               class="cons__chip"
+              :key="6"
               :for-teacher="true"
               style="bottom: 4px; right: -170px"
               width="192px"
@@ -96,6 +104,7 @@
       <div v-if="activeLevel == inputCopy.levels[1].id" class="cons__level">
         <attachs
           class="cons__img"
+          :key="1"
           :input="getImgData(inputCopy.levels[1].image)"
         />
         <div class="cons__select">
@@ -106,6 +115,7 @@
           <div class="cons__chips">
             <chip
               class="cons__chip"
+              :key="11"
               :for-teacher="true"
               style="bottom: -12px; left: -191px"
               width="192px"
@@ -117,6 +127,7 @@
             >
             <chip
               class="cons__chip"
+              :key="12"
               :for-teacher="true"
               style="top: 32px; left: -189px"
               width="192px"
@@ -127,6 +138,7 @@
             >
             <chip
               class="cons__chip"
+              :key="13"
               :for-teacher="true"
               style="top: -57px; left: 34px"
               width="192px"
@@ -137,6 +149,7 @@
             >
             <chip
               class="cons__chip"
+              :key="14"
               :for-teacher="true"
               background="#F5B5D5"
               color="black"
@@ -147,6 +160,7 @@
             >
             <chip
               class="cons__chip"
+              :key="15"
               :for-teacher="true"
               style="bottom: -12px; right: -184px"
               width="192px"
@@ -165,6 +179,7 @@
       <div v-if="activeLevel == inputCopy.levels[2].id" class="cons__level">
         <attachs
           class="cons__img"
+          :key="2"
           :input="getImgData(inputCopy.levels[2].image)"
         />
         <div class="cons__select">
@@ -175,6 +190,7 @@
           <div class="cons__chips">
             <chip
               class="cons__chip"
+              :key="7"
               :for-teacher="true"
               style="bottom: -17px; left: -191px"
               width="192px"
@@ -186,6 +202,7 @@
             >
             <chip
               class="cons__chip"
+              :key="8"
               :for-teacher="true"
               style="top: -17px; left: -191px"
               width="192px"
@@ -196,6 +213,7 @@
             >
             <chip
               class="cons__chip"
+              :key="9"
               :for-teacher="true"
               background="#FAA24E"
               color="black"
@@ -206,6 +224,7 @@
             >
             <chip
               class="cons__chip"
+              :key="10"
               :for-teacher="true"
               style="bottom: -17px; right: -191px"
               width="192px"

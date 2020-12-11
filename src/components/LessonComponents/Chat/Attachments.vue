@@ -42,7 +42,7 @@
         <template v-else-if="attachment.audio_url">
           <vuetify-audio
             :file="attachment.title_link"
-            class="attachments__attachment attachments__audio"
+            class="attachments__attachment attachments__audio vuetify-audio"
           />
         </template>
         <template v-else-if="attachment.title_link_download">
