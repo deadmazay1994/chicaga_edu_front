@@ -6,12 +6,14 @@
         <course-card :course="course" :buy="false" />
       </v-col>
     </v-row>
+    <plug v-if="!catalogCourses.length" />
   </div>
 </template>
 
 <script>
 import PageTitle from "@/components/Base/PageTitle";
 import CourseCard from "@/components/Lk/Courses/CourseCard";
+import Plug from "./CatalogCoursePlug";
 
 import { mapGetters } from "vuex";
 
@@ -34,7 +36,8 @@ export default {
   },
   components: {
     PageTitle,
-    CourseCard
+    CourseCard,
+    Plug
   },
   props: [],
   mixins: {},

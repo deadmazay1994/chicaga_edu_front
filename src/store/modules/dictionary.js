@@ -5,6 +5,7 @@ export default {
   actions: {
     async getDictionary({ commit }) {
       let response = await api.methods.getVocalibry();
+      commit("dictLoading");
       if ("success" in response) {
         if (response.success) {
           // Сортировка по алфавиту
@@ -57,14 +58,19 @@ export default {
         }),
         1
       );
+    },
+    dictLoading(state) {
+      state.dictLoaded = true;
     }
   },
   state: {
-    words: false
+    words: false,
+    dictLoaded: false
   },
   getters: {
     dictionary: state => {
       return state.words;
-    }
+    },
+    dictLoaded: state => state.dictLoaded
   }
 };

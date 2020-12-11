@@ -17,13 +17,11 @@ export default {
   render(h) {
     // Получает текущий контекст
     // Дз или обычный урок
-    let tasksInput = [];
     if (this.isConsultation()) {
-      tasksInput = ConsultationData;
+      this.contextData = ConsultationData;
     } else {
-      tasksInput = this.getContext();
+      this.contextData = this.getContext();
     }
-    this.setTasksNum(tasksInput);
     let managerBottom = [];
     if (!document.location.href.includes("consultation")) {
       managerBottom.push(
@@ -39,7 +37,7 @@ export default {
         <teacher-panel />
       </div>,
       <div class="manager__workspace">
-        {...this.renderTasks(tasksInput, this.manager)}
+        {...this.renderTasks(this.contextData, this.manager)}
       </div>,
       ...managerBottom
     ];
@@ -49,7 +47,7 @@ export default {
     return {
       errorCounter: 0,
       checked: false,
-      tasksNum: 0,
+      contextData: 0,
       consultation: ConsultationData
     };
   },
@@ -59,15 +57,15 @@ export default {
         this.$refs.task.forEach((task, index) => callback(task, index));
       }
     },
-    setTasksNum(tasks) {
+    getTasksNumForChecking(tasks) {
       // Устанавливает количество тасков, которые проверяются
-      this.tasksNum = tasks.length;
+      let tasksNum = tasks.length;
       let addonsType = ["youtube_addons", "lesson_addons_files"];
       tasks.forEach(gropup => {
-        this.tasksNum -= gropup.tasks.filter(task =>
-          addonsType.includes(task.type)
-        ).length;
+        tasksNum -= gropup.tasks.filter(task => addonsType.includes(task.type))
+          .length;
       });
+      return tasksNum;
     },
     check() {
       this.tasksForEach(task => {
@@ -123,7 +121,10 @@ export default {
     ...mapGetters(["user", "socket", "teacherId", "activeUser"]),
     results() {
       return this.checked ? (
-        <results errorsNum={this.errorCounter} tasksNum={this.tasksNum} />
+        <results
+          errorsNum={this.errorCounter}
+          tasksNum={this.getTasksNumForChecking(this.contextData)}
+        />
       ) : (
         ""
       );

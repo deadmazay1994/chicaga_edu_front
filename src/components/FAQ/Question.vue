@@ -1,6 +1,6 @@
 <template>
   <v-card class="question vue-component pa-5">
-    <div class="question__title text-h3">{{ question.question }}</div>
+    <div class="question__title text-h4">{{ question.question }}</div>
     <div
       class="question__answer mt-3"
       v-html="question.answer"
@@ -44,6 +44,8 @@ export default {
   margin-bottom: 10px
   height: 100%
   position: relative
+  &__title
+    max-width: 90%
   &__answer
     display: none
     &--active

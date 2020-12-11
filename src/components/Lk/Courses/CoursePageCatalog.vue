@@ -1,6 +1,6 @@
 <template>
   <div class="course-page-catalog vue-component">
-    <v-card class="pa-5 my-4 front">
+    <v-card v-if="course.description" class="pa-5 my-4 front">
       <div v-html="course.description"></div>
       <v-divider class="my-4"></v-divider>
       <div class="text-h3 main-color-text">{{ course.price }} &#8381;</div>
@@ -8,6 +8,11 @@
       <v-btn block large class="main-color main-color--text" @click="pay"
         >Купить</v-btn
       >
+    </v-card>
+    <v-card class="front" v-else>
+      <v-skeleton-loader
+        type="article, divider, list-item-two-line@5, actions"
+      ></v-skeleton-loader>
     </v-card>
   </div>
 </template>

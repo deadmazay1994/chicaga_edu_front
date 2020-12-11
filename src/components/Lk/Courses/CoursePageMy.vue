@@ -1,7 +1,7 @@
 <template>
   <div class="course-page-my vue-component">
-    <v-row v-if="currentCourse">
-      <v-col cols="12" md="6">
+    <v-row>
+      <v-col cols="12" md="7">
         <v-card class="pa-5 front" style="height: 100%">
           <div class="text-h5">Прогресс по курсу</div>
           <progress-info
@@ -61,11 +61,21 @@
             </v-list-item>
           </v-list>
         </v-card>
+        <v-card v-if="!currentCourse" class="front">
+          <v-skeleton-loader
+            type="article, divider, list-item-two-line@8"
+          ></v-skeleton-loader>
+        </v-card>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="5">
         <v-card class="pa-5 front" style="height: 100%">
           <div class="text-h5">Описание курса</div>
           {{ course.description }}
+        </v-card>
+        <v-card v-if="!currentCourse" class="front">
+          <v-skeleton-loader
+            type="article, list-item-two-line@8"
+          ></v-skeleton-loader>
         </v-card>
       </v-col>
     </v-row>

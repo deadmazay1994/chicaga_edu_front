@@ -5,6 +5,7 @@ export default {
   actions: {
     async setMyCourses({ commit }) {
       let response = await api.methods.getMyCourses();
+      commit("endLoadingMyCourses");
       let data = response.data;
       // Даем понять фронту, что курс куплен
       data.map(e => (e.buyed = true));
@@ -55,13 +56,17 @@ export default {
     },
     setProgressTeacher(state, data) {
       state.progressForTeacher = Object.values(data);
+    },
+    endLoadingMyCourses(state) {
+      state.myCoursesLoaded = true;
     }
   },
   state: {
     myCourses: [],
+    myCoursesLoaded: false,
     catalogCourses: [],
     allCourses: [],
-    currentCourse: false,
+    currentCourse: {},
     progressForTeacher: {}
   },
   getters: {
@@ -79,6 +84,7 @@ export default {
     },
     progressForTeacher: state => {
       return state.progressForTeacher;
-    }
+    },
+    myCoursesLoaded: state => state.myCoursesLoaded
   }
 };

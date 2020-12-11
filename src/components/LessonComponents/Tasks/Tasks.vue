@@ -10,6 +10,11 @@
         :type="isHomework ? 'homework' : 'lesson'"
         ref="taskManager"
       />
+      <v-skeleton-loader
+        v-else
+        class="pa-7"
+        type="heading, article, image, article@2, image"
+      />
     </div>
     <portal to="manager__bottom">
       <div v-if="showCheckBtn" class="tasks__fixed mb-2">
@@ -23,7 +28,7 @@
             class="tasks__check-btn"
             large
             color="white--text"
-            >ПОДТВЕРДИТЬ</v-btn
+            >ПРОВЕРИТЬ</v-btn
           >
           <v-btn
             v-if="isHomework"
@@ -125,8 +130,10 @@ export default {
         (!this.isHomework &&
           this.groupsLesson.length - 1 == this.activeGroupIndexLesson) ||
         document.location.href.includes("consultation")
-      )
+      ) {
         res = true;
+      }
+      console.log(res);
       return res;
     }
   },

@@ -3,9 +3,22 @@
     <v-container>
       <page-title :title="title" :subtitle="subtitle" />
       <div class="faq__questions">
-        <v-row>
+        <v-row v-if="faq.length">
           <v-col cols="12" md="8" lg="6" v-for="(question, i) in faq" :key="i">
             <question class="faq__question" :question="question" />
+          </v-col>
+        </v-row>
+        <v-row v-else>
+          <v-col
+            v-for="(i, j) in new Array(4)"
+            :key="j"
+            cols="12"
+            md="8"
+            lg="6"
+          >
+            <v-card class="front">
+              <v-skeleton-loader type="article" />
+            </v-card>
           </v-col>
         </v-row>
       </div>

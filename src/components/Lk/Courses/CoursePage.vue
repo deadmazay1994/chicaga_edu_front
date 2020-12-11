@@ -1,9 +1,10 @@
 <template>
   <div class="course-page vue-component">
-    <page-title :title="courseRes.name" />
+    <page-title v-if="courseRes.name" :title="courseRes.name" />
+    <v-skeleton-loader v-else type="heading" class="mb-5" />
     <course-my v-if="courseRes.buyed" :course="courseRes" />
     <v-row v-else class="d-flex justify-center">
-      <v-col cols="12" lg="10">
+      <v-col cols="12">
         <course-catalog :course="courseRes" />
       </v-col>
     </v-row>
@@ -21,7 +22,7 @@ export default {
   name: "course-page",
   data: function() {
     return {
-      courseRes: [],
+      courseRes: {},
       subtitle: ""
     };
   },

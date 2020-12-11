@@ -1,6 +1,13 @@
 <template>
   <div class="dictionary vue-component">
     <page-title title="Словарь" />
+    <v-row v-if="!dictLoaded">
+      <v-col v-for="(i, j) in new Array(16)" :key="j" cols="3">
+        <v-card class="front">
+          <v-skeleton-loader type="article" />
+        </v-card>
+      </v-col>
+    </v-row>
     <v-row class="front relative" v-if="dictionary.length">
       <v-col cols="12" sm="3" md="3" v-for="(words, i) in dictionary" :key="i">
         <v-card class="pa-5 relative">
@@ -12,7 +19,10 @@
         </v-card>
       </v-col>
     </v-row>
-    <div v-else class="front relative text-h4 mt-15 text-center">
+    <div
+      v-else-if="dictLoaded"
+      class="front relative text-h4 mt-15 text-center"
+    >
       Ваш словарь пуст
     </div>
   </div>
@@ -34,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["dictionary"])
+    ...mapGetters(["dictionary", "dictLoaded"])
   },
   components: {
     PageTitle

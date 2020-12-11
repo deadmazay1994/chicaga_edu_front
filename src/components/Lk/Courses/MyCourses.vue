@@ -7,16 +7,22 @@
           <course-card :course="course" :buy="true" />
         </v-col>
       </template>
-      <v-col v-else cols="12" class="front relative text-h4 mt-15 text-center">
+      <v-col
+        v-else-if="myCoursesLoaded"
+        cols="12"
+        class="front relative text-h4 mt-15 text-center"
+      >
         Вы еще не приобрели курсы
       </v-col>
     </v-row>
+    <plug v-if="!myCoursesLoaded" />
   </div>
 </template>
 
 <script>
 import PageTitle from "@/components/Base/PageTitle";
 import CourseCard from "@/components/Lk/Courses/CourseCard";
+import Plug from "./CatalogCoursePlug";
 
 import { mapGetters } from "vuex";
 
@@ -29,11 +35,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["myCourses"])
+    ...mapGetters(["myCourses", "myCoursesLoaded"])
   },
   components: {
     CourseCard,
-    PageTitle
+    PageTitle,
+    Plug
   },
   props: [],
   mixins: {},
