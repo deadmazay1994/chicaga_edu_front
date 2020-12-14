@@ -42,6 +42,10 @@ export default {
       socketUrl: "wss://chat.edu.chicaga.ru/websocket/",
       chatElem: this.$refs.chat
     });
+    console.log(
+      this.user.chat_auth_info.username,
+      this.user.chat_auth_info.password
+    );
   }
 };
 </script>
