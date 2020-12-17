@@ -14,7 +14,8 @@ module.exports = {
         VChat: path.resolve(__dirname, "src/components/LessonComponents/VideoChat/"),
         Chat: path.resolve(__dirname, "src/components/LessonComponents/Chat/"),
         Components: path.resolve(__dirname, "src/components/"),
-        Mixns: path.resolve(__dirname, "src/mixins")
+        Mixns: path.resolve(__dirname, "src/mixins"),
+        Icons: path.resolve(__dirname, "src/components/Icons")
       }
     }
   }

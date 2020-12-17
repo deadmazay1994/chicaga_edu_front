@@ -9,8 +9,10 @@ import TaskFunctions from "@/mixins/tasks";
 import SocketFunctions from "@/mixins/socket";
 
 import VueKonva from "vue-konva";
+import Chat from "vue-beautiful-chat";
 
 Vue.use(VueKonva);
+Vue.use(Chat);
 
 Vue.config.productionTip = false;
 
