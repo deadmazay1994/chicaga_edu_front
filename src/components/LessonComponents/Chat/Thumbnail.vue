@@ -30,5 +30,6 @@ export default {
   max-width: 100%;
   height: auto;
   max-height: 100%;
+  border-radius: 100%;
 }
 </style>

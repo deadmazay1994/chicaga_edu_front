@@ -5,25 +5,16 @@
       :key="i"
       :text="msg.msg"
       :author="msg.u.name"
-      :avatar="IMGSTORE + 'avatars/' + msg.u.username"
+      :avatar="'https://chat.edu.chicaga.ru/avatar/' + msg.u.username"
       :time="msg.time"
       :attachments="msg.attachments"
       role="executor"
     />
-    <pulse-loader
-      class="masseges__loader"
-      :loading="getLoading"
-      color="#333"
-      size="30px"
-    ></pulse-loader>
-    <!-- <div class="overlay"></div> -->
-    <!-- <date date="Вторник, 23 января 2020" /> -->
+    <v-skeleton-loader v-if="getLoading" type="article@8" />
   </div>
 </template>
 
 <script>
-import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-
 import Massege from "./Massege";
 // import Date from "./Date";
 
@@ -45,11 +36,11 @@ export default {
       }
     }
   },
-  computed: mapGetters(["getCurrentMsgs", "getLoading"]),
+  computed: {
+    ...mapGetters(["getCurrentMsgs", "getLoading"])
+  },
   components: {
-    Massege,
-    // Date,
-    PulseLoader
+    Massege
   },
   props: [],
   mixins: {},

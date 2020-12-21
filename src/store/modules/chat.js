@@ -14,7 +14,7 @@ export default {
   actions: {
     async initChat(ctx, data) {
       let rocket = new Rocket(data.socketUrl, data.login, data.password);
-
+      ctx.commit("setLogin", data.login);
       ctx.commit("updateRocket", rocket);
       ctx.commit("updateChatElement", data.chatElem);
       ctx.commit("updateRoom", data.room);
@@ -55,7 +55,6 @@ export default {
 
       rocket.getRoom(ctx.getters.getRoom).then(room => {
         ctx.commit("updateRoomId", room.data.room._id);
-        // console.log(room.data.room._id)
         // Получаем id канала
         let id = room.data.room._id;
         rocket.loadHistory(id, false, 1000).then(r => {
@@ -69,13 +68,11 @@ export default {
           // Их надо дополнять при помощи данной функции
           data.data = rocket.updateMsgs(data.data.reverse());
           data.data.forEach(msg => {
-            console.log(ctx.getters.getRoomId);
             for (let i in ctx.getters.getMembers) {
               let user = ctx.getters.getMembers[i].find(
                 member => member.username == msg.u.username
               );
               if (user) {
-                console.log(user, msg.u);
                 msg.u.name = user.name;
               }
             }
@@ -131,7 +128,6 @@ export default {
         room.roomName,
         room.roomId
       );
-      // let roomId = room.roomName ? room.roomName : roomId
       let memberIds = {};
       res.data.members.forEach(member => {
         // Формируем массив для получения всех пользователей данной группы
@@ -145,6 +141,24 @@ export default {
         roomId: ctx.getters.getRoom,
         members: res.data.members
       });
+      let userIsSubscribed = res.data.members.find(
+        member => member.username == ctx.getters.getLogin
+      );
+      if (!userIsSubscribed) {
+        try {
+          let subR = await ctx.getters.getRocket.subscribeToGroup(
+            room.roomName
+          );
+          if (subR) {
+            await ctx.dispatch("setMembers", {
+              roomName: ctx.getters.getRoom,
+              roomId: false
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
     },
     createUserInChat(ctx, user) {
       ctx.getters.getRocket.createUser(user);
@@ -178,6 +192,9 @@ export default {
     updateLogined(state, logined) {
       state.logined = logined;
     },
+    setLogin(state, login) {
+      state.login = login;
+    },
     updateRocket(state, rocket) {
       state.rocket = rocket;
     },
@@ -196,7 +213,6 @@ export default {
       if (!(msgs.room in state.msgs)) {
         state.msgs[msgs.room] = [];
       }
-
       msgs.data.forEach(msg => {
         state.legardoUsers.forEach(user => {
           if (user.gid == msg.u.username) {
@@ -262,6 +278,7 @@ export default {
   state: {
     rocket: false,
     chatElem: false,
+    login: "",
     msgs: {},
     members: [],
     legardoUsers: [],
@@ -281,8 +298,10 @@ export default {
     getChatElem(state) {
       return state.chatElem;
     },
+    getLogin(state) {
+      return state.login;
+    },
     getCurrentMsgs(state) {
-      console.log(state.currentMsgs);
       return state.currentMsgs;
     },
     getRocket(state) {

@@ -2,7 +2,6 @@
   <div>
     <div class="chat container-fluid" ref="chat">
       <div class="chat__top justify-content-center">
-        <!-- <button v-on:click="toggle('toggler')">toggle</button> -->
         <masseges class="chat__masseges" />
       </div>
       <div class="chat__bottom">
@@ -34,7 +33,6 @@ export default {
   async mounted() {
     // Инициализация чата
     // Первым делом это!!!
-    console.log(this.user);
     await this.$store.dispatch("initChat", {
       login: this.user.chat_auth_info.username,
       password: this.user.chat_auth_info.password,
@@ -50,5 +48,10 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

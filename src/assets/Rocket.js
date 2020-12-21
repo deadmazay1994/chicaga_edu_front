@@ -249,7 +249,6 @@ export default class Rocket {
     if (this.response.result) {
       this.token = this.response.result.token;
       this.userId = this.response.result.id;
-      console.log(this.token, this.userId);
     } else {
       this.error = this.response.error.reason;
     }
@@ -291,7 +290,6 @@ export default class Rocket {
     let user = await this.get("users.info", {
       userId: id
     });
-    // user.awatar = awatar
     return user;
   }
 
@@ -305,8 +303,8 @@ export default class Rocket {
     return users;
   }
 
-  getAvatar(name) {
-    return this.restApiUrl + "/avatar/" + name;
+  async getAvatar(userId) {
+    return await this.get("users.getAvatar", { userId });
   }
   getRoom(roomName, roomId) {
     let query = {};
@@ -349,6 +347,13 @@ export default class Rocket {
       };
     }
     return this.get("channels.members", query);
+  }
+  async subscribeToGroup(roomName) {
+    let room = await this.getRoom(roomName);
+    return this.postData("channels.join", {
+      roomId: room.data.room._id,
+      joinCode: ""
+    });
   }
   getChannel(roomName, roomId) {
     let query = {};
@@ -409,7 +414,6 @@ export default class Rocket {
   async post(method, data, contentType = "application/json") {
     let url = this.restApiUrl + "/api/v1/" + method;
     let formData = new FormData();
-
     for (const key in data) {
       // eslint-disable-next-line no-prototype-builtins
       if (data.hasOwnProperty(key)) {
@@ -417,7 +421,6 @@ export default class Rocket {
         formData.append(key, value);
       }
     }
-
     return await axios({
       method: "POST",
       url,
@@ -427,6 +430,20 @@ export default class Rocket {
         "Content-type": contentType
       },
       data: formData
+    });
+  }
+
+  async postData(method, data, contentType = "application/json") {
+    let url = this.restApiUrl + "/api/v1/" + method;
+    return await axios({
+      method: "POST",
+      url,
+      headers: {
+        "X-Auth-Token": this.token,
+        "X-User-Id": this.userId,
+        "Content-type": contentType
+      },
+      data
     });
   }
 
