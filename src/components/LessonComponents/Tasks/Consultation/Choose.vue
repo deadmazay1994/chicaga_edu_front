@@ -11,7 +11,11 @@
             v-for="(select, i) in inputCopy.select"
             :key="i"
           >
-            <div class="choose__card select" :class="activeClass(i)">
+            <div
+              class="choose__card select"
+              :class="activeClass(i)"
+              @click="activate(i)"
+            >
               <div class="select__substrate"></div>
               <v-img contain class="select__img" :src="select.img" />
               <div class="select__title" :style="titleStyle(select.title)">
@@ -19,7 +23,8 @@
               </div>
               <div class="select__subtitle">{{ select.subtitle }}</div>
               <checkbox
-                @click.native="activate(i)"
+                ref="checkbox"
+                :disabled="true"
                 :error="select.success"
                 class="select_checkbox checkbox"
               />
@@ -64,6 +69,8 @@ export default {
           this.inputCopy.select[i].success = "correct";
         }
       }
+      let force = true;
+      this.$refs.checkbox[i].toggle(force);
       this.$forceUpdate();
     },
     activeClass(i) {
@@ -107,6 +114,7 @@ export default {
   align-items: center
   justify-content: center
   flex-direction: column
+  cursor: pointer
   &--correct
     background-image: url("/imgs/tasksBgs/change--success.png")
   &__substrate

@@ -1,7 +1,7 @@
 <template>
   <div class="checkbox vue-component">
     <input :value="state" type="checkbox" style="display: none" />
-    <div class="checkbox__btn" @click="toggle" :class="checkboxClass"></div>
+    <div class="checkbox__btn" @click="toggle()" :class="checkboxClass"></div>
   </div>
 </template>
 
@@ -14,8 +14,8 @@ export default {
     };
   },
   methods: {
-    toggle() {
-      if (!this.disabled) {
+    toggle(force = false) {
+      if (!this.disabled || force) {
         this.state = !this.state;
       }
     },

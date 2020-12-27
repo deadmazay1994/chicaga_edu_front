@@ -7,7 +7,7 @@
     <div
       v-if="isConsultation"
       :style="String(index).length == 2 ? 'padding-left: 75px' : ''"
-      class="text-subtitle-1 task-description__title"
+      class="task-description__title"
     >
       <span class="task-description__index" v-if="isConsultation">
         {{ Number(index) + 1 }}
@@ -42,16 +42,18 @@ export default {
 @import "@/components/Sass/Varibles.sass"
 
 .task-description
-  &--consultation
-    padding: 20px
-    background: linear-gradient(90deg, $main_color 60%, transparent)
-    color: #fff
-    margin-bottom: 30px
   &__title
     max-width: 70%
     position: relative
     padding-left: 48px
     line-height: 21px
+  &--consultation
+    padding: 20px
+    background: linear-gradient(90deg, $main_color 60%, transparent)
+    color: #fff
+    margin-bottom: 30px
+    .task-description__title
+      font-size: 21px
   &__index
     position: absolute
     left: 0

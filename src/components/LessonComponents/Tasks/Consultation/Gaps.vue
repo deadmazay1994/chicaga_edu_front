@@ -25,11 +25,21 @@
             </div>
           </div>
         </div>
-        <div class="gaps__results" v-if="answered">
-          Ваш результат
-          <span class="font-weight-bold">{{ errorsCounter }}</span> ошибок из
-          <span class="font-weight-bold">{{ level.tasks.length }}</span>
-          заданий
+        <div class="gap gaps__gap" v-if="answered">
+          <div class="gaps__results">
+            Ваш результат:
+            <span class="font-weight-bold">{{
+              level.tasks.length - errorsCounter
+            }}</span>
+            {{
+              level.tasks.length - errorsCounter == 1
+                ? "правильный"
+                : "правильных"
+            }}
+            ответов из
+            <span class="font-weight-bold">{{ level.tasks.length }}</span>
+            заданий
+          </div>
         </div>
         <div class="d-flex justify-center">
           <v-btn class="main-color main-color--text" @click.native="check"
@@ -144,7 +154,8 @@ export default {
     color: #555555
     margin-bottom: 20px
   &__results
-    margin-bottom: 10px
+    margin: 10px
+    text-align: center
 .gap
   background: #FFFFFF
   border: 1px solid #F0F0F0
