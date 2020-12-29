@@ -15,6 +15,15 @@
       <template v-for="(mediaObject, index) in medias.medias">
         <video-component
           v-show="Number(index) != Number(activeVideoIndex)"
+          class="video-chat__video video-chat__video--miniature"
+          :mediaObject="mediaObject"
+          :indexVideo="index"
+          @toggleFullSize="onFullSizeToggle"
+          @toggleMicro="onToggleMicro"
+          :key="index"
+        />
+        <video-component
+          v-show="Number(index) != Number(activeVideoIndex)"
           class="video-chat__video"
           :mediaObject="mediaObject"
           :indexVideo="index"
@@ -42,7 +51,7 @@ export default {
         port: 8000,
         secure: true,
         iceTransportPolicy: "relay",
-        debug: 3,
+        debug: false,
         sdpSemantics: "unified-plan",
         config: {
           iceServers: [
@@ -170,9 +179,7 @@ export default {
       this.initMedias();
       // 1
       // Говорим остальным участникам чата, что мы подключились
-      console.log("Пытаемся сказать, что мы тут");
       this.imHere();
-      console.log("Успешно сказали что я тут");
     },
     imHere() {
       // Передаем свой уникальный id, чтобы получить всех список участников чата
@@ -227,7 +234,6 @@ export default {
           return this.users[i];
         }
       }
-      console.log("Данный юзер не найден");
       return false;
     },
     sendMsgToUser(msg, id) {
@@ -251,12 +257,10 @@ export default {
     intiatorOnSignal(peer, userId) {
       // Как только инитатор просигналил
       peer.on("signal", signal => {
-        console.log("Пытаемся просигналить (инитатор)");
         // Проверка на то, что этот пир еще не сигналил и то, что сигнал это не новое предложение о подключении
         // if (!this.getPeerById(userId).signaling || signal.type != "offer") {
         this.getPeerById(userId).signaling = true;
         // Отправляем предложение о соеденении
-        console.log("Инитатор отправляет сигнал ", userId);
         this.sendMsgToUser(
           {
             signal,
@@ -268,7 +272,6 @@ export default {
           },
           userId
         );
-        console.log("Успешно просигналили юзеру");
         // }
       });
     },
@@ -276,42 +279,23 @@ export default {
       // 2
       // Сервер отправляет всех участников чата
       this.socket.on("send users", data => {
-        console.log("Получаем всех юзеров в чате");
         // Записываем свой socket id
         this.socketId = data.socketId;
         // Получаем свое изображение и звук
         this.getMedia(stream => {
           this.users = data.users;
           this.createMyVideo(stream);
-          // Для каждого юзера создаем пир
-          console.log(
-            data.users,
-            "количество пользователей",
-            data.users.length
-          );
           data.users.forEach(user => {
             let peer = new Peer(this.randomStr(), this.peerServer);
-            peer.on("error", e => {
-              console.log("Соеденение закрыто по причине", e);
-              console.log(peer);
+            peer.on("error", () => {
               peer.reconnect();
             });
             this.allPeers.push(peer);
             peer.on("open", () => {
-              console.log(
-                "Пир открылся для пользователя",
-                user.username || user.name
-              );
               peer.on("call", call => {
-                console.log("Пришел звонок от", user.username || user.name);
                 stream.user = user;
                 call.answer(stream);
-                console.log(
-                  "Отправили ответ юзеру",
-                  user.username || user.name
-                );
                 call.on("stream", stream => {
-                  console.log("Получили стрим от", user.username || user.name);
                   this.medias.push(
                     {
                       im: false,
@@ -335,18 +319,9 @@ export default {
                 },
                 user.id
               );
-              console.log(
-                "Отправили предложение о соеденении",
-                user.username || user.name
-              );
             });
-            // const conn = peer.connect(user.id + "-depend");
-            // conn.on("open", () => {
-            // console.log("open");
-            // });
           });
         });
-        console.log("Получили всех юзеров и создали для них пиры");
       });
     },
     onGetMsg() {
@@ -357,15 +332,11 @@ export default {
             var peer = new Peer(this.randomStr(), this.peerServer);
             this.allPeers.push(peer);
             peer.on("open", () => {
-              console.log("open peer depended", data.msg.user.name);
               var conn = peer.connect(data.msg.peerId);
               conn.on("open", () => {
-                console.log("open connect depended", data.msg.user.name);
                 this.getMedia(async stream => {
                   let call = await peer.call(data.msg.peerId, stream);
-                  console.log("open my stream depended", data.msg.user.name);
                   call.on("stream", stream => {
-                    console.log("open stream depend", data.msg.user.name);
                     this.medias.push(
                       {
                         im: false,
@@ -399,8 +370,6 @@ export default {
       this.socket.on("connect to group", data => {
         this.setLessonId(data.roomId);
         this.joinToChat();
-        // console.log(this.$route.params.id + data.groupName)
-        // this.toggleChannel(this.$route.params.id + "___" + data.groupName);
       });
     },
     onReturnInGroup() {
@@ -458,17 +427,23 @@ export default {
   flex-direction: column
   align-items: center
   justify-content: space-between
+  positon: relative
   &__big-video-wrap
-    height: 70%
     width: 100%
+    max-height: 100%
   &__miniatures
-    width: 100%
-    display: flex
-    justify-content: center
+    position: absolute
+    left: 0
+    width: 98%
+    margin: 15px 1%
+    display: grid
+    grid-template-columns: 50% 50%
   &__video
-    width: 30%
-    margin-right: 1%
-    margin-bottom: 5px
+    margin-top: 5px
+    width: 40%
+    &--miniature
+      &::nth-child(2n)
+        justify-self: end
     &::last-child
       margin-right: 0
   &__video--active
