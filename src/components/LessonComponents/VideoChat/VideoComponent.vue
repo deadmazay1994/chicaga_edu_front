@@ -1,21 +1,29 @@
 <template>
   <div
     class="video-component vue-component justify-center align-start rounded"
-    :class="{ 'video-component--active': active }"
+    :class="{
+      'video-component--active': active,
+      'video-component--video-off': mediaObject.videoOff
+    }"
+    :style="backgroundComputed"
   >
     <video
-      v-show="!mediaObject.videoOff"
+      v-show="!mediaObject.videoOff && !notLoadedVideo"
       ref="video"
       :muted="muted.val"
       class="video-component__video"
     ></video>
     <img
-      v-if="mediaObject.videoOff"
-      style="display: block; width: 100px; height: auto"
+      v-if="mediaObject.videoOff || notLoadedVideo"
       :src="mediaObject.avatar"
       class="video-component__avatar"
     />
-    <div class="video-component__name">{{ mediaObject.name }}</div>
+    <div
+      class="video-component__name"
+      :class="{ 'video-component__name--miniature': !active }"
+    >
+      {{ mediaObject.name }}
+    </div>
     <div class="video-component__ctrls">
       <expand
         @click.native="toggleFullSize"
@@ -59,7 +67,9 @@ export default {
         state: false,
         val: ""
       },
-      mutedMicro: false
+      mutedMicro: false,
+      background: "/imgs/whitenoize.gif",
+      notLoadedVideo: true
     };
   },
   methods: {
@@ -89,6 +99,7 @@ export default {
       this.setAudioOff(this.mediaObject.audioOff);
     },
     setStream(stream = this.mediaObject.stream) {
+      this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
       let video = this.$refs.video;
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -97,17 +108,6 @@ export default {
       }
       video.play();
     },
-    // videoOff() {
-    //   // if (this.mediaObject.videoOff) {
-    //   //   this.$refs.video.pause();
-    //   //   this.setStream(null);
-    //   //   console.log(1);
-    //   // } else {
-    //   //   this.setStream();
-    //   //   this.$refs.video.play();
-    //   //   console.log(2);
-    //   // }
-    // },
     audioOff() {
       if (!this.mediaObject.im) {
         if (this.mediaObject.audioOff) {
@@ -118,7 +118,11 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    backgroundComputed() {
+      return { "background-image": "url(" + this.background + ")" };
+    }
+  },
   watch: {
     "mediaObject.audioOff": function() {
       this.audioOff();
@@ -140,6 +144,9 @@ export default {
     this.setStream();
     this.mutingMe();
     this.audioOff();
+    this.$refs.video.addEventListener("canplay", () => {
+      this.notLoadedVideo = false;
+    });
   }
 };
 </script>
@@ -149,13 +156,36 @@ export default {
   position: relative
   z-index: 2
   display: flex
+  background-size: 120%
+  overflow: hidden
+  height: auto
+  background-position: center
+  display: flex
+  flex-wrap: wrap
+  align-items: center !important
+  &:before
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    content: ""
+    background: #0006
+    width: 100%
+    height: 100%
+  & *
+    z-index: 2
   &__video
     display: block
     width: 100%
   &__avatar
     max-width: 100%
-    display: block
     max-height: 100%
+    border-radius: 100%
+    z-index: 2
+    display: block
+    width: 100px
+    height: auto
+    padding: 10px 0
   &__name
     position: absolute
     left: 0
@@ -163,6 +193,9 @@ export default {
     background: #0005
     padding: 5px 15px
     color: #fff
+    &--miniature
+      padding: 2px
+      font-size: 14px
   &__ctrls
     position: absolute
     right: 0
@@ -198,6 +231,10 @@ export default {
   margin: 0
   width: 100%
   height: 100%
+  display: flex
+  align-items: center !important
+  .video-component__avatar
+    width: 150px
   .video-component__name
     font-size: 21px
   .video-component__video

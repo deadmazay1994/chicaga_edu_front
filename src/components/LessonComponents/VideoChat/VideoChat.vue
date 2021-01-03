@@ -14,17 +14,9 @@
     <div class="video-chat__miniatures">
       <template v-for="(mediaObject, index) in medias.medias">
         <video-component
-          v-show="Number(index) != Number(activeVideoIndex)"
+          v-if="Number(index) != Number(activeVideoIndex)"
           class="video-chat__video video-chat__video--miniature"
-          :mediaObject="mediaObject"
-          :indexVideo="index"
-          @toggleFullSize="onFullSizeToggle"
-          @toggleMicro="onToggleMicro"
-          :key="index"
-        />
-        <video-component
-          v-show="Number(index) != Number(activeVideoIndex)"
-          class="video-chat__video"
+          :miniature="true"
           :mediaObject="mediaObject"
           :indexVideo="index"
           @toggleFullSize="onFullSizeToggle"
@@ -211,9 +203,9 @@ export default {
     getMedia(callback) {
       navigator.mediaDevices
         .getUserMedia({
-          // video: { width: 102, height: 76 },
+          video: { width: 102, height: 76 },
           // video: { width: 1024, height: 768 },
-          video: { width: 624, height: 480 },
+          // video: { width: 624, height: 480 },
           audio: true
           // video: !this.videoOff ? { width: 102, height: 76 } : false
         })
@@ -302,7 +294,7 @@ export default {
                       stream,
                       id: user.id,
                       peerId: peer.id,
-                      avatar: user.avatar_link,
+                      avatar: user.avatar,
                       name: user.username
                     },
                     // Передаем только того юзера чьи настройи надо отразить в объекте
@@ -336,6 +328,7 @@ export default {
               conn.on("open", () => {
                 this.getMedia(async stream => {
                   let call = await peer.call(data.msg.peerId, stream);
+                  console.log(data.msg);
                   call.on("stream", stream => {
                     this.medias.push(
                       {
@@ -420,6 +413,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+
 .video-chat
   position: relative
   display: flex
@@ -430,21 +424,26 @@ export default {
   positon: relative
   &__big-video-wrap
     width: 100%
-    max-height: 100%
+    height: 90%
   &__miniatures
     position: absolute
     left: 0
     width: 98%
-    margin: 15px 1%
+    margin: 30px 1%
+    margin-top: 60px
     display: grid
     grid-template-columns: 50% 50%
+  .video-chat__video--miniature
+    width: 150px
+    height: 150px
   &__video
     margin-top: 5px
-    width: 40%
+    width: 50%
+    min-width: 140px
     &--miniature
-      &::nth-child(2n)
+      &:nth-child(2n)
         justify-self: end
-    &::last-child
+    &:last-child
       margin-right: 0
   &__video--active
     width: 100%
