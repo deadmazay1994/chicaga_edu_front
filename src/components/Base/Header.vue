@@ -2,7 +2,6 @@
   <div class="header-app vue-component">
     <v-app-bar fixed class="header-app__bar main-color main-color--text">
       <v-icon
-        v-if="user"
         class="header-app__burger d-block d-lg-none"
         color="white"
         size="30"
@@ -10,36 +9,20 @@
         >mdi-menu</v-icon
       >
       <v-row>
-        <v-col cols="12" md="4" class="d-flex align-center">
+        <v-col cols="8" md="4" class="d-flex align-center">
           <router-link to="/">
             <logo class="header-app__logo" />
           </router-link>
         </v-col>
         <v-col
+          v-if="user"
           cols="8"
           md="4"
           class="align-center justify-center d-md-flex d-none"
         >
-          <dict-add v-if="user" />
-        </v-col>
-        <v-col
-          v-if="!user"
-          cols="4"
-          md="4"
-          class="d-flex justify-end align-center"
-        >
-          <router-link to="/auth/login" class="header__sign main-color--text"
-            >Авторизация</router-link
-          >
-          <span class="mx-1">/</span>
-          <router-link to="/auth/register" class="header__sign main-color--text"
-            >Регистрация</router-link
-          >
+          <dict-add />
         </v-col>
       </v-row>
-
-      <!-- <span class="mx-1">/</span>
-      <span class="header__sign">Регистрция</span>-->
     </v-app-bar>
   </div>
 </template>

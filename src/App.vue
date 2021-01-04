@@ -1,7 +1,7 @@
 <template>
   <v-app class="v-app" v-if="canRenderChild">
     <header-app />
-    <navigation v-if="user" />
+    <navigation />
     <v-main class="v-main" :class="{ 'v-main--resize': user }">
       <router-view class="main-view" />
     </v-main>

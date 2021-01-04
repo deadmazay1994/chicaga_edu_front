@@ -4,10 +4,10 @@
       fixed
       dark
       v-model="draverComputed"
-      :expand-on-hover="true"
+      :expand-on-hover="!mobileDetected"
       class="navigation__drawer rounded-0 main-color"
     >
-      <v-list dense nav class="py-0">
+      <v-list v-if="user" dense nav class="py-0">
         <v-list-item two-line class="px-0">
           <router-link to="/lk/settings">
             <v-list-item-avatar>
@@ -93,6 +93,28 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-list v-else>
+        <router-link to="/auth/login" class="white--text">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-account-key</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Авторизация</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link to="/auth/register" class="white--text">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-account-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Регистрация</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+      </v-list>
     </v-navigation-drawer>
   </div>
 </template>
@@ -103,7 +125,9 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "navigation",
   data: function() {
-    return {};
+    return {
+      mobileDetected: false
+    };
   },
   methods: {
     ...mapMutations(["logout", "setDraverState"]),
@@ -117,8 +141,10 @@ export default {
     },
     toggleDraverByWindowSize() {
       if (window.innerWidth >= 1200) {
+        this.mobileDetected = false;
         this.setDraverState(true);
       } else {
+        this.mobileDetected = true;
         this.setDraverState(false);
       }
     }
