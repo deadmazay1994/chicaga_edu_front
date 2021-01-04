@@ -1,6 +1,6 @@
 <template>
   <div class="video-chat vue-component">
-    <div class="video-chat__big-video-wrap mb-2">
+    <div class="video-chat__big-video-wrap">
       <video-component
         class="video-chat__video video-chat__video--active"
         v-if="activeMedia"
@@ -203,9 +203,9 @@ export default {
     getMedia(callback) {
       navigator.mediaDevices
         .getUserMedia({
-          video: { width: 102, height: 76 },
+          // video: { width: 102, height: 76 },
           // video: { width: 1024, height: 768 },
-          // video: { width: 624, height: 480 },
+          video: { width: 624, height: 480 },
           audio: true
           // video: !this.videoOff ? { width: 102, height: 76 } : false
         })
@@ -436,6 +436,7 @@ export default {
   .video-chat__video--miniature
     width: 150px
     height: 150px
+    border: 3px solid #c4ac7e
   &__video
     margin-top: 5px
     width: 50%

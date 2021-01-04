@@ -28,6 +28,12 @@
       <expand
         @click.native="toggleFullSize"
         class="video-component__expand video-component__ctrls-btn"
+        v-if="!active"
+      />
+      <expand
+        v-else
+        @click.native="toggleFullSizeVideoInWindow"
+        class="video-component__expand video-component__ctrls-btn"
       />
       <speaker
         @click.native="toggleMuting"
@@ -77,6 +83,18 @@ export default {
     toggleFullSize() {
       this.$emit("toggleFullSize", this.indexVideo);
     },
+    toggleFullSizeVideoInWindow() {
+      let elem = this.$refs.video;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    },
     toggleMuting() {
       this.muted.state = !this.muted.state;
       if (this.muted.state) {
@@ -99,7 +117,6 @@ export default {
       this.setAudioOff(this.mediaObject.audioOff);
     },
     setStream(stream = this.mediaObject.stream) {
-      this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
       let video = this.$refs.video;
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -145,6 +162,7 @@ export default {
     this.mutingMe();
     this.audioOff();
     this.$refs.video.addEventListener("canplay", () => {
+      this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
       this.notLoadedVideo = false;
     });
   }
@@ -241,8 +259,6 @@ export default {
     display: block
     width: 100%
     max-height: 100%
-  .video-component__expand
-    display: none
   .video-component__speaker
     width: 25px
   .video-component__mute-micro

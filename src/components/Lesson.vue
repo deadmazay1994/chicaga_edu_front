@@ -125,14 +125,13 @@ export default {
   &__item
     height: calc(100vh - 90px)
   &__video-chat
-    height: 40%
+    height: 25%
     &--active
-
       height: calc( 100% - 74px )
   &__text-chat
     height: 74px
     overflow: hidden
     position: relative
     &--active
-      height: 60%
+      height: 75%
 </style>

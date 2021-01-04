@@ -3,9 +3,9 @@
     <div class="chat container-fluid" ref="chat">
       <div class="chat__top justify-content-center">
         <header-chat />
-        <masseges class="chat__masseges" />
+        <masseges class="chat__masseges" v-if="chatIsOpen" />
       </div>
-      <div class="chat__bottom">
+      <div class="chat__bottom" v-if="chatIsOpen">
         <textarea-chat />
       </div>
     </div>
@@ -25,7 +25,7 @@ export default {
       this.$store.dispatch("toggleChannel", name);
     }
   },
-  computed: mapGetters(["allMsgs", "user"]),
+  computed: mapGetters(["allMsgs", "user", "chatIsOpen"]),
   components: {
     TextareaChat,
     Masseges,
