@@ -2,6 +2,7 @@
   <div class="header-app vue-component">
     <v-app-bar fixed class="header-app__bar main-color main-color--text">
       <v-icon
+        v-if="user"
         class="header-app__burger d-block d-lg-none"
         color="white"
         size="30"

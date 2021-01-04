@@ -129,7 +129,9 @@ export default {
       get() {
         return this.draver;
       },
-      set() {}
+      set(value) {
+        this.setDraverState(value);
+      }
     }
   },
   components: {},
@@ -139,7 +141,7 @@ export default {
     this.toggleDraverByWindowSize();
   },
   created() {
-    window.onresize = () => {
+    document.onresize = () => {
       this.toggleDraverByWindowSize();
     };
   }
