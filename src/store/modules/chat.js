@@ -273,6 +273,9 @@ export default {
     },
     updateLoading(state, value) {
       state.loading = value;
+    },
+    toggleOpenChat(state) {
+      state.chatIsOpen = !state.chatIsOpen;
     }
   },
   state: {
@@ -289,7 +292,8 @@ export default {
     currentMsgs: false,
     attachments: false,
     searchStatus: false,
-    loading: true
+    loading: true,
+    chatIsOpen: false
   },
   getters: {
     allMsgs(state) {
@@ -330,6 +334,9 @@ export default {
     },
     getLegardoUsers(state) {
       return state.legardoUsers;
+    },
+    chatIsOpen(state) {
+      return state.chatIsOpen;
     }
   }
 };

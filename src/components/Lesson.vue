@@ -3,8 +3,15 @@
     <v-container fluid style="padding: 0 20px">
       <v-row>
         <v-col lg="5" cols="12">
-          <v-card class="front">
-            <video-chat class="lesson__chat lesson__item" />
+          <v-card class="front lesson__item">
+            <video-chat
+              class="lesson__video-chat"
+              :class="{ 'lesson__video-chat--active': !chatIsOpen }"
+            />
+            <text-chat
+              class="lesson__text-chat"
+              :class="{ 'lesson__text-chat--active': chatIsOpen }"
+            />
           </v-card>
         </v-col>
         <v-col lg="7" cols="12">
@@ -20,6 +27,7 @@
 
 <script>
 import VideoChat from "@/components/LessonComponents/VideoChat/VideoChat";
+import TextChat from "@/components/LessonComponents/Chat/Chat";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 import LessonStart from "@/components/LessonComponents/LessonStart";
 
@@ -71,12 +79,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "user", "teacherId", "socketUrl"])
+    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"])
   },
   components: {
     VideoChat,
     EduPanel,
-    LessonStart
+    LessonStart,
+    TextChat
   },
   props: [],
   mixins: [OurCursor, SocketMixin],
@@ -115,4 +124,15 @@ export default {
 .lesson
   &__item
     height: calc(100vh - 90px)
+  &__video-chat
+    height: 40%
+    &--active
+
+      height: calc( 100% - 74px )
+  &__text-chat
+    height: 74px
+    overflow: hidden
+    position: relative
+    &--active
+      height: 60%
 </style>

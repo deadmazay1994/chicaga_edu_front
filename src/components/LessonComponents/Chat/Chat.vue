@@ -2,6 +2,7 @@
   <div>
     <div class="chat container-fluid" ref="chat">
       <div class="chat__top justify-content-center">
+        <header-chat />
         <masseges class="chat__masseges" />
       </div>
       <div class="chat__bottom">
@@ -14,6 +15,7 @@
 <script>
 import TextareaChat from "./Textarea";
 import Masseges from "./Masseges";
+import HeaderChat from "./Header";
 import { mapGetters } from "vuex";
 
 export default {
@@ -26,7 +28,8 @@ export default {
   computed: mapGetters(["allMsgs", "user"]),
   components: {
     TextareaChat,
-    Masseges
+    Masseges,
+    HeaderChat
   },
   props: [],
   mixins: {},
@@ -53,5 +56,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+}
+.chat__top {
+  height: 80%;
 }
 </style>

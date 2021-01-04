@@ -424,7 +424,7 @@ export default {
   positon: relative
   &__big-video-wrap
     width: 100%
-    height: 90%
+    height: 100%
   &__miniatures
     position: absolute
     left: 0

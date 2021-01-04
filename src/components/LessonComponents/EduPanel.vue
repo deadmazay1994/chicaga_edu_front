@@ -9,7 +9,6 @@
     >
       <v-tab>{{ taskTabTitle }}</v-tab>
       <v-tab>White board</v-tab>
-      <v-tab>Чат</v-tab>
       <v-tab>Материалы урока</v-tab>
       <v-tab>Домашнее задание</v-tab>
     </v-tabs>
@@ -25,9 +24,6 @@
           class="tasks__paint"
           ref="paint"
         />
-      </v-tab-item>
-      <v-tab-item>
-        <text-chat />
       </v-tab-item>
       <v-tab-item>
         <attachs
@@ -49,7 +45,6 @@
 </template>
 
 <script>
-import TextChat from "@/components/LessonComponents/Chat/Chat";
 import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
@@ -77,7 +72,6 @@ export default {
     }
   },
   components: {
-    TextChat,
     Tasks,
     Attachs,
     Paint

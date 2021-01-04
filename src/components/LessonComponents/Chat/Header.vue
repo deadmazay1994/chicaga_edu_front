@@ -2,37 +2,39 @@
   <div class="header-chat vue-component">
     <div class="header-chat__left">
       <div class="header-chat__name">
-        <thumbnail
-          alt="Профиль"
-          path="https://image.shutterstock.com/image-vector/profile-placeholder-image-gray-silhouette-260nw-1153673752.jpg"
-        />
-        <title-chat class="header-chat__title">{{ getRoom }}</title-chat>
+        <thumbnail alt="Профиль" :path="user.avatar_link" />
+        <title-chat class="header-chat__title">{{ user.name }}</title-chat>
       </div>
     </div>
     <div class="header-chat__right">
-      <search class="header-chat__search"></search>
-      <button-chat>Закрыть</button-chat>
+      <v-btn
+        class="header-chat__btn"
+        large
+        color="white--text"
+        @click="toggleOpenChat"
+        >{{ chatIsOpen ? "ЗАКРЫТЬ ЧАТ" : "ОТКРЫТЬ ЧАТ" }}</v-btn
+      >
     </div>
   </div>
 </template>
 
 <script>
 import Thumbnail from "./Thumbnail";
-import Search from "./Search";
 import TitleChat from "./Title";
-import ButtonChat from "./Button";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "header-chat",
-  methods: {},
-  computed: mapGetters(["getRoom"]),
+  methods: {
+    ...mapMutations(["toggleOpenChat"])
+  },
+  computed: {
+    ...mapGetters(["user", "chatIsOpen"])
+  },
   components: {
     Thumbnail,
-    Search,
-    TitleChat,
-    ButtonChat
+    TitleChat
   },
   props: [],
   mixins: {},
@@ -47,7 +49,6 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   padding: 15px 20px;
-  border-bottom: 1px solid #e3eaee;
 }
 
 .header-chat__name {
@@ -63,4 +64,12 @@ export default {
 .header-chat__search {
   margin-right: 15px;
 }
+</style>
+
+<style lang="sass" scoped>
+@import "@/components/Sass/Varibles.sass"
+
+.header-chat__btn
+  background-color: $main_color !important
+  margin: 0 10px
 </style>
