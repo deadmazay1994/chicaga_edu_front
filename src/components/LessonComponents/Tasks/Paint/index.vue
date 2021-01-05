@@ -90,7 +90,7 @@ export default {
                           eMousemove.clientY -
                           e.clientY) /
                           2
-                      )
+                      ) + 10
                   }
                 ],
                 "do paint"
@@ -108,7 +108,8 @@ export default {
       } else if (data.tool == "star") {
         lastConf.width = Math.abs(data.width);
         lastConf.height = Math.abs(data.height);
-        lastConf.innerRadius = data.innerRadius;
+        lastConf.outerRadius = data.innerRadius;
+        lastConf.innerRadius = data.innerRadius * 0.5;
       } else {
         lastConf.width = data.width;
         lastConf.height = data.height;
