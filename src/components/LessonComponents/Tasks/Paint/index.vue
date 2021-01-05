@@ -50,6 +50,7 @@ export default {
         height: 30,
         stroke: color,
         name: "shape-" + this.shapesConfigs.length,
+        innerRadius: 30,
         shapeName,
         strokeWidth: 5
       });
@@ -81,7 +82,15 @@ export default {
                   {
                     tool: this.tool,
                     width: eMousemove.clientX - e.clientX,
-                    height: eMousemove.clientY - e.clientY
+                    height: eMousemove.clientY - e.clientY,
+                    innerRadius:
+                      // eslint-disable-next-line prettier/prettier
+                      Math.abs((eMousemove.clientY -
+                          e.clientY +
+                          eMousemove.clientY -
+                          e.clientY) /
+                          2
+                      )
                   }
                 ],
                 "do paint"
@@ -96,6 +105,10 @@ export default {
       if (data.tool == "circle") {
         lastConf.width = Math.abs(data.width);
         lastConf.height = Math.abs(data.height);
+      } else if (data.tool == "star") {
+        lastConf.width = Math.abs(data.width);
+        lastConf.height = Math.abs(data.height);
+        lastConf.innerRadius = data.innerRadius;
       } else {
         lastConf.width = data.width;
         lastConf.height = data.height;
