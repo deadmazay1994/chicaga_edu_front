@@ -249,8 +249,6 @@ export default {
     intiatorOnSignal(peer, userId) {
       // Как только инитатор просигналил
       peer.on("signal", signal => {
-        // Проверка на то, что этот пир еще не сигналил и то, что сигнал это не новое предложение о подключении
-        // if (!this.getPeerById(userId).signaling || signal.type != "offer") {
         this.getPeerById(userId).signaling = true;
         // Отправляем предложение о соеденении
         this.sendMsgToUser(
@@ -264,7 +262,6 @@ export default {
           },
           userId
         );
-        // }
       });
     },
     onSendUsers() {
@@ -307,7 +304,16 @@ export default {
                   peerId: peer.id,
                   name: "inititor signal",
                   sender: this.socketId,
-                  user: this.user
+                  user: this.user,
+                  userSettings: {
+                    camera:
+                      window.localStorage.getItem("videochat_camera_state") ==
+                      "true",
+                    micro:
+                      window.localStorage.getItem(
+                        "videochat_microphone_state"
+                      ) == "true"
+                  }
                 },
                 user.id
               );
@@ -328,7 +334,6 @@ export default {
               conn.on("open", () => {
                 this.getMedia(async stream => {
                   let call = await peer.call(data.msg.peerId, stream);
-                  console.log(data.msg);
                   call.on("stream", stream => {
                     this.medias.push(
                       {
@@ -337,11 +342,14 @@ export default {
                         stream,
                         id: data.msg.sender,
                         avatar: data.msg.user.avatar_link,
-                        name: data.msg.user.name
+                        name: data.msg.user.name,
+                        videoOff: data.msg.userSettings.camera,
+                        audioOff: data.msg.userSettings.micro
                       },
                       // Передаем getUserByIdолько того юзера чьи настройи надо отразить в объекте
                       this.getUserById(data.msg.sender)
                     );
+                    console.log(this.medias);
                   });
                 });
               });

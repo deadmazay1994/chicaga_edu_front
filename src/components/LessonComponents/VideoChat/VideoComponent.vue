@@ -10,6 +10,7 @@
     <video
       v-show="!mediaObject.videoOff && !notLoadedVideo"
       ref="video"
+      autoplay
       :muted="muted.val"
       class="video-component__video"
     ></video>
@@ -110,10 +111,18 @@ export default {
     },
     toggleCamera() {
       this.mediaObject.videoOff = !this.mediaObject.videoOff;
+      window.localStorage.setItem(
+        "videochat_camera_state",
+        this.mediaObject.videoOff
+      );
       this.setVideoOff(this.mediaObject.videoOff);
     },
     toggleMicro() {
       this.mediaObject.audioOff = !this.mediaObject.audioOff;
+      window.localStorage.setItem(
+        "videochat_microphone_state",
+        this.mediaObject.videoOff
+      );
       this.setAudioOff(this.mediaObject.audioOff);
     },
     setStream(stream = this.mediaObject.stream) {
@@ -133,6 +142,28 @@ export default {
           this.muted.val = "";
         }
       }
+    },
+    initMyVideoStates() {
+      if (this.mediaObject.im) {
+        let videoState =
+          window.localStorage.getItem("videochat_camera_state") == "true";
+        let audioState =
+          window.localStorage.getItem("videochat_microphone_state") == "true";
+        if (videoState) {
+          this.mediaObject.videoOff = videoState;
+          this.setVideoOff(videoState);
+        }
+        if (audioState) {
+          this.mediaObject.audioOff = audioState;
+          this.setAudioOff(audioState);
+        }
+      }
+    },
+    onCanPlay() {
+      this.$refs.video.addEventListener("canplay", () => {
+        this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
+        this.notLoadedVideo = false;
+      });
     }
   },
   computed: {
@@ -161,10 +192,8 @@ export default {
     this.setStream();
     this.mutingMe();
     this.audioOff();
-    this.$refs.video.addEventListener("canplay", () => {
-      this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
-      this.notLoadedVideo = false;
-    });
+    this.onCanPlay();
+    this.initMyVideoStates();
   }
 };
 </script>
