@@ -133,7 +133,6 @@ export default {
       ) {
         res = true;
       }
-      console.log(res);
       return res;
     }
   },

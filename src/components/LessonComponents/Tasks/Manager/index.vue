@@ -70,7 +70,7 @@ export default {
     check() {
       this.tasksForEach(task => {
         if (task.check) {
-          // Метод проверки у каждого компоненте разный
+          // Метод проверки у каждого компонента разный
           task.check();
         }
       });

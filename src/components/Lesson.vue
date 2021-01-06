@@ -102,7 +102,8 @@ export default {
     // Если пользователь пропустил событие, когда учиьель отправил свой id
     this.getTeacher();
     // Инициируем общий курсор (курсор учителя транслируется всем, как в figma)
-    // this.ourCursorInit();
+    let conditionToSendCursor = this.user.role == "teacher";
+    this.ourCursorInit(conditionToSendCursor);
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm("Вы действительно хотите покинуть урок?");
