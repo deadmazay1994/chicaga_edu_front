@@ -8,14 +8,14 @@
     :style="backgroundComputed"
   >
     <video
-      v-show="!mediaObject.videoOff && !notLoadedVideo"
+      v-show="!mediaObject.videoOff && !videoHidden"
       ref="video"
       autoplay
       :muted="muted.val"
       class="video-component__video"
     ></video>
     <img
-      v-if="mediaObject.videoOff || notLoadedVideo"
+      v-if="mediaObject.videoOff || videoHidden"
       :src="mediaObject.avatar"
       class="video-component__avatar"
     />
@@ -53,6 +53,10 @@
           class="video-component__mute-micro video-component__ctrls-btn"
           :muted="mediaObject.audioOff"
         />
+        <reflect
+          @click.native="toggleScreenAndCapture()"
+          class="video-component__reflect video-component__ctrls-btn"
+        />
       </template>
     </div>
   </div>
@@ -63,8 +67,9 @@ import Expand from "@/components/Icons/Expand.vue";
 import Speaker from "@/components/Icons/Speaker.vue";
 import MuteMicro from "@/components/Icons/Mute.vue";
 import Camera from "@/components/Icons/Camera.vue";
+import Reflect from "@/components/Icons/Reflect.vue";
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "video-component",
@@ -76,11 +81,17 @@ export default {
       },
       mutedMicro: false,
       background: "/imgs/whitenoize.gif",
-      notLoadedVideo: true
+      videoHidden: true
     };
   },
   methods: {
-    ...mapActions(["setVideoOff", "setAudioOff"]),
+    ...mapActions([
+      "setVideoOff",
+      "setAudioOff",
+      "setCapture",
+      "toggleCaptureAndCameraAction"
+    ]),
+    ...mapMutations(["setmyCaptureMedia"]),
     toggleFullSize() {
       this.$emit("toggleFullSize", this.indexVideo);
     },
@@ -143,6 +154,12 @@ export default {
         }
       }
     },
+    async toggleScreenAndCapture() {
+      if (this.myCaptureMedia === null) {
+        await this.setCapture();
+      }
+      this.toggleCaptureAndCameraAction();
+    },
     initMyVideoStates() {
       if (this.mediaObject.im) {
         let videoState =
@@ -162,11 +179,12 @@ export default {
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
         this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
-        this.notLoadedVideo = false;
+        this.videoHidden = false;
       });
     }
   },
   computed: {
+    ...mapGetters(["myCaptureMedia", "activeMyMedia"]),
     backgroundComputed() {
       return { "background-image": "url(" + this.background + ")" };
     }
@@ -177,13 +195,17 @@ export default {
     },
     "mediaObject.id": function() {
       this.setStream();
+    },
+    activeMyMedia: function() {
+      this.setStream();
     }
   },
   components: {
     Expand,
     Speaker,
     MuteMicro,
-    Camera
+    Camera,
+    Reflect
   },
   props: ["mediaObject", "indexVideo", "active"],
   mixins: {},
@@ -255,7 +277,7 @@ export default {
     & *
       color: #fff
   &__expand
-    width: 17px
+    width: 18px
     height: 18px
     cursor: pointer
     color: #fff
@@ -268,6 +290,8 @@ export default {
     transform: scale(-1, 1)
   &__camera
     width: 20px
+  &__reflect
+    width: 23px
   &__ctrls-btn
     margin: 0 5px
     cursor: pointer

@@ -123,8 +123,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["socketConnect", "toggleChannel"]),
-    ...mapMutations(["setLessonId", "destroyPeers", "initMedias"]),
+    ...mapActions([
+      "socketConnect",
+      "toggleChannel",
+      "setWebcam",
+      "setCapture"
+    ]),
+    ...mapMutations(["setLessonId", "destroyPeers", "initMedias", "callPush"]),
     // Логика переключения FullSize
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
@@ -200,25 +205,20 @@ export default {
       });
       this.$forceUpdate();
     },
-    getMedia(callback) {
-      navigator.mediaDevices
-        .getUserMedia({
-          // video: { width: 102, height: 76 },
-          // video: { width: 1024, height: 768 },
-          video: { width: 624, height: 480 },
-          audio: true
-          // video: !this.videoOff ? { width: 102, height: 76 } : false
-        })
-        .then(stream => {
-          callback(stream);
-        })
-        .catch(e => {
-          this.$store.commit("pushShuckbar", {
-            success: false,
-            val: "Не удалось получить доступ к веб-камере"
-          });
-          console.log("Не удалось получить доступ к веб-камере по причине", e);
-        });
+    async getMedia() {
+      if (this.myWebcamMedia == null && this.activeMyMedia == "camera") {
+        await this.setWebcam();
+      } else if (
+        this.myWebcamMedia == null &&
+        this.activeMyMedia == "capture"
+      ) {
+        await this.setCapture();
+      }
+      if (this.activeMyMedia == "camera") {
+        return this.myWebcamMedia;
+      } else {
+        return this.myCaptureMedia;
+      }
     },
     getUserById(id) {
       for (var i in this.users) {
@@ -267,57 +267,56 @@ export default {
     onSendUsers() {
       // 2
       // Сервер отправляет всех участников чата
-      this.socket.on("send users", data => {
+      this.socket.on("send users", async data => {
         // Записываем свой socket id
         this.socketId = data.socketId;
         // Получаем свое изображение и звук
-        this.getMedia(stream => {
-          this.users = data.users;
-          this.createMyVideo(stream);
-          data.users.forEach(user => {
-            let peer = new Peer(this.randomStr(), this.peerServer);
-            peer.on("error", () => {
-              peer.reconnect();
-            });
-            this.allPeers.push(peer);
-            peer.on("open", () => {
-              peer.on("call", call => {
-                stream.user = user;
-                call.answer(stream);
-                call.on("stream", stream => {
-                  this.medias.push(
-                    {
-                      im: false,
-                      stream,
-                      id: user.id,
-                      peerId: peer.id,
-                      avatar: user.avatar,
-                      name: user.username
-                    },
-                    // Передаем только того юзера чьи настройи надо отразить в объекте
-                    this.getUserById(user.id)
-                  );
-                });
+        let stream = await this.getMedia();
+        this.users = data.users;
+        this.createMyVideo(stream);
+        data.users.forEach(user => {
+          let peer = new Peer(this.randomStr(), this.peerServer);
+          peer.on("error", () => {
+            peer.reconnect();
+          });
+          this.allPeers.push(peer);
+          peer.on("open", () => {
+            peer.on("call", call => {
+              this.callPush(call);
+              stream.user = user;
+              call.answer(stream);
+              call.on("stream", stream => {
+                this.medias.push(
+                  {
+                    im: false,
+                    stream,
+                    id: user.id,
+                    peerId: peer.id,
+                    avatar: user.avatar,
+                    name: user.username
+                  },
+                  // Передаем только того юзера чьи настройи надо отразить в объекте
+                  this.getUserById(user.id)
+                );
               });
-              this.sendMsgToUser(
-                {
-                  peerId: peer.id,
-                  name: "inititor signal",
-                  sender: this.socketId,
-                  user: this.user,
-                  userSettings: {
-                    camera:
-                      window.localStorage.getItem("videochat_camera_state") ==
-                      "true",
-                    micro:
-                      window.localStorage.getItem(
-                        "videochat_microphone_state"
-                      ) == "true"
-                  }
-                },
-                user.id
-              );
             });
+            this.sendMsgToUser(
+              {
+                peerId: peer.id,
+                name: "inititor signal",
+                sender: this.socketId,
+                user: this.user,
+                userSettings: {
+                  camera:
+                    window.localStorage.getItem("videochat_camera_state") ==
+                    "true",
+                  micro:
+                    window.localStorage.getItem("videochat_microphone_state") ==
+                    "true"
+                }
+              },
+              user.id
+            );
           });
         });
       });
@@ -331,26 +330,31 @@ export default {
             this.allPeers.push(peer);
             peer.on("open", () => {
               var conn = peer.connect(data.msg.peerId);
-              conn.on("open", () => {
-                this.getMedia(async stream => {
-                  let call = await peer.call(data.msg.peerId, stream);
-                  call.on("stream", stream => {
-                    this.medias.push(
-                      {
-                        im: false,
-                        peerId: peer.id,
-                        stream,
-                        id: data.msg.sender,
-                        avatar: data.msg.user.avatar_link,
-                        name: data.msg.user.name,
-                        videoOff: data.msg.userSettings.camera,
-                        audioOff: data.msg.userSettings.micro
-                      },
-                      // Передаем getUserByIdолько того юзера чьи настройи надо отразить в объекте
-                      this.getUserById(data.msg.sender)
-                    );
-                    console.log(this.medias);
-                  });
+              conn.on("open", async () => {
+                let stream = await this.getMedia();
+                let call = await peer.call(data.msg.peerId, stream);
+                this.callPush(call);
+                call.on("stream", async stream => {
+                  this.medias.push(
+                    {
+                      im: false,
+                      peerId: peer.id,
+                      stream,
+                      id: data.msg.sender,
+                      avatar: data.msg.user.avatar_link,
+                      name: data.msg.user.name,
+                      videoOff: data.msg.userSettings.camera,
+                      audioOff: data.msg.userSettings.micro
+                    },
+                    // Передаем getUserByIdолько того юзера чьи настройи надо отразить в объекте
+                    this.getUserById(data.msg.sender)
+                  );
+                  // navigator.mediaDevices.getDisplayMedia().then(stream2 => {
+                  //   console.log(stream2);
+                  //   call.peerConnection
+                  //     .getSenders()
+                  //     .forEach(s => s.replaceTrack(stream2.getVideoTracks()[0]));
+                  // });
                 });
               });
             });
@@ -392,7 +396,10 @@ export default {
       "lessonId",
       "videoOff",
       "allPeers",
-      "medias"
+      "medias",
+      "myCaptureMedia",
+      "myWebcamMedia",
+      "activeMyMedia"
     ]),
     activeMedia() {
       if (this.activeVideoIndex in this.medias.medias) {
