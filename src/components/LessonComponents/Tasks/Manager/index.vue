@@ -57,11 +57,12 @@ export default {
         this.$refs.task.forEach((task, index) => callback(task, index));
       }
     },
-    getTasksNumForChecking(tasks) {
+    getTasksNumForChecking(groups) {
       // Устанавливает количество тасков, которые проверяются
-      let tasksNum = tasks.length;
+      let tasksNum = 0;
+      groups.forEach(group => (tasksNum += group.tasks.length));
       let addonsType = ["youtube_addons", "lesson_addons_files"];
-      tasks.forEach(gropup => {
+      groups.forEach(gropup => {
         tasksNum -= gropup.tasks.filter(task => addonsType.includes(task.type))
           .length;
       });
