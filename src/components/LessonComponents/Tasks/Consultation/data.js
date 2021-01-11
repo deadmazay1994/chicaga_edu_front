@@ -79,9 +79,10 @@ export default [
         description: "Аудиотест",
         levels: [
           {
-            id: "adults",
+            id: "0",
             audio: "https://edu.chicaga.ru/public/images/b-hobbies-quiz1.mp3",
-            audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
+            audioTitle:
+              'Прослушайте аудиозапись "Hobbies" и ответье на вопросы',
             tasks: [
               {
                 title: "I like to ________ in the ________ with my ________.",
@@ -256,10 +257,11 @@ export default [
             ]
           },
           {
-            id: "teenagers",
+            id: "1",
             audio:
               "https://esllab.b-cdn.net/audio/mp3/b-introductions-smalltalk-quiz1.mp3?_=1",
-            audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
+            audioTitle:
+              'Прослушайте аудиозапись "Introduction" и ответье на вопросы',
             tasks: [
               {
                 title: "What's your ______?",
@@ -434,9 +436,9 @@ export default [
             ]
           },
           {
-            id: "kids",
+            id: "2",
             audio: "https://esllab.b-cdn.net/audio/mp3/b-movies-quiz1.mp3?_=1",
-            audioTitle: "Прослушайте аудиозапись и ответье на вопросы",
+            audioTitle: 'Прослушайте аудиозапись "Movies" и ответье на вопросы',
             tasks: [
               {
                 title: "Have you _______ this movie _________?",

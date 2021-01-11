@@ -2,8 +2,24 @@
   <div class="gaps vue-component">
     <description :index="index"> {{ inputCopy.description }} </description>
     <div class="task-wrap" v-for="level in inputCopy.levels" :key="level.id">
-      <template v-if="activeLevel == level.id">
-        <div class="gaps__title">{{ level.audioTitle }}</div>
+      <template v-if="activeLevelIndex == level.id">
+        <div
+          class="gaps__slider gaps-slider d-flex justify-space-between align-center mb-5"
+        >
+          <v-icon
+            class="gaps-slider__left gaps-slider__arrow gaps-slider__item"
+            @click="switchLevelDo(Math.abs(-activeLevelIndex - 1) % 3)"
+            >mdi-arrow-left</v-icon
+          >
+          <div class="gaps__title gaps-slider__title gaps-slider__item">
+            {{ level.audioTitle }}
+          </div>
+          <v-icon
+            class="gaps-slider__right gaps-slider__arrow gaps-slider__item"
+            @click="switchLevelDo((activeLevelIndex + 1) % 3)"
+            >mdi-arrow-right</v-icon
+          >
+        </div>
         <vuetify-audio class="vuetify-audio" :file="level.audio" />
         <div class="gap gaps__gap" v-for="(gap, i) in level.tasks" :key="i">
           <div class="gap__title gap__front">{{ i + 1 }}. {{ gap.title }}</div>
@@ -11,6 +27,7 @@
             <div
               class="gap__option gap__front option"
               :class="selectClass(option, gap.options)"
+              @click="activate(option, $event, i)"
               v-for="(option, i) in gap.options"
               :key="i"
             >
@@ -20,7 +37,7 @@
               <checkbox
                 class="option__checkbox checkbox"
                 :error="checkboxError"
-                @click.native="changeOption(option, $event)"
+                ref="checkbox"
               />
             </div>
           </div>
@@ -69,7 +86,18 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask"]),
+    ...mapMutations(["saveTask", "setActiveLevelIndex"]),
+    switchLevelDo(i) {
+      this.do("setActiveLevelIndex", [i]);
+    },
+    activate(option, e, i) {
+      this.changeOption(option, e);
+      if (!e.target.classList.contains("checkbox__btn")) {
+        let force = true;
+        this.$refs.checkbox[i].toggle(force);
+        this.$forceUpdate();
+      }
+    },
     changeOption(option, e) {
       let value = e.target.parentElement.querySelector("input").value;
       option.userAnswer = Boolean(value);
@@ -106,7 +134,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "activeLevel"]),
+    ...mapGetters(["socket", "activeLevel", "activeLevelIndex"]),
     checkboxError() {
       if (this.answered) {
         return this.error ? "uncorrect" : "correct";
@@ -116,7 +144,7 @@ export default {
     activeLevelCurrent() {
       let r = [];
       this.inputCopy.levels.forEach(level => {
-        if (level.id == this.activeLevel) {
+        if (level.id == this.activeLevelIndex) {
           r = level;
         }
       });
@@ -130,6 +158,7 @@ export default {
   },
   props: ["input", "index"],
   mounted() {
+    this.onDo("setActiveLevelIndex");
     this.activeLevelCurrent.tasks.forEach((task, i) => {
       task.options.forEach((option, j) => {
         this.$set(this.activeLevelCurrent.tasks[i].options[j], "status", null);
@@ -152,13 +181,17 @@ export default {
     font-size: 20px
     line-height: 24px
     color: #555555
-    margin-bottom: 20px
   &__results
     margin: 10px
     text-align: center
+.gaps-slider
+  &__arrow
+    font-size: 32px
+    cursor: pointer
 .gap
   background: #FFFFFF
   border: 1px solid #F0F0F0
+  cursor: pointer
   box-sizing: border-box
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25)
   border-radius: 15px
