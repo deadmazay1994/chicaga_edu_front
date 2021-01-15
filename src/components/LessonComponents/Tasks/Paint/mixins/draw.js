@@ -30,8 +30,8 @@ export default {
     touchstart() {
       this.isPaint = true;
       this.lastPointerPosition = this.stage.getPointerPosition();
-      this.do("changeStrokeColor", [this.color], "do paint");
-      this.do("changeLineWidth", [this.brushSize], "do paint");
+      this.Do("changeStrokeColor", [this.color], "do paint");
+      this.Do("changeLineWidth", [this.brushSize], "do paint");
     },
     touchup() {
       this.isPaint = false;
@@ -39,7 +39,7 @@ export default {
     touchMove() {
       let isDrawTool = this.tool == "brush" || this.tool == "eraser";
       if (!this.isPaint || !isDrawTool) return;
-      this.do(
+      this.Do(
         "draw",
         [
           {

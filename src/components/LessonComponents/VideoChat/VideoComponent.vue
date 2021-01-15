@@ -132,7 +132,7 @@ export default {
       this.mediaObject.audioOff = !this.mediaObject.audioOff;
       window.localStorage.setItem(
         "videochat_microphone_state",
-        this.mediaObject.videoOff
+        this.mediaObject.audioOff
       );
       this.setAudioOff(this.mediaObject.audioOff);
     },

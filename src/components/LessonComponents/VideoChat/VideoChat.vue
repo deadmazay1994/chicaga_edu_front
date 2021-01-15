@@ -47,6 +47,17 @@ export default {
         sdpSemantics: "unified-plan",
         config: {
           iceServers: [
+            {
+              url: "turn:45.90.32.84:3478?transport=tcp",
+              credential: "edupassword",
+              username: "chicaga"
+            },
+            {
+              url: "turn:45.90.32.84:3478",
+              credential: "edupassword",
+              username: "chicaga"
+            },
+            { url: "stun:45.90.32.84:3478" },
             { url: "stun:stun01.sipphone.com" },
             { url: "stun:23.21.150.121" },
             { url: "stun:stun.ekiga.net" },
@@ -67,7 +78,6 @@ export default {
             { url: "stun:stun.voipstunt.com" },
             { url: "stun:stun.voxgratia.org" },
             { url: "stun:stun.xten.com" },
-            { url: "stun:45.90.32.84:3478" },
             {
               url: "turn:numb.viagenie.ca",
               credential: "muazkh",
@@ -92,16 +102,6 @@ export default {
               url: "turn:turn.anyfirewall.com:443?transport=tcp",
               credential: "webrtc",
               username: "webrtc"
-            },
-            {
-              url: "turn:45.90.32.84:3478",
-              credential: "edupassword",
-              username: "chicaga"
-            },
-            {
-              url: "turn:45.90.32.84:3478?transport=tcp",
-              credential: "edupassword",
-              username: "chicaga"
             }
           ]
         }
@@ -112,14 +112,8 @@ export default {
       mediaObjects: [],
       peers: [],
       id: false,
-      connectedId: [],
-      outherIds: [],
-      sockets: [],
-      dependentPeers: [],
       socketId: false,
-      users: [],
-      peerInitator: false,
-      peerDepended: false
+      users: []
     };
   },
   methods: {
@@ -235,17 +229,6 @@ export default {
         roomId: this.lessonId
       });
     },
-    getDependedPeer(stream, data) {
-      let peer = this.dependentPeers.find(peer => peer.id == data.msg.sender);
-      if (peer) {
-        return { peer, isNewPeer: false };
-      } else {
-        return {
-          peer: this.createDependedPeer(stream, data),
-          isNewPeer: true
-        };
-      }
-    },
     intiatorOnSignal(peer, userId) {
       // Как только инитатор просигналил
       peer.on("signal", signal => {
@@ -349,12 +332,6 @@ export default {
                     // Передаем getUserByIdолько того юзера чьи настройи надо отразить в объекте
                     this.getUserById(data.msg.sender)
                   );
-                  // navigator.mediaDevices.getDisplayMedia().then(stream2 => {
-                  //   console.log(stream2);
-                  //   call.peerConnection
-                  //     .getSenders()
-                  //     .forEach(s => s.replaceTrack(stream2.getVideoTracks()[0]));
-                  // });
                 });
               });
             });

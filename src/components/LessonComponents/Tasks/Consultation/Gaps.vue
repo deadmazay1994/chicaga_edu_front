@@ -8,7 +8,7 @@
         >
           <v-icon
             class="gaps-slider__left gaps-slider__arrow gaps-slider__item"
-            @click="switchLevelDo(Math.abs(-activeLevelIndex - 1) % 3)"
+            @click="switchLevelDo(Math.abs(-activeLevelIndex + 1) % 3)"
             >mdi-arrow-left</v-icon
           >
           <div class="gaps__title gaps-slider__title gaps-slider__item">
@@ -16,31 +16,21 @@
           </div>
           <v-icon
             class="gaps-slider__right gaps-slider__arrow gaps-slider__item"
-            @click="switchLevelDo((activeLevelIndex + 1) % 3)"
+            @click="Do('switchLevelDo', [(activeLevelIndex + 1) % 3])"
             >mdi-arrow-right</v-icon
           >
         </div>
         <vuetify-audio class="vuetify-audio" :file="level.audio" />
         <div class="gap gaps__gap" v-for="(gap, i) in level.tasks" :key="i">
           <div class="gap__title gap__front">{{ i + 1 }}. {{ gap.title }}</div>
-          <div class="gap__options" ref="gap">
-            <div
-              class="gap__option gap__front option"
-              :class="selectClass(option, gap.options)"
-              @click="activate(option, $event, i)"
-              v-for="(option, i) in gap.options"
-              :key="i"
-            >
-              <div class="option__text">
-                {{ option.text }}
-              </div>
-              <checkbox
-                class="option__checkbox checkbox"
-                :error="checkboxError"
-                ref="checkbox"
-              />
-            </div>
-          </div>
+          <checkbox-group
+            v-model="answers[activeLevelIndex][i]"
+            :options="gap.options"
+            :status="checkedAnswers[activeLevelIndex][i]"
+            class="gap__options"
+            ref="gap"
+          >
+          </checkbox-group>
         </div>
         <div class="gap gaps__gap" v-if="answered">
           <div class="gaps__results">
@@ -59,7 +49,7 @@
           </div>
         </div>
         <div class="d-flex justify-center">
-          <v-btn class="main-color main-color--text" @click.native="check"
+          <v-btn class="main-color main-color--text" @click.native="Do('check')"
             >ПРОВЕРИТЬ</v-btn
           >
         </div>
@@ -71,8 +61,8 @@
 <script>
 import Description from "./../TasksDescription";
 import VuetifyAudio from "vuetify-audio";
-import Checkbox from "./../Checkbox";
 
+import CheckboxGroup from "./CheckboxGroup";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -82,65 +72,65 @@ export default {
       error: false,
       answered: false,
       inputCopy: {},
-      errorsCounter: 0
+      errorsCounter: 0,
+      answers: [],
+      checkedAnswers: []
     };
   },
   methods: {
     ...mapMutations(["saveTask", "setActiveLevelIndex"]),
-    switchLevelDo(i) {
-      this.do("setActiveLevelIndex", [i]);
-    },
-    activate(option, e, i) {
-      this.changeOption(option, e);
-      if (!e.target.classList.contains("checkbox__btn")) {
-        let force = true;
-        this.$refs.checkbox[i].toggle(force);
-        this.$forceUpdate();
+    setAnswersVectorIfNotSet(vectorIndex) {
+      if (this.answers[vectorIndex] === undefined) {
+        this.answers.push([]);
+        this.checkedAnswers.push([]);
+        this.activeLevelCurrent.tasks.forEach(() => {
+          this.checkedAnswers[vectorIndex].push(null);
+          this.answers[vectorIndex].push(null);
+        });
       }
     },
+    switchLevelDo(i) {
+      this.setAnswersVectorIfNotSet(i);
+      this.setActiveLevelIndex(i);
+    },
     changeOption(option, e) {
-      let value = e.target.parentElement.querySelector("input").value;
+      let value = e.parentElement.querySelector("input").value;
       option.userAnswer = Boolean(value);
     },
     check() {
       this.answered = true;
-      this.errorsCounter = 0;
-      this.activeLevelCurrent.tasks.forEach(task => {
-        let correct = 0;
-        task.options.forEach(option => {
-          if (option.userAnswer == option.correct) {
-            option.status = true;
-            correct = 1;
-          } else {
-            option.status = false;
+      let trueAnswersIndexex = this.activeLevelCurrent.tasks.map(task =>
+        task.options.findIndex(option => option.correct)
+      );
+      trueAnswersIndexex;
+      let userAnswersIndexes = this.answers[this.activeLevelIndex].map(
+        answer => {
+          if (answer) {
+            return answer.index;
           }
-          option.answered = true;
-        });
-        this.errorsCounter += !correct;
-      });
-    },
-    selectClass(option, neighbors) {
-      let existCorrectNeigbor = false;
-      neighbors.forEach(n => {
-        if (!existCorrectNeigbor && n.status) {
-          existCorrectNeigbor = true;
+          return -1;
         }
-      });
-      return {
-        "option--correct": option.status && option.answered,
-        "option--uncorrect":
-          !option.status && option.answered && !existCorrectNeigbor
-      };
+      );
+      if (userAnswersIndexes.length == trueAnswersIndexex.length) {
+        this.checkedAnswers[this.activeLevelIndex] = userAnswersIndexes.map(
+          (answer, i) => answer == trueAnswersIndexex[i]
+        );
+        this.errorsCounter = this.checkedAnswers[this.activeLevelIndex].filter(
+          ans => !ans
+        ).length;
+        this.$forceUpdate();
+      } else {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val:
+            "Не удалось выполнить проверку задания. Попробуйте перезагрузить страницу или вернуться позже"
+        });
+      }
+      // this.sendTaskToTeacher(this.index);
     }
   },
   computed: {
     ...mapGetters(["socket", "activeLevel", "activeLevelIndex"]),
-    checkboxError() {
-      if (this.answered) {
-        return this.error ? "uncorrect" : "correct";
-      }
-      return "";
-    },
     activeLevelCurrent() {
       let r = [];
       this.inputCopy.levels.forEach(level => {
@@ -154,13 +144,19 @@ export default {
   components: {
     Description,
     VuetifyAudio,
-    Checkbox
+    CheckboxGroup
   },
   props: ["input", "index"],
+  beforeMount() {
+    this.setAnswersVectorIfNotSet(0);
+  },
   mounted() {
     this.onDo("setActiveLevelIndex");
+    this.onDo("activate");
+    this.onDo("check");
     this.activeLevelCurrent.tasks.forEach((task, i) => {
       task.options.forEach((option, j) => {
+        this.$set(this.activeLevelCurrent.tasks[i].options[j], "index", j);
         this.$set(this.activeLevelCurrent.tasks[i].options[j], "status", null);
         this.$set(
           this.activeLevelCurrent.tasks[i].options[j],
@@ -211,31 +207,6 @@ export default {
     display: flex
     flex-wrap: wrap
     justify-content: space-between
-.option
-  background: transparent
-  background-position: -2px
-  background-image: url("/imgs/tasksBgs/change.png")
-  background-size: 100% 100%
-  background-repeat: no-repeat
-  position: relative
-  width: 33%
-  &__text
-    font-weight: bold
-    font-size: 20px
-    line-height: 26px
-    display: flex
-    align-items: center
-    justify-content: center
-    color: #555555
-    min-height: 80px
-    text-align: center
-    padding: 10px
-  &__checkbox
-    position: absolute
-    bottom: -7px
-    left: calc(50% - 12px)
-  &--correct
-    background-image: url("/imgs/tasksBgs/change--success.png")
-  &--uncorrect
-    background-image: url("/imgs/tasksBgs/change--error.png")
+  &__option
+    width: 33%
 </style>

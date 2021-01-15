@@ -25,7 +25,7 @@ export default {
   methods: {
     toggleByClick() {
       if (this.user.role == "teacher") {
-        this.do("toggleByTeacher", [getDomPath(this.$el).join("<")]);
+        this.Do("toggleByTeacher", [getDomPath(this.$el).join("<")]);
       } else if (!this.forTeacher) {
         this.toggle();
       }

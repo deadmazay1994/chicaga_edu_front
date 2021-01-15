@@ -65,7 +65,7 @@ export default {
       this.$refs.paint.onmousedown = e => {
         let clickCoords = this.getClickPositionByRelative(e, this.$refs.paint);
         if (this.toolGroup == "shapes" && this.tool) {
-          this.do(
+          this.Do(
             "createActiveShape",
             ["v-" + this.tool, this.color, clickCoords.x, clickCoords.y],
             "do paint"
@@ -76,7 +76,7 @@ export default {
           };
           this.$refs.paint.onmousemove = eMousemove => {
             if (canTransform) {
-              this.do(
+              this.Do(
                 "transformSizes",
                 [
                   {
@@ -116,7 +116,7 @@ export default {
       }
     },
     clearCanvasDo() {
-      this.do("clearCanvas", [], "do paint");
+      this.Do("clearCanvas", [], "do paint");
     },
     clearCanvas() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

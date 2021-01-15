@@ -1,7 +1,11 @@
 <template>
   <div class="checkbox vue-component">
-    <input :value="state" type="checkbox" style="display: none" />
-    <div class="checkbox__btn" @click="toggle()" :class="checkboxClass"></div>
+    <div
+      class="checkbox__btn"
+      :click="checked"
+      @click="change"
+      :class="checkboxClass"
+    ></div>
   </div>
 </template>
 
@@ -10,34 +14,36 @@ export default {
   name: "checkbox",
   data: function() {
     return {
-      state: false
+      valueData: false
     };
   },
   methods: {
-    toggle(force = false) {
-      if (!this.disabled || force) {
-        this.state = !this.state;
+    change() {
+      if (!this.disabled) {
+        this.valueData = !this.valueData;
+        this.$emit("change", this.valueData);
       }
-    },
-    getState() {
-      return this.state;
     }
   },
   computed: {
     checkboxClass() {
       return {
         "checkbox__btn--active":
-          this.state &&
+          this.checked &&
           (this.error === null ||
             this.error === undefined ||
             this.error === ""),
-        "checkbox__btn--success": this.state && this.error == "correct",
-        "checkbox__btn--error": this.state && this.error == "uncorrect"
+        "checkbox__btn--success": this.value && this.error == "correct",
+        "checkbox__btn--error": this.value && this.error == "uncorrect"
       };
     }
   },
   components: {},
-  props: ["error", "disabled"],
+  model: {
+    prop: "checked",
+    event: "change"
+  },
+  props: ["error", "disabled", "checked"],
   mixins: {},
   beforeMount() {}
 };

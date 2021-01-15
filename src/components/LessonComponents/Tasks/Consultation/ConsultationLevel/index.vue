@@ -281,7 +281,7 @@ export default {
     },
     nextLevel() {
       this.activeLevelIndex++;
-      this.do("toggleLevel", [this.activeLevelIndex]);
+      this.Do("toggleLevel", [this.activeLevelIndex]);
     },
     toggleLevel(activeLevelIndex) {
       this.setActiveLevel(
