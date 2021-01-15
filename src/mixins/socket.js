@@ -16,6 +16,7 @@ export default {
       });
     },
     Do(functionName, args = [], eventName = functionName) {
+      if (!Array.isArray(args)) args = [args];
       // При вызове любой функции через do у всех подписчиков комнаты урока вызыватся такой же метод
       if (this[functionName]) {
         this[functionName](...args);

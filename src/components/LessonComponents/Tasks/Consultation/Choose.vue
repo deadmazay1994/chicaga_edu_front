@@ -14,7 +14,7 @@
             <div
               class="choose__card select"
               :class="activeClass(i)"
-              @click="activate(i)"
+              @click="Do('activate', i)"
             >
               <div class="select__substrate"></div>
               <v-img contain class="select__img" :src="select.img" />
@@ -23,9 +23,9 @@
               </div>
               <div class="select__subtitle">{{ select.subtitle }}</div>
               <checkbox
+                v-model="answers[i]"
                 ref="checkbox"
                 :disabled="true"
-                :error="select.success"
                 class="select_checkbox checkbox"
               />
             </div>
@@ -46,7 +46,8 @@ export default {
   name: "choose",
   data: function() {
     return {
-      inputCopy: {}
+      inputCopy: {},
+      answers: []
     };
   },
   methods: {
@@ -69,9 +70,7 @@ export default {
           this.inputCopy.select[i].success = "correct";
         }
       }
-      let force = true;
-      this.$refs.checkbox[i].toggle(force);
-      this.$forceUpdate();
+      this.answers[i] = !this.answers[i];
     },
     activeClass(i) {
       return {
@@ -88,8 +87,10 @@ export default {
   },
   props: ["input", "index"],
   beforeMount() {
-    this.inputCopy.select.forEach(select => {
+    this.onDo("activate", true);
+    this.inputCopy.select.forEach((select, i) => {
       this.$set(select, "success", null);
+      this.answers[i] = false;
     });
   }
 };
