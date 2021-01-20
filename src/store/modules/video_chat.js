@@ -11,13 +11,14 @@ export default {
       state.audioOff = val;
       rootGetters.socket.emit("toggle micro", val);
     },
-    async setCapture({ commit }) {
-      let startCapture = async (displayMediaOptions = {}) => {
+    async setCapture({ commit, getters }, firstInit = false) {
+      let startCapture = async () => {
         let captureStream = null;
         try {
-          captureStream = await navigator.mediaDevices.getDisplayMedia(
-            displayMediaOptions
-          );
+          captureStream = await navigator.mediaDevices.getDisplayMedia({
+            audio: firstInit ? true : !getters.audioOff,
+            video: firstInit ? true : !getters.videoOff
+          });
         } catch (err) {
           commit("pushShuckbar", {
             success: false,
@@ -36,7 +37,7 @@ export default {
         let stream = null;
         try {
           stream = await navigator.mediaDevices.getUserMedia({
-            // video: { width: 102, height: 76 },
+            // video: { width: 624, height: 480 } ,
             video: { width: 624, height: 480 },
             audio: true
           });
@@ -55,23 +56,95 @@ export default {
     },
     replaceStream({ getters }, newStream) {
       getters.calls.forEach(call => {
-        call.peerConnection
-          .getSenders()
-          .forEach(s => s.replaceTrack(newStream.getVideoTracks()[0]));
+        call.peerConnection.getSenders().forEach(s => {
+          if (newStream.getVideoTracks()[0]) {
+            s.replaceTrack(newStream.getVideoTracks()[0]);
+          }
+          if (newStream.getAudioTracks()[0]) {
+            s.replaceTrack(newStream.getAudioTracks()[0]);
+          }
+        });
       });
       getters.medias.medias.find(media => media.im).stream = newStream;
     },
     toggleCaptureAndCameraAction({ state, dispatch, commit }) {
-      if (state.activeMyMedia == "camera") {
+      if (state.myActiveMediaName == "camera") {
         dispatch("replaceStream", state.myCaptureMedia);
-        commit("switchAviveMyMedia", "capture");
+        commit("switchmyActiveMediaName", "capture");
       } else {
         dispatch("replaceStream", state.myWebcamMedia);
-        commit("switchAviveMyMedia", "camera");
+        commit("switchmyActiveMediaName", "camera");
       }
+    },
+    toggleMediaTrackPC({ getters }, mediaType) {
+      getters.calls.forEach(async call => {
+        let senders = call.peerConnection.getSenders();
+        let sendersWithCurrentMediaType = senders.filter(sender => {
+          if (sender.track) return sender.track.kind == mediaType;
+          return false;
+        });
+        let currentMediaTypeState =
+          mediaType == "video" ? getters.videoOff : getters.audioOff;
+        if (currentMediaTypeState)
+          sendersWithCurrentMediaType.forEach(async sender => {
+            await call.peerConnection.removeTrack(sender);
+            console.log(sender);
+          });
+        if (currentMediaTypeState)
+          sendersWithCurrentMediaType.forEach(sender => sender.track.stop());
+        else {
+          let track;
+          let stream;
+          if (mediaType == "video" && getters.myActiveMediaName == "camera") {
+            track = getters.myWebcamMedia.getVideoTracks()[0].clone();
+            stream = getters.myWebcamMedia;
+          } else if (
+            mediaType == "audio" &&
+            getters.myActiveMediaName == "camera"
+          ) {
+            track = getters.myWebcamMedia.getAudioTracks()[0].clone();
+            stream = getters.myWebcamMedia;
+          } else if (
+            mediaType == "video" &&
+            getters.myActiveMediaName == "capture"
+          ) {
+            track = getters.myCaptureMedia.getVideoTracks()[0].clone();
+            stream = getters.myCaptureMedia;
+          } else if (
+            mediaType == "audio" &&
+            getters.myActiveMediaName == "capture"
+          ) {
+            track = getters.myWebcamMedia.getAudioTracks()[0].clone();
+            stream = getters.myCaptureMedia;
+          }
+          track;
+          stream;
+          call.peerConnection.addTrack(track, stream);
+        }
+      });
+    },
+    async addTrack(state, params) {
+      let peerConnection = params[0];
+      let track = params[1];
+      let stream = params[2];
+      const newSender = peerConnection.addTrack(track, stream);
+      peerConnection.createOffer(offer => {
+        peerConnection.setLocalDescription(offer, () => {
+          console.log(offer);
+        });
+      });
+      // const response = await sendOffer(peerConnection.localDescription);
+
+      // const description = new RTCSessionDescription(response);
+      // peerConnection.setRemoteDescription(description);
+
+      return newSender;
     }
   },
   mutations: {
+    setAudioOffMutation(state, value) {
+      state.audioOff = value;
+    },
     pushPeer(state, peer) {
       state.allPeers.push(peer);
     },
@@ -90,30 +163,38 @@ export default {
     setMyWebcamMedia(state, media) {
       state.myWebcamMedia = media;
     },
-    switchAviveMyMedia(state, mediaName) {
-      state.activeMyMedia = mediaName;
+    switchmyActiveMediaName(state, mediaName) {
+      state.myActiveMediaName = mediaName;
     },
     callPush(state, call) {
       state.calls.push(call);
     }
   },
   state: {
-    videoOff: false,
-    audioOff: false,
+    videoOff: window.localStorage.getItem("videochat_camera_state") == "true",
+    audioOff:
+      window.localStorage.getItem("videochat_microphone_state") == "true",
     allPeers: [],
     medias: new Medias(),
     myCaptureMedia: null,
     myWebcamMedia: null,
-    activeMyMedia: "camera",
+    myActiveMediaName: "camera",
+    myActiveMedia: null,
     calls: []
   },
   getters: {
     videoOff: state => state.videoOff,
+    audioOff: state => state.audioOff,
     allPeers: state => state.allPeers,
     medias: state => state.medias,
     myCaptureMedia: state => state.myCaptureMedia,
     myWebcamMedia: state => state.myWebcamMedia,
-    activeMyMedia: state => state.activeMyMedia,
+    myActiveMediaName: state => state.myActiveMediaName,
+    myActiveMedia: state => {
+      return state.myActiveMediaName == "video"
+        ? state.myWebcamMedia
+        : state.myCaptureMedia;
+    },
     calls: state => state.calls
   }
 };

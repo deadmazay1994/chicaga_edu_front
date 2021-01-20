@@ -121,7 +121,8 @@ export default {
       "socketConnect",
       "toggleChannel",
       "setWebcam",
-      "setCapture"
+      "setCapture",
+      "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setLessonId", "destroyPeers", "initMedias", "callPush"]),
     // Логика переключения FullSize
@@ -158,7 +159,6 @@ export default {
         if (user) {
           if (data.data.name in user) {
             user[data.data.name] = data.data.val;
-            console.log(data.data);
           }
         }
       });
@@ -187,7 +187,7 @@ export default {
           .substring(2, 15)
       );
     },
-    createMyVideo(stream) {
+    async createMyVideo(stream) {
       this.medias.push({
         im: true,
         stream,
@@ -200,51 +200,27 @@ export default {
       this.$forceUpdate();
     },
     async getMedia() {
-      if (this.myWebcamMedia == null && this.activeMyMedia == "camera") {
-        await this.setWebcam();
+      if (this.myWebcamMedia == null && this.myActiveMediaName == "camera") {
+        await this.setWebcam(true);
       } else if (
         this.myWebcamMedia == null &&
-        this.activeMyMedia == "capture"
+        this.myActiveMediaName == "capture"
       ) {
-        await this.setCapture();
+        await this.setCapture(true);
       }
-      if (this.activeMyMedia == "camera") {
+      if (this.myActiveMediaName == "camera") {
         return this.myWebcamMedia;
-      } else {
-        return this.myCaptureMedia;
       }
+      return this.myCaptureMedia;
     },
     getUserById(id) {
-      for (var i in this.users) {
-        if (this.users[i].id == id) {
-          return this.users[i];
-        }
-      }
-      return false;
+      return this.users.find(user => user.id == id);
     },
     sendMsgToUser(msg, id) {
       this.socket.emit("send msg for user", {
         msg,
         id,
         roomId: this.lessonId
-      });
-    },
-    intiatorOnSignal(peer, userId) {
-      // Как только инитатор просигналил
-      peer.on("signal", signal => {
-        this.getPeerById(userId).signaling = true;
-        // Отправляем предложение о соеденении
-        this.sendMsgToUser(
-          {
-            signal,
-            name: "signaling initiator",
-            username: this.user.name,
-            avatar: this.user.avatar_link,
-            sender: this.socketId,
-            forPeer: userId
-          },
-          userId
-        );
       });
     },
     onSendUsers() {
@@ -276,7 +252,8 @@ export default {
                     id: user.id,
                     peerId: peer.id,
                     avatar: user.avatar,
-                    name: user.username
+                    name: user.username,
+                    call
                   },
                   // Передаем только того юзера чьи настройи надо отразить в объекте
                   this.getUserById(user.id)
@@ -327,7 +304,8 @@ export default {
                       avatar: data.msg.user.avatar_link,
                       name: data.msg.user.name,
                       videoOff: data.msg.userSettings.camera,
-                      audioOff: data.msg.userSettings.micro
+                      audioOff: data.msg.userSettings.micro,
+                      call
                     },
                     // Передаем getUserByIdолько того юзера чьи настройи надо отразить в объекте
                     this.getUserById(data.msg.sender)
@@ -376,7 +354,7 @@ export default {
       "medias",
       "myCaptureMedia",
       "myWebcamMedia",
-      "activeMyMedia"
+      "myActiveMediaName"
     ]),
     activeMedia() {
       if (this.activeVideoIndex in this.medias.medias) {

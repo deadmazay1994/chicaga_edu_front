@@ -11,7 +11,7 @@
       v-show="!mediaObject.videoOff && !videoHidden"
       ref="video"
       autoplay
-      :muted="muted.val"
+      :muted="mediaObject.im"
       class="video-component__video"
     ></video>
     <img
@@ -89,7 +89,8 @@ export default {
       "setVideoOff",
       "setAudioOff",
       "setCapture",
-      "toggleCaptureAndCameraAction"
+      "toggleCaptureAndCameraAction",
+      "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
     toggleFullSize() {
@@ -127,6 +128,7 @@ export default {
         this.mediaObject.videoOff
       );
       this.setVideoOff(this.mediaObject.videoOff);
+      this.toggleMediaTrackPC("video");
     },
     toggleMicro() {
       this.mediaObject.audioOff = !this.mediaObject.audioOff;
@@ -135,6 +137,7 @@ export default {
         this.mediaObject.audioOff
       );
       this.setAudioOff(this.mediaObject.audioOff);
+      this.toggleMediaTrackPC("audio");
     },
     setStream(stream = this.mediaObject.stream) {
       let video = this.$refs.video;
@@ -144,6 +147,9 @@ export default {
         video.src = window.URL.createObjectURL(stream); // for older browsers
       }
       video.play();
+    },
+    addTrack(track, stream) {
+      console.log(track, stream);
     },
     audioOff() {
       if (!this.mediaObject.im) {
@@ -184,7 +190,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["myCaptureMedia", "activeMyMedia"]),
+    ...mapGetters(["myCaptureMedia", "myActiveMediaName"]),
     backgroundComputed() {
       return { "background-image": "url(" + this.background + ")" };
     }
@@ -196,7 +202,7 @@ export default {
     "mediaObject.id": function() {
       this.setStream();
     },
-    activeMyMedia: function() {
+    "mediaObject.stream": function() {
       this.setStream();
     }
   },
@@ -216,6 +222,10 @@ export default {
     this.audioOff();
     this.onCanPlay();
     this.initMyVideoStates();
+    if (this.mediaObject.call) {
+      this.mediaObject.call.peerConnection.ontrack = this.addTrack;
+      console.log(this.mediaObject.call.peerConnection);
+    }
   }
 };
 </script>
