@@ -27,7 +27,10 @@ export default {
           if (response.success) {
             commit("setUser", response.data);
             commit("setToken", response.data.api_token);
-            router.push({ path: "/lk/my-coursers" });
+            let redirectUrl = "/lk/my-coursers";
+            if (router.currentRoute.query.redirect)
+              redirectUrl = router.currentRoute.query.redirect;
+            router.push({ path: redirectUrl });
             barText = "Вы успешно авторизировались";
             barStatus = true;
           }

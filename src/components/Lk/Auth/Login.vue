@@ -49,18 +49,6 @@ export default {
     login() {
       if (this.valid) {
         this.$store.dispatch("login", this.user);
-        // this.$router.push({
-        //   path: "/lk/my-coursers"
-        // });
-        // this.$store.commit("pushShuckbar", {
-        //   val: "Вы успешно авторизовались",
-        //   success: true
-        // });
-      } else {
-        // this.$store.commit("pushShuckbar", {
-        //   val: "Вы допустили ошибку при заполнении формы",
-        //   success: false
-        // });
       }
     }
   },
