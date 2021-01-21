@@ -113,7 +113,8 @@ export default {
       peers: [],
       id: false,
       socketId: false,
-      users: []
+      users: [],
+      color: ""
     };
   },
   methods: {
@@ -199,7 +200,8 @@ export default {
         audioOff: false,
         videoOff: false,
         avatar: this.user.avatar_link,
-        name: this.user.name
+        name: this.user.name,
+        color: this.color
       });
       this.$forceUpdate();
     },
@@ -255,6 +257,7 @@ export default {
       // 2
       // Сервер отправляет всех участников чата
       this.socket.on("send users", async data => {
+        this.color = data.aboutMe.color;
         // Записываем свой socket id
         this.socketId = data.socketId;
         // Получаем свое изображение и звук
@@ -282,7 +285,8 @@ export default {
                     id: user.id,
                     peerId: peer.id,
                     avatar: user.avatar,
-                    name: user.username
+                    name: user.username,
+                    color: user.color
                   },
                   // Передаем только того юзера чьи настройи надо отразить в объекте
                   this.getUserById(user.id)
@@ -296,6 +300,7 @@ export default {
                 sender: this.socketId,
                 user: this.user,
                 userSettings: {
+                  color: this.color,
                   camera:
                     window.localStorage.getItem("videochat_camera_state") ==
                     "true",
@@ -330,6 +335,7 @@ export default {
                       im: false,
                       peerId: peer.id,
                       stream,
+                      color: data.msg.userSettings.color,
                       id: data.msg.sender,
                       avatar: data.msg.user.avatar_link,
                       name: data.msg.user.name,
@@ -435,7 +441,6 @@ export default {
   .video-chat__video--miniature
     width: 150px
     height: 150px
-    border: 3px solid #c4ac7e
   &__video
     margin-top: 5px
     width: 50%

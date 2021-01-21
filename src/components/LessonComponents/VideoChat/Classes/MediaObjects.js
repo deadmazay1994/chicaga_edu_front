@@ -62,5 +62,6 @@ class myMedia {
     this.avatar = data.avatar;
     this.name = data.name;
     this.peerId = data.peerId || "has no peer";
+    this.color = data.color;
   }
 }

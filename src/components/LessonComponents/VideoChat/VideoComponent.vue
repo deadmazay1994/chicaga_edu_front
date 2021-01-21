@@ -3,9 +3,10 @@
     class="video-component vue-component justify-center align-start rounded"
     :class="{
       'video-component--active': active,
-      'video-component--video-off': mediaObject.videoOff
+      'video-component--video-off': mediaObject.videoOff,
+      'video-component--miniature': !active
     }"
-    :style="backgroundComputed"
+    :style="{ ...backgroundComputed, ...borderComputed }"
   >
     <video
       ref="video"
@@ -35,12 +36,12 @@
         @click.native="toggleFullSizeVideoInWindow"
         class="video-component__expand video-component__ctrls-btn"
       />
-      <speaker
+      <!--       <speaker
         @click.native="toggleMuting"
         class="video-component__speaker video-component__ctrls-btn"
         :muted="muted.state"
         v-if="!mediaObject.im"
-      />
+      /> -->
       <template v-if="mediaObject.im">
         <camera
           @click.native="toggleCamera"
@@ -63,12 +64,13 @@
 
 <script>
 import Expand from "@/components/Icons/Expand.vue";
-import Speaker from "@/components/Icons/Speaker.vue";
+// import Speaker from "@/components/Icons/Speaker.vue";
 import MuteMicro from "@/components/Icons/Mute.vue";
 import Camera from "@/components/Icons/Camera.vue";
 import Reflect from "@/components/Icons/Reflect.vue";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import Hark from "hark";
 
 export default {
   name: "video-component",
@@ -80,7 +82,8 @@ export default {
       },
       mutedMicro: false,
       background: "/imgs/whitenoize.gif",
-      videoHidden: true
+      videoHidden: true,
+      borderColor: ""
     };
   },
   methods: {
@@ -139,6 +142,14 @@ export default {
       this.toggleMediaTrackPC("audio");
     },
     setStream(stream = this.mediaObject.stream) {
+      let speechEvents;
+      if (this.mediaObject.im) {
+        speechEvents = Hark(this.myWebcamMedia);
+      } else {
+        speechEvents = Hark(stream);
+      }
+      speechEvents.on("speaking", this.onSpeeking);
+      speechEvents.on("stopped_speaking", this.onStopSpeeking);
       let video = this.$refs.video;
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -146,6 +157,17 @@ export default {
         video.src = window.URL.createObjectURL(stream); // for older browsers
       }
       video.play();
+    },
+    onSpeeking() {
+      this.borderColor = this.mediaObject.color
+        ? this.mediaObject.color
+        : "#c4ac7e";
+      if (this.mediaObject.im) {
+        console.log("r");
+      }
+    },
+    onStopSpeeking() {
+      this.borderColor = "";
     },
     audioOff() {
       if (!this.mediaObject.im) {
@@ -194,9 +216,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["myCaptureMedia", "myActiveMediaName"]),
+    ...mapGetters(["myCaptureMedia", "myActiveMediaName", "myWebcamMedia"]),
     backgroundComputed() {
       return { "background-image": "url(" + this.background + ")" };
+    },
+    borderComputed() {
+      return {
+        "border-color": this.borderColor
+      };
     }
   },
   watch: {
@@ -214,7 +241,7 @@ export default {
   },
   components: {
     Expand,
-    Speaker,
+    // Speaker,
     MuteMicro,
     Camera,
     Reflect
@@ -244,6 +271,7 @@ export default {
   display: flex
   flex-wrap: wrap
   align-items: center !important
+  border: 3px solid
   &:before
     display: block
     position: absolute
@@ -309,25 +337,25 @@ export default {
     cursor: pointer
     display: flex
     align-items: center
-.video-component--active
-  z-index: 1
-  margin: 0
-  width: 100%
-  height: 100%
-  display: flex
-  align-items: center !important
-  .video-component__avatar
-    width: 150px
-  .video-component__name
-    font-size: 21px
-  .video-component__video
-    display: block
+  &--active
+    z-index: 1
+    margin: 0
     width: 100%
-    max-height: 100%
-  .video-component__speaker
-    width: 25px
-  .video-component__mute-micro
-    width: 25px
-  .video-component__camera
-    width: 25px
+    height: 100%
+    display: flex
+    align-items: center !important
+    .video-component__avatar
+      width: 150px
+    .video-component__name
+      font-size: 21px
+    .video-component__video
+      display: block
+      width: 100%
+      max-height: 100%
+    .video-component__speaker
+      width: 25px
+    .video-component__mute-micro
+      width: 25px
+    .video-component__camera
+      width: 25px
 </style>

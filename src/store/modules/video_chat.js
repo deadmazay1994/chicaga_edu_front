@@ -11,13 +11,13 @@ export default {
       state.audioOff = val;
       rootGetters.socket.emit("toggle micro", val);
     },
-    async setCapture({ commit, getters }, firstInit = false) {
+    async setCapture({ commit }) {
       let startCapture = async () => {
         let captureStream = null;
         try {
           captureStream = await navigator.mediaDevices.getDisplayMedia({
-            audio: firstInit ? true : !getters.audioOff,
-            video: firstInit ? true : !getters.videoOff
+            audio: true,
+            video: true
           });
         } catch (err) {
           commit("pushShuckbar", {
@@ -37,7 +37,6 @@ export default {
         let stream = null;
         try {
           stream = await navigator.mediaDevices.getUserMedia({
-            // video: { width: 624, height: 480 } ,
             video: { width: 624, height: 480 },
             audio: true
           });
