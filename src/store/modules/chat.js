@@ -123,6 +123,8 @@ export default {
       scrollToBottom(getters.getChatElem);
       if (!state.chatIsOpen) {
         state.newMsgsNum++;
+      } else {
+        new Audio("/audios/newmsg.mp3").play();
       }
     },
     async setMembers(ctx, room) {
