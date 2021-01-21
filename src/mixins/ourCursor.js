@@ -49,10 +49,9 @@ export default {
         cursorEl.className = "our-cursor";
         document.querySelector("body").append(cursorEl);
       }
-      if (cursorEl) {
-        let regardingElement = document.querySelector(
-          config.regardingElementSignature.join(">")
-        );
+      let path = config.regardingElementSignature.join(">");
+      if (cursorEl && path) {
+        let regardingElement = document.querySelector(path);
         let cursorX = config.absoluteX;
         let cursorY = config.absoluteY;
         if (regardingElement && config.regardingX) {
