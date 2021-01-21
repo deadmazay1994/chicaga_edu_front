@@ -5,7 +5,9 @@ const SITEURL = "https://edu.chicaga.ru";
 function scrollToBottom(chat) {
   setTimeout(() => {
     let dialog = chat.getElementsByClassName("masseges")[0];
-    dialog.scrollTop = dialog.scrollHeight;
+    if (dialog) {
+      dialog.scrollTop = dialog.scrollHeight;
+    }
   }, 70);
 }
 
