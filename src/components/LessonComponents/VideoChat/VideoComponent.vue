@@ -11,6 +11,7 @@
       ref="video"
       v-show="!mediaObject.videoOff && !videoHidden"
       autoplay
+      :muted="mediaObject.im"
       class="video-component__video"
     ></video>
     <img

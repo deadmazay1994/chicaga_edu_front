@@ -49,6 +49,7 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   padding: 15px 20px;
+  height: 74px;
 }
 
 .header-chat__name {
