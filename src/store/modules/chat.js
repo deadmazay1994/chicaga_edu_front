@@ -116,11 +116,14 @@ export default {
         ctx.getters.getAttachments
       );
     },
-    newMsgCallback(ctx, r) {
-      let rocket = ctx.getters.getRocket;
+    newMsgCallback({ commit, getters, state }, r) {
+      let rocket = getters.getRocket;
       let msgs = rocket.updateMsgs(r.fields.args);
-      ctx.commit("appendMsgs", { data: msgs, room: ctx.getters.getRoom });
-      scrollToBottom(ctx.getters.getChatElem);
+      commit("appendMsgs", { data: msgs, room: getters.getRoom });
+      scrollToBottom(getters.getChatElem);
+      if (!state.chatIsOpen) {
+        state.newMsgsNum++;
+      }
     },
     async setMembers(ctx, room) {
       // Функция получает всех подписчиков комнаты
@@ -276,6 +279,7 @@ export default {
     },
     toggleOpenChat(state) {
       state.chatIsOpen = !state.chatIsOpen;
+      state.newMsgsNum = 0;
     }
   },
   state: {
@@ -293,7 +297,8 @@ export default {
     attachments: false,
     searchStatus: false,
     loading: true,
-    chatIsOpen: false
+    chatIsOpen: false,
+    newMsgsNum: 0
   },
   getters: {
     allMsgs(state) {
@@ -337,6 +342,7 @@ export default {
     },
     chatIsOpen(state) {
       return state.chatIsOpen;
-    }
+    },
+    newMsgsNum: state => state.newMsgsNum
   }
 };

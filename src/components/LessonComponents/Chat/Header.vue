@@ -3,7 +3,14 @@
     <div class="header-chat__left">
       <div class="header-chat__name">
         <thumbnail alt="Профиль" :path="user.avatar_link" />
-        <title-chat class="header-chat__title">{{ user.name }}</title-chat>
+        <title-chat class="header-chat__title">
+          <template>
+            {{ user.name }}
+            <span v-show="newMsgsNum" class="header-chat__new-msgs-num">
+              {{ newMsgsNum }}
+            </span>
+          </template>
+        </title-chat>
       </div>
     </div>
     <div class="header-chat__right">
@@ -30,7 +37,7 @@ export default {
     ...mapMutations(["toggleOpenChat"])
   },
   computed: {
-    ...mapGetters(["user", "chatIsOpen"])
+    ...mapGetters(["user", "chatIsOpen", "newMsgsNum"])
   },
   components: {
     Thumbnail,
@@ -70,7 +77,17 @@ export default {
 <style lang="sass" scoped>
 @import "@/components/Sass/Varibles.sass"
 
-.header-chat__btn
-  background-color: $main_color !important
-  margin: 0 10px
+.header-chat
+  &__btn
+    background-color: $main_color !important
+    margin: 0 10px
+  &__new-msgs-num
+    background: darken($main_color, 5%)
+    width: 25px
+    height: 25px
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    color: $main_color--text
+    border-radius: 100%
 </style>
