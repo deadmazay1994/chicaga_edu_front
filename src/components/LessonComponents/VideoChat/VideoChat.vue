@@ -189,6 +189,9 @@ export default {
       );
     },
     createMyVideo(stream) {
+      stream = stream.clone();
+      // Удаляем свое аудио, чтобы не слышать себя
+      stream.getAudioTracks().forEach(track => track.stop());
       this.medias.push({
         im: true,
         stream,
@@ -261,7 +264,8 @@ export default {
         data.users.forEach(user => {
           let peer = new Peer(this.randomStr(), this.peerServer);
           peer.on("error", () => {
-            peer.reconnect();
+            console.log("Попытка реконекта");
+            // peer.reconnect();
           });
           this.allPeers.push(peer);
           peer.on("open", () => {
