@@ -8,10 +8,9 @@
     :style="backgroundComputed"
   >
     <video
-      v-show="!mediaObject.videoOff && !videoHidden"
       ref="video"
+      v-show="!mediaObject.videoOff && !videoHidden"
       autoplay
-      :muted="muted.val"
       class="video-component__video"
     ></video>
     <img
@@ -89,7 +88,8 @@ export default {
       "setVideoOff",
       "setAudioOff",
       "setCapture",
-      "toggleCaptureAndCameraAction"
+      "toggleCaptureAndCameraAction",
+      "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
     toggleFullSize() {
@@ -127,6 +127,7 @@ export default {
         this.mediaObject.videoOff
       );
       this.setVideoOff(this.mediaObject.videoOff);
+      this.toggleMediaTrackPC("video");
     },
     toggleMicro() {
       this.mediaObject.audioOff = !this.mediaObject.audioOff;
@@ -135,6 +136,7 @@ export default {
         this.mediaObject.audioOff
       );
       this.setAudioOff(this.mediaObject.audioOff);
+      this.toggleMediaTrackPC("audio");
     },
     setStream(stream = this.mediaObject.stream) {
       let video = this.$refs.video;
@@ -155,8 +157,16 @@ export default {
       }
     },
     async toggleScreenAndCapture() {
+      let activateVideo = () => {
+        if (this.mediaObject.videoOff) {
+          this.toggleCamera();
+        }
+      };
       if (this.myCaptureMedia === null) {
         await this.setCapture();
+        activateVideo();
+      } else {
+        activateVideo();
       }
       this.toggleCaptureAndCameraAction();
     },
@@ -184,7 +194,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["myCaptureMedia", "activeMyMedia"]),
+    ...mapGetters(["myCaptureMedia", "myActiveMediaName"]),
     backgroundComputed() {
       return { "background-image": "url(" + this.background + ")" };
     }
@@ -196,8 +206,10 @@ export default {
     "mediaObject.id": function() {
       this.setStream();
     },
-    activeMyMedia: function() {
-      this.setStream();
+    myActiveMediaName: function() {
+      if (this.mediaObject.im) {
+        this.setStream();
+      }
     }
   },
   components: {

@@ -121,7 +121,8 @@ export default {
       "socketConnect",
       "toggleChannel",
       "setWebcam",
-      "setCapture"
+      "setCapture",
+      "setLocalstoradgeStatesToTracks"
     ]),
     ...mapMutations(["setLessonId", "destroyPeers", "initMedias", "callPush"]),
     // Логика переключения FullSize
@@ -200,15 +201,15 @@ export default {
       this.$forceUpdate();
     },
     async getMedia() {
-      if (this.myWebcamMedia == null && this.activeMyMedia == "camera") {
+      if (this.myWebcamMedia == null && this.myActiveMediaName == "camera") {
         await this.setWebcam();
       } else if (
         this.myWebcamMedia == null &&
-        this.activeMyMedia == "capture"
+        this.myActiveMediaName == "capture"
       ) {
         await this.setCapture();
       }
-      if (this.activeMyMedia == "camera") {
+      if (this.myActiveMediaName == "camera") {
         return this.myWebcamMedia;
       } else {
         return this.myCaptureMedia;
@@ -269,6 +270,7 @@ export default {
               stream.user = user;
               call.answer(stream);
               call.on("stream", stream => {
+                this.setLocalstoradgeStatesToTracks();
                 this.medias.push(
                   {
                     im: false,
@@ -318,6 +320,7 @@ export default {
                 let call = await peer.call(data.msg.peerId, stream);
                 this.callPush(call);
                 call.on("stream", async stream => {
+                  this.setLocalstoradgeStatesToTracks();
                   this.medias.push(
                     {
                       im: false,
@@ -376,7 +379,7 @@ export default {
       "medias",
       "myCaptureMedia",
       "myWebcamMedia",
-      "activeMyMedia"
+      "myActiveMediaName"
     ]),
     activeMedia() {
       if (this.activeVideoIndex in this.medias.medias) {
