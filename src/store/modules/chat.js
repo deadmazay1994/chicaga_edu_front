@@ -2,15 +2,6 @@ import Rocket from "@/assets/Rocket.js";
 
 const SITEURL = "https://edu.chicaga.ru";
 
-function scrollToBottom(chat) {
-  setTimeout(() => {
-    let dialog = chat.getElementsByClassName("masseges")[0];
-    if (dialog) {
-      dialog.scrollTop = dialog.scrollHeight;
-    }
-  }, 70);
-}
-
 export default {
   namespaces: true,
   actions: {
@@ -89,8 +80,7 @@ export default {
           rocket.newMsgCallback = r => {
             ctx.dispatch("newMsgCallback", r);
           };
-          scrollToBottom(ctx.getters.getChatElem);
-
+          ctx.dispatch("scrollToBottom");
           ctx.commit("updateLoading", false);
         });
       });
@@ -118,7 +108,7 @@ export default {
         ctx.getters.getAttachments
       );
     },
-    newMsgCallback({ commit, getters, state }, r) {
+    newMsgCallback({ commit, getters, state, dispatch }, r) {
       let rocket = getters.getRocket;
       let msgs = rocket.updateMsgs(r.fields.args);
       let senderName;
@@ -129,7 +119,7 @@ export default {
       }
       r.fields.args[0].u.name = senderName;
       commit("appendMsgs", { data: msgs, room: getters.getRoom });
-      scrollToBottom(getters.getChatElem);
+      dispatch("scrollToBottom");
       if (!state.chatIsOpen) {
         state.newMsgsNum++;
         new Audio("/audios/newmsg.mp3").play();
@@ -196,6 +186,14 @@ export default {
       ctx.commit("updateCurrentMsgs");
 
       ctx.commit("updateLoading", false);
+    },
+    scrollToBottom({ getters }) {
+      setTimeout(() => {
+        let dialog = getters.getChatElem.getElementsByClassName("masseges")[0];
+        if (dialog) {
+          dialog.scrollTop = dialog.scrollHeight;
+        }
+      }, 70);
     }
   },
   mutations: {
@@ -279,10 +277,6 @@ export default {
     },
     updateFile(state, value) {
       state.attachments = value;
-    },
-    updateSearchStatus(state, value) {
-      scrollToBottom(state.chatElem);
-      state.searchStatus = value;
     },
     updateLoading(state, value) {
       state.loading = value;

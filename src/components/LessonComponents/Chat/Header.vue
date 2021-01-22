@@ -18,7 +18,7 @@
         class="header-chat__btn"
         large
         color="white--text"
-        @click="toggleOpenChat"
+        @click="toggleChat"
         >{{ chatIsOpen ? "ЗАКРЫТЬ ЧАТ" : "ОТКРЫТЬ ЧАТ" }}</v-btn
       >
     </div>
@@ -29,12 +29,17 @@
 import Thumbnail from "./Thumbnail";
 import TitleChat from "./Title";
 
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "header-chat",
   methods: {
-    ...mapMutations(["toggleOpenChat"])
+    ...mapMutations(["toggleOpenChat"]),
+    ...mapActions(["scrollToBottom"]),
+    toggleChat() {
+      this.toggleOpenChat();
+      this.scrollToBottom();
+    }
   },
   computed: {
     ...mapGetters(["user", "chatIsOpen", "newMsgsNum"])
