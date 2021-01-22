@@ -88,8 +88,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      "setVideoOff",
-      "setAudioOff",
       "setCapture",
       "toggleCaptureAndCameraAction",
       "toggleMediaTrackPC"
@@ -129,8 +127,10 @@ export default {
         "videochat_camera_state",
         this.mediaObject.videoOff
       );
-      this.setVideoOff(this.mediaObject.videoOff);
-      this.toggleMediaTrackPC("video");
+      this.toggleMediaTrackPC({
+        mediaType: "video",
+        value: this.mediaObject.videoOff
+      });
     },
     toggleMicro() {
       this.mediaObject.audioOff = !this.mediaObject.audioOff;
@@ -138,8 +138,10 @@ export default {
         "videochat_microphone_state",
         this.mediaObject.audioOff
       );
-      this.setAudioOff(this.mediaObject.audioOff);
-      this.toggleMediaTrackPC("audio");
+      this.toggleMediaTrackPC({
+        mediaType: "audio",
+        value: this.mediaObject.audioOff
+      });
     },
     setStream(stream = this.mediaObject.stream) {
       let speechEvents;
@@ -162,9 +164,6 @@ export default {
       this.borderColor = this.mediaObject.color
         ? this.mediaObject.color
         : "#c4ac7e";
-      if (this.mediaObject.im) {
-        console.log("r");
-      }
     },
     onStopSpeeking() {
       this.borderColor = "";
@@ -200,11 +199,11 @@ export default {
           window.localStorage.getItem("videochat_microphone_state") == "true";
         if (videoState) {
           this.mediaObject.videoOff = videoState;
-          this.setVideoOff(videoState);
+          this.toggleMediaTrackPC({ mediaType: "video", value: videoState });
         }
         if (audioState) {
           this.mediaObject.audioOff = audioState;
-          this.setAudioOff(audioState);
+          this.toggleMediaTrackPC({ mediaType: "audio", value: audioState });
         }
       }
     },

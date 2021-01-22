@@ -93,27 +93,31 @@ export default {
           .forEach(track => (track.enabled = !getters.audioOff));
       }
     },
-    toggleMediaTrackPC({ getters }, mediaType) {
+    toggleMediaTrackPC({ getters, dispatch }, { mediaType, value }) {
       let track;
       if (mediaType == "video" && getters.myActiveMediaName == "camera") {
         track = getters.myWebcamMedia.getVideoTracks()[0];
+        dispatch("setVideoOff", value);
       } else if (
         mediaType == "audio" &&
         getters.myActiveMediaName == "camera"
       ) {
         track = getters.myWebcamMedia.getAudioTracks()[0];
+        dispatch("setAudioOff", value);
       } else if (
         mediaType == "video" &&
         getters.myActiveMediaName == "capture"
       ) {
         track = getters.myCaptureMedia.getVideoTracks()[0];
+        dispatch("setVideoOff", value);
       } else if (
         mediaType == "audio" &&
         getters.myActiveMediaName == "capture"
       ) {
         track = getters.myWebcamMedia.getAudioTracks()[0];
+        dispatch("setAudioOff", value);
       }
-      track.enabled = !track.enabled;
+      track.enabled = !value;
     },
     async addTrack(state, params) {
       let peerConnection = params[0];
