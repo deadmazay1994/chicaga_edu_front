@@ -121,11 +121,17 @@ export default {
     newMsgCallback({ commit, getters, state }, r) {
       let rocket = getters.getRocket;
       let msgs = rocket.updateMsgs(r.fields.args);
+      let senderName;
+      for (let key in getters.getMembers) {
+        senderName = getters.getMembers[key].find(
+          memeber => memeber.username == r.fields.args[0].u.username
+        ).name;
+      }
+      r.fields.args[0].u.name = senderName;
       commit("appendMsgs", { data: msgs, room: getters.getRoom });
       scrollToBottom(getters.getChatElem);
       if (!state.chatIsOpen) {
         state.newMsgsNum++;
-      } else {
         new Audio("/audios/newmsg.mp3").play();
       }
     },
