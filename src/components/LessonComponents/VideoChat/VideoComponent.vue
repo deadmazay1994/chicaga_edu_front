@@ -216,12 +216,14 @@ export default {
   },
   computed: {
     ...mapGetters(["myCaptureMedia", "myActiveMediaName", "myWebcamMedia"]),
+    ...mapGetters({ audioOffGetter: "audioOff" }),
     backgroundComputed() {
       return { "background-image": "url(" + this.background + ")" };
     },
     borderComputed() {
       return {
-        "border-color": this.borderColor
+        "border-color":
+          this.mediaObject.im && this.audioOffGetter ? "" : this.borderColor
       };
     }
   },
