@@ -64,7 +64,10 @@ export default {
           }
         });
       });
-      getters.medias.medias.find(media => media.im).stream = newStream;
+      // Удаляем все звуковые дорожки, чтобы не слышатть самого себя
+      let clone = newStream.clone();
+      clone.getAudioTracks().forEach(track => track.stop());
+      getters.medias.medias.find(media => media.im).stream = clone;
     },
     toggleCaptureAndCameraAction({ state, dispatch, commit }) {
       if (state.myActiveMediaName == "camera") {
