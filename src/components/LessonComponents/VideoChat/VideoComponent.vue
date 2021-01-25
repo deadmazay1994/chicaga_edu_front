@@ -179,7 +179,7 @@ export default {
     },
     onSpeeking() {
       let setBorderColor = () => {
-        let myAudioEnabled = this.myWebcamMedia.getAudioTracks()[0].enabled;
+        let myAudioEnabled = !this.mediaObject.audioOff;
         let itsNotIm = !this.mediaObject.im;
         if (itsNotIm || myAudioEnabled) {
           this.borderColor = this.mediaObject.color
@@ -193,7 +193,8 @@ export default {
       // Позволяет фильтровать тихие шумы
       let unMuteByAudioLevel = () => {
         // Включение только своего трека при условии, что пользовтель себя не замьютил
-        if (this.mediaObject.im && this.audioOffGetter) {
+        let myAudioEnabled = !this.mediaObject.audioOff;
+        if (this.mediaObject.im && myAudioEnabled) {
           this.toggleMediaTrackPC({ mediaType: "audio", value: false });
         }
       };
