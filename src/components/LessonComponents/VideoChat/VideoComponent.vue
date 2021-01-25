@@ -144,14 +144,6 @@ export default {
       });
     },
     setStream(stream = this.mediaObject.stream) {
-      let speechEvents;
-      if (this.mediaObject.im) {
-        speechEvents = Hark(this.myWebcamMedia);
-      } else {
-        speechEvents = Hark(stream);
-      }
-      speechEvents.on("speaking", this.onSpeeking);
-      speechEvents.on("stopped_speaking", this.onStopSpeeking);
       let video = this.$refs.video;
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -160,10 +152,28 @@ export default {
       }
       video.play();
     },
+    initSpechEvents() {
+      let speechEvents;
+      if (this.mediaObject.im) {
+        speechEvents = Hark(this.myWebcamMedia);
+      } else {
+        speechEvents = Hark(this.mediaObject.stream);
+      }
+      console.log(speechEvents);
+      speechEvents.on("speaking", this.onSpeeking);
+      speechEvents.on("stopped_speaking", this.onStopSpeeking);
+    },
     onSpeeking() {
-      this.borderColor = this.mediaObject.color
-        ? this.mediaObject.color
-        : "#c4ac7e";
+      let myAudioEnabled = this.myWebcamMedia.getAudioTracks()[0].enabled;
+      let itsNotIm = !this.mediaObject.im;
+      if (itsNotIm || myAudioEnabled) {
+        this.borderColor = this.mediaObject.color
+          ? this.mediaObject.color
+          : "#c4ac7e";
+      }
+      if (itsNotIm) {
+        console.log(this.$el);
+      }
     },
     onStopSpeeking() {
       this.borderColor = "";
@@ -221,9 +231,9 @@ export default {
       return { "background-image": "url(" + this.background + ")" };
     },
     borderComputed() {
+      // Border color изменяется при замолкании и говорении пользовтеля
       return {
-        "border-color":
-          this.mediaObject.im && this.audioOffGetter ? "" : this.borderColor
+        "border-color": this.borderColor
       };
     }
   },
@@ -252,6 +262,7 @@ export default {
   beforeMount() {},
   mounted() {
     this.setStream();
+    this.initSpechEvents();
     this.mutingMe();
     this.audioOff();
     this.onCanPlay();

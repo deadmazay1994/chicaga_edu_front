@@ -1,17 +1,34 @@
 <template>
   <div class="video-chat vue-component">
-    <div class="video-chat__big-video-wrap">
-      <video-component
-        class="video-chat__video video-chat__video--active"
-        v-if="activeMedia"
-        :mediaObject="activeMedia"
-        :indexVideo="activeVideoIndex"
-        :active="true"
-        @toggleFullSize="onFullSizeToggle"
-        @toggleMicro="onToggleMicro"
-      />
+    <div class="video-chat__videos-wrap">
+      <div
+        class="video-chat__video-wrap"
+        v-for="(mediaObject, index) in medias.medias"
+        :key="index"
+        :class="{
+          'video-chat__video-wrap--active':
+            Number(index) == Number(activeVideoIndex)
+        }"
+        :style="videoWrapJustify(index)"
+      >
+        <video-component
+          :indexVideo="index"
+          class="video-chat__video"
+          :class="{
+            'video-chat__video--active':
+              Number(index) == Number(activeVideoIndex),
+            'video-chat__video--miniature':
+              Number(index) != Number(activeVideoIndex)
+          }"
+          :active="Number(index) == Number(activeVideoIndex)"
+          :mediaObject="mediaObject"
+          :miniature="Number(index) != Number(activeVideoIndex)"
+          @toggleFullSize="onFullSizeToggle"
+          @toggleMicro="onToggleMicro"
+        />
+      </div>
     </div>
-    <div class="video-chat__miniatures">
+    <!-- <div class="video-chat__miniatures">
       <template v-for="(mediaObject, index) in medias.medias">
         <video-component
           v-if="Number(index) != Number(activeVideoIndex)"
@@ -24,7 +41,7 @@
           :key="index"
         />
       </template>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -377,6 +394,24 @@ export default {
       this.socket.on("ping", () => {
         this.socket.emit("pong");
       });
+    },
+    videoWrapJustify(currentIndex) {
+      // Если текущий элемент стоит до активного,
+      // то если у него не четный индекс, то значение должно быть flex-end
+      // А если после, то flex-end должен быть у не четных
+      let values = ["flex-end", "flex-start"];
+      // Значение по умолчанию для не четных
+      let indexValue = 0;
+      if (currentIndex % 2) {
+        indexValue = 1;
+      }
+      // Сценарий, когда элемент находится после активного
+      if (currentIndex < this.activeVideoIndex) {
+        indexValue = indexValue === 1 ? 0 : 1;
+      }
+      return {
+        "justify-content": values[indexValue]
+      };
     }
   },
   computed: {
@@ -390,13 +425,7 @@ export default {
       "myCaptureMedia",
       "myWebcamMedia",
       "myActiveMediaName"
-    ]),
-    activeMedia() {
-      if (this.activeVideoIndex in this.medias.medias) {
-        return this.medias.medias[this.activeVideoIndex];
-      }
-      return false;
-    }
+    ])
   },
   components: {
     VideoComponent
@@ -427,17 +456,20 @@ export default {
   align-items: center
   justify-content: space-between
   positon: relative
-  &__big-video-wrap
+  &__videos-wrap
+    display: flex
+    flex-wrap: wrap
     width: 100%
     height: 100%
-  &__miniatures
-    position: absolute
-    left: 0
-    width: 98%
-    margin: 30px 1%
-    margin-top: 60px
-    display: grid
-    grid-template-columns: 50% 50%
+    padding: 10px
+    padding-top: 40px
+  &__video-wrap
+    width: 50%
+    display: flex
+    height: 150px
+    margin-bottom: 10px
+    &--active
+      width: 0
   .video-chat__video--miniature
     width: 150px
     height: 150px
@@ -453,4 +485,8 @@ export default {
   &__video--active
     width: 100%
     margin: 0
+    height: 100%
+    position: absolute
+    top: 0
+    left: 0
 </style>
