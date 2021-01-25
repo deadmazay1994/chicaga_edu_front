@@ -80,7 +80,6 @@ export default {
         state: false,
         val: ""
       },
-      mutedMicro: false,
       background: "/imgs/whitenoize.gif",
       videoHidden: true,
       borderColor: ""
@@ -152,31 +151,65 @@ export default {
       }
       video.play();
     },
-    initSpechEvents() {
+    async initSpechEvents() {
       let speechEvents;
       if (this.mediaObject.im) {
-        speechEvents = Hark(this.myWebcamMedia);
+        // Получаем независый трек
+        let getIndependedAudioStream = async () => {
+          let audio = false;
+          try {
+            audio = await navigator.mediaDevices.getUserMedia({
+              audio: true
+            });
+          } catch (e) {
+            console.log(e);
+          }
+          return audio;
+        };
+        speechEvents = Hark(await getIndependedAudioStream(), {
+          interval: 50
+        });
       } else {
-        speechEvents = Hark(this.mediaObject.stream);
+        speechEvents = Hark(this.mediaObject.stream, {
+          interval: 50
+        });
       }
-      console.log(speechEvents);
       speechEvents.on("speaking", this.onSpeeking);
       speechEvents.on("stopped_speaking", this.onStopSpeeking);
     },
     onSpeeking() {
-      let myAudioEnabled = this.myWebcamMedia.getAudioTracks()[0].enabled;
-      let itsNotIm = !this.mediaObject.im;
-      if (itsNotIm || myAudioEnabled) {
-        this.borderColor = this.mediaObject.color
-          ? this.mediaObject.color
-          : "#c4ac7e";
-      }
-      if (itsNotIm) {
-        console.log(this.$el);
-      }
+      let setBorderColor = () => {
+        let myAudioEnabled = this.myWebcamMedia.getAudioTracks()[0].enabled;
+        let itsNotIm = !this.mediaObject.im;
+        if (itsNotIm || myAudioEnabled) {
+          this.borderColor = this.mediaObject.color
+            ? this.mediaObject.color
+            : "#c4ac7e";
+        }
+      };
+      setBorderColor();
+
+      // Включает звук, когда уровень громкости становится достаточным
+      // Позволяет фильтровать тихие шумы
+      let unMuteByAudioLevel = () => {
+        // Включение только своего трека при условии, что пользовтель себя не замьютил
+        if (this.mediaObject.im && this.audioOffGetter) {
+          this.toggleMediaTrackPC({ mediaType: "audio", value: false });
+        }
+      };
+      unMuteByAudioLevel();
     },
     onStopSpeeking() {
       this.borderColor = "";
+
+      // Выключает звук, когда уровень громкости становится достаточно малым
+      // Позволяет фильтровать тихие шумы
+      let muteByAudioLevel = () => {
+        this.toggleMediaTrackPC({ mediaType: "audio", value: true });
+      };
+      if (this.mediaObject.im) {
+        muteByAudioLevel();
+      }
     },
     audioOff() {
       if (!this.mediaObject.im) {
@@ -263,6 +296,7 @@ export default {
   mounted() {
     this.setStream();
     this.initSpechEvents();
+    this.onStopSpeeking();
     this.mutingMe();
     this.audioOff();
     this.onCanPlay();
