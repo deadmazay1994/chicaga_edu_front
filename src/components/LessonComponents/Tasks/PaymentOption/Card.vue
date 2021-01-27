@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggle" style="cursor: pointer">
+  <div @click="Do('toggle')" style="cursor: pointer">
     <div
       class="offer-card offer-card--front"
       :class="'offer-card__' + offer.style"
@@ -19,7 +19,7 @@
       </div>
       <!-- Для правильного позиционирования -->
       <span></span>
-      <checkbox @click.native="toggle" class="offer-card__checkbox" />
+      <checkbox @click.native="Do('toggle')" class="offer-card__checkbox" />
     </div>
     <div
       class="offer-card offer-card--back"
@@ -86,7 +86,10 @@ export default {
   },
   props: ["offer"],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {
+    let uniqComponent = true;
+    this.onDo("toggle", uniqComponent);
+  }
 };
 </script>
 

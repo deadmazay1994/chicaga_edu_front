@@ -30,12 +30,12 @@
                   index < inputCopy.levels[activeLevelIndex].offers.length - 1
                 "
                 class="payment__arrows"
-                @click.native="slide('next')"
+                @click.native="Do('slide', 'next')"
               />
               <arrows
                 v-if="index > 0"
                 class="payment__arrows payment__arrows--reverse"
-                @click.native="slide('back')"
+                @click.native="Do('slide', 'back')"
               />
             </div>
           </div>
@@ -91,6 +91,9 @@ export default {
     activeLevelIndex: function() {
       this.activeIndex = 0;
     }
+  },
+  beforeMount() {
+    this.onDo("slide");
   },
   components: {
     Description,
