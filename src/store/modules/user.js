@@ -86,8 +86,7 @@ export default {
     },
     async recoverPassword({ commit }, email) {
       commit;
-      let response = await api.methods.recoverPassword(email);
-      response;
+      await api.methods.recoverPassword(email);
     },
     setAvatar({ commit }, avatarUri) {
       commit("setAvatar", avatarUri);

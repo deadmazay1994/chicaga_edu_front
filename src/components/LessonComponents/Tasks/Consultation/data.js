@@ -638,7 +638,7 @@ export default [
       },
       {
         type: "consultationLevel",
-        description: "Междунарондая система уровней владения английским языком",
+        description: "Международная система уровней владения английским языком",
         levels: [
           {
             image: "adults_info.png",

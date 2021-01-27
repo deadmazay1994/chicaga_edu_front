@@ -76,10 +76,6 @@ export default {
     recover() {
       if (this.valid) {
         this.recoverPassword(this.email);
-        // this.$store.commit("pushShuckbar", {
-        //   val: "Вы допустили ошибку при заполнении формы",
-        //   success: false
-        // });
       }
     }
   },

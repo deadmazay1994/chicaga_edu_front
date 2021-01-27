@@ -129,8 +129,10 @@ export default {
     async reLogin() {
       return get("user");
     },
-    async recoverPassword(mail) {
-      return post("user/password/email", mail);
+    async recoverPassword(email) {
+      return post("user/password/email", {
+        email
+      });
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {
