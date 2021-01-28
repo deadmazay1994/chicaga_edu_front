@@ -98,7 +98,7 @@ export default {
   computed: {
     ...mapGetters,
     btnActive() {
-      return this.agree;
+      return this.agree && this.valid;
     }
   },
   components: {

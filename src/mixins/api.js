@@ -134,6 +134,14 @@ export default {
         email
       });
     },
+    async setNewPassword(password, passwordConfirmed, token) {
+      let r = await post("user/password/reset", {
+        token,
+        password,
+        password_confirmation: passwordConfirmed
+      });
+      if (r.error) return { error: r.error };
+    },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {
       return post("user/vocabulary", { word, transcription });

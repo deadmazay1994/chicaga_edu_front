@@ -77,6 +77,12 @@ Vue.mixin({
         }));
       }
       return arr;
+    },
+    alertError(text) {
+      this.$store.commit("pushShuckbar", {
+        val: text,
+        success: false
+      });
     }
   }
 });

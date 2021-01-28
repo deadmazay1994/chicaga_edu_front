@@ -117,6 +117,10 @@ const routes = [
       {
         path: "recover",
         component: Recover
+      },
+      {
+        path: "recover/:hash",
+        component: Recover
       }
     ]
   },

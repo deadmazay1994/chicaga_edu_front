@@ -86,7 +86,26 @@ export default {
     },
     async recoverPassword({ commit }, email) {
       commit;
-      await api.methods.recoverPassword(email);
+      let r = await api.methods.recoverPassword(email);
+      if (r.message) return true;
+      return false;
+    },
+    async setNewPassword({ commit }, { password, token, passwordConfirmed }) {
+      commit;
+      let r = await api.methods.setNewPassword(
+        password,
+        passwordConfirmed,
+        token
+      );
+      if (r.error) {
+        commit("pushShuckbar", {
+          val: Object.values(r.error).reduce(
+            (acc, current) => (acc += current + " "),
+            ""
+          ),
+          success: false
+        });
+      }
     },
     setAvatar({ commit }, avatarUri) {
       commit("setAvatar", avatarUri);
