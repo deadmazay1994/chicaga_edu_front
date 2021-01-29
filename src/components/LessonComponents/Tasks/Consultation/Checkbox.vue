@@ -88,4 +88,22 @@ export default {
     background-image: url("/imgs/tasksBgs/change--success.png")
   &--uncorrect
     background-image: url("/imgs/tasksBgs/change--error.png")
+
+@media (max-width:580px)
+  .option
+    border-radius:15px
+    background-image: none
+    background-color: #f0f0f0
+    &--correct
+      background-color: #b9e69c
+    &--uncorrect
+      background-color: #ff8383
+    &__text
+      text-align: left
+      padding-left: 50px
+      justify-content: flex-start
+      margin-bottom: 4px
+    &__checkbox
+      bottom: calc(50% - 10px)
+      left: 10px
 </style>

@@ -122,4 +122,9 @@ body
   font-size: 23px;
   z-index: 9999999;
 }
+@media (max-width: 960px) {
+  .task-wrap {
+    padding: 0;
+  }
+}
 </style>

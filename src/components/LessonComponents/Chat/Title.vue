@@ -22,4 +22,9 @@ export default {
   font-size: 0.9rem;
   font-weight: 600;
 }
+@media (max-width: 520px) {
+  .title-chat {
+    display: none;
+  }
+}
 </style>
