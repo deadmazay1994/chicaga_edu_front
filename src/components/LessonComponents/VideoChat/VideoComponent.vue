@@ -152,7 +152,7 @@ export default {
       video.play();
     },
     async initSpechEvents() {
-      let speechEvents;
+      let stream;
       if (this.mediaObject.im) {
         // Получаем независый трек
         let getIndependedAudioStream = async () => {
@@ -166,14 +166,13 @@ export default {
           }
           return audio;
         };
-        speechEvents = Hark(await getIndependedAudioStream(), {
-          interval: 50
-        });
+        stream = await getIndependedAudioStream();
       } else {
-        speechEvents = Hark(this.mediaObject.stream, {
-          interval: 50
-        });
+        stream = this.mediaObject.stream;
       }
+      let speechEvents = Hark(stream, {
+        interval: 10
+      });
       speechEvents.on("speaking", this.onSpeeking);
       speechEvents.on("stopped_speaking", this.onStopSpeeking);
     },
