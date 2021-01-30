@@ -189,7 +189,7 @@
           />
           <div class="cons__chips">
             <chip
-              class="cons__chip cons__chip__zb"
+              class="cons__chip chip--mobile"
               :key="7"
               :for-teacher="true"
               style="bottom: -17px; left: -191px"

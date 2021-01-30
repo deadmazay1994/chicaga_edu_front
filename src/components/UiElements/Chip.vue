@@ -155,4 +155,12 @@ function getDomPath(el) {
     background: #fff
     display: inline-block
     box-shadow: 2px 3px 3px 0px #0003
+@media (max-width: 720px)
+  .chip
+    flex-direction: row !important
+    &__text
+      font-size: 13px
+      text-align: left !important
+    &__checkbox
+      margin: 0px 0px 0px 10px !important
 </style>
