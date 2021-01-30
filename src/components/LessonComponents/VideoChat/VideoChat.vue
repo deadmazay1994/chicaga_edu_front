@@ -489,4 +489,11 @@ export default {
     position: absolute
     top: 0
     left: 0
+@media (max-width: 375px)
+  .video-chat
+    .video-chat__video--miniature
+      width: 125px
+      height: 125px
+    &__video
+      min-width: 120px
 </style>
