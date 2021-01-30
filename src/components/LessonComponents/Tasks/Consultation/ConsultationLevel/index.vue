@@ -189,7 +189,7 @@
           />
           <div class="cons__chips">
             <chip
-              class="cons__chip"
+              class="cons__chip cons__chip__zb"
               :key="7"
               :for-teacher="true"
               style="bottom: -17px; left: -191px"
@@ -201,7 +201,7 @@
               >ZERO BEGINNER</chip
             >
             <chip
-              class="cons__chip"
+              class="cons__chip cons__chip__b"
               :key="8"
               :for-teacher="true"
               style="top: -17px; left: -191px"
@@ -212,7 +212,7 @@
               >BEGINNER</chip
             >
             <chip
-              class="cons__chip"
+              class="cons__chip cons__chip__el"
               :key="9"
               :for-teacher="true"
               background="#FAA24E"
@@ -223,7 +223,7 @@
               >ELEMENTARY</chip
             >
             <chip
-              class="cons__chip"
+              class="cons__chip cons__chip__li"
               :key="10"
               :for-teacher="true"
               style="bottom: -17px; right: -191px"
@@ -333,4 +333,33 @@ export default {
     position: absolute
     top: 57px
     left: 48px
+@media (max-width: 720px)
+  .consultation-level
+    &__levels
+      height: auto
+  .cons
+    &__chips
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-around
+    &__select
+      display: flex
+      flex-direction: column-reverse
+      width: 100%
+      align-items: center
+    &__select-ring
+      display: none
+    &__btn
+      top: unset !important
+      left: unset !important
+      position: relative
+      margin-top: 20px
+      margin-bottom: 20px
+    &__chip
+      top: unset !important
+      bottom: unset !important
+      left: unset !important
+      right: unset !important
+      position: relative
+      margin-bottom: 10px
 </style>

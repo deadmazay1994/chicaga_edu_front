@@ -62,4 +62,16 @@ export default {
     font-size: 70px
     font-weight: bold
     text-shadow: 5px 1px 2px #FFF7, 1px 1px 1em white
+
+@media (max-width:1100px)
+  .task-description
+    &__title
+      max-width:90%
+    &--consultation
+      background: linear-gradient(90deg, $main_color 85%, transparent)
+    &__index
+      font-size:50px
+      bottom: calc(50% - 10px)
+  .task-description--consultation .task-description__title
+    font-size: 16px
 </style>

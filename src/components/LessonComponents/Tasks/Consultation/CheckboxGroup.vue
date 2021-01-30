@@ -59,4 +59,8 @@ export default {
 .checkbox-group
   &__checkbox
     width: 33%
+
+@media (max-width:580px)
+  .checkbox-group__checkbox
+    width: 100%
 </style>

@@ -95,4 +95,9 @@ export default {
     align-items: center
     color: $main_color--text
     border-radius: 100%
+@media (max-width:480px)
+  .header-chat
+    &__btn
+      margin:0
+      height: 35px !important
 </style>
