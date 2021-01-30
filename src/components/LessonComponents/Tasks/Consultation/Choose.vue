@@ -9,7 +9,7 @@
             md="3"
             sm="12"
             lg="3"
-            class="mb-10"
+            class="mb-9 mb-md-10"
             v-for="(select, i) in inputCopy.select"
             :key="i"
           >
@@ -146,4 +146,16 @@ export default {
 .choose
   &__cards
     margin: 5px 0
+
+@media (max-width: 960px)
+  .select
+    min-height: 60px
+    padding: 15px 10px
+    &__substrate
+      top: -25px
+    &__img
+      width: 22px
+      height: 22px
+      left: calc( 50% - 12px)
+      top: -16px
 </style>
