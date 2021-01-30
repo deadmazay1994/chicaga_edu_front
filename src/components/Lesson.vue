@@ -1,6 +1,6 @@
 <template>
   <div class="lesson vue-component">
-    <v-container fluid style="padding: 0 20px">
+    <v-container class="lesson__container" fluid>
       <v-row>
         <v-col lg="5" cols="12">
           <v-card class="front lesson__item">
@@ -123,6 +123,11 @@ export default {
 
 <style lang="sass" scoped="">
 .lesson
+  &__container
+    padding: 0 20px
+    @media (max-width:580px)
+      &
+        padding: 0
   &__item
     height: calc(100vh - 90px)
   &__video-chat
