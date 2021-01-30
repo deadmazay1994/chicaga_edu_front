@@ -285,7 +285,7 @@ export default {
           let peer = new Peer(this.randomStr(), this.peerServer);
           peer.on("error", () => {
             console.log("Попытка реконекта");
-            // peer.reconnect();
+            peer.reconnect();
           });
           this.allPeers.push(peer);
           peer.on("open", () => {
@@ -339,6 +339,10 @@ export default {
           case "inititor signal":
             var peer = new Peer(this.randomStr(), this.peerServer);
             this.allPeers.push(peer);
+            peer.on("error", () => {
+              console.log("Попытка реконекта");
+              peer.reconnect();
+            });
             peer.on("open", () => {
               var conn = peer.connect(data.msg.peerId);
               conn.on("open", async () => {
