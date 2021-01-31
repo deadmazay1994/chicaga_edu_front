@@ -144,10 +144,25 @@ export default {
     },
     setStream(stream = this.mediaObject.stream) {
       let video = this.$refs.video;
-      if ("srcObject" in video) {
-        video.srcObject = stream;
+      let isNotMobileSafari = () => {
+        let userAgent = window.navigator.userAgent;
+        return !userAgent.match(/iPad/i) && !userAgent.match(/iPhone/i);
+      };
+      if (isNotMobileSafari()) {
+        if ("srcObject" in video) {
+          video.srcObject = stream;
+        } else {
+          this.alertError(`srcObject is undefined`);
+          video.src = window.URL.createObjectURL(stream); // for older browsers
+        }
       } else {
-        video.src = window.URL.createObjectURL(stream); // for older browsers
+        // Hacks for Mobile Safari
+        video.setAttribute("playsinline", true);
+        video.setAttribute("controls", true);
+        setTimeout(() => {
+          video.removeAttribute("controls");
+        });
+        this.alertError(`detected mobile safari`);
       }
       video.play();
     },
