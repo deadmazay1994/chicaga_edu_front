@@ -17,20 +17,23 @@
       </div>
       <div class="attachments__content">
         <template v-if="attachment.image_url">
-          <img
-            v-show="loaded"
+          <v-img
             class="attachments__img attachments__attachment"
             ref="img"
             :src="attachment.image_url"
             alt
-          />
+            v-zoom
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
           <div class="attachments__descr">{{ attachment.description }}</div>
-          <pulse-loader
-            class="attachments__loader"
-            :loading="!loaded"
-            color="#333"
-            size="10px"
-          ></pulse-loader>
         </template>
         <template v-else-if="attachment.video_url">
           <video
@@ -65,8 +68,8 @@
 import Download from "./icons/Download";
 import File from "./icons/File";
 
-import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import VuetifyAudio from "vuetify-audio";
+import Zoom from "@/directives/zoom";
 
 export default {
   name: "chat-attachments",
@@ -80,8 +83,10 @@ export default {
   components: {
     Download,
     File,
-    PulseLoader,
     VuetifyAudio
+  },
+  directives: {
+    ...Zoom
   },
   props: ["attachments"],
   mixins: {},
@@ -100,10 +105,11 @@ export default {
 .attachments__item {
   position: relative;
   display: inline-block;
+  max-width: 100%;
 }
 .attachments__attachment {
   display: block;
-  max-width: 200px;
+  max-width: 100%;
   height: auto;
 }
 .attachments__file {
@@ -120,6 +126,7 @@ export default {
   position: relative;
   opacity: 0.99;
   cursor: pointer;
+  max-width: 100%;
 }
 .attachments-ctrl:hover {
   opacity: 1;
