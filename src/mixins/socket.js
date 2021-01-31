@@ -8,7 +8,10 @@ export default {
   },
   methods: {
     socketSendToAllInLesson(data) {
-      this.socket.emit("to all in lesson", data);
+      this.socket.emit("to all in lesson", {
+        ...data,
+        roomId: this.$route.params.id
+      });
     },
     onSendData(eventName, callback) {
       this.socket.on("send data", data => {
