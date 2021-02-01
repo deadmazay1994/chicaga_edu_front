@@ -148,4 +148,7 @@ export default {
       left: 20px
       right: auto
       transform: rotate(180deg)
+@media (max-width: 960px)
+  .payment__arrows svg path
+    stroke: #000
 </style>

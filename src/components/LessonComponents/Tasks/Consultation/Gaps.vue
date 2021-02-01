@@ -99,4 +99,7 @@ export default {
   &__arrow
     font-size: 32px
     cursor: pointer
+@media (max-width: 960px)
+  .gaps__slider
+    overflow-x: hidden
 </style>

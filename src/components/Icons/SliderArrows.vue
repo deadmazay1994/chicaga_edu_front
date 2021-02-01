@@ -42,4 +42,10 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+@media (max-width:960px)
+  .payment__arrows
+    svg
+      path
+        stroke: #000
+</style>
