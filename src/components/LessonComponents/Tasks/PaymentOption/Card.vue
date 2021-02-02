@@ -19,7 +19,11 @@
       </div>
       <!-- Для правильного позиционирования -->
       <span></span>
-      <checkbox @click.native="Do('toggle')" class="offer-card__checkbox" />
+      <checkbox
+        @click.native="Do('toggle')"
+        v-model="answer"
+        class="offer-card__checkbox"
+      />
     </div>
     <div
       class="offer-card offer-card--back"
@@ -38,7 +42,8 @@ export default {
   name: "offer-card",
   data: function() {
     return {
-      side: "back"
+      side: "back",
+      answer: null
     };
   },
   methods: {

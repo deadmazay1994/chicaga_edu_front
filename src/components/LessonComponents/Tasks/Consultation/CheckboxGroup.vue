@@ -33,7 +33,7 @@ export default {
       this.checked = true;
     },
     switchActive(i) {
-      if (this.oneAttempt && !this.checked) {
+      if ((this.oneAttempt && !this.checked) || !this.oneAttempt) {
         if (!this.multiple) {
           this.unsetAllBoxesExcept(i);
         }
