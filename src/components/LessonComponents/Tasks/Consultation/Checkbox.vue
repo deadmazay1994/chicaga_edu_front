@@ -37,8 +37,10 @@ export default {
       };
     },
     change() {
-      this.selected = !this.selected;
-      this.$emit("change", this.selected);
+      if (!this.disabled) {
+        this.selected = !this.selected;
+        this.$emit("change", this.selected);
+      }
     },
     unset() {
       this.selected = false;
@@ -53,7 +55,7 @@ export default {
   components: {
     Checkbox
   },
-  props: ["text", "checked", "status"],
+  props: ["text", "checked", "status", "disabled"],
   mixins: {},
   beforeMount() {
     let uniqComponent = true;

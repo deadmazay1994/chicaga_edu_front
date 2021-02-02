@@ -5,6 +5,7 @@
       v-for="(option, i) in options"
       :status="status"
       :click="active"
+      :disabled="checked && oneAttempt"
       @click.native="Do('switchActive', [i])"
       :key="i"
       ref="checkbox"
@@ -21,17 +22,25 @@ export default {
   name: "checkbox-group",
   data: function() {
     return {
-      activeBox: null
+      activeBox: null,
+      status: null,
+      checked: false
     };
   },
   methods: {
+    check() {
+      this.status = this.activeBox.correct;
+      this.checked = true;
+    },
     switchActive(i) {
-      if (!this.multiple) {
-        this.unsetAllBoxesExcept(i);
+      if (this.oneAttempt && !this.checked) {
+        if (!this.multiple) {
+          this.unsetAllBoxesExcept(i);
+        }
+        this.activeBox = this.options[i];
+        this.check();
+        this.$emit("change", this.activeBox);
       }
-      this.activeBox = this.options[i];
-      this.$emit("change", this.activeBox);
-      this.$emit("toggle", this.index);
     },
     unsetAllBoxesExcept(i) {
       this.$refs.checkbox.forEach((box, index) => {
@@ -47,7 +56,7 @@ export default {
     prop: "active",
     event: "change"
   },
-  props: ["options", "active", "multiple", "status", "index"],
+  props: ["options", "active", "multiple", "index", "one-attempt"],
   mixins: {},
   beforeMount() {
     this.statusCopy = this.staus;

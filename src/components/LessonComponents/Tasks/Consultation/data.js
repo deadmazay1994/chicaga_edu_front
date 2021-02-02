@@ -99,7 +99,8 @@ export default [
                     text: "hiking",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "I like to walk in the mountains with my dog."
               },
               {
                 title: "My dad _______ twice a week.",
@@ -116,7 +117,8 @@ export default [
                     text: "weight lifting",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "My dad goes to the city pool twice a week."
               },
               {
                 title: "He _________ to get exercise.",
@@ -133,7 +135,9 @@ export default [
                     text: "volleyball",
                     correct: false
                   }
-                ]
+                ],
+                fullForm:
+                  "He rides his bike to work because it is a good way to get exercise."
               },
               {
                 title: "She usually uses _________.",
@@ -150,7 +154,8 @@ export default [
                     text: "painting",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "She usually uses watercolors in her artwork."
               },
               {
                 title: "They went to the lake ________.",
@@ -167,7 +172,9 @@ export default [
                     text: "bird watching",
                     correct: true
                   }
-                ]
+                ],
+                fullForm:
+                  "They went to the lake to see if they could see any wild ducks."
               },
               {
                 title: "How about getting out the board _______?",
@@ -184,7 +191,9 @@ export default [
                     text: "snowboarding",
                     correct: false
                   }
-                ]
+                ],
+                fullForm:
+                  "How about getting out the board and pieces so we can play?"
               },
               {
                 title: "___________.",
@@ -201,7 +210,8 @@ export default [
                     text: "racquetball",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "He hit his ball into the water."
               },
               {
                 title: "____________.",
@@ -218,7 +228,9 @@ export default [
                     text: "gardening",
                     correct: true
                   }
-                ]
+                ],
+                fullForm:
+                  "She loves to plant flowers and vegetables in the spring."
               },
               {
                 title: "____________.",
@@ -235,7 +247,9 @@ export default [
                     text: "writing",
                     correct: false
                   }
-                ]
+                ],
+                fullForm:
+                  "I checked out three very interesting books from the library."
               },
               {
                 title: "____________.",
@@ -252,7 +266,8 @@ export default [
                     text: "photography",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "You really take beautiful pictures with that camera."
               }
             ]
           },
@@ -278,7 +293,8 @@ export default [
                     text: "I'm from Russia.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "What's your name?"
               },
               {
                 title: "Where do you _______?",
@@ -295,7 +311,8 @@ export default [
                     text: "I'm from Canada.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "Where do you live?"
               },
               {
                 title: "How's ______?",
@@ -312,7 +329,8 @@ export default [
                     text: "Okay.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "How's it going?"
               },
               {
                 title: " ______ does she ______?",
@@ -329,7 +347,8 @@ export default [
                     text: "She works at City Bank.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "Where does she work?"
               },
               {
                 title: " ________ they ______?",
@@ -346,7 +365,8 @@ export default [
                     text: "They're from Mexico.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "Where are they from?"
               },
               {
                 title: "____________?",
@@ -363,7 +383,8 @@ export default [
                     text: "I have three brothers.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "How many people are in your family?"
               },
               {
                 title: "____________?",
@@ -380,7 +401,8 @@ export default [
                     text: "I'm fine.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "Hey, what's new?"
               },
               {
                 title: "____________?",
@@ -397,7 +419,8 @@ export default [
                     text: "He's Japanese.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "What does he do?"
               },
               {
                 title: "____________?",
@@ -414,7 +437,8 @@ export default [
                     text: "I don't like sports.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "What do you do in your spare time?"
               },
               {
                 title: "____________?",
@@ -431,7 +455,8 @@ export default [
                     text: "He lives in Hong Kong.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "What does your father do for a living?"
               }
             ]
           },
@@ -455,7 +480,8 @@ export default [
                     text: "I really enjoy action movies.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "Have you seen this movie before?"
               },
               {
                 title: "_________ do you want to __________?",
@@ -472,7 +498,8 @@ export default [
                     text: "How about 7:00 o'clock?",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "When do you want to see the movie?"
               },
               {
                 title: "__________ movie ________?",
@@ -489,7 +516,8 @@ export default [
                     text: "I like to play in movies.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "Where's the movie playing?"
               },
               {
                 title: "Have you __________ about the movie?",
@@ -506,7 +534,8 @@ export default [
                     text: "Not yet, but I heard the movie is good.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "Have you read any reviews about the movie?"
               },
               {
                 title: "Do you want any ___________?",
@@ -524,7 +553,8 @@ export default [
                     text: "Yes. A drink would be great right now.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "Do you want any popcorn for the movie?"
               },
               {
                 title: "Don't forget ___________.",
@@ -541,7 +571,9 @@ export default [
                     text: "Oh, thanks for reminding me.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm:
+                  "Don't forget to turn off your cell phone before the movie starts."
               },
               {
                 title: "________________.",
@@ -558,7 +590,8 @@ export default [
                     text: "It was okay, but it wasn't fantastic.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "How did you like the movie?"
               },
               {
                 title: "________________.",
@@ -575,7 +608,9 @@ export default [
                     text: "Okay. I see you tonight.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm:
+                  "How much is a movie ticket for tonight's 9:00 o'clock showing?"
               },
               {
                 title: "________________.",
@@ -592,7 +627,8 @@ export default [
                     text: "Well, actually, I'd rather sit more in the middle.",
                     correct: true
                   }
-                ]
+                ],
+                fullForm: "Is this seat fine?"
               },
               {
                 title: "_______________.",
@@ -609,7 +645,8 @@ export default [
                     text: "It ends at 3:00 p.m.",
                     correct: false
                   }
-                ]
+                ],
+                fullForm: "How long is the movie?"
               }
             ]
           }

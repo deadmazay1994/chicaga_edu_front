@@ -5,13 +5,15 @@
       <checkbox-group
         v-model="answers[i]"
         :options="gap.options"
+        :one-attempt="true"
         :index="i"
-        :status="checkedAnswers[i]"
-        @toggle="disableStatuses"
         class="gap__options"
         ref="gap"
       >
       </checkbox-group>
+      <div class="gap__front gap__fullform" v-if="answers[i]">
+        {{ gap.fullForm }} ({{ gap.options.find(o => o.correct).text }})
+      </div>
     </div>
     <div class="gap gaps__gap" v-if="answered">
       <div class="gaps__results">
@@ -22,17 +24,10 @@
         {{
           level.tasks.length - errorsCounter == 1 ? "правильный" : "правильных"
         }}
-        ответов из
+        ответа из
         <span class="font-weight-bold">{{ level.tasks.length }}</span>
         заданий
       </div>
-    </div>
-    <div class="d-flex justify-center">
-      <v-btn
-        class="main-color main-color--text"
-        @click.native="Do('check', true)"
-        >ПРОВЕРИТЬ</v-btn
-      >
     </div>
   </div>
 </template>
@@ -45,15 +40,12 @@ export default {
   data: function() {
     return {
       answers: [],
-      checkedAnswers: [],
       answered: false,
+      checkedAnswers: [],
       errorsCounter: 0
     };
   },
   methods: {
-    disableStatuses(index) {
-      this.checkedAnswers[index] = null;
-    },
     addFieldsToOptions() {
       this.level.tasks.forEach((task, i) => {
         task.options.forEach((option, j) => {
@@ -68,7 +60,7 @@ export default {
         this.answers.push(null);
       }
     },
-    check() {
+    setResult() {
       let trueAnswersIndexex = this.level.tasks.map(task =>
         task.options.findIndex(option => option.correct)
       );
@@ -79,12 +71,12 @@ export default {
         return -1;
       });
       if (userAnswersIndexes.length == trueAnswersIndexex.length) {
-        this.answered = true;
         this.checkedAnswers = userAnswersIndexes.map(
           (answer, i) => answer == trueAnswersIndexex[i]
         );
         this.errorsCounter = this.checkedAnswers.filter(ans => !ans).length;
         this.$forceUpdate();
+        this.answered = true;
       } else {
         this.$store.commit("pushShuckbar", {
           success: false,
@@ -99,6 +91,14 @@ export default {
     CheckboxGroup
   },
   props: ["level"],
+  watch: {
+    answers: function() {
+      if (this.answers.find(ans => ans === null) !== null) {
+        console.log("yes");
+        this.setResult();
+      }
+    }
+  },
   mixins: {},
   beforeMount() {
     this.addFieldsToOptions();
@@ -123,13 +123,15 @@ export default {
   &__front
     background: #F0F0F0
     border-radius: 10px
+    padding: 7px 10px
+    font-weight: bold
   &__title
     margin-bottom: 10px
     font-size: 18px
     line-height: 21px
-    font-weight: bold
     color: #C53440
-    padding: 7px 10px
+  &__fullform
+    margin-top: 15px
   &__options
     display: flex
     flex-wrap: wrap

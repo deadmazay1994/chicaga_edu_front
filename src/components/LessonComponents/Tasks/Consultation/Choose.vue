@@ -5,9 +5,9 @@
       <div class="choose__cards">
         <v-row no-gutters class="justify-center">
           <v-col
-            cols="12"
+            cols="6"
             md="3"
-            sm="12"
+            sm="4"
             lg="3"
             class="mb-9 mb-md-10"
             v-for="(select, i) in inputCopy.select"
@@ -27,6 +27,7 @@
               <checkbox
                 v-model="answers[i]"
                 ref="checkbox"
+                :status="true"
                 :disabled="true"
                 class="select_checkbox checkbox"
               />
