@@ -11,6 +11,7 @@
       <checkbox
         class="option__checkbox checkbox"
         :disabled="true"
+        :status="status"
         v-model="selected"
         ref="checkbox"
       />

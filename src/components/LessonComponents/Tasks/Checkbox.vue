@@ -28,13 +28,13 @@ export default {
   computed: {
     checkboxClass() {
       return {
+        "checkbox__btn--success": this.checked && this.status === true,
+        "checkbox__btn--error": this.checked && this.status === false,
         "checkbox__btn--active":
           this.checked &&
-          (this.error === null ||
-            this.error === undefined ||
-            this.error === ""),
-        "checkbox__btn--success": this.value && this.error == "correct",
-        "checkbox__btn--error": this.value && this.error == "uncorrect"
+          (this.status === null ||
+            this.status === undefined ||
+            this.status === "")
       };
     }
   },
@@ -43,7 +43,7 @@ export default {
     prop: "checked",
     event: "change"
   },
-  props: ["error", "disabled", "checked"],
+  props: ["status", "disabled", "checked"],
   mixins: {},
   beforeMount() {}
 };

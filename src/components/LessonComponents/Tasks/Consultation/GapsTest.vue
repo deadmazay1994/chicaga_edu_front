@@ -5,7 +5,9 @@
       <checkbox-group
         v-model="answers[i]"
         :options="gap.options"
+        :index="i"
         :status="checkedAnswers[i]"
+        @toggle="disableStatuses"
         class="gap__options"
         ref="gap"
       >
@@ -49,6 +51,9 @@ export default {
     };
   },
   methods: {
+    disableStatuses(index) {
+      this.checkedAnswers[index] = null;
+    },
     addFieldsToOptions() {
       this.level.tasks.forEach((task, i) => {
         task.options.forEach((option, j) => {

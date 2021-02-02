@@ -144,18 +144,17 @@ export default {
     },
     setStream(stream = this.mediaObject.stream) {
       let video = this.$refs.video;
-      let isNotMobileSafari = () => {
+      let isMobileSafari = () => {
         let userAgent = window.navigator.userAgent;
-        return !userAgent.match(/iPad/i) && !userAgent.match(/iPhone/i);
+        return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
       };
-      if (isNotMobileSafari()) {
-        if ("srcObject" in video) {
-          video.srcObject = stream;
-        } else {
-          this.alertError(`srcObject is undefined`);
-          video.src = window.URL.createObjectURL(stream); // for older browsers
-        }
+      if ("srcObject" in video) {
+        video.srcObject = stream;
       } else {
+        this.alertError(`srcObject is undefined`);
+        video.src = window.URL.createObjectURL(stream); // for older browsers
+      }
+      if (isMobileSafari()) {
         // Hacks for Mobile Safari
         video.setAttribute("playsinline", true);
         video.setAttribute("controls", true);

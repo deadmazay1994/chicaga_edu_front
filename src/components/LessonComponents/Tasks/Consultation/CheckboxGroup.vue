@@ -31,6 +31,7 @@ export default {
       }
       this.activeBox = this.options[i];
       this.$emit("change", this.activeBox);
+      this.$emit("toggle", this.index);
     },
     unsetAllBoxesExcept(i) {
       this.$refs.checkbox.forEach((box, index) => {
@@ -46,9 +47,10 @@ export default {
     prop: "active",
     event: "change"
   },
-  props: ["options", "active", "multiple", "status"],
+  props: ["options", "active", "multiple", "status", "index"],
   mixins: {},
   beforeMount() {
+    this.statusCopy = this.staus;
     let uniqComponent = true;
     this.onDo("switchActive", uniqComponent);
   }
