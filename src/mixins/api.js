@@ -140,7 +140,7 @@ export default {
         password,
         password_confirmation: passwordConfirmed
       });
-      if (r.error) return { error: r.error };
+      return r;
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {

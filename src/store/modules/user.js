@@ -87,7 +87,16 @@ export default {
     async recoverPassword({ commit }, email) {
       commit;
       let r = await api.methods.recoverPassword(email);
-      if (r.message) return true;
+      if (r.error) {
+        commit("pushShuckbar", {
+          val: Object.values(r.error).reduce(
+            (acc, current) => (acc += current + " "),
+            ""
+          ),
+          success: false
+        });
+      }
+      if (r.success) return true;
       return false;
     },
     async setNewPassword({ commit }, { password, token, passwordConfirmed }) {
@@ -106,6 +115,14 @@ export default {
           success: false
         });
       }
+      if (r.success) {
+        commit("pushShuckbar", {
+          val: "Вы успешно изменили пароль",
+          success: true
+        });
+        return true;
+      }
+      return false;
     },
     setAvatar({ commit }, avatarUri) {
       commit("setAvatar", avatarUri);

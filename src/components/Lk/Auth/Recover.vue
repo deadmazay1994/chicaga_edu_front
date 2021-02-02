@@ -133,8 +133,6 @@ export default {
       if (this.valid) {
         if (await this.recoverPassword(this.email)) {
           this.currentStep = 2;
-        } else {
-          this.alertError("Аккаунт по данному Email не зарегистрирован");
         }
       }
     },
@@ -144,11 +142,12 @@ export default {
         return "";
       }
       if (this.validNewPassword) {
-        await this.setNewPasswordAction({
+        let staus = await this.setNewPasswordAction({
           password: this.newPassword,
           passwordConfirmed: this.newPasswordRepeat,
           token: this.$route.params.hash
         });
+        if (staus) this.$router.push({ name: "login" });
       }
     }
   },

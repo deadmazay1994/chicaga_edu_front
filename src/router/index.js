@@ -104,6 +104,7 @@ const routes = [
     children: [
       {
         path: "login",
+        name: "login",
         component: Login
       },
       {
