@@ -2,7 +2,12 @@
   <v-app class="v-app" v-if="canRenderChild">
     <header-app />
     <navigation />
-    <v-main class="v-main" :class="{ 'v-main--resize': user }">
+    <v-main
+      :class="{
+        'v-main--resize':
+          user || ($route.params.id == 'consultation' && $route.params.courseId)
+      }"
+    >
       <router-view class="main-view" />
     </v-main>
     <modals />
@@ -60,6 +65,7 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
+    console.log(this.$route);
   }
 };
 </script>

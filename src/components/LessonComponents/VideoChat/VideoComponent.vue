@@ -16,14 +16,17 @@
     ></video>
     <img
       v-if="mediaObject.videoOff || videoHidden"
-      :src="mediaObject.avatar"
+      :src="
+        mediaObject.avatar ||
+          'https://edu.chicaga.ru/images/avatars/no_avatar.jpg'
+      "
       class="video-component__avatar"
     />
     <div
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.name }}
+      {{ mediaObject.name || "Гость" }}
     </div>
     <div class="video-component__ctrls">
       <expand
@@ -297,7 +300,9 @@ export default {
     },
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
-        this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
+        this.background =
+          this.mediaObject.avatar ||
+          "https://edu.chicaga.ru/images/avatars/no_avatar.jpg";
         this.videoHidden = false;
       });
     }

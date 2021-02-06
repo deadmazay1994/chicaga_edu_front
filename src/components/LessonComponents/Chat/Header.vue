@@ -2,10 +2,16 @@
   <div class="header-chat vue-component">
     <div class="header-chat__left">
       <div class="header-chat__name">
-        <thumbnail alt="Профиль" :path="user.avatar_link" />
+        <thumbnail
+          alt="Профиль"
+          :path="
+            user.avatar_link ||
+              'https://edu.chicaga.ru/images/avatars/no_avatar.jpg'
+          "
+        />
         <title-chat class="header-chat__title">
           <template>
-            {{ user.name }}
+            {{ user.name || "Гость" }}
             <span v-show="newMsgsNum" class="header-chat__new-msgs-num">
               {{ newMsgsNum }}
             </span>

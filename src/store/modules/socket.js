@@ -8,7 +8,7 @@ export default {
       let socket = Io(state.socketUrl);
       socket.emit("connect to room", {
         roomId,
-        username: getters.user.name || "Пользователь",
+        username: getters.user.name || "Гость",
         avatar: getters.user.avatar_link || getters.user.avatar
       });
       commit("setSocket", socket);

@@ -36,9 +36,16 @@ export default {
   async mounted() {
     // Инициализация чата
     // Первым делом это!!!
+    let authInfo = {
+      login: "guest",
+      password: "J\\/p4vzCd!;"
+    };
+    if (this.user.chat_auth_info) {
+      authInfo.login = this.user.chat_auth_info.username;
+      authInfo.password = this.user.chat_auth_info.password;
+    }
     await this.$store.dispatch("initChat", {
-      login: this.user.chat_auth_info.username,
-      password: this.user.chat_auth_info.password,
+      ...authInfo,
       room: this.$route.params.id,
       socketUrl: "wss://chat.edu.chicaga.ru/websocket/",
       chatElem: this.$refs.chat

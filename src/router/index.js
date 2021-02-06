@@ -179,9 +179,13 @@ export const router = new VueRouter({
 // Скрываем страницы от не авторизированных пользователей
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Отрабатывет ситуацию, когда в любом случае нужно перейти на страницу
+    let forseRedirect = false;
+    if (to.params.courseId && to.params.id == "consultation")
+      forseRedirect = true;
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem("token") && !forseRedirect) {
       next({
         path: "/auth/login",
         query: { redirect: to.fullPath }
