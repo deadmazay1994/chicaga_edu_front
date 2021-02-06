@@ -263,7 +263,9 @@ export default {
       };
       if (this.myCaptureMedia === null) {
         await this.setCapture();
-        activateVideo();
+        if (this.myCaptureMedia) {
+          activateVideo();
+        }
       } else {
         activateVideo();
       }
