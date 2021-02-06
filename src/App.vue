@@ -38,12 +38,23 @@ export default {
     Lightbox
   },
   methods: {
-    ...mapMutations(["checkIsConsultation"])
+    ...mapMutations(["checkIsConsultation"]),
+    setStandartLocalStorageStates() {
+      // window.localStorage.setItem("videochat_camera_state", false);
+      // window.localStorage.setItem("videochat_microphone_state", false);
+      if (window.localStorage.getItem("videochat_camera_state") == null) {
+        window.localStorage.setItem("videochat_camera_state", false);
+      }
+      if (window.localStorage.getItem("videochat_microphone_state") == null) {
+        window.localStorage.setItem("videochat_microphone_state", false);
+      }
+    }
   },
   computed: {
     ...mapGetters(["user"])
   },
   async beforeMount() {
+    this.setStandartLocalStorageStates();
     // Если у пользователя есть токен, то авторизация происходит при помощи него
     await this.$store.dispatch("login");
     // Пока авторизация не закончена мы не создаем дочерних компонентов

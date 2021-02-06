@@ -16,15 +16,7 @@
       <v-tab-item class="edu-panel__tasks">
         <tasks class="edu-panel__tasks-component" />
       </v-tab-item>
-      <v-tab-item>
-        <paint
-          v-if="paintWidth"
-          :width="paintWidth"
-          :height="paintHeight"
-          class="tasks__paint"
-          ref="paint"
-        />
-      </v-tab-item>
+      <v-tab-item> </v-tab-item>
       <v-tab-item>
         <attachs
           v-for="(material, index) in materials"
@@ -49,15 +41,11 @@ import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 
-import Paint from "Tasks/Paint/index";
-
 export default {
   name: "edu-panel",
   data: function() {
     return {
-      tab: null,
-      paintWidth: false,
-      paintHeight: false
+      tab: null
     };
   },
   methods: {},
@@ -73,16 +61,12 @@ export default {
   },
   components: {
     Tasks,
-    Attachs,
-    Paint
+    Attachs
   },
   props: [],
   mixins: {},
   beforeMount() {},
-  mounted() {
-    this.paintWidth = this.$refs.tabsItem.$el.offsetWidth;
-    this.paintHeight = this.$refs.tabsItem.$el.offsetHeight;
-  }
+  mounted() {}
 };
 </script>
 

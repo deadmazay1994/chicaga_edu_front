@@ -96,7 +96,7 @@ export default {
           .forEach(track => (track.enabled = !getters.audioOff));
       }
     },
-    toggleMediaTrackPC({ getters, dispatch }, { mediaType, value }) {
+    toggleMediaTrackPC({ getters, dispatch }, { mediaType, value, el }) {
       let track;
       if (mediaType == "video" && getters.myActiveMediaName == "camera") {
         track = getters.myWebcamMedia.getVideoTracks()[0];
@@ -120,7 +120,16 @@ export default {
         track = getters.myWebcamMedia.getAudioTracks()[0];
         dispatch("setAudioOff", value);
       }
+      el;
+      // console.group(
+      //   `Media status ${mediaType} is ${!value ? "enabled" : "disabled"}`
+      // );
+      // if (el) {
+      //   console.log(el);
+      // }
+      // console.groupEnd();
       track.enabled = !value;
+      track;
     },
     async addTrack(state, params) {
       let peerConnection = params[0];
@@ -132,11 +141,6 @@ export default {
           console.log(offer);
         });
       });
-      // const response = await sendOffer(peerConnection.localDescription);
-
-      // const description = new RTCSessionDescription(response);
-      // peerConnection.setRemoteDescription(description);
-
       return newSender;
     }
   },

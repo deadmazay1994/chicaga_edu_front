@@ -128,7 +128,8 @@ export default {
       );
       this.toggleMediaTrackPC({
         mediaType: "video",
-        value: this.mediaObject.videoOff
+        value: this.mediaObject.videoOff,
+        el: this.$el
       });
     },
     toggleMicro() {
@@ -139,22 +140,22 @@ export default {
       );
       this.toggleMediaTrackPC({
         mediaType: "audio",
-        value: this.mediaObject.audioOff
+        value: this.mediaObject.audioOff,
+        el: this.$el
       });
     },
     setStream(stream = this.mediaObject.stream) {
+      if (!this.mediaObject.im) {
+        console.log(stream.getTracks());
+      }
       let video = this.$refs.video;
-      let isMobileSafari = () => {
-        let userAgent = window.navigator.userAgent;
-        return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
-      };
       if ("srcObject" in video) {
         video.srcObject = stream;
       } else {
         this.alertError(`srcObject is undefined`);
         video.src = window.URL.createObjectURL(stream); // for older browsers
       }
-      if (isMobileSafari()) {
+      if (this.isMobileSafari()) {
         // Hacks for Mobile Safari
         video.setAttribute("playsinline", true);
         video.setAttribute("controls", true);
@@ -164,6 +165,10 @@ export default {
         this.alertError(`detected mobile safari`);
       }
       video.play();
+    },
+    isMobileSafari() {
+      let userAgent = window.navigator.userAgent;
+      return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
     },
     async initSpechEvents() {
       let stream;
@@ -183,6 +188,7 @@ export default {
         stream = await getIndependedAudioStream();
       } else {
         stream = this.mediaObject.stream;
+        console.log(stream.getAudioTracks());
       }
       let speechEvents = Hark(stream, {
         interval: 10
@@ -191,6 +197,9 @@ export default {
       speechEvents.on("stopped_speaking", this.onStopSpeeking);
     },
     onSpeeking() {
+      // console.group("Start speeking");
+      // console.dirxml(this.$el);
+      // consolehark.groupEnd();
       let setBorderColor = () => {
         let myAudioEnabled = !this.mediaObject.audioOff;
         let itsNotIm = !this.mediaObject.im;
@@ -208,18 +217,30 @@ export default {
         // Включение только своего трека при условии, что пользовтель себя не замьютил
         let myAudioEnabled = !this.mediaObject.audioOff;
         if (this.mediaObject.im && myAudioEnabled) {
-          this.toggleMediaTrackPC({ mediaType: "audio", value: false });
+          this.toggleMediaTrackPC({
+            mediaType: "audio",
+            value: false,
+            el: this.$el
+          });
         }
       };
       unMuteByAudioLevel();
     },
     onStopSpeeking() {
+      // console.group("Stop speeking");
+      // console.dirxml(this.$el);
+      // console.groupEnd();
+
       this.borderColor = "";
 
       // Выключает звук, когда уровень громкости становится достаточно малым
       // Позволяет фильтровать тихие шумы
       let muteByAudioLevel = () => {
-        this.toggleMediaTrackPC({ mediaType: "audio", value: true });
+        this.toggleMediaTrackPC({
+          mediaType: "audio",
+          value: true,
+          el: this.$el
+        });
       };
       if (this.mediaObject.im) {
         muteByAudioLevel();
@@ -256,11 +277,19 @@ export default {
           window.localStorage.getItem("videochat_microphone_state") == "true";
         if (videoState) {
           this.mediaObject.videoOff = videoState;
-          this.toggleMediaTrackPC({ mediaType: "video", value: videoState });
+          this.toggleMediaTrackPC({
+            mediaType: "video",
+            value: videoState,
+            el: this.$el
+          });
         }
         if (audioState) {
           this.mediaObject.audioOff = audioState;
-          this.toggleMediaTrackPC({ mediaType: "audio", value: audioState });
+          this.toggleMediaTrackPC({
+            mediaType: "audio",
+            value: audioState,
+            el: this.$el
+          });
         }
       }
     },
@@ -309,12 +338,14 @@ export default {
   beforeMount() {},
   mounted() {
     this.setStream();
-    this.initSpechEvents();
-    this.onStopSpeeking();
+    if (!this.isMobileSafari()) {
+      this.initSpechEvents();
+      this.onStopSpeeking();
+    }
     this.mutingMe();
     this.audioOff();
-    this.onCanPlay();
     this.initMyVideoStates();
+    this.onCanPlay();
   }
 };
 </script>

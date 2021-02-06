@@ -9,7 +9,6 @@ export default class {
       // Если такой юзер уже существует, то не добавляем его
       if (mediaData.id == media.id) {
         error = 1;
-        console.log("This user is exist ", mediaData.id);
       }
     });
     error;
@@ -19,6 +18,7 @@ export default class {
         mediaData.audioOff = user.audioOff;
       }
       this.medias.push(new myMedia(mediaData));
+      console.log("MediaObject push. Streams: " + mediaData.stream.getTracks());
       return true;
     } else {
       return false;

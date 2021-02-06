@@ -79,6 +79,7 @@ export default {
           ]
         }
       },
+      peerOptions: {},
       activeVideoIndex: 0,
       // Connection data
       initiator: false,
@@ -140,6 +141,13 @@ export default {
     },
     // Логика подключения
     joinToChat() {
+      let ifIsSafariSetPeerServerOptionsForSafari = () => {
+        let seemsChrome = navigator.userAgent.indexOf("Chrome") > -1;
+        let seemsSafari = navigator.userAgent.indexOf("Safari") > -1;
+        if (seemsSafari && !seemsChrome)
+          this.peerOptions.serialization = "json";
+      };
+      ifIsSafariSetPeerServerOptionsForSafari();
       // Удаляем все прошлые подключения
       this.destroyPeers();
       this.initMedias();
@@ -163,26 +171,28 @@ export default {
       );
     },
     createMyVideo(stream) {
-      stream = stream.clone();
-      // Удаляем свое аудио, чтобы не слышать себя
-      stream.getAudioTracks().forEach(track => track.stop());
-      this.medias.push({
-        im: true,
-        stream,
-        id: this.socket.id,
-        audioOff: false,
-        videoOff: false,
-        avatar: this.user.avatar_link,
-        name: this.user.name,
-        color: this.color
-      });
+      if (stream) {
+        stream = stream.clone();
+        // Удаляем свое аудио, чтобы не слышать себя
+        stream.getAudioTracks().forEach(track => track.stop());
+        this.medias.push({
+          im: true,
+          stream,
+          id: this.socket.id,
+          audioOff: false,
+          videoOff: false,
+          avatar: this.user.avatar_link,
+          name: this.user.name,
+          color: this.color
+        });
+      }
       this.$forceUpdate();
     },
     async getMedia() {
       if (this.myWebcamMedia == null && this.myActiveMediaName == "camera") {
         await this.setWebcam();
       } else if (
-        this.myWebcamMedia == null &&
+        this.myCaptureMedia == null &&
         this.myActiveMediaName == "capture"
       ) {
         await this.setCapture();
@@ -236,6 +246,7 @@ export default {
         // Получаем свое изображение и звук
         let stream = await this.getMedia();
         this.users = data.users;
+        // Создаем и далее выводим свое изображение
         this.createMyVideo(stream);
         data.users.forEach(user => {
           let peer = new Peer(this.randomStr(), this.peerServer);
@@ -300,7 +311,7 @@ export default {
               peer.reconnect();
             });
             peer.on("open", () => {
-              var conn = peer.connect(data.msg.peerId);
+              var conn = peer.connect(data.msg.peerId, this.peerOptions);
               conn.on("open", async () => {
                 let stream = await this.getMedia();
                 let call = await peer.call(data.msg.peerId, stream);
