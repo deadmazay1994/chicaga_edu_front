@@ -12,11 +12,18 @@
       <v-tab>Материалы урока</v-tab>
       <v-tab>Домашнее задание</v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tab" ref="tabsItem">
+    <v-tabs-items style="position: relative" v-model="tab" ref="tabsItem">
       <v-tab-item class="edu-panel__tasks">
         <tasks class="edu-panel__tasks-component" />
       </v-tab-item>
-      <v-tab-item> </v-tab-item>
+      <v-tab-item>
+        <whiteboard
+          class="edu-panel__whiteboard"
+          server="https://edu.chicaga.ru:5000/"
+          :socketProp="socket"
+          :username="user.name"
+        />
+      </v-tab-item>
       <v-tab-item>
         <attachs
           v-for="(material, index) in materials"
@@ -40,6 +47,7 @@
 import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
+import Whiteboard from "./WhiteBoard/WhiteBoard";
 
 export default {
   name: "edu-panel",
@@ -50,7 +58,7 @@ export default {
   },
   methods: {},
   computed: {
-    ...mapGetters(["user", "materials"]),
+    ...mapGetters(["user", "materials", "socket"]),
     taskTabTitle() {
       if (this.user.role == "teacher") {
         return "Задания и ученики";
@@ -61,7 +69,8 @@ export default {
   },
   components: {
     Tasks,
-    Attachs
+    Attachs,
+    Whiteboard
   },
   props: [],
   mixins: {},
@@ -85,6 +94,12 @@ export default {
     overflow: hidden
   & .v-tabs-items
     flex: 1
+  &__whiteboard
+    width: 100%
+    height: 100%
+    position: absolute
+    left: 0
+    top: 0
 </style>
 
 <style>
