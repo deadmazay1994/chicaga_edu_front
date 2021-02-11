@@ -18,10 +18,14 @@
       </v-tab-item>
       <v-tab-item>
         <whiteboard
+          v-if="loaded"
           class="edu-panel__whiteboard"
           server="https://edu.chicaga.ru:5000/"
           :socketProp="socket"
           :username="user.name"
+          :whiteboardId="$route.params.courseId + $route.params.id"
+          :width="whiteboardWidth"
+          :height="whiteboardHeight"
         />
       </v-tab-item>
       <v-tab-item>
@@ -53,7 +57,8 @@ export default {
   name: "edu-panel",
   data: function() {
     return {
-      tab: null
+      tab: null,
+      loaded: false
     };
   },
   methods: {},
@@ -65,6 +70,12 @@ export default {
       } else {
         return "ЗАДАНИЯ";
       }
+    },
+    whiteboardWidth() {
+      return this.$refs.tabsItem.$el.clientWidth;
+    },
+    whiteboardHeight() {
+      return this.$refs.tabsItem.$el.clientHeight;
     }
   },
   components: {
@@ -75,7 +86,9 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {},
-  mounted() {}
+  mounted() {
+    this.loaded = true;
+  }
 };
 </script>
 
