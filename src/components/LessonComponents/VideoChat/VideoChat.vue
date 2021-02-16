@@ -28,26 +28,15 @@
         />
       </div>
     </div>
-    <!-- <div class="video-chat__miniatures">
-      <template v-for="(mediaObject, index) in medias.medias">
-        <video-component
-          v-if="Number(index) != Number(activeVideoIndex)"
-          class="video-chat__video video-chat__video--miniature"
-          :miniature="true"
-          :mediaObject="mediaObject"
-          :indexVideo="index"
-          @toggleFullSize="onFullSizeToggle"
-          @toggleMicro="onToggleMicro"
-          :key="index"
-        />
-      </template>
-    </div> -->
+    <setup />
   </div>
 </template>
 
 <script>
 import VideoComponent from "./VideoComponent";
 import Peer from "peerjs";
+
+import Setup from "./Setup";
 
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
@@ -399,7 +388,8 @@ export default {
     ])
   },
   components: {
-    VideoComponent
+    VideoComponent,
+    Setup
   },
   mounted() {
     this.setLessonId(this.$route.params.id);
