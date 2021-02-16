@@ -9,15 +9,14 @@
       class="tollbar"
       v-if="!mobileDetected"
     >
-      <div class="btn-group">
+      <!-- <div class="btn-group">
         <button
           id="whiteboardTrashBtn"
           title="Clears the whiteboard"
           type="button"
           class="whiteboardBtn"
-          @click="clear"
         >
-          <v-icon>mdi-delete</v-icon>
+          <v-icon>fa-vuejs</v-icon>
         </button>
         <button
           id="whiteboardUndoBtn"
@@ -26,9 +25,9 @@
           class="whiteboardBtn"
           @click="undo"
         >
-          <v-icon>mdi-undo-variant</v-icon>
+          <i class="fa fa-undo"></i>
         </button>
-      </div>
+      </div> -->
       <div class="btn-group">
         <!-- <button
           title="Take the mouse"
@@ -158,6 +157,7 @@ export default {
     return {
       color: "#000",
       whiteBoard: Whiteboard,
+      whiteboardId: null,
       activeTool: "pen",
       colorPickerActive: false,
       mobileDetected: false
@@ -222,9 +222,6 @@ export default {
         callback(false);
       }, 2000);
       img.src = url;
-    },
-    clear() {
-      this.whiteBoard.clearWhiteboard();
     }
   },
   computed: {},
@@ -234,16 +231,11 @@ export default {
       this.whiteBoard.drawcolor = this.color;
     }
   },
-  props: [
-    "server",
-    "socketProp",
-    "username",
-    "width",
-    "height",
-    "whiteboardId"
-  ],
+  props: ["server", "socketProp", "username"],
   beforeMount() {
     this.mobileDetected = detectMob();
+    this.whiteboardId = getQueryVariable("whiteboardid");
+    this.whiteboardId = this.whiteboardId || "myNewWhiteboard";
 
     this.socketProp.on("drawToWhiteboard", content => {
       this.whiteBoard.handleEventsAndData(content, true);
@@ -319,14 +311,26 @@ export default {
         }
       }
     });
+
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+          return pair[1];
+        }
+      }
+      return false;
+    }
   },
   mounted() {
     this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
       //Load the whiteboard
       whiteboardId: this.whiteboardId,
-      username: this.username || "Пользователь",
-      canvasWidth: this.width || this.$el.clientWidth,
-      canvasHeight: this.height || this.$el.clientHeight || 1000,
+      username: this.username,
+      canvasWidth: this.$el.clientWidth,
+      canvasHeight: this.$el.clientHeight || 1000,
       sendFunction: content => {
         this.socketProp.emit("drawToWhiteboard", content);
       }
@@ -342,6 +346,10 @@ export default {
 Whiteboard actions
   /----------------*/
 
+    $("#whiteboardTrashBtn").click(() => {
+      this.whiteBoard.clearWhiteboard();
+    });
+
     $("#addImgToCanvasBtn").click(() => {
       alert("Просто перенесите изображение сюда!");
     });
@@ -356,7 +364,21 @@ Whiteboard actions
       document.body.removeChild(a);
     });
 
-    $("#myFile").on("change", () => {
+    $("#saveAsJSONBtn").click(() => {
+      var imgData = this.whiteBoard.getImageDataJson();
+      var a = window.document.createElement("a");
+      a.href = window.URL.createObjectURL(
+        new Blob([imgData], { type: "text/json" })
+      );
+      a.download = "this.whiteBoard.json";
+      // Append anchor to body.
+      document.body.appendChild(a);
+      a.click();
+      // Remove anchor from body
+      document.body.removeChild(a);
+    });
+
+    $("#myFile").on("change", function() {
       var file = document.getElementById("myFile").files[0];
       var reader = new FileReader();
       reader.onload = function(e) {
@@ -372,14 +394,14 @@ Whiteboard actions
     });
 
     var dragCounter = 0;
-    $("#whiteboardContainer").on("dragenter", e => {
+    $("#whiteboardContainer").on("dragenter", function(e) {
       e.preventDefault();
       e.stopPropagation();
       dragCounter++;
       this.whiteBoard.dropIndicator.show();
     });
 
-    $("#whiteboardContainer").on("dragleave", e => {
+    $("#whiteboardContainer").on("dragleave", function(e) {
       e.preventDefault();
       e.stopPropagation();
       dragCounter--;
@@ -388,7 +410,7 @@ Whiteboard actions
       }
     });
 
-    $("#whiteboardContainer").on("drop", e => {
+    $("#whiteboardContainer").on("drop", function(e) {
       //Handle drag & drop
       if (e.originalEvent.dataTransfer) {
         if (e.originalEvent.dataTransfer.files.length) {

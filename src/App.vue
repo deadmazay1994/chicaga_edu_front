@@ -65,6 +65,7 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
+    console.log(this.$route);
   }
 };
 </script>
