@@ -1,3 +1,5 @@
+import TaskIndex from "./../TaskIndex";
+
 export default function manager(data, type, index, h) {
   let slots = [h("check-btn")];
   let attrs = getAttrsForTask(data, index);
@@ -62,7 +64,13 @@ export default function manager(data, type, index, h) {
       componentName = "consultationLevel";
       break;
   }
-  return h(componentName, attrs, slots);
+  let task = h(componentName, attrs, slots);
+  return (
+    <div style="position: relative">
+      {task}
+      <TaskIndex index={index + 1} />
+    </div>
+  );
 }
 
 function getAttrsForTask(data, index) {

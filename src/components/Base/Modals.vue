@@ -1,11 +1,14 @@
 <template>
   <div class="modals vue-component">
     <signin />
+    <report />
   </div>
 </template>
 
 <script>
 import Signin from "@/components/Lk/Signin";
+import Report from "@/components/Modals/Report";
+
 export default {
   name: "modals",
   data: function() {
@@ -14,7 +17,8 @@ export default {
   methods: {},
   computed: {},
   components: {
-    Signin
+    Signin,
+    Report
   },
   props: [],
   mixins: {},
