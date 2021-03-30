@@ -56,9 +56,11 @@ export default {
 .masseges {
   height: calc(100% - 74px);
   padding: 20px;
+  padding-top: 0;
   overflow-y: auto;
   position: relative;
   overflow-x: hidden;
+  background: #eaeaea;
 }
 .masseges__loader {
   position: absolute;

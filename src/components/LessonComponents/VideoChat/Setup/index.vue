@@ -21,7 +21,7 @@ export default {
   name: "setup",
   data: function() {
     return {
-      t: true,
+      t: false,
       activeStep: 0,
       componentsList: [Permission]
     };

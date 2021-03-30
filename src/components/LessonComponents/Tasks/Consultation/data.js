@@ -736,21 +736,21 @@ export default [
                   {
                     title: "10 часов",
                     subTitle: "академических",
-                    offer: "1 100",
+                    offer: "1 200",
                     description: "р/час",
                     style: ""
                   },
                   {
                     title: "20 часов",
                     subTitle: "академических",
-                    offer: "990",
+                    offer: "1 100",
                     description: "р/час",
                     style: "silver"
                   },
                   {
                     title: "30 часов",
                     subTitle: "академических",
-                    offer: "890",
+                    offer: "990",
                     description: "р/час",
                     style: "gold"
                   }
@@ -793,21 +793,21 @@ export default [
                   {
                     title: "10 часов",
                     subTitle: "академических",
-                    offer: "1 100",
+                    offer: "1 200",
                     description: "р/час",
                     style: ""
                   },
                   {
                     title: "20 часов",
                     subTitle: "академических",
-                    offer: "990",
+                    offer: "1 100",
                     description: "р/час",
                     style: "silver"
                   },
                   {
                     title: "30 часов",
                     subTitle: "академических",
-                    offer: "890",
+                    offer: "990",
                     description: "р/час",
                     style: "gold"
                   }
@@ -902,21 +902,21 @@ export default [
                   {
                     title: "10 часов",
                     subTitle: "академических",
-                    offer: "1100",
+                    offer: "1200",
                     description: "р/час",
                     style: ""
                   },
                   {
                     title: "20 часов",
                     subTitle: "академических",
-                    offer: "990",
+                    offer: "1 100",
                     description: "р/час",
                     style: "silver"
                   },
                   {
                     title: "30 часов",
                     subTitle: "академических",
-                    offer: "890",
+                    offer: "990",
                     description: "р/час",
                     style: "gold"
                   }

@@ -70,7 +70,7 @@
               box-align="left"
               style="top: 32px; right: -170px"
               width="192px"
-              >INTERMEIDAT PLUS</chip
+              >INTERMEIDATE PLUS</chip
             >
             <chip
               class="cons__chip"

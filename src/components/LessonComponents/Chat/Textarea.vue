@@ -84,7 +84,7 @@ export default {
   padding-right: 100px;
   display: block;
   border: 0;
-  border-top: 1px solid #e3eaee;
+  border-top: 2px solid #e3eaee;
   resize: none;
   outline: none;
   outline-color: invert;
