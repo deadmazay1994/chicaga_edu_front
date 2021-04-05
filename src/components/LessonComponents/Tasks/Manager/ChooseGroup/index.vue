@@ -8,9 +8,6 @@
       v-show="prevActive"
       >mdi-arrow-down</v-icon
     >
-    <div class="choose-group__name text-h4 text-center main-color-text">
-      {{ activeGroupName }}
-    </div>
     <v-icon
       size="40"
       class="choose-group__nav choose-group__nav--right"
@@ -156,11 +153,9 @@ export default {
     cursor: pointer
     color: $main_color
     &--left
-      left: 0
-      top: 10px
+      left: 5px
       transform: rotate(90deg)
     &--right
-      right: 0
-      top: 10px
+      right: 5px
       transform: rotate(-90deg)
 </style>

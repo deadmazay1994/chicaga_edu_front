@@ -1,5 +1,5 @@
 <script>
-import VuetifyAudio from "vuetify-audio";
+import VuetifyAudio from "@/components/UiElements/AudioPlayer";
 
 import Magnifier from "@/directives/magnifier";
 import Zoom from "@/directives/zoom";

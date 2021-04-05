@@ -12,6 +12,8 @@ import studentToTeacher from "./mixins/studentToTeacher.js";
 import rerender from "./mixins/rerender";
 import render from "./mixins/renderTasks";
 
+import MediaManager from "@/components/UiElements/MediaManager/MediaManager";
+
 export default {
   name: "task-manager",
   render(h) {
@@ -27,8 +29,8 @@ export default {
       managerBottom.push(
         <div class="manager__bottom">
           {this.results}
-          <choose-group class="manager__choose-group" lessonType={this.type} />
           <portal-target name="manager__bottom" />
+          <media-manager />
         </div>
       );
     }
@@ -37,6 +39,7 @@ export default {
         <teacher-panel />
       </div>,
       <div class="manager__workspace">
+        <choose-group class="manager__choose-group" lessonType={this.type} />,
         {...this.renderTasks(this.contextData, this.manager)}
       </div>,
       ...managerBottom
@@ -132,7 +135,8 @@ export default {
   },
   components: {
     ...TaskComponents,
-    TeacherPanel
+    TeacherPanel,
+    MediaManager
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: [studentToTeacher, rerender, context, render],
@@ -157,6 +161,7 @@ export default {
   &__task
     overflow: auto
 .manager
+  position: relative
   &__bottom
     border-top: 1px solid #dedede
     padding: 10px
@@ -167,7 +172,15 @@ export default {
     background: #f3f3f3
   &__choose-group
     padding: 10px 0
+    top: 0
+    bottom: 0
+    left: -5px
+    height: 50px
+    margin-top: auto
+    margin-bottom: auto
+    position: absolute
   &__workspace
-    padding: 10px
+    padding: 10px 60px
     overflow: auto
+    overflow-x: hidden
 </style>
