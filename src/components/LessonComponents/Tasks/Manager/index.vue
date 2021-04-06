@@ -39,7 +39,7 @@ export default {
         <teacher-panel />
       </div>,
       <div class="manager__workspace">
-        <choose-group class="manager__choose-group" lessonType={this.type} />,
+        <choose-group class="manager__choose-group" lessonType={this.type} />
         {...this.renderTasks(this.contextData, this.manager)}
       </div>,
       ...managerBottom
