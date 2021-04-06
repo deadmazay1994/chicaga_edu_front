@@ -187,6 +187,9 @@ export default {
       }
     },
     // Outher
+    async sendMail(data) {
+      return await post("mail/send", data);
+    },
     getErrorText(response) {
       let errorText = "";
       if ("error" in response) {

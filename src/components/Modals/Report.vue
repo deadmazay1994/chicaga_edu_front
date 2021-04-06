@@ -1,7 +1,7 @@
 <template>
   <v-dialog class="report vue-component" v-model="reportState" width="500">
     <v-card>
-      <v-toolbar class="main-color main-color--text" dark
+      <v-toolbar class="main-color main-color--text"
         >Сообщение об ошибке</v-toolbar
       >
       <div class="pa-5">
@@ -15,12 +15,15 @@
           <v-textarea
             v-model="comment"
             rows="1"
+            auto-grow
             row-height="15"
             label="Комментарий"
           />
         </v-form>
         <v-card-actions class="justify-space-between">
-          <v-btn class="main-color main-color--text">Отправить</v-btn>
+          <v-btn @click="send" class="main-color main-color--text"
+            >Отправить</v-btn
+          >
           <v-btn text @click="toggleReportModal(false)">Закрыть</v-btn>
         </v-card-actions>
       </div>
@@ -30,6 +33,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import Api from "@/mixins/api";
 
 import Validation from "@/mixins/validation.js";
 
@@ -39,7 +43,38 @@ export default {
     return {};
   },
   methods: {
-    ...mapMutations(["toggleReportModal", "setReportData"])
+    ...mapMutations(["toggleReportModal", "setReportData"]),
+    async send() {
+      let editLink =
+        "https://edu.chicaga.ru/admin/lesson/edit/" +
+        this.reportData.lessonLink.split("/").slice(-1)[0];
+      let r = await this.sendMail({
+        to: "a.sokolov@chicaga.ru",
+        subject: "Обнаружена ошибка в задании!!!",
+        data: `
+          <h2>Ошибка в задании ${this.reportData.taskIndex}</h2>
+          <p>
+            <bold>Репорт отправлен со <a href="${this.reportData.lessonLink}">страницы</a> <br>
+            <bold><a href="${editLink}">Ссылка для редактирования</a> <br>
+            <bold>Номер (название) страницы</bold>: ${this.reportData.pageName} <br>
+            <bold>Номер задания</bold>: ${this.reportData.taskIndex} <br>
+            <bold>Комментарий</bold>: <br> ${this.reportData.comment} <br>
+          </p>
+        `
+      });
+      this.toggleReportModal();
+      if (r.success) {
+        this.$store.commit("pushShuckbar", {
+          success: true,
+          val: "Спасибо! Ваше обращение успешно отправлено"
+        });
+      } else {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "Что-то пошло не так. Попробуйте отправить обращение позже"
+        });
+      }
+    }
   },
   computed: {
     ...mapGetters(["reportOpen", "reportData"]),
@@ -79,7 +114,7 @@ export default {
   },
   components: {},
   props: [],
-  mixins: [Validation],
+  mixins: [Validation, Api],
   beforeMount() {}
 };
 </script>
