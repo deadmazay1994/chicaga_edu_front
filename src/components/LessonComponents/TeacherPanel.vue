@@ -8,6 +8,26 @@
       >{{ showPanel ? "mdi-menu-down" : "mdi-menu-up" }}</v-icon
     >
     <div v-if="showPanel" class="mx-3 mt-3 pb-2">
+      <div class="teacher-panel__create-room" v-if="!$route.params.roomId">
+        <v-btn
+          class="main-color main-color--text mb-2"
+          @click="initPrivateRoom"
+        >
+          Создать приватную комнату
+        </v-btn>
+        <div>
+          <a :href="privateRoomLink" target="_blank" v-if="privatRoomIsInited"
+            >Ссылка на комнату
+          </a>
+        </div>
+      </div>
+      <div class="teacher-panel__return-to-room" v-else>
+        <router-link :to="publickRoomLink" tag="v-btn">
+          <v-btn class="main-color main-color--text mb-2">
+            Вернуться в публичную комнату
+          </v-btn>
+        </router-link>
+      </div>
       <div class="teacher-panel__students students">
         <div
           class="table-item d-inline-block students__student"
@@ -69,7 +89,9 @@ export default {
   data: function() {
     return {
       inOurRoom: true,
-      showPanel: false
+      showPanel: false,
+      privateRoomLink: "",
+      privatRoomIsInited: false
     };
   },
   methods: {
@@ -152,6 +174,30 @@ export default {
     },
     updateList() {
       this.$forceUpdate();
+    },
+    initPrivateRoom() {
+      if (this.privateRoomLink[this.privateRoomLink.length - 1] == "/") {
+        this.privateRoomLink = this.privateRoomLink.substring(
+          0,
+          this.privateRoomLink.length - 1
+        );
+        console.log(this.privateRoomLink);
+      }
+      this.privateRoomLink += `/${Math.random()
+        .toString(36)
+        .replace(/[^a-z]+/g, "")
+        .substr(0, 15)}`;
+      this.privatRoomIsInited = true;
+      let pushStaus = this.pushToClipBoard(this.privateRoomLink);
+      if (!pushStaus) return false;
+      this.$store.commit("pushShuckbar", {
+        success: pushStaus,
+        val: "Ссылка скопирована в буфер обмена"
+      });
+    },
+    async pushToClipBoard(text) {
+      if (!text) return false;
+      return await navigator.clipboard.writeText(text);
     }
   },
   computed: {
@@ -162,7 +208,17 @@ export default {
       "activeUser",
       "user",
       "isConsultation"
-    ])
+    ]),
+    publickRoomLink() {
+      let parts = document.location.href.split("#")[1].split("/");
+      parts.pop();
+      return (
+        "/" +
+        parts.reduce((acc, val) => {
+          return (acc += val + "/");
+        })
+      );
+    }
   },
   watch: {
     socketUsers() {
@@ -175,6 +231,7 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {
+    this.privateRoomLink = document.location.href;
     this.initGroups();
   }
 };
