@@ -41,6 +41,14 @@ const routes = [
     }
   },
   {
+    path: "/lesson/:courseId/:id/:roomId",
+    name: "lesson_teacher",
+    component: Lesson,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/lesson/:courseId/:id/:userid",
     name: "lesson",
     component: Lesson,

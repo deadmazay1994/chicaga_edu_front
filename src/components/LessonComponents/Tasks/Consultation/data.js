@@ -80,7 +80,7 @@ export default [
         levels: [
           {
             id: "0",
-            audio: "https://edu.chicaga.ru/public/images/b-hobbies-quiz1.mp3",
+            audio: "https://edu.chicaga.ru/images/b-hobbies-quiz1.mp3",
             audioTitle:
               'Прослушайте аудиозапись "Hobbies" и ответье на вопросы',
             tasks: [

@@ -97,7 +97,10 @@ export default {
     },
     async createChannels() {
       this.groups.forEach(async g => {
-        await api.methods.createChannel(this.$route.params.id + "___" + g.name);
+        await api.methods.createChannel(
+          this.$route.params.id + this.$route.params.roomId ||
+            "" + "___" + g.name
+        );
       });
     },
     createGroups(roomId = false) {
@@ -113,9 +116,13 @@ export default {
       } else {
         this.groups.forEach(g => {
           this.socket.emit("create groups", {
-            userRoomId: this.$route.params.id + "___" + g.name,
+            userRoomId:
+              this.$route.params.id + this.$route.params.roomId ||
+              "" + "___" + g.name,
             groups: this.groups,
-            forNewRoomId: roomId ? roomId : this.$route.params.id
+            forNewRoomId: roomId
+              ? roomId
+              : this.$route.params.id + this.$route.params.roomId || ""
           });
         });
       }

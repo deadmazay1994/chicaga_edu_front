@@ -346,7 +346,9 @@ export default {
     },
     onReturnInGroup() {
       this.socket.on("on return in group", () => {
-        this.setLessonId(this.$route.params.id);
+        this.setLessonId(
+          this.$route.params.id + this.$route.params.roomId || ""
+        );
         this.joinToChat();
       });
     },
@@ -392,7 +394,7 @@ export default {
     Setup
   },
   mounted() {
-    this.setLessonId(this.$route.params.id);
+    this.setLessonId(this.$route.params.id + this.$route.params.roomId || "");
     this.onSendUsers();
     this.onGetMsg();
     this.onConnectToGroup();

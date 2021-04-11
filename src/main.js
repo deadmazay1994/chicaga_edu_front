@@ -17,7 +17,7 @@ Vue.config.productionTip = false;
 Vue.mixin({
   data() {
     return {
-      IMGSTORE: "https://edu.chicaga.ru/public/images/"
+      IMGSTORE: "https://edu.chicaga.ru/images/"
     };
   }
 });

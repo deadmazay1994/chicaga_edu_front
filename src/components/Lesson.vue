@@ -55,7 +55,9 @@ export default {
     ...mapMutations(["setTeacherId", "setRoomId", "setSocket"]),
     sendTeacher() {
       if (this.user.role == "teacher") {
-        this.socket.emit("im teacher", { roomId: this.$route.params.id });
+        this.socket.emit("im teacher", {
+          roomId: this.$route.params.id + this.$route.params.roomId || ""
+        });
       }
     },
     onGetErrors() {
@@ -69,7 +71,9 @@ export default {
       });
     },
     getTeacher() {
-      this.socket.emit("get teacher", { roomId: this.$route.params.id });
+      this.socket.emit("get teacher", {
+        roomId: this.$route.params.id + this.$route.params.roomId || ""
+      });
     },
     onGetTeacher() {
       this.socket.on("on get teacher", () => {
@@ -90,8 +94,8 @@ export default {
   props: [],
   mixins: [OurCursor, SocketMixin],
   beforeMount() {
-    this.setRoomId(this.$route.params.id);
-    this.socketConnect(this.$route.params.id);
+    this.setRoomId(this.$route.params.id + this.$route.params.roomId || "");
+    this.socketConnect(this.$route.params.id + this.$route.params.roomId || "");
     // Инициируем события сокетов
     this.initSocketEvents();
     this.onSendTeacher();
