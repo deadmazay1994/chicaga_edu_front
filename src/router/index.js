@@ -42,7 +42,7 @@ const routes = [
   },
   {
     path: "/lesson/:courseId/:id/:roomId",
-    name: "lesson_teacher",
+    name: "lesson_teacher_room",
     component: Lesson,
     meta: {
       requiresAuth: true
@@ -176,19 +176,11 @@ const routes = [
   }
 ];
 
-export const router = new VueRouter({
-  mode: "hash",
-  // mode: "history",
-  // base: process.env.BASE_URL,
-  base: process.env.BASE_URL + "/edu/",
-  routes
-});
-
-// Скрываем страницы от не авторизированных пользователей
-router.beforeEach((to, from, next) => {
+const beforeRedirect = (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // Отрабатывет ситуацию, когда в любом случае нужно перейти на страницу
     let forseRedirect = false;
+    console.log(to.params);
     if (to.params.courseId && to.params.id == "consultation")
       forseRedirect = true;
     // этот путь требует авторизации, проверяем залогинен ли
@@ -230,6 +222,18 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+};
+
+export const router = new VueRouter({
+  mode: "hash",
+  // mode: "history",
+  // base: process.env.BASE_URL,
+  base: process.env.BASE_URL + "/edu/",
+  routes,
+  beforeEnter: beforeRedirect
 });
+
+// Скрываем страницы от не авторизированных пользователей
+router.beforeEach(beforeRedirect);
 
 export default router;

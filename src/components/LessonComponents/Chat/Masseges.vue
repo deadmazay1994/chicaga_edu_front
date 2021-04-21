@@ -60,7 +60,6 @@ export default {
   overflow-y: auto;
   position: relative;
   overflow-x: hidden;
-  background: #eaeaea;
 }
 .masseges__loader {
   position: absolute;
