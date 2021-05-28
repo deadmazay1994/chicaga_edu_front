@@ -180,7 +180,6 @@ const beforeRedirect = (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // Отрабатывет ситуацию, когда в любом случае нужно перейти на страницу
     let forseRedirect = false;
-    console.log(to.params);
     if (to.params.courseId && to.params.id == "consultation")
       forseRedirect = true;
     // этот путь требует авторизации, проверяем залогинен ли

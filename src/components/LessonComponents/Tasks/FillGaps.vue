@@ -20,6 +20,7 @@
         <fill-gaps-item
           :sentence="item.sentence"
           :index="index"
+          :data-index="index"
           :childSaved="childSaved"
           ref="gap"
           class="fill-gaps__item"
@@ -108,6 +109,7 @@ export default {
       );
       if (input.className.indexOf("fill-gaps-item__input") + 1) {
         let text = e.item.textContent;
+        console.log(input.parentElement.parentElement);
         let parentIndex = this.getElementIndex(
           input.parentElement.parentElement
         );
@@ -116,25 +118,10 @@ export default {
         this.$refs.gap[parentIndex].sendData();
       }
     },
-    getElementIndex(element, onlyThisElement = false) {
-      let prev = 0;
-      let tagName = element.tagName;
-      while (element.previousSibling) {
-        element = element.previousSibling;
-        if (onlyThisElement && element.tagName == tagName) {
-          prev++;
-        }
-        if (!onlyThisElement) {
-          prev++;
-        }
-      }
-      // Не знаю почему, но если onlyThisElement, то возращает на 1 больше
-      // Если будут баги, то смотреть в первую очередь сюда !!!
-      if (onlyThisElement) {
-        return prev;
-      } else {
-        return prev - 1;
-      }
+    getElementIndex(element) {
+      let i = element.dataset.index;
+      if (i) return i;
+      else console.error("Element" + element + " has no  attr data-index");
     }
   },
   computed: {
