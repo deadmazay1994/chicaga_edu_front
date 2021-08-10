@@ -181,7 +181,6 @@ export default {
           0,
           this.privateRoomLink.length - 1
         );
-        console.log(this.privateRoomLink);
       }
       this.privateRoomLink += `/${Math.random()
         .toString(36)

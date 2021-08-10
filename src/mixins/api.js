@@ -79,8 +79,11 @@ export default {
     async getMyCourses() {
       return get("user/courses");
     },
-    async getCourseInfo(id) {
-      return get("user/course", id);
+    async getCourseInfo({ id, publicC }) {
+      let res;
+      if (publicC) res = await get("courses/public", id);
+      else res = await get("user/course", id);
+      return res;
     },
     async getProgressForTeacher() {
       return get("teacher/courses");
@@ -93,7 +96,11 @@ export default {
       }
     },
     async getLessonProgress(courseId, lesonId) {
-      return await get(`user/course/${courseId}/lesson/${lesonId}`);
+      let res = await get(`user/course/${courseId}/lesson/${lesonId}`);
+      if (res.error) {
+        res = await get(`course/${courseId}/lesson/${lesonId}`);
+      }
+      return res;
     },
     async saveProgressLesson(data) {
       return post(

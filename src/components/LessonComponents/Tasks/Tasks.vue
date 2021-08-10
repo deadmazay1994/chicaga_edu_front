@@ -148,10 +148,10 @@ export default {
     if (!tasksForTeacher) {
       // Получаем прогресс
       try {
-        await this.setSavedTasks({
-          lessonId: this.$route.params.id,
-          courseId: this.$route.params.courseId
-        });
+        // await this.setSavedTasks({
+        //   lessonId: this.$route.params.id,
+        //   courseId: this.$route.params.courseId
+        // });
         // Если прогресс пустой получаем сам урок
         if (!this.savedTasks.length || !this.savedHomework) {
           await this.$store.dispatch("setLesson", this.$route.params.id);

@@ -77,7 +77,6 @@ export default {
     },
     onGetTeacher() {
       this.socket.on("on get teacher", () => {
-        console.log("on get");
         this.sendTeacher();
       });
     }

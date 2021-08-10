@@ -109,7 +109,6 @@ export default {
       );
       if (input.className.indexOf("fill-gaps-item__input") + 1) {
         let text = e.item.textContent;
-        console.log(input.parentElement.parentElement);
         let parentIndex = this.getElementIndex(
           input.parentElement.parentElement
         );

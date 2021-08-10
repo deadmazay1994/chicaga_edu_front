@@ -135,9 +135,6 @@ export default {
       this.setShuffled();
       this.setGropus();
     }
-    // setInterval(() => {
-    //   console.log(JSON.stringify(this._data))
-    // }, 5000);
   }
 };
 </script>

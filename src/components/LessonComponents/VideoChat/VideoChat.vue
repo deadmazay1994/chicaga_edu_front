@@ -123,7 +123,6 @@ export default {
         if (user) {
           if (data.data.name in user) {
             user[data.data.name] = data.data.val;
-            console.log(data.data);
           }
         }
       });
@@ -240,7 +239,6 @@ export default {
         data.users.forEach(user => {
           let peer = new Peer(this.randomStr(), this.peerServer);
           peer.on("error", () => {
-            console.log("Попытка реконекта");
             peer.reconnect();
           });
           this.allPeers.push(peer);
@@ -296,7 +294,6 @@ export default {
             var peer = new Peer(this.randomStr(), this.peerServer);
             this.allPeers.push(peer);
             peer.on("error", () => {
-              console.log("Попытка реконекта");
               peer.reconnect();
             });
             peer.on("open", () => {
