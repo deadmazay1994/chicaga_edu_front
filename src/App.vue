@@ -15,6 +15,10 @@ export default {
 </script>
 
 <style>
+body,
+html {
+  height: auto !important;
+}
 .red-btn {
   cursor: pointer;
   pointer-events: all !important;
