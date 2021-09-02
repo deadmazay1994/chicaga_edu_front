@@ -1,5 +1,5 @@
 <template>
-  <div class="edu-panel lessons__task vue-component">
+  <div class="edu-panel lessons__task vue-component" style="margin-left: 0">
     <div class="task__header">
       <div class="task__header__item">
         <div class="task__header__inner">
@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <div class="task__content ">
+    <div class="task__content" style="height: 100%">
       <div class="task__menu">
         <v-tabs active-class="active" hide-slider v-model="tab">
           <v-tab class="task__menu__item">
@@ -191,6 +191,12 @@ export default {
   display: none !important;
 }
 
+.task__menu {
+  padding: 25px 10px 20px 10px !important;
+}
+.task__menu__item:first-child {
+  padding-left: 0;
+}
 .task__menu__item:before {
   content: "";
   position: absolute;
@@ -202,11 +208,15 @@ export default {
   opacity: 0;
   transform: translateY(-72%);
 }
-
+.task__content {
+  height: 100%;
+}
 .task__menu__item.active:before {
   opacity: 1 !important;
-  transform: translateY(-72%);
-  left: 0;
+  transform: translateY(0) !important;
+  left: 0 !important;
+  top: 3px !important;
+  display: none !important;
 }
 
 .v-slide-group__wrapper {

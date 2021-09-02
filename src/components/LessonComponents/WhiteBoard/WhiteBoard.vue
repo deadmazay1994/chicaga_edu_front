@@ -1,11 +1,15 @@
 <template>
-  <div class="white-board vue-component" @click="hideColorPicker">
+  <div
+    class="white-board vue-component"
+    @click="hideColorPicker"
+    style="height: 350px"
+  >
     <!---Whiteboard container -!-->
     <div id="whiteboardContainer"></div>
 
     <!---Toolbar -!-->
     <div
-      style="position: absolute; top: 10px; left: 10px;"
+      style="position: absolute; top: 10px; left: 10px"
       class="tollbar"
       v-if="!mobileDetected"
     >
@@ -48,7 +52,7 @@
           <v-icon>mdi-pencil</v-icon>
         </button>
         <button
-          style="padding-bottom: 8px; padding-top: 7px;"
+          style="padding-bottom: 8px; padding-top: 7px"
           title="draw a line"
           type="button"
           class="whiteboardTool"
@@ -91,13 +95,19 @@
         class="btn-group"
       >
         <img
-          style="position: absolute; left: 11px; top: 13px; height:14px; width:130px;"
+          style="
+            position: absolute;
+            left: 11px;
+            top: 13px;
+            height: 14px;
+            width: 130px;
+          "
           src="/imgs/slider-background.svg"
         />
         <input
           title="Thickness"
           id="whiteboardThicknessSlider"
-          style="position: absolute; left:9px; width: 130px; top: 15px;"
+          style="position: absolute; left: 9px; width: 130px; top: 15px"
           type="range"
           min="1"
           max="50"

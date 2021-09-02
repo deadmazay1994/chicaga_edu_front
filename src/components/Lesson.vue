@@ -132,4 +132,6 @@ export default {
     position: relative
     &--active
       height: 412px
+  &__task
+    height: 100%
 </style>

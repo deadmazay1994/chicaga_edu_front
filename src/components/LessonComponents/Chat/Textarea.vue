@@ -1,9 +1,9 @@
 <template>
-  <form class="messages__controls" ref="form">
+  <div class="messages__controls" ref="form">
     <div class="textarea-chat__ctrl textarea-ctrl">
       <div
         class="textarea-ctrl__item textarea-ctrl__attachment"
-        style="position: relative;"
+        style="position: relative"
       >
         <v-icon color="#030303">mdi-plus</v-icon>
         <span
@@ -28,7 +28,7 @@
     <svg class="messages__controls__svg" v-on:click="send()">
       <use xlink:href="#forward"></use>
     </svg>
-  </form>
+  </div>
 </template>
 
 <script>
