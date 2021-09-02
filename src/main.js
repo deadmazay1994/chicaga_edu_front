@@ -10,6 +10,12 @@ import SocketFunctions from "@/mixins/socket";
 
 import VueKonva from "vue-konva";
 
+import DefaultLayout from "./layout/DefaultLayout";
+import AuthWrapper from "./layout/AuthWrapper";
+
+Vue.component("default-layout", DefaultLayout);
+Vue.component("auth-wrapper", AuthWrapper);
+
 Vue.use(VueKonva);
 
 Vue.config.productionTip = false;

@@ -10,7 +10,7 @@ export default {
     socketSendToAllInLesson(data) {
       this.socket.emit("to all in lesson", {
         ...data,
-        roomId: this.$route.params.id + this.$route.params.roomId || ""
+        roomId: this.$route.params.id
       });
     },
     onSendData(eventName, callback) {

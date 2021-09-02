@@ -1,9 +1,6 @@
 <template>
-  <div class="auth-title vue-component">
-    <div class="text-h4 mb-3">
-      <slot />
-    </div>
-    <v-divider class="mb-3" />
+  <div class="auth-form__title">
+    <slot />
   </div>
 </template>
 

@@ -1,122 +1,56 @@
 <template>
-  <div class="navigation vue-component">
-    <v-navigation-drawer
-      fixed
-      dark
-      v-model="draverComputed"
-      :expand-on-hover="!mobileDetected"
-      class="navigation__drawer rounded-0 main-color"
+  <nav class="menu__nav">
+    <router-link
+      style="color: #0d0d0d"
+      :class="
+        $route.path === '/lk/catalog-coursers'
+          ? 'nav__link active'
+          : 'nav__link'
+      "
+      to="/lk/catalog-coursers"
+      >Каталог курсов</router-link
     >
-      <v-list v-if="user" dense nav class="py-0">
-        <v-list-item two-line class="px-0">
-          <router-link to="/lk/settings">
-            <v-list-item-avatar>
-              <img :src="user.avatar_link" />
-            </v-list-item-avatar>
-          </router-link>
-          <v-list-item-content>
-            <router-link to="/lk/settings" class="white--text">
-              <v-list-item-title>{{ user.name }}</v-list-item-title>
-            </router-link>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider></v-divider>
-        <router-link to="/lk/catalog-coursers" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-book-multiple</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Каталог курсов</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="/lk/my-coursers" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-book-open</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Мои курсы</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="/lk/dictionary" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-book</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Словарь</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="/lk/settings" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-cog-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Настройки</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="/faq" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-help-circle</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Вопросы и ответы</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <v-divider></v-divider>
-        <template v-if="user.role == 'teacher'">
-          <router-link to="/course-list-teacher" class="white--text">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-clipboard-check</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Результаты</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </router-link>
-        </template>
-        <v-list-item link class="mt-3" @click="exit">
-          <v-list-item-icon>
-            <v-icon>mdi-account-cancel</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Выйти</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-list v-else>
-        <router-link to="/auth/login" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-account-key</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Авторизация</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="/auth/register" class="white--text">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-account-plus</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Регистрация</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-      </v-list>
-    </v-navigation-drawer>
-  </div>
+    <router-link
+      style="color: #0d0d0d"
+      :class="
+        $route.path === '/lk/my-coursers' ? 'nav__link active' : 'nav__link'
+      "
+      to="/lk/my-coursers"
+      >Мои курсы</router-link
+    >
+    <router-link
+      style="color: #0d0d0d"
+      :class="
+        $route.path === '/lk/dictionary' ? 'nav__link active' : 'nav__link'
+      "
+      to="/lk/dictionary"
+      >Словарь</router-link
+    >
+    <router-link
+      style="color: #0d0d0d"
+      :class="$route.path === '/lk/settings' ? 'nav__link active' : 'nav__link'"
+      to="/lk/settings"
+      >Настройки</router-link
+    >
+    <router-link
+      style="color: #0d0d0d"
+      v-if="user.role == 'teacher'"
+      :class="
+        $route.path === '/course-list-teacher'
+          ? 'nav__link active'
+          : 'nav__link'
+      "
+      to="/course-list-teacher"
+      >Результаты</router-link
+    >
+    <router-link
+      style="color: #0d0d0d"
+      :class="$route.path === '/faq' ? 'nav__link active' : 'nav__link'"
+      to="/faq"
+      >Вопросы и ответы</router-link
+    >
+    <button class="nav__link" @click="exit">Выйти</button>
+  </nav>
 </template>
 
 <script>
@@ -182,4 +116,8 @@ export default {
 .navigation__drawer
   @media (max-width: 1200px)
     margin-top: -65px
+.nav__link
+  padding-left: 13px
+.menu__nav
+  width: 242px
 </style>

@@ -80,7 +80,7 @@ export default [
         levels: [
           {
             id: "0",
-            audio: "https://edu.chicaga.ru/images/b-hobbies-quiz1.mp3",
+            audio: "https://edu.chicaga.ru/public/images/b-hobbies-quiz1.mp3",
             audioTitle:
               'Прослушайте аудиозапись "Hobbies" и ответье на вопросы',
             tasks: [
@@ -736,21 +736,21 @@ export default [
                   {
                     title: "10 часов",
                     subTitle: "академических",
-                    offer: "1 200",
+                    offer: "1 100",
                     description: "р/час",
                     style: ""
                   },
                   {
                     title: "20 часов",
                     subTitle: "академических",
-                    offer: "1 100",
+                    offer: "990",
                     description: "р/час",
                     style: "silver"
                   },
                   {
                     title: "30 часов",
                     subTitle: "академических",
-                    offer: "990",
+                    offer: "890",
                     description: "р/час",
                     style: "gold"
                   }
@@ -793,21 +793,21 @@ export default [
                   {
                     title: "10 часов",
                     subTitle: "академических",
-                    offer: "1 200",
+                    offer: "1 100",
                     description: "р/час",
                     style: ""
                   },
                   {
                     title: "20 часов",
                     subTitle: "академических",
-                    offer: "1 100",
+                    offer: "990",
                     description: "р/час",
                     style: "silver"
                   },
                   {
                     title: "30 часов",
                     subTitle: "академических",
-                    offer: "990",
+                    offer: "890",
                     description: "р/час",
                     style: "gold"
                   }
@@ -902,21 +902,21 @@ export default [
                   {
                     title: "10 часов",
                     subTitle: "академических",
-                    offer: "1200",
+                    offer: "1100",
                     description: "р/час",
                     style: ""
                   },
                   {
                     title: "20 часов",
                     subTitle: "академических",
-                    offer: "1 100",
+                    offer: "990",
                     description: "р/час",
                     style: "silver"
                   },
                   {
                     title: "30 часов",
                     subTitle: "академических",
-                    offer: "990",
+                    offer: "890",
                     description: "р/час",
                     style: "gold"
                   }

@@ -5,7 +5,6 @@ export default {
   actions: {
     async setMyCourses({ commit }) {
       let response = await api.methods.getMyCourses();
-      if (!response.data) return;
       commit("endLoadingMyCourses");
       let data = response.data;
       // Даем понять фронту, что курс куплен
@@ -33,8 +32,8 @@ export default {
       await dispatch("setCatalogCourses");
       commit("setAllCourses");
     },
-    async setCurrentCourse({ commit }, { id, publicC }) {
-      let response = await api.methods.getCourseInfo({ id, publicC });
+    async setCurrentCourse({ commit }, id) {
+      let response = await api.methods.getCourseInfo(id);
       commit("setCurrentCourse", response.data);
     },
     async setCoursesForTeacher({ commit }) {

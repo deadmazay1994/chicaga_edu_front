@@ -2,10 +2,7 @@
   <div class="course-page vue-component">
     <page-title v-if="courseRes.name" :title="courseRes.name" />
     <v-skeleton-loader v-else type="heading" class="mb-5" />
-    <course-my
-      v-if="courseRes.buyed || courseRes.is_public"
-      :course="courseRes"
-    />
+    <course-my v-if="courseRes.buyed" :course="courseRes" />
     <v-row v-else class="d-flex justify-center">
       <v-col cols="12">
         <course-catalog :course="courseRes" />

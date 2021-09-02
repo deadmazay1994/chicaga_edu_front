@@ -6,6 +6,7 @@
         v-model="dragList"
         @end="dragEnd"
         v-if="dragList.length"
+        :forceFallback="true"
         :move="dragMove"
       >
         <div
@@ -20,7 +21,6 @@
         <fill-gaps-item
           :sentence="item.sentence"
           :index="index"
-          :data-index="index"
           :childSaved="childSaved"
           ref="gap"
           class="fill-gaps__item"
@@ -117,10 +117,25 @@ export default {
         this.$refs.gap[parentIndex].sendData();
       }
     },
-    getElementIndex(element) {
-      let i = element.dataset.index;
-      if (i) return i;
-      else console.error("Element" + element + " has no  attr data-index");
+    getElementIndex(element, onlyThisElement = false) {
+      let prev = 0;
+      let tagName = element.tagName;
+      while (element.previousSibling) {
+        element = element.previousSibling;
+        if (onlyThisElement && element.tagName == tagName) {
+          prev++;
+        }
+        if (!onlyThisElement) {
+          prev++;
+        }
+      }
+      // Не знаю почему, но если onlyThisElement, то возращает на 1 больше
+      // Если будут баги, то смотреть в первую очередь сюда !!!
+      if (onlyThisElement) {
+        return prev;
+      } else {
+        return prev - 1;
+      }
     }
   },
   computed: {

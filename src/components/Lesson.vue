@@ -1,27 +1,20 @@
 <template>
-  <div class="lesson vue-component">
-    <v-container class="lesson__container" fluid>
-      <v-row>
-        <v-col lg="5" cols="12">
-          <v-card class="front lesson__item">
-            <video-chat
-              class="lesson__video-chat"
-              :class="{ 'lesson__video-chat--active': !chatIsOpen }"
-            />
-            <text-chat
-              class="lesson__text-chat"
-              :class="{ 'lesson__text-chat--active': chatIsOpen }"
-            />
-          </v-card>
-        </v-col>
-        <v-col lg="7" cols="12">
-          <v-card class="front">
-            <edu-panel class="lesson__edu-panel lesson__item" />
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-    <lesson-start :display="false" />
+  <div>
+    <div class="lessons__chat" style="flex-baisis: auto">
+      <video-chat
+        style="height: 340px"
+        class="lesson__video-chat"
+        :class="{ 'lesson__video-chat--active': !chatIsOpen }"
+      />
+      <text-chat
+        class="lesson__text-chat"
+        :class="{ 'lesson__text-chat--active': chatIsOpen }"
+      />
+      <lesson-start :display="false" />
+    </div>
+    <div class="lessons__task" style="width: 50%; margin-left: 0">
+      <edu-panel class="lesson__edu-panel lesson__item" />
+    </div>
   </div>
 </template>
 
@@ -55,9 +48,7 @@ export default {
     ...mapMutations(["setTeacherId", "setRoomId", "setSocket"]),
     sendTeacher() {
       if (this.user.role == "teacher") {
-        this.socket.emit("im teacher", {
-          roomId: this.$route.params.id + this.$route.params.roomId || ""
-        });
+        this.socket.emit("im teacher", { roomId: this.$route.params.id });
       }
     },
     onGetErrors() {
@@ -71,12 +62,11 @@ export default {
       });
     },
     getTeacher() {
-      this.socket.emit("get teacher", {
-        roomId: this.$route.params.id + this.$route.params.roomId || ""
-      });
+      this.socket.emit("get teacher", { roomId: this.$route.params.id });
     },
     onGetTeacher() {
       this.socket.on("on get teacher", () => {
+        console.log("on get");
         this.sendTeacher();
       });
     }
@@ -93,8 +83,8 @@ export default {
   props: [],
   mixins: [OurCursor, SocketMixin],
   beforeMount() {
-    this.setRoomId(this.$route.params.id + this.$route.params.roomId || "");
-    this.socketConnect(this.$route.params.id + this.$route.params.roomId || "");
+    this.setRoomId(this.$route.params.id);
+    this.socketConnect(this.$route.params.id);
     // Инициируем события сокетов
     this.initSocketEvents();
     this.onSendTeacher();
@@ -131,8 +121,6 @@ export default {
     @media (max-width:580px)
       &
         padding: 0
-  &__item
-    height: calc(100vh - 90px)
   &__video-chat
     height: 25%
     overflow: hidden
@@ -143,5 +131,5 @@ export default {
     overflow: hidden
     position: relative
     &--active
-      height: 75%
+      height: 412px
 </style>

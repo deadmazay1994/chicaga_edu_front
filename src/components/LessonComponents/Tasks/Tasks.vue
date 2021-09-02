@@ -19,25 +19,20 @@
     <portal to="manager__bottom">
       <div v-if="showCheckBtn" class="tasks__fixed mb-2">
         <div class="d-flex justify-center">
-          <v-btn
+          <button
             v-if="
               (this.attemptNum == 0 || !this.noAddAtempt) &&
                 user.role != 'teacher'
             "
             @click="check"
-            class="tasks__check-btn"
+            class="red-btn"
             large
-            color="white--text"
-            >ПРОВЕРИТЬ</v-btn
           >
-          <v-btn
-            v-if="isHomework"
-            @click="showAnswers"
-            class="tasks__check-btn"
-            large
-            color="white--text"
-            >ПОКАЗАТЬ ОТВЕТЫ</v-btn
-          >
+            ПРОВЕРИТЬ
+          </button>
+          <button v-if="isHomework" @click="showAnswers" class="red-btn" large>
+            ПОКАЗАТЬ ОТВЕТЫ
+          </button>
         </div>
       </div>
     </portal>
@@ -148,10 +143,10 @@ export default {
     if (!tasksForTeacher) {
       // Получаем прогресс
       try {
-        // await this.setSavedTasks({
-        //   lessonId: this.$route.params.id,
-        //   courseId: this.$route.params.courseId
-        // });
+        await this.setSavedTasks({
+          lessonId: this.$route.params.id,
+          courseId: this.$route.params.courseId
+        });
         // Если прогресс пустой получаем сам урок
         if (!this.savedTasks.length || !this.savedHomework) {
           await this.$store.dispatch("setLesson", this.$route.params.id);
@@ -170,7 +165,6 @@ export default {
 
 .tasks
   max-height: 100%
-  overflow: auto
   &__wrap
     z-index: 1
     opacity: 0.99

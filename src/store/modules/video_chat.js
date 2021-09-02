@@ -37,7 +37,7 @@ export default {
         let stream = null;
         try {
           stream = await navigator.mediaDevices.getUserMedia({
-            video: { width: 468, height: 360 },
+            video: { width: 624, height: 480 },
             audio: true
           });
         } catch (err) {

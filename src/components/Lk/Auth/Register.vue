@@ -1,61 +1,96 @@
 <template>
-  <div class="register vue-component">
-    <auth-title>Регистрация</auth-title>
-    <v-form v-model="valid" :lazy-validatio="true">
-      <v-text-field
-        type="text"
-        required
-        v-model="user.name"
-        :rules="nameRules"
-        label="ФИО"
-      />
-      <v-text-field
-        type="email"
-        required
-        v-model="user.email"
-        :rules="emailRules"
-        label="Email"
-      />
-      <v-text-field
-        type="password"
-        required
-        v-model="user.password"
-        :rules="passwordRules"
-        label="Пароль"
-      />
-      <v-text-field
-        type="password"
-        required
-        @keyup.enter="register"
-        v-model="user.password_confirmation"
-        label="Повторите пароль"
-      />
-      <v-divider class="mb-5"></v-divider>
-      <div class="d-flex">
-        <!-- <div class="text-subtitle-2">
-          Я ознакомился с пользовательским соглашением
-        </div> -->
-        <v-checkbox required v-model="agree">
-          <template v-slot:label>
-            <div>
-              Я ознакомился с
-              <router-link to="/agree"
-                >пользовательским соглашением</router-link
+  <div class="auth-form register-form">
+    <div class="auth-form__header">
+      <auth-title style="margin-bottom: 0">Регистрация</auth-title>
+      <div class="auth-form__step">{{ step }} <span>/ 2</span></div>
+    </div>
+    <v-form
+      v-model="valid"
+      :lazy-validatio="true"
+      class="auth-form register-form"
+    >
+      <template v-if="step === 1">
+        <div class="auth-form__body">
+          <p class="auth-label">Укажите адрес электронной почты</p>
+          <label class="auth-input">
+            <input
+              v-model="user.email"
+              :rules="emailRules"
+              placeholder="Email"
+            />
+          </label>
+          <p class="auth-label">Создайте пароль</p>
+          <label class="auth-input">
+            <input
+              type="password"
+              required
+              v-model="user.password"
+              :rules="passwordRules"
+              placeholder="Пароль"
+            />
+          </label>
+          <p class="auth-label">Повторите пароль</p>
+          <label class="auth-input">
+            <input
+              type="password"
+              required
+              @keyup.enter="register"
+              v-model="user.password_confirmation"
+              placeholder="Повторите пароль"
+            />
+          </label>
+        </div>
+      </template>
+      <template v-else>
+        <div class="auth-form__body">
+          <p class="auth-label">Укажите свое ФИО</p>
+          <label class="auth-input">
+            <input
+              type="text"
+              required
+              v-model="user.name"
+              :rules="nameRules"
+              placeholder="ФИО"
+            />
+          </label>
+          <label class="auth-checkbox">
+            <input type="checkbox" v-model="agree" />
+            <span class="auth-checkbox__decor"></span>
+            <p>
+              Продолжая, вы принимаете
+              <router-link to="/agree" class="auth-radio-link"
+                >Условия использования</router-link
               >
-            </div>
-          </template>
-        </v-checkbox>
+              <br />
+              Chicaga ...
+            </p>
+          </label>
+        </div>
+      </template>
+      <div class="auth-form__footer">
+        <button
+          v-if="step === 1"
+          :disabled="!validForm"
+          @click="step = 2"
+          class="auth-form__submit auth-button"
+        >
+          Далее
+        </button>
+        <button
+          v-if="step === 2"
+          :disabled="!agree && user.name !== ''"
+          @click="register"
+          class="auth-form__submit auth-button"
+        >
+          Зарегистрироваться
+        </button>
+        <div class="auth-form__link-bar">
+          <span class="auth-form__link text-button">Уже есть аккаунт?</span>
+          <router-link to="/auth/login" class="auth-form__link text-button"
+            ><strong>Войти</strong></router-link
+          >
+        </div>
       </div>
-
-      <v-divider class="mb-5"></v-divider>
-      <v-btn
-        large
-        class="main-color main-color--text mt-5"
-        block
-        @click="register"
-        :disabled="!btnActive"
-        >Зарегистрироваться</v-btn
-      >
     </v-form>
   </div>
 </template>
@@ -71,10 +106,13 @@ export default {
   name: "register",
   data: function() {
     return {
+      step: 1,
       valid: true,
       user: {
         email: "",
-        password: ""
+        name: "",
+        password: "",
+        password_confirmation: ""
       },
       repeatPassword: "",
       agree: false
@@ -96,6 +134,13 @@ export default {
     }
   },
   computed: {
+    validForm() {
+      return (
+        this.user.password &&
+        this.user.password_confirmation &&
+        this.user.password === this.user.password_confirmation
+      );
+    },
     ...mapGetters,
     btnActive() {
       return this.agree && this.valid;

@@ -1,9 +1,10 @@
 <template>
-  <v-btn
+  <!-- <v-btn
     @click="check"
     class="check-btn vue-component main-color main-color--text mt-2"
     >Проверить</v-btn
-  >
+  > -->
+  <button class="red-btn" @click="check">Проверить</button>
 </template>
 
 <script>

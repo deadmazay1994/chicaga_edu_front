@@ -104,10 +104,8 @@ export default {
   props: ["course"],
   mixins: {},
   async beforeMount() {
-    await this.$store.dispatch("setCurrentCourse", {
-      id: this.$route.params.id,
-      publicC: this.course.is_public
-    });
+    await this.$store.dispatch("setCurrentCourse", this.$route.params.id);
+    console.log(this.currentCourse);
   }
 };
 </script>

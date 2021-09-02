@@ -6,7 +6,7 @@
         <div class="table-title" v-if="inputCopy.addons.t1">
           {{ inputCopy.addons.t1 }}
         </div>
-        <draggable :list="l1" @change="onChange">
+        <draggable v-model="l1" @change="onChange">
           <div
             class="comp__item table-item"
             :class="statusClass(i)"
@@ -21,7 +21,7 @@
         <div class="table-title" v-if="inputCopy.addons.t2">
           {{ inputCopy.addons.t2 }}
         </div>
-        <draggable :list="l2" @change="onChange">
+        <draggable v-model="l2" @change="onChange">
           <div
             class="comp__item table-item"
             :class="statusClass(i)"
@@ -40,7 +40,7 @@
 <script>
 import Description from "./TasksDescription";
 
-import Draggable from "vuedraggable";
+import Draggable from "./ComprassionDraggable";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -96,6 +96,7 @@ export default {
       };
     },
     onChange() {
+      console.log("test");
       this.resetHeight();
       this.reset();
       this.onChangeTask();

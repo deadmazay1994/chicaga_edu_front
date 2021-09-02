@@ -1,24 +1,13 @@
 export default {
   methods: {
     addPlayPauseEvent(media) {
-      media.addEventListener("playing", () => {
-        this.mediaPlaying(media);
-      });
-      media.addEventListener("pause", () => {
-        this.mediaStoping(media);
-      });
-      media.addEventListener("volumechange", () => {
-        this.$store.commit("setMediaData", media);
-      });
+      media.addEventListener("playing", this.mediaPlaying);
+      media.addEventListener("pause", this.mediaStoping);
     },
-    mediaPlaying(media) {
-      this.$store.dispatch("setCurrentMedia", media);
-      this.$store.dispatch("setAudioOff", true);
+    mediaPlaying() {
       this.$store.dispatch("setAudioOff", true);
     },
-    mediaStoping(media) {
-      this.$store.commit("setMediaData", media);
-      this.$store.dispatch("setAudioOff", false);
+    mediaStoping() {
       this.$store.dispatch("setAudioOff", false);
     }
   }

@@ -276,6 +276,7 @@ export default {
       state.room = value;
     },
     updateFile(state, value) {
+      console.log(value);
       state.attachments = value;
     },
     updateLoading(state, value) {
@@ -301,7 +302,7 @@ export default {
     attachments: false,
     searchStatus: false,
     loading: true,
-    chatIsOpen: false,
+    chatIsOpen: true,
     newMsgsNum: 0
   },
   getters: {

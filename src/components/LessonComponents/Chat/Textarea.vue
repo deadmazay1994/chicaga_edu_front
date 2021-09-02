@@ -1,16 +1,13 @@
 <template>
-  <form class="textarea-chat vue-component" ref="form">
-    <textarea
-      name="msg"
-      class="textarea-chat__textarea"
-      :value="getInput"
-      @input="updateInput"
-    ></textarea>
+  <form class="messages__controls" ref="form">
     <div class="textarea-chat__ctrl textarea-ctrl">
-      <div class="textarea-ctrl__item textarea-ctrl__attachment">
-        <v-icon color="#c3ab7c">mdi-attachment</v-icon>
+      <div
+        class="textarea-ctrl__item textarea-ctrl__attachment"
+        style="position: relative;"
+      >
+        <v-icon color="#030303">mdi-plus</v-icon>
         <span
-          v-show="files.length && files[0] != null"
+          v-show="files.length && files[0] !== null"
           class="textarea-ctrl__attach-have"
         ></span>
         <input
@@ -20,10 +17,17 @@
           class="textarea-ctrl__attachment-input"
         />
       </div>
-      <div class="textarea-ctrl__item textarea-ctrl__send" v-on:click="send()">
-        <v-icon color="#c3ab7c">mdi-send</v-icon>
-      </div>
     </div>
+    <input
+      name="msg"
+      placeholder="Сообщение"
+      class="messages__controls__textarea"
+      :value="getInput"
+      @input="updateInput"
+    />
+    <svg class="messages__controls__svg" v-on:click="send()">
+      <use xlink:href="#forward"></use>
+    </svg>
   </form>
 </template>
 
@@ -74,30 +78,31 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped="scoped">
+.messages__controls__textarea {
+  //opacity: 0;
+  //position: absolute;
+  //z-index: 10;
+  //width: 30px;
+  //top: 0;
+  //left: 0;
+  //overflow: hidden;
+
+  &::-webkit-file-upload-button {
+    width: 30px !important;
+  }
+}
+
+span[aria-hidden="true"] {
+  display: none;
+}
+
+#whiteboardContainer {
+  height: 700px !important;
+}
+</style>
+
 <style scoped="scoped">
-.textarea-chat {
-  position: relative;
-}
-.textarea-chat__textarea {
-  width: 100%;
-  padding: 20px;
-  padding-right: 100px;
-  display: block;
-  border: 0;
-  border-top: 2px solid #e3eaee;
-  resize: none;
-  outline: none;
-  outline-color: invert;
-}
-.textarea-chat__textarea:focus {
-  border-top: 1px solid #ccad72;
-}
-.textarea-chat__ctrl {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-}
 .textarea-ctrl__attachment-input {
   position: absolute;
   width: 100%;

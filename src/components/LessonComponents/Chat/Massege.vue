@@ -1,22 +1,33 @@
 <template>
-  <div class="massege vue-component">
-    <avatar class="massege__avatar" :path="avatar" />
-    <div class="content__massege content-massege">
-      <div class="content-massege__info">
-        <title-chat class="content-massege__user">
-          {{ author || "Пользователь" }}
-        </title-chat>
-        <div class="content-massege__time">{{ time }}</div>
-      </div>
-      <div class="text__content-massege">{{ text }}</div>
+  <div class="messages__item">
+    <div class="messages__author-img-block">
+      <img class="messages__author-img" :src="avatar" alt="Avatar" />
+    </div>
+
+    <div class="messages__message">
+      <h4 class="message__author">{{ author || "Пользователь" }}</h4>
+      <p class="message__text">{{ text }}</p>
       <attachments :attachments="attachments" />
     </div>
   </div>
+  <!--  <div class="massege vue-component">-->
+  <!--    <avatar class="massege__avatar" :path="avatar" />-->
+  <!--    <div class="content__massege content-massege">-->
+  <!--      <div class="content-massege__info">-->
+  <!--        <title-chat class="content-massege__user">-->
+  <!--          {{ author || "Пользователь" }}-->
+  <!--        </title-chat>-->
+  <!--        <div class="content-massege__time">{{ time }}</div>-->
+  <!--      </div>-->
+  <!--      <div class="text__content-massege">{{ text }}</div>-->
+  <!--      <attachments :attachments="attachments" />-->
+  <!--    </div>-->
+  <!--  </div>-->
 </template>
 
 <script>
-import Avatar from "./Thumbnail";
-import TitleChat from "./Title";
+// import Avatar from "./Thumbnail";
+// import TitleChat from "./Title";
 import Attachments from "./Attachments";
 
 import { mapGetters } from "vuex";
@@ -31,8 +42,8 @@ export default {
     ...mapGetters(["user"])
   },
   components: {
-    Avatar,
-    TitleChat,
+    // Avatar,
+    // TitleChat,
     Attachments
   },
   props: ["avatar", "author", "time", "role", "text", "attachments"],

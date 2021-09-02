@@ -1,5 +1,9 @@
 <template>
-  <div class="masseges custom_scroll vue-component" ref="masseges">
+  <div
+    height="300px"
+    class="masseges messages__content active custom_scroll vue-component"
+    ref="masseges"
+  >
     <massege
       v-for="(msg, i) in getCurrentMsgs"
       :key="i"
@@ -10,7 +14,6 @@
       :attachments="msg.attachments"
       role="executor"
     />
-    <v-skeleton-loader v-if="getLoading" type="article@8" />
   </div>
 </template>
 
@@ -56,7 +59,6 @@ export default {
 .masseges {
   height: calc(100% - 74px);
   padding: 20px;
-  padding-top: 0;
   overflow-y: auto;
   position: relative;
   overflow-x: hidden;

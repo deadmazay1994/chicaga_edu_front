@@ -11,33 +11,14 @@ export default {
     hiddenSignIn: state => {
       state.signInOpen = false;
     },
-    setStateSignIn: (state, val) => (state.signInOpen = val),
-    toggleReportModal: (state, val = null) => {
-      if (val === null) {
-        state.reportOpen = !state.reportOpen;
-      } else {
-        state.reportOpen = val;
-      }
-    },
-    setReportData: (state, data) => (state.reportData = data)
+    setStateSignIn: (state, val) => (state.signInOpen = val)
   },
   state: {
-    signInOpen: false,
-    reportOpen: false,
-    reportData: {
-      taskIndex: "",
-      comment: "",
-      pageName: "",
-      lessonLink: ""
-    }
+    signInOpen: false
   },
   getters: {
     signInOpen: state => {
       return state.signInOpen;
-    },
-    reportOpen: state => {
-      return state.reportOpen;
-    },
-    reportData: state => state.reportData
+    }
   }
 };

@@ -87,6 +87,7 @@ export default {
     },
     maxItemLen() {
       let m = 0;
+      console.log(this.input);
       this.inputCopy.body.forEach(e => {
         if (e.tasks.length > m) {
           m = e.tasks.length;
@@ -102,6 +103,7 @@ export default {
   props: ["input", "childSaved", "index"],
   beforeMount() {
     this.setInputCopy();
+    console.log(this._data);
     // if (this.saved) {
     //   this._data = JSON.parse(this.saved);
     // } else {

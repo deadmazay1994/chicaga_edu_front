@@ -39,52 +39,35 @@ export default {
           );
           letters = [];
           this.pushMissingAnswers(gapNum);
-          if (!this.inputSize)
-            this.setInputSize(this.sentenceMap[gapNum] * 10 + 15);
-          let input = h("input", {
-            class: {
-              "fill-gaps-item__input": true,
-              "fill-gaps-item__input--correct":
-                this.answers[gapNum].correct == true,
-              "fill-gaps-item__input--uncorrect":
-                !this.answers[gapNum].correct && this.answered
-            },
-            style: {
-              // Ширина инпута в зависимости от длинны пропущенного слова
-              width: this.inputSize + "px"
-            },
-            on: {
-              input: event => {
-                this.updateModelInput(
-                  event.target.value,
-                  event.target.dataset.index
-                );
-              }
-            },
-            attrs: {
-              "data-index": gapNum
-            },
-            refInFor: true,
-            ref: "input"
-          });
+          if (!this.inputSize) this.setInputSize(this.sentenceMap[gapNum] * 10);
           res.push(
-            <span style="position: relative">
-              {input}
-              <span
-                class={`fill-gaps-item__show-answer ${
-                  this.answers[gapNum].correct || !this.answered
-                    ? "fill-gaps-item__show-answer--hidden"
-                    : ""
-                }`}
-                vOn:click={() => {
-                  this.showAnswer(gapNum);
-                }}
-              >
-                ?
-              </span>
-            </span>
+            h("input", {
+              class: {
+                "fill-gaps-item__input": true,
+                "fill-gaps-item__input--correct":
+                  this.answers[gapNum].correct == true,
+                "fill-gaps-item__input--uncorrect":
+                  !this.answers[gapNum].correct && this.answered
+              },
+              style: {
+                // Ширина инпута в зависимости от длинны пропущенного слова
+                width: this.inputSize + "px"
+              },
+              on: {
+                input: event => {
+                  this.updateModelInput(
+                    event.target.value,
+                    event.target.dataset.index
+                  );
+                }
+              },
+              attrs: {
+                "data-index": gapNum
+              },
+              refInFor: true,
+              ref: "input"
+            })
           );
-          res.push();
           gap = false;
           gapNum++;
         } else if (!gap) {
@@ -104,7 +87,7 @@ export default {
         }
       }
     } else {
-      console.error("this.newSentence is false: render:parseText");
+      console.log("this.newSentence is false: render:parseText");
     }
     return h(
       "div",
@@ -128,7 +111,7 @@ export default {
   },
   methods: {
     setInputSize(number) {
-      this.inputSize = number + getRandomInt(number + 10);
+      this.inputSize = number + getRandomInt(number + 10) + 10;
     },
     updateModelInput(val, inputIndex) {
       if (this.answers) {
@@ -239,10 +222,6 @@ export default {
         );
       }
     },
-    showAnswer(index) {
-      let ans = this.sentence.match(/\[(.*?)\]/g)[index - 1];
-      this.updateModelInput(ans.substring(1, ans.length - 1), index - 1);
-    },
     customForceUpdate(data) {
       data.answers.forEach((ans, i) => {
         this.updateModelInput(ans.val, i);
@@ -334,26 +313,6 @@ export default {
     margin-bottom: 5px
     max-height: 50px
     width: auto
-  &__show-answer
-    color: #555
-    font-weight: bold
-    border: 1px solid #555
-    font-size: 10px
-    cursor: pointer
-    border-radius: 100%
-    align-items: center
-    justify-content: center
-    width: 15px
-    height: 15px
-    display: inline-flex
-    opacity: 1
-    pointer-events: all
-    position: absolute
-    right: 1px
-    &--hidden
-      opacity: 0
-      pointer-events: none
-
 
 .fill-gaps-item--uncorrect
   .fill-gaps-item__input

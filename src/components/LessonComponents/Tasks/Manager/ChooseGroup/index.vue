@@ -1,25 +1,40 @@
 <!-- Интерфейс для выбора группы упражнений -->
 <template>
-  <div class="choose-group vue-component" v-click-outside="hide">
-    <v-icon
-      size="40"
-      class="choose-group__nav choose-group__nav--left"
-      @click="prev"
-      v-show="prevActive"
-      >mdi-arrow-down</v-icon
+  <div class="task__date active">
+    <button
+      class="date__item"
+      :class="activeGroupName === index + 1 ? 'active' : ''"
+      v-for="(item, index) in groupsNames"
+      v-bind:key="index"
+      @click="moveGroup(index)"
     >
-    <v-icon
-      size="40"
-      class="choose-group__nav choose-group__nav--right"
-      @click="next"
-      v-show="nextActive"
-      >mdi-arrow-down</v-icon
-    >
+      {{ index + 1 }}
+    </button>
   </div>
+  <!--  <div class="choose-group vue-component" v-click-outside="hide">-->
+  <!--    <v-icon-->
+  <!--      size="40"-->
+  <!--      class="choose-group__nav choose-group__nav&#45;&#45;left"-->
+  <!--      @click="prev"-->
+  <!--      v-show="prevActive"-->
+  <!--      >mdi-arrow-down</v-icon-->
+  <!--    >-->
+  <!--    <div class="choose-group__name text-h4 text-center main-color-text">-->
+  <!--      {{ activeGroupName }}-->
+  <!--    </div>-->
+  <!--    <v-icon-->
+  <!--      size="40"-->
+  <!--      class="choose-group__nav choose-group__nav&#45;&#45;right"-->
+  <!--      @click="next"-->
+  <!--      v-show="nextActive"-->
+  <!--      >mdi-arrow-down</v-icon-->
+  <!--    >-->
+  <!--  </div>-->
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "choose-group",
   data: function() {
@@ -49,24 +64,24 @@ export default {
     moveGroup(step) {
       this.ctxNav(
         step,
-        () => this.setActiveGroupLesson(this.activeGroupIndexLesson + step),
-        () => this.setActiveGroupHomework(this.activeGroupIndexHomework + step)
+        () => this.setActiveGroupLesson(step),
+        () => this.setActiveGroupHomework(step)
       );
     },
     ctxNav(step, lesson, homework) {
       this.ctx(
         () => {
           if (
-            0 <= this.activeGroupIndexLesson + step &&
-            this.activeGroupIndexLesson + step < this.groupsLesson.length
+            0 <= this.activeGroupIndexLesson &&
+            this.activeGroupIndexLesson < this.groupsLesson.length
           ) {
             lesson();
           }
         },
         () => {
           if (
-            0 <= this.activeGroupIndexHomework + step &&
-            this.activeGroupIndexHomework + step < this.groupsHomework.length
+            0 <= this.activeGroupIndexHomework &&
+            this.activeGroupIndexHomework < this.groupsHomework.length
           ) {
             homework();
           }
@@ -148,14 +163,19 @@ export default {
 .choose-group
   position: relative
   width: 100%
+
   &__nav
     position: absolute
     cursor: pointer
     color: $main_color
+
     &--left
-      left: 5px
+      left: 0
+      top: 10px
       transform: rotate(90deg)
+
     &--right
-      right: 5px
+      right: 0
+      top: 10px
       transform: rotate(-90deg)
 </style>

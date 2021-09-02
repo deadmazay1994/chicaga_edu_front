@@ -21,7 +21,7 @@
         <draggable
           :list="group.words"
           group="words"
-          style="height: 100%; "
+          style="height: 100%"
           @change="onChange"
         >
           <div
@@ -135,6 +135,9 @@ export default {
       this.setShuffled();
       this.setGropus();
     }
+    // setInterval(() => {
+    //   console.log(JSON.stringify(this._data))
+    // }, 5000);
   }
 };
 </script>

@@ -26,7 +26,8 @@ async function get(method, data = "", token = localStorage.getItem("token")) {
     url: API_URL + method + query,
     headers: {
       Authorization: "Bearer " + token,
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
   });
   return responseProcessing(r, method);
@@ -79,11 +80,8 @@ export default {
     async getMyCourses() {
       return get("user/courses");
     },
-    async getCourseInfo({ id, publicC }) {
-      let res;
-      if (publicC) res = await get("courses/public", id);
-      else res = await get("user/course", id);
-      return res;
+    async getCourseInfo(id) {
+      return get("user/course", id);
     },
     async getProgressForTeacher() {
       return get("teacher/courses");
@@ -96,11 +94,7 @@ export default {
       }
     },
     async getLessonProgress(courseId, lesonId) {
-      let res = await get(`user/course/${courseId}/lesson/${lesonId}`);
-      if (res.error) {
-        res = await get(`course/${courseId}/lesson/${lesonId}`);
-      }
-      return res;
+      return await get(`user/course/${courseId}/lesson/${lesonId}`);
     },
     async saveProgressLesson(data) {
       return post(
@@ -194,9 +188,6 @@ export default {
       }
     },
     // Outher
-    async sendMail(data) {
-      return await post("mail/send", data);
-    },
     getErrorText(response) {
       let errorText = "";
       if ("error" in response) {

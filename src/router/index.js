@@ -41,14 +41,6 @@ const routes = [
     }
   },
   {
-    path: "/lesson/:courseId/:id/:roomId",
-    name: "lesson_teacher_room",
-    component: Lesson,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/lesson/:courseId/:id/:userid",
     name: "lesson",
     component: Lesson,
@@ -107,29 +99,45 @@ const routes = [
     component: Auth,
     meta: {
       guest: true,
+      layout: "auth-wrapper",
       requiresAuth: false
     },
     children: [
       {
         path: "login",
         name: "login",
-        component: Login
+        component: Login,
+        meta: {
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "",
-        component: Login
+        component: Login,
+        meta: {
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "register",
-        component: Register
+        component: Register,
+        meta: {
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "recover",
-        component: Recover
+        component: Recover,
+        meta: {
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "recover/:hash",
-        component: Recover
+        component: Recover,
+        meta: {
+          layout: "auth-wrapper"
+        }
       }
     ]
   },
@@ -176,15 +184,20 @@ const routes = [
   }
 ];
 
-const beforeRedirect = (to, from, next) => {
+export const router = new VueRouter({
+  mode: "hash",
+  // mode: "history",
+  // base: process.env.BASE_URL,
+  base: process.env.BASE_URL + "/edu/",
+  routes
+});
+
+// Скрываем страницы от не авторизированных пользователей
+router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Отрабатывет ситуацию, когда в любом случае нужно перейти на страницу
-    let forseRedirect = false;
-    if (to.params.courseId && to.params.id == "consultation")
-      forseRedirect = true;
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
-    if (!localStorage.getItem("token") && !forseRedirect) {
+    if (!localStorage.getItem("token")) {
       next({
         path: "/auth/login",
         query: { redirect: to.fullPath }
@@ -221,18 +234,6 @@ const beforeRedirect = (to, from, next) => {
   } else {
     next();
   }
-};
-
-export const router = new VueRouter({
-  mode: "hash",
-  // mode: "history",
-  // base: process.env.BASE_URL,
-  base: process.env.BASE_URL + "/edu/",
-  routes,
-  beforeEnter: beforeRedirect
 });
-
-// Скрываем страницы от не авторизированных пользователей
-router.beforeEach(beforeRedirect);
 
 export default router;

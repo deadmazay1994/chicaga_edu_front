@@ -1,31 +1,49 @@
 <template>
-  <v-form v-model="valid" class="login vue-component">
+  <v-form v-model="valid" class="auth-form">
     <auth-title>Авторизация</auth-title>
-    <v-text-field
-      label="Email"
-      v-model="user.email"
-      type="email"
-      required
-      :rules="emailRules"
-      :lazy-validatio="true"
-      @keyup.enter="login"
-    ></v-text-field>
-    <v-text-field
-      label="Пароль"
-      v-model="user.password"
-      type="password"
-      required
-      :rules="passwordAuthRules"
-      @keyup.enter="login"
-    ></v-text-field>
-    <v-divider class="mb-2"></v-divider>
-    <div class="text-subtitle-1 d-block text-right">
-      <router-link to="recover" link>Забыли пароль?</router-link>
+    <div class="auth-form__body">
+      <label class="auth-input">
+        <svg>
+          <use xlink:href="#auth-person-icon"></use>
+        </svg>
+        <input
+          style="background: transparent"
+          v-model="user.email"
+          type="email"
+          placeholder="Электронный адрес"
+          required
+          :rules="emailRules"
+          @keyup.enter="login"
+        />
+      </label>
+      <label class="auth-input">
+        <svg>
+          <use xlink:href="#auth-pass-icon"></use>
+        </svg>
+        <input
+          v-model="user.password"
+          type="password"
+          required
+          placeholder="Пароль"
+          :rules="passwordAuthRules"
+          @keyup.enter="login"
+        />
+      </label>
+      <router-link class="reset-password-link text-button" to="recover" link
+        >Забыли пароль?</router-link
+      >
     </div>
-    <v-divider class="mt-2"></v-divider>
-    <v-btn large class="main-color main-color--text mt-5" block @click="login"
-      >Войти</v-btn
-    >
+    <div class="auth-form__footer">
+      <button class="auth-form__submit auth-button" @click="login">
+        Войти
+      </button>
+      <div class="auth-form__link-bar">
+        <span href="#" class="auth-form__link text-button">Нет аккаунта?</span>
+        <router-link to="/auth/register" class="auth-form__link text-button"
+          ><strong>Зарегистрироваться</strong></router-link
+        >
+      </div>
+    </div>
   </v-form>
 </template>
 
@@ -52,7 +70,11 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    isValid() {
+      return this.valid;
+    }
+  },
   components: {
     AuthTitle
   },
