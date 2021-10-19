@@ -3,6 +3,7 @@ export default class {
     this.medias = [];
   }
   push(mediaData, user = false) {
+    console.log("push");
     // Второй параметр это юзер настройки которого надо описать тут
     let error = 0;
     this.medias.forEach(media => {

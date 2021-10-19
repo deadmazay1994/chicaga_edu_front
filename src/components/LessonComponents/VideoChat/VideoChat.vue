@@ -28,15 +28,26 @@
         />
       </div>
     </div>
-    <setup />
+    <!-- <div class="video-chat__miniatures">
+      <template v-for="(mediaObject, index) in medias.medias">
+        <video-component
+          v-if="Number(index) != Number(activeVideoIndex)"
+          class="video-chat__video video-chat__video--miniature"
+          :miniature="true"
+          :mediaObject="mediaObject"
+          :indexVideo="index"
+          @toggleFullSize="onFullSizeToggle"
+          @toggleMicro="onToggleMicro"
+          :key="index"
+        />
+      </template>
+    </div> -->
   </div>
 </template>
 
 <script>
 import VideoComponent from "./VideoComponent";
 import Peer from "peerjs";
-
-import Setup from "./Setup";
 
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
@@ -123,12 +134,14 @@ export default {
         if (user) {
           if (data.data.name in user) {
             user[data.data.name] = data.data.val;
+            console.log(data.data);
           }
         }
       });
     },
     // Логика подключения
     joinToChat() {
+      console.log("join");
       let ifIsSafariSetPeerServerOptionsForSafari = () => {
         let seemsChrome = navigator.userAgent.indexOf("Chrome") > -1;
         let seemsSafari = navigator.userAgent.indexOf("Safari") > -1;
@@ -228,6 +241,7 @@ export default {
       // 2
       // Сервер отправляет всех участников чата
       this.socket.on("send users", async data => {
+        console.log(data);
         this.color = data.aboutMe.color;
         // Записываем свой socket id
         this.socketId = data.socketId;
@@ -239,6 +253,7 @@ export default {
         data.users.forEach(user => {
           let peer = new Peer(this.randomStr(), this.peerServer);
           peer.on("error", () => {
+            console.log("Попытка реконекта");
             peer.reconnect();
           });
           this.allPeers.push(peer);
@@ -294,6 +309,7 @@ export default {
             var peer = new Peer(this.randomStr(), this.peerServer);
             this.allPeers.push(peer);
             peer.on("error", () => {
+              console.log("Попытка реконекта");
               peer.reconnect();
             });
             peer.on("open", () => {
@@ -343,9 +359,7 @@ export default {
     },
     onReturnInGroup() {
       this.socket.on("on return in group", () => {
-        this.setLessonId(
-          this.$route.params.id + this.$route.params.roomId || ""
-        );
+        this.setLessonId(this.$route.params.id);
         this.joinToChat();
       });
     },
@@ -387,11 +401,10 @@ export default {
     ])
   },
   components: {
-    VideoComponent,
-    Setup
+    VideoComponent
   },
   mounted() {
-    this.setLessonId(this.$route.params.id + this.$route.params.roomId || "");
+    this.setLessonId(this.$route.params.id);
     this.onSendUsers();
     this.onGetMsg();
     this.onConnectToGroup();
@@ -407,7 +420,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
 .video-chat
   position: relative
   display: flex
@@ -416,6 +428,7 @@ export default {
   align-items: center
   justify-content: space-between
   positon: relative
+  height: 450px !important
   &__videos-wrap
     display: flex
     flex-wrap: wrap
@@ -437,6 +450,7 @@ export default {
     margin-top: 5px
     width: 50%
     min-width: 140px
+    height: 450px
     &--miniature
       &:nth-child(2n)
         justify-self: end

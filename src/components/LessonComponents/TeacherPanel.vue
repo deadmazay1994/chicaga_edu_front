@@ -1,5 +1,5 @@
 <template>
-  <div class="teacher-panel  vue-component" v-if="this.user.role == 'teacher'">
+  <div class="teacher-panel vue-component" v-if="this.user.role == 'teacher'">
     <v-icon
       @click.native="toggleShow"
       class="teacher-panel__toggler"
@@ -13,7 +13,7 @@
           class="table-item d-inline-block students__student"
           v-for="user in socketUsers"
           :key="user.id"
-          style="position: relative;"
+          style="position: relative"
           @click="toggleUser(user.id)"
           :class="{ 'students__student--active': isActiveUser(user.id) }"
         >
@@ -27,7 +27,11 @@
       <div>
         <div v-for="(group, i) in groups" :key="i">
           <div
-            class="table-title teacher-panel__group-item teacher-panel__table-title d-inline-block"
+            class="
+              table-title
+              teacher-panel__group-item teacher-panel__table-title
+              d-inline-block
+            "
           >
             {{ group.name }}
           </div>
@@ -101,6 +105,8 @@ export default {
       });
     },
     createGroups(roomId = false) {
+      console.log(this.groups);
+
       if (this.inOurRoom) {
         this.socket.emit("create groups", {
           userRoomId: roomId ? roomId : this.roomId,

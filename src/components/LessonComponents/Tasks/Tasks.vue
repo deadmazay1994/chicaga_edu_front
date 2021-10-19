@@ -30,7 +30,12 @@
           >
             ПРОВЕРИТЬ
           </button>
-          <button v-if="isHomework" @click="showAnswers" class="red-btn" large>
+          <button
+            v-if="isHomework || user.role == 'teacher'"
+            @click="showAnswers"
+            class="red-btn"
+            large
+          >
             ПОКАЗАТЬ ОТВЕТЫ
           </button>
         </div>

@@ -1,5 +1,6 @@
 <template>
   <div class="edu-panel lessons__task vue-component" style="margin-left: 0">
+    <teacher-panel></teacher-panel>
     <div class="task__header">
       <div class="task__header__item">
         <div class="task__header__inner">
@@ -95,6 +96,7 @@
 import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
+import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import Whiteboard from "./WhiteBoard/WhiteBoard";
 
 export default {
@@ -118,7 +120,8 @@ export default {
   components: {
     Tasks,
     Attachs,
-    Whiteboard
+    Whiteboard,
+    TeacherPanel
   },
   props: [],
   mixins: {},
@@ -195,7 +198,6 @@ export default {
   padding: 25px 10px 20px 10px !important;
 }
 .task__menu__item:first-child {
-  padding-left: 0;
 }
 .task__menu__item:before {
   content: "";

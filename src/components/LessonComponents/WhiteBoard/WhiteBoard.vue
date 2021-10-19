@@ -2,7 +2,7 @@
   <div
     class="white-board vue-component"
     @click="hideColorPicker"
-    style="height: 350px"
+    style="height: 550px"
   >
     <!---Whiteboard container -!-->
     <div id="whiteboardContainer"></div>

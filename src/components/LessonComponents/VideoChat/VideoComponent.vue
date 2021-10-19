@@ -1,6 +1,6 @@
 <template>
   <div
-    class="video-component vue-component justify-center align-start rounded"
+    class="video-component vue-component justify-center align-center rounded"
     :class="{
       'video-component--active': active,
       'video-component--video-off': mediaObject.videoOff,
@@ -16,17 +16,14 @@
     ></video>
     <img
       v-if="mediaObject.videoOff || videoHidden"
-      :src="
-        mediaObject.avatar ||
-          'https://edu.chicaga.ru/images/avatars/no_avatar.jpg'
-      "
+      :src="mediaObject.avatar"
       class="video-component__avatar"
     />
     <div
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.name || "Гость" }}
+      {{ mediaObject.name }}
     </div>
     <div class="video-component__ctrls">
       <expand
@@ -266,9 +263,7 @@ export default {
       };
       if (this.myCaptureMedia === null) {
         await this.setCapture();
-        if (this.myCaptureMedia) {
-          activateVideo();
-        }
+        activateVideo();
       } else {
         activateVideo();
       }
@@ -300,9 +295,7 @@ export default {
     },
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
-        this.background =
-          this.mediaObject.avatar ||
-          "https://edu.chicaga.ru/images/avatars/no_avatar.jpg";
+        this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
     }
