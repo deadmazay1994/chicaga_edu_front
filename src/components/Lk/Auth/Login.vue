@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" class="auth-form">
+  <v-form v-model="valid" class="auth-form" @keyup.enter.stop="login">
     <auth-title>Авторизация</auth-title>
     <div class="auth-form__body">
       <label class="auth-input">
@@ -13,7 +13,6 @@
           placeholder="Электронный адрес"
           required
           :rules="emailRules"
-          @keyup.enter="login"
         />
       </label>
       <label class="auth-input">
@@ -26,7 +25,6 @@
           required
           placeholder="Пароль"
           :rules="passwordAuthRules"
-          @keyup.enter="login"
         />
       </label>
       <router-link class="reset-password-link text-button" to="recover" link
@@ -34,7 +32,7 @@
       >
     </div>
     <div class="auth-form__footer">
-      <button class="auth-form__submit auth-button" @click="login">
+      <button class="auth-form__submit auth-button" @click.stop="login">
         Войти
       </button>
       <div class="auth-form__link-bar">

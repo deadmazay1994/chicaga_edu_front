@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-form register-form">
+  <div class="auth-form register-form" @keyup.enter.stop="register">
     <div class="auth-form__header">
       <auth-title style="margin-bottom: 0">Регистрация</auth-title>
       <div class="auth-form__step">{{ step }} <span>/ 2</span></div>
@@ -34,7 +34,6 @@
             <input
               type="password"
               required
-              @keyup.enter="register"
               v-model="user.password_confirmation"
               placeholder="Повторите пароль"
             />
