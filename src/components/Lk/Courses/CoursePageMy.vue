@@ -17,10 +17,10 @@
               :key="lesson.id"
             >
               <div
-                class="d-flex justify-space-between align-center"
+                class="d-flex justify-space-between align-center is-card"
                 style="width: 100%"
               >
-                <div class="d-flex align-center" style="width: 70%">
+                <div class="d-flex align-center is-title" style="width: 70%">
                   <v-avatar
                     size="30"
                     :color="lesson.finished ? 'success' : 'error'"
@@ -41,7 +41,7 @@
                     >
                   </div>
                 </div>
-                <div style="width: 30%">
+                <div style="width: 30%" class="is-btns">
                   <router-link
                     class="d-block mb-2"
                     link
@@ -110,4 +110,54 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style lang="scss">
+@media (max-width: 767px) {
+  .course-page-my .is-card {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-direction: column !important;
+
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .course-page-my .is-btns {
+    display: flex;
+    align-items: center;
+
+    width: 100% !important;
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    a {
+      margin-bottom: 0 !important;
+      margin-right: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .course-page-my .is-title {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+
+  .course-page-my .v-list {
+    margin: 0 -15px;
+  }
+
+  .lessons__content {
+    margin: 0 -15px;
+  }
+}
+</style>

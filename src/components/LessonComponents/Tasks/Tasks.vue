@@ -18,7 +18,7 @@
     </div>
     <portal to="manager__bottom">
       <div v-if="showCheckBtn" class="tasks__fixed mb-2">
-        <div class="d-flex justify-center">
+        <div class="d-flex justify-center is-red-btns">
           <button
             v-if="
               (this.attemptNum == 0 || !this.noAddAtempt) &&

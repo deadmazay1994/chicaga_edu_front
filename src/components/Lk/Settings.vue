@@ -132,4 +132,10 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style lang="scss">
+@media (max-width: 600px) {
+  .vue-image-crop-upload .vicp-wrap {
+    width: calc(100% - 80px);
+  }
+}
+</style>
