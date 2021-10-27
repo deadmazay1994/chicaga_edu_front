@@ -136,4 +136,89 @@ export default {
     height: 100%
 </style>
 
-<style lang="scss"></style>
+<style lang="scss">
+@media (max-width: 1360px) {
+  .lessons-pg {
+    display: flex;
+    flex-direction: column-reverse !important;
+
+    .lessons__task,
+    .lessons__chat {
+      width: 100% !important;
+    }
+
+    .manager__workspace {
+      height: auto !important;
+    }
+
+    .red-btn {
+      margin-top: 0;
+    }
+
+    .task__date {
+      margin-bottom: 0;
+    }
+
+    .task__menu__item {
+      padding: 0;
+      margin-right: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    .v-slide-group__content {
+      justify-content: flex-start;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .lessons-pg {
+    // margin: 0 -15px;
+
+    .task__menu {
+      display: flex;
+      justify-content: space-between;
+      padding: 25px 20px 20px 38px;
+      border-radius: 25px 25px 0 0;
+      background: hsla(0, 0%, 50%, 0.1) !important;
+    }
+
+    .task__menu__item {
+      min-width: auto !important;
+      width: auto !important;
+    }
+
+    .v-tabs-bar__content {
+      overflow-x: auto;
+    }
+
+    .lessons__chat {
+      display: block;
+    }
+
+    .lessons__task {
+      padding: 0 6px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .lessons-pg {
+    .is-red-btns {
+      display: flex;
+      flex-direction: column;
+
+      .red-btn {
+        width: 100%;
+        margin-bottom: 15px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+</style>
