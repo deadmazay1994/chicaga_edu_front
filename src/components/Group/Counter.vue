@@ -3,7 +3,20 @@
     <div class="title">
       <h4 class="main--text">Занятие начнется через</h4>
     </div>
-    <div v-html="getTimeStr(currentTime)" class="counter-content"></div>
+    <div class="counter-content">
+      <div class="counter-item">
+                <div class="counter-num">{{timeStrGetHours(currentTime)}}</div>
+                <div class="counter-text">ЧАС</div>
+            </div> 
+            <div class="counter-item">
+                <div class="counter-num">{{timeStrGetMinutes(currentTime)}}</div>
+                <div class="counter-text">МИН</div>
+            </div> 
+            <div class="counter-item">
+                <div class="counter-num">{{timeStrGetSeconds(currentTime)}}</div>
+                <div class="counter-text">СЕК</div>
+            </div>
+    </div>
   </div>
 </template>
 
@@ -12,13 +25,27 @@ export default {
   name: 'timer',
   props: {
     currentTime: Number,
-    isOlympiad: Boolean,
-    isLesson: Boolean
   },
   data: () => ({
     timerID: null
   }),
   methods: {
+  
+    timeStrUppendZeroToStartStr(str) {
+        if (String(str).length == 1) return `0${str}`
+        return str
+    },
+    timeStrGetHours(seconds) {
+        return this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600))
+    },
+    timeStrGetMinutes(seconds) {
+        return this.timeStrUppendZeroToStartStr(
+            Math.floor((seconds % 3600) / 60)
+        )
+    },
+    timeStrGetSeconds(seconds) {
+        return this.timeStrUppendZeroToStartStr((seconds % 3600) % 60)
+    },
     changeTimer() {
       this.timerID = setInterval(() => {
         this.$emit('updateTimer')
@@ -48,6 +75,7 @@ export default {
   .counter-content {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .counter-item {
