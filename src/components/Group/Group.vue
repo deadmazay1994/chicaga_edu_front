@@ -35,14 +35,14 @@
               <td>
                 {{
                   item.time
-                    ? new Date(item.time * 1000).toLocaleTimeString()
+                    ? convertDate(new Date(item.time * 1000), 'HH:MM')
                     : " "
                 }}
               </td>
               <td>
                 {{
                   item.time
-                    ? new Date(item.time * 1000).toLocaleDateString()
+                    ? convertDate(new Date(item.time * 1000), 'yyyy.mm.dd')
                     : " "
                 }}
               </td>
@@ -58,6 +58,7 @@
 import api from "@/mixins/api";
 import PageTitle from "@/components/Base/PageTitle";
 // import Lesson from "@/components/Group/Lesson"
+import dateFormat from "dateformat";
 
 export default {
   name: "Group",
@@ -86,6 +87,9 @@ export default {
     };
   },
   methods: {
+    convertDate(val,f){
+        return dateFormat(val,f)
+    },
     handleClickOnRow(event) {
         const parent = event.target.closest("tr");
         const uniq_id = parent.dataset.uniq_id;

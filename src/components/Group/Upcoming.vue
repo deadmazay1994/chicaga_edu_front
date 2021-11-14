@@ -67,6 +67,7 @@ export default {
       console.log('Response',r)
       // if (!r.start) return
       // hardcoded start time
+      //this.lesson = r
       this.lesson = { start_time: 1639443736 * 1000}
       return true
     },
@@ -76,7 +77,7 @@ export default {
     redirectToLessonIfLessonStart() {
       let tenMinutes = 600
       if (tenMinutes > this.timeToLesson) {
-        this.$router.push('/')
+        this.$router.push({ path:'/'})
         clearInterval(this.timerId)
       }
     }
