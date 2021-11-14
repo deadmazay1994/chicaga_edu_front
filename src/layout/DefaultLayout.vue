@@ -901,8 +901,8 @@
             </defs>
           </svg>
         </div>
-        <navigation />
-        <div class="menu-btn"></div>
+        <navigation :mobilemenuopen="showBurger" />
+        <div class="menu-btn" @click.prevent="openBurgerMenu"></div>
       </div>
       <div class="content content--lessons">
         <header-app />
@@ -931,7 +931,8 @@ export default {
   name: "App",
   data() {
     return {
-      canRenderChild: false
+      canRenderChild: false,
+      showBurger: false
     };
   },
   components: {
@@ -944,6 +945,9 @@ export default {
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),
+    openBurgerMenu() {
+      this.showBurger = !this.showBurger;
+    },
     setStandartLocalStorageStates() {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
@@ -1122,7 +1126,9 @@ body
 
     cursor: pointer;
   }
-
+  .mobile-active {
+    right: 242px !important;
+  }
   .menu-btn:before {
     content: "";
     width: 16px;
