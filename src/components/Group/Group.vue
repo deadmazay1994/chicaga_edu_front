@@ -95,7 +95,6 @@ export default {
             uniq_id: uniq_id,
           },
         });
-        console.log(uniq_id);
     },
     async getGroups() {
       // Start loading page

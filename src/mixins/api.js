@@ -100,6 +100,12 @@ export default {
         return response.data.lesson;
       }
     },
+    async getFullLesson(id) {
+      let response = await Axios.get(API_URL + "lesson/" + id);
+      if (response.status == 200) {
+        return response.data;
+      }
+    },
     async getLessonProgress(courseId, lesonId) {
       return await get(`user/course/${courseId}/lesson/${lesonId}`);
     },

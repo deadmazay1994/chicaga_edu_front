@@ -2,14 +2,14 @@
   <section class="sc-lessons-bud">
     <div class="container">
       <div class="row">
-        <div class="lesson-starts">
-          <div class="d-flex justify-content-center">
+        <div class="lesson-starts" v-show='lesson'>
+          <div class="d-flex justify-content-center center">
             <counter
               class="counter"
               :current-time="timeToLesson"
             />
           </div>
-          <div class="date-info">
+          <div class="date-info" >
             <span class="main--text"
               ><img src="@/assets/svg/cal_icon.svg" alt="" />
               {{ this.dateLesson }}</span
@@ -27,7 +27,7 @@
 
 <script>
 import Counter from '@/components/Group/Counter'
-// import moment from 'moment'
+import moment from 'moment'
 import dateFormat from 'dateformat'
 import api from '@/mixins/api'
 
@@ -39,7 +39,7 @@ export default {
       dateLesson: String,
       timeLesson: String,
       timerId: false,
-      lesson: {},
+      lesson: null,
       DateLessonTime: new Date()
     }
   },
@@ -63,24 +63,20 @@ export default {
     },
     // Get lesson by academig croup id
     async setLesson() {
-      let r = await api.methods.getLesson(this.$route.params.uniq_id)
-      console.log(this.$route.params.uniq_id)
-      if (!r.id) return
-      // this.lesson = r
-      // console.log(r)
-      // return true
+      let r = await api.methods.getFullLesson(this.$route.params.uniq_id)
+      console.log('Response',r)
+      // if (!r.start) return
+      // hardcoded start time
+      this.lesson = { start_time: 1639443736 * 1000}
+      return true
     },
     
     // Redirect lesson if it's start
+    // TODO: Make correct redirect link
     redirectToLessonIfLessonStart() {
       let tenMinutes = 600
       if (tenMinutes > this.timeToLesson) {
-        this.$router.push({
-          name: 'lesson',
-          params: {
-            id: this.$route.params.id
-          }
-        })
+        this.$router.push('/')
         clearInterval(this.timerId)
       }
     }
@@ -90,10 +86,10 @@ export default {
   },
   async beforeMount() {
     await this.setLesson()
-    // this.DateLessonTime = moment(this.lesson.start_time).valueOf()
-    // this.redirectToLessonIfLessonStart()
-    // this.startTimer()
-    // this.setDateAndTime()
+    this.DateLessonTime = moment(this.lesson.start_time).valueOf()
+    this.redirectToLessonIfLessonStart()
+    this.startTimer()
+    this.setDateAndTime()
   }
 }
 </script>
@@ -160,5 +156,10 @@ export default {
   &:hover {
     color: #8ed0f9;
   }
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
