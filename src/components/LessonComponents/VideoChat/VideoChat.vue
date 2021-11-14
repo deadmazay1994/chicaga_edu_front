@@ -11,37 +11,44 @@
         }"
         :style="videoWrapJustify(index)"
       >
-        <video-component
-          :indexVideo="index"
-          class="video-chat__video"
-          :class="{
-            'video-chat__video--active':
-              Number(index) == Number(activeVideoIndex),
-            'video-chat__video--miniature':
-              Number(index) != Number(activeVideoIndex)
-          }"
-          :active="Number(index) == Number(activeVideoIndex)"
-          :mediaObject="mediaObject"
-          :miniature="Number(index) != Number(activeVideoIndex)"
-          @toggleFullSize="onFullSizeToggle"
-          @toggleMicro="onToggleMicro"
-        />
+        <template v-if="Number(index) == Number(activeVideoIndex)">
+          <video-component
+            :indexVideo="index"
+            class="video-chat__video"
+            :class="{
+              'video-chat__video--active':
+                Number(index) == Number(activeVideoIndex)
+            }"
+            :active="Number(index) == Number(activeVideoIndex)"
+            :mediaObject="mediaObject"
+            @toggleFullSize="onFullSizeToggle"
+            @toggleMicro="onToggleMicro"
+          />
+        </template>
       </div>
     </div>
-    <!-- <div class="video-chat__miniatures">
-      <template v-for="(mediaObject, index) in medias.medias">
-        <video-component
-          v-if="Number(index) != Number(activeVideoIndex)"
-          class="video-chat__video video-chat__video--miniature"
-          :miniature="true"
-          :mediaObject="mediaObject"
-          :indexVideo="index"
-          @toggleFullSize="onFullSizeToggle"
-          @toggleMicro="onToggleMicro"
-          :key="index"
-        />
-      </template>
-    </div> -->
+    <div class="video-chat-miniatures-wrapper" v-if="medias.medias.length > 0">
+      <div class="miniatures-go" @click="scroll('upp')">
+        <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
+      </div>
+      <div class="video-chat-miniatures-list" ref="miniatures">
+        <template v-for="(mediaObject, index) in medias.medias">
+          <video-component
+            v-if="Number(index) != Number(activeVideoIndex)"
+            class="video-chat__video video-chat__video--miniature"
+            :miniature="true"
+            :mediaObject="mediaObject"
+            :indexVideo="index"
+            @toggleFullSize="onFullSizeToggle"
+            @toggleMicro="onToggleMicro"
+            :key="index"
+          />
+        </template>
+      </div>
+      <div class="miniatures-go" @click="scroll('down')">
+        <img src="@/assets/imgs/down-arrow.svg" alt="arrow down" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -100,6 +107,25 @@ export default {
       "setLocalstoradgeStatesToTracks"
     ]),
     ...mapMutations(["setLessonId", "destroyPeers", "initMedias", "callPush"]),
+    scroll(val) {
+      const miniatures = this.$refs.miniatures;
+      const scrollHeight = miniatures.scrollHeight;
+      if (val == "down") {
+        miniatures.scrollBy({
+          left: 0,
+          top: scrollHeight * 0.9,
+          behavior: "smooth"
+        });
+        console.log("Scroll down");
+      } else {
+        miniatures.scrollBy({
+          left: 0,
+          top: -(scrollHeight * 0.9),
+          behavior: "smooth"
+        });
+        console.log("Scroll Up");
+      }
+    },
     // Логика переключения FullSize
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
@@ -420,6 +446,37 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+
+.video-chat-miniatures-wrapper
+  height: 100%
+  position: absolute
+  width: 30%
+  background-color: #9d000040
+  z-index: 10 !important
+  right: 0
+  border-top-left-radius: 10px
+  border-bottom-left-radius: 10px
+  .miniatures-go
+    height: 12.5%
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 1001 !important
+    transition: all .2s
+    &:hover
+      cursor: pointer
+      background-color: #9d000041
+
+
+
+  .video-chat-miniatures-list
+    height: 75%
+    -ms-overflow-style: none
+    scrollbar-width: none
+    overflow-y: scroll
+  .video-chat-miniatures-list::-webkit-scrollbar
+    display: none
+
 .video-chat
   position: relative
   display: flex
@@ -444,18 +501,19 @@ export default {
     &--active
       width: 0
   .video-chat__video--miniature
-    width: 150px
-    height: 150px
+    width: calc(100% - 20px)
+    height: 100px
+    margin: 5px 10px
   &__video
     margin-top: 5px
     width: 50%
     min-width: 140px
     height: 450px
-    &--miniature
-      &:nth-child(2n)
-        justify-self: end
-    &:last-child
-      margin-right: 0
+    // &--miniature
+    //   &:nth-child(2n)
+    //     justify-self: end
+    // &:last-child
+    //   margin-right: 0
   &__video--active
     width: 100%
     margin: 0

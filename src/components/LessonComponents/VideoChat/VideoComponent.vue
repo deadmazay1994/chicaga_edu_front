@@ -25,7 +25,10 @@
     >
       {{ mediaObject.name }}
     </div>
-    <div class="video-component__ctrls">
+    <div
+      class="video-component__ctrls"
+      :class="{ 'video-component__ctrls-active': active }"
+    >
       <expand
         @click.native="toggleFullSize"
         class="video-component__expand video-component__ctrls-btn"
@@ -351,6 +354,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+
 .video-component
   position: relative
   z-index: 2
@@ -383,7 +387,6 @@ export default {
     border-radius: 100%
     z-index: 2
     display: block
-    width: 100px
     height: auto
     padding: 10px 0
   &__name
@@ -391,21 +394,22 @@ export default {
     left: 0
     bottom: 0
     background: #0005
-    padding: 5px 15px
+    padding: 3px 10px
+    margin: 5px
     color: #fff
     &--miniature
       padding: 2px
       font-size: 14px
   &__ctrls
-    position: absolute
-    right: 0
-    top: 0
-    background: #0005
-    padding: 5px
-    align-items: center
-    display: flex
-    flex-direction: row-reverse
-    & *
+      position: absolute
+      right: 0
+      top: 0
+      background: #0005
+      padding: 5px
+      align-items: center
+      display: flex
+      flex-direction: row-reverse
+  & *
       color: #fff
   &__expand
     width: 18px
@@ -428,6 +432,15 @@ export default {
     cursor: pointer
     display: flex
     align-items: center
+  &__ctrls-active
+    left: 0 !important
+    top: 30%
+    flex-direction: column-reverse !important
+    justify-content: center !important
+    width: fit-content
+    height: fit-content
+    gap:15px
+
   &--active
     z-index: 1
     margin: 0

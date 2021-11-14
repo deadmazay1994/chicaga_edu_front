@@ -6,7 +6,7 @@
 
     <div class="messages__message">
       <div style="display: flex; justify-content: space-between">
-        <h4 class="message__author">{{ aut0hor || "Пользователь" }}</h4>
+        <h4 class="message__author">{{ author || "Пользователь" }}</h4>
         {{ time }}
       </div>
       <p class="message__text">{{ text }}</p>
