@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   transpileDependencies: ["vuetify"],
-  publicPath: "/edu",
+  publicPath: "/edu/",
   configureWebpack: {
     resolve: {
       alias: {
@@ -21,8 +21,8 @@ module.exports = {
         ),
         Chat: path.resolve(__dirname, "src/components/LessonComponents/Chat/"),
         Components: path.resolve(__dirname, "src/components/"),
-        Mixns: path.resolve(__dirname, "src/mixins")
-      }
-    }
-  }
+        Mixns: path.resolve(__dirname, "src/mixins"),
+      },
+    },
+  },
 };
