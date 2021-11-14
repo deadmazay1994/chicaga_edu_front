@@ -21,6 +21,14 @@
     <router-link
       style="color: #0d0d0d"
       :class="
+        $route.path === '/lk/my-groups/' ? 'nav__link active' : 'nav__link'
+      "
+      to="/lk/my-groups"
+      >Мои группы</router-link
+    >
+    <router-link
+      style="color: #0d0d0d"
+      :class="
         $route.path === '/lk/dictionary' ? 'nav__link active' : 'nav__link'
       "
       to="/lk/dictionary"

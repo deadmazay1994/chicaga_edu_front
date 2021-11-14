@@ -11,14 +11,14 @@ import Register from "@/components/Lk/Auth/Register";
 import Recover from "@/components/Lk/Auth/Recover";
 
 import CourseListTeacher from "@/components/Teacher/CourseListTeacher";
-
+import Upcoming from "@/components/Group/Upcoming";
 import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
-
+import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
 
@@ -169,7 +169,16 @@ const routes = [
       {
         path: "dictionary",
         component: Dictionary
-      }
+      },
+      {
+        path: "my-groups",
+        component: Group,
+      },
+      {
+        path: "upcoming/:id",
+        name: 'upcoming-lesson',
+        component: Upcoming,
+      },
     ]
   },
   {

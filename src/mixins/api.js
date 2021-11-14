@@ -86,6 +86,13 @@ export default {
     async getProgressForTeacher() {
       return get("teacher/courses");
     },
+    // Group
+    async getAcademicGroups() {
+      return get("user/groups");
+    },
+    async getAcademicGroup(id) {
+      return get("user/group", id);
+    },
     // Lesson
     async getLesson(id) {
       let response = await Axios.get(API_URL + "lesson/" + id);
