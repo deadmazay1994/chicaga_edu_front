@@ -22,7 +22,7 @@
           <button
             v-if="
               (this.attemptNum == 0 || !this.noAddAtempt) &&
-                user.role != 'teacher'
+              user.role != 'teacher'
             "
             @click="check"
             class="red-btn"
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       attemptNum: 0,
-      loaded: false
+      loaded: false,
     };
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
       "setClearTasks",
       "saveProgressLesson",
       "saveProgressHomework",
-      "setProgressForTeacher"
+      "setProgressForTeacher",
     ]),
     check() {
       // Проверяем можно ли проходить тест еще раз
@@ -76,12 +76,12 @@ export default {
         if (this.isHomework) {
           this.saveProgressHomework({
             lessonId: this.$route.params.id,
-            courseId: this.$route.params.courseId
+            courseId: this.$route.params.courseId,
           });
         } else {
           this.saveProgressLesson({
             lessonId: this.$route.params.id,
-            courseId: this.$route.params.courseId
+            courseId: this.$route.params.courseId,
           });
         }
       }
@@ -91,7 +91,7 @@ export default {
         await this.setProgressForTeacher({
           courseId: this.$route.params.courseId,
           lessonId: this.$route.params.id,
-          userId: this.$route.params.userid
+          userId: this.$route.params.userid,
         });
         return true;
       } else {
@@ -100,7 +100,7 @@ export default {
     },
     showAnswers() {
       this.$refs.taskManager.showAnswers();
-    }
+    },
   },
   computed: {
     ...mapGetters([
@@ -112,7 +112,7 @@ export default {
       "activeGroupIndexHomework",
       "activeGroupIndexLesson",
       "groupsHomework",
-      "groupsLesson"
+      "groupsLesson",
     ]),
     tasks() {
       // Устанавливаем дз это или нет
@@ -134,10 +134,10 @@ export default {
         res = true;
       }
       return res;
-    }
+    },
   },
   components: {
-    TaskManager
+    TaskManager,
   },
   props: ["isHomework", "noAddAtempt"],
   mixins: [Api],
@@ -150,7 +150,7 @@ export default {
       try {
         await this.setSavedTasks({
           lessonId: this.$route.params.id,
-          courseId: this.$route.params.courseId
+          courseId: this.$route.params.courseId,
         });
         // Если прогресс пустой получаем сам урок
         if (!this.savedTasks.length || !this.savedHomework) {
@@ -161,7 +161,7 @@ export default {
       }
     }
     this.loaded = true;
-  }
+  },
 };
 </script>
 

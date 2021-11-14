@@ -3,7 +3,7 @@
     <p class="messages__number-of-members">
       Чат <span class="number-of-members__number">(4 участника)</span>
     </p>
-    <div class="messages__img">
+    <!-- <div class="messages__img">
       <div class="messages__avatar-block">
         <div class="messages__avatar-inner">
           <img
@@ -43,7 +43,7 @@
           />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   <!--  <div class="header-chat vue-component">-->
   <!--    <div class="header-chat__left">-->
@@ -74,15 +74,15 @@ export default {
     toggleChat() {
       this.toggleOpenChat();
       this.scrollToBottom();
-    }
+    },
   },
   computed: {
-    ...mapGetters(["user", "chatIsOpen", "newMsgsNum"])
+    ...mapGetters(["user", "chatIsOpen", "newMsgsNum"]),
   },
   components: {},
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
 };
 </script>
 

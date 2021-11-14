@@ -39,16 +39,16 @@ export default {
       <div class="manager__workspace">
         {...this.renderTasks(this.contextData, this.manager)}
       </div>,
-      ...managerBottom
+      ...managerBottom,
     ];
     return h("div", slots);
   },
-  data: function() {
+  data: function () {
     return {
       errorCounter: 0,
       checked: false,
       contextData: 0,
-      consultation: ConsultationData
+      consultation: ConsultationData,
     };
   },
   methods: {
@@ -61,14 +61,15 @@ export default {
       // Устанавливает количество тасков, которые проверяются
       let tasksNum = tasks.length;
       let addonsType = ["youtube_addons", "lesson_addons_files"];
-      tasks.forEach(gropup => {
-        tasksNum -= gropup.tasks.filter(task => addonsType.includes(task.type))
-          .length;
+      tasks.forEach((gropup) => {
+        tasksNum -= gropup.tasks.filter((task) =>
+          addonsType.includes(task.type)
+        ).length;
       });
       return tasksNum;
     },
     check() {
-      this.tasksForEach(task => {
+      this.tasksForEach((task) => {
         if (task.check) {
           // Метод проверки у каждого компонента разный
           task.check();
@@ -86,7 +87,7 @@ export default {
     },
     setErrorsNum() {
       this.errorCounter = 0;
-      this.tasksForEach(task => {
+      this.tasksForEach((task) => {
         if (!isNaN(task.error)) {
           this.errorCounter += Number(task.error);
         }
@@ -96,7 +97,7 @@ export default {
       return location.href.includes("consultation");
     },
     showAnswers() {
-      this.tasksForEach(task => {
+      this.tasksForEach((task) => {
         if (task.showAnswers) {
           task.showAnswers();
         }
@@ -106,7 +107,7 @@ export default {
           for (const i in task.$refs) {
             const refType = task.$refs[i];
             if (Array.isArray(refType)) {
-              refType.forEach(ref => {
+              refType.forEach((ref) => {
                 if (ref.constructor.name == "VueComponent" && ref.showAnswers) {
                   ref.showAnswers();
                 }
@@ -115,7 +116,7 @@ export default {
           }
         }
       });
-    }
+    },
   },
   computed: {
     ...mapGetters(["user", "socket", "teacherId", "activeUser"]),
@@ -128,11 +129,11 @@ export default {
       ) : (
         ""
       );
-    }
+    },
   },
   components: {
     ...TaskComponents,
-    TeacherPanel
+    TeacherPanel,
   },
   props: ["input", "saved", "savedHomework", "type"],
   mixins: [studentToTeacher, rerender, context, render],
@@ -148,7 +149,7 @@ export default {
       this.signalingToTeacherUserIsAnswred();
     });
     this.$parent.$on("saveTasks", this.saveTasks);
-  }
+  },
 };
 </script>
 

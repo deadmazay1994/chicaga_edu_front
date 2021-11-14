@@ -2,19 +2,19 @@
   <header class="header">
     <div class="header__title-block">
       <img src="@/assets/imgs/burger.svg" alt="" />
-      <h2 class="header__title">Уроки с преподователем</h2>
+      <!-- <h2 class="header__title">Уроки с преподователем</h2> -->
     </div>
 
     <div class="header__controls">
-      <div class="controls__item controls__item--header">
+      <!-- <div class="controls__item controls__item--header">
         <svg class="header__svg">
           <use xlink:href="#coin"></use>
         </svg>
 
         <span class="coin__text">00016847 т.</span>
-      </div>
+      </div> -->
 
-      <div class="header__additional-menu header__additional-menu--right">
+      <!-- <div class="header__additional-menu header__additional-menu--right">
         <svg
           class="header__svg header__svg--clickable"
           id="choose-theme"
@@ -116,7 +116,7 @@
         <div class="profile__menu profile__menu--2">
           <p class="profile__menu-p">У вас нет новых уведомлений</p>
         </div>
-      </div>
+      </div> -->
 
       <div class="header__avatar">
         <router-link to="/lk/settings">
@@ -127,12 +127,12 @@
       </div>
 
       <div class="header__additional-menu">
-        <svg
+        <!-- <svg
           class="header__svg header__arrow-down header__svg--clickable"
           id="shop__additional-menu"
         >
           <use xlink:href="#arrow-down"></use>
-        </svg>
+        </svg> -->
 
         <div class="profile__menu profile__menu--1">
           <button class="profile__menu-btn">Личные данные</button>
@@ -150,17 +150,17 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "header-app",
-  data: function() {
+  data: function () {
     return {};
   },
   methods: {
     ...mapMutations(["toggleDraver"]),
     showSignIn() {
       this.$store.commit("showSignIn");
-    }
+    },
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user"]),
   },
   // components: {
   //   DictAdd
@@ -178,7 +178,7 @@ export default {
     //   });
     //   console.log(r);
     // }
-  }
+  },
 };
 </script>
 

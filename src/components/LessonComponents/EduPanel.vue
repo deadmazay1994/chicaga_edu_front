@@ -101,9 +101,9 @@ import Whiteboard from "./WhiteBoard/WhiteBoard";
 
 export default {
   name: "edu-panel",
-  data: function() {
+  data: function () {
     return {
-      tab: null
+      tab: null,
     };
   },
   methods: {},
@@ -115,18 +115,18 @@ export default {
       } else {
         return "Задания";
       }
-    }
+    },
   },
   components: {
     Tasks,
     Attachs,
     Whiteboard,
-    TeacherPanel
+    TeacherPanel,
   },
   props: [],
   mixins: {},
   beforeMount() {},
-  mounted() {}
+  mounted() {},
 };
 </script>
 

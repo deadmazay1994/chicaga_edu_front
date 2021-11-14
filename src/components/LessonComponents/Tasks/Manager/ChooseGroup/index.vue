@@ -37,9 +37,9 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "choose-group",
-  data: function() {
+  data: function () {
     return {
-      show: false
+      show: false,
     };
   },
   methods: {
@@ -47,7 +47,7 @@ export default {
       "collectGroupsNamesLesson",
       "collectGroupsNamesHomework",
       "setActiveGroupLesson",
-      "setActiveGroupHomework"
+      "setActiveGroupHomework",
     ]),
     toggleShow() {
       this.show = !this.show;
@@ -97,14 +97,14 @@ export default {
       } else if (this.lessonType == "homework") {
         homeworkCallback();
       }
-    }
+    },
   },
   computed: {
     ...mapGetters([
       "groupsLesson",
       "groupsHomework",
       "activeGroupIndexLesson",
-      "activeGroupIndexHomework"
+      "activeGroupIndexHomework",
     ]),
     groupsNames() {
       let res = [];
@@ -146,14 +146,14 @@ export default {
         () => (res = true)
       );
       return res;
-    }
+    },
   },
   components: {},
   props: ["lessonType"],
   mixins: {},
   created() {
     this.collectGropNames();
-  }
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="dict-add vue-component">
-    <v-form class="d-flex align-center">
+    <v-form @submit.prevent class="d-flex align-center">
       <v-text-field
         label="EN"
         dense
@@ -32,12 +32,12 @@
 <script>
 export default {
   name: "dict-add",
-  data: function() {
+  data: function () {
     return {
       dict: {
         en: "",
-        ru: ""
-      }
+        ru: "",
+      },
     };
   },
   methods: {
@@ -45,22 +45,22 @@ export default {
       if (this.dict.en.length == 0 && this.dict.ru.length == 0) {
         this.$store.commit("pushShuckbar", {
           success: false,
-          val: "Вы не указали ни одного слова"
+          val: "Вы не указали ни одного слова",
         });
       } else if (this.dict.en.length == 0) {
         this.$store.commit("pushShuckbar", {
           success: false,
-          val: "Вы не указлаи слово на английском языке"
+          val: "Вы не указлаи слово на английском языке",
         });
       } else if (this.dict.ru.length == 0) {
         this.$store.commit("pushShuckbar", {
           success: false,
-          val: "Вы не указлаи слово на руссоком языке"
+          val: "Вы не указлаи слово на руссоком языке",
         });
       } else {
         this.$store.commit("pushShuckbar", {
           success: true,
-          val: "Слово успешно добавлено в словарь"
+          val: "Слово успешно добавлено в словарь",
         });
       }
     },
@@ -69,15 +69,15 @@ export default {
       this.addSnackbar();
       this.dict = {
         en: "",
-        ru: ""
+        ru: "",
       };
-    }
+    },
   },
   computed: {},
   components: {},
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
 };
 </script>
 

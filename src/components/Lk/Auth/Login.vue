@@ -1,5 +1,10 @@
 <template>
-  <v-form v-model="valid" class="auth-form" @keyup.enter.stop="login">
+  <v-form
+    @submit.prevent
+    v-model="valid"
+    class="auth-form"
+    @keyup.enter.stop="login"
+  >
     <auth-title>Авторизация</auth-title>
     <div class="auth-form__body">
       <label class="auth-input">
@@ -52,13 +57,13 @@ import Validation from "@/mixins/validation.js";
 
 export default {
   name: "login",
-  data: function() {
+  data: function () {
     return {
       valid: true,
       user: {
         email: "",
-        password: ""
-      }
+        password: "",
+      },
     };
   },
   methods: {
@@ -66,19 +71,19 @@ export default {
       if (this.valid) {
         this.$store.dispatch("login", this.user);
       }
-    }
+    },
   },
   computed: {
     isValid() {
       return this.valid;
-    }
+    },
   },
   components: {
-    AuthTitle
+    AuthTitle,
   },
   props: [],
   mixins: [Validation],
-  beforeMount() {}
+  beforeMount() {},
 };
 </script>
 

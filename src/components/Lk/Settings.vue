@@ -1,7 +1,7 @@
 <template>
   <div class="user-settings vue-component">
     <page-title :title="pageTitle" :subtitle="subtitle" />
-    <v-form v-model="valid" :lazy-validatio="true" ref="form">
+    <v-form @submit.prevent v-model="valid" :lazy-validatio="true" ref="form">
       <v-row class="mt-10" style="justify-content: space-between">
         <v-col cols="12" md="6">
           <v-card class="pa-5 front" style="height: 100%">

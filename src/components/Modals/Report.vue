@@ -5,7 +5,7 @@
         >Сообщение об ошибке</v-toolbar
       >
       <div class="pa-5">
-        <v-form>
+        <v-form @submit.prevent>
           <v-text-field
             label="Номер задания"
             type="number"

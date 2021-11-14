@@ -2,7 +2,7 @@
   <div class="auth-form">
     <auth-title>Сброс пароля</auth-title>
     <template v-if="currentStep === 1">
-      <v-form v-model="valid" class="auth-form">
+      <v-form @submit.prevent v-model="valid" class="auth-form">
         <div class="auth-form__body">
           <p class="red-msg">
             <strong>Мы вышлем ссылку для сброса пароля на вашу почту</strong>

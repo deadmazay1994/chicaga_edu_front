@@ -4,7 +4,10 @@ export default {
   namespaces: true,
   actions: {
     async setSavedTasks({ commit }, data) {
-      let response = await api.methods.getLessonProgress(data.courseId, data.lessonId);
+      let response = await api.methods.getLessonProgress(
+        data.courseId,
+        data.lessonId
+      );
       let homeworkProgress = false;
       if (response.data.home_work_progress == null) {
         homeworkProgress = [];
@@ -52,6 +55,7 @@ export default {
   },
   mutations: {
     setLesson(state, data) {
+      console.log(data);
       state.lesson = data;
     },
     setHomework(state, data) {
@@ -96,7 +100,7 @@ export default {
       state.activeGroupIndexHomework = index;
     },
     collectGroupsNamesLesson(state) {
-      state.groupsNamesLesson = collectGroupsNames(state.lesson.lesson);
+      state.groupsNamesLesson = collectGroupsNames(state.lesson);
     },
     collectGroupsNamesHomework(state) {
       state.groupsNamesHomework = collectGroupsNames(state.lesson.dz);
@@ -123,7 +127,8 @@ export default {
       return state.lesson.dz;
     },
     lessonTasks: (state) => {
-      return state.lesson.lesson;
+      console.log(state);
+      return state.lesson;
     },
     savedTasks: (state) => {
       return state.savedTasks;
@@ -132,7 +137,7 @@ export default {
       return state.savedHomework;
     },
     materials: (state) => {
-      return state.lesson.lesson_materials;
+      return state.materials;
     },
     teacherId: (state) => {
       return state.teacherId;

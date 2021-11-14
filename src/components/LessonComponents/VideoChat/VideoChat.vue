@@ -7,7 +7,7 @@
         :key="index"
         :class="{
           'video-chat__video-wrap--active':
-            Number(index) == Number(activeVideoIndex)
+            Number(index) == Number(activeVideoIndex),
         }"
         :style="videoWrapJustify(index)"
       >
@@ -17,7 +17,7 @@
             class="video-chat__video"
             :class="{
               'video-chat__video--active':
-                Number(index) == Number(activeVideoIndex)
+                Number(index) == Number(activeVideoIndex),
             }"
             :active="Number(index) == Number(activeVideoIndex)"
             :mediaObject="mediaObject"
@@ -60,7 +60,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "video-chat",
-  data: function() {
+  data: function () {
     return {
       peerServer: {
         host: "edu.chicaga.ru",
@@ -74,17 +74,17 @@ export default {
             {
               url: "turn:45.90.32.84:3478?transport=tcp",
               credential: "edupassword",
-              username: "chicaga"
+              username: "chicaga",
             },
             {
               url: "turn:45.90.32.84:3478",
               credential: "edupassword",
-              username: "chicaga"
+              username: "chicaga",
             },
             { url: "stun:stun.l.google.com:19302" },
-            { url: "stun:stun.schlund.de" }
-          ]
-        }
+            { url: "stun:stun.schlund.de" },
+          ],
+        },
       },
       peerOptions: {},
       activeVideoIndex: 0,
@@ -95,7 +95,7 @@ export default {
       id: false,
       socketId: false,
       users: [],
-      color: ""
+      color: "",
     };
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
       "toggleChannel",
       "setWebcam",
       "setCapture",
-      "setLocalstoradgeStatesToTracks"
+      "setLocalstoradgeStatesToTracks",
     ]),
     ...mapMutations(["setLessonId", "destroyPeers", "initMedias", "callPush"]),
     scroll(val) {
@@ -114,14 +114,14 @@ export default {
         miniatures.scrollBy({
           left: 0,
           top: scrollHeight * 0.9,
-          behavior: "smooth"
+          behavior: "smooth",
         });
         console.log("Scroll down");
       } else {
         miniatures.scrollBy({
           left: 0,
           top: -(scrollHeight * 0.9),
-          behavior: "smooth"
+          behavior: "smooth",
         });
         console.log("Scroll Up");
       }
@@ -135,7 +135,7 @@ export default {
       this.socket.emit("toggle camera", state);
     },
     onToggleCameraSocket() {
-      this.socket.on("on toggle camera", data => {
+      this.socket.on("on toggle camera", (data) => {
         if (this.medias.getById(data.id)) {
           this.medias.getById(data.id).videoOff = data.state;
         }
@@ -145,14 +145,14 @@ export default {
       this.socket.emit("toggle micro", state);
     },
     onToggleMicroSocket() {
-      this.socket.on("on toggle micro", data => {
+      this.socket.on("on toggle micro", (data) => {
         if (this.medias.getById(data.id)) {
           this.medias.getById(data.id).audioOff = data.state;
         }
       });
     },
     onChangeSettings() {
-      this.socket.on("on change settings", data => {
+      this.socket.on("on change settings", (data) => {
         if (data.data.toAllUsers) {
           this.medias.getMyMedia()[data.data.name] = data.data.val;
         }
@@ -189,19 +189,15 @@ export default {
     },
     randomStr() {
       return (
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15)
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15)
       );
     },
     createMyVideo(stream) {
       if (stream) {
         stream = stream.clone();
         // Удаляем свое аудио, чтобы не слышать себя
-        stream.getAudioTracks().forEach(track => track.stop());
+        stream.getAudioTracks().forEach((track) => track.stop());
         this.medias.push({
           im: true,
           stream,
@@ -210,7 +206,7 @@ export default {
           videoOff: false,
           avatar: this.user.avatar_link,
           name: this.user.name,
-          color: this.color
+          color: this.color,
         });
       }
       this.$forceUpdate();
@@ -242,12 +238,12 @@ export default {
       this.socket.emit("send msg for user", {
         msg,
         id,
-        roomId: this.lessonId
+        roomId: this.lessonId,
       });
     },
     intiatorOnSignal(peer, userId) {
       // Как только инитатор просигналил
-      peer.on("signal", signal => {
+      peer.on("signal", (signal) => {
         this.getPeerById(userId).signaling = true;
         // Отправляем предложение о соеденении
         this.sendMsgToUser(
@@ -257,7 +253,7 @@ export default {
             username: this.user.name,
             avatar: this.user.avatar_link,
             sender: this.socketId,
-            forPeer: userId
+            forPeer: userId,
           },
           userId
         );
@@ -266,7 +262,7 @@ export default {
     onSendUsers() {
       // 2
       // Сервер отправляет всех участников чата
-      this.socket.on("send users", async data => {
+      this.socket.on("send users", async (data) => {
         console.log(data);
         this.color = data.aboutMe.color;
         // Записываем свой socket id
@@ -276,7 +272,7 @@ export default {
         this.users = data.users;
         // Создаем и далее выводим свое изображение
         this.createMyVideo(stream);
-        data.users.forEach(user => {
+        data.users.forEach((user) => {
           let peer = new Peer(this.randomStr(), this.peerServer);
           peer.on("error", () => {
             console.log("Попытка реконекта");
@@ -284,11 +280,11 @@ export default {
           });
           this.allPeers.push(peer);
           peer.on("open", () => {
-            peer.on("call", call => {
+            peer.on("call", (call) => {
               this.callPush(call);
               stream.user = user;
               call.answer(stream);
-              call.on("stream", stream => {
+              call.on("stream", (stream) => {
                 this.setLocalstoradgeStatesToTracks();
                 this.medias.push(
                   {
@@ -298,7 +294,7 @@ export default {
                     peerId: peer.id,
                     avatar: user.avatar,
                     name: user.username,
-                    color: user.color
+                    color: user.color,
                   },
                   // Передаем только того юзера чьи настройи надо отразить в объекте
                   this.getUserById(user.id)
@@ -318,8 +314,8 @@ export default {
                     "true",
                   micro:
                     window.localStorage.getItem("videochat_microphone_state") ==
-                    "true"
-                }
+                    "true",
+                },
               },
               user.id
             );
@@ -328,7 +324,7 @@ export default {
       });
     },
     onGetMsg() {
-      this.socket.on("get msg", data => {
+      this.socket.on("get msg", (data) => {
         switch (data.msg.name) {
           // Получаем предложение о соеденении
           case "inititor signal":
@@ -344,7 +340,7 @@ export default {
                 let stream = await this.getMedia();
                 let call = await peer.call(data.msg.peerId, stream);
                 this.callPush(call);
-                call.on("stream", async stream => {
+                call.on("stream", async (stream) => {
                   this.setLocalstoradgeStatesToTracks();
                   this.medias.push(
                     {
@@ -356,7 +352,7 @@ export default {
                       avatar: data.msg.user.avatar_link,
                       name: data.msg.user.name,
                       videoOff: data.msg.userSettings.camera,
-                      audioOff: data.msg.userSettings.micro
+                      audioOff: data.msg.userSettings.micro,
                     },
                     // Передаем getUserByIdолько того юзера чьи настройи надо отразить в объекте
                     this.getUserById(data.msg.sender)
@@ -369,16 +365,16 @@ export default {
       });
     },
     getPeerById(id) {
-      return this.peers.find(peer => peer.id == id);
+      return this.peers.find((peer) => peer.id == id);
     },
     onUserDisconnect() {
-      this.socket.on("user disconnect", socketId => {
+      this.socket.on("user disconnect", (socketId) => {
         socketId;
         this.medias.delete(socketId);
       });
     },
     onConnectToGroup() {
-      this.socket.on("connect to group", data => {
+      this.socket.on("connect to group", (data) => {
         this.setLessonId(data.roomId);
         this.joinToChat();
       });
@@ -409,9 +405,9 @@ export default {
         indexValue = indexValue === 1 ? 0 : 1;
       }
       return {
-        "justify-content": values[indexValue]
+        "justify-content": values[indexValue],
       };
-    }
+    },
   },
   computed: {
     ...mapGetters([
@@ -423,11 +419,11 @@ export default {
       "medias",
       "myCaptureMedia",
       "myWebcamMedia",
-      "myActiveMediaName"
-    ])
+      "myActiveMediaName",
+    ]),
   },
   components: {
-    VideoComponent
+    VideoComponent,
   },
   mounted() {
     this.setLessonId(this.$route.params.id);
@@ -441,16 +437,16 @@ export default {
     this.onChangeSettings();
     this.joinToChat();
     this.pingpong();
-  }
+  },
 };
 </script>
 
 <style lang="sass" scoped>
-
 .video-chat-miniatures-wrapper
   height: 100%
   position: absolute
   width: 30%
+  min-width: 146px
   background-color: #9d000040
   z-index: 10 !important
   right: 0
@@ -466,8 +462,6 @@ export default {
     &:hover
       cursor: pointer
       background-color: #9d000041
-
-
 
   .video-chat-miniatures-list
     height: 75%

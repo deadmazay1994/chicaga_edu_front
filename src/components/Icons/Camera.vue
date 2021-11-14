@@ -15,7 +15,7 @@
 <script>
 export default {
   name: "camera",
-  data: function() {
+  data: function () {
     return {};
   },
   methods: {},
@@ -23,7 +23,7 @@ export default {
   components: {},
   props: ["cameraOff"],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
 };
 </script>
 

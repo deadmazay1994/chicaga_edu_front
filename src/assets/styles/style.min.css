@@ -3794,18 +3794,18 @@ button {
   margin-bottom: 0;
 }
 .auth-page {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
 }
 @media screen and (max-width: 1000px) {
   .auth-page {
     flex-direction: column;
+    margin-top: -70px;
   }
 }
 .auth-intro {
   width: 42%;
-  height: 100%;
   background: url(../imgs/auth-bg.jpg);
   background-size: 100% 100%;
   display: flex;
@@ -3816,7 +3816,8 @@ button {
 @media screen and (max-width: 1000px) {
   .auth-intro {
     width: 100%;
-    height: 50px;
+    height: 300px;
+    display: none;
   }
 }
 .auth-intro__logotype {
@@ -3853,7 +3854,6 @@ button {
   }
 }
 .auth-body {
-  height: 100%;
   width: 58%;
   background-image: url(../imgs/bg/1.svg), url(../imgs/bg/2.svg);
   background-position: 0 100%, 100% 0;
@@ -3886,9 +3886,13 @@ button {
   max-width: 435px;
   width: 100%;
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 1000px) {
   .auth-form {
+    min-height: 100vh;
     padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 .auth-form__header {
