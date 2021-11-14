@@ -4,10 +4,7 @@ export default {
   namespaces: true,
   actions: {
     async setSavedTasks({ commit }, data) {
-      let response = await api.methods.getLessonProgress(
-        data.courseId,
-        data.lessonId
-      );
+      let response = await api.methods.getLessonProgress(data.courseId, data.lessonId);
       let homeworkProgress = false;
       if (response.data.home_work_progress == null) {
         homeworkProgress = [];
@@ -41,7 +38,7 @@ export default {
         progress: getters.savedTasks,
         lessonId: data.lessonId,
         courseId: data.courseId,
-        userId: getters.user.id
+        userId: getters.user.id,
       });
     },
     async saveProgressHomework({ getters }, data) {
@@ -49,9 +46,9 @@ export default {
         progress: getters.savedTasks,
         lessonId: data.lessonId,
         courseId: data.courseId,
-        userId: getters.user.id
+        userId: getters.user.id,
       });
-    }
+    },
   },
   mutations: {
     setLesson(state, data) {
@@ -103,7 +100,7 @@ export default {
     },
     collectGroupsNamesHomework(state) {
       state.groupsNamesHomework = collectGroupsNames(state.lesson.dz);
-    }
+    },
   },
   state: {
     lesson: [],
@@ -116,41 +113,41 @@ export default {
     activeGroupIndexLesson: 0,
     groupsNamesLesson: [],
     activeGroupIndexHomework: 0,
-    groupsNamesHomework: []
+    groupsNamesHomework: [],
   },
   getters: {
-    lesson: state => {
+    lesson: (state) => {
       return state.lesson;
     },
-    homework: state => {
+    homework: (state) => {
       return state.lesson.dz;
     },
-    lessonTasks: state => {
+    lessonTasks: (state) => {
       return state.lesson.lesson;
     },
-    savedTasks: state => {
+    savedTasks: (state) => {
       return state.savedTasks;
     },
-    savedHomework: state => {
+    savedHomework: (state) => {
       return state.savedHomework;
     },
-    materials: state => {
+    materials: (state) => {
       return state.lesson.lesson_materials;
     },
-    teacherId: state => {
+    teacherId: (state) => {
       return state.teacherId;
     },
-    lessonId: state => state.lessonId,
-    activeGroupIndexLesson: state => state.activeGroupIndexLesson,
-    groupsLesson: state => state.groupsNamesLesson,
-    activeGroupIndexHomework: state => state.activeGroupIndexHomework,
-    groupsHomework: state => state.groupsNamesHomework
-  }
+    lessonId: (state) => state.lessonId,
+    activeGroupIndexLesson: (state) => state.activeGroupIndexLesson,
+    groupsLesson: (state) => state.groupsNamesLesson,
+    activeGroupIndexHomework: (state) => state.activeGroupIndexHomework,
+    groupsHomework: (state) => state.groupsNamesHomework,
+  },
 };
 
-const collectGroupsNames = groups => {
+const collectGroupsNames = (groups) => {
   if (groups) {
-    return groups.map(group => group.group_name);
+    return groups.map((group) => group.group_name);
   } else {
     return [];
   }
