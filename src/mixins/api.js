@@ -96,15 +96,10 @@ export default {
     // Lesson
     async getLesson(id) {
       let response = get("lesson", id);
-      if (response.status == 200) {
-        return response.data.lesson;
-      }
+        return response.lesson;
     },
     async getFullLesson(id) {
-      let response = get("lesson", id);
-      if (response.status == 200) {
-        return response.data;
-      }
+      return get("lesson", id);
     },
     async getLessonProgress(courseId, lesonId) {
       return await get(`user/course/${courseId}/lesson/${lesonId}`);

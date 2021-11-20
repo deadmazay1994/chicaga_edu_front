@@ -2,7 +2,7 @@
   <section class="sc-lessons-bud">
     
     <div class="container">
-    <v-card class="front" v-if="!timeToLesson">
+    <v-card class="front" v-if="!timeToLesson && !lesson">
       <v-skeleton-loader type="article" />
     </v-card>
       <div v-else class="row">
@@ -63,16 +63,18 @@ export default {
       let d = this.DateLessonTime
       this.dateLesson = dateFormat(d, 'yyyy.mm.dd')
       this.timeLesson = dateFormat(d, 'HH:MM')
-      console.log(this.DateLessonTime)
     },
     // Get lesson by academig croup id
     async setLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.uniq_id)
-      console.log('Response',r)
-      // if (!r.start) return
-      // hardcoded start time
-      //this.lesson = r
-      this.lesson = { start_time: 1639443736 * 1000}
+      let r = await api.methods.getFullLesson(this.$route.params.id)
+      if (r.success && r.start) {
+        this.lesson = r
+        this.lesson.start = parseInt(r.start) * 1000 // convert to ms       
+      }else {
+        this.lesson = { 
+          start: Date.now() +1
+        }
+      }
       return true
     },
     
@@ -81,7 +83,8 @@ export default {
     redirectToLessonIfLessonStart() {
       let tenMinutes = 600
       if (tenMinutes > this.timeToLesson) {
-        this.$router.push({ path:'/'})
+        this.$router.push({
+          path: `../../lesson/${this.lesson.course_id}/${this.lesson.uniq_id}`})
         clearInterval(this.timerId)
       }
     }
@@ -91,7 +94,7 @@ export default {
   },
   async beforeMount() {
     await this.setLesson()
-    this.DateLessonTime = moment(this.lesson.start_time).valueOf()
+    this.DateLessonTime = this.lesson.start > Date.now() ? moment(this.lesson.start).valueOf() : Date.now() +1
     this.redirectToLessonIfLessonStart()
     this.startTimer()
     this.setDateAndTime()

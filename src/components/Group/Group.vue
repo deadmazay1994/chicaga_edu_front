@@ -100,12 +100,11 @@ export default {
         const time = parent.dataset.time_start
         console.log(time)
         if (uniq_id && time != 0 && time != null) {
-          this.$router.push({
-            name: 'upcoming-lesson',
+          this.$router.push({ 
+            path: `/lk/upcoming/${uniq_id}`,
             params: {
-              uniq_id: uniq_id,
-            },
-          });
+              id: uniq_id,
+            }});
         }
     },
     async getGroups() {
