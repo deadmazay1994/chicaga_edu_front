@@ -31,6 +31,7 @@
             <tr 
                 style="cursor: pointer"
                 @click="handleClickOnRow"
+                :data-time_start="item.time"
                 :data-uniq_id="item.lesson.uniq_id"
             >
               <td>{{ item.lesson.lesson_id }}</td>
@@ -39,14 +40,14 @@
                 {{
                   item.time
                     ? convertDate(new Date(item.time * 1000), 'HH:MM')
-                    : " "
+                    : "Не запланировано"
                 }}
               </td>
               <td>
                 {{
                   item.time
                     ? convertDate(new Date(item.time * 1000), 'yyyy.mm.dd')
-                    : " "
+                    : "Не запланировано"
                 }}
               </td>
             </tr>
@@ -96,12 +97,16 @@ export default {
     handleClickOnRow(event) {
         const parent = event.target.closest("tr");
         const uniq_id = parent.dataset.uniq_id;
-        this.$router.push({
-          name: 'upcoming-lesson',
-          params: {
-            uniq_id: uniq_id,
-          },
-        });
+        const time = parent.dataset.time_start
+        console.log(time)
+        if (uniq_id && time != 0 && time != null) {
+          this.$router.push({
+            name: 'upcoming-lesson',
+            params: {
+              uniq_id: uniq_id,
+            },
+          });
+        }
     },
     async getGroups() {
       // Start loading page
@@ -130,6 +135,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.group {
-}
+
 </style>

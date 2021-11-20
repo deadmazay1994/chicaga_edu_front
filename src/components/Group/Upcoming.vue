@@ -1,7 +1,11 @@
 <template>
   <section class="sc-lessons-bud">
+    
     <div class="container">
-      <div class="row">
+    <v-card class="front" v-if="!timeToLesson">
+      <v-skeleton-loader type="article" />
+    </v-card>
+      <div v-else class="row">
         <div class="lesson-starts" v-show='lesson'>
           <div class="d-flex justify-content-center center">
             <counter
