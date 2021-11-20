@@ -1,7 +1,10 @@
 <template>
   <div class="group vue-component">
-    <v-container>
-      <page-title :title="'Академическая группа'" />
+    <page-title :title="'Академическая группа'" />
+    <v-card class="front" v-if="loading">
+      <v-skeleton-loader type="article" />
+    </v-card>
+    <v-container v-else>
       <div class="group__lessons" v-if="!hasAcademicGroup">
         Вы не состоите в академической группе
       </div>
