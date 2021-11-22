@@ -71,20 +71,22 @@ export default {
         this.lesson = r
         this.lesson.start = parseInt(r.start) * 1000 // convert to ms       
       }else {
-        this.lesson = { 
-          start: Date.now() +1
-        }
+        this.lesson = r
+        this.lesson['start'] = Date.now() +1
       }
       return true
     },
     
     // Redirect lesson if it's start
-    // TODO: Make correct redirect link
     redirectToLessonIfLessonStart() {
       let tenMinutes = 600
       if (tenMinutes > this.timeToLesson) {
+        let course_id = 0
+        if (this.lesson.course_id != null && this.lesson.course_id != undefined) {
+          course_id = this.lesson.course_id
+        }
         this.$router.push({
-          path: `../../lesson/${this.lesson.course_id}/${this.lesson.uniq_id}`})
+          path: `../../lesson/${course_id}/${this.lesson.uniq_id}`})
         clearInterval(this.timerId)
       }
     }
