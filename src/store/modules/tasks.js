@@ -25,6 +25,7 @@ export default {
     },
     async setLesson({ commit }, lessonId) {
       let res = await api.methods.getLesson(lessonId);
+      console.log(res);
       commit("setLesson", res);
     },
     async setProgressForTeacher({ commit }, data) {
@@ -100,7 +101,7 @@ export default {
       state.activeGroupIndexHomework = index;
     },
     collectGroupsNamesLesson(state) {
-      state.groupsNamesLesson = collectGroupsNames(state.lesson);
+      state.groupsNamesLesson = collectGroupsNames(state.lesson.lesson);
     },
     collectGroupsNamesHomework(state) {
       state.groupsNamesHomework = collectGroupsNames(state.lesson.dz);
@@ -128,7 +129,7 @@ export default {
     },
     lessonTasks: (state) => {
       console.log(state);
-      return state.lesson;
+      return state.lesson.lesson;
     },
     savedTasks: (state) => {
       return state.savedTasks;
@@ -151,6 +152,7 @@ export default {
 };
 
 const collectGroupsNames = (groups) => {
+  console.log(groups);
   if (groups) {
     return groups.map((group) => group.group_name);
   } else {

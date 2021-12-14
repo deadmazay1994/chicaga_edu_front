@@ -96,6 +96,7 @@ export default {
       socketId: false,
       users: [],
       color: "",
+      queue: [],
     };
   },
   methods: {
@@ -136,8 +137,15 @@ export default {
     },
     onToggleCameraSocket() {
       this.socket.on("on toggle camera", (data) => {
-        if (this.medias.getById(data.id)) {
-          this.medias.getById(data.id).videoOff = data.state;
+        console.log("on toggle camera");
+        const doF = () => (this.medias.getById(data.id).videoOff = data.state);
+        if (this.medias.getById(data.id)) doF();
+        else {
+          console.log("push to que");
+          this.queue.push({
+            doF,
+            id: data.id,
+          });
         }
       });
     },
@@ -146,6 +154,7 @@ export default {
     },
     onToggleMicroSocket() {
       this.socket.on("on toggle micro", (data) => {
+        console.log("on toggle micro");
         if (this.medias.getById(data.id)) {
           this.medias.getById(data.id).audioOff = data.state;
         }
@@ -156,6 +165,7 @@ export default {
         if (data.data.toAllUsers) {
           this.medias.getMyMedia()[data.data.name] = data.data.val;
         }
+        console.log("on change settings", this.medias.medias);
         let user = this.medias.getById(data.id);
         if (user) {
           if (data.data.name in user) {
@@ -241,6 +251,11 @@ export default {
         roomId: this.lessonId,
       });
     },
+    doQueue(id) {
+      const e = this.queue.find((i) => i.id == id);
+      console.log(this.queue);
+      if (e) console.log(e);
+    },
     intiatorOnSignal(peer, userId) {
       // Как только инитатор просигналил
       peer.on("signal", (signal) => {
@@ -299,6 +314,7 @@ export default {
                   // Передаем только того юзера чьи настройи надо отразить в объекте
                   this.getUserById(user.id)
                 );
+                this.doQueue(user.id);
               });
             });
             this.sendMsgToUser(

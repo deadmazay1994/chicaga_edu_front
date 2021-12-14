@@ -142,24 +142,26 @@ export default {
   props: ["isHomework", "noAddAtempt"],
   mixins: [Api],
   async beforeMount() {
+    await this.$store.dispatch("setLesson", this.$route.params.id);
     // Если это учитель, то мы устанавливаем прогресс для него
-    let tasksForTeacher = await this.setProgressTeacher();
-    // Если нет, то получаем прогресс ученика
-    if (!tasksForTeacher) {
-      // Получаем прогресс
-      try {
-        await this.setSavedTasks({
-          lessonId: this.$route.params.id,
-          courseId: this.$route.params.courseId,
-        });
-        // Если прогресс пустой получаем сам урок
-        if (!this.savedTasks.length || !this.savedHomework) {
-          await this.$store.dispatch("setLesson", this.$route.params.id);
-        }
-      } catch (e) {
-        e;
-      }
-    }
+    // let tasksForTeacher = await this.setProgressTeacher();
+    // // Если нет, то получаем прогресс ученика
+    // if (!tasksForTeacher) {
+    //   // Получаем прогресс
+    //   try {
+    //     // await this.setSavedTasks({
+    //     //   lessonId: this.$route.params.id,
+    //     //   courseId: this.$route.params.courseId,
+    //     // });
+    //     // // Если прогресс пустой получаем сам урок
+    //     // if (!this.savedTasks.length || !this.savedHomework) {
+    //     //   await this.$store.dispatch("setLesson", this.$route.params.id);
+    //     // }
+    //     await this.$store.dispatch("setLesson", this.$route.params.id);
+    //   } catch (e) {
+    //     e;
+    //   }
+    // }
     this.loaded = true;
   },
 };
