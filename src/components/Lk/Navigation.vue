@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu__nav">
+  <nav class="menu__nav" :class="{ 'mobile-active': mobilemenuopen }">
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -95,7 +95,7 @@ export default {
     }
   },
   components: {},
-  props: [],
+  props: ["mobilemenuopen"],
   mixins: {},
   beforeMount() {
     this.toggleDraverByWindowSize();
