@@ -17,7 +17,7 @@ export default {
   render() {
     let texts = [];
     if (this.inputCopy.addons) {
-      this.inputCopy.addons.forEach(addon =>
+      this.inputCopy.addons.forEach((addon) =>
         texts.push(<pre class="text-subtitle-2 pre">{addon.text}</pre>)
       );
     }
@@ -33,9 +33,9 @@ export default {
       </div>
     );
   },
-  data: function() {
+  data: function () {
     return {
-      inputCopy: false
+      inputCopy: false,
     };
   },
   methods: {
@@ -43,7 +43,7 @@ export default {
       "saveTask",
       "saveChildTask",
       "setVideoOff",
-      "setAudioOff"
+      "setAudioOff",
     ]),
     getFileName(filename) {
       return this.IMGSTORE + filename;
@@ -53,13 +53,11 @@ export default {
     },
     getAttachComponents() {
       let components = [];
-      this.inputCopy.body.forEach(files => {
-        files.forEach(e => {
+      this.inputCopy.body.forEach((files) => {
+        files.forEach((e) => {
           switch (this.getFileType(e.file_type)) {
             case "image":
-              components.push(
-                <v-img src={this.getFileName(e.file_name)} vZoom />
-              );
+              components.push(<v-img src={e.file.file_name_abs} vZoom />);
               break;
             case "video":
               components.push(
@@ -68,7 +66,7 @@ export default {
                   controls="true"
                   ref="video"
                   refInFor={true}
-                  src={this.getFileName(e.file_name)}
+                  src={e.file.file_name_abs}
                 />
               );
               break;
@@ -78,7 +76,7 @@ export default {
                   ref="audio"
                   class="attachs__audio vuetify-audio"
                   refInFor={true}
-                  file={this.getFileName(e.file_name)}
+                  file={e.file.file_name_abs}
                 />
               );
               break;
@@ -89,26 +87,26 @@ export default {
     },
     addEventsToMedia() {
       if (this.$refs.audio) {
-        this.$refs.audio.forEach(audio => {
+        this.$refs.audio.forEach((audio) => {
           this.addPlayPauseEvent(audio.$el.querySelector("audio"));
         });
       }
       if (this.$refs.video) {
-        this.$refs.video.forEach(video => this.addPlayPauseEvent(video));
+        this.$refs.video.forEach((video) => this.addPlayPauseEvent(video));
       }
     },
     toggleAudioInStudents() {
-      const toggle = audio => {
+      const toggle = (audio) => {
         this.socketSendToAllInLesson({
           eventName: "toggle audio in users",
           val: audio.$el.querySelector("audio").paused,
           time: audio.currentTime,
           filePath: audio.$el.querySelector("audio").getAttribute("src"),
-          timeNow: Date.now()
+          timeNow: Date.now(),
         });
       };
       if (this.$refs.audio) {
-        this.$refs.audio.forEach(audio => {
+        this.$refs.audio.forEach((audio) => {
           if (this.user.role == "teacher") {
             let el = audio.$el.querySelector("audio");
             // Если учитель перемотал запись
@@ -124,17 +122,17 @@ export default {
     },
     toggleVideoInStudents() {
       if (this.$refs.video) {
-        const toggle = video => {
+        const toggle = (video) => {
           this.socketSendToAllInLesson({
             eventName: "toggle video in users",
             paused: video.paused,
             time: video.currentTime,
             filePath: video.getAttribute("src"),
-            timeNow: Date.now()
+            timeNow: Date.now(),
           });
         };
         if (this.user.role == "teacher") {
-          this.$refs.video.forEach(v => {
+          this.$refs.video.forEach((v) => {
             v.addEventListener("playing", () => toggle(v));
             v.addEventListener("pause", () => toggle(v));
           });
@@ -142,17 +140,17 @@ export default {
       }
     },
     onToggleAudioInStudents() {
-      const toSeconds = time => {
+      const toSeconds = (time) => {
         let a = time.split(":");
         return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
       };
-      const allAudioForEach = callback =>
-        Array.from(document.querySelectorAll("audio")).forEach(audio =>
+      const allAudioForEach = (callback) =>
+        Array.from(document.querySelectorAll("audio")).forEach((audio) =>
           callback(audio)
         );
-      this.socket.on("send data", data => {
+      this.socket.on("send data", (data) => {
         if (data.eventName == "toggle audio in users") {
-          allAudioForEach(audio => {
+          allAudioForEach((audio) => {
             if (audio.getAttribute("src") == data.filePath) {
               audio.currentTime =
                 toSeconds(data.time) - (data.timeNow - Date.now()) / 1000;
@@ -168,13 +166,13 @@ export default {
       });
     },
     onToggleVideoInStudents() {
-      const allvideoForEach = callback =>
-        Array.from(document.querySelectorAll("video")).forEach(video =>
+      const allvideoForEach = (callback) =>
+        Array.from(document.querySelectorAll("video")).forEach((video) =>
           callback(video)
         );
-      this.socket.on("send data", data => {
+      this.socket.on("send data", (data) => {
         if (data.eventName == "toggle video in users") {
-          allvideoForEach(v => {
+          allvideoForEach((v) => {
             if (v.getAttribute("src") == data.filePath) {
               v.currentTime = data.time - (data.timeNow - Date.now()) / 1000;
               data.paused ? v.pause() : v.play();
@@ -182,19 +180,19 @@ export default {
           });
         }
       });
-    }
+    },
   },
   computed: {
-    ...mapGetters(["socket", "lessonId", "socket", "user"])
+    ...mapGetters(["socket", "lessonId", "socket", "user"]),
   },
   directives: {
     ...Magnifier,
-    ...Zoom
+    ...Zoom,
   },
   components: {
     VuetifyAudio,
     VImg,
-    Description
+    Description,
   },
   props: ["input", "index"],
   mixins: [MediaEvents, SocketMixin],
@@ -207,7 +205,7 @@ export default {
     this.toggleAudioInStudents();
     this.toggleVideoInStudents();
     this.addEventsToMedia();
-  }
+  },
 };
 </script>
 
