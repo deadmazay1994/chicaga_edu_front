@@ -45,8 +45,9 @@ export default {
       "setVideoOff",
       "setAudioOff",
     ]),
-    getFileName(filename) {
-      return this.IMGSTORE + filename;
+    getFileName(e) {
+      if (e?.file_name_abs) return e?.file_name_abs;
+      if (e?.file?.file_name_abs) return e?.file?.file_name_abs;
     },
     getFileType(mime) {
       return mime.split("/")[0];
@@ -57,7 +58,7 @@ export default {
         files.forEach((e) => {
           switch (this.getFileType(e.file_type)) {
             case "image":
-              components.push(<v-img src={e.file.file_name_abs} vZoom />);
+              components.push(<v-img src={this.getFileName(e)} vZoom />);
               break;
             case "video":
               components.push(
@@ -66,7 +67,7 @@ export default {
                   controls="true"
                   ref="video"
                   refInFor={true}
-                  src={e.file.file_name_abs}
+                  src={this.getFileName(e)}
                 />
               );
               break;
@@ -76,7 +77,7 @@ export default {
                   ref="audio"
                   class="attachs__audio vuetify-audio"
                   refInFor={true}
-                  file={e.file.file_name_abs}
+                  file={this.getFileName(e)}
                 />
               );
               break;
@@ -149,7 +150,9 @@ export default {
           callback(audio)
         );
       this.socket.on("send data", (data) => {
-        if (data.eventName == "toggle audio in users") {
+        const isNotTeacher = this.user.role != "teacher";
+        const isToggleEvent = data.eventName == "toggle audio in users";
+        if (isNotTeacher && isToggleEvent) {
           allAudioForEach((audio) => {
             if (audio.getAttribute("src") == data.filePath) {
               audio.currentTime =
