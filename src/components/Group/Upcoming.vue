@@ -1,19 +1,15 @@
 <template>
   <section class="sc-lessons-bud">
-    
     <div class="container">
-    <v-card class="front" v-if="!timeToLesson && !lesson">
-      <v-skeleton-loader type="article" />
-    </v-card>
+      <v-card class="front" v-if="!timeToLesson && !lesson">
+        <v-skeleton-loader type="article" />
+      </v-card>
       <div v-else class="row">
-        <div class="lesson-starts" v-show='lesson'>
+        <div class="lesson-starts" v-show="lesson">
           <div class="d-flex justify-content-center center">
-            <counter
-              class="counter"
-              :current-time="timeToLesson"
-            />
+            <counter class="counter" :current-time="timeToLesson" />
           </div>
-          <div class="date-info" >
+          <div class="date-info">
             <span class="main--text"
               ><img src="@/assets/svg/cal_icon.svg" alt="" />
               {{ this.dateLesson }}</span
@@ -30,13 +26,13 @@
 </template>
 
 <script>
-import Counter from '@/components/Group/Counter'
-import moment from 'moment'
-import dateFormat from 'dateformat'
-import api from '@/mixins/api'
+import Counter from "@/components/Group/Counter";
+import moment from "moment";
+import dateFormat from "dateformat";
+import api from "@/mixins/api";
 
 export default {
-  name: 'Upcoming',
+  name: "Upcoming",
   data() {
     return {
       timeToLesson: Infinity,
@@ -44,66 +40,85 @@ export default {
       timeLesson: String,
       timerId: false,
       lesson: null,
-      DateLessonTime: new Date()
-    }
+      DateLessonTime: new Date(),
+    };
   },
   methods: {
     // Start countdown
     startTimer() {
-      if (!this.lesson) return
+      if (!this.lesson) return;
       this.timeToLesson = Math.floor(
         (+this.DateLessonTime - +new Date()) / 1000
-      )
+      );
       this.timerId = setInterval(() => {
-        this.redirectToLessonIfLessonStart()
-        this.timeToLesson--
-      }, 1000)
+        this.redirectToLessonIfLessonStart();
+        this.timeToLesson--;
+      }, 1000);
     },
     setDateAndTime() {
-      let d = this.DateLessonTime
-      this.dateLesson = dateFormat(d, 'yyyy.mm.dd')
-      this.timeLesson = dateFormat(d, 'HH:MM')
+      let d = this.DateLessonTime;
+      this.dateLesson = dateFormat(d, "yyyy.mm.dd");
+      this.timeLesson = dateFormat(d, "HH:MM");
     },
     // Get lesson by academig croup id
     async setLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.id)
+      let r = await api.methods.getFullLesson(this.$route.params.id);
       if (r.success && r.start) {
-        this.lesson = r
-        this.lesson.start = parseInt(r.start) * 1000 // convert to ms       
-      }else {
-        this.lesson = { 
-          start: Date.now() +1
-        }
+        this.lesson = r;
+        this.lesson.start = parseInt(r.start) * 1000; // convert to ms
+      } else {
+        this.lesson = r;
+        this.lesson["start"] = Date.now() + 1;
       }
-      return true
+      return true;
     },
-    
+
     // Redirect lesson if it's start
-    // TODO: Make correct redirect link
     redirectToLessonIfLessonStart() {
-      let tenMinutes = 600
+      let tenMinutes = 600;
       if (tenMinutes > this.timeToLesson) {
+        let course_id = 0;
+        if (
+          this.lesson.course_id != null &&
+          this.lesson.course_id != undefined
+        ) {
+          course_id = this.lesson.course_id;
+        }
         this.$router.push({
-          path: `../../lesson/${this.lesson.course_id}/${this.lesson.uniq_id}`})
-        clearInterval(this.timerId)
+          name: "lesson",
+          params: {
+            courseId: course_id,
+            userid: this.$route.params.code,
+            id: this.lesson.uniq_id,
+          },
+          // path: `../../lesson/${course_id}/${this.lesson.uniq_id}/${this.$route.params.code}`,
+        });
+        clearInterval(this.timerId);
       }
-    }
+    },
   },
   components: {
     Counter,
   },
   async beforeMount() {
-    await this.setLesson()
-    this.DateLessonTime = this.lesson.start > Date.now() ? moment(this.lesson.start).valueOf() : Date.now() +1
-    this.redirectToLessonIfLessonStart()
-    this.startTimer()
-    this.setDateAndTime()
-  }
-}
+    await this.setLesson();
+    // this.DateLessonTime =
+    //   this.lesson.start > Date.now()
+    //     ? moment(this.lesson.start).valueOf()
+    //     : Date.now() + 1;
+    if (this.$route.params.startTime) {
+      this.DateLessonTime = moment(
+        new Date(parseInt(this.$route.params.startTime))
+      ).valueOf();
+    }
+    this.redirectToLessonIfLessonStart();
+    this.startTimer();
+    this.setDateAndTime();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .lesson-starts {
   margin-top: 10px;
   display: inline-block;

@@ -117,13 +117,13 @@ export default {
       }
     },
     setRowHeights() {
-      let cols = this.$refs.colsWrap.querySelectorAll(".comp__col");
-      cols[0].querySelectorAll(".comp__item").forEach((item, index) => {
-        let maxH = this.getMaxHeightColsInRow(item, cols, index);
-        cols.forEach(col => {
-          col.querySelectorAll(".comp__item")[index].style.height = maxH + "px";
-        });
-      });
+      // let cols = this.$refs.colsWrap.querySelectorAll(".comp__col");
+      // cols[0].querySelectorAll(".comp__item").forEach((item, index) => {
+      //   let maxH = this.getMaxHeightColsInRow(item, cols, index);
+      //   cols.forEach(col => {
+      //     col.querySelectorAll(".comp__item")[index].style.height = maxH + "px";
+      //   });
+      // });
     },
     getMaxHeightColsInRow(first, cols, rowIndex) {
       let maxHeight = first.offsetHeight;

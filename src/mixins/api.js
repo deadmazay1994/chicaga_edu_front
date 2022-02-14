@@ -95,8 +95,11 @@ export default {
     },
     // Lesson
     async getLesson(id) {
-      let response = get("lesson", id);
-        return response.lesson;
+      let response = await get("lesson", id);
+      return {
+        lesson: response.lesson,
+        dz: response.dz,
+      };
     },
     async getFullLesson(id) {
       return get("lesson", id);

@@ -28,27 +28,40 @@
             </v-toolbar>
           </template>
           <template v-slot:item="{ item }">
-            <tr 
-                style="cursor: pointer"
-                @click="handleClickOnRow"
-                :data-time_start="item.time"
-                :data-uniq_id="item.lesson.uniq_id"
+            <tr
+              style="cursor: pointer"
+              @click="handleClickOnRow"
+              :data-time_start="item.time"
+              :data-uniq_id="item.lesson.uniq_id"
             >
               <td>{{ item.lesson.lesson_id }}</td>
               <td>{{ item.lesson.name }}</td>
               <td>
                 {{
                   item.time
-                    ? convertDate(new Date(item.time * 1000), 'HH:MM')
+                    ? convertDate(new Date(item.time * 1000), "HH:MM")
                     : "Не запланировано"
                 }}
               </td>
               <td>
                 {{
                   item.time
-                    ? convertDate(new Date(item.time * 1000), 'yyyy.mm.dd')
+                    ? convertDate(new Date(item.time * 1000), "dd.mm.yyyy")
                     : "Не запланировано"
                 }}
+              </td>
+              <td>
+                <router-link
+                  :to="{
+                    name: 'homework',
+                    params: {
+                      courseId: 0,
+                      id: item.lesson.uniq_id,
+                      userid: 0
+                    }
+                  }"
+                  >Домашнее задание</router-link
+                >
               </td>
             </tr>
           </template>
@@ -87,30 +100,39 @@ export default {
         { text: "Название", value: "name" },
         { text: "Время начала", value: "time_start" },
         { text: "Дата начала", value: "date_start" },
+        { text: "Домашнее задание" },
       ],
     };
   },
   methods: {
-    convertDate(val,f){
-        return dateFormat(val,f)
+    convertDate(val, f) {
+      return dateFormat(val, f);
     },
     handleClickOnRow(event) {
-        const parent = event.target.closest("tr");
-        const uniq_id = parent.dataset.uniq_id;
-        const time = parent.dataset.time_start
-        console.log(time)
-        if (uniq_id && time != 0 && time != null) {
-          this.$router.push({ 
-            path: `/lk/upcoming/${uniq_id}`,
-            params: {
-              id: uniq_id,
-            }});
-        }
+      console.log(event.srcElement.tagName);
+      if (event.srcElement.tagName.toLowerCase() === "a") return;
+      const parent = event.target.closest("tr");
+      const uniq_id = parent.dataset.uniq_id;
+      const time = parent.dataset.time_start;
+      const startTime =
+        this.lessons.schedule.find((e) => e.lesson.uniq_id === uniq_id).time *
+        1000;
+      if (uniq_id && time != 0 && time != null) {
+        this.$router.push({
+          name: "upcoming-lesson",
+          params: {
+            id: uniq_id,
+            code: this.group.code,
+            startTime,
+          },
+        });
+      }
     },
     async getGroups() {
       // Start loading page
       this.loading = true;
       const r = await api.methods.getAcademicGroups();
+      // console.log(r)
       if (r.data && r.data.length > 0) {
         this.group = r.data[0];
         await this.getLessons(this.group.id);
@@ -134,5 +156,4 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
 </style>

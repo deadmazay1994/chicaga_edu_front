@@ -6,12 +6,16 @@ export default class {
     console.log("push");
     // Второй параметр это юзер настройки которого надо описать тут
     let error = 0;
-    this.medias.forEach(media => {
-      // Если такой юзер уже существует, то не добавляем его
-      if (mediaData.id == media.id) {
-        error = 1;
-      }
-    });
+    // this.medias.forEach((media) => {
+    //   console.log(media);
+    //   // Если такой юзер уже существует, то не добавляем его
+    //   if (mediaData.id == media.id) {
+    //     error = 1;
+    //   }
+    // });
+    if (this.medias.find((e) => e.stream.id === mediaData.stream.id)) {
+      error = true;
+    }
     error;
     if (!error) {
       if (user) {
@@ -26,11 +30,11 @@ export default class {
     }
   }
   getMyMedia() {
-    return this.medias.find(media => media.im);
+    return this.medias.find((media) => media.im);
   }
   getById(id) {
-    if (this.medias.find(media => media.id == id)) {
-      return this.medias.find(media => media.id == id);
+    if (this.medias.find((media) => media.id == id)) {
+      return this.medias.find((media) => media.id == id);
     } else {
       console.log("This user does't exitst ", id);
       return false;
