@@ -1,10 +1,8 @@
 <template>
   <div class="prepare">
     <h2>Готовы присоединиться?</h2>
-    <span class="sub-title">Пока ничего нет</span>
     <div class="buttons">
       <button>Присоединиться</button>
-      <button>Показать</button>
     </div>
   </div>
 </template>
@@ -37,19 +35,15 @@ export default {
     align-items: center;
     justify-content: center;
     button {
-      width: 100%;
-      background: #c3ab7c;
-      border-radius: 8px;
+      background: #FF0000;
+      border-radius: 40px;
       margin-top: 1rem;
-      padding: .5rem 1rem;
+      padding: .5rem 1.5rem;
       transition: all .5s ease;
-      &:last-child {
-        background: transparent;
-        margin-left: .5rem;
-      }
-      &:hover {
-        background-color: #e8e8e8;
-      }
+      color: #ffffff;
+      -webkit-box-shadow: 3px 3px 15px 3px #FFFFFF80 inset;
+      -moz-box-shadow: 3px 3px 15px 3px #FFFFFF80 inset;
+      box-shadow: 3px 3px 15px 3px #FFFFFF80 inset;
     }
   }
 }

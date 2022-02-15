@@ -192,11 +192,17 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.video-wrapper {
-  width: 50%;
-}
-.countdown {
-  width: 50%;
+.main-content {
+  height: 100%;
+  .video-wrapper {
+    width: 50%;
+    height: 100%;
+  }
+  .countdown {
+    width: 50%;
+    height: 100%;
+    justify-content: space-evenly;
+  }
 }
 
 @media (max-width: 900px) {
