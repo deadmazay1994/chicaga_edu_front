@@ -92,5 +92,5 @@ export default {
   word-wrap: wrap
 
 .messages__message
-  max-width: 340px
+  max-width: 70%
 </style>
