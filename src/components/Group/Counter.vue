@@ -88,7 +88,7 @@ export default {
 
   .counter-num {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 32px;
     line-height: 40px;
   }
 

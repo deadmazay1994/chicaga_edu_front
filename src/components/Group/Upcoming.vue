@@ -4,10 +4,11 @@
       <v-card class="front" v-if="!timeToLesson && !lesson">
         <v-skeleton-loader type="article" />
       </v-card>
-      <div v-else class="d-flex">
+      <div v-else class="d-flex main-content">
         <div class="video-wrapper">
+          <!-- Здесь будет компонент видеочата -->
         </div>
-        <div class="countdown d-flex flex-column justify-content-end">
+        <div class="countdown d-flex flex-column">
           <div class="lesson-starts" v-show="lesson">
             <div class="d-flex justify-content-center center">
               <counter class="counter" :current-time="timeToLesson" />
@@ -127,10 +128,10 @@ export default {
 
 <style lang="scss" scoped>
 .lesson-starts {
-  margin-top: 10px;
   display: inline-block;
   background: #f8f8f8;
   border-radius: 12px;
+  width: 100%;
   text-align: center;
   padding: 23px 50px 19px 50px;
   margin-bottom: 8px;
@@ -147,7 +148,7 @@ export default {
   span {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    margin: 0 12;
     img {
       margin-right: 5px;
     }
@@ -192,6 +193,21 @@ export default {
   align-items: center;
 }
 .video-wrapper {
-  width: 100%;
+  width: 50%;
+}
+.countdown {
+  width: 50%;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    .video-wrapper {
+      width: 100%;
+    }
+    .countdown {
+      width: 100%;
+    }
+  }
 }
 </style>
