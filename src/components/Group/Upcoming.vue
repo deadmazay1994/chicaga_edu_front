@@ -4,21 +4,26 @@
       <v-card class="front" v-if="!timeToLesson && !lesson">
         <v-skeleton-loader type="article" />
       </v-card>
-      <div v-else class="row">
-        <div class="lesson-starts" v-show="lesson">
-          <div class="d-flex justify-content-center center">
-            <counter class="counter" :current-time="timeToLesson" />
+      <div v-else class="d-flex">
+        <div class="video-wrapper">
+        </div>
+        <div class="countdown d-flex flex-column justify-content-end">
+          <div class="lesson-starts" v-show="lesson">
+            <div class="d-flex justify-content-center center">
+              <counter class="counter" :current-time="timeToLesson" />
+            </div>
+            <div class="date-info">
+              <span class="main--text"
+                ><img src="@/assets/svg/cal_icon.svg" alt="" />
+                {{ this.dateLesson }}</span
+              >
+              <span class="main--text"
+                ><img src="@/assets/svg/time_icon.svg" alt="" />
+                {{ this.timeLesson }}</span
+              >
+            </div>
           </div>
-          <div class="date-info">
-            <span class="main--text"
-              ><img src="@/assets/svg/cal_icon.svg" alt="" />
-              {{ this.dateLesson }}</span
-            >
-            <span class="main--text"
-              ><img src="@/assets/svg/time_icon.svg" alt="" />
-              {{ this.timeLesson }}</span
-            >
-          </div>
+          <prepare />
         </div>
       </div>
     </div>
@@ -30,6 +35,7 @@ import Counter from "@/components/Group/Counter";
 import moment from "moment";
 import dateFormat from "dateformat";
 import api from "@/mixins/api";
+import Prepare from "./Prepare.vue";
 
 export default {
   name: "Upcoming",
@@ -99,6 +105,7 @@ export default {
   },
   components: {
     Counter,
+    Prepare
   },
   async beforeMount() {
     await this.setLesson();
@@ -122,7 +129,6 @@ export default {
 .lesson-starts {
   margin-top: 10px;
   display: inline-block;
-  width: 100%;
   background: #f8f8f8;
   border-radius: 12px;
   text-align: center;
@@ -135,15 +141,15 @@ export default {
 
 .date-info {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   padding: 12px 0;
   span {
     display: flex;
     align-items: center;
-    margin: 0 12px;
+    font-size: 14px;
     img {
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
 }
@@ -184,5 +190,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.video-wrapper {
+  width: 100%;
 }
 </style>
