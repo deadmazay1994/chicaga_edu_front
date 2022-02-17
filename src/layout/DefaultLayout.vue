@@ -910,10 +910,10 @@
       </div>
     </div>
     <notifications />
-    <!--    <modals />-->
-    <!--    <snackbars />-->
-    <!--    <lightbox />-->
-    <!--        <bg-component />-->
+    <!--<modals />-->
+    <!--<snackbars />-->
+    <!--<lightbox />-->
+    <!--<bg-component />-->
   </v-app>
 </template>
 
