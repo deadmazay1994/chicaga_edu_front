@@ -3,13 +3,20 @@ export default {
   actions: {},
   mutations: {
     pushNotification(state, params) {
+      if (!params.timeout) {
+        params.timeout = 5000
+      }
       state.notifications.push({
         ...params,
-        active: true 
+        active: true,
+        pos: state.notifications.length,
+        state: params.state ? params.state : 'default' 
       });
-      setTimeout(() => {
-        state.notifications[state.notifications.length - 1].active = false
-      }, 5000)
+      state.notifications.filter(elem => elem.active).reverse().forEach(element => {
+        setTimeout(() => {
+          element.active = false
+        }, params.timeout)
+      });
     }
   },
   state: {

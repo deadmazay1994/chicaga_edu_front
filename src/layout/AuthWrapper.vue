@@ -942,4 +942,25 @@
 
 <style>
 @import "../assets/styles/style.min.css";
+
+.success {
+  border-color: #4caf50;
+  background: #ffffff;
+  color: #4caf50;
+}
+
+.error {
+  border-color: #ff5252;
+  background: #ff5252;
+  color: #ffffff;
+}
 </style>
+
+<script>
+import { mapMutations } from "vuex";
+export default {
+  methods: {
+    ...mapMutations(["pushShuckbar"])
+  }
+}
+</script>

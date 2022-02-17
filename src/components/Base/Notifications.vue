@@ -1,25 +1,23 @@
 <template>
   <div class="notifications">
-    <button @click="pushNotification({message: 'hi'})">test</button>
-    <div 
-      v-for="(not, i) in getActiveNotifications"
-      :key="i"
-      class="notification success"
-    >{{ not.message }}</div>
+    <transition-group name="notifications" tag="div">
+      <div 
+        v-for="(not, i) in getActiveNotifications"
+        :key="i"
+        class="notification"
+        :class="not.state"
+      >
+        {{ not.message }}
+      </div>
+    </transition-group>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Notifications",
-  data() {
-    return {}
-  },
-  methods: {
-    ...mapMutations(["pushNotification"])
-  },
   computed: {
     ...mapGetters(["getNotifications", "getActiveNotifications"])
   }
@@ -36,5 +34,32 @@ export default {
   border-radius: .5rem;
   border: 2px solid;
   background: #ffffff;
+}
+
+.notifications-enter-active, .notifications-leave-active {
+  transition: all .5s;
+}
+
+.notifications-enter, .notifications-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.default {
+  border-color: #333333;
+  background: #ffffff;
+  color: #333333;
+}
+
+.success {
+  border-color: #4caf50;
+  background: #ffffff;
+  color: #4caf50;
+}
+
+.error {
+  border-color: #ff5252;
+  background: #ff5252;
+  color: #ffffff;
 }
 </style>
