@@ -942,4 +942,9 @@
 
 <style>
 @import "../assets/styles/style.min.css";
+
+.auth-body {
+  padding-top: 0;
+  flex-direction: column;
+}
 </style>
