@@ -1,6 +1,6 @@
 <template>
   <div class="prepare">
-    <h2>Готовы присоединиться?</h2>
+    <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
       <button>Присоединиться</button>
     </div>
@@ -21,7 +21,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  h2 {
+  title {
     font-size: 18px;
     text-align: center;
   }
