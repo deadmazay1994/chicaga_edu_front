@@ -47,7 +47,7 @@ export default {
       this.files = [];
       this.$store.dispatch("sendMsg");
       this.$store.commit("updateInput", "");
-      this.$store.commit("updateFile", "");
+      this.$store.commit("updateFile", null);
       this.$store.commit("updatePreload", "");
     },
     getFile() {
