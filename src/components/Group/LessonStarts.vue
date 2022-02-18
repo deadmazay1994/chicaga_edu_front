@@ -22,11 +22,12 @@ import Counter from "./Counter.vue";
 export default {
   name: "LessonStarts",
   components: { Counter },
-  props: {
-    dateLesson: String,
-    timeLesson: String,
-    lesson: Boolean
-  }
+  props: [
+    "dateLesson",
+    "timeLesson",
+    "timeToLesson",
+    "lesson"
+  ],
 };
 </script>
 
@@ -35,12 +36,26 @@ export default {
   display: inline-block;
   background: #f8f8f8;
   border-radius: 12px;
-  width: 100%;
   text-align: center;
   padding: 23px 50px 19px 50px;
   margin-bottom: 8px;
   h4 {
     padding: 7px 0;
+  }
+
+  .date-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 0;
+    span {
+      display: flex;
+      align-items: center;
+      margin: 0 12;
+      img {
+        margin-right: 5px;
+      }
+    }
   }
 }
 </style>

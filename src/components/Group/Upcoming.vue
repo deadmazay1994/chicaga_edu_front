@@ -9,7 +9,7 @@
           <!-- Здесь будет компонент видеочата -->
         </div>
         <div class="countdown d-flex flex-column">
-          <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" />
+          <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" :timeToLesson="timeToLesson" />
           <prepare />
         </div>
       </div>
@@ -113,21 +113,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.date-info {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 12px 0;
-  span {
-    display: flex;
-    align-items: center;
-    margin: 0 12;
-    img {
-      margin-right: 5px;
-    }
-  }
-}
-
 .tip-box {
   display: flex;
   width: 100%;
@@ -174,6 +159,7 @@ export default {
   .countdown {
     width: 50%;
     height: 100%;
+    align-items: center;
     justify-content: space-evenly;
   }
 }
