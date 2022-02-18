@@ -9,21 +9,7 @@
           <!-- Здесь будет компонент видеочата -->
         </div>
         <div class="countdown d-flex flex-column">
-          <div class="lesson-starts" v-show="lesson">
-            <div class="d-flex justify-content-center center">
-              <counter class="counter" :current-time="timeToLesson" />
-            </div>
-            <div class="date-info">
-              <span class="main--text"
-                ><img src="@/assets/svg/cal_icon.svg" alt="" />
-                {{ this.dateLesson }}</span
-              >
-              <span class="main--text"
-                ><img src="@/assets/svg/time_icon.svg" alt="" />
-                {{ this.timeLesson }}</span
-              >
-            </div>
-          </div>
+          <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" />
           <prepare />
         </div>
       </div>
@@ -32,11 +18,11 @@
 </template>
 
 <script>
-import Counter from "@/components/Group/Counter";
 import moment from "moment";
 import dateFormat from "dateformat";
 import api from "@/mixins/api";
-import Prepare from "./Prepare.vue";
+import Prepare from "./Prepare";
+import LessonStarts from "./LessonStarts.vue";
 
 export default {
   name: "Upcoming",
@@ -105,8 +91,8 @@ export default {
     },
   },
   components: {
-    Counter,
-    Prepare
+    Prepare,
+    LessonStarts
   },
   async beforeMount() {
     await this.setLesson();
@@ -127,19 +113,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.lesson-starts {
-  display: inline-block;
-  background: #f8f8f8;
-  border-radius: 12px;
-  width: 100%;
-  text-align: center;
-  padding: 23px 50px 19px 50px;
-  margin-bottom: 8px;
-  h4 {
-    padding: 7px 0;
-  }
-}
-
 .date-info {
   display: flex;
   justify-content: space-between;
