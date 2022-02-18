@@ -2,15 +2,45 @@
   <div class="prepare">
     <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
-      <button>Присоединиться</button>
+      <router-link
+        :to="redirect"
+        tag="button"
+        :disabled="timeStrGetMinutes(timeToLesson) > 10"
+        >Присоединиться</router-link
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Prepare"
-}
+  name: "Prepare",
+  props: ["lesson", "timeToLesson"],
+  data() {
+    return {
+      courseId: 0,
+      redirect: {
+        name: "lesson",
+      },
+    };
+  },
+  methods: {
+    timeStrGetMinutes(seconds) {
+      return Math.floor((seconds % 3600) / 60);
+    },
+  },
+  mounted() {
+    this.courseId =
+      this.lesson.course_id !== null && this.lesson.course_id !== undefined
+        ? this.lesson.course_id
+        : 0;
+    this.redirect.params = {
+      courseId: this.courseId,
+      userid: this.$route.params.code,
+      id: this.lesson.uniq_id,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -27,7 +57,7 @@ export default {
   }
   .sub-title {
     font-size: 14px;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     text-align: center;
   }
   .buttons {
@@ -35,15 +65,22 @@ export default {
     align-items: center;
     justify-content: center;
     button {
-      background: #FF0000;
+      background: #ff0000;
       border-radius: 40px;
       margin-top: 1rem;
-      padding: .5rem 1.5rem;
-      transition: all .5s ease;
+      padding: 0.5rem 1.5rem;
+      transition: all 0.5s ease;
       color: #ffffff;
-      -webkit-box-shadow: 3px 3px 15px 3px #FFFFFF80 inset;
-      -moz-box-shadow: 3px 3px 15px 3px #FFFFFF80 inset;
-      box-shadow: 3px 3px 15px 3px #FFFFFF80 inset;
+      -webkit-box-shadow: 3px 3px 15px 3px #ffffff80 inset;
+      -moz-box-shadow: 3px 3px 15px 3px #ffffff80 inset;
+      box-shadow: 3px 3px 15px 3px #ffffff80 inset;
+      &:disabled {
+        background: #fab5b4;
+        -webkit-box-shadow: inset 3px 3px 15px 3px rgba(255, 245, 245, 0.5);
+        -moz-box-shadow: inset 3px 3px 15px 3px rgba(255, 245, 245, 0.5);
+        box-shadow: inset 3px 3px 15px 3px rgba(255, 245, 245, 0.5);
+        pointer-events: none;
+      }
     }
   }
 }

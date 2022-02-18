@@ -10,7 +10,7 @@
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" :timeToLesson="timeToLesson" />
-          <prepare />
+          <prepare :lesson="lesson" :timeToLesson="timeLesson" />
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ export default {
         (+this.DateLessonTime - +new Date()) / 1000
       );
       this.timerId = setInterval(() => {
-        this.redirectToLessonIfLessonStart();
+        // this.redirectToLessonIfLessonStart();
         this.timeToLesson--;
       }, 1000);
     },
@@ -65,30 +65,6 @@ export default {
       }
       return true;
     },
-
-    // Redirect lesson if it's start
-    redirectToLessonIfLessonStart() {
-      let tenMinutes = 600;
-      if (tenMinutes > this.timeToLesson) {
-        let course_id = 0;
-        if (
-          this.lesson.course_id != null &&
-          this.lesson.course_id != undefined
-        ) {
-          course_id = this.lesson.course_id;
-        }
-        this.$router.push({
-          name: "lesson",
-          params: {
-            courseId: course_id,
-            userid: this.$route.params.code,
-            id: this.lesson.uniq_id,
-          },
-          // path: `../../lesson/${course_id}/${this.lesson.uniq_id}/${this.$route.params.code}`,
-        });
-        clearInterval(this.timerId);
-      }
-    },
   },
   components: {
     Prepare,
@@ -105,7 +81,6 @@ export default {
         new Date(parseInt(this.$route.params.startTime))
       ).valueOf();
     }
-    this.redirectToLessonIfLessonStart();
     this.startTimer();
     this.setDateAndTime();
   },
