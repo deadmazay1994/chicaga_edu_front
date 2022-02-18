@@ -150,6 +150,7 @@ export default {
     .lessons__task,
     .lessons__chat {
       width: 100% !important;
+      max-width: none;
     }
 
     .manager__workspace {
