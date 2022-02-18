@@ -2,24 +2,27 @@
   <div class="notifications">
     <transition-group name="notifications" tag="div">
       <div 
-        v-for="(not, i) in getActiveNotifications"
+        v-for="(not, i) in snuckbarsActive"
         :key="i"
         class="notification"
         :class="not.state"
       >
-        {{ not.message }}
+        {{ not.val }}
       </div>
     </transition-group>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Notifications",
   computed: {
-    ...mapGetters(["getNotifications", "getActiveNotifications"])
+    ...mapGetters(["snuckbars", "snuckbarsActive"])
+  },
+  methods: {
+    ...mapMutations(['pushShuckbar'])
   }
 };
 </script>
@@ -53,8 +56,8 @@ export default {
 
 .success {
   border-color: #4caf50;
-  background: #ffffff;
-  color: #4caf50;
+  background: #4caf50;
+  color: #ffffff;
 }
 
 .error {
