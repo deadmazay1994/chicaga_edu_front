@@ -963,4 +963,21 @@
 .auth-body .auth-form__footer .auth-form__submit {
   margin-bottom: 3vh;
 }
+
+.register-form .auth-form__header {
+  margin-bottom: 4vh;
+}
+
+.register-form .auth-form .auth-label {
+  margin-bottom: 2vh;
+}
+@media screen and (max-width: 1000px) {
+  .register-form
+  .auth-form 
+  .auth-input {
+    margin-bottom: 2vh;
+    padding-bottom: 2vh;
+  }
+}
+
 </style>
