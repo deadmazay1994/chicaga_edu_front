@@ -947,4 +947,20 @@
   padding-top: 0;
   flex-direction: column;
 }
+
+.auth-body .auth-form__title {
+  margin-bottom: 5vh;
+}
+
+.auth-body .auth-form__body {
+  padding-bottom: 0;
+}
+
+.auth-body .auth-form__footer {
+  margin-top: 5vh !important;
+}
+
+.auth-body .auth-form__footer .auth-form__submit {
+  margin-bottom: 3vh;
+}
 </style>
