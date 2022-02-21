@@ -10,7 +10,7 @@
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" :timeToLesson="timeToLesson" />
-          <prepare :lesson="lesson" :timeToLesson="timeLesson" />
+          <prepare :event="lesson" :time="timeLesson" />
         </div>
       </div>
     </div>
