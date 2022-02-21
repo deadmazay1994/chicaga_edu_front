@@ -33,7 +33,6 @@
         @click.native="toggleFullSize"
         class="video-component__expand video-component__ctrls-btn"
         v-if="!active"
-        :
       />
       <expand
         v-else
