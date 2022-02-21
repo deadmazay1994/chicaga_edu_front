@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import Snuckbars from "@/components/Base/Snackbars";
 import Notifications from "./components/Base/Notifications.vue";
 
 export default {
@@ -17,8 +16,7 @@ export default {
     },
   },
   components: {
-    Snuckbars,
-    Notifications
+    Notifications,
   },
 };
 </script>
