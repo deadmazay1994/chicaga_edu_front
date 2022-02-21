@@ -2,25 +2,42 @@ export default {
   namespaces: true,
   actions: {},
   mutations: {
-    pushShuckbar(state, text) {
+    pushShuckbar(state, params) {
+      if (!params.timeout) {
+        params.timeout = 5000;
+      }
       state.snuckbars.push({
-        ...text,
-        active: true
+        ...params,
+        active: true,
+        pos: state.snuckbars.length,
+        state: params.success
+          ? "success"
+          : params.success === false
+          ? "error"
+          : "default",
       });
-    }
+      state.snuckbars
+        .filter((elem) => elem.active)
+        .reverse()
+        .forEach((element) => {
+          setTimeout(() => {
+            element.active = false;
+          }, params.timeout);
+        });
+    },
   },
   state: {
-    snuckbars: []
+    snuckbars: [],
   },
   getters: {
-    snuckbars: state => {
+    snuckbars: (state) => {
       return state.snuckbars;
     },
-    snuckbarsActive: state => {
-      return state.snuckbars.filter(snack => snack.active);
+    snuckbarsActive: (state) => {
+      return state.snuckbars.filter((snack) => snack.active);
     },
-    lastBar: state => {
+    lastBar: (state) => {
       return state.snuckbars[state.snuckbars.length - 1];
-    }
-  }
+    },
+  },
 };

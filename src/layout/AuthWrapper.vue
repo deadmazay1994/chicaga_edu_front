@@ -1,6 +1,6 @@
 <template>
   <div class="auth-page">
-    <svg style="display: none;">
+    <svg style="display: none">
       <symbol id="coin" viewBox="0 0 25 25">
         <g clip-path="url(#clip0)">
           <path
@@ -930,9 +930,7 @@
           </defs>
         </svg>
       </div>
-      <p class="auth-intro__desc">
-        Курсы английского языка в Санкт-Петербурге
-      </p>
+      <p class="auth-intro__desc">Курсы английского языка в Санкт-Петербурге</p>
     </div>
     <div class="auth-body">
       <slot />
@@ -972,12 +970,18 @@
   margin-bottom: 2vh;
 }
 @media screen and (max-width: 1000px) {
-  .register-form
-  .auth-form 
-  .auth-input {
+  .register-form .auth-form .auth-input {
     margin-bottom: 2vh;
     padding-bottom: 2vh;
   }
 }
-
 </style>
+
+<script>
+import { mapMutations } from "vuex";
+export default {
+  methods: {
+    ...mapMutations(["pushShuckbar"]),
+  },
+};
+</script>

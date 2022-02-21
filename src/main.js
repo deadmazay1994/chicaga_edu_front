@@ -15,6 +15,7 @@ import AuthWrapper from "./layout/AuthWrapper";
 
 Vue.component("default-layout", DefaultLayout);
 Vue.component("auth-wrapper", AuthWrapper);
+Vue.component("c-btn", () => import("./components/UiElements/C-btn"));
 
 Vue.use(VueKonva);
 
