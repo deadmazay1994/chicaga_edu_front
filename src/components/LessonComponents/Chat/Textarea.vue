@@ -24,6 +24,7 @@
       class="messages__controls__textarea"
       :value="getInput"
       @input="updateInput"
+      v-on:keyup.enter="send()"
     />
     <svg class="messages__controls__svg" v-on:click="send()">
       <use xlink:href="#forward"></use>
@@ -46,7 +47,8 @@ export default {
       this.files = [];
       this.$store.dispatch("sendMsg");
       this.$store.commit("updateInput", "");
-      this.$store.commit("updateFile", "");
+      this.$store.commit("updateFile", null);
+      this.$store.commit("updatePreload", "");
     },
     getFile() {
       return this.$refs.fileInput.files[0];

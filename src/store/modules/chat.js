@@ -120,6 +120,7 @@ export default {
       r.fields.args[0].u.name = senderName;
       commit("appendMsgs", { data: msgs, room: getters.getRoom });
       dispatch("scrollToBottom");
+      state.preload = false;
       if (!state.chatIsOpen) {
         state.newMsgsNum++;
         new Audio("/audios/newmsg.mp3").play();
@@ -285,6 +286,9 @@ export default {
     toggleOpenChat(state) {
       state.chatIsOpen = !state.chatIsOpen;
       state.newMsgsNum = 0;
+    },
+    updatePreload(state) {
+      state.preload = true;
     }
   },
   state: {
@@ -303,7 +307,8 @@ export default {
     searchStatus: false,
     loading: true,
     chatIsOpen: true,
-    newMsgsNum: 0
+    newMsgsNum: 0,
+    preload: null
   },
   getters: {
     allMsgs(state) {
@@ -348,6 +353,9 @@ export default {
     chatIsOpen(state) {
       return state.chatIsOpen;
     },
-    newMsgsNum: state => state.newMsgsNum
+    newMsgsNum: state => state.newMsgsNum,
+    preload(state) {
+      return state.preload;
+    }
   }
 };

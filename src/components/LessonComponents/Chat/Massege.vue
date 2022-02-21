@@ -90,4 +90,7 @@ export default {
 
 .text__content-massege
   word-wrap: wrap
+
+.messages__message
+  max-width: 70%
 </style>

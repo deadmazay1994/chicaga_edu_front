@@ -137,6 +137,11 @@ export default {
 </style>
 
 <style lang="scss">
+.lessons-pg {
+  .lessons__chat {
+    max-width: 45%;
+  }
+}
 @media (max-width: 1360px) {
   .lessons-pg {
     display: flex;
@@ -145,6 +150,7 @@ export default {
     .lessons__task,
     .lessons__chat {
       width: 100% !important;
+      max-width: none;
     }
 
     .manager__workspace {
