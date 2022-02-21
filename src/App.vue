@@ -26,9 +26,4 @@ body,
 html {
   height: auto !important;
 }
-.red-btn {
-  cursor: pointer;
-  pointer-events: all !important;
-  background: rgba(255, 53, 53);
-}
 </style>
