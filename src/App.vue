@@ -2,11 +2,14 @@
   <component :is="layout">
     <router-view />
     <snuckbars />
+    <notifications />
   </component>
 </template>
 
 <script>
 import Snuckbars from "@/components/Base/Snackbars";
+import Notifications from "./components/Base/Notifications.vue";
+
 export default {
   computed: {
     layout() {
@@ -15,6 +18,7 @@ export default {
   },
   components: {
     Snuckbars,
+    Notifications
   },
 };
 </script>

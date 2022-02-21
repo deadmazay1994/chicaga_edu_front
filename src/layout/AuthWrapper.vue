@@ -1,6 +1,6 @@
 <template>
   <div class="auth-page">
-    <svg style="display: none;">
+    <svg style="display: none">
       <symbol id="coin" viewBox="0 0 25 25">
         <g clip-path="url(#clip0)">
           <path
@@ -930,9 +930,7 @@
           </defs>
         </svg>
       </div>
-      <p class="auth-intro__desc">
-        Курсы английского языка в Санкт-Петербурге
-      </p>
+      <p class="auth-intro__desc">Курсы английского языка в Санкт-Петербурге</p>
     </div>
     <div class="auth-body">
       <slot />
@@ -942,4 +940,28 @@
 
 <style>
 @import "../assets/styles/style.min.css";
+/* А это что-за стили. Для snucbars что-ли? */
+/* Почему они тут?  */
+/* Они должны быть прямо в компоненте */
+/* При таком расположении их надо будет везде вставлять */
+.success {
+  border-color: #4caf50;
+  background: #ffffff;
+  color: #4caf50;
+}
+
+.error {
+  border-color: #ff5252;
+  background: #ff5252;
+  color: #ffffff;
+}
 </style>
+
+<script>
+import { mapMutations } from "vuex";
+export default {
+  methods: {
+    ...mapMutations(["pushShuckbar"]),
+  },
+};
+</script>

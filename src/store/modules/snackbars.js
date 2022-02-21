@@ -2,10 +2,21 @@ export default {
   namespaces: true,
   actions: {},
   mutations: {
-    pushShuckbar(state, text) {
+    pushShuckbar(state, params) {
+      if (!params.timeout) {
+        params.timeout = 5000
+      }
+      console.log(params.success)
       state.snuckbars.push({
-        ...text,
-        active: true
+        ...params,
+        active: true,
+        pos: state.snuckbars.length,
+        state: params.success ? "success" : (params.success === false) ? "error" : "default"
+      });
+      state.snuckbars.filter(elem => elem.active).reverse().forEach(element => {
+        setTimeout(() => {
+          element.active = false
+        }, params.timeout)
       });
     }
   },
