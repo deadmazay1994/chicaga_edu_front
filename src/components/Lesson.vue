@@ -140,34 +140,38 @@ export default {
 .lessons-pg {
   .lessons__chat {
     max-width: 45%;
-    .lessons__messages {
-      height: calc(100% - 450px);
-    }
   }
-  .lessons__task {
-    .lesson__item {
-      height: 100%;
-      flex-basis: auto;
-      .task__content {
-        display: flex;
-        flex-direction: column;
-        .v-window {
-          height: 100%;
-          .v-window__container {
+  @media (min-width: 1360px) {
+    .lessons__chat {
+      .lessons__messages {
+        height: calc(100% - 450px);
+      }
+    }
+    .lessons__task {
+      .lesson__item {
+        height: 100%;
+        flex-basis: auto;
+        .task__content {
+          display: flex;
+          flex-direction: column;
+          .v-window {
             height: 100%;
-          }
-          .v-window-item {
-            height: 100%;
-            .tasks {
+            .v-window__container {
               height: 100%;
-              .tasks__wrap {
-                justify-content: flex-end;
-                .manager__workspace {
-                  overflow-y: scroll;
-                  position: absolute;
-                  top: 126px;
-                  width: 100%;
-                  height: 100%;
+            }
+            .v-window-item {
+              height: 100%;
+              .tasks {
+                height: 100%;
+                .tasks__wrap {
+                  justify-content: flex-end;
+                  .manager__workspace {
+                    overflow-y: scroll;
+                    position: absolute;
+                    top: 126px;
+                    width: 100%;
+                    height: 100%;
+                  }
                 }
               }
             }
@@ -210,38 +214,6 @@ export default {
     }
     .v-slide-group__content {
       justify-content: flex-start;
-    }
-  }
-  .lessons__task {
-    .lesson__item {
-      height: auto;
-      flex-basis: 50%;
-      .task__content {
-        display: block;
-        flex-direction: none;
-        .v-window {
-          height: auto;
-          .v-window__container {
-            height: auto;
-          }
-          .v-window-item {
-            height: auto;
-            .tasks {
-              height: auto;
-              .tasks__wrap {
-                justify-content: space-between;
-                .manager__workspace {
-                  overflow-y: scroll;
-                  position: initial;
-                  top: none;
-                  width: 520px;
-                  height: auto;
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
