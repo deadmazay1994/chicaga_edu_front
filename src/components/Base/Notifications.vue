@@ -7,6 +7,11 @@
         class="notification"
         :class="not.state"
       >
+        <close
+          color="white"
+          class="lightbox__close"
+          @click.native="not.active = false"
+        />
         {{ not.val }}
       </div>
     </transition-group>
@@ -14,15 +19,14 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
+import Close from "@/components/Icons/Close";
 
 export default {
   name: "Notifications",
+  components: { Close },
   computed: {
     ...mapGetters(["snuckbars", "snuckbarsActive"])
-  },
-  methods: {
-    ...mapMutations(['pushShuckbar'])
   }
 };
 </script>
@@ -32,11 +36,19 @@ export default {
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
-  padding: .5rem 1rem;
+  padding: .5rem 2.5rem .5rem 1rem;
   min-width: 150px;
   border-radius: .5rem;
   border: 2px solid;
   background: #ffffff;
+
+  .lightbox__close {
+    cursor: pointer;
+    width: 12px;
+    position: absolute;
+    right: .45rem;
+    top: .2rem;
+  }
 }
 
 .notifications-enter-active, .notifications-leave-active {
