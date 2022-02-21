@@ -940,20 +940,40 @@
 
 <style>
 @import "../assets/styles/style.min.css";
-/* А это что-за стили. Для snucbars что-ли? */
-/* Почему они тут?  */
-/* Они должны быть прямо в компоненте */
-/* При таком расположении их надо будет везде вставлять */
-.success {
-  border-color: #4caf50;
-  background: #ffffff;
-  color: #4caf50;
+
+.auth-body {
+  padding-top: 0;
+  flex-direction: column;
 }
 
-.error {
-  border-color: #ff5252;
-  background: #ff5252;
-  color: #ffffff;
+.auth-body .auth-form__title {
+  margin-bottom: 5vh;
+}
+
+.auth-body .auth-form__body {
+  padding-bottom: 0;
+}
+
+.auth-body .auth-form__footer {
+  margin-top: 5vh !important;
+}
+
+.auth-body .auth-form__footer .auth-form__submit {
+  margin-bottom: 3vh;
+}
+
+.register-form .auth-form__header {
+  margin-bottom: 4vh;
+}
+
+.register-form .auth-form .auth-label {
+  margin-bottom: 2vh;
+}
+@media screen and (max-width: 1000px) {
+  .register-form .auth-form .auth-input {
+    margin-bottom: 2vh;
+    padding-bottom: 2vh;
+  }
 }
 </style>
 
