@@ -1,6 +1,6 @@
 <template>
   <div class="prepare">
-    <div class="title">{{ (isPositive) ? titlePrepare : titleLate }}</div>
+    <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
       <router-link
         :to="redirect"
@@ -21,15 +21,8 @@ export default {
       courseId: 0,
       redirect: {
         name: "lesson",
-      },
-      titlePrepare: "Готовы присоединиться?",
-      titleLate: "Занятие уже началось"
+      }
     };
-  },
-  computed: {
-    isPositive() {
-      return Boolean((this.time % 3600) / 60 > 0)
-    }
   },
   methods: {
     timeStrGetMinutes(seconds) {

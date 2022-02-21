@@ -1,16 +1,16 @@
 <template>
-  <div class="lesson-starts" v-show="lesson">
+  <div class="lesson-starts" v-show="event">
     <div class="d-flex justify-content-center center">
-      <counter class="counter" :current-time="timeToLesson" />
+      <counter class="counter" :current-time="time" />
     </div>
     <div class="date-info">
       <span class="main--text"
         ><img src="@/assets/svg/cal_icon.svg" alt="" />
-        {{ dateLesson }}</span
+        {{ date }}</span
       >
       <span class="main--text"
         ><img src="@/assets/svg/time_icon.svg" alt="" />
-        {{ timeLesson }}</span
+        {{ exactTime }}</span
       >
     </div>
   </div>
@@ -23,10 +23,10 @@ export default {
   name: "LessonStarts",
   components: { Counter },
   props: [
-    "dateLesson",
-    "timeLesson",
-    "timeToLesson",
-    "lesson"
+    "date",
+    "exactTime",
+    "time",
+    "event"
   ],
 };
 </script>
