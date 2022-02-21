@@ -51,7 +51,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  title {
+  .title {
     font-size: 18px;
     text-align: center;
   }
