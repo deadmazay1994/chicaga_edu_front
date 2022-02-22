@@ -6,7 +6,7 @@
       </v-card>
       <div v-else class="d-flex main-content">
         <div class="video-wrapper">
-          <web-cam :miniaturesOn="false" />
+          <web-cam />
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" :timeToLesson="timeToLesson" />

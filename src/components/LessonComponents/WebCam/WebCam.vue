@@ -1,48 +1,38 @@
 <template>
-  <div class="web-cam vue-component">
+  <div class="video-chat vue-component">
     <div class="video-chat__videos-wrap">
       <div
         class="video-chat__video-wrap"
-        v-for="(mediaObject, index) in medias.medias"
+        v-for="(mediaObject, index) in medias"
         :key="index"
         :class="{
           'video-chat__video-wrap--active':
-          Number(index) === Number(activeVideoIndex),
+          Number(index) == Number(activeVideoIndex),
         }"
-        :style="videoWrapJustify(index)"
       >
         <template v-if="Number(index) == Number(activeVideoIndex)">
           <video-component
             :indexVideo="index"
             class="video-chat__video"
-            :class="{
-              'video-chat__video--active':
-                Number(index) == Number(activeVideoIndex),
-            }"
-            :active="Number(index) == Number(activeVideoIndex)"
-            :mediaObject="mediaObject"
-            @toggleFullSize="onFullSizeToggle"
-            @toggleMicro="onToggleMicro"
-            $ref="media"
+            :mediaObject="mediaObject.mediaObject"
           />
         </template>
       </div>
     </div>
-    <div class="video-chat-miniatures-wrapper" v-if="medias.medias.length > 0 && miniaturesOn">
+    <div class="video-chat-miniatures-wrapper">
       <div class="miniatures-go" @click="scroll('upp')">
         <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
       </div>
       <div class="video-chat-miniatures-list" ref="miniatures">
-        <template v-for="(mediaObject, index) in medias.medias">
+        <template v-for="(mediaObject, index) in medias">
           <video-component
             v-if="Number(index) != Number(activeVideoIndex)"
             class="video-chat__video video-chat__video--miniature"
             :miniature="true"
-            :mediaObject="mediaObject"
+            :mediaObject="mediaObject.mediaObject"
             :indexVideo="index"
-            @toggleFullSize="onFullSizeToggle"
-            @toggleMicro="onToggleMicro"
             :key="index"
+            :miniaturesOn="false"
           />
         </template>
       </div>
@@ -63,6 +53,7 @@ export default {
   data() {
     return {
       medias: [],
+      activeVideoIndex: 0,
     }
   },
   props: {
@@ -92,51 +83,6 @@ export default {
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
     },
-
-    // Оставлять эти методы?
-    onToggleCamera(state) {
-      this.socket.emit("toggle camera", state);
-    },
-    onToggleCameraSocket() {
-      this.socket.on("on toggle camera", (data) => {
-        console.log("on toggle camera");
-        const doF = () => (this.medias.getById(data.id).videoOff = data.state);
-        if (this.medias.getById(data.id)) doF();
-        else {
-          console.log("push to que");
-          this.queue.push({
-            doF,
-            id: data.id,
-          });
-        }
-      });
-    },
-    onToggleMicro(state) {
-      this.socket.emit("toggle micro", state);
-    },
-    onToggleMicroSocket() {
-      this.socket.on("on toggle micro", (data) => {
-        console.log("on toggle micro");
-        if (this.medias.getById(data.id)) {
-          this.medias.getById(data.id).audioOff = data.state;
-        }
-      });
-    },
-    onChangeSettings() {
-      this.socket.on("on change settings", (data) => {
-        if (data.data.toAllUsers) {
-          this.medias.getMyMedia()[data.data.name] = data.data.val;
-        }
-        console.log("on change settings", this.medias.medias);
-        let user = this.medias.getById(data.id);
-        if (user) {
-          if (data.data.name in user) {
-            user[data.data.name] = data.data.val;
-            console.log(data.data);
-          }
-        }
-      });
-    },
     randomStr() {
       return (
         Math.random().toString(36).substring(2, 15) +
@@ -151,7 +97,7 @@ export default {
       audio: true
     });
     let user = { name: "testuser" }
-    driver.createMyMediaObject(stream, user);
+    driver.createMyMediaObject({mediaStream: stream, userInfo: user});
     driver.connect().then(() => {
       this.medias = driver.allParticipants
       console.log(this.medias)
@@ -159,3 +105,86 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.video-chat-miniatures-wrapper
+  height: 100%
+  position: absolute
+  width: 30%
+  min-width: 146px
+  background-color: #9d000040
+  z-index: 10 !important
+  right: 0
+  border-top-left-radius: 10px
+  border-bottom-left-radius: 10px
+  .miniatures-go
+    height: 12.5%
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 1001 !important
+    transition: all .2s
+    &:hover
+      cursor: pointer
+      background-color: #9d000041
+
+  .video-chat-miniatures-list
+    height: 75%
+    -ms-overflow-style: none
+    scrollbar-width: none
+    overflow-y: scroll
+  .video-chat-miniatures-list::-webkit-scrollbar
+    display: none
+
+.video-chat
+  position: relative
+  display: flex
+  overflow-y: auto
+  flex-direction: column
+  align-items: center
+  justify-content: space-between
+  positon: relative
+  height: 450px !important
+  &__videos-wrap
+    display: flex
+    flex-wrap: wrap
+    width: 100%
+    height: 100%
+    padding: 10px
+    padding-top: 40px
+  &__video-wrap
+    width: 50%
+    display: flex
+    height: 150px
+    margin-bottom: 10px
+    &--active
+      width: 0
+  .video-chat__video--miniature
+    width: calc(100% - 20px)
+    height: 100px
+    margin: 5px 10px
+  &__video
+    margin-top: 5px
+    width: 50%
+    min-width: 140px
+    height: 450px
+    // &--miniature
+    //   &:nth-child(2n)
+    //     justify-self: end
+    // &:last-child
+    //   margin-right: 0
+  &__video--active
+    width: 100%
+    margin: 0
+    height: 100%
+    position: absolute
+    top: 0
+    left: 0
+@media (max-width: 375px)
+  .video-chat
+    .video-chat__video--miniature
+      width: 125px
+      height: 125px
+    &__video
+      min-width: 120px
+</style>
