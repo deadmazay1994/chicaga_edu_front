@@ -9,17 +9,23 @@
           'video-chat__video-wrap--active':
           Number(index) == Number(activeVideoIndex),
         }"
+        :style="videoWrapJustify(index)"
       >
         <template v-if="Number(index) == Number(activeVideoIndex)">
           <video-component
             :indexVideo="index"
             class="video-chat__video"
+            :class="{
+              'video-chat__video--active':
+                Number(index) == Number(activeVideoIndex),
+            }"
+            :active="Number(index) == Number(activeVideoIndex)"
             :mediaObject="mediaObject.mediaObject"
           />
         </template>
       </div>
     </div>
-    <div class="video-chat-miniatures-wrapper">
+    <div class="video-chat-miniatures-wrapper" v-if="medias.length > 0 && miniaturesOn">
       <div class="miniatures-go" @click="scroll('upp')">
         <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
       </div>
@@ -32,7 +38,6 @@
             :mediaObject="mediaObject.mediaObject"
             :indexVideo="index"
             :key="index"
-            :miniaturesOn="false"
           />
         </template>
       </div>
@@ -54,10 +59,8 @@ export default {
     return {
       medias: [],
       activeVideoIndex: 0,
+      miniaturesOn: false
     }
-  },
-  props: {
-    miniaturesOn: Boolean
   },
   methods: {
     scroll(val) {
@@ -79,6 +82,24 @@ export default {
         console.log("Scroll Up");
       }
     },
+    videoWrapJustify(currentIndex) {
+      // Если текущий элемент стоит до активного,
+      // то если у него не четный индекс, то значение должно быть flex-end
+      // А если после, то flex-end должен быть у не четных
+      let values = ["flex-end", "flex-start"];
+      // Значение по умолчанию для не четных
+      let indexValue = 0;
+      if (currentIndex % 2) {
+        indexValue = 1;
+      }
+      // Сценарий, когда элемент находится после активного
+      if (currentIndex < this.activeVideoIndex) {
+        indexValue = indexValue === 1 ? 0 : 1;
+      }
+      return {
+        "justify-content": values[indexValue],
+      };
+    },
     // Логика переключения FullSize
     onFullSizeToggle(index) {
       this.activeVideoIndex = index;
@@ -99,7 +120,8 @@ export default {
     let user = { name: "testuser" }
     driver.createMyMediaObject({mediaStream: stream, userInfo: user});
     driver.connect().then(() => {
-      this.medias = driver.allParticipants
+      let medias = driver.allParticipants
+      this.medias = medias.filter(media => media.itsMe === true)
       console.log(this.medias)
     });
   }

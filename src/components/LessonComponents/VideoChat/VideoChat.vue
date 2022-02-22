@@ -1,6 +1,7 @@
 <template>
   <div class="video-chat vue-component">
     <div class="video-chat__videos-wrap">
+      {{medias.medias}}
       <div
         class="video-chat__video-wrap"
         v-for="(mediaObject, index) in medias.medias"
