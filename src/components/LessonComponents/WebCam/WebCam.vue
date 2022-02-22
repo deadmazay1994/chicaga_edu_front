@@ -60,6 +60,11 @@ import Driver from "./Driver";
 export default {
   name: "WebCam",
   components: { VideoComponent },
+  data() {
+    return {
+      medias: [],
+    }
+  },
   props: {
     miniaturesOn: Boolean
   },
@@ -141,13 +146,16 @@ export default {
   },
   async mounted() {
     const driver = new Driver;
-    console.log(this.$refs.media.video)
     let stream = await navigator.mediaDevices.getUserMedia({
       video: {width: 624, height: 480},
       audio: true
-    })
-    driver.createMyMediaObject({mediaStream: stream})
-    driver.connected();
+    });
+    let user = { name: "testuser" }
+    driver.createMyMediaObject(stream, user);
+    driver.connect().then(() => {
+      this.medias = driver.allParticipants
+      console.log(this.medias)
+    });
   }
 }
 </script>
