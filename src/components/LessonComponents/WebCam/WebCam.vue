@@ -23,6 +23,7 @@
             :mediaObject="mediaObject"
             @toggleFullSize="onFullSizeToggle"
             @toggleMicro="onToggleMicro"
+            $ref="media"
           />
         </template>
       </div>
@@ -53,7 +54,8 @@
 </template>
 
 <script>
-import VideoComponent from "@components/LessonComponents/VideoChat/VideoComponent";
+import VideoComponent from "@/components/LessonComponents/VideoChat/VideoComponent";
+import Driver from "./Driver";
 
 export default {
   name: "WebCam",
@@ -136,6 +138,16 @@ export default {
         Math.random().toString(36).substring(2, 15)
       );
     },
+  },
+  async mounted() {
+    const driver = new Driver;
+    console.log(this.$refs.media.video)
+    let stream = await navigator.mediaDevices.getUserMedia({
+      video: {width: 624, height: 480},
+      audio: true
+    })
+    driver.createMyMediaObject({mediaStream: stream})
+    driver.connected();
   }
 }
 </script>
