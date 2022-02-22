@@ -1,7 +1,7 @@
 <template>
   <div class="counter vue-component">
     <div class="title">
-      <h4 class="main--text">Занятие начнется через</h4>
+      <h4 class="main--text">{{ (currentTime > 0) ? titlePrepare : titleLate }}</h4>
     </div>
     <div class="counter-content">
       <div class="counter-item">
@@ -27,7 +27,9 @@ export default {
     currentTime: Number,
   },
   data: () => ({
-    timerID: null
+    timerID: null,
+    titlePrepare: "Занятие начнется через",
+    titleLate: "Занятие уже началось"
   }),
   methods: {
   
@@ -36,15 +38,15 @@ export default {
         return str
     },
     timeStrGetHours(seconds) {
-        return this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600))
+        return (this.currentTime > 0) ? this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600)) : this.timeStrUppendZeroToStartStr(0)
     },
     timeStrGetMinutes(seconds) {
-        return this.timeStrUppendZeroToStartStr(
+        return (this.currentTime > 0) ? this.timeStrUppendZeroToStartStr(
             Math.floor((seconds % 3600) / 60)
-        )
+        ) : this.timeStrUppendZeroToStartStr(0)
     },
     timeStrGetSeconds(seconds) {
-        return this.timeStrUppendZeroToStartStr((seconds % 3600) % 60)
+        return (this.currentTime > 0) ? this.timeStrUppendZeroToStartStr((seconds % 3600) % 60) : this.timeStrUppendZeroToStartStr(0)
     },
     changeTimer() {
       this.timerID = setInterval(() => {
