@@ -1,6 +1,6 @@
 <template>
   <div class="video-chat vue-component">
-    <div class="video" v-if="!streamOn">
+    <div class="video" v-if="streamOn">
       <div class="video-chat__videos-wrap">
         <div
           class="video-chat__video-wrap"
@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="notice" v-if="streamOn">
+    <div class="notice" v-if="!streamOn">
       <span class="text">
         Не удалось получить доступ к камере <a href="/">ссылка на FAQ</a>
       </span>
@@ -67,7 +67,8 @@ export default {
       medias: [],
       activeVideoIndex: 0,
       miniaturesOn: false,
-      streamOn: null
+      streamOn: null,
+      mediaError: null
     }
   },
   methods: {
@@ -120,23 +121,28 @@ export default {
     },
   },
   async mounted() {
-    const driver = new Driver;
     let stream;
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: {width: 624, height: 480},
-        audio: true
-      });
-      this.streamOn = true;
-    } catch(err) {
-      this.streamOn = false;
-    }
+    const driver = new Driver;
+    const constraints = {
+      video: {width: 624, height: 480},
+      audio: true
+    };
     let user = { name: "testuser", avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg" }
-    driver.createMyMediaObject({mediaStream: stream, userInfo: user});
-    driver.connect().then(() => {
-      let medias = driver.allParticipants
-      this.medias = medias.filter(media => media.itsMe === true)
-    });
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(mediaStream => {
+      stream = mediaStream
+      this.streamOn = true
+      driver.createMyMediaObject({mediaStream: stream, userInfo: user});
+      driver.connect().then(() => {
+        let driverMedias = driver.allParticipants
+        this.medias = driverMedias.filter(media => media.itsMe === true)
+      });
+    })
+    .catch(err => {
+      this.mediaError = err
+      console.log(err)
+      this.streamOn = false
+    })
   }
 }
 </script>

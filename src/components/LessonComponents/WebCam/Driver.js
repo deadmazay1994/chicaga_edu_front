@@ -9,6 +9,7 @@ export default class {
   createMyMediaObject({ mediaStream, userInfo }) {
     // TODO
     // Удалить все аудиотреки
+    console.log("driver mediaStream: ", mediaStream)
     this.myMediaObject = new MediaObject({
       mediaStream,
       userInfo,
