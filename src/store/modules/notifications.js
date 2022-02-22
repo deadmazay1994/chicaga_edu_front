@@ -2,13 +2,7 @@ export default {
   namespaces: true,
   actions: {},
   mutations: {
-    pushNotification(state, params) {
-      // Параметры по дефолту так сейчас не прописывают
-      // Можно присовить дефолтное значение прямо такой
-      // pushNotification(state, params = 5000) {
-      if (!params.timeout) {
-        params.timeout = 5000;
-      }
+    pushNotification(state, params = 5000) {
       state.notifications.push({
         ...params,
         active: true,
@@ -23,7 +17,7 @@ export default {
             element.active = false;
           }, params.timeout);
         });
-    },
+    }
   },
   state: {
     notifications: [],
