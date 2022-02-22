@@ -8,7 +8,7 @@
           :key="index"
           :class="{
             'video-chat__video-wrap--active':
-            Number(index) == Number(activeVideoIndex),
+              Number(index) == Number(activeVideoIndex),
           }"
           :style="videoWrapJustify(index)"
         >
@@ -26,7 +26,10 @@
           </template>
         </div>
       </div>
-      <div class="video-chat-miniatures-wrapper" v-if="medias.length > 0 && miniaturesOn">
+      <div
+        class="video-chat-miniatures-wrapper"
+        v-if="medias.length > 0 && miniaturesOn"
+      >
         <div class="miniatures-go" @click="scroll('upp')">
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
@@ -49,8 +52,9 @@
     </div>
     <div class="notice" v-if="!streamOn">
       <span class="text">
-        Не удалось получить доступ к камере <a href="/">ссылка на FAQ</a>
+        {{ mediaError }}
       </span>
+      <a href="http://localhost:8080/edu/#/faq">ссылка на FAQ</a>
     </div>
   </div>
 </template>
@@ -68,8 +72,8 @@ export default {
       activeVideoIndex: 0,
       miniaturesOn: false,
       streamOn: null,
-      mediaError: null
-    }
+      mediaError: null,
+    };
   },
   methods: {
     scroll(val) {
@@ -119,32 +123,58 @@ export default {
         Math.random().toString(36).substring(2, 15)
       );
     },
-  },
-  async mounted() {
-    let stream;
-    const driver = new Driver;
-    const constraints = {
-      video: {width: 624, height: 480},
-      audio: true
-    };
-    let user = { name: "testuser", avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg" }
-    navigator.mediaDevices.getUserMedia(constraints)
-    .then(mediaStream => {
-      stream = mediaStream
-      this.streamOn = true
-      driver.createMyMediaObject({mediaStream: stream, userInfo: user});
+    mediaStreamSuccessHundle(mediaStream) {
+      const driver = new Driver();
+      let user = {
+        name: "testuser",
+        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg",
+      };
+      let stream = mediaStream;
+
+      driver.createMyMediaObject({ mediaStream: stream, userInfo: user });
       driver.connect().then(() => {
-        let driverMedias = driver.allParticipants
-        this.medias = driverMedias.filter(media => media.itsMe === true)
+        let driverMedias = driver.allParticipants;
+        this.medias = driverMedias.filter((media) => media.itsMe === true);
       });
-    })
-    .catch(err => {
-      this.mediaError = err
-      console.log(err)
-      this.streamOn = false
-    })
-  }
-}
+      this.streamOn = true;
+    },
+    mediaStreamErrorHundle(error) {
+      this.mediaError = error;
+      console.log(error.name + ": " + error.message);
+      this.streamOn = false;
+    },
+    async setMediaStream() {
+      const constraints = { video: { width: 624, height: 480 }, audio: true };
+
+      await navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((mediaStream) => {
+          this.mediaStreamSuccessHundle(mediaStream);
+        })
+        .catch((err, mediaStream) => {
+          console.log("catch: ", mediaStream);
+          this.mediaStreamErrorHundle(err);
+          switch (err.name) {
+            case "NotAllowedError":
+              this.mediaError =
+                "Доступ к камере или микрофону не разрешен браузером";
+              break;
+            case "SecurityError":
+              this.mediaError = "Ошибка безопасности";
+              break;
+            case "NotFoundError":
+              this.mediaError = "Устройство не обнаружено";
+              break;
+            default:
+              this.mediaError = err.message;
+          }
+        });
+    },
+  },
+  mounted() {
+    this.setMediaStream();
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -229,6 +259,8 @@ export default {
     border-radius: 12px
     background-color: #f8f8f8
     width: 100%
+    padding: 0 1.5rem
+    flex-direction: column
     .text
       text-align: center
 @media (max-width: 375px)

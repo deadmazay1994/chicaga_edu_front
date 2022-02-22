@@ -133,7 +133,7 @@ export default {
     width: 50%;
     height: 100%;
   }
-  @media (max-width: 1360px) {
+  @media (max-width: 900px) {
     .video-wrapper {
       margin-bottom: 2rem;
     }
