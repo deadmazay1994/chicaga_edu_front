@@ -1,7 +1,6 @@
 <template>
   <div class="video-chat vue-component">
     <div class="video-chat__videos-wrap">
-      {{medias.medias}}
       <div
         class="video-chat__video-wrap"
         v-for="(mediaObject, index) in medias.medias"
@@ -279,7 +278,6 @@ export default {
       // 2
       // Сервер отправляет всех участников чата
       this.socket.on("send users", async (data) => {
-        console.log(data);
         this.color = data.aboutMe.color;
         // Записываем свой socket id
         this.socketId = data.socketId;

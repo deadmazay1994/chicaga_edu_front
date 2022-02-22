@@ -1,49 +1,56 @@
 <template>
   <div class="video-chat vue-component">
-    <div class="video-chat__videos-wrap">
-      <div
-        class="video-chat__video-wrap"
-        v-for="(mediaObject, index) in medias"
-        :key="index"
-        :class="{
-          'video-chat__video-wrap--active':
-          Number(index) == Number(activeVideoIndex),
-        }"
-        :style="videoWrapJustify(index)"
-      >
-        <template v-if="Number(index) == Number(activeVideoIndex)">
-          <video-component
-            :indexVideo="index"
-            class="video-chat__video"
-            :class="{
-              'video-chat__video--active':
-                Number(index) == Number(activeVideoIndex),
-            }"
-            :active="Number(index) == Number(activeVideoIndex)"
-            :mediaObject="mediaObject.mediaObject"
-          />
-        </template>
+    <div class="video" v-if="!streamOn">
+      <div class="video-chat__videos-wrap">
+        <div
+          class="video-chat__video-wrap"
+          v-for="(mediaObject, index) in medias"
+          :key="index"
+          :class="{
+            'video-chat__video-wrap--active':
+            Number(index) == Number(activeVideoIndex),
+          }"
+          :style="videoWrapJustify(index)"
+        >
+          <template v-if="Number(index) == Number(activeVideoIndex)">
+            <video-component
+              :indexVideo="index"
+              class="video-chat__video"
+              :class="{
+                'video-chat__video--active':
+                  Number(index) == Number(activeVideoIndex),
+              }"
+              :active="Number(index) == Number(activeVideoIndex)"
+              :mediaObject="mediaObject.mediaObject"
+            />
+          </template>
+        </div>
+      </div>
+      <div class="video-chat-miniatures-wrapper" v-if="medias.length > 0 && miniaturesOn">
+        <div class="miniatures-go" @click="scroll('upp')">
+          <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
+        </div>
+        <div class="video-chat-miniatures-list" ref="miniatures">
+          <template v-for="(mediaObject, index) in medias">
+            <video-component
+              v-if="Number(index) != Number(activeVideoIndex)"
+              class="video-chat__video video-chat__video--miniature"
+              :miniature="true"
+              :mediaObject="mediaObject.mediaObject"
+              :indexVideo="index"
+              :key="index"
+            />
+          </template>
+        </div>
+        <div class="miniatures-go" @click="scroll('down')">
+          <img src="@/assets/imgs/down-arrow.svg" alt="arrow down" />
+        </div>
       </div>
     </div>
-    <div class="video-chat-miniatures-wrapper" v-if="medias.length > 0 && miniaturesOn">
-      <div class="miniatures-go" @click="scroll('upp')">
-        <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
-      </div>
-      <div class="video-chat-miniatures-list" ref="miniatures">
-        <template v-for="(mediaObject, index) in medias">
-          <video-component
-            v-if="Number(index) != Number(activeVideoIndex)"
-            class="video-chat__video video-chat__video--miniature"
-            :miniature="true"
-            :mediaObject="mediaObject.mediaObject"
-            :indexVideo="index"
-            :key="index"
-          />
-        </template>
-      </div>
-      <div class="miniatures-go" @click="scroll('down')">
-        <img src="@/assets/imgs/down-arrow.svg" alt="arrow down" />
-      </div>
+    <div class="notice" v-if="streamOn">
+      <span class="text">
+        Не удалось получить доступ к камере <a href="/">ссылка на FAQ</a>
+      </span>
     </div>
   </div>
 </template>
@@ -59,7 +66,8 @@ export default {
     return {
       medias: [],
       activeVideoIndex: 0,
-      miniaturesOn: false
+      miniaturesOn: false,
+      streamOn: null
     }
   },
   methods: {
@@ -113,16 +121,21 @@ export default {
   },
   async mounted() {
     const driver = new Driver;
-    let stream = await navigator.mediaDevices.getUserMedia({
-      video: {width: 624, height: 480},
-      audio: true
-    });
-    let user = { name: "testuser" }
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: {width: 624, height: 480},
+        audio: true
+      });
+      this.streamOn = true;
+    } catch(err) {
+      this.streamOn = false;
+    }
+    let user = { name: "testuser", avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg" }
     driver.createMyMediaObject({mediaStream: stream, userInfo: user});
     driver.connect().then(() => {
       let medias = driver.allParticipants
       this.medias = medias.filter(media => media.itsMe === true)
-      console.log(this.medias)
     });
   }
 }
@@ -202,6 +215,16 @@ export default {
     position: absolute
     top: 0
     left: 0
+  .notice
+    display: flex
+    align-items: center
+    justify-content: center
+    min-height: 450px
+    border-radius: 12px
+    background-color: #f8f8f8
+    width: 100%
+    .text
+      text-align: center
 @media (max-width: 375px)
   .video-chat
     .video-chat__video--miniature

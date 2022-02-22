@@ -133,11 +133,15 @@ export default {
     width: 50%;
     height: 100%;
   }
+  @media (max-width: 1360px) {
+    .video-wrapper {
+      margin-bottom: 2rem;
+    }
+  }
   .countdown {
     width: 50%;
-    height: 100%;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
 }
 

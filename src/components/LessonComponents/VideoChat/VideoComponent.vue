@@ -45,7 +45,7 @@
         :muted="muted.state"
         v-if="!mediaObject.im"
       /> -->
-      <template v-if="mediaObject.im">
+      <template> <!-- <template v-if="mediaObject.im"> -->
         <camera
           @click.native="toggleCamera"
           class="video-component__camera video-component__ctrls-btn"
@@ -298,7 +298,7 @@ export default {
     },
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
-        this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
+        this.background = this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
     }
@@ -323,11 +323,11 @@ export default {
     "mediaObject.id": function() {
       this.setStream();
     },
-    myActiveMediaName: function() {
-      if (this.mediaObject.im) {
-        this.setStream();
-      }
-    }
+    // myActiveMediaName: function() {
+    //   if (this.mediaObject.im) {
+    //     this.setStream();
+    //   }
+    // }
   },
   components: {
     Expand,
