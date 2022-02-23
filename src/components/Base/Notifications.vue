@@ -37,6 +37,7 @@ export default {
   border-radius: .5rem;
   border: 2px solid;
   background: #ffffff;
+  z-index: 9999;
 }
 
 .notifications-enter-active, .notifications-leave-active {

@@ -2,7 +2,6 @@
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
       <video-chat
-        style="height: 340px"
         class="lesson__video-chat"
         :class="{ 'lesson__video-chat--active': !chatIsOpen }"
       />
@@ -122,7 +121,6 @@ export default {
       &
         padding: 0
   &__video-chat
-    height: 25%
     overflow: hidden
     &--active
       height: calc( 100% - 74px )
@@ -144,7 +142,8 @@ export default {
   @media (min-width: 1360px) {
     .lessons__chat {
       .lessons__messages {
-        height: calc(100% - 450px);
+        height: 50% !important;
+        min-height: 350px;
       }
     }
     .lessons__task {
