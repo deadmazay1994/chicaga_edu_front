@@ -13,6 +13,7 @@
       v-show="!mediaObject.videoOff && !videoHidden"
       autoplay
       class="video-component__video"
+      poster="/imgs/whitenoize.gif"
     ></video>
     <img
       v-if="mediaObject.videoOff || videoHidden"

@@ -1,6 +1,6 @@
 <template>
   <div class="video-chat vue-component">
-    <div class="video" v-if="streamOn">
+    <div class="video" v-if="streamOn && !onLoading">
       <div class="video-chat__videos-wrap">
         <div
           class="video-chat__video-wrap"
@@ -50,11 +50,14 @@
         </div>
       </div>
     </div>
-    <div class="notice" v-if="!streamOn">
+    <div class="notice" v-if="!streamOn && !onLoading">
       <span class="text">
         {{ mediaError }}
       </span>
       <a href="http://localhost:8080/edu/#/faq">ссылка на FAQ</a>
+    </div>
+    <div class="loading" v-if="onLoading">
+      <v-skeleton-loader type="image" height="100%" />
     </div>
   </div>
 </template>
@@ -73,6 +76,7 @@ export default {
       miniaturesOn: false,
       streamOn: null,
       mediaError: null,
+      onLoading: true,
     };
   },
   methods: {
@@ -137,37 +141,37 @@ export default {
         this.medias = driverMedias.filter((media) => media.itsMe === true);
       });
       this.streamOn = true;
+      this.onLoading = false;
     },
     mediaStreamErrorHundle(error) {
       this.mediaError = error;
       console.log(error.name + ": " + error.message);
       this.streamOn = false;
+      this.onLoading = false;
+      switch (error.name) {
+        case "NotAllowedError":
+          this.mediaError =
+            "Доступ к камере или микрофону не разрешен браузером";
+          break;
+        case "SecurityError":
+          this.mediaError = "Ошибка безопасности";
+          break;
+        case "NotFoundError":
+          this.mediaError = "Устройство не обнаружено";
+          break;
+        default:
+          this.mediaError = error.message;
+      }
     },
     async setMediaStream() {
       const constraints = { video: { width: 624, height: 480 }, audio: true };
-
       await navigator.mediaDevices
         .getUserMedia(constraints)
         .then((mediaStream) => {
           this.mediaStreamSuccessHundle(mediaStream);
         })
-        .catch((err, mediaStream) => {
-          console.log("catch: ", mediaStream);
+        .catch((err) => {
           this.mediaStreamErrorHundle(err);
-          switch (err.name) {
-            case "NotAllowedError":
-              this.mediaError =
-                "Доступ к камере или микрофону не разрешен браузером";
-              break;
-            case "SecurityError":
-              this.mediaError = "Ошибка безопасности";
-              break;
-            case "NotFoundError":
-              this.mediaError = "Устройство не обнаружено";
-              break;
-            default:
-              this.mediaError = err.message;
-          }
         });
     },
   },
@@ -263,6 +267,13 @@ export default {
     flex-direction: column
     .text
       text-align: center
+  .loading
+    width: 100%
+    height: 100%
+    ::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading 
+      .v-skeleton-loader__image 
+        height: 100%
+  
 @media (max-width: 375px)
   .video-chat
     .video-chat__video--miniature
