@@ -16,14 +16,14 @@
     ></video>
     <img
       v-if="mediaObject.videoOff || videoHidden"
-      :src="mediaObject.avatar"
+      :src="mediaObject.userInfo.avatar"
       class="video-component__avatar"
     />
     <div
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.name }}
+      {{ mediaObject.userInfo.name }}
     </div>
     <div
       class="video-component__ctrls"
