@@ -8,7 +8,7 @@
           :key="index"
           :class="{
             'video-chat__video-wrap--active':
-              Number(index) == Number(activeVideoIndex),
+              Number(index) == Number(activeVideoIndex)
           }"
           :style="videoWrapJustify(index)"
         >
@@ -18,7 +18,7 @@
               class="video-chat__video"
               :class="{
                 'video-chat__video--active':
-                  Number(index) == Number(activeVideoIndex),
+                  Number(index) == Number(activeVideoIndex)
               }"
               :active="Number(index) == Number(activeVideoIndex)"
               :mediaObject="mediaObject.mediaObject"
@@ -73,10 +73,10 @@ export default {
     return {
       medias: [],
       activeVideoIndex: 0,
-      miniaturesOn: false,
+      miniaturesOn: true,
       streamOn: null,
       mediaError: null,
-      onLoading: true,
+      onLoading: true
     };
   },
   methods: {
@@ -87,14 +87,14 @@ export default {
         miniatures.scrollBy({
           left: 0,
           top: scrollHeight * 0.9,
-          behavior: "smooth",
+          behavior: "smooth"
         });
         console.log("Scroll down");
       } else {
         miniatures.scrollBy({
           left: 0,
           top: -(scrollHeight * 0.9),
-          behavior: "smooth",
+          behavior: "smooth"
         });
         console.log("Scroll Up");
       }
@@ -114,7 +114,7 @@ export default {
         indexValue = indexValue === 1 ? 0 : 1;
       }
       return {
-        "justify-content": values[indexValue],
+        "justify-content": values[indexValue]
       };
     },
     // Логика переключения FullSize
@@ -123,22 +123,29 @@ export default {
     },
     randomStr() {
       return (
-        Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15)
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15)
       );
     },
-    mediaStreamSuccessHundle(mediaStream) {
-      const driver = new Driver();
+    mediaStreamSuccessHundle() {
+      const driver = new Driver({
+        serverURL: "https://video.chicaga.ru",
+        secret: "123456"
+      });
       let user = {
         name: "testuser",
-        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg",
+        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg"
       };
-      let stream = mediaStream;
-
-      driver.createMyMediaObject({ mediaStream: stream, userInfo: user });
-      driver.connect().then(() => {
+      // driver.publish({ mediaStream: stream, userInfo: user });
+      const roomId = "helloaaa";
+      driver.connect(roomId, { clientData: user }).then(() => {
         let driverMedias = driver.allParticipants;
-        this.medias = driverMedias.filter((media) => media.itsMe === true);
+        this.medias = driverMedias;
+        console.log(driverMedias);
       });
       this.streamOn = true;
       this.onLoading = false;
@@ -164,20 +171,16 @@ export default {
       }
     },
     async setMediaStream() {
-      const constraints = { video: { width: 624, height: 480 }, audio: true };
-      await navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((mediaStream) => {
-          this.mediaStreamSuccessHundle(mediaStream);
-        })
-        .catch((err) => {
-          this.mediaStreamErrorHundle(err);
-        });
-    },
+      // const constraints = { video: { width: 624, height: 480 }, audio: true };
+      this.mediaStreamSuccessHundle();
+      // .catch(err => {
+      //   this.mediaStreamErrorHundle(err);
+      // });
+    }
   },
   mounted() {
     this.setMediaStream();
-  },
+  }
 };
 </script>
 
@@ -227,6 +230,9 @@ export default {
     height: 100%
     padding: 10px
     padding-top: 40px
+    position: absolute
+    left: 0
+    top: 0
   &__video-wrap
     width: 50%
     display: flex
@@ -270,10 +276,10 @@ export default {
   .loading
     width: 100%
     height: 100%
-    ::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading 
-      .v-skeleton-loader__image 
+    ::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading
+      .v-skeleton-loader__image
         height: 100%
-  
+
 @media (max-width: 375px)
   .video-chat
     .video-chat__video--miniature

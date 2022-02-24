@@ -46,7 +46,8 @@
         :muted="muted.state"
         v-if="!mediaObject.im"
       /> -->
-      <template> <!-- <template v-if="mediaObject.im"> -->
+      <template>
+        <!-- <template v-if="mediaObject.im"> -->
         <camera
           @click.native="toggleCamera"
           class="video-component__camera video-component__ctrls-btn"
@@ -74,7 +75,7 @@ import Camera from "@/components/Icons/Camera.vue";
 import Reflect from "@/components/Icons/Reflect.vue";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import Hark from "hark";
+// import Hark from "hark";
 
 export default {
   name: "video-component",
@@ -149,25 +150,28 @@ export default {
       });
     },
     setStream(stream = this.mediaObject.stream) {
-      if (!this.mediaObject.im) {
-        console.log(stream.getTracks());
-      }
-      let video = this.$refs.video;
-      if ("srcObject" in video) {
-        video.srcObject = stream;
-      } else {
-        this.alertError(`srcObject is undefined`);
-        video.src = window.URL.createObjectURL(stream); // for older browsers
-      }
-      if (this.isMobileSafari()) {
-        // Hacks for Mobile Safari
-        video.setAttribute("playsinline", true);
-        video.setAttribute("controls", true);
-        setTimeout(() => {
-          video.removeAttribute("controls");
-        });
-        this.alertError(`detected mobile safari`);
-      }
+      const video = this.$refs.video;
+      stream.addVideoElement(this.$refs.video);
+      // console.log(stream.mediaStream);
+      // if (!this.mediaObject.im) {
+      //   console.log(stream.getTracks());
+      // }
+
+      // if ("srcObject" in video) {
+      //   video.srcObject = stream;
+      // } else {
+      //   this.alertError(`srcObject is undefined`);
+      //   video.src = window.URL.createObjectURL(stream); // for older browsers
+      // }
+      // if (this.isMobileSafari()) {
+      //   // Hacks for Mobile Safari
+      //   video.setAttribute("playsinline", true);
+      //   video.setAttribute("controls", true);
+      //   setTimeout(() => {
+      //     video.removeAttribute("controls");
+      //   });
+      //   this.alertError(`detected mobile safari`);
+      // }
       video.play();
     },
     isMobileSafari() {
@@ -175,30 +179,30 @@ export default {
       return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
     },
     async initSpechEvents() {
-      let stream;
-      if (this.mediaObject.im) {
-        // Получаем независый трек
-        let getIndependedAudioStream = async () => {
-          let audio = false;
-          try {
-            audio = await navigator.mediaDevices.getUserMedia({
-              audio: true
-            });
-          } catch (e) {
-            console.log(e);
-          }
-          return audio;
-        };
-        stream = await getIndependedAudioStream();
-      } else {
-        stream = this.mediaObject.stream;
-        console.log(stream.getAudioTracks());
-      }
-      let speechEvents = Hark(stream, {
-        interval: 10
-      });
-      speechEvents.on("speaking", this.onSpeeking);
-      speechEvents.on("stopped_speaking", this.onStopSpeeking);
+      // let stream;
+      // if (this.mediaObject.im) {
+      //   // Получаем независый трек
+      //   let getIndependedAudioStream = async () => {
+      //     let audio = false;
+      //     try {
+      //       audio = await navigator.mediaDevices.getUserMedia({
+      //         audio: true
+      //       });
+      //     } catch (e) {
+      //       console.log(e);
+      //     }
+      //     return audio;
+      //   };
+      //   stream = await getIndependedAudioStream();
+      // } else {
+      //   stream = this.mediaObject.stream;
+      //   console.log(stream.getAudioTracks());
+      // }
+      // let speechEvents = Hark(stream, {
+      //   interval: 10
+      // });
+      // speechEvents.on("speaking", this.onSpeeking);
+      // speechEvents.on("stopped_speaking", this.onStopSpeeking);
     },
     onSpeeking() {
       // console.group("Start speeking");
@@ -299,7 +303,8 @@ export default {
     },
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
-        this.background = this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
+        this.background =
+          this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
     }
@@ -323,7 +328,7 @@ export default {
     },
     "mediaObject.id": function() {
       this.setStream();
-    },
+    }
     // myActiveMediaName: function() {
     //   if (this.mediaObject.im) {
     //     this.setStream();
