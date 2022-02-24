@@ -22,7 +22,8 @@ export default {
         } catch (err) {
           commit("pushShuckbar", {
             success: false,
-            val: "Не удалось получить доступ к экрану"
+            val: "Не удалось получить доступ к экрану",
+            timeout: 99999
           });
         }
         return captureStream;

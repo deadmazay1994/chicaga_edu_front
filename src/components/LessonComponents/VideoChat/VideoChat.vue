@@ -495,7 +495,9 @@ export default {
   align-items: center
   justify-content: space-between
   positon: relative
-  height: 450px !important
+  // height: 450px !important
+  min-height: 450px
+  height: 50%
   &__videos-wrap
     display: flex
     flex-wrap: wrap
