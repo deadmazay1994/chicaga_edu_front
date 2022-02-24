@@ -414,8 +414,7 @@ export default {
   & *
     color: #fff
   &__expand
-    width: 18px
-    height: 18px
+    width: 22px
     cursor: pointer
     color: #fff
   &__speaker
@@ -424,7 +423,6 @@ export default {
     cursor: pointer
   &__mute-micro
     width: 20px
-    transform: scale(-1, 1)
   &__camera
     width: 20px
   &__reflect
