@@ -1,12 +1,12 @@
 <template>
   <div class="prepare">
     <div class="title">Готовы присоединиться?</div>
-    {{id}}
     <div class="buttons">
-      <button
-        @click="redirectTo()"
+      <router-link
+        :to="{ name: 'lesson', params: { courseId: this.course_id, userid: this.$route.params.code, id: this.id} }"
         :disabled="timeStrGetMinutes(time) > 10"
-        >Присоединиться</button
+        tag="button"
+        >Присоединиться</router-link
       >
     </div>
   </div>
@@ -28,16 +28,6 @@ export default {
     timeStrGetMinutes(seconds) {
       return Math.floor((seconds % 3600) / 60);
     },
-    redirectTo() {
-      this.$router.push({
-        name: "lesson",
-        params: {
-          courseId: this.course_id,
-          userid: this.$route.params.code,
-          id: this.id
-        }
-      })
-    },
     async setParams() {
       let r = await api.methods.getFullLesson(this.$route.params.id);
       this.course_id = r.course_id
@@ -47,7 +37,6 @@ export default {
   mounted() {
     this.setParams()
   }
-  
 };
 </script>
 
