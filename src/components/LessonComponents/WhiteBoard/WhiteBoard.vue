@@ -88,6 +88,14 @@
         >
           <v-icon>mdi-eraser</v-icon>
         </button>
+        <button
+          title="clear all"
+          type="button"
+          class="whiteboardTool"
+          @click="clearBoard()"
+        >
+          <v-icon>mdi-trash-can-outline</v-icon>
+        </button>
       </div>
 
       <div
@@ -232,6 +240,9 @@ export default {
         callback(false);
       }, 2000);
       img.src = url;
+    },
+    clearBoard() {
+      this.whiteBoard.clearBoard();
     }
   },
   computed: {},

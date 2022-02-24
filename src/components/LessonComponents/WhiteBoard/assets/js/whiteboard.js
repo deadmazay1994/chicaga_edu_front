@@ -779,6 +779,9 @@ export default {
     }
     this.mouseOverlay.find(".xCanvasBtn").click();
   },
+  clearBoard: function() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
   handleEventsAndData: function(content, isNewData, doneCallback) {
     var _this = this;
     var tool = content["t"];
