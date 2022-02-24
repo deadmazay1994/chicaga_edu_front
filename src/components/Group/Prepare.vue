@@ -5,7 +5,7 @@
       <router-link
         :to="redirect"
         tag="button"
-        :disabled="timeStrGetMinutes(timeToLesson) > 10"
+        :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
       >
     </div>
@@ -15,13 +15,13 @@
 <script>
 export default {
   name: "Prepare",
-  props: ["lesson", "timeToLesson"],
+  props: ["event", "time", "titleText"],
   data() {
     return {
       courseId: 0,
       redirect: {
         name: "lesson",
-      },
+      }
     };
   },
   methods: {
@@ -31,13 +31,13 @@ export default {
   },
   mounted() {
     this.courseId =
-      this.lesson.course_id !== null && this.lesson.course_id !== undefined
-        ? this.lesson.course_id
+      this.event.course_id !== null && this.event.course_id !== undefined
+        ? this.event.course_id
         : 0;
     this.redirect.params = {
       courseId: this.courseId,
       userid: this.$route.params.code,
-      id: this.lesson.uniq_id,
+      id: this.event.uniq_id,
     };
   },
 };

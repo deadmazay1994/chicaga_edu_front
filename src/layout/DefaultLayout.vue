@@ -1162,10 +1162,6 @@ body
     transform: translateX(120%);
   }
 
-  body {
-    padding-top: 70px;
-  }
-
   .page {
     padding: 20px !important;
   }
