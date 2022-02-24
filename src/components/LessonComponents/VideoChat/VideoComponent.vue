@@ -4,7 +4,7 @@
     :class="{
       'video-component--active': active,
       'video-component--video-off': mediaObject.videoOff,
-      'video-component--miniature': !active
+      'video-component--miniature': !active,
     }"
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
@@ -58,6 +58,7 @@
         />
         <reflect
           @click.native="toggleScreenAndCapture()"
+          :reflected="isReflected"
           class="video-component__reflect video-component__ctrls-btn"
         />
       </template>
@@ -77,22 +78,23 @@ import Hark from "hark";
 
 export default {
   name: "video-component",
-  data: function() {
+  data: function () {
     return {
       muted: {
         state: false,
-        val: ""
+        val: "",
       },
       background: "/imgs/whitenoize.gif",
       videoHidden: true,
-      borderColor: ""
+      borderColor: "",
+      isReflected: null,
     };
   },
   methods: {
     ...mapActions([
       "setCapture",
       "toggleCaptureAndCameraAction",
-      "toggleMediaTrackPC"
+      "toggleMediaTrackPC",
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
     toggleFullSize() {
@@ -132,7 +134,7 @@ export default {
       this.toggleMediaTrackPC({
         mediaType: "video",
         value: this.mediaObject.videoOff,
-        el: this.$el
+        el: this.$el,
       });
     },
     toggleMicro() {
@@ -144,7 +146,7 @@ export default {
       this.toggleMediaTrackPC({
         mediaType: "audio",
         value: this.mediaObject.audioOff,
-        el: this.$el
+        el: this.$el,
       });
     },
     setStream(stream = this.mediaObject.stream) {
@@ -181,7 +183,7 @@ export default {
           let audio = false;
           try {
             audio = await navigator.mediaDevices.getUserMedia({
-              audio: true
+              audio: true,
             });
           } catch (e) {
             console.log(e);
@@ -194,7 +196,7 @@ export default {
         console.log(stream.getAudioTracks());
       }
       let speechEvents = Hark(stream, {
-        interval: 10
+        interval: 10,
       });
       speechEvents.on("speaking", this.onSpeeking);
       speechEvents.on("stopped_speaking", this.onStopSpeeking);
@@ -223,7 +225,7 @@ export default {
           this.toggleMediaTrackPC({
             mediaType: "audio",
             value: false,
-            el: this.$el
+            el: this.$el,
           });
         }
       };
@@ -242,7 +244,7 @@ export default {
         this.toggleMediaTrackPC({
           mediaType: "audio",
           value: true,
-          el: this.$el
+          el: this.$el,
         });
       };
       if (this.mediaObject.im) {
@@ -271,6 +273,7 @@ export default {
         activateVideo();
       }
       this.toggleCaptureAndCameraAction();
+      this.isReflected = this.isReflected ? false : true;
     },
     initMyVideoStates() {
       if (this.mediaObject.im) {
@@ -283,7 +286,7 @@ export default {
           this.toggleMediaTrackPC({
             mediaType: "video",
             value: videoState,
-            el: this.$el
+            el: this.$el,
           });
         }
         if (audioState) {
@@ -291,7 +294,7 @@ export default {
           this.toggleMediaTrackPC({
             mediaType: "audio",
             value: audioState,
-            el: this.$el
+            el: this.$el,
           });
         }
       }
@@ -301,7 +304,7 @@ export default {
         this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
-    }
+    },
   },
   computed: {
     ...mapGetters(["myCaptureMedia", "myActiveMediaName", "myWebcamMedia"]),
@@ -312,29 +315,29 @@ export default {
     borderComputed() {
       // Border color изменяется при замолкании и говорении пользовтеля
       return {
-        "border-color": this.borderColor
+        "border-color": this.borderColor,
       };
-    }
+    },
   },
   watch: {
-    "mediaObject.audioOff": function() {
+    "mediaObject.audioOff": function () {
       this.audioOff();
     },
-    "mediaObject.id": function() {
+    "mediaObject.id": function () {
       this.setStream();
     },
-    myActiveMediaName: function() {
+    myActiveMediaName: function () {
       if (this.mediaObject.im) {
         this.setStream();
       }
-    }
+    },
   },
   components: {
     Expand,
     // Speaker,
     MuteMicro,
     Camera,
-    Reflect
+    Reflect,
   },
   props: ["mediaObject", "indexVideo", "active"],
   mixins: {},
@@ -349,12 +352,11 @@ export default {
     this.audioOff();
     this.initMyVideoStates();
     this.onCanPlay();
-  }
+  },
 };
 </script>
 
 <style lang="sass" scoped>
-
 .video-component
   position: relative
   z-index: 2
@@ -401,19 +403,18 @@ export default {
       padding: 2px
       font-size: 14px
   &__ctrls
-      position: absolute
-      right: 0
-      top: 0
-      background: #0005
-      padding: 5px
-      align-items: center
-      display: flex
-      flex-direction: row-reverse
+    position: absolute
+    right: 0
+    top: 0
+    background: #0005
+    padding: 5px
+    align-items: center
+    display: flex
+    flex-direction: row-reverse
   & *
-      color: #fff
+    color: #fff
   &__expand
-    width: 18px
-    height: 18px
+    width: 22px
     cursor: pointer
     color: #fff
   &__speaker
@@ -422,7 +423,6 @@ export default {
     cursor: pointer
   &__mute-micro
     width: 20px
-    transform: scale(-1, 1)
   &__camera
     width: 20px
   &__reflect
@@ -439,7 +439,7 @@ export default {
     justify-content: center !important
     width: fit-content
     height: fit-content
-    gap:15px
+    gap: 15px
 
   &--active
     z-index: 1
@@ -461,5 +461,13 @@ export default {
     .video-component__mute-micro
       width: 25px
     .video-component__camera
+      width: 25px
+  .video-component__ctrls
+    .icon
+      display: flex
+      align-items: center
+      justify-content: center
+      position: relative
+      height: 25px
       width: 25px
 </style>
