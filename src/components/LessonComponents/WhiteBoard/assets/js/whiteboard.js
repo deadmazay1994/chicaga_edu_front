@@ -173,7 +173,7 @@ export default {
         svgCirle.setAttribute("cy", _this.prevY);
         svgCirle.setAttribute("r", 0);
         _this.svgContainer.append(svgCirle);
-        startCoords = [_this.prevX, _this.prevX];
+        startCoords = [_this.prevX, _this.prevY];
       } else if (_this.tool === "text") {
         let canvasWrapper =  $(whiteboardContainer);
         let canvasInput = document.createElement("input");
@@ -188,8 +188,8 @@ export default {
           canvasInput.style.padding = "1rem";
           canvasInput.style.border = "none";
     
-          canvasWrapper.append(canvasInput);
-          canvasInput.focus();
+          canvasWrapper.append(canvasInput); // добавляем инпут на доску
+          canvasInput.focus(); // фокус не работает
           _this.hasInput = true
         }
         
