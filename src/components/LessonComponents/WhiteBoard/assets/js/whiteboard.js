@@ -4,7 +4,7 @@ export default {
   canvas: null,
   ctx: null,
   drawcolor: "black",
-  tool: "pen",
+  tool: null,
   thickness: 4,
   prevX: null,
   prevY: null,

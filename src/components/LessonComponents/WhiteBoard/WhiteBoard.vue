@@ -208,10 +208,15 @@ export default {
       }
     },
     changeTool(toolName) {
-      $(".whiteboardTool").removeClass("active");
-      $(this).addClass("active");
-      this.whiteBoard.setTool(toolName);
-      this.activeTool = toolName;
+      if (this.userRole === "teacher") {
+        $(".whiteboardTool").removeClass("active");
+        $(this).addClass("active");
+        this.whiteBoard.setTool(toolName);
+        this.activeTool = toolName;
+      } else {
+        this.whiteBoard.setTool('mouse');
+        this.activeTool = "mouse";
+      }
     },
     changeThickness(event) {
       this.whiteBoard.thickness = event.target.value;
@@ -250,6 +255,7 @@ export default {
       img.src = url;
     },
     clearBoard() {
+      if (this.userRole !== "teacher") return;
       this.whiteBoard.clearBoard();
     }
   },
@@ -260,7 +266,7 @@ export default {
       this.whiteBoard.drawcolor = this.color;
     }
   },
-  props: ["server", "socketProp", "username"],
+  props: ["server", "socketProp", "username", "userRole"],
   beforeMount() {
     this.mobileDetected = detectMob();
     this.whiteboardId = getQueryVariable("whiteboardid");
@@ -494,6 +500,9 @@ Whiteboard actions
       dragCounter = 0;
       this.whiteBoard.dropIndicator.hide();
     });
+  },
+  updated() {
+    this.changeTool("pen");
   }
 };
 
