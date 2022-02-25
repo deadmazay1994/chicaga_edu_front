@@ -141,9 +141,7 @@ export default {
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      driver.joinToRoom(roomId, { clientData: user }).then(() => {
-        driver.publishScreen();
-      });
+      driver.joinToRoom(roomId, { clientData: user });
       this.streamOn = true;
       this.onLoading = false;
     },
