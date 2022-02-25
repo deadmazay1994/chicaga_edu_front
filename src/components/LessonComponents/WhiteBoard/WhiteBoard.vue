@@ -96,6 +96,14 @@
         >
           <v-icon>mdi-trash-can-outline</v-icon>
         </button>
+        <button
+          title="fill text"
+          type="button"
+          class="whiteboardTool"
+          @click="changeTool('text')"
+        >
+          <v-icon>mdi-format-text</v-icon>
+        </button>
       </div>
 
       <div
