@@ -3,7 +3,7 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const defaulSourseSettings = {
+const defaulSourceSettings = {
   audioSource: undefined, // The source of audio. If undefined default microphone
   videoSource: undefined, // The source of video. If undefined default webcam
   publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
@@ -28,6 +28,10 @@ export default class {
 
     this._session.on("streamCreated", this._streamCreatedHandler.bind(this));
     this._session.on("streamDestroyed", this._streamDestroyHandler.bind(this));
+    this._session.on(
+      "streamPropertyChanged",
+      this._streamPropertyChangedHandler.bind(this)
+    );
   }
   _createMyMediaObject(userInfo) {
     // TODO
@@ -61,12 +65,13 @@ export default class {
   get audioIsPublish() {
     return this._publisher.stream.audioActive;
   }
-  async joinToRoom(roomId, { clientData, sourceSettings }) {
+  async joinToRoom(roomId, { clientData, sourceSettings = {} }) {
     // if (!this.myMediaObject)
     //   throw new Error(
     //     "Before connecting call createMyMediaObject method is required"
     //   );
-    if (!sourceSettings) sourceSettings = defaulSourseSettings;
+    if (!sourceSettings)
+      sourceSettings = { ...defaulSourceSettings, sourceSettings };
     this._clientData = clientData;
     this._token = await this._getToken(roomId);
     this._setClientId();
@@ -80,7 +85,7 @@ export default class {
     this._publisher = this._OV.initPublisher(undefined, sourceSettings);
     this._createMyMediaObject(modifyClientData);
     this._session.publish(this._publisher);
-    window.addEventListener("beforeunload", this._leaveSession.bind(this));
+    window.addEventListener("beforeunload", this.leaveSession.bind(this));
   }
   disconnect() {
     return this;
@@ -95,8 +100,36 @@ export default class {
     this._publisher.publishVideo(!state);
     return this;
   }
-  _leaveSession() {
+  async updateVideoTrack(settings = {}) {
+    const sourceSettings = this._publisher.properties;
+    const newSettings = {
+      ...sourceSettings,
+      ...settings
+    };
+    const newMediaStream = await this._OV.getUserMedia(newSettings);
+    const screenTrack = newMediaStream.getVideoTracks()[0];
+    return this._publisher.replaceTrack(screenTrack);
+  }
+  publishWebcam(settings = {}) {
+    this.updateVideoTrack({
+      ...settings,
+      videoSource: "webcam"
+    });
+  }
+  publishScreen(settings = {}) {
+    this.updateVideoTrack({
+      ...settings,
+      videoSource: "screen"
+    });
+  }
+  leaveSession() {
     if (this._session) this._session.disconnect();
+    this._session = undefined;
+    this._publisher = undefined;
+    this.participants = [];
+    this.OV = undefined;
+
+    window.removeEventListener("beforeunload", this.leaveSession);
   }
   _setClientId() {
     this._clientId = `${this._clientData.name}__${Math.floor(
@@ -164,6 +197,18 @@ export default class {
         .catch(error => reject(error.response));
     });
   }
+  _getParticipantIndexFromStream(stream) {
+    return this.allParticipants
+      .map(p => p.mediaObject.stream?.stream)
+      .findIndex(
+        p => p.connection.connectionId === stream.connection.connectionId
+      );
+  }
+  _getMediaObjectFromStream(stream) {
+    const index = this._getParticipantIndexFromStream(stream);
+    if (index < 0 || index >= this.allParticipants.length) return;
+    return this.allParticipants[index].mediaObject;
+  }
   _streamCreatedHandler({ stream }) {
     const subscriber = this._session.subscribe(stream);
     this.participants.push(
@@ -182,6 +227,12 @@ export default class {
       );
     if (index < 0) return;
     this.participants.splice(index, 1);
+    this.onParticipantsChange();
+  }
+  _streamPropertyChangedHandler({ stream }) {
+    const mediaObject = this._getMediaObjectFromStream(stream);
+    mediaObject.userInfo.audioActive = stream.audioActive;
+    mediaObject.userInfo.videoActive = stream.videoActive;
     this.onParticipantsChange();
   }
 }

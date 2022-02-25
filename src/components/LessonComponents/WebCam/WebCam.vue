@@ -129,7 +129,11 @@ export default {
       this.driver = driver;
       let user = {
         name: "test__" + Math.floor(Math.random() * 100),
-        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg"
+        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg",
+        // TODO
+        // Брать свойства из localstoradge
+        audioActive: true,
+        videoActive: true
       };
       const roomId = "helloaaa";
       // Всякий раз, когда имзеняется список подписчиков комнаты
@@ -138,8 +142,7 @@ export default {
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
       driver.joinToRoom(roomId, { clientData: user }).then(() => {
-        setTimeout(() => driver.togglePublishVideo(true), 5000);
-        setTimeout(() => driver.togglePublishVideo(true), 10000);
+        driver.publishScreen();
       });
       this.streamOn = true;
       this.onLoading = false;
@@ -165,7 +168,6 @@ export default {
       }
     },
     setMediaStreamFromDirver() {
-      console.log(this.driver.allParticipants);
       this.medias = this.driver.allParticipants;
     },
     async setMediaStream() {

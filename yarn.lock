@@ -7212,10 +7212,10 @@
   "resolved" "https://registry.npmjs.org/openurl/-/openurl-1.1.1.tgz"
   "version" "1.1.1"
 
-"openvidu-browser@^2.21.0-beta1":
-  "integrity" "sha512-bwHJ4DQzYqpyM8YW0GjgpMOofBTDZAtWn9zm6jVjkje/RGMWhwaOiYDuoygejndeaWd/i+l2hVaKB6iWxE3KDw=="
-  "resolved" "https://registry.npmjs.org/openvidu-browser/-/openvidu-browser-2.21.0-beta1.tgz"
-  "version" "2.21.0-beta1"
+"openvidu-browser@^2.20.0":
+  "integrity" "sha512-ZlCF2B91Mix/z6NsmarLZomaycyadY8I3giV0NRMo5vWfhKcGLREKPCX979G+UJQxn7qGiq31/2dJ29bpf7hBg=="
+  "resolved" "https://registry.npmjs.org/openvidu-browser/-/openvidu-browser-2.20.0.tgz"
+  "version" "2.20.0"
   dependencies:
     "freeice" "2.2.2"
     "hark" "1.2.3"
