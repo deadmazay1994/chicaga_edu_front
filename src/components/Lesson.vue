@@ -2,7 +2,6 @@
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
       <video-chat
-        style="height: 340px"
         class="lesson__video-chat"
         :class="{ 'lesson__video-chat--active': !chatIsOpen }"
       />
@@ -32,7 +31,7 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "lesson",
-  data: function() {
+  data: function () {
     return {};
   },
   methods: {
@@ -43,7 +42,7 @@ export default {
       "onUpdateUsers",
       "onRecconnect",
       "initSocketEvents",
-      "onSendErrors"
+      "onSendErrors",
     ]),
     ...mapMutations(["setTeacherId", "setRoomId", "setSocket"]),
     sendTeacher() {
@@ -57,7 +56,7 @@ export default {
       }
     },
     onSendTeacher() {
-      this.socket.on("send teacher", teacherId => {
+      this.socket.on("send teacher", (teacherId) => {
         this.setTeacherId(teacherId);
       });
     },
@@ -69,16 +68,16 @@ export default {
         console.log("on get");
         this.sendTeacher();
       });
-    }
+    },
   },
   computed: {
-    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"])
+    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"]),
   },
   components: {
     VideoChat,
     EduPanel,
     LessonStart,
-    TextChat
+    TextChat,
   },
   props: [],
   mixins: [OurCursor, SocketMixin],
@@ -110,7 +109,7 @@ export default {
     } else {
       next(false);
     }
-  }
+  },
 };
 </script>
 
@@ -122,7 +121,6 @@ export default {
       &
         padding: 0
   &__video-chat
-    height: 25%
     overflow: hidden
     &--active
       height: calc( 100% - 74px )
@@ -140,6 +138,46 @@ export default {
 .lessons-pg {
   .lessons__chat {
     max-width: 45%;
+  }
+  @media (min-width: 1360px) {
+    .lessons__chat {
+      .lessons__messages {
+        height: 50% !important;
+        min-height: 350px;
+      }
+    }
+    .lessons__task {
+      .lesson__item {
+        height: 100%;
+        flex-basis: auto;
+        .task__content {
+          display: flex;
+          flex-direction: column;
+          .v-window {
+            height: 100%;
+            .v-window__container {
+              height: 100%;
+            }
+            .v-window-item {
+              height: 100%;
+              .tasks {
+                height: 100%;
+                .tasks__wrap {
+                  justify-content: flex-end;
+                  .manager__workspace {
+                    overflow-y: scroll;
+                    position: absolute;
+                    top: 126px;
+                    width: 100%;
+                    height: 100%;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 @media (max-width: 1360px) {

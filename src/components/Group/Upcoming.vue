@@ -9,8 +9,8 @@
           <web-cam />
         </div>
         <div class="countdown d-flex flex-column">
-          <lesson-starts :lesson="lesson" :dateLesson="dateLesson" :timeLesson="timeLesson" :timeToLesson="timeToLesson" />
-          <prepare :lesson="lesson" :timeToLesson="timeLesson" />
+          <lesson-starts :event="lesson" :date="dateLesson" :exactTime="timeLesson" :time="timeToLesson" />
+          <prepare :event="lesson" :time="timeLesson" />
         </div>
       </div>
     </div>

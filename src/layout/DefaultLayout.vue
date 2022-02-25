@@ -997,6 +997,16 @@ body
 .content--lessons
   padding: 20px !important
   max-width: calc( 100vw - 302px )
+  @media (min-width: 1360px)
+    display: flex
+    flex-direction: column
+    .lessons__content
+      height: 100%
+      .lessons__chat,
+      .lessons__task
+        display: flex
+        flex-direction: column
+        justify-content: space-between
 .pointer
   cursor: pointer
 .front

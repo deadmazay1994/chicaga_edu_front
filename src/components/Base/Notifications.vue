@@ -1,12 +1,17 @@
 <template>
   <div class="notifications">
     <transition-group name="notifications" tag="div">
-      <div 
+      <div
         v-for="(not, i) in snuckbarsActive"
         :key="i"
         class="notification"
         :class="not.state"
       >
+        <close
+          color="white"
+          class="lightbox__close"
+          @click.native="not.active = false"
+        />
         {{ not.val }}
       </div>
     </transition-group>
@@ -14,16 +19,15 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
+import Close from "@/components/Icons/Close";
 
 export default {
   name: "Notifications",
+  components: { Close },
   computed: {
-    ...mapGetters(["snuckbars", "snuckbarsActive"])
+    ...mapGetters(["snuckbars", "snuckbarsActive"]),
   },
-  methods: {
-    ...mapMutations(['pushShuckbar'])
-  }
 };
 </script>
 
@@ -32,18 +36,29 @@ export default {
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
-  padding: .5rem 1rem;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
   min-width: 150px;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   border: 2px solid;
   background: #ffffff;
+  z-index: 9999;
+
+  .lightbox__close {
+    cursor: pointer;
+    width: 12px;
+    position: absolute;
+    right: 0.45rem;
+    top: 0.2rem;
+  }
 }
 
-.notifications-enter-active, .notifications-leave-active {
-  transition: all .5s;
+.notifications-enter-active,
+.notifications-leave-active {
+  transition: all 0.5s;
 }
 
-.notifications-enter, .notifications-leave-to {
+.notifications-enter,
+.notifications-leave-to {
   opacity: 0;
   transform: translateX(50px);
 }
