@@ -4,26 +4,15 @@
       <div class="video-chat__videos-wrap">
         <div
           class="video-chat__video-wrap"
-          v-for="(mediaObject, index) in medias"
-          :key="index"
-          :class="{
-            'video-chat__video-wrap--active':
-              Number(index) == Number(activeVideoIndex)
-          }"
-          :style="videoWrapJustify(index)"
+          :style="videoWrapJustify(activeVideoIndex)"
+          v-if="medias.length > activeVideoIndex"
         >
-          <template v-if="Number(index) == Number(activeVideoIndex)">
-            <video-component
-              :indexVideo="index"
-              class="video-chat__video"
-              :class="{
-                'video-chat__video--active':
-                  Number(index) == Number(activeVideoIndex)
-              }"
-              :active="Number(index) == Number(activeVideoIndex)"
-              :mediaObject="mediaObject.mediaObject"
-            />
-          </template>
+          <video-component
+            :indexVideo="index"
+            class="video-chat__video video-chat__video--active"
+            :active="true"
+            :mediaObject="medias[activeVideoIndex].mediaObject"
+          />
         </div>
       </div>
       <div
@@ -36,7 +25,7 @@
         <div class="video-chat-miniatures-list" ref="miniatures">
           <template v-for="(mediaObject, index) in medias">
             <video-component
-              v-if="Number(index) != Number(activeVideoIndex)"
+              v-if="activeVideoIndex != index"
               class="video-chat__video video-chat__video--miniature"
               :miniature="true"
               :mediaObject="mediaObject.mediaObject"
@@ -76,7 +65,8 @@ export default {
       miniaturesOn: true,
       streamOn: null,
       mediaError: null,
-      onLoading: true
+      onLoading: true,
+      driver: null
     };
   },
   methods: {
@@ -136,16 +126,20 @@ export default {
         serverURL: "https://video.chicaga.ru",
         secret: "123456"
       });
+      this.driver = driver;
       let user = {
-        name: "testuser",
+        name: "test__" + Math.floor(Math.random() * 100),
         avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg"
       };
-      // driver.publish({ mediaStream: stream, userInfo: user });
       const roomId = "helloaaa";
-      driver.connect(roomId, { clientData: user }).then(() => {
-        let driverMedias = driver.allParticipants;
-        this.medias = driverMedias;
-        console.log(driverMedias);
+      // Всякий раз, когда имзеняется список подписчиков комнаты
+      // вызывается эта функция, чтобы обновить список подписчиков,
+      // который используем мы
+      driver.onParticipantsChange = this.setMediaStreamFromDirver;
+      // Присоеденяемся к комнате
+      driver.joinToRoom(roomId, { clientData: user }).then(() => {
+        setTimeout(() => driver.togglePublishVideo(true), 5000);
+        setTimeout(() => driver.togglePublishVideo(true), 10000);
       });
       this.streamOn = true;
       this.onLoading = false;
@@ -169,6 +163,10 @@ export default {
         default:
           this.mediaError = error.message;
       }
+    },
+    setMediaStreamFromDirver() {
+      console.log(this.driver.allParticipants);
+      this.medias = this.driver.allParticipants;
     },
     async setMediaStream() {
       // const constraints = { video: { width: 624, height: 480 }, audio: true };

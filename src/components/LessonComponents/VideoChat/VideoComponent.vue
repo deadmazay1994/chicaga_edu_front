@@ -150,7 +150,7 @@ export default {
       });
     },
     setStream(stream = this.mediaObject.stream) {
-      const video = this.$refs.video;
+      console.log(this.$refs.video, this.mediaObject.stream);
       stream.addVideoElement(this.$refs.video);
       // console.log(stream.mediaStream);
       // if (!this.mediaObject.im) {
@@ -172,7 +172,7 @@ export default {
       //   });
       //   this.alertError(`detected mobile safari`);
       // }
-      video.play();
+      // video.play();
     },
     isMobileSafari() {
       let userAgent = window.navigator.userAgent;
@@ -323,17 +323,9 @@ export default {
     }
   },
   watch: {
-    "mediaObject.audioOff": function() {
-      this.audioOff();
-    },
-    "mediaObject.id": function() {
+    mediaObject: function() {
       this.setStream();
     }
-    // myActiveMediaName: function() {
-    //   if (this.mediaObject.im) {
-    //     this.setStream();
-    //   }
-    // }
   },
   components: {
     Expand,

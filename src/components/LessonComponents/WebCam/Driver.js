@@ -20,13 +20,14 @@ export default class {
     if (!secret) return new Error("secret parametr is required");
     this.participants = [];
     this.myMediaObject = null;
-    this.connected = false;
     this._serverURL = serverURL;
     this._secret = secret;
     this._OV = new OpenVidu();
     this._session = this._OV.initSession();
+    this.onParticipantsChange = () => {};
 
     this._session.on("streamCreated", this._streamCreatedHandler.bind(this));
+    this._session.on("streamDestroyed", this._streamDestroyHandler.bind(this));
   }
   _createMyMediaObject(userInfo) {
     // TODO
@@ -37,17 +38,30 @@ export default class {
       mediaStream,
       userInfo
     });
+    this.onParticipantsChange();
   }
   get allParticipants() {
-    return [
-      {
-        itsMe: true,
-        mediaObject: this.myMediaObject
-      },
-      ...this.participants.map(o => ({ itsMe: false, mediaObject: o }))
-    ];
+    const outhers = this.participants.map(o => ({
+      itsMe: false,
+      mediaObject: o
+    }));
+    if (this.myMediaObject)
+      return [
+        {
+          itsMe: true,
+          mediaObject: this.myMediaObject
+        },
+        ...outhers
+      ];
+    else return outhers;
   }
-  async connect(roomId, { clientData, sourceSettings }) {
+  get videoIsPublish() {
+    return this._publisher.stream.videoActive;
+  }
+  get audioIsPublish() {
+    return this._publisher.stream.audioActive;
+  }
+  async joinToRoom(roomId, { clientData, sourceSettings }) {
     // if (!this.myMediaObject)
     //   throw new Error(
     //     "Before connecting call createMyMediaObject method is required"
@@ -63,25 +77,23 @@ export default class {
     await this._session.connect(this._token, {
       clientData: modifyClientData
     });
-    console.log(sourceSettings);
     this._publisher = this._OV.initPublisher(undefined, sourceSettings);
     this._createMyMediaObject(modifyClientData);
     this._session.publish(this._publisher);
     window.addEventListener("beforeunload", this._leaveSession.bind(this));
   }
   disconnect() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.connected = false;
-        resolve();
-      }, 1000);
-    });
+    return this;
   }
-  toggleAudioShow() {
-    console.log("Mute is toggled");
+  togglePublishAudio() {
+    const state = this.audioIsPublish;
+    this._publisher.publishAudio(!state);
+    return this;
   }
-  toggleVideoShow() {
-    console.log("Video show is toggled");
+  togglePublishVideo() {
+    const state = this.videoIsPublish;
+    this._publisher.publishVideo(!state);
+    return this;
   }
   _leaveSession() {
     if (this._session) this._session.disconnect();
@@ -160,5 +172,16 @@ export default class {
         userInfo: JSON.parse(stream.connection.data).clientData
       })
     );
+    this.onParticipantsChange();
+  }
+  _streamDestroyHandler({ stream }) {
+    const index = this.participants
+      .map(p => p.stream?.stream)
+      .findIndex(
+        p => p.connection.connectionId === stream.connection.connectionId
+      );
+    if (index < 0) return;
+    this.participants.splice(index, 1);
+    this.onParticipantsChange();
   }
 }
