@@ -91,11 +91,13 @@ export default class {
     return this;
   }
   togglePublishAudio() {
+    console.log("togglePublishAudio");
     const state = this.audioIsPublish;
     this._publisher.publishAudio(!state);
     return this;
   }
   togglePublishVideo() {
+    console.log("togglePublishVideo");
     const state = this.videoIsPublish;
     this._publisher.publishVideo(!state);
     return this;

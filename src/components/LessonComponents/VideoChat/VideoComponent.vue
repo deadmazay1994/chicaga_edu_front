@@ -30,13 +30,12 @@
       class="video-component__ctrls"
       :class="{ 'video-component__ctrls-active': active }"
     >
-      <expand
+      <!-- <expand
         @click.native="toggleFullSize"
         class="video-component__expand video-component__ctrls-btn"
-        v-if="!active"
-      />
+        v-if="active"
+      /> -->
       <expand
-        v-else
         @click.native="toggleFullSizeVideoInWindow"
         class="video-component__expand video-component__ctrls-btn"
       />
@@ -49,19 +48,22 @@
       <template>
         <!-- <template v-if="mediaObject.im"> -->
         <camera
-          @click.native="toggleCamera"
+          @click.native="toggleCamera()"
           class="video-component__camera video-component__ctrls-btn"
-          :cameraOff="mediaObject.videoOff"
+          :cameraOff="cameraOff"
+          v-if="!iconOff"
         />
         <mute-micro
-          @click.native="toggleMicro"
+          @click.native="toggleMicro()"
           class="video-component__mute-micro video-component__ctrls-btn"
-          :muted="mediaObject.audioOff"
+          :muted="audioMuted"
+          v-if="!iconOff"
         />
         <reflect
           @click.native="toggleScreenAndCapture()"
           :reflected="isReflected"
           class="video-component__reflect video-component__ctrls-btn"
+          v-if="!iconOff"
         />
       </template>
     </div>
@@ -89,7 +91,9 @@ export default {
       background: "/imgs/whitenoize.gif",
       videoHidden: true,
       borderColor: "",
-      isReflected: null
+      isReflected: null,
+      audioMuted: false,
+      cameraOff: false
     };
   },
   methods: {
@@ -104,6 +108,7 @@ export default {
     },
     toggleFullSizeVideoInWindow() {
       let elem = this.$refs.video;
+      console.log("toggleFullSizeVideoInWindow:", elem);
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
       } else if (elem.mozRequestFullScreen) {
@@ -128,28 +133,34 @@ export default {
       }
     },
     toggleCamera() {
-      this.mediaObject.videoOff = !this.mediaObject.videoOff;
-      window.localStorage.setItem(
-        "videochat_camera_state",
-        this.mediaObject.videoOff
-      );
-      this.toggleMediaTrackPC({
-        mediaType: "video",
-        value: this.mediaObject.videoOff,
-        el: this.$el
-      });
+      // this.mediaObject.videoOff = !this.mediaObject.videoOff;
+      // window.localStorage.setItem(
+      //   "videochat_camera_state",
+      //   this.mediaObject.videoOff
+      // );
+      // this.toggleMediaTrackPC({
+      //   mediaType: "video",
+      //   value: this.mediaObject.videoOff,
+      //   el: this.$el
+      // });
+      this.cameraOff = !this.cameraOff;
+      this.$parent.$emit("toggleCamera", this.cameraOff);
     },
     toggleMicro() {
-      this.mediaObject.audioOff = !this.mediaObject.audioOff;
-      window.localStorage.setItem(
-        "videochat_microphone_state",
-        this.mediaObject.audioOff
-      );
-      this.toggleMediaTrackPC({
-        mediaType: "audio",
-        value: this.mediaObject.audioOff,
-        el: this.$el
-      });
+      // console.log("this.mediaObject.audioOff", this.mediaObject.audioOff);
+      // this.mediaObject.audioOff = !this.mediaObject.audioOff;
+      // window.localStorage.setItem(
+      //   "videochat_microphone_state",
+      //   this.mediaObject.audioOff
+      // );
+      this.audioMuted = !this.audioMuted;
+      this.$parent.$emit("toggleMicro", this.audioMuted);
+      // this.toggleMediaTrackPC({
+      //   mediaType: "audio",
+      //   value: this.mediaObject.audioOff,
+      //   el: this.$el
+      // });
+
     },
     setStream(stream = this.mediaObject.stream) {
       console.log(this.$refs.video, this.mediaObject.stream);
@@ -337,7 +348,7 @@ export default {
     Camera,
     Reflect
   },
-  props: ["mediaObject", "indexVideo", "active"],
+  props: ["mediaObject", "indexVideo", "active", "iconOff"],
   mixins: {},
   beforeMount() {},
   mounted() {

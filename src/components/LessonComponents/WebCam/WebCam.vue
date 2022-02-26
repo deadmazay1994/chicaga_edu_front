@@ -28,6 +28,7 @@
               v-if="activeVideoIndex != index"
               class="video-chat__video video-chat__video--miniature"
               :miniature="true"
+              :iconOff="true"
               :mediaObject="mediaObject.mediaObject"
               :indexVideo="index"
               :key="index"
@@ -167,6 +168,7 @@ export default {
     },
     setMediaStreamFromDirver() {
       this.medias = this.driver.allParticipants;
+      console.log("MEIDAS:", this.medias[this.activeVideoIndex].mediaObject);
     },
     async setMediaStream() {
       // const constraints = { video: { width: 624, height: 480 }, audio: true };
@@ -174,10 +176,18 @@ export default {
       // .catch(err => {
       //   this.mediaStreamErrorHundle(err);
       // });
-    }
+    },
   },
   mounted() {
     this.setMediaStream();
+    this.$on('toggleCamera', (value) => {
+      console.log(value);
+      this.driver.togglePublishVideo()
+    });
+    this.$on('toggleMicro', (value) => {
+      console.log(value);
+      this.driver.togglePublishAudio();
+    });
   }
 };
 </script>
