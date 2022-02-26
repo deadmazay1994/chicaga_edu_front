@@ -214,8 +214,7 @@ export default {
         this.whiteBoard.setTool(toolName);
         this.activeTool = toolName;
       } else {
-        this.whiteBoard.setTool('mouse');
-        this.activeTool = "mouse";
+        this.whiteBoard.setTool('grab');
       }
     },
     changeThickness(event) {
@@ -364,8 +363,10 @@ export default {
       //Load the whiteboard
       whiteboardId: this.whiteboardId,
       username: this.username,
-      canvasWidth: this.$el.clientWidth,
-      canvasHeight: this.$el.clientHeight || 1000,
+      // canvasWidth: this.$el.clientWidth,
+      // canvasHeight: this.$el.clientHeight || 1000,
+      canvasWidth: 2000,
+      canvasHeight: 2000,
       sendFunction: content => {
         this.socketProp.emit("drawToWhiteboard", content);
       }

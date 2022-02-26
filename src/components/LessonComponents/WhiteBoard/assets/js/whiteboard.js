@@ -208,6 +208,12 @@ export default {
         canvasInput.onblur = function() {
           alert("blur"); // срабатывает сразу после добавления инпута
         }
+      } else if (_this.tool === "grab") {
+        let canvasWrapper =  $(whiteboardContainer);
+        canvasWrapper.css({"cursor": "pointer", "overflow": "auto"});
+        _this.canvas.css({"position": "static"})
+        // alert('grab')
+        canvasWrapper.scrollLeft(100);
       }
     });
 
