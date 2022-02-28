@@ -24,6 +24,7 @@
         </div>
         <div class="video-chat-miniatures-list" ref="miniatures">
           <template v-for="(mediaObject, index) in medias">
+            <!-- {{mediaObject}} -->
             <video-component
               v-if="activeVideoIndex != index"
               class="video-chat__video video-chat__video--miniature"
@@ -138,8 +139,8 @@ export default {
         avatar: this.user.avatar_link,
         // TODO
         // Брать свойства из localstoradge
-        audioActive: true,
-        videoActive: true
+        audioActive: JSON.parse(window.localStorage.getItem("videochat_camera_state")),
+        videoActive: JSON.parse(window.localStorage.getItem("videochat_microphone_state"))
       };
 
       let videoState = JSON.parse(window.localStorage.getItem("videochat_camera_state"));

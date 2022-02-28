@@ -10,13 +10,13 @@
   >
     <video
       ref="video"
-      v-show="!cameraOff"
+      v-show="!mediaObject.userInfo.videoActive"
       autoplay
       class="video-component__video"
       poster="/imgs/whitenoize.gif"
     ></video>
     <img
-      v-if="cameraOff"
+      v-if="mediaObject.userInfo.audioActive"
       :src="mediaObject.userInfo.avatar"
       class="video-component__avatar"
     />
@@ -24,7 +24,7 @@
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.userInfo.name }}
+      {{ mediaObject.userInfo.videoActive }}
     </div>
     <div
       class="video-component__ctrls"
@@ -50,7 +50,7 @@
         <camera
           @click.native="toggleCamera()"
           class="video-component__camera video-component__ctrls-btn"
-          :cameraOff="cameraOff"
+          :cameraOff="mediaObject.userInfo.videoActive"
           v-if="!iconOff"
         />
         <mute-micro
@@ -92,8 +92,8 @@ export default {
       videoHidden: true,
       borderColor: "",
       isReflected: null,
-      audioMuted: null,
-      cameraOff: null,
+      audioMuted: this.mediaObject.userInfo.audioActive,
+      cameraOff: this.mediaObject.userInfo.videoActive,
       // cameraOffState: window.localStorage.getItem("videochat_microphone_state"),
       // audioMutedState: window.localStorage.getItem("videochat_camera_state")
     };
@@ -145,10 +145,10 @@ export default {
       //   value: this.mediaObject.videoOff,
       //   el: this.$el
       // });
-      this.cameraOff = !this.cameraOff;
+      this.mediaObject.userInfo.videoActive = !this.mediaObject.userInfo.videoActive;
       window.localStorage.setItem(
         "videochat_camera_state",
-        this.cameraOff
+        this.mediaObject.userInfo.videoActive
       );
       this.$parent.$emit("toggleCamera", this.cameraOff);
     },
@@ -362,6 +362,7 @@ export default {
   mixins: {},
   beforeMount() {},
   mounted() {
+    console.log("MEDIA OBJECT:", this.mediaObject);
     this.setStream();
     if (!this.isMobileSafari()) {
       this.initSpechEvents();
