@@ -145,7 +145,7 @@ export default {
           publishVideo: !audioState
       };
 
-      const roomId = "helloaaa";
+      const roomId = this.$route.params.code;
       // Всякий раз, когда имзеняется список подписчиков комнаты
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
