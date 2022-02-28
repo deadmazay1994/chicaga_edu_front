@@ -55,6 +55,7 @@
 <script>
 import VideoComponent from "@/components/LessonComponents/VideoChat/VideoComponent";
 import Driver from "./Driver";
+import { mapGetters } from 'vuex';
 
 export default {
   name: "WebCam",
@@ -69,6 +70,9 @@ export default {
       onLoading: true,
       driver: null
     };
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   methods: {
     scroll(val) {
@@ -129,8 +133,8 @@ export default {
       });
       this.driver = driver;
       let user = {
-        name: "test__" + Math.floor(Math.random() * 100),
-        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg",
+        name: this.user.name,
+        avatar: this.user.avatar_link,
         // TODO
         // Брать свойства из localstoradge
         audioActive: true,
