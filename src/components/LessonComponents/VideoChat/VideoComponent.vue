@@ -92,8 +92,10 @@ export default {
       videoHidden: true,
       borderColor: "",
       isReflected: null,
-      audioMuted: false,
-      cameraOff: false
+      audioMuted: null,
+      cameraOff: null,
+      // cameraOffState: window.localStorage.getItem("videochat_microphone_state"),
+      // audioMutedState: window.localStorage.getItem("videochat_camera_state")
     };
   },
   methods: {
@@ -144,6 +146,10 @@ export default {
       //   el: this.$el
       // });
       this.cameraOff = !this.cameraOff;
+      window.localStorage.setItem(
+        "videochat_camera_state",
+        this.cameraOff
+      );
       this.$parent.$emit("toggleCamera", this.cameraOff);
     },
     toggleMicro() {
@@ -154,6 +160,10 @@ export default {
       //   this.mediaObject.audioOff
       // );
       this.audioMuted = !this.audioMuted;
+      window.localStorage.setItem(
+        "videochat_microphone_state",
+        this.audioMuted
+      );
       this.$parent.$emit("toggleMicro", this.audioMuted);
       // this.toggleMediaTrackPC({
       //   mediaType: "audio",
@@ -361,6 +371,8 @@ export default {
     this.audioOff();
     this.initMyVideoStates();
     this.onCanPlay();
+    this.cameraOff = JSON.parse(window.localStorage.getItem("videochat_camera_state"));
+    this.audioMuted = JSON.parse(window.localStorage.getItem("videochat_microphone_state"));
   }
 };
 </script>

@@ -136,13 +136,22 @@ export default {
         audioActive: true,
         videoActive: true
       };
+
+      let videoState = JSON.parse(window.localStorage.getItem("videochat_camera_state"));
+      let audioState = JSON.parse(window.localStorage.getItem("videochat_microphone_state"));
+
+      let settings = {
+          publishAudio: !videoState,
+          publishVideo: !audioState
+      };
+
       const roomId = "helloaaa";
       // Всякий раз, когда имзеняется список подписчиков комнаты
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      driver.joinToRoom(roomId, { clientData: user });
+      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings });
       this.streamOn = true;
       this.onLoading = false;
     },
@@ -180,12 +189,10 @@ export default {
   },
   mounted() {
     this.setMediaStream();
-    this.$on('toggleCamera', (value) => {
-      console.log(value);
+    this.$on('toggleCamera', () => {
       this.driver.togglePublishVideo()
     });
-    this.$on('toggleMicro', (value) => {
-      console.log(value);
+    this.$on('toggleMicro', () => {
       this.driver.togglePublishAudio();
     });
   }

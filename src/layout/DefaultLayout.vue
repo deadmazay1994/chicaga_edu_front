@@ -953,10 +953,10 @@ export default {
     setStandartLocalStorageStates() {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
-      if (window.localStorage.getItem("videochat_camera_state") == null) {
+      if (window.localStorage.getItem("videochat_camera_state") === null) {
         window.localStorage.setItem("videochat_camera_state", false);
       }
-      if (window.localStorage.getItem("videochat_microphone_state") == null) {
+      if (window.localStorage.getItem("videochat_microphone_state") === null) {
         window.localStorage.setItem("videochat_microphone_state", false);
       }
     },
