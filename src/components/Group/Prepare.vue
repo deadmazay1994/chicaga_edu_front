@@ -3,7 +3,7 @@
     <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
       <router-link
-        :to="redirect"
+        :to="{ name: 'lesson', params: { courseId: this.course_id, userid: this.$route.params.code, id: this.id} }"
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
@@ -13,33 +13,30 @@
 </template>
 
 <script>
+import api from "@/mixins/api";
+
 export default {
   name: "Prepare",
   props: ["event", "time", "titleText"],
   data() {
     return {
-      courseId: 0,
-      redirect: {
-        name: "lesson",
-      }
+      course_id: null,
+      id: null
     };
   },
   methods: {
     timeStrGetMinutes(seconds) {
       return Math.floor((seconds % 3600) / 60);
     },
+    async setParams() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      this.course_id = r.course_id
+      this.id = r.uniq_id
+    }
   },
   mounted() {
-    this.courseId =
-      this.event.course_id !== null && this.event.course_id !== undefined
-        ? this.event.course_id
-        : 0;
-    this.redirect.params = {
-      courseId: this.courseId,
-      userid: this.$route.params.code,
-      id: this.event.uniq_id,
-    };
-  },
+    this.setParams();
+  }
 };
 </script>
 

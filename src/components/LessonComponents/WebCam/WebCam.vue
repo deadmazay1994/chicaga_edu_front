@@ -72,8 +72,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(["user"])
   },
+  props: ["roomId"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
@@ -149,7 +150,8 @@ export default {
           publishVideo: !audioState
       };
 
-      const roomId = this.$route.params.code;
+      // const roomId = "123456"
+      const roomId = (this.roomId !== undefined) ? this.roomId : this.$route.params.userid;
       // Всякий раз, когда имзеняется список подписчиков комнаты
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
@@ -181,7 +183,6 @@ export default {
     },
     setMediaStreamFromDirver() {
       this.medias = this.driver.allParticipants;
-      console.log("MEIDAS:", this.medias[this.activeVideoIndex].mediaObject);
     },
     async setMediaStream() {
       // const constraints = { video: { width: 624, height: 480 }, audio: true };
@@ -199,7 +200,15 @@ export default {
     this.$on('toggleMicro', () => {
       this.driver.togglePublishAudio();
     });
-  }
+  },
+  created() {
+    this.$watch(
+      () => this.$route.params,
+      () => {
+        this.driver.disconnect();
+      }
+    )
+  },
 };
 </script>
 
