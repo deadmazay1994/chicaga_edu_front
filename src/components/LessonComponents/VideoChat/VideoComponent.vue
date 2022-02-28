@@ -10,13 +10,13 @@
   >
     <video
       ref="video"
-      v-show="!mediaObject.videoOff && !videoHidden"
+      v-show="!cameraOff"
       autoplay
       class="video-component__video"
       poster="/imgs/whitenoize.gif"
     ></video>
     <img
-      v-if="mediaObject.videoOff || videoHidden"
+      v-if="cameraOff"
       :src="mediaObject.userInfo.avatar"
       class="video-component__avatar"
     />
