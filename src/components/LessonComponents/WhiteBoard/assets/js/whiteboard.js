@@ -211,9 +211,51 @@ export default {
       } else if (_this.tool === "grab") {
         let canvasWrapper =  $(whiteboardContainer);
         canvasWrapper.css({"cursor": "pointer", "overflow": "auto"});
-        _this.canvas.css({"position": "static"})
-        // alert('grab')
-        canvasWrapper.scrollLeft(100);
+        _this.canvas.style.position = "static";
+
+        let pos = {
+          top: 0,
+          left: 0,
+          x: 0,
+          y: 0
+        };
+        console.log("_this.prevX:", _this.prevX);
+        console.log("_this.prevY:", _this.prevY);
+
+        const mouseDownHandler = function (e) { 
+          console.log("e:", e);
+          pos = {
+            left: canvasWrapper.scrollLeft(),
+            top: canvasWrapper.scrollTop(),
+  
+            x: _this.prevX,
+            y: _this.prevY
+          };
+
+          console.log(pos.left);
+
+          document.addEventListener("mousemove", mouseMoveHandler);
+          document.addEventListener("mouseup", mouseUpHandler);
+        }
+
+
+        const mouseMoveHandler = function () {
+          const dx = _this.prevX - pos.x;
+          const dy = _this.prevY - pos.y;
+
+          console.log("dx:", dx);
+          console.log("dy:", dy);
+
+          canvasWrapper.scrollTop(pos.top - dy);
+          canvasWrapper.scrollLeft(pos.left - dx);
+        };
+
+        const mouseUpHandler = function () {
+          document.removeEventListener("mousemove", mouseMoveHandler);
+          document.removeEventListener("mouseup", mouseUpHandler);
+        };
+
+        canvasWrapper.on("mousedown", mouseDownHandler);
       }
     });
 

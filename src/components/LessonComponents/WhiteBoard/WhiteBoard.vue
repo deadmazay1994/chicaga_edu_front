@@ -501,9 +501,6 @@ Whiteboard actions
       dragCounter = 0;
       this.whiteBoard.dropIndicator.hide();
     });
-  },
-  updated() {
-    this.changeTool("pen");
   }
 };
 
