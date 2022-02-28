@@ -4,7 +4,7 @@
     :class="{
       'video-component--active': active,
       'video-component--video-off': mediaObject.videoOff,
-      'video-component--miniature': !active,
+      'video-component--miniature': !active
     }"
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
@@ -13,17 +13,18 @@
       v-show="!mediaObject.videoOff && !videoHidden"
       autoplay
       class="video-component__video"
+      poster="/imgs/whitenoize.gif"
     ></video>
     <img
       v-if="mediaObject.videoOff || videoHidden"
-      :src="mediaObject.avatar"
+      :src="mediaObject.userInfo.avatar"
       class="video-component__avatar"
     />
     <div
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.name }}
+      {{ mediaObject.userInfo.name }}
     </div>
     <div
       class="video-component__ctrls"
@@ -45,7 +46,8 @@
         :muted="muted.state"
         v-if="!mediaObject.im"
       /> -->
-      <template v-if="mediaObject.im">
+      <template>
+        <!-- <template v-if="mediaObject.im"> -->
         <camera
           @click.native="toggleCamera"
           class="video-component__camera video-component__ctrls-btn"
@@ -74,27 +76,27 @@ import Camera from "@/components/Icons/Camera.vue";
 import Reflect from "@/components/Icons/Reflect.vue";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import Hark from "hark";
+// import Hark from "hark";
 
 export default {
   name: "video-component",
-  data: function () {
+  data: function() {
     return {
       muted: {
         state: false,
-        val: "",
+        val: ""
       },
       background: "/imgs/whitenoize.gif",
       videoHidden: true,
       borderColor: "",
-      isReflected: null,
+      isReflected: null
     };
   },
   methods: {
     ...mapActions([
       "setCapture",
       "toggleCaptureAndCameraAction",
-      "toggleMediaTrackPC",
+      "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
     toggleFullSize() {
@@ -134,7 +136,7 @@ export default {
       this.toggleMediaTrackPC({
         mediaType: "video",
         value: this.mediaObject.videoOff,
-        el: this.$el,
+        el: this.$el
       });
     },
     toggleMicro() {
@@ -146,60 +148,63 @@ export default {
       this.toggleMediaTrackPC({
         mediaType: "audio",
         value: this.mediaObject.audioOff,
-        el: this.$el,
+        el: this.$el
       });
     },
     setStream(stream = this.mediaObject.stream) {
-      if (!this.mediaObject.im) {
-        console.log(stream.getTracks());
-      }
-      let video = this.$refs.video;
-      if ("srcObject" in video) {
-        video.srcObject = stream;
-      } else {
-        this.alertError(`srcObject is undefined`);
-        video.src = window.URL.createObjectURL(stream); // for older browsers
-      }
-      if (this.isMobileSafari()) {
-        // Hacks for Mobile Safari
-        video.setAttribute("playsinline", true);
-        video.setAttribute("controls", true);
-        setTimeout(() => {
-          video.removeAttribute("controls");
-        });
-        this.alertError(`detected mobile safari`);
-      }
-      video.play();
+      console.log(this.$refs.video, this.mediaObject.stream);
+      stream.addVideoElement(this.$refs.video);
+      // console.log(stream.mediaStream);
+      // if (!this.mediaObject.im) {
+      //   console.log(stream.getTracks());
+      // }
+
+      // if ("srcObject" in video) {
+      //   video.srcObject = stream;
+      // } else {
+      //   this.alertError(`srcObject is undefined`);
+      //   video.src = window.URL.createObjectURL(stream); // for older browsers
+      // }
+      // if (this.isMobileSafari()) {
+      //   // Hacks for Mobile Safari
+      //   video.setAttribute("playsinline", true);
+      //   video.setAttribute("controls", true);
+      //   setTimeout(() => {
+      //     video.removeAttribute("controls");
+      //   });
+      //   this.alertError(`detected mobile safari`);
+      // }
+      // video.play();
     },
     isMobileSafari() {
       let userAgent = window.navigator.userAgent;
       return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
     },
     async initSpechEvents() {
-      let stream;
-      if (this.mediaObject.im) {
-        // Получаем независый трек
-        let getIndependedAudioStream = async () => {
-          let audio = false;
-          try {
-            audio = await navigator.mediaDevices.getUserMedia({
-              audio: true,
-            });
-          } catch (e) {
-            console.log(e);
-          }
-          return audio;
-        };
-        stream = await getIndependedAudioStream();
-      } else {
-        stream = this.mediaObject.stream;
-        console.log(stream.getAudioTracks());
-      }
-      let speechEvents = Hark(stream, {
-        interval: 10,
-      });
-      speechEvents.on("speaking", this.onSpeeking);
-      speechEvents.on("stopped_speaking", this.onStopSpeeking);
+      // let stream;
+      // if (this.mediaObject.im) {
+      //   // Получаем независый трек
+      //   let getIndependedAudioStream = async () => {
+      //     let audio = false;
+      //     try {
+      //       audio = await navigator.mediaDevices.getUserMedia({
+      //         audio: true
+      //       });
+      //     } catch (e) {
+      //       console.log(e);
+      //     }
+      //     return audio;
+      //   };
+      //   stream = await getIndependedAudioStream();
+      // } else {
+      //   stream = this.mediaObject.stream;
+      //   console.log(stream.getAudioTracks());
+      // }
+      // let speechEvents = Hark(stream, {
+      //   interval: 10
+      // });
+      // speechEvents.on("speaking", this.onSpeeking);
+      // speechEvents.on("stopped_speaking", this.onStopSpeeking);
     },
     onSpeeking() {
       // console.group("Start speeking");
@@ -225,7 +230,7 @@ export default {
           this.toggleMediaTrackPC({
             mediaType: "audio",
             value: false,
-            el: this.$el,
+            el: this.$el
           });
         }
       };
@@ -244,7 +249,7 @@ export default {
         this.toggleMediaTrackPC({
           mediaType: "audio",
           value: true,
-          el: this.$el,
+          el: this.$el
         });
       };
       if (this.mediaObject.im) {
@@ -286,7 +291,7 @@ export default {
           this.toggleMediaTrackPC({
             mediaType: "video",
             value: videoState,
-            el: this.$el,
+            el: this.$el
           });
         }
         if (audioState) {
@@ -294,17 +299,18 @@ export default {
           this.toggleMediaTrackPC({
             mediaType: "audio",
             value: audioState,
-            el: this.$el,
+            el: this.$el
           });
         }
       }
     },
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
-        this.background = this.mediaObject.avatar || "/imgs/whitenoize.gif";
+        this.background =
+          this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
-    },
+    }
   },
   computed: {
     ...mapGetters(["myCaptureMedia", "myActiveMediaName", "myWebcamMedia"]),
@@ -315,29 +321,21 @@ export default {
     borderComputed() {
       // Border color изменяется при замолкании и говорении пользовтеля
       return {
-        "border-color": this.borderColor,
+        "border-color": this.borderColor
       };
-    },
+    }
   },
   watch: {
-    "mediaObject.audioOff": function () {
-      this.audioOff();
-    },
-    "mediaObject.id": function () {
+    mediaObject: function() {
       this.setStream();
-    },
-    myActiveMediaName: function () {
-      if (this.mediaObject.im) {
-        this.setStream();
-      }
-    },
+    }
   },
   components: {
     Expand,
     // Speaker,
     MuteMicro,
     Camera,
-    Reflect,
+    Reflect
   },
   props: ["mediaObject", "indexVideo", "active"],
   mixins: {},
@@ -352,7 +350,7 @@ export default {
     this.audioOff();
     this.initMyVideoStates();
     this.onCanPlay();
-  },
+  }
 };
 </script>
 

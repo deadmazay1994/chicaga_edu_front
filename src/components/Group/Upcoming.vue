@@ -6,7 +6,7 @@
       </v-card>
       <div v-else class="d-flex main-content">
         <div class="video-wrapper">
-          <!-- Здесь будет компонент видеочата -->
+          <web-cam />
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts :event="lesson" :date="dateLesson" :exactTime="timeLesson" :time="timeToLesson" />
@@ -23,6 +23,7 @@ import dateFormat from "dateformat";
 import api from "@/mixins/api";
 import Prepare from "./Prepare";
 import LessonStarts from "./LessonStarts.vue";
+import WebCam from "../LessonComponents/WebCam/WebCam.vue";
 
 export default {
   name: "Upcoming",
@@ -68,7 +69,8 @@ export default {
   },
   components: {
     Prepare,
-    LessonStarts
+    LessonStarts,
+    WebCam
   },
   async beforeMount() {
     await this.setLesson();
@@ -131,11 +133,15 @@ export default {
     width: 50%;
     height: 100%;
   }
+  @media (max-width: 900px) {
+    .video-wrapper {
+      margin-bottom: 2rem;
+    }
+  }
   .countdown {
     width: 50%;
-    height: 100%;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
 }
 

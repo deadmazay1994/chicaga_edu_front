@@ -1072,6 +1072,10 @@ body
 }
 
 @media (max-width: 1460px) {
+  .content--lessons {
+    margin-top: 50px;
+  }
+
   .content--lessons .col-md-10 {
     flex: inherit;
     max-width: 100%;

@@ -1,5 +1,9 @@
 module.exports = {
-  extends: ["plugin:vue/recommended", "plugin:prettier-vue/recommended", "prettier"],
+  extends: [
+    "plugin:vue/recommended",
+    "plugin:prettier-vue/recommended",
+    "prettier",
+  ],
 
   settings: {
     "prettier-vue": {
@@ -74,9 +78,12 @@ module.exports = {
         // @see https://prettier.io/docs/en/options.html
         printWidth: 100,
         singleQuote: false,
-        semi: true,
+        semi: false,
         trailingComma: "es5",
-        arrowParens: "always",
+        arrowParens: "avoid",
+        bracketSpacing: true,
+        "space-before-function-paren": "never",
+        trailingComma: "none",
       },
     ],
   },
