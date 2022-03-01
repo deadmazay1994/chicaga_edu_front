@@ -6,11 +6,11 @@
       </v-card>
       <div v-else class="d-flex main-content">
         <div class="video-wrapper">
-          <web-cam />
+          <web-cam :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts :event="lesson" :date="dateLesson" :exactTime="timeLesson" :time="timeToLesson" />
-          <prepare :event="lesson" :time="timeLesson" />
+          <prepare :event="lesson" :roomId="roomId" :time="timeLesson" />
         </div>
       </div>
     </div>
@@ -36,6 +36,11 @@ export default {
       lesson: null,
       DateLessonTime: new Date(),
     };
+  },
+  computed: {
+    roomId() {
+      return String(this.$route.params.id) + String(Math.floor(Math.random() * 1000));
+    }
   },
   methods: {
     // Start countdown

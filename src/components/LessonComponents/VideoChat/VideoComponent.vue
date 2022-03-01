@@ -10,13 +10,12 @@
   >
     <video
       ref="video"
-      v-show="!mediaObject.videoOff && !videoHidden"
+      v-show="mediaObject.userInfo.videoActive"
       autoplay
       class="video-component__video"
-      poster="/imgs/whitenoize.gif"
     ></video>
     <img
-      v-if="mediaObject.videoOff || videoHidden"
+      v-if="!mediaObject.userInfo.videoActive"
       :src="mediaObject.userInfo.avatar"
       class="video-component__avatar"
     />
@@ -45,25 +44,22 @@
         :muted="muted.state"
         v-if="!mediaObject.im"
       /> -->
-      <template>
+      <template v-if="!iconOff">
         <!-- <template v-if="mediaObject.im"> -->
         <camera
           @click.native="toggleCamera()"
           class="video-component__camera video-component__ctrls-btn"
-          :cameraOff="cameraOff"
-          v-if="!iconOff"
+          :cameraOff="!mediaObject.userInfo.videoActive"
         />
         <mute-micro
           @click.native="toggleMicro()"
           class="video-component__mute-micro video-component__ctrls-btn"
-          :muted="audioMuted"
-          v-if="!iconOff"
+          :muted="!mediaObject.userInfo.audioActive"
         />
         <reflect
           @click.native="toggleScreenAndCapture()"
           :reflected="isReflected"
           class="video-component__reflect video-component__ctrls-btn"
-          v-if="!iconOff"
         />
       </template>
     </div>
@@ -93,7 +89,7 @@ export default {
       borderColor: "",
       isReflected: null,
       audioMuted: null,
-      cameraOff: null,
+      cameraOff: null
       // cameraOffState: window.localStorage.getItem("videochat_microphone_state"),
       // audioMutedState: window.localStorage.getItem("videochat_camera_state")
     };
@@ -145,11 +141,8 @@ export default {
       //   value: this.mediaObject.videoOff,
       //   el: this.$el
       // });
+      window.localStorage.setItem("videochat_camera_state", this.cameraOff);
       this.cameraOff = !this.cameraOff;
-      window.localStorage.setItem(
-        "videochat_camera_state",
-        this.cameraOff
-      );
       this.$parent.$emit("toggleCamera", this.cameraOff);
     },
     toggleMicro() {
@@ -159,18 +152,17 @@ export default {
       //   "videochat_microphone_state",
       //   this.mediaObject.audioOff
       // );
-      this.audioMuted = !this.audioMuted;
       window.localStorage.setItem(
         "videochat_microphone_state",
         this.audioMuted
       );
+      this.audioMuted = !this.audioMuted;
       this.$parent.$emit("toggleMicro", this.audioMuted);
       // this.toggleMediaTrackPC({
       //   mediaType: "audio",
       //   value: this.mediaObject.audioOff,
       //   el: this.$el
       // });
-
     },
     setStream(stream = this.mediaObject.stream) {
       console.log(this.$refs.video, this.mediaObject.stream);
@@ -286,20 +278,17 @@ export default {
         }
       }
     },
-    async toggleScreenAndCapture() {
-      let activateVideo = () => {
-        if (this.mediaObject.videoOff) {
-          this.toggleCamera();
-        }
-      };
-      if (this.myCaptureMedia === null) {
-        await this.setCapture();
-        activateVideo();
-      } else {
-        activateVideo();
-      }
-      this.toggleCaptureAndCameraAction();
-      this.isReflected = this.isReflected ? false : true;
+    toggleScreenAndCapture() {
+      if (this.isReflected) return this.publishWebcam();
+      this.publishScreen();
+    },
+    publishScreen() {
+      this.$parent.$emit("publishScreen");
+      this.isReflected = true;
+    },
+    publishWebcam() {
+      this.$parent.$emit("publishWebcam");
+      this.isReflected = false;
     },
     initMyVideoStates() {
       if (this.mediaObject.im) {
@@ -371,8 +360,12 @@ export default {
     this.audioOff();
     this.initMyVideoStates();
     this.onCanPlay();
-    this.cameraOff = JSON.parse(window.localStorage.getItem("videochat_camera_state"));
-    this.audioMuted = JSON.parse(window.localStorage.getItem("videochat_microphone_state"));
+    this.cameraOff = !JSON.parse(
+      window.localStorage.getItem("videochat_camera_state")
+    );
+    this.audioMuted = !JSON.parse(
+      window.localStorage.getItem("videochat_microphone_state")
+    );
   }
 };
 </script>
@@ -402,8 +395,7 @@ export default {
   & *
     z-index: 2
   &__video
-    display: block
-    width: 100%
+    height: inherit
   &__avatar
     max-width: 100%
     max-height: 100%

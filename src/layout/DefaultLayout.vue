@@ -933,7 +933,7 @@ export default {
   data() {
     return {
       canRenderChild: false,
-      showBurger: false,
+      showBurger: false
     };
   },
   components: {
@@ -953,16 +953,10 @@ export default {
     setStandartLocalStorageStates() {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
-      if (window.localStorage.getItem("videochat_camera_state") === null) {
-        window.localStorage.setItem("videochat_camera_state", false);
-      }
-      if (window.localStorage.getItem("videochat_microphone_state") === null) {
-        window.localStorage.setItem("videochat_microphone_state", false);
-      }
-    },
+    }
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user"])
   },
   async beforeMount() {
     this.setStandartLocalStorageStates();
@@ -971,7 +965,7 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
-  },
+  }
 };
 </script>
 

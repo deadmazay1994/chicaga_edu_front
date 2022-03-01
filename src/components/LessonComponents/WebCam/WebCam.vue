@@ -55,6 +55,7 @@
 <script>
 import VideoComponent from "@/components/LessonComponents/VideoChat/VideoComponent";
 import Driver from "./Driver";
+import { mapGetters } from "vuex";
 
 export default {
   name: "WebCam",
@@ -67,9 +68,14 @@ export default {
       streamOn: null,
       mediaError: null,
       onLoading: true,
-      driver: null
+      driver: null,
+      del: false
     };
   },
+  computed: {
+    ...mapGetters(["user"])
+  },
+  props: ["roomId"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
@@ -129,23 +135,24 @@ export default {
       });
       this.driver = driver;
       let user = {
-        name: "test__" + Math.floor(Math.random() * 100),
-        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg",
-        // TODO
-        // Брать свойства из localstoradge
-        audioActive: true,
-        videoActive: true
+        name: this.user.name,
+        avatar: this.user.avatar_link
       };
 
-      let videoState = JSON.parse(window.localStorage.getItem("videochat_camera_state"));
-      let audioState = JSON.parse(window.localStorage.getItem("videochat_microphone_state"));
+      let videoState = JSON.parse(
+        window.localStorage.getItem("videochat_camera_state")
+      );
+      let audioState = JSON.parse(
+        window.localStorage.getItem("videochat_microphone_state")
+      );
 
       let settings = {
-          publishAudio: !videoState,
-          publishVideo: !audioState
+        publishAudio: audioState,
+        publishVideo: videoState
       };
 
-      const roomId = this.$route.params.code;
+      const roomId =
+        this.roomId !== undefined ? this.roomId : this.$route.params.userid;
       // Всякий раз, когда имзеняется список подписчиков комнаты
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
@@ -176,25 +183,36 @@ export default {
       }
     },
     setMediaStreamFromDirver() {
-      this.medias = this.driver.allParticipants;
-      console.log("MEIDAS:", this.medias[this.activeVideoIndex].mediaObject);
+      this.medias = this.driver.allParticipants.map(m => ({
+        itsMe: m.itsMe,
+        mediaObject: {
+          id: m.mediaObject.id,
+          stream: m.mediaObject.stream,
+          userInfo: { ...m.mediaObject.userInfo }
+        }
+      }));
     },
     async setMediaStream() {
-      // const constraints = { video: { width: 624, height: 480 }, audio: true };
       this.mediaStreamSuccessHundle();
-      // .catch(err => {
-      //   this.mediaStreamErrorHundle(err);
-      // });
-    },
+    }
   },
   mounted() {
     this.setMediaStream();
-    this.$on('toggleCamera', () => {
-      this.driver.togglePublishVideo()
+    this.$on("toggleCamera", () => {
+      this.driver.togglePublishVideo();
     });
-    this.$on('toggleMicro', () => {
+    this.$on("toggleMicro", () => {
       this.driver.togglePublishAudio();
     });
+    this.$on("publishWebcam", () => {
+      this.driver.publishWebcam();
+    });
+    this.$on("publishScreen", () => {
+      this.driver.publishScreen();
+    });
+  },
+  created() {
+    this.$watch(() => this.$route.params, this?.driver?.leaveSession);
   }
 };
 </script>
