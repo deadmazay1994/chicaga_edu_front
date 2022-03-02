@@ -186,7 +186,9 @@ export default {
       whiteboardId: null,
       activeTool: "pen",
       colorPickerActive: false,
-      mobileDetected: false
+      mobileDetected: false,
+      canvasWidth: null,
+      canvasHeight: null
     };
   },
   directives: {},
@@ -254,8 +256,28 @@ export default {
       img.src = url;
     },
     clearBoard() {
-      if (this.userRole !== "teacher") return;
+      if (this.userRole != "teacher") return;
       this.whiteBoard.clearBoard();
+    },
+    sendResolution() {
+      if (this.userRole != "teacher") return;
+      alert("sendRes");
+      this.socketProp.emit("to all in lesson", {
+        eventName: "sendResolution",
+        width: this.$el.clientWidth,
+        height: this.$el.clientHeight || 1000
+      })
+    },
+    onSendData(eventName, callback) {
+      this.socketProp.on("send data", data => {
+        if (data.eventName == eventName) callback(data);
+      })
+    },
+    userJoined() {
+      if (this.userRole == "teacher") return;
+      this.socketProp.emit("to all in lesson", {
+        eventName: "userJoined"
+      });
     }
   },
   computed: {},
@@ -266,6 +288,17 @@ export default {
     }
   },
   props: ["server", "socketProp", "username", "userRole"],
+  created() {
+    this.onSendData("userJoined", () => {
+      alert("user joined");
+      this.sendResolution();
+    });
+    // this.onSendData("sendResolution", data => {
+    //   alert("Данные получены");
+    //   this.canvasWidth = data.width
+    //   this.canvasHeight = data.height
+    // });
+  },
   beforeMount() {
     this.mobileDetected = detectMob();
     this.whiteboardId = getQueryVariable("whiteboardid");
@@ -359,18 +392,46 @@ export default {
     }
   },
   mounted() {
-    this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
-      //Load the whiteboard
-      whiteboardId: this.whiteboardId,
-      username: this.username,
-      // canvasWidth: this.$el.clientWidth,
-      // canvasHeight: this.$el.clientHeight || 1000,
-      canvasWidth: 2000,
-      canvasHeight: 2000,
-      sendFunction: content => {
-        this.socketProp.emit("drawToWhiteboard", content);
-      }
-    });
+    this.userJoined();
+    this.sendResolution();
+    let cvsWidth = null;
+    let cvsHeight = null;
+    if (this.userRole == "teacher") {
+      cvsWidth = this.$el.clientWidth
+      cvsHeight = this.$el.clientHeight || 1000
+
+      this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
+        //Load the whiteboard
+        whiteboardId: this.whiteboardId,
+        username: this.username,
+        // canvasWidth: this.$el.clientWidth,
+        // canvasHeight: this.$el.clientHeight || 1000,
+        canvasWidth: cvsWidth,
+        canvasHeight: cvsHeight,
+        sendFunction: content => {
+          this.socketProp.emit("drawToWhiteboard", content);
+        }
+      });
+    } else {
+      this.onSendData("sendResolution", data => {
+        alert("Данные получены");
+        cvsWidth = data.width
+        cvsHeight = data.height
+
+        this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
+          //Load the whiteboard
+          whiteboardId: this.whiteboardId,
+          username: this.username,
+          // canvasWidth: this.$el.clientWidth,
+          // canvasHeight: this.$el.clientHeight || 1000,
+          canvasWidth: cvsWidth,
+          canvasHeight: cvsHeight,
+          sendFunction: content => {
+            this.socketProp.emit("drawToWhiteboard", content);
+          }
+        });
+      });
+    }
 
     $.get(this.server + "loadwhiteboard", { wid: this.whiteboardId }).done(
       data => {

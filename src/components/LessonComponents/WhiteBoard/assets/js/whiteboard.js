@@ -4,7 +4,7 @@ export default {
   canvas: null,
   ctx: null,
   drawcolor: "black",
-  tool: null,
+  tool: "pen",
   thickness: 4,
   prevX: null,
   prevY: null,
@@ -219,11 +219,8 @@ export default {
           x: 0,
           y: 0
         };
-        console.log("_this.prevX:", _this.prevX);
-        console.log("_this.prevY:", _this.prevY);
 
-        const mouseDownHandler = function (e) { 
-          console.log("e:", e);
+        const mouseDownHandler = function () { 
           pos = {
             left: canvasWrapper.scrollLeft(),
             top: canvasWrapper.scrollTop(),
@@ -231,8 +228,6 @@ export default {
             x: _this.prevX,
             y: _this.prevY
           };
-
-          console.log(pos.left);
 
           document.addEventListener("mousemove", mouseMoveHandler);
           document.addEventListener("mouseup", mouseUpHandler);
@@ -242,9 +237,6 @@ export default {
         const mouseMoveHandler = function () {
           const dx = _this.prevX - pos.x;
           const dy = _this.prevY - pos.y;
-
-          console.log("dx:", dx);
-          console.log("dy:", dy);
 
           canvasWrapper.scrollTop(pos.top - dy);
           canvasWrapper.scrollLeft(pos.left - dx);
