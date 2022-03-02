@@ -36,8 +36,6 @@ export default class {
     );
   }
   _createMyMediaObject(userInfo) {
-    // TODO
-    // Удалить все аудиотреки
     if (!this._publisher?.stream) return;
     const mediaStream = this._publisher;
     this.myMediaObject = new MediaObject({
@@ -45,10 +43,17 @@ export default class {
       userInfo: {
         ...userInfo,
         videoActive: this.videoIsPublish,
-        audioActive: this.audioIsPublish
+        audioActive: this.audioIsPublish,
+        screenActive: this.screenIsPublish
       }
     });
     this.onParticipantsChange();
+  }
+  _updateMyMediaObjectUserInfo(userInfo) {
+    this.myMediaObject.userInfo = {
+      ...this.myMediaObject.userInfo,
+      ...userInfo
+    };
   }
   get allParticipants() {
     const outhers = this.participants.map(o => ({
@@ -71,9 +76,8 @@ export default class {
   get audioIsPublish() {
     return this._publisher.stream.audioActive;
   }
-  get screenIsSharing() {
-    console.log(this._publisher);
-    return this._publisher.stream;
+  get screenIsPublish() {
+    return this._screenIsPublish;
   }
   async joinToRoom(roomId, { clientData, sourceSettings = {} }) {
     // if (!this.myMediaObject)
@@ -88,6 +92,9 @@ export default class {
     this._setClientId();
     const modifyClientData = {
       ...clientData,
+      videoActive: sourceSettings.publishVideo,
+      audioActive: sourceSettings.publishAudio,
+      screenActive: this._screenIsPublish,
       id: this._clientId
     };
     await this._session.connect(this._token, {
@@ -118,6 +125,9 @@ export default class {
   }
   publishWebcam(settings = {}) {
     this._screenIsPublish = false;
+    this._updateMyMediaObjectUserInfo({
+      screenActive: this._screenIsPublish
+    });
     if (!settings.publishVideo) this._publisher.publishVideo(true);
     const updateVideo = true;
     const updateAudio = false;
@@ -128,9 +138,13 @@ export default class {
       updateVideo,
       updateAudio
     );
+    this.onParticipantsChange();
   }
   publishScreen(settings = {}) {
     this._screenIsPublish = true;
+    this._updateMyMediaObjectUserInfo({
+      screenActive: this._screenIsPublish
+    });
     if (!settings.publishVideo) this._publisher.publishVideo(true);
     const updateVideo = true;
     const updateAudio = false;
@@ -143,6 +157,7 @@ export default class {
       updateVideo,
       updateAudio
     );
+    this.onParticipantsChange();
   }
   async togglePublishAudio() {
     const updateVideo = false;
@@ -318,7 +333,12 @@ export default class {
     this.participants.push(
       new MediaObject({
         mediaStream: subscriber,
-        userInfo: JSON.parse(stream.connection.data).clientData
+        userInfo: {
+          audioActive: true,
+          videoActive: true,
+          screenActive: null,
+          ...JSON.parse(stream.connection.data).clientData
+        }
       })
     );
     this.onParticipantsChange();

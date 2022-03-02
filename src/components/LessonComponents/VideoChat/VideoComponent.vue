@@ -8,12 +8,23 @@
     }"
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
-    <video
-      ref="video"
-      v-show="mediaObject.userInfo.videoActive"
-      autoplay
-      class="video-component__video"
-    ></video>
+    <div
+      style="height: inherit"
+      :style="
+        mediaObject.userInfo.screenActive
+          ? 'transform: rotateY(180deg) !important;'
+          : ''
+      "
+    >
+      <video
+        ref="video"
+        v-show="mediaObject.userInfo.videoActive"
+        autoplay
+        :muted="muted"
+        class="video-component__video"
+        @click="$emit('click-by-video')"
+      ></video>
+    </div>
     <img
       v-if="!mediaObject.userInfo.videoActive"
       :src="mediaObject.userInfo.avatar"
@@ -29,23 +40,11 @@
       class="video-component__ctrls"
       :class="{ 'video-component__ctrls-active': active }"
     >
-      <!-- <expand
-        @click.native="toggleFullSize"
-        class="video-component__expand video-component__ctrls-btn"
-        v-if="active"
-      /> -->
       <expand
         @click.native="toggleFullSizeVideoInWindow"
         class="video-component__expand video-component__ctrls-btn"
       />
-      <!--       <speaker
-        @click.native="toggleMuting"
-        class="video-component__speaker video-component__ctrls-btn"
-        :muted="muted.state"
-        v-if="!mediaObject.im"
-      /> -->
       <template v-if="!iconOff">
-        <!-- <template v-if="mediaObject.im"> -->
         <camera
           @click.native="toggleCamera()"
           class="video-component__camera video-component__ctrls-btn"
@@ -58,7 +57,7 @@
         />
         <reflect
           @click.native="toggleScreenAndCapture()"
-          :reflected="isReflected"
+          :reflected="mediaObject.userInfo.screenActive"
           class="video-component__reflect video-component__ctrls-btn"
         />
       </template>
@@ -80,14 +79,9 @@ export default {
   name: "video-component",
   data: function() {
     return {
-      muted: {
-        state: false,
-        val: ""
-      },
       background: "/imgs/whitenoize.gif",
       videoHidden: true,
       borderColor: "",
-      isReflected: null,
       audioMuted: null,
       cameraOff: null
       // cameraOffState: window.localStorage.getItem("videochat_microphone_state"),
@@ -115,19 +109,6 @@ export default {
         elem.webkitRequestFullscreen();
       } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
-      }
-    },
-    toggleMuting() {
-      this.muted.state = !this.muted.state;
-      if (this.muted.state) {
-        this.muted.val = "muted";
-      } else {
-        this.muted.val = "";
-      }
-    },
-    mutingMe() {
-      if (this.mediaObject.im) {
-        this.muted.val = "muted";
       }
     },
     toggleCamera() {
@@ -269,26 +250,15 @@ export default {
         muteByAudioLevel();
       }
     },
-    audioOff() {
-      if (!this.mediaObject.im) {
-        if (this.mediaObject.audioOff) {
-          this.muted.val = "muted";
-        } else {
-          this.muted.val = "";
-        }
-      }
-    },
     toggleScreenAndCapture() {
-      if (this.isReflected) return this.publishWebcam();
+      if (this.mediaObject.userInfo.screenActive) return this.publishWebcam();
       this.publishScreen();
     },
     publishScreen() {
       this.$parent.$emit("publishScreen");
-      this.isReflected = true;
     },
     publishWebcam() {
       this.$parent.$emit("publishWebcam");
-      this.isReflected = false;
     },
     initMyVideoStates() {
       if (this.mediaObject.im) {
@@ -326,18 +296,33 @@ export default {
     ...mapGetters(["myCaptureMedia", "myActiveMediaName", "myWebcamMedia"]),
     ...mapGetters({ audioOffGetter: "audioOff" }),
     backgroundComputed() {
-      return { "background-image": "url(" + this.background + ")" };
+      return {
+        "background-image": "url(" + this.mediaObject?.userInfo?.avatar + ")"
+      };
     },
     borderComputed() {
       // Border color изменяется при замолкании и говорении пользовтеля
       return {
         "border-color": this.borderColor
       };
+    },
+    videoIsActive() {
+      return this.mediaObject.userInfo.videoActive === false;
+    },
+    muted() {
+      return this.itsMe;
+    },
+    iconOff() {
+      return !this.itsMe;
     }
   },
   watch: {
     mediaObject: function() {
       this.setStream();
+      this.$refs.video.muted = this.muted;
+    },
+    muted() {
+      console.log(this.$refs.video, this.muted);
     }
   },
   components: {
@@ -347,17 +332,20 @@ export default {
     Camera,
     Reflect
   },
-  props: ["mediaObject", "indexVideo", "active", "iconOff"],
+  props: ["mediaObject", "indexVideo", "active", "itsMe"],
   mixins: {},
   beforeMount() {},
   mounted() {
+    // this.$refs.video.addEventListener("canplay", () => {
+    //   if (this.muted) {
+    //     this.$refs.video.muted = true;
+    //   }
+    // });
     this.setStream();
     if (!this.isMobileSafari()) {
       this.initSpechEvents();
       this.onStopSpeeking();
     }
-    this.mutingMe();
-    this.audioOff();
     this.initMyVideoStates();
     this.onCanPlay();
     this.cameraOff = !JSON.parse(
@@ -396,6 +384,7 @@ export default {
     z-index: 2
   &__video
     height: inherit
+    cursor: pointer
   &__avatar
     max-width: 100%
     max-height: 100%

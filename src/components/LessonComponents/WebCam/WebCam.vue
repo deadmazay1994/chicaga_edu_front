@@ -8,10 +8,13 @@
           v-if="medias.length > activeVideoIndex"
         >
           <video-component
-            :indexVideo="index"
+            :indexVideo="activeVideoIndex"
             class="video-chat__video video-chat__video--active"
+            :itsMe="activeMediaStream.itsMe"
             :active="true"
-            :mediaObject="medias[activeVideoIndex].mediaObject"
+            :miniature="false"
+            :iconOff="false"
+            :mediaObject="activeMediaStream.mediaObject"
           />
         </div>
       </div>
@@ -23,15 +26,16 @@
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
         <div class="video-chat-miniatures-list" ref="miniatures">
-          <template v-for="(mediaObject, index) in medias">
+          <template v-for="(mediaObject, index) in miniaturesMediaStream">
             <video-component
-              v-if="activeVideoIndex != index"
               class="video-chat__video video-chat__video--miniature"
               :miniature="true"
               :iconOff="true"
+              :itsMe="mediaObject.itsMe"
               :mediaObject="mediaObject.mediaObject"
               :indexVideo="index"
               :key="index"
+              @click-by-video="setActiveVideoIndex(mediaObject)"
             />
           </template>
         </div>
@@ -73,7 +77,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user"]),
+    activeMediaStream() {
+      if (!this.medias[this.activeVideoIndex]) return this.medias[0];
+      return this.medias[this.activeVideoIndex];
+    },
+    miniaturesMediaStream() {
+      return this.medias.filter((m, i) => i !== this.activeVideoIndex);
+    }
   },
   props: ["roomId"],
   methods: {
@@ -127,6 +138,13 @@ export default {
           .toString(36)
           .substring(2, 15)
       );
+    },
+    setActiveVideoIndex(media) {
+      this.activeVideoIndex =
+        this.medias.findIndex(
+          m => m.mediaObject.userInfo.id === media.mediaObject.userInfo.id
+        ) || 0;
+      console.log(this.activeVideoIndex);
     },
     mediaStreamSuccessHundle() {
       const driver = new Driver({
@@ -183,6 +201,7 @@ export default {
       }
     },
     setMediaStreamFromDirver() {
+      console.log(this.driver.allParticipants);
       this.medias = this.driver.allParticipants.map(m => ({
         itsMe: m.itsMe,
         mediaObject: {
