@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu__nav" :class="{ 'mobile-active': mobilemenuopen }">
+  <nav class="menu__nav" v-click-outside="clickOutside" :class="{ 'mobile-active': mobilemenuopen }">
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -8,6 +8,7 @@
           : 'nav__link'
       "
       to="/lk/catalog-coursers"
+      @click.native="clicked()"
       >Каталог курсов</router-link
     >
     <router-link
@@ -16,6 +17,7 @@
         $route.path === '/lk/my-coursers' ? 'nav__link active' : 'nav__link'
       "
       to="/lk/my-coursers"
+      @click.native="clicked()"
       >Мои курсы</router-link
     >
     <router-link
@@ -24,6 +26,7 @@
         $route.path === '/lk/my-groups' ? 'nav__link active' : 'nav__link'
       "
       to="/lk/my-groups"
+      @click.native="clicked()"
       >Мои группы</router-link
     >
     <router-link
@@ -32,12 +35,14 @@
         $route.path === '/lk/dictionary' ? 'nav__link active' : 'nav__link'
       "
       to="/lk/dictionary"
+      @click.native="clicked()"
       >Словарь</router-link
     >
     <router-link
       style="color: #0d0d0d"
       :class="$route.path === '/lk/settings' ? 'nav__link active' : 'nav__link'"
       to="/lk/settings"
+      @click.native="clicked()"
       >Настройки</router-link
     >
     <router-link
@@ -49,12 +54,14 @@
           : 'nav__link'
       "
       to="/course-list-teacher"
+      @click.native="clicked()"
       >Результаты</router-link
     >
     <router-link
       style="color: #0d0d0d"
       :class="$route.path === '/faq' ? 'nav__link active' : 'nav__link'"
       to="/faq"
+      @click.native="clicked()"
       >Вопросы и ответы</router-link
     >
     <button class="nav__link" @click="exit">Выйти</button>
@@ -63,13 +70,17 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import vClickOutside from "v-click-outside";
 
 export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false
+      mobileDetected: false,
     };
+  },
+  directives: {
+    clickOutside: vClickOutside.directive
   },
   methods: {
     ...mapMutations(["logout", "setDraverState"]),
@@ -89,6 +100,12 @@ export default {
         this.mobileDetected = true;
         this.setDraverState(false);
       }
+    },
+    clickOutside(e) {
+      this.$emit("clicked-outside", e);
+    },
+    clicked() {
+      this.$emit("clicked-router");
     }
   },
   computed: {
@@ -100,7 +117,7 @@ export default {
       set(value) {
         this.setDraverState(value);
       }
-    }
+    },
   },
   components: {},
   props: ["mobilemenuopen"],
