@@ -4,7 +4,7 @@ export default {
   canvas: null,
   ctx: null,
   drawcolor: "black",
-  tool: "pen",
+  tool: null,
   thickness: 4,
   prevX: null,
   prevY: null,
@@ -100,6 +100,8 @@ export default {
     this.ctx = this.canvas.getContext("2d");
     this.oldGCO = this.ctx.globalCompositeOperation;
 
+    console.log($(whiteboardContainer));
+
     $(_this.mouseOverlay).on("mousedown touchstart", function(e) {
       if (_this.imgDragActive) {
         return;
@@ -188,26 +190,30 @@ export default {
           canvasInput.style.padding = "1rem";
           canvasInput.style.border = "none";
     
-          canvasWrapper.append(canvasInput); // добавляем инпут на доску
-          canvasInput.focus(); // фокус не работает
+          canvasWrapper.append(canvasInput);
+          document.querySelector(".canvas-input").focus();
           _this.hasInput = true
         }
-        
-        _this.ctx.font = "24px sans-serif";
 
+        // let input = document.querySelector(".canvas-input");
+        _this.ctx.font = "24px sans-serif";
+        
         canvasInput.onkeydown = function(e) {
           let keyCode = e.key
           if (keyCode === "Enter") {
             _this.ctx.fillText(this.value, _this.prevX, _this.prevY);
-            console.log("onkeydown", this);
             $(this).remove();
             _this.hasInput = false;
           }
         }
 
-        canvasInput.onblur = function() {
-          alert("blur"); // срабатывает сразу после добавления инпута
-        }
+        // if (_this.hasInput == true) {
+        //   input.onblur = function() {
+        //     _this.ctx.fillText(this.value, _this.prevX, _this.prevY);
+        //     input.remove() // срабатывает сразу после добавления инпута
+        //     _this.hasInput = false;
+        //   }
+        // }
       } else if (_this.tool === "grab") {
         let canvasWrapper =  $(whiteboardContainer);
         canvasWrapper.css({"cursor": "pointer", "overflow": "auto"});
@@ -719,6 +725,7 @@ export default {
     _this.ctx.stroke();
   },
   clearWhiteboard: function() {
+    console.log("clear");
     var _this = this;
     _this.imgContainer.empty();
     _this.sendFunction({ t: "clear" });
@@ -855,7 +862,9 @@ export default {
     this.mouseOverlay.find(".xCanvasBtn").click();
   },
   clearBoard: function() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    var _this = this;
+    _this.sendFunction({ t: "clear" });
+    _this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
   handleEventsAndData: function(content, isNewData, doneCallback) {
     var _this = this;

@@ -5,7 +5,9 @@
     style="height: 550px"
   >
     <!---Whiteboard container -!-->
-    <div id="whiteboardContainer"></div>
+    <div id="whiteboardContainer">
+      <v-skeleton-loader v-if="teacherInLesson" class="wait-teacher" type="image" height="100%"></v-skeleton-loader>
+    </div>
 
     <!---Toolbar -!-->
     <div
@@ -188,7 +190,8 @@ export default {
       colorPickerActive: false,
       mobileDetected: false,
       canvasWidth: null,
-      canvasHeight: null
+      canvasHeight: null,
+      teacherInLesson: false
     };
   },
   directives: {},
@@ -268,16 +271,24 @@ export default {
         height: this.$el.clientHeight || 1000
       })
     },
-    onSendData(eventName, callback) {
-      this.socketProp.on("send data", data => {
-        if (data.eventName == eventName) callback(data);
-      })
+    onSendData(eventName) {
+      return new Promise((resolve, reject) => {
+        if (this.userRole == "teacher" && eventName != "userJoined") resolve({ width: this.$el.clientWidth, height: this.$el.clientHeight || 1000 }); // Выставить ширину и высоту учителю без ожидания
+        this.socketProp.on("send data", data => {
+          if (data.eventName == eventName) resolve(data);
+          reject(new Error("Socket error"));
+        });
+      });
     },
     userJoined() {
       if (this.userRole == "teacher") return;
       this.socketProp.emit("to all in lesson", {
         eventName: "userJoined"
       });
+    },
+    async setUserWhiteboard() {
+      let promise = await this.onSendData("sendResolution");
+      return promise;
     }
   },
   computed: {},
@@ -289,14 +300,12 @@ export default {
   },
   props: ["server", "socketProp", "username", "userRole"],
   created() {
-    this.onSendData("userJoined", () => {
-      alert("user joined");
+    let promise = this.onSendData("userJoined");
+    promise.then(() => {
       this.sendResolution();
     });
-    // this.onSendData("sendResolution", data => {
-    //   alert("Данные получены");
-    //   this.canvasWidth = data.width
-    //   this.canvasHeight = data.height
+    // this.onSendData("userJoined", () => {
+    //   this.sendResolution();
     // });
   },
   beforeMount() {
@@ -394,50 +403,33 @@ export default {
   mounted() {
     this.userJoined();
     this.sendResolution();
-    let cvsWidth = null;
-    let cvsHeight = null;
-    if (this.userRole == "teacher") {
-      cvsWidth = this.$el.clientWidth
-      cvsHeight = this.$el.clientHeight || 1000
-
+    let setWhiteBoard = function(width, height) {
       this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
         //Load the whiteboard
         whiteboardId: this.whiteboardId,
         username: this.username,
-        // canvasWidth: this.$el.clientWidth,
-        // canvasHeight: this.$el.clientHeight || 1000,
-        canvasWidth: cvsWidth,
-        canvasHeight: cvsHeight,
+        canvasWidth: width,
+        canvasHeight: height,
         sendFunction: content => {
           this.socketProp.emit("drawToWhiteboard", content);
         }
       });
-    } else {
-      this.onSendData("sendResolution", data => {
-        alert("Данные получены");
-        cvsWidth = data.width
-        cvsHeight = data.height
+    };
 
-        this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
-          //Load the whiteboard
-          whiteboardId: this.whiteboardId,
-          username: this.username,
-          // canvasWidth: this.$el.clientWidth,
-          // canvasHeight: this.$el.clientHeight || 1000,
-          canvasWidth: cvsWidth,
-          canvasHeight: cvsHeight,
-          sendFunction: content => {
-            this.socketProp.emit("drawToWhiteboard", content);
-          }
-        });
-      });
-    }
+    this.setUserWhiteboard()
+    .then(result => {
+      this.teacherInLesson = false;
+      setWhiteBoard.call(this, result.width, result.height);
+    })
+    .catch(this.teacherInLesson = true);
 
     $.get(this.server + "loadwhiteboard", { wid: this.whiteboardId }).done(
       data => {
         this.whiteBoard.loadData(data);
       }
     );
+
+    this.changeTool("pen");
 
     /*----------------/
 Whiteboard actions
@@ -588,6 +580,9 @@ i {
 }
 #whiteboardContainer {
   width: 100%;
+  height: 100%;
+}
+::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading .v-skeleton-loader__image {
   height: 100%;
 }
 .btn-group button {
