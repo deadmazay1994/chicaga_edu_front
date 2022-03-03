@@ -34,7 +34,7 @@
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.userInfo.name }}
+      {{ mediaObject.userInfo.videoActive }}
     </div>
     <div
       class="video-component__ctrls"
