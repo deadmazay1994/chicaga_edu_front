@@ -11,7 +11,7 @@
     <div
       style="height: inherit"
       :style="
-        mediaObject.userInfo.screenActive
+        mediaObject.userInfo.screenActive || !this.itsMe
           ? 'transform: rotateY(180deg) !important;'
           : ''
       "
