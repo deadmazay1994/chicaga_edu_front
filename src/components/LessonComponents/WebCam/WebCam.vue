@@ -97,14 +97,12 @@ export default {
           top: scrollHeight * 0.9,
           behavior: "smooth"
         });
-        console.log("Scroll down");
       } else {
         miniatures.scrollBy({
           left: 0,
           top: -(scrollHeight * 0.9),
           behavior: "smooth"
         });
-        console.log("Scroll Up");
       }
     },
     videoWrapJustify(currentIndex) {
@@ -144,7 +142,6 @@ export default {
         this.medias.findIndex(
           m => m.mediaObject.userInfo.id === media.mediaObject.userInfo.id
         ) || 0;
-      console.log(this.activeVideoIndex);
     },
     mediaStreamSuccessHundle() {
       const driver = new Driver({
@@ -182,7 +179,6 @@ export default {
     },
     mediaStreamErrorHundle(error) {
       this.mediaError = error;
-      console.log(error.name + ": " + error.message);
       this.streamOn = false;
       this.onLoading = false;
       switch (error.name) {
@@ -201,7 +197,6 @@ export default {
       }
     },
     setMediaStreamFromDirver() {
-      console.log(this.driver.allParticipants);
       this.medias = this.driver.allParticipants.map(m => ({
         itsMe: m.itsMe,
         mediaObject: {

@@ -106,9 +106,7 @@ export default class {
       publishVideo: true
     });
     this._publisher.on("streamCreated", async () => {
-      console.log(sourceSettings);
       const videoIsNotPublished = !sourceSettings.publishVideo;
-      console.log("on streamCreated", videoIsNotPublished);
       if (videoIsNotPublished) {
         this.updateMediaStream({ publishVideo: false });
         this._publisher.publishVideo(false);
