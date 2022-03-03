@@ -1,7 +1,6 @@
 <template>
   <div
-    height="300px"
-    class="masseges  active custom_scroll vue-component"
+    class="masseges messages__content active custom_scroll vue-component"
     ref="masseges"
   >
     <massege
@@ -28,11 +27,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "masseges",
-  data: function () {
+  data: function() {
     return {
       t: 1,
       users: [],
-      loading: null,
+      loading: null
     };
   },
   methods: {
@@ -41,21 +40,21 @@ export default {
         this.$store.dispatch("loadMoreMsg");
         this.t = 0;
       }
-    },
+    }
   },
   computed: {
-    ...mapGetters(["getCurrentMsgs", "getLoading", "preload"]),
+    ...mapGetters(["getCurrentMsgs", "getLoading", "preload"])
   },
   components: {
-    Massege,
+    Massege
   },
   props: [],
   mixins: {},
   mounted() {
-    this.$refs.masseges.addEventListener("scroll", (e) => {
+    this.$refs.masseges.addEventListener("scroll", e => {
       this.onScroll(e);
     });
-  },
+  }
 };
 </script>
 
