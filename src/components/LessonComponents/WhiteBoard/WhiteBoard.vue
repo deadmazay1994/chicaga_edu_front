@@ -6,7 +6,8 @@
   >
     <!---Whiteboard container -!-->
     <div id="whiteboardContainer">
-      <v-skeleton-loader v-if="teacherInLesson" class="wait-teacher" type="image" height="100%"></v-skeleton-loader>
+      <v-skeleton-loader v-if="loading" type="image"></v-skeleton-loader>
+      <div class="wait-teacher" v-if="teacherWaiting"><span>Учитель ещё не подключился к уроку</span></div>
     </div>
 
     <!---Toolbar -!-->
@@ -191,7 +192,8 @@ export default {
       mobileDetected: false,
       canvasWidth: null,
       canvasHeight: null,
-      teacherInLesson: false
+      teacherWaiting: false,
+      loading: false,
     };
   },
   directives: {},
@@ -418,10 +420,18 @@ export default {
 
     this.setUserWhiteboard()
     .then(result => {
-      this.teacherInLesson = false;
+      this.loading = false;
+      this.teacherWaiting = false;
       setWhiteBoard.call(this, result.width, result.height);
     })
-    .catch(this.teacherInLesson = true);
+    .catch(() => {
+      alert("catch")
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        this.teacherWaiting = true;
+      }, 3000);
+    });
 
     $.get(this.server + "loadwhiteboard", { wid: this.whiteboardId }).done(
       data => {
@@ -584,6 +594,18 @@ i {
 }
 ::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading .v-skeleton-loader__image {
   height: 100%;
+}
+.wait-teacher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+  font-size: 24px;
+}
+.wait-teacher span {
+  margin: 1rem 2rem;
 }
 .btn-group button {
   background-color: #fff; /* Green background */
