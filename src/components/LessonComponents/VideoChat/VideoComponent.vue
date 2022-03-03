@@ -34,7 +34,7 @@
       class="video-component__name"
       :class="{ 'video-component__name--miniature': !active }"
     >
-      {{ mediaObject.userInfo.videoActive }}
+      {{ mediaObject.userInfo.name }}
     </div>
     <div
       class="video-component__ctrls"
@@ -320,9 +320,6 @@ export default {
     mediaObject: function() {
       this.setStream();
       this.$refs.video.muted = this.muted;
-    },
-    muted() {
-      console.log(this.$refs.video, this.muted);
     }
   },
   components: {
