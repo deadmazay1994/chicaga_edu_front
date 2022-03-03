@@ -8,10 +8,13 @@
           v-if="medias.length > activeVideoIndex"
         >
           <video-component
-            :indexVideo="index"
+            :indexVideo="activeVideoIndex"
             class="video-chat__video video-chat__video--active"
+            :itsMe="activeMediaStream.itsMe"
             :active="true"
-            :mediaObject="medias[activeVideoIndex].mediaObject"
+            :miniature="false"
+            :iconOff="false"
+            :mediaObject="activeMediaStream.mediaObject"
           />
         </div>
       </div>
@@ -23,14 +26,16 @@
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
         <div class="video-chat-miniatures-list" ref="miniatures">
-          <template v-for="(mediaObject, index) in medias">
+          <template v-for="(mediaObject, index) in miniaturesMediaStream">
             <video-component
-              v-if="activeVideoIndex != index"
               class="video-chat__video video-chat__video--miniature"
               :miniature="true"
+              :iconOff="true"
+              :itsMe="mediaObject.itsMe"
               :mediaObject="mediaObject.mediaObject"
               :indexVideo="index"
               :key="index"
+              @click-by-video="setActiveVideoIndex(mediaObject)"
             />
           </template>
         </div>
@@ -54,6 +59,7 @@
 <script>
 import VideoComponent from "@/components/LessonComponents/VideoChat/VideoComponent";
 import Driver from "./Driver";
+import { mapGetters } from "vuex";
 
 export default {
   name: "WebCam",
@@ -66,9 +72,21 @@ export default {
       streamOn: null,
       mediaError: null,
       onLoading: true,
-      driver: null
+      driver: null,
+      del: false
     };
   },
+  computed: {
+    ...mapGetters(["user"]),
+    activeMediaStream() {
+      if (!this.medias[this.activeVideoIndex]) return this.medias[0];
+      return this.medias[this.activeVideoIndex];
+    },
+    miniaturesMediaStream() {
+      return this.medias.filter((m, i) => i !== this.activeVideoIndex);
+    }
+  },
+  props: ["roomId"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
@@ -79,14 +97,12 @@ export default {
           top: scrollHeight * 0.9,
           behavior: "smooth"
         });
-        console.log("Scroll down");
       } else {
         miniatures.scrollBy({
           left: 0,
           top: -(scrollHeight * 0.9),
           behavior: "smooth"
         });
-        console.log("Scroll Up");
       }
     },
     videoWrapJustify(currentIndex) {
@@ -121,6 +137,12 @@ export default {
           .substring(2, 15)
       );
     },
+    setActiveVideoIndex(media) {
+      this.activeVideoIndex =
+        this.medias.findIndex(
+          m => m.mediaObject.userInfo.id === media.mediaObject.userInfo.id
+        ) || 0;
+    },
     mediaStreamSuccessHundle() {
       const driver = new Driver({
         serverURL: "https://video.chicaga.ru",
@@ -128,26 +150,35 @@ export default {
       });
       this.driver = driver;
       let user = {
-        name: "test__" + Math.floor(Math.random() * 100),
-        avatar: "https://edu.chicaga.ru/images/avatars/no_avatar.jpg",
-        // TODO
-        // Брать свойства из localstoradge
-        audioActive: true,
-        videoActive: true
+        name: this.user.name,
+        avatar: this.user.avatar_link
       };
-      const roomId = "helloaaa";
+
+      let videoState = JSON.parse(
+        window.localStorage.getItem("videochat_camera_state")
+      );
+      let audioState = JSON.parse(
+        window.localStorage.getItem("videochat_microphone_state")
+      );
+
+      let settings = {
+        publishAudio: audioState,
+        publishVideo: videoState
+      };
+
+      const roomId =
+        this.roomId !== undefined ? this.roomId : this.$route.params.userid;
       // Всякий раз, когда имзеняется список подписчиков комнаты
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      driver.joinToRoom(roomId, { clientData: user });
+      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings });
       this.streamOn = true;
       this.onLoading = false;
     },
     mediaStreamErrorHundle(error) {
       this.mediaError = error;
-      console.log(error.name + ": " + error.message);
       this.streamOn = false;
       this.onLoading = false;
       switch (error.name) {
@@ -166,18 +197,36 @@ export default {
       }
     },
     setMediaStreamFromDirver() {
-      this.medias = this.driver.allParticipants;
+      this.medias = this.driver.allParticipants.map(m => ({
+        itsMe: m.itsMe,
+        mediaObject: {
+          id: m.mediaObject.id,
+          stream: m.mediaObject.stream,
+          userInfo: { ...m.mediaObject.userInfo }
+        }
+      }));
     },
     async setMediaStream() {
-      // const constraints = { video: { width: 624, height: 480 }, audio: true };
       this.mediaStreamSuccessHundle();
-      // .catch(err => {
-      //   this.mediaStreamErrorHundle(err);
-      // });
     }
   },
   mounted() {
     this.setMediaStream();
+    this.$on("toggleCamera", () => {
+      this.driver.togglePublishVideo();
+    });
+    this.$on("toggleMicro", () => {
+      this.driver.togglePublishAudio();
+    });
+    this.$on("publishWebcam", () => {
+      this.driver.publishWebcam();
+    });
+    this.$on("publishScreen", () => {
+      this.driver.publishScreen();
+    });
+  },
+  created() {
+    this.$watch(() => this.$route.params, this?.driver?.leaveSession);
   }
 };
 </script>

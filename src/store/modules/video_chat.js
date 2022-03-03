@@ -98,6 +98,7 @@ export default {
       }
     },
     toggleMediaTrackPC({ getters, dispatch }, { mediaType, value, el }) {
+      console.log({"mediaType": mediaType, "value": value, "el": el});
       let track;
       if (mediaType == "video" && getters.myActiveMediaName == "camera") {
         track = getters.myWebcamMedia.getVideoTracks()[0];
@@ -106,6 +107,7 @@ export default {
         mediaType == "audio" &&
         getters.myActiveMediaName == "camera"
       ) {
+        console.log("track", track);
         track = getters.myWebcamMedia.getAudioTracks()[0];
         dispatch("setAudioOff", value);
       } else if (
