@@ -1281,8 +1281,4 @@ body
 
 <style>
 @import "../assets/styles/style.min.css";
-
-.manager__workspace {
-  height: 520px;
-}
 </style>
