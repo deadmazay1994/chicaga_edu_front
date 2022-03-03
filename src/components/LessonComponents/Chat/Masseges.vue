@@ -1,7 +1,7 @@
 <template>
   <div
     height="300px"
-    class="masseges messages__content active custom_scroll vue-component"
+    class="masseges  active custom_scroll vue-component"
     ref="masseges"
   >
     <massege
@@ -71,6 +71,11 @@ export default {
   position: absolute;
   top: 42%;
   left: 42%;
+}
+.masseges__content {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100%;
 }
 .overlay {
   width: 120%;
