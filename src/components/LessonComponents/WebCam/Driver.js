@@ -202,6 +202,9 @@ export default class {
     if (updateAudio) {
       const audioTrack = await this._getAudioTrack(newSettings);
       audioPromise = this._publisher.replaceTrack(audioTrack);
+      // Обходит баг в OV
+      // https://github.com/OpenVidu/openvidu/issues/449
+      this._publisher.videoReference.muted = true;
     }
     return Promise.all([videoPromise, audioPromise]);
   }
