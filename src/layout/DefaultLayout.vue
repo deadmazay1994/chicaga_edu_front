@@ -1275,7 +1275,6 @@ body
 @import "../assets/styles/style.min.css";
 
 .manager__workspace {
-  overflow: auto !important;
   height: 520px;
 }
 </style>

@@ -1,5 +1,10 @@
 <template>
-  <button :class="btnClass" :disabled="isDisabled" @click="$emit('btn-event')">
+  <button
+    :class="btnClass"
+    class="red-btn"
+    :disabled="isDisabled"
+    @click="$emit('click')"
+  >
     <slot></slot>
   </button>
 </template>
@@ -9,8 +14,8 @@ export default {
   name: "C-btn",
   props: {
     btnClass: String,
-    isDisabled: Boolean,
-  },
+    isDisabled: Boolean
+  }
 };
 </script>
 
@@ -32,7 +37,9 @@ export default {
   font-weight: 700;
   line-height: 1.18em;
   max-width: 315px;
-  width: 100%;
+  font-size: 16px;
+  padding: 15px 55px;
+  width: auto;
 }
 .red-btn:disabled,
 .red-btn[disabled] {

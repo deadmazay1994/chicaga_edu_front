@@ -31,7 +31,7 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "lesson",
-  data: function () {
+  data: function() {
     return {};
   },
   methods: {
@@ -42,7 +42,7 @@ export default {
       "onUpdateUsers",
       "onRecconnect",
       "initSocketEvents",
-      "onSendErrors",
+      "onSendErrors"
     ]),
     ...mapMutations(["setTeacherId", "setRoomId", "setSocket"]),
     sendTeacher() {
@@ -56,7 +56,7 @@ export default {
       }
     },
     onSendTeacher() {
-      this.socket.on("send teacher", (teacherId) => {
+      this.socket.on("send teacher", teacherId => {
         this.setTeacherId(teacherId);
       });
     },
@@ -68,10 +68,10 @@ export default {
         console.log("on get");
         this.sendTeacher();
       });
-    },
+    }
   },
   computed: {
-    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"]),
+    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"])
   },
   components: {
     EduPanel,
@@ -109,7 +109,7 @@ export default {
     } else {
       next(false);
     }
-  },
+  }
 };
 </script>
 
@@ -163,9 +163,9 @@ export default {
               .tasks {
                 height: 100%;
                 .tasks__wrap {
-                  justify-content: flex-end;
+                  display: block;
+                  overflow: auto;
                   .manager__workspace {
-                    overflow-y: scroll;
                     position: absolute;
                     top: 126px;
                     width: 100%;
