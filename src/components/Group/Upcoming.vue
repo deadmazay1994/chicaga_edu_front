@@ -9,8 +9,13 @@
           <web-cam :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
-          <lesson-starts :event="lesson" :date="dateLesson" :exactTime="timeLesson" :time="timeToLesson" />
-          <prepare :event="lesson" :roomId="roomId" :time="timeLesson" />
+          <lesson-starts
+            :event="lesson"
+            :date="dateLesson"
+            :exactTime="timeLesson"
+            :time="timeToLesson"
+          />
+          <prepare :event="lesson" :roomId="roomId" :time="timeToLesson" />
         </div>
       </div>
     </div>
@@ -34,12 +39,14 @@ export default {
       timeLesson: String,
       timerId: false,
       lesson: null,
-      DateLessonTime: new Date(),
+      DateLessonTime: new Date()
     };
   },
   computed: {
     roomId() {
-      return String(this.$route.params.id) + String(Math.floor(Math.random() * 1000));
+      return (
+        String(this.$route.params.id) + String(Math.floor(Math.random() * 1000))
+      );
     }
   },
   methods: {
@@ -70,7 +77,7 @@ export default {
         this.lesson["start"] = Date.now() + 1;
       }
       return true;
-    },
+    }
   },
   components: {
     Prepare,
@@ -90,7 +97,7 @@ export default {
     }
     this.startTimer();
     this.setDateAndTime();
-  },
+  }
 };
 </script>
 

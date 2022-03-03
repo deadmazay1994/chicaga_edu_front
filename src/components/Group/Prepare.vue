@@ -3,14 +3,7 @@
     <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
       <router-link
-        :to="{
-          name: 'lesson',
-          params: {
-            courseId: this.course_id,
-            userid: this.$route.params.code,
-            id: this.id
-          }
-        }"
+        :to="`/lesson/${id}/${this.$route.params.code}`"
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link

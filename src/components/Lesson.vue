@@ -4,6 +4,7 @@
       <web-cam
         class="lesson__video-chat"
         :class="{ 'lesson__video-chat--active': !chatIsOpen }"
+        :roomId="$route.params.groupKey"
       />
       <text-chat
         class="lesson__text-chat"
@@ -82,6 +83,7 @@ export default {
   props: [],
   mixins: [OurCursor, SocketMixin],
   beforeMount() {
+    console.log(this.$route.params.id);
     this.setRoomId(this.$route.params.id);
     this.socketConnect(this.$route.params.id);
     // Инициируем события сокетов
