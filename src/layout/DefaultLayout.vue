@@ -901,7 +901,11 @@
             </defs>
           </svg>
         </div>
-        <navigation :mobilemenuopen="showBurger" />
+        <navigation
+          @clicked-outside="closeMenu"
+          @clicked-router="closeMenu"
+          :mobilemenuopen="showBurger"
+        />
         <div class="menu-btn" @click.prevent="openBurgerMenu"></div>
       </div>
       <div class="content content--lessons">
@@ -925,6 +929,7 @@ import Navigation from "@/components/Lk/Navigation";
 // import BgComponent from "@/components/Base/Background";
 // import Lightbox from "@/components/Base/Lightbox";
 import Notifications from "@/components/Base/Notifications";
+import vClickOutside from "v-click-outside";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -935,6 +940,9 @@ export default {
       canRenderChild: false,
       showBurger: false
     };
+  },
+  directives: {
+    clickOutside: vClickOutside.direcitve
   },
   components: {
     HeaderApp,

@@ -61,7 +61,6 @@ export default {
 
 <style scoped="scoped">
 .masseges {
-  height: calc(100% - 74px);
   padding: 20px;
   overflow-y: auto;
   position: relative;

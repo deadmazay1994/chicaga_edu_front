@@ -11,7 +11,7 @@
     <div
       style="height: inherit"
       :style="
-        mediaObject.userInfo.screenActive
+        mediaObject.userInfo.screenActive || !this.itsMe
           ? 'transform: rotateY(180deg) !important;'
           : ''
       "
@@ -100,7 +100,6 @@ export default {
     },
     toggleFullSizeVideoInWindow() {
       let elem = this.$refs.video;
-      console.log("toggleFullSizeVideoInWindow:", elem);
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
       } else if (elem.mozRequestFullScreen) {
@@ -146,7 +145,6 @@ export default {
       // });
     },
     setStream(stream = this.mediaObject.stream) {
-      console.log(this.$refs.video, this.mediaObject.stream);
       stream.addVideoElement(this.$refs.video);
       // console.log(stream.mediaStream);
       // if (!this.mediaObject.im) {
@@ -231,10 +229,6 @@ export default {
       unMuteByAudioLevel();
     },
     onStopSpeeking() {
-      // console.group("Stop speeking");
-      // console.dirxml(this.$el);
-      // console.groupEnd();
-
       this.borderColor = "";
 
       // Выключает звук, когда уровень громкости становится достаточно малым
@@ -320,9 +314,6 @@ export default {
     mediaObject: function() {
       this.setStream();
       this.$refs.video.muted = this.muted;
-    },
-    muted() {
-      console.log(this.$refs.video, this.muted);
     }
   },
   components: {

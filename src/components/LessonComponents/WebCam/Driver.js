@@ -106,9 +106,7 @@ export default class {
       publishVideo: true
     });
     this._publisher.on("streamCreated", async () => {
-      console.log(sourceSettings);
       const videoIsNotPublished = !sourceSettings.publishVideo;
-      console.log("on streamCreated", videoIsNotPublished);
       if (videoIsNotPublished) {
         this.updateMediaStream({ publishVideo: false });
         this._publisher.publishVideo(false);
@@ -202,6 +200,9 @@ export default class {
     if (updateAudio) {
       const audioTrack = await this._getAudioTrack(newSettings);
       audioPromise = this._publisher.replaceTrack(audioTrack);
+      // Обходит баг в OV
+      // https://github.com/OpenVidu/openvidu/issues/449
+      this._publisher.videoReference.muted = true;
     }
     return Promise.all([videoPromise, audioPromise]);
   }
