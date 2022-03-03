@@ -24,7 +24,7 @@
       class="messages__controls__textarea"
       :value="getInput"
       @input="updateInput"
-      v-on:keyup.enter="send()"
+      v-on:keyup.enter="enter()"
     />
     <svg class="messages__controls__svg" v-on:click="send()">
       <use xlink:href="#forward"></use>
@@ -58,6 +58,9 @@ export default {
     },
     updateFileInput() {
       this.$store.commit("updateFile", this.getFile());
+    },
+    enter() {
+      if (this.getInput || this.files.length && this.files[0] !== null) this.send();
     }
   },
   computed: mapGetters(["allMsgs", "getRocket", "getInput", "getAttachments"]),
