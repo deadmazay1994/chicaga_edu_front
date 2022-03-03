@@ -1,7 +1,7 @@
 <template>
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
-      <video-chat
+      <web-cam
         class="lesson__video-chat"
         :class="{ 'lesson__video-chat--active': !chatIsOpen }"
       />
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import VideoChat from "@/components/LessonComponents/VideoChat/VideoChat";
+import WebCam from "@/components//LessonComponents/WebCam/WebCam.vue";
 import TextChat from "@/components/LessonComponents/Chat/Chat";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 import LessonStart from "@/components/LessonComponents/LessonStart";
@@ -74,10 +74,10 @@ export default {
     ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"]),
   },
   components: {
-    VideoChat,
     EduPanel,
     LessonStart,
     TextChat,
+    WebCam
   },
   props: [],
   mixins: [OurCursor, SocketMixin],

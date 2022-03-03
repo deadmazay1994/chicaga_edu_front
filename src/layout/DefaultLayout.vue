@@ -901,7 +901,11 @@
             </defs>
           </svg>
         </div>
-        <navigation @clicked-outside="closeMenu" @clicked-router="closeMenu" :mobilemenuopen="showBurger" />
+        <navigation
+          @clicked-outside="closeMenu"
+          @clicked-router="closeMenu"
+          :mobilemenuopen="showBurger"
+        />
         <div class="menu-btn" @click.prevent="openBurgerMenu"></div>
       </div>
       <div class="content content--lessons">
@@ -957,20 +961,10 @@ export default {
     setStandartLocalStorageStates() {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
-      if (window.localStorage.getItem("videochat_camera_state") == null) {
-        window.localStorage.setItem("videochat_camera_state", false);
-      }
-      if (window.localStorage.getItem("videochat_microphone_state") == null) {
-        window.localStorage.setItem("videochat_microphone_state", false);
-      }
-    },
-    closeMenu(e) {
-      if (e !== undefined && e.target._prevClass == "menu-btn") return;
-      this.showBurger = false;
     }
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user"])
   },
   async beforeMount() {
     this.setStandartLocalStorageStates();
