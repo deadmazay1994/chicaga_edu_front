@@ -80,7 +80,7 @@ import dateFormat from "dateformat";
 export default {
   name: "Group",
   components: {
-    PageTitle,
+    PageTitle
     // Lesson
   },
   data() {
@@ -95,13 +95,13 @@ export default {
           text: "№",
           align: "start",
           sortable: false,
-          value: "number",
+          value: "number"
         },
         { text: "Название", value: "name" },
         { text: "Время начала", value: "time_start" },
         { text: "Дата начала", value: "date_start" },
-        { text: "Домашнее задание" },
-      ],
+        { text: "Домашнее задание" }
+      ]
     };
   },
   methods: {
@@ -115,7 +115,7 @@ export default {
       const uniq_id = parent.dataset.uniq_id;
       const time = parent.dataset.time_start;
       const startTime =
-        this.lessons.schedule.find((e) => e.lesson.uniq_id === uniq_id).time *
+        this.lessons.schedule.find(e => e.lesson.uniq_id === uniq_id).time *
         1000;
       if (uniq_id && time != 0 && time != null) {
         this.$router.push({
@@ -123,8 +123,8 @@ export default {
           params: {
             id: uniq_id,
             code: this.group.code,
-            startTime,
-          },
+            startTime
+          }
         });
       }
     },
@@ -135,6 +135,7 @@ export default {
       // console.log(r)
       if (r.data && r.data.length > 0) {
         this.group = r.data[0];
+        console.log(this.group.id);
         await this.getLessons(this.group.id);
         this.hasAcademicGroup = true;
       }
@@ -147,13 +148,12 @@ export default {
         this.lessons = r;
         this.hasLessons = true;
       }
-    },
+    }
   },
   mounted() {
     this.getGroups();
-  },
+  }
 };
 </script>
 
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

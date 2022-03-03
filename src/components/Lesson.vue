@@ -4,6 +4,7 @@
       <web-cam
         class="lesson__video-chat"
         :class="{ 'lesson__video-chat--active': !chatIsOpen }"
+        :roomId="$route.params.groupKey"
       />
       <text-chat
         class="lesson__text-chat"
@@ -31,7 +32,7 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "lesson",
-  data: function () {
+  data: function() {
     return {};
   },
   methods: {
@@ -42,7 +43,7 @@ export default {
       "onUpdateUsers",
       "onRecconnect",
       "initSocketEvents",
-      "onSendErrors",
+      "onSendErrors"
     ]),
     ...mapMutations(["setTeacherId", "setRoomId", "setSocket"]),
     sendTeacher() {
@@ -56,7 +57,7 @@ export default {
       }
     },
     onSendTeacher() {
-      this.socket.on("send teacher", (teacherId) => {
+      this.socket.on("send teacher", teacherId => {
         this.setTeacherId(teacherId);
       });
     },
@@ -68,10 +69,10 @@ export default {
         console.log("on get");
         this.sendTeacher();
       });
-    },
+    }
   },
   computed: {
-    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"]),
+    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"])
   },
   components: {
     EduPanel,
@@ -82,6 +83,7 @@ export default {
   props: [],
   mixins: [OurCursor, SocketMixin],
   beforeMount() {
+    console.log(this.$route.params.id);
     this.setRoomId(this.$route.params.id);
     this.socketConnect(this.$route.params.id);
     // Инициируем события сокетов
@@ -109,7 +111,7 @@ export default {
     } else {
       next(false);
     }
-  },
+  }
 };
 </script>
 

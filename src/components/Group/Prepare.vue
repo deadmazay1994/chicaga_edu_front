@@ -30,14 +30,12 @@ export default {
     },
     async setParams() {
       let r = await api.methods.getFullLesson(this.$route.params.id);
-      console.log(r)
       this.course_id = r.course_id;
       this.id = r.uniq_id;
     }
   },
   mounted() {
     this.setParams();
-    console.log(this.course_id)
   }
 };
 </script>
