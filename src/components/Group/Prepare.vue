@@ -3,14 +3,7 @@
     <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
       <router-link
-        :to="{
-          name: 'lesson',
-          params: {
-            courseId: this.course_id,
-            userid: this.$route.params.code,
-            id: this.id
-          }
-        }"
+        :to="`/lesson/${id}/${this.$route.params.code}`"
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
@@ -37,12 +30,14 @@ export default {
     },
     async setParams() {
       let r = await api.methods.getFullLesson(this.$route.params.id);
+      console.log(r)
       this.course_id = r.course_id;
       this.id = r.uniq_id;
     }
   },
   mounted() {
     this.setParams();
+    console.log(this.course_id)
   }
 };
 </script>
