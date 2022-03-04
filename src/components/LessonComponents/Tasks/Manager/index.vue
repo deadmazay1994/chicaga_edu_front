@@ -24,17 +24,17 @@ export default {
     }
     let managerBottom = [];
     if (!document.location.href.includes("consultation")) {
-      managerBottom.push(
-        <div class="manager__bottom">
-          {this.results}
-          <choose-group class="manager__choose-group" lessonType={this.type} />
-          <portal-target name="manager__bottom" />
-        </div>
-      );
+      managerBottom
+        .push
+        // <div class="manager__bottom">
+        //   {this.results}
+        //   <portal-target name="manager__bottom" />
+        // </div>
+        ();
     }
     let slots = [
-      <div class="manager__top elevation-3">
-        <teacher-panel />
+      <div class="manager__top">
+        <choose-group class="manager__choose-group" lessonType={this.type} />
       </div>,
       <div class="manager__workspace">
         {...this.renderTasks(this.contextData, this.manager)}
