@@ -908,7 +908,7 @@
         />
         <div class="menu-btn" @click.prevent="openBurgerMenu"></div>
       </div>
-      <div class="content content--lessons">
+      <div class="content">
         <header-app />
         <router-view class="lessons__content main-view" />
       </div>
@@ -938,11 +938,11 @@ export default {
   data() {
     return {
       canRenderChild: false,
-      showBurger: false
+      showBurger: false,
     };
   },
   directives: {
-    clickOutside: vClickOutside.direcitve
+    clickOutside: vClickOutside.direcitve,
   },
   components: {
     HeaderApp,
@@ -951,7 +951,7 @@ export default {
     Navigation,
     // BgComponent
     // Lightbox
-    Notifications
+    Notifications,
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),
@@ -961,10 +961,10 @@ export default {
     setStandartLocalStorageStates() {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
-    }
+    },
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user"]),
   },
   async beforeMount() {
     this.setStandartLocalStorageStates();
@@ -973,7 +973,7 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
-  }
+  },
 };
 </script>
 
@@ -996,7 +996,7 @@ body
     color: white !important
   &-text
     color: darken($main-color, 15%) !important
-.content--lessons
+.content
   padding: 20px !important
   max-width: calc( 100vw - 302px )
   @media (min-width: 1360px)
@@ -1280,35 +1280,22 @@ body
 </style>
 
 <style lang="scss" scoped>
-  .page {
-    background: url(~@/assets/imgs/red-bg.jpg) no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-    padding: 20px 20px 20px 10px;
+.page {
+  background: url(~@/assets/imgs/red-bg.jpg) no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  padding: 20px 20px 20px 10px;
+}
 
-    @media (max-width: 1200px) {
-      & {
-        padding: 20px 10px;
-      }
-    }
-
-    @media (max-width: 1000px) {
-      & {
-        padding: 0;
-      }
-    }
-  }
-
-  .content {
-    flex-grow: 1;
-    background: #fff;
-    box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2);
-    border-radius: 30px;
-    padding: 10px 70px 30px;
-  }
-
+.content {
+  flex-grow: 1;
+  background: #fff;
+  box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2);
+  border-radius: 30px;
+  padding: 10px 70px 30px;
+}
 </style>
