@@ -965,6 +965,7 @@ export default {
       }
     },
     closeMenu(e) {
+      // если нажимаем на бургер - ничего не меняем
       if (e !== undefined && e.target._prevClass == "menu-btn") return;
       this.showBurger = false;
     }
