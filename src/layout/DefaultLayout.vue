@@ -961,6 +961,11 @@ export default {
     setStandartLocalStorageStates() {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
+    },
+    closeMenu(e) {
+      // если нажимаем на бургер - ничего не меняем
+      if (e !== undefined && e.target._prevClass == "menu-btn") return;
+      this.showBurger = false;
     }
   },
   computed: {
