@@ -1279,6 +1279,36 @@ body
 }
 </style>
 
-<style>
-@import "../assets/styles/style.min.css";
+<style lang="scss" scoped>
+  .page {
+    background: url(~@/assets/imgs/red-bg.jpg) no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    padding: 20px 20px 20px 10px;
+
+    @media (max-width: 1200px) {
+      & {
+        padding: 20px 10px;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      & {
+        padding: 0;
+      }
+    }
+  }
+
+  .content {
+    flex-grow: 1;
+    background: #fff;
+    box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2);
+    border-radius: 30px;
+    padding: 10px 70px 30px;
+  }
+
 </style>
