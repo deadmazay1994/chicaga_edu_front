@@ -168,6 +168,7 @@ export default {
     background: transparent
   &__choose-group
     padding: 10px 0
-  &__workspace
-    padding: 10px
+  @media (max-width: 1360px)
+    &__workspace
+      padding: 10px
 </style>
