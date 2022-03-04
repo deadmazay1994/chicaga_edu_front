@@ -276,7 +276,7 @@ export default {
 
 <style lang="sass">
 // Scoped не ставить!!!
-@import "@/components/Sass/Varibles.sass"
+@import "@/assets/styles/variables.sass"
 
 .fill-gaps-item
   border-radius: 10px

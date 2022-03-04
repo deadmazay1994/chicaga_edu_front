@@ -978,26 +978,17 @@ export default {
 </script>
 
 <style lang="sass">
-@import "@/components/Sass/Varibles.sass"
-html
-  overflow: auto
-body
-  overflow: auto
-.v-main
-  width: 100%
-  margin-top: 64px
-  &--resize
-    @media (min-width: 1200px)
-      width: calc(100vw - 56px)
-      margin-left: 56px
+@import "@/assets/styles/variables.sass"
+
 .main-color
   background: $main-color !important
   &--text
     color: white !important
   &-text
     color: darken($main-color, 15%) !important
+
 .content
-  padding: 20px !important
+  padding: 20px
   max-width: calc( 100vw - 302px )
   @media (min-width: 1360px)
     display: flex
@@ -1009,293 +1000,221 @@ body
         display: flex
         flex-direction: column
         justify-content: space-between
-.pointer
-  cursor: pointer
-.front
-  z-index: 1
-  opacity: 0.99
-.relative
-  position: relative
+
 .response-content
   display: block
   max-width: 100%
   height: auto
-.rotate-180
-  transform: rotate(180deg)
-.pre
-  white-space: pre-wrap
-  white-space: -moz-pre-wrap
-  white-space: -pre-wrap
-  white-space: -o-pre-wrap
-  word-wrap: break-word
-.zoom-wrapper
-  overflow: auto
-.checkbox
-  position: absolute
-  bottom: -7px
-  left: calc(50% - 12px)
-</style>
 
-// Magnifier
-<style>
-.img-magnifier-container {
-  position: relative;
-}
-.img-magnifier-glass {
-  position: absolute;
-  border: 3px solid #000;
-  border-radius: 50%;
-  cursor: none;
-  /*Set the size of the magnifier glass:*/
-  width: 100px;
-  height: 100px;
-}
-.task-wrap {
-  padding: 0 20px;
-}
+.page
+  background: url(~@/assets/imgs/red-bg.jpg) no-repeat
+  background-attachment: fixed
+  background-size: 100% 100%
+  width: 100%
+  height: 100%
+  display: flex
+  overflow: hidden
+  padding: 20px 20px 20px 10px
+
+.content
+  flex-grow: 1
+  background: #fff
+  box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
+  border-radius: 30px
+  padding: 10px 70px 30px
+
+// magnifier
+
+.img-magnifier-container
+  position: relative
+
+.img-magnifier-glass
+  position: absolute
+  border: 3px solid #000
+  border-radius: 50%
+  cursor: none
+  /* Set the size of the magnifier glass: */
+  width: 100px
+  height: 100px
+
+.task-wrap
+  padding: 0 20px
 
 /* Our cursor */
-.our-cursor {
-  position: absolute;
-  font-size: 23px;
-  z-index: 9999999;
-}
+.our-cursor
+  position: absolute
+  font-size: 23px
+  z-index: 9999999
 
-.menu--lessons {
-  display: block !important;
-}
+.menu--lessons
+  display: block !important
 
-.menu-btn {
-  display: none;
-}
+.menu-btn
+  display: none
 
-.header__avatar {
-  display: block !important;
-}
+.header__avatar
+  display: block !important
 
-@media (max-width: 1460px) {
-  .content--lessons {
-    margin-top: 50px;
-  }
+@media (max-width: 1460px)
+  .content
+    margin-top: 50px
+    & .col-md-10
+      flex: inherit
+      max-width: 100%
 
-  .content--lessons .col-md-10 {
-    flex: inherit;
-    max-width: 100%;
-  }
+    & .lessons__content
+      margin-top: 20px
 
-  .content--lessons .lessons__content {
-    margin-top: 20px;
-  }
+    & .col-lg-4
+      flex: 0 0 50%
+      max-width: 50%
 
-  .content--lessons .col-lg-4 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
+  .menu__nav
+    display: flex
+    flex-direction: column
 
-  .menu__nav {
-    display: flex;
-    flex-direction: column;
-  }
+  .nav__link
+    text-align: left
 
-  .nav__link {
-    text-align: left;
-  }
+  .logos
+    display: flex
+    justify-content: center
+    margin: 20px auto 0
 
-  .logos {
-    display: flex;
-    justify-content: center;
-    margin: 20px auto 0;
-  }
+  .faq__questions .col-md-8
+    flex: 0 0 100%
+    max-width: 100%
 
-  .faq__questions .col-md-8 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-}
+@media (max-width: 992px)
+  .logos
+    margin: 0
+    padding: 0
 
-@media (max-width: 992px) {
-  .logos {
-    margin: 0;
-    padding: 0;
-  }
+  .menu--lessons
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    background: #fff
+    z-index: 99
 
-  .menu--lessons {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
-    z-index: 99;
+    display: flex !important
+    align-self: center
+    justify-content: space-between
 
-    display: flex !important;
-    align-self: center;
-    justify-content: space-between;
+    margin: 0 !important
+    padding: 15px 15px
 
-    margin: 0 !important;
-    padding: 15px 15px;
+    box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
 
-    box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2);
-  }
+  .menu-btn
+    display: flex
+    align-items: center
+    justify-content: center
 
-  .menu-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    cursor: pointer
 
-    cursor: pointer;
-  }
-  .mobile-active {
-    right: 242px !important;
-    box-shadow: -8px 8px 11px 2px #0005;
-  }
-  .menu-btn:before {
-    content: "";
-    width: 16px;
-    height: 12px;
-    display: block;
-    background-image: url("data:image/svg+xml,%3Csvg width='16' height='12' viewBox='0 0 16 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 6H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.5 1H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.5 11H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-  }
+  .mobile-active
+    right: 242px !important
+    box-shadow: -8px 8px 11px 2px #0005
 
-  .menu__nav {
-    position: absolute;
-    right: 0;
-    top: 39px;
+  .menu-btn:before
+    content: ""
+    width: 16px
+    height: 12px
+    display: block
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='12' viewBox='0 0 16 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 6H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.5 1H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.5 11H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A")
 
-    background: #fff;
-    height: 100vh;
+  .menu__nav
+    position: absolute
+    right: 0
+    top: 39px
 
-    transition: 0.5s;
-    transform: translateX(120%);
-  }
+    background: #fff
+    height: 100vh
 
-  .page {
-    padding: 20px !important;
-  }
+    transition: 0.5s
+    transform: translateX(120%)
 
-  .content--lessons {
-    max-width: 100%;
-  }
+  .page
+    padding: 20px !important
 
-  .v-application .text-h2 {
-    font-size: 2.4rem !important;
-    line-height: 2.4rem;
-  }
+  .content
+    max-width: 100%
 
-  .v-application .mt-10 {
-    margin-top: 15px !important;
-  }
-}
+  .v-application .text-h2
+    font-size: 2.4rem !important
+    line-height: 2.4rem
 
-@media (max-width: 960px) {
-  .task-wrap {
-    padding: 0;
-  }
-}
+  .v-application .mt-10
+    margin-top: 15px !important
 
-@media (max-width: 767px) {
-  .user-settings.vue-component {
-    margin: 0 -10px;
-  }
+@media (max-width: 960px)
+  .task-wrap
+    padding: 0
 
-  .content--lessons .lessons__content {
-    margin-top: 0;
-  }
+@media (max-width: 767px)
+  .user-settings.vue-component
+    margin: 0 -10px
 
-  .v-btn {
-    width: 100%;
-  }
+  .content .lessons__content
+    margin-top: 0
 
-  .header {
-    flex-direction: column;
-    padding: 0 !important;
-    background: none !important;
-  }
+  .v-btn
+    width: 100%
 
-  .header__title {
-    color: #000 !important;
-  }
+  .header
+    flex-direction: column
+    padding: 0 !important
+    background: none !important
+    &__title
+      color: #000 !important
 
-  .controls__item--header {
-    display: flex !important;
-    align-items: center;
-  }
+  .controls__item--header
+    display: flex !important
+    align-items: center
 
-  .header__svg .notifications__path {
-    fill: #808080 !important;
-  }
+  .header__svg .notifications__path
+    fill: #808080 !important
 
-  .header:after {
-    content: "";
-    width: 100%;
-    height: 2.5px;
-    position: absolute;
-    bottom: -10px;
-    display: block !important;
-    background: hsla(0, 0%, 50%, 0.1) !important;
-  }
+  .header:after
+    content: ""
+    width: 100%
+    height: 2.5px
+    position: absolute
+    bottom: -10px
+    display: block !important
+    background: hsla(0, 0%, 50%, 0.1) !important
 
-  .header__additional-menu {
-    display: block !important;
-  }
+  .header__additional-menu
+    display: block !important
 
-  .controls__item {
-    margin-right: 10px !important;
-  }
+  .controls__item
+    margin-right: 10px !important
+    &:last-child
+      margin-right: 0 !important
 
-  .controls__item:last-child {
-    margin-right: 0 !important;
-  }
+  .header__additional-menu--right
+    margin-right: 10px !important
 
-  .header__additional-menu--right {
-    margin-right: 10px !important;
-  }
+  .header__additional-menu
+    margin-left: 0 !important
 
-  .header__additional-menu {
-    margin-left: 0 !important;
-  }
+  .content .col-lg-4
+    flex: 0 0 100%
+    max-width: 100%
 
-  .content--lessons .col-lg-4 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
+  .catalog-c
+    margin: 0 -15px
 
-  .catalog-c {
-    margin: 0 -15px;
-  }
+  .faq
+    padding-top: 20px
+    margin: 0 -15px
 
-  .faq {
-    padding-top: 20px;
-    margin: 0 -15px;
-  }
+  .v-application .text-h4
+    font-size: 1.4rem !important
+    line-height: 1.4rem
 
-  .v-application .text-h4 {
-    font-size: 1.4rem !important;
-    line-height: 1.4rem;
-  }
-
-  .v-application p {
-    font-size: 14px;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-.page {
-  background: url(~@/assets/imgs/red-bg.jpg) no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: hidden;
-  padding: 20px 20px 20px 10px;
-}
-
-.content {
-  flex-grow: 1;
-  background: #fff;
-  box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2);
-  border-radius: 30px;
-  padding: 10px 70px 30px;
-}
+  .v-application p
+    font-size: 14px
 </style>

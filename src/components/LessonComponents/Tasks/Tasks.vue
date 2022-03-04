@@ -166,7 +166,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import "@/components/Sass/Varibles.sass"
+@import "@/assets/styles/variables.sass"
 
 .tasks
   max-height: 100%
@@ -187,7 +187,7 @@ export default {
 </style>
 
 <style lang="sass">
-@import "@/components/Sass/Varibles.sass"
+@import "@/assets/styles/variables.sass"
 .tasks
   position: relative
   &__wrap
