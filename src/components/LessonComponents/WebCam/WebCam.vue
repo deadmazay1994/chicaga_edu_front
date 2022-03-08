@@ -153,13 +153,16 @@ export default {
         name: this.user.name,
         avatar: this.user.avatar_link
       };
-
-      let videoState = JSON.parse(
-        window.localStorage.getItem("videochat_camera_state")
+      const videoStateLS = window.localStorage.getItem(
+        "videochat_camera_state"
       );
-      let audioState = JSON.parse(
-        window.localStorage.getItem("videochat_microphone_state")
+      const audioStateLS = window.localStorage.getItem(
+        "videochat_microphone_state"
       );
+      let videoState = true;
+      let audioState = true;
+      if (videoStateLS !== null) videoState = JSON.parse(videoStateLS);
+      if (audioStateLS !== null) audioState = JSON.parse(audioStateLS);
 
       let settings = {
         publishAudio: audioState,

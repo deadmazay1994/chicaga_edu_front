@@ -154,8 +154,6 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .tasks
-  &__wrap
-    flex-direction: column-reverse
   &__task
     overflow: auto
 .manager
