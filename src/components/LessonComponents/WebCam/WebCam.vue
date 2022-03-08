@@ -20,7 +20,7 @@
       </div>
       <div
         class="video-chat-miniatures-wrapper"
-        v-if="medias.length > 0 && miniaturesOn"
+        v-if="medias.length > 0 && miniaturesOn && !isStream"
       >
         <div class="miniatures-go" @click="scroll('upp')">
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
@@ -73,8 +73,7 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false,
-      isStream: true
+      del: false
     };
   },
   computed: {
@@ -87,7 +86,7 @@ export default {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
     }
   },
-  props: ["roomId"],
+  props: ["roomId", "isStream"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
@@ -174,7 +173,8 @@ export default {
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings, isStream: this.isStream });
+      let isStreamProp = (this.user.role == "teacher") ? false : this.isStream // Передаем в метод свойство стрим/урок
+      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings, isStream: isStreamProp });
       this.streamOn = true;
       this.onLoading = false;
     },
@@ -212,7 +212,6 @@ export default {
     }
   },
   mounted() {
-    if (this.user.role == "teacher") this.isStream = false
     this.setMediaStream();
     this.$on("toggleCamera", () => {
       this.driver.togglePublishVideo();

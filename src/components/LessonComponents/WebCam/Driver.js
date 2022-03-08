@@ -90,13 +90,7 @@ export default class {
     this._screenIsPublish = sourceSettings.videoSource === "screen";
     this._token = await this._getToken(roomId);
     this._setClientId();
-    const modifyClientData = {
-      ...clientData,
-      videoActive: sourceSettings.publishVideo,
-      audioActive: sourceSettings.publishAudio,
-      screenActive: this._screenIsPublish,
-      id: this._clientId
-    };
+    const modifyClientData = this.modifyClientData(clientData, sourceSettings);
     await this._session.connect(this._token, {
       clientData: modifyClientData
     });
@@ -128,6 +122,15 @@ export default class {
       }
       this._createMyMediaObject(modifyClientData);
     });
+  }
+  modifyClientData(clientData, sourceSettings) {
+    return {
+      ...clientData,
+      videoActive: sourceSettings.publishVideo,
+      audioActive: sourceSettings.publishAudio,
+      screenActive: this._screenIsPublish,
+      id: this._clientId
+    }
   }
   publishWebcam(settings = {}) {
     this._screenIsPublish = false;
@@ -338,7 +341,6 @@ export default class {
     return this.allParticipants[index].mediaObject;
   }
   _streamCreatedHandler({ stream }) {
-    console.log("!!!_streamCreatedHandler!!!");
     const subscriber = this._session.subscribe(stream);
     this.participants.push(
       new MediaObject({
