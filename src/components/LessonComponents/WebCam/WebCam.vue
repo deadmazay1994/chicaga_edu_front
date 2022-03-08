@@ -73,7 +73,8 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false
+      del: false,
+      isStream: true
     };
   },
   computed: {
@@ -173,7 +174,7 @@ export default {
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings });
+      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings, isStream: this.isStream });
       this.streamOn = true;
       this.onLoading = false;
     },
@@ -211,6 +212,7 @@ export default {
     }
   },
   mounted() {
+    if (this.user.role == "teacher") this.isStream = false
     this.setMediaStream();
     this.$on("toggleCamera", () => {
       this.driver.togglePublishVideo();

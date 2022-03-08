@@ -79,7 +79,7 @@ export default class {
   get screenIsPublish() {
     return this._screenIsPublish;
   }
-  async joinToRoom(roomId, { clientData, sourceSettings = {} }) {
+  async joinToRoom(roomId, { clientData, sourceSettings = {}, isStream }) {
     // if (!this.myMediaObject)
     //   throw new Error(
     //     "Before connecting call createMyMediaObject method is required"
@@ -100,11 +100,21 @@ export default class {
     await this._session.connect(this._token, {
       clientData: modifyClientData
     });
+    if (!isStream) {
+      this.initPublisher(sourceSettings);
+      this.streamCreated(sourceSettings, modifyClientData);
+      this._session.publish(this._publisher);
+    }
+    window.addEventListener("beforeunload", this.leaveSession.bind(this));
+  }
+  initPublisher(sourceSettings) {
     this._publisher = this._OV.initPublisher(undefined, {
       sourceSettings,
       publishAudio: true,
       publishVideo: true
     });
+  }
+  streamCreated(sourceSettings, modifyClientData) {
     this._publisher.on("streamCreated", async () => {
       const videoIsNotPublished = !sourceSettings.publishVideo;
       if (videoIsNotPublished) {
@@ -118,8 +128,6 @@ export default class {
       }
       this._createMyMediaObject(modifyClientData);
     });
-    this._session.publish(this._publisher);
-    window.addEventListener("beforeunload", this.leaveSession.bind(this));
   }
   publishWebcam(settings = {}) {
     this._screenIsPublish = false;
@@ -330,6 +338,7 @@ export default class {
     return this.allParticipants[index].mediaObject;
   }
   _streamCreatedHandler({ stream }) {
+    console.log("!!!_streamCreatedHandler!!!");
     const subscriber = this._session.subscribe(stream);
     this.participants.push(
       new MediaObject({
