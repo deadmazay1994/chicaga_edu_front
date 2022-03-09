@@ -957,17 +957,12 @@ export default {
     ...mapMutations(["checkIsConsultation"]),
     openBurgerMenu() {
       this.showBurger = !this.showBurger;
-    },
-    setStandartLocalStorageStates() {
-      // window.localStorage.setItem("videochat_camera_state", false);
-      // window.localStorage.setItem("videochat_microphone_state", false);
     }
   },
   computed: {
     ...mapGetters(["user"])
   },
   async beforeMount() {
-    this.setStandartLocalStorageStates();
     // Если у пользователя есть токен, то авторизация происходит при помощи него
     await this.$store.dispatch("login");
     // Пока авторизация не закончена мы не создаем дочерних компонентов
