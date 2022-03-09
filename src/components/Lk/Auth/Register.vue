@@ -8,7 +8,7 @@
       @submit.prevent
       v-model="valid"
       :lazy-validatio="true"
-      class="auth-form register-form"
+      class="register-form"
     >
       <template v-if="step === 1">
         <div class="auth-form__body">

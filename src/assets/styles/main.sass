@@ -1,0 +1,72 @@
+@charset "UTF-8"
+
+@font-face
+  font-family: sf-ui
+  src: url(~@/assets/fonts/sf-ui-display-medium.woff) format("woff")
+  font-weight: 500
+  font-style: normal
+@font-face
+  font-family: sf-ui
+  src: url(~@/assets/fonts/sf-ui-display-semibold.woff) format("woff")
+  font-weight: 600
+  font-style: normal
+@font-face
+  font-family: sf-ui
+  src: url(~@/assets/fonts/sf-ui-display-bold.woff) format("woff")
+  font-weight: 700
+  font-style: normal
+@font-face
+  font-family: sf-ui
+  src: url(~@/assets/fonts/sf-ui-display-black.woff) format("woff")
+  font-weight: 900
+  font-style: normal
+
+*,
+::before,
+::after
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+body,
+html
+  height: 100%
+  overflow: auto
+
+a 
+  text-decoration: none
+.pointer 
+  cursor: pointer
+.relative 
+  position: relative
+.rotate-180 
+  transform: rotate(180deg)
+.zoom-wrapper 
+  overflow: auto
+
+.front 
+  z-index: 1 
+  opacity: .99
+
+.pre
+  white-space: pre-wrap
+  white-space: -moz-pre-wrap
+  white-space: -pre-wrap
+  white-space: -o-pre-wrap
+  word-wrap: break-word
+
+.checkbox
+  position: absolute
+  bottom: -7px
+  left: calc(50% - 12px)
+
+a,
+body,
+button 
+  font-family: sf-ui, sans-serif
+  font-weight: 700
+
+.mb20
+  margin-bottom: 20px
+.mb50
+  margin-bottom: 50px
