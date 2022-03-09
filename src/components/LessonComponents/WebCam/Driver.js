@@ -15,6 +15,10 @@ const defaulSourceSettings = {
 };
 
 export default class {
+  // REFACTOR
+  // Все приватнвые методы должны начинаться с _
+  // В новом стандарте js есть для приватных методов модификатор
+  // В будущем перейдем на него, а пока _
   constructor({ serverURL, secret }) {
     if (!serverURL) return new Error("serverURl parametr is required");
     if (!secret) return new Error("secret parametr is required");
@@ -80,10 +84,10 @@ export default class {
     return this._screenIsPublish;
   }
   async joinToRoom(roomId, { clientData, sourceSettings = {}, isStream }) {
-    // if (!this.myMediaObject)
-    //   throw new Error(
-    //     "Before connecting call createMyMediaObject method is required"
-    //   );
+    // REFACTOR
+    // Название isStream плохое
+    // У нас есть объект stream и можно путать isStream и stream
+    // Замени stream на webinar
     if (!sourceSettings)
       sourceSettings = { ...defaulSourceSettings, sourceSettings };
     this._clientData = clientData;
@@ -102,6 +106,11 @@ export default class {
     window.addEventListener("beforeunload", this.leaveSession.bind(this));
   }
   initPublisher(sourceSettings) {
+    // REFACTOR
+    // sourceSettings может быть и undefined
+    // По этому поставь ему по умолчанию значение {}
+    // REFACTOR
+    // Все приватнвые методы должны начинаться с _
     this._publisher = this._OV.initPublisher(undefined, {
       sourceSettings,
       publishAudio: true,
@@ -109,6 +118,12 @@ export default class {
     });
   }
   streamCreated(sourceSettings, modifyClientData) {
+    // REFACTOR
+    // Название метода не удачное. По нему не понятно, что происходит в нем
+    // Лучше всего создать метод для callback, который передается в streamCreated
+    // Причем уже понятно , что callback выключает видео и адуио, если они не выключены
+    // REFACTOR
+    // Все приватнвые методы должны начинаться с _
     this._publisher.on("streamCreated", async () => {
       const videoIsNotPublished = !sourceSettings.publishVideo;
       if (videoIsNotPublished) {
@@ -130,7 +145,7 @@ export default class {
       audioActive: sourceSettings.publishAudio,
       screenActive: this._screenIsPublish,
       id: this._clientId
-    }
+    };
   }
   publishWebcam(settings = {}) {
     this._screenIsPublish = false;

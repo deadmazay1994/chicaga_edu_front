@@ -18,6 +18,8 @@
           />
         </div>
       </div>
+      <!-- REFACTOR -->
+      <!-- В v-if слишком сложная логика. Перемести это в computed -->
       <div
         class="video-chat-miniatures-wrapper"
         v-if="medias.length > 0 && miniaturesOn && !isStream"
@@ -173,8 +175,14 @@ export default {
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      let isStreamProp = (this.user.role == "teacher") ? false : this.isStream // Передаем в метод свойство стрим/урок
-      driver.joinToRoom(roomId, { clientData: user, sourceSettings: settings, isStream: isStreamProp });
+      // REFACTOR
+      // Перемести isStreamProp в props и передавай его в копонент, а не вычисляй
+      let isStreamProp = this.user.role == "teacher" ? false : this.isStream; // Передаем в метод свойство стрим/урок
+      driver.joinToRoom(roomId, {
+        clientData: user,
+        sourceSettings: settings,
+        isStream: isStreamProp
+      });
       this.streamOn = true;
       this.onLoading = false;
     },
