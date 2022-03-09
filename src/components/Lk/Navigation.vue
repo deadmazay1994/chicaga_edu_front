@@ -75,7 +75,7 @@ export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false
+      mobileDetected: false,
     };
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
       this.$router.push("/auth/login");
       this.$store.commit("pushShuckbar", {
         val: "Вы успешно вышли из личного кабинета",
-        success: true
+        success: true,
       });
     },
     toggleDraverByWindowSize() {
@@ -96,7 +96,7 @@ export default {
         this.mobileDetected = true;
         this.setDraverState(false);
       }
-    }
+    },
   },
   computed: {
     ...mapGetters(["user", "draver"]),
@@ -106,8 +106,8 @@ export default {
       },
       set(value) {
         this.setDraverState(value);
-      }
-    }
+      },
+    },
   },
   components: {},
   props: ["mobilemenuopen"],
@@ -119,7 +119,7 @@ export default {
     document.onresize = () => {
       this.toggleDraverByWindowSize();
     };
-  }
+  },
 };
 </script>
 
