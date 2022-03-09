@@ -905,8 +905,21 @@
           @clicked-outside="closeMenu"
           @clicked-router="closeMenu"
           :mobilemenuopen="showBurger"
+          v-click-outside="
+            () => {
+              clickedOutside(true);
+            }
+          "
         />
-        <div class="menu-btn" @click.prevent="openBurgerMenu"></div>
+        <div
+          class="menu-btn"
+          v-click-outside="
+            () => {
+              clickedOutside(false);
+            }
+          "
+          @click.prevent="openBurgerMenu"
+        ></div>
       </div>
       <div class="content content--lessons">
         <header-app />
@@ -938,11 +951,11 @@ export default {
   data() {
     return {
       canRenderChild: false,
-      showBurger: false
+      showBurger: false,
     };
   },
   directives: {
-    clickOutside: vClickOutside.direcitve
+    clickOutside: vClickOutside.directive,
   },
   components: {
     HeaderApp,
@@ -951,7 +964,7 @@ export default {
     Navigation,
     // BgComponent
     // Lightbox
-    Notifications
+    Notifications,
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),
@@ -962,14 +975,16 @@ export default {
       // window.localStorage.setItem("videochat_camera_state", false);
       // window.localStorage.setItem("videochat_microphone_state", false);
     },
-    closeMenu(e) {
-      // если нажимаем на бургер - ничего не меняем
-      if (e !== undefined && e.target._prevClass == "menu-btn") return;
+    closeMenu() {
       this.showBurger = false;
-    }
+    },
+    clickedOutside(bool) {
+      if (bool) return;
+      this.showBurger = false;
+    },
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user"]),
   },
   async beforeMount() {
     this.setStandartLocalStorageStates();
@@ -978,7 +993,7 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
-  }
+  },
 };
 </script>
 
