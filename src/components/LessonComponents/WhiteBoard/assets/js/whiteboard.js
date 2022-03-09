@@ -182,6 +182,8 @@ export default {
 
         if (_this.hasInput == false) {
           $(canvasInput).addClass("canvas-input");
+          // TODO
+          // Вынести стили в файл стилей
           canvasInput.type = "text";
           canvasInput.style.position = "fixed";
           canvasInput.style.left = e.clientX + "px";
@@ -196,6 +198,9 @@ export default {
         }
 
         // let input = document.querySelector(".canvas-input");
+        // TODO
+        // Сделать выбор шрифта
+        // Сделать выбор размера шрифта
         _this.ctx.font = "24px sans-serif";
 
         canvasInput.onkeydown = function(e) {
@@ -724,7 +729,6 @@ export default {
     _this.ctx.stroke();
   },
   clearWhiteboard: function() {
-    console.log("clear");
     var _this = this;
     _this.imgContainer.empty();
     _this.sendFunction({ t: "clear" });

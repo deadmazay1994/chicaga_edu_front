@@ -7,7 +7,9 @@
     <!---Whiteboard container -!-->
     <div id="whiteboardContainer">
       <v-skeleton-loader v-if="loading" type="image"></v-skeleton-loader>
-      <div class="wait-teacher" v-if="teacherWaiting"><span>Учитель ещё не подключился к уроку</span></div>
+      <div class="wait-teacher" v-if="teacherWaiting">
+        <span>Учитель ещё не подключился к уроку</span>
+      </div>
     </div>
 
     <!---Toolbar -!-->
@@ -193,7 +195,7 @@ export default {
       canvasWidth: null,
       canvasHeight: null,
       teacherWaiting: false,
-      loading: false,
+      loading: false
     };
   },
   directives: {},
@@ -221,7 +223,7 @@ export default {
         this.whiteBoard.setTool(toolName);
         this.activeTool = toolName;
       } else {
-        this.whiteBoard.setTool('grab');
+        this.whiteBoard.setTool("grab");
       }
     },
     changeThickness(event) {
@@ -266,16 +268,23 @@ export default {
     },
     sendResolution() {
       if (this.userRole != "teacher") return;
-      alert("sendRes");
       this.socketProp.emit("to all in lesson", {
         eventName: "sendResolution",
         width: this.$el.clientWidth,
+        // REFACTOR
+        // Откуда магическое число 1000?
+        // Написать переменную и задукументировать это чило
+        // Или написать комментарий
         height: this.$el.clientHeight || 1000
-      })
+      });
     },
     onSendData(eventName) {
       return new Promise((resolve, reject) => {
-        if (this.userRole == "teacher" && eventName != "userJoined") resolve({ width: this.$el.clientWidth, height: this.$el.clientHeight || 1000 }); // Выставить ширину и высоту учителю без ожидания
+        if (this.userRole == "teacher" && eventName != "userJoined")
+          resolve({
+            width: this.$el.clientWidth,
+            height: this.$el.clientHeight || 1000
+          }); // Выставить ширину и высоту учителю без ожидания
         this.socketProp.on("send data", data => {
           if (data.eventName == eventName) resolve(data);
           reject(new Error("Socket error"));
@@ -419,19 +428,19 @@ export default {
     };
 
     this.setUserWhiteboard()
-    .then(result => {
-      this.loading = false;
-      this.teacherWaiting = false;
-      setWhiteBoard.call(this, result.width, result.height);
-    })
-    .catch(() => {
-      alert("catch")
-      this.loading = true;
-      setTimeout(() => {
+      .then(result => {
         this.loading = false;
-        this.teacherWaiting = true;
-      }, 3000);
-    });
+        this.teacherWaiting = false;
+        setWhiteBoard.call(this, result.width, result.height);
+      })
+      .catch(() => {
+        alert("catch");
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.teacherWaiting = true;
+        }, 3000);
+      });
 
     $.get(this.server + "loadwhiteboard", { wid: this.whiteboardId }).done(
       data => {
@@ -592,7 +601,9 @@ i {
   width: 100%;
   height: 100%;
 }
-::v-deep .v-skeleton-loader.v-skeleton-loader--is-loading .v-skeleton-loader__image {
+::v-deep
+  .v-skeleton-loader.v-skeleton-loader--is-loading
+  .v-skeleton-loader__image {
   height: 100%;
 }
 .wait-teacher {
