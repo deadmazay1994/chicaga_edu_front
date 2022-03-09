@@ -177,35 +177,35 @@ export default {
         _this.svgContainer.append(svgCirle);
         startCoords = [_this.prevX, _this.prevY];
       } else if (_this.tool === "text") {
-        let canvasWrapper =  $(whiteboardContainer);
+        let canvasWrapper = $(whiteboardContainer);
         let canvasInput = document.createElement("input");
 
         if (_this.hasInput == false) {
           $(canvasInput).addClass("canvas-input");
           canvasInput.type = "text";
-          canvasInput.style.position = 'fixed';
-          canvasInput.style.left = (e.clientX) + 'px';
-          canvasInput.style.top = (e.clientY) + 'px';
+          canvasInput.style.position = "fixed";
+          canvasInput.style.left = e.clientX + "px";
+          canvasInput.style.top = e.clientY + "px";
           canvasInput.style.backgroundColor = "rgba(0, 0, 0, 0.15)";
           canvasInput.style.padding = "1rem";
           canvasInput.style.border = "none";
-    
+
           canvasWrapper.append(canvasInput);
           document.querySelector(".canvas-input").focus();
-          _this.hasInput = true
+          _this.hasInput = true;
         }
 
         // let input = document.querySelector(".canvas-input");
         _this.ctx.font = "24px sans-serif";
-        
+
         canvasInput.onkeydown = function(e) {
-          let keyCode = e.key
+          let keyCode = e.key;
           if (keyCode === "Enter") {
             _this.ctx.fillText(this.value, _this.prevX, _this.prevY);
             $(this).remove();
             _this.hasInput = false;
           }
-        }
+        };
 
         // if (_this.hasInput == true) {
         //   input.onblur = function() {
@@ -215,8 +215,8 @@ export default {
         //   }
         // }
       } else if (_this.tool === "grab") {
-        let canvasWrapper =  $(whiteboardContainer);
-        canvasWrapper.css({"cursor": "pointer", "overflow": "auto"});
+        let canvasWrapper = $(whiteboardContainer);
+        canvasWrapper.css({ cursor: "pointer", overflow: "auto" });
         _this.canvas.style.position = "static";
 
         let pos = {
@@ -226,21 +226,20 @@ export default {
           y: 0
         };
 
-        const mouseDownHandler = function () { 
+        const mouseDownHandler = function() {
           pos = {
             left: canvasWrapper.scrollLeft(),
             top: canvasWrapper.scrollTop(),
-  
+
             x: _this.prevX,
             y: _this.prevY
           };
 
           document.addEventListener("mousemove", mouseMoveHandler);
           document.addEventListener("mouseup", mouseUpHandler);
-        }
+        };
 
-
-        const mouseMoveHandler = function () {
+        const mouseMoveHandler = function() {
           const dx = _this.prevX - pos.x;
           const dy = _this.prevY - pos.y;
 
@@ -248,7 +247,7 @@ export default {
           canvasWrapper.scrollLeft(pos.left - dx);
         };
 
-        const mouseUpHandler = function () {
+        const mouseUpHandler = function() {
           document.removeEventListener("mousemove", mouseMoveHandler);
           document.removeEventListener("mouseup", mouseUpHandler);
         };
