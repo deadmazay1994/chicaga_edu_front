@@ -108,7 +108,7 @@ export default {
         this.socketSendToAllInLesson({
           eventName: "toggle audio in users",
           val: audio.$el.querySelector("audio").paused,
-          time: audio.currentTime,
+          time: audio.$el.querySelector("audio").currentTime,
           filePath: audio.$el.querySelector("audio").getAttribute("src"),
           timeNow: Date.now()
         });
@@ -119,7 +119,8 @@ export default {
             let el = audio.$el.querySelector("audio");
             // Если учитель перемотал запись
             audio.$el.querySelector(".v-progress-linear").onclick = () => {
-              toggle(audio);
+              console.log(audio);
+              setTimeout(toggle(audio), 1000);
             };
             // // Если учитель включил или выключил запись
             el.addEventListener("playing", () => toggle(audio));
@@ -148,10 +149,10 @@ export default {
       }
     },
     onToggleAudioInStudents() {
-      const toSeconds = time => {
-        let a = time.split(":");
-        return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-      };
+      // const toSeconds = time => {
+      //   let a = time.split(":");
+      //   return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+      // };
       const allAudioForEach = callback =>
         Array.from(document.querySelectorAll("audio")).forEach(audio =>
           callback(audio)
@@ -162,8 +163,8 @@ export default {
         if (isNotTeacher && isToggleEvent) {
           allAudioForEach(audio => {
             if (audio.getAttribute("src") == data.filePath) {
-              audio.currentTime =
-                toSeconds(data.time) - (data.timeNow - Date.now()) / 1000;
+              console.log(data.time, (data.timeNow - Date.now()) / 1000);
+              audio.currentTime = data.time;
               if (data.val != audio.paused) {
                 audio
                   .closest(".attachs__files")

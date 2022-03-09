@@ -959,8 +959,8 @@ export default {
       this.showBurger = !this.showBurger;
     },
     setStandartLocalStorageStates() {
-      // window.localStorage.setItem("videochat_camera_state", false);
-      // window.localStorage.setItem("videochat_microphone_state", false);
+      window.localStorage.setItem("videochat_camera_state", true);
+      window.localStorage.setItem("videochat_microphone_state", true);
     }
   },
   computed: {
@@ -1000,6 +1000,7 @@ body
   padding: 20px !important
   max-width: calc( 100vw - 302px )
   @media (min-width: 1360px)
+    max-height: max(calc( 100vh - 40px ), 1072px)
     display: flex
     flex-direction: column
     .lessons__content

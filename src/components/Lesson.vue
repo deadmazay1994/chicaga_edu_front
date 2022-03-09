@@ -169,7 +169,6 @@ export default {
                   overflow: auto;
                   .manager__workspace {
                     position: absolute;
-                    top: 126px;
                     width: 100%;
                     height: 100%;
                   }
