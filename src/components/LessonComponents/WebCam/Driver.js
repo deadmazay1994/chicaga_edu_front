@@ -15,6 +15,10 @@ const defaulSourceSettings = {
 };
 
 export default class {
+  // REFACTOR
+  // Все приватнвые методы должны начинаться с _
+  // В новом стандарте js есть для приватных методов модификатор
+  // В будущем перейдем на него, а пока _
   constructor({ serverURL, secret }) {
     if (!serverURL) return new Error("serverURl parametr is required");
     if (!secret) return new Error("secret parametr is required");
@@ -79,32 +83,47 @@ export default class {
   get screenIsPublish() {
     return this._screenIsPublish;
   }
-  async joinToRoom(roomId, { clientData, sourceSettings = {} }) {
-    // if (!this.myMediaObject)
-    //   throw new Error(
-    //     "Before connecting call createMyMediaObject method is required"
-    //   );
+  async joinToRoom(roomId, { clientData, sourceSettings = {}, isStream }) {
+    // REFACTOR
+    // Название isStream плохое
+    // У нас есть объект stream и можно путать isStream и stream
+    // Замени stream на webinar
     if (!sourceSettings)
       sourceSettings = { ...defaulSourceSettings, sourceSettings };
     this._clientData = clientData;
     this._screenIsPublish = sourceSettings.videoSource === "screen";
     this._token = await this._getToken(roomId);
     this._setClientId();
-    const modifyClientData = {
-      ...clientData,
-      videoActive: sourceSettings.publishVideo,
-      audioActive: sourceSettings.publishAudio,
-      screenActive: this._screenIsPublish,
-      id: this._clientId
-    };
+    const modifyClientData = this.modifyClientData(clientData, sourceSettings);
     await this._session.connect(this._token, {
       clientData: modifyClientData
     });
+    if (!isStream) {
+      this.initPublisher(sourceSettings);
+      this.streamCreated(sourceSettings, modifyClientData);
+      this._session.publish(this._publisher);
+    }
+    window.addEventListener("beforeunload", this.leaveSession.bind(this));
+  }
+  initPublisher(sourceSettings) {
+    // REFACTOR
+    // sourceSettings может быть и undefined
+    // По этому поставь ему по умолчанию значение {}
+    // REFACTOR
+    // Все приватнвые методы должны начинаться с _
     this._publisher = this._OV.initPublisher(undefined, {
       sourceSettings,
       publishAudio: true,
       publishVideo: true
     });
+  }
+  streamCreated(sourceSettings, modifyClientData) {
+    // REFACTOR
+    // Название метода не удачное. По нему не понятно, что происходит в нем
+    // Лучше всего создать метод для callback, который передается в streamCreated
+    // Причем уже понятно , что callback выключает видео и адуио, если они не выключены
+    // REFACTOR
+    // Все приватнвые методы должны начинаться с _
     this._publisher.on("streamCreated", async () => {
       const videoIsNotPublished = !sourceSettings.publishVideo;
       if (videoIsNotPublished) {
@@ -118,8 +137,15 @@ export default class {
       }
       this._createMyMediaObject(modifyClientData);
     });
-    this._session.publish(this._publisher);
-    window.addEventListener("beforeunload", this.leaveSession.bind(this));
+  }
+  modifyClientData(clientData, sourceSettings) {
+    return {
+      ...clientData,
+      videoActive: sourceSettings.publishVideo,
+      audioActive: sourceSettings.publishAudio,
+      screenActive: this._screenIsPublish,
+      id: this._clientId
+    };
   }
   publishWebcam(settings = {}) {
     this._screenIsPublish = false;
