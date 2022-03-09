@@ -938,11 +938,11 @@ export default {
   data() {
     return {
       canRenderChild: false,
-      showBurger: false,
+      showBurger: false
     };
   },
   directives: {
-    clickOutside: vClickOutside.direcitve,
+    clickOutside: vClickOutside.direcitve
   },
   components: {
     HeaderApp,
@@ -951,29 +951,24 @@ export default {
     Navigation,
     // BgComponent
     // Lightbox
-    Notifications,
+    Notifications
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),
     openBurgerMenu() {
       this.showBurger = !this.showBurger;
-    },
-    setStandartLocalStorageStates() {
-      // window.localStorage.setItem("videochat_camera_state", false);
-      // window.localStorage.setItem("videochat_microphone_state", false);
-    },
+    }
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user"])
   },
   async beforeMount() {
-    this.setStandartLocalStorageStates();
     // Если у пользователя есть токен, то авторизация происходит при помощи него
     await this.$store.dispatch("login");
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
-  },
+  }
 };
 </script>
 
@@ -991,6 +986,7 @@ export default {
   padding: 20px
   max-width: calc( 100vw - 302px )
   @media (min-width: 1360px)
+    max-height: max(calc( 100vh - 40px ), 1072px)
     display: flex
     flex-direction: column
     .lessons__content
