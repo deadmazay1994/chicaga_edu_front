@@ -22,7 +22,7 @@
       <!-- В v-if слишком сложная логика. Перемести это в computed -->
       <div
         class="video-chat-miniatures-wrapper"
-        v-if="medias.length > 0 && miniaturesOn && !webinar"
+        v-if="showMiniatures"
       >
         <div class="miniatures-go" @click="scroll('upp')">
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
@@ -86,6 +86,9 @@ export default {
     },
     miniaturesMediaStream() {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
+    },
+    showMiniatures() {
+      return this.medias.length > 0 && this.miniaturesOn && this.webinar == false || this.webinar == undefined
     }
   },
   props: ["roomId", "webinar"],
