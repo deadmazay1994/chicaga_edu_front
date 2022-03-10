@@ -92,19 +92,7 @@ export default class {
     });
     if (!webinar) {
       this._initPublisher(sourceSettings);
-      this._publisher.on("streamCreated", async () => {
-        const videoIsNotPublished = !sourceSettings.publishVideo;
-        if (videoIsNotPublished) {
-          this.updateMediaStream({ publishVideo: false });
-          this._publisher.publishVideo(false);
-        }
-        const audioIsNotPublish = !sourceSettings.publishAudio;
-        if (audioIsNotPublish) {
-          this.updateMediaStream({ publishAudio: false });
-          this._publisher.publishAudio(false);
-        }
-        this._createMyMediaObject(modifyClientData);
-      });
+      this._publisher.on("streamCreated", this._toggleMedia(sourceSettings, modifyClientData));
       this._session.publish(this._publisher);
     }
     window.addEventListener("beforeunload", this.leaveSession.bind(this));
@@ -115,6 +103,19 @@ export default class {
       publishAudio: true,
       publishVideo: true
     });
+  }
+  _toggleMedia(sourceSettings = {}, modifyClientData) {
+    const videoIsNotPublished = !sourceSettings.publishVideo;
+    if (videoIsNotPublished) {
+      this.updateMediaStream({ publishVideo: false });
+      this._publisher.publishVideo(false);
+    }
+    const audioIsNotPublish = !sourceSettings.publishAudio;
+    if (audioIsNotPublish) {
+      this.updateMediaStream({ publishAudio: false });
+      this._publisher.publishAudio(false);
+    }
+    this._createMyMediaObject(modifyClientData);
   }
   _modifyClientData(clientData, sourceSettings) {
     return {
