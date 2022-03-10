@@ -34,6 +34,9 @@ export default class {
       "streamPropertyChanged",
       this._streamPropertyChangedHandler.bind(this)
     );
+    this._session.on("exception", ({exception}) => {
+      console.warn("session on exception:", exception);
+    });
   }
   _createMyMediaObject(userInfo) {
     if (!this._publisher?.stream) return;
@@ -89,11 +92,18 @@ export default class {
     const modifyClientData = this._modifyClientData(clientData, sourceSettings);
     await this._session.connect(this._token, {
       clientData: modifyClientData
+    }).catch(err => {
+      console.error("session connect err:", err);
     });
     if (!webinar) {
       this._initPublisher(sourceSettings);
       this._publisher.on("streamCreated", this._toggleMedia(sourceSettings, modifyClientData));
-      this._session.publish(this._publisher);
+      this._publisher.on("exception", ({exception}) => {
+        console.warn("publisher on exception:", exception);
+      });
+      this._session.publish(this._publisher).catch(err => {
+        console.error("session publish err:", err);
+      });
     }
     window.addEventListener("beforeunload", this.leaveSession.bind(this));
   }
@@ -107,12 +117,16 @@ export default class {
   _toggleMedia(sourceSettings = {}, modifyClientData) {
     const videoIsNotPublished = !sourceSettings.publishVideo;
     if (videoIsNotPublished) {
-      this.updateMediaStream({ publishVideo: false });
+      this.updateMediaStream({ publishVideo: false }).catch(err => {
+        console.error("updateMediaStream video err:", err);
+      });
       this._publisher.publishVideo(false);
     }
     const audioIsNotPublish = !sourceSettings.publishAudio;
     if (audioIsNotPublish) {
-      this.updateMediaStream({ publishAudio: false });
+      this.updateMediaStream({ publishAudio: false }).catch(err => {
+        console.error("updateMediaStream audio err:", err);
+      });
       this._publisher.publishAudio(false);
     }
     this._createMyMediaObject(modifyClientData);
@@ -140,7 +154,9 @@ export default class {
       },
       updateVideo,
       updateAudio
-    );
+    ).catch(err => {
+      console.error("publishWebCam updateMediaStream err:", err);
+    });
     this.onParticipantsChange();
   }
   publishScreen(settings = {}) {
@@ -159,7 +175,9 @@ export default class {
       },
       updateVideo,
       updateAudio
-    );
+    ).catch(err => {
+      console.error("publishScreen updateMediaStream err:", err);
+    });
     this.onParticipantsChange();
   }
   async togglePublishAudio() {
@@ -200,10 +218,14 @@ export default class {
     let videoPromise, audioPromise;
     if (updateVideo) {
       const videoTrack = await this._getVideoTrack(newSettings);
-      videoPromise = this._publisher.replaceTrack(videoTrack);
+      videoPromise = this._publisher.replaceTrack(videoTrack).catch(err => {
+        console.error("getVideoTrack err:", err);
+      });
     }
     if (updateAudio) {
-      const audioTrack = await this._getAudioTrack(newSettings);
+      const audioTrack = await this._getAudioTrack(newSettings).catch(err => {
+        console.error("getAudioTrack err:", err);
+      });
       audioPromise = this._publisher.replaceTrack(audioTrack);
       // Обходит баг в OV
       // https://github.com/OpenVidu/openvidu/issues/449
@@ -264,7 +286,9 @@ export default class {
   _getToken(roomId) {
     return this._createSession(roomId).then(sessionId =>
       this._createToken(sessionId)
-    );
+    ).catch(err => {
+      console.error("get token err:", err);
+    });
   }
   _createSession(sessionId) {
     // Функция взята из примеров в доке OpenVidu

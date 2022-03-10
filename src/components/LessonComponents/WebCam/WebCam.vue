@@ -185,6 +185,8 @@ export default {
         clientData: user,
         sourceSettings: settings,
         webinar: this.webinar
+      }).catch(err => {
+        console.error("join to room err:", err);
       });
       this.streamOn = true;
       this.onLoading = false;
