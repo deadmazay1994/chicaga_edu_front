@@ -83,7 +83,7 @@ export default class {
   get screenIsPublish() {
     return this._screenIsPublish;
   }
-  async joinToRoom(roomId, { clientData, sourceSettings = {}, isStream }) {
+  async joinToRoom(roomId, { clientData, sourceSettings = {}, webinar }) {
     // REFACTOR
     // Название isStream плохое
     // У нас есть объект stream и можно путать isStream и stream
@@ -98,7 +98,7 @@ export default class {
     await this._session.connect(this._token, {
       clientData: modifyClientData
     });
-    if (!isStream) {
+    if (!webinar) {
       this.initPublisher(sourceSettings);
       this.streamCreated(sourceSettings, modifyClientData);
       this._session.publish(this._publisher);
