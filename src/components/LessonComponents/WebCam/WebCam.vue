@@ -178,13 +178,10 @@ export default {
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      // REFACTOR
-      // Перемести isStreamProp в props и передавай его в копонент, а не вычисляй
-      let webinarProp = this.user.role == "teacher" ? false : this.webinar; // Передаем в метод свойство стрим/урок
       driver.joinToRoom(roomId, {
         clientData: user,
         sourceSettings: settings,
-        webinar: webinarProp
+        webinar: this.webinar
       });
       this.streamOn = true;
       this.onLoading = false;
