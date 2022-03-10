@@ -99,13 +99,13 @@ export default class {
       clientData: modifyClientData
     });
     if (!webinar) {
-      this.initPublisher(sourceSettings);
+      this._initPublisher(sourceSettings);
       this.streamCreated(sourceSettings, modifyClientData);
       this._session.publish(this._publisher);
     }
     window.addEventListener("beforeunload", this.leaveSession.bind(this));
   }
-  initPublisher(sourceSettings) {
+  _initPublisher(sourceSettings = {}) {
     // REFACTOR
     // sourceSettings может быть и undefined
     // По этому поставь ему по умолчанию значение {}
