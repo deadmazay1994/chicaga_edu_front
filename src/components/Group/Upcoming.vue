@@ -6,7 +6,7 @@
       </v-card>
       <div v-else class="d-flex main-content">
         <div class="video-wrapper">
-          <web-cam :roomId="roomId" />
+          <web-cam v-if="checkType" :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts
@@ -41,6 +41,9 @@ export default {
       lesson: null,
       DateLessonTime: new Date()
     };
+  },
+  props: {
+    checkType: Boolean
   },
   computed: {
     roomId() {
