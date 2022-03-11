@@ -18,8 +18,6 @@
           />
         </div>
       </div>
-      <!-- REFACTOR -->
-      <!-- В v-if слишком сложная логика. Перемести это в computed -->
       <div
         class="video-chat-miniatures-wrapper"
         v-if="showMiniatures"

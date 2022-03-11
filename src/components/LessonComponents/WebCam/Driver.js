@@ -35,7 +35,7 @@ export default class {
       this._streamPropertyChangedHandler.bind(this)
     );
     this._session.on("exception", ({exception}) => {
-      console.warn("session on exception:", exception);
+      console.warn(exception);
     });
   }
   _createMyMediaObject(userInfo) {
@@ -93,16 +93,16 @@ export default class {
     await this._session.connect(this._token, {
       clientData: modifyClientData
     }).catch(err => {
-      console.error("session connect err:", err);
+      console.error("Произошла ошибка при подключении к сессии:", err);
     });
     if (!webinar) {
       this._initPublisher(sourceSettings);
       this._publisher.on("streamCreated", this._toggleMedia(sourceSettings, modifyClientData));
       this._publisher.on("exception", ({exception}) => {
-        console.warn("publisher on exception:", exception);
+        console.warn("joinToRoom():", exception);
       });
       this._session.publish(this._publisher).catch(err => {
-        console.error("session publish err:", err);
+        console.error("Произошла ошибка при публикации объекта Publisher:", err);
       });
     }
     window.addEventListener("beforeunload", this.leaveSession.bind(this));
@@ -118,14 +118,14 @@ export default class {
     const videoIsNotPublished = !sourceSettings.publishVideo;
     if (videoIsNotPublished) {
       this.updateMediaStream({ publishVideo: false }).catch(err => {
-        console.error("updateMediaStream video err:", err);
+        console.error("Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):", err);
       });
       this._publisher.publishVideo(false);
     }
     const audioIsNotPublish = !sourceSettings.publishAudio;
     if (audioIsNotPublish) {
       this.updateMediaStream({ publishAudio: false }).catch(err => {
-        console.error("updateMediaStream audio err:", err);
+        console.error("Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):", err);
       });
       this._publisher.publishAudio(false);
     }
@@ -155,7 +155,7 @@ export default class {
       updateVideo,
       updateAudio
     ).catch(err => {
-      console.error("publishWebCam updateMediaStream err:", err);
+      console.error("Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):", err);
     });
     this.onParticipantsChange();
   }
@@ -176,7 +176,7 @@ export default class {
       updateVideo,
       updateAudio
     ).catch(err => {
-      console.error("publishScreen updateMediaStream err:", err);
+      console.error("Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):", err);
     });
     this.onParticipantsChange();
   }
@@ -217,16 +217,26 @@ export default class {
     };
     let videoPromise, audioPromise;
     if (updateVideo) {
-      const videoTrack = await this._getVideoTrack(newSettings);
+      let videoTrack = undefined;
+      try {
+        videoTrack = await this._getVideoTrack(newSettings);
+      } catch(err) {
+        console.error("Произошла ошибка при получении видеодорожки (метод - _getVideoTrack):", err);
+      }
       videoPromise = this._publisher.replaceTrack(videoTrack).catch(err => {
-        console.error("getVideoTrack err:", err);
+        console.error("Произошла ошибка при замене текущей видеодорожки:", err);
       });
     }
     if (updateAudio) {
-      const audioTrack = await this._getAudioTrack(newSettings).catch(err => {
-        console.error("getAudioTrack err:", err);
+      let audioTrack = undefined;
+      try {
+        audioTrack = await this._getAudioTrack(newSettings);
+      } catch(err) {
+        console.error("Произошла ошибка при получении аудиодорожки (метод - _getAudioTrack):", err);
+      }
+      audioPromise = this._publisher.replaceTrack(audioTrack).catch(err => {
+        console.error("Произошла ошибка при замене текущей аудиодорожки:", err);
       });
-      audioPromise = this._publisher.replaceTrack(audioTrack);
       // Обходит баг в OV
       // https://github.com/OpenVidu/openvidu/issues/449
       this._publisher.videoReference.muted = true;
@@ -244,12 +254,22 @@ export default class {
   }
   async _getVideoTrack(settings) {
     if (!settings.publishVideo) return this._fakeStream.getVideoTracks()[0];
-    const newMediaStream = await this._OV.getUserMedia(settings);
+    let newMediaStream = undefined;
+    try {
+      newMediaStream = await this._OV.getUserMedia(settings);
+    } catch(err) {
+      console.error("Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):", err);
+    }
     return newMediaStream.getVideoTracks()[0];
   }
   async _getAudioTrack(settings) {
     if (!settings.publishAudio) return this._fakeStream.getAudioTracks()[0];
-    const newMediaStream = await this._OV.getUserMedia(settings);
+    let newMediaStream = undefined;
+    try {
+      newMediaStream = await this._OV.getUserMedia(settings);
+    } catch(err) {
+      console.error("Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):", err);
+    }
     return newMediaStream.getAudioTracks()[0];
   }
   _setFakeStream() {
@@ -287,7 +307,7 @@ export default class {
     return this._createSession(roomId).then(sessionId =>
       this._createToken(sessionId)
     ).catch(err => {
-      console.error("get token err:", err);
+      console.error("Произошла ошибка при создании сессии (метод - _createSession):", err);
     });
   }
   _createSession(sessionId) {
