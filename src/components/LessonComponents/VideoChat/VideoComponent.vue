@@ -61,6 +61,7 @@
           class="video-component__reflect video-component__ctrls-btn"
         />
       </template>
+      <video-player />
     </div>
   </div>
 </template>
@@ -71,6 +72,7 @@ import Expand from "@/components/Icons/Expand.vue";
 import MuteMicro from "@/components/Icons/Mute.vue";
 import Camera from "@/components/Icons/Camera.vue";
 import Reflect from "@/components/Icons/Reflect.vue";
+import VideoPlayer from "./VideoPlayer";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
 // import Hark from "hark";
@@ -321,7 +323,8 @@ export default {
     // Speaker,
     MuteMicro,
     Camera,
-    Reflect
+    Reflect,
+    VideoPlayer
   },
   props: ["mediaObject", "indexVideo", "active", "itsMe"],
   mixins: {},
