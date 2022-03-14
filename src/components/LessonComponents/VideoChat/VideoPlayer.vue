@@ -1,32 +1,39 @@
 <template>
-  <div class="video-player">
-    <div class="top">
-      <span ref="total" id="total">
-        <span ref="buffered" id="buffered"
-          ><span ref="current" id="current"></span
-        ></span>
-      </span>
+  <div class="video-player-wrap">
+    <div ref="videoElemSlot">
+      <slot name="videoSlot"></slot>
     </div>
-    <div class="bottom">
-      <div class="left-side">
-        <play-svg :onPause="paused" @clickElem="togglePlay" />
-        <div class="volume-area" @mouseenter="showVolume" @mouseleave="hideVolume">
-          <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
-            <div class="volume-input-block">
-              <transition name="emersion">
-                <input
-                  ref="volumeControl"
-                  v-show="volume"
-                  type="range"
-                  id="change_vol"
-                  v-model="changeVol"
-                  step="0.05"
-                  min="0"
-                  max="1"
-                  value="1"
-                />
-              </transition>
-            </div>
+    <div class="video-player">
+      <div class="top">
+        <div class="progress">
+          <span ref="total" id="total">
+            <span ref="buffered" id="buffered"
+              ><span ref="current" id="current"></span
+            ></span>
+          </span>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="left-side">
+          <play-svg :onPause="paused" @clickElem="togglePlay" />
+          <div class="volume-area" @mouseenter="showVolume" @mouseleave="hideVolume">
+            <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
+              <div class="volume-input-block">
+                <transition name="emersion">
+                  <input
+                    ref="volumeControl"
+                    v-show="volume"
+                    type="range"
+                    id="change_vol"
+                    v-model="changeVol"
+                    step="0.05"
+                    min="0"
+                    max="1"
+                    value="1"
+                  />
+                </transition>
+              </div>
+          </div>
         </div>
       </div>
     </div>
@@ -50,16 +57,17 @@ export default {
       player: this.video,
       volume: false,
       muteVolume: false,
-      paused: false
+      paused: false,
+      videoPlayer: undefined
     };
   },
   props: ["video"],
   methods: {
     playVideo() {
-      this.player.play();
+      this.videoPlayer.play();
     },
     pauseVideo() {
-      this.player.pause();
+      this.videoPlayer.pause();
     },
     showVolume() {
       this.volume = true
@@ -73,7 +81,7 @@ export default {
         this.muteVolume = true
       }
       else {
-        this.changeVol = 50
+        this.changeVol = 0.5
         this.muteVolume = false
       }
     },
@@ -89,9 +97,11 @@ export default {
   },
   watch: {
     changeVol() {
-      console.log(this.video)
-      this.video.volume = this.changeVol
+      this.videoPlayer.volume = this.changeVol;
     }
+  },
+  mounted() {
+    this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0];
   }
 };
 </script>

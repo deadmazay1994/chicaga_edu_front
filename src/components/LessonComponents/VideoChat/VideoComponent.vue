@@ -16,15 +16,18 @@
           : ''
       "
     >
-      <video
-        ref="video"
-        v-show="mediaObject.userInfo.videoActive"
-        autoplay
-        :muted="muted"
-        class="video-component__video"
-        @click="$emit('click-by-video')"
-      ></video>
-      <video-player :video="this.$refs.video" />
+      <video-player :video="this.$refs.video">
+        <div slot="videoSlot">
+          <video
+            ref="video"
+            v-show="mediaObject.userInfo.videoActive"
+            autoplay
+            :muted="muted"
+            class="video-component__video"
+            @click="$emit('click-by-video')"
+          ></video>
+        </div>
+      </video-player>
     </div>
     <img
       v-if="!mediaObject.userInfo.videoActive"
