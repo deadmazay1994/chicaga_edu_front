@@ -8,7 +8,11 @@
         <div class="progress">
           <span ref="total" id="total">
             <span ref="buffered" id="buffered"
-              ><span ref="current" id="current"></span
+              ><span
+                ref="current"
+                id="current"
+                :class="{ red: videoIsActive, default: !videoIsActive }"
+              ></span
             ></span>
           </span>
         </div>
@@ -16,23 +20,27 @@
       <div class="bottom">
         <div class="left-side">
           <play-svg :onPause="paused" @clickElem="togglePlay" />
-          <div class="volume-area" @mouseenter="showVolume" @mouseleave="hideVolume">
+          <div
+            class="volume-area"
+            @mouseenter="showVolume"
+            @mouseleave="hideVolume"
+          >
             <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
-              <div class="volume-input-block">
-                <transition name="emersion">
-                  <input
-                    ref="volumeControl"
-                    v-show="volume"
-                    type="range"
-                    id="change_vol"
-                    v-model="changeVol"
-                    step="0.05"
-                    min="0"
-                    max="1"
-                    value="1"
-                  />
-                </transition>
-              </div>
+            <div class="volume-input-block">
+              <transition name="emersion">
+                <input
+                  ref="volumeControl"
+                  v-show="volume"
+                  type="range"
+                  id="change_vol"
+                  v-model="changeVol"
+                  step="0.05"
+                  min="0"
+                  max="1"
+                  value="1"
+                />
+              </transition>
+            </div>
           </div>
         </div>
       </div>
@@ -62,6 +70,13 @@ export default {
     };
   },
   props: ["video"],
+  computed: {
+    videoIsActive() {
+      // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
+      if (!this.videoPlayer) return;
+      return "red";
+    }
+  },
   methods: {
     playVideo() {
       this.videoPlayer.play();
@@ -70,19 +85,18 @@ export default {
       this.videoPlayer.pause();
     },
     showVolume() {
-      this.volume = true
+      this.volume = true;
     },
     hideVolume() {
-      this.volume = false
+      this.volume = false;
     },
     toggleVolume() {
       if (!this.muteVolume) {
-        this.changeVol = 0
-        this.muteVolume = true
-      }
-      else {
-        this.changeVol = 0.5
-        this.muteVolume = false
+        this.changeVol = 0;
+        this.muteVolume = true;
+      } else {
+        this.changeVol = 0.5;
+        this.muteVolume = false;
       }
     },
     togglePlay() {
@@ -126,10 +140,13 @@ export default {
         background: #000
         #current
           display: block
-          background: red
           line-height: 0
           height: 4px
           width: 100%
+          &red
+            background: red
+          &default
+            background: #333
 
   .bottom
     padding: .25rem 5px
@@ -145,6 +162,8 @@ export default {
       .volume-area
         display: flex
         margin-left: 1rem
+        .sound-svg
+          cursor: pointer
         .volume-input-block
           margin-left: 1rem
           overflow: hidden
