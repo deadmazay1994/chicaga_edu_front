@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu__nav" v-click-outside="clickOutside" :class="{ 'mobile-active': mobilemenuopen }">
+  <nav class="menu__nav" :class="{ 'mobile-active': mobilemenuopen }">
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -70,7 +70,6 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import vClickOutside from "v-click-outside";
 
 export default {
   name: "navigation",
@@ -79,9 +78,6 @@ export default {
       mobileDetected: false,
     };
   },
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
   methods: {
     ...mapMutations(["logout", "setDraverState"]),
     exit() {
@@ -89,7 +85,7 @@ export default {
       this.$router.push("/auth/login");
       this.$store.commit("pushShuckbar", {
         val: "Вы успешно вышли из личного кабинета",
-        success: true
+        success: true,
       });
     },
     toggleDraverByWindowSize() {
@@ -101,12 +97,6 @@ export default {
         this.setDraverState(false);
       }
     },
-    clickOutside(e) {
-      this.$emit("clicked-outside", e);
-    },
-    clicked() {
-      this.$emit("clicked-router");
-    }
   },
   computed: {
     ...mapGetters(["user", "draver"]),
@@ -116,7 +106,7 @@ export default {
       },
       set(value) {
         this.setDraverState(value);
-      }
+      },
     },
   },
   components: {},
@@ -129,7 +119,7 @@ export default {
     document.onresize = () => {
       this.toggleDraverByWindowSize();
     };
-  }
+  },
 };
 </script>
 
