@@ -5,7 +5,12 @@
     style="height: 550px"
   >
     <!---Whiteboard container -!-->
-    <div id="whiteboardContainer"></div>
+    <div id="whiteboardContainer">
+      <v-skeleton-loader v-if="loading" type="image"></v-skeleton-loader>
+      <div class="wait-teacher" v-if="teacherWaiting">
+        <span>Учитель ещё не подключился к уроку</span>
+      </div>
+    </div>
 
     <!---Toolbar -!-->
     <div
@@ -87,6 +92,22 @@
           @click="changeTool('eraser')"
         >
           <v-icon>mdi-eraser</v-icon>
+        </button>
+        <button
+          title="clear all"
+          type="button"
+          class="whiteboardTool"
+          @click="clearBoard()"
+        >
+          <v-icon>mdi-trash-can-outline</v-icon>
+        </button>
+        <button
+          title="fill text"
+          type="button"
+          class="whiteboardTool"
+          @click="changeTool('text')"
+        >
+          <v-icon>mdi-format-text</v-icon>
         </button>
       </div>
 
@@ -170,7 +191,11 @@ export default {
       whiteboardId: null,
       activeTool: "pen",
       colorPickerActive: false,
-      mobileDetected: false
+      mobileDetected: false,
+      canvasWidth: null,
+      canvasHeight: null,
+      teacherWaiting: false,
+      loading: false
     };
   },
   directives: {},
@@ -192,10 +217,14 @@ export default {
       }
     },
     changeTool(toolName) {
-      $(".whiteboardTool").removeClass("active");
-      $(this).addClass("active");
-      this.whiteBoard.setTool(toolName);
-      this.activeTool = toolName;
+      if (this.userRole === "teacher") {
+        $(".whiteboardTool").removeClass("active");
+        $(this).addClass("active");
+        this.whiteBoard.setTool(toolName);
+        this.activeTool = toolName;
+      } else {
+        this.whiteBoard.setTool("grab");
+      }
     },
     changeThickness(event) {
       this.whiteBoard.thickness = event.target.value;
@@ -232,6 +261,45 @@ export default {
         callback(false);
       }, 2000);
       img.src = url;
+    },
+    clearBoard() {
+      if (this.userRole != "teacher") return;
+      this.whiteBoard.clearBoard();
+    },
+    sendResolution() {
+      if (this.userRole != "teacher") return;
+      this.socketProp.emit("to all in lesson", {
+        eventName: "sendResolution",
+        width: this.$el.clientWidth,
+        // REFACTOR
+        // Откуда магическое число 1000?
+        // Написать переменную и задукументировать это чило
+        // Или написать комментарий
+        height: this.$el.clientHeight || 1000
+      });
+    },
+    onSendData(eventName) {
+      return new Promise((resolve, reject) => {
+        if (this.userRole == "teacher" && eventName != "userJoined")
+          resolve({
+            width: this.$el.clientWidth,
+            height: this.$el.clientHeight || 1000
+          }); // Выставить ширину и высоту учителю без ожидания
+        this.socketProp.on("send data", data => {
+          if (data.eventName == eventName) resolve(data);
+          reject(new Error("Socket error"));
+        });
+      });
+    },
+    userJoined() {
+      if (this.userRole == "teacher") return;
+      this.socketProp.emit("to all in lesson", {
+        eventName: "userJoined"
+      });
+    },
+    async setUserWhiteboard() {
+      let promise = await this.onSendData("sendResolution");
+      return promise;
     }
   },
   computed: {},
@@ -241,7 +309,16 @@ export default {
       this.whiteBoard.drawcolor = this.color;
     }
   },
-  props: ["server", "socketProp", "username"],
+  props: ["server", "socketProp", "username", "userRole"],
+  created() {
+    let promise = this.onSendData("userJoined");
+    promise.then(() => {
+      this.sendResolution();
+    });
+    // this.onSendData("userJoined", () => {
+    //   this.sendResolution();
+    // });
+  },
   beforeMount() {
     this.mobileDetected = detectMob();
     this.whiteboardId = getQueryVariable("whiteboardid");
@@ -335,22 +412,43 @@ export default {
     }
   },
   mounted() {
-    this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
-      //Load the whiteboard
-      whiteboardId: this.whiteboardId,
-      username: this.username,
-      canvasWidth: this.$el.clientWidth,
-      canvasHeight: this.$el.clientHeight || 1000,
-      sendFunction: content => {
-        this.socketProp.emit("drawToWhiteboard", content);
-      }
-    });
+    this.userJoined();
+    this.sendResolution();
+    let setWhiteBoard = function(width, height) {
+      this.whiteBoard.loadWhiteboard("#whiteboardContainer", {
+        //Load the whiteboard
+        whiteboardId: this.whiteboardId,
+        username: this.username,
+        canvasWidth: width,
+        canvasHeight: height,
+        sendFunction: content => {
+          this.socketProp.emit("drawToWhiteboard", content);
+        }
+      });
+    };
+
+    this.setUserWhiteboard()
+      .then(result => {
+        this.loading = false;
+        this.teacherWaiting = false;
+        setWhiteBoard.call(this, result.width, result.height);
+      })
+      .catch(() => {
+        alert("catch");
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.teacherWaiting = true;
+        }, 3000);
+      });
 
     $.get(this.server + "loadwhiteboard", { wid: this.whiteboardId }).done(
       data => {
         this.whiteBoard.loadData(data);
       }
     );
+
+    this.changeTool("pen");
 
     /*----------------/
 Whiteboard actions
@@ -502,6 +600,23 @@ i {
 #whiteboardContainer {
   width: 100%;
   height: 100%;
+}
+::v-deep
+  .v-skeleton-loader.v-skeleton-loader--is-loading
+  .v-skeleton-loader__image {
+  height: 100%;
+}
+.wait-teacher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+  font-size: 24px;
+}
+.wait-teacher span {
+  margin: 1rem 2rem;
 }
 .btn-group button {
   background-color: #fff; /* Green background */

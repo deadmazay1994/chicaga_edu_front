@@ -70,6 +70,7 @@
             server="https://edu.chicaga.ru:5000/"
             :socketProp="socket"
             :username="user.name"
+            :userRole="user.role"
           />
         </v-tab-item>
         <v-tab-item>
