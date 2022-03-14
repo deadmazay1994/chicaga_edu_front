@@ -24,6 +24,7 @@
         class="video-component__video"
         @click="$emit('click-by-video')"
       ></video>
+      <video-player :video="this.$refs.video" />
     </div>
     <img
       v-if="!mediaObject.userInfo.videoActive"
@@ -61,7 +62,6 @@
           class="video-component__reflect video-component__ctrls-btn"
         />
       </template>
-      <video-player />
     </div>
   </div>
 </template>
@@ -448,6 +448,8 @@ export default {
       width: 150px
     .video-component__name
       font-size: 21px
+      top: 0
+      bottom: auto
     .video-component__video
       display: block
       width: 100%

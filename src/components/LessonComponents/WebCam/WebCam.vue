@@ -70,7 +70,7 @@ export default {
     return {
       medias: [],
       activeVideoIndex: 0,
-      miniaturesOn: true,
+      miniaturesOn: false,
       streamOn: null,
       mediaError: null,
       onLoading: true,
