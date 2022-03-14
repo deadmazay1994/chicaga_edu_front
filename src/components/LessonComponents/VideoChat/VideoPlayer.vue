@@ -73,8 +73,11 @@ export default {
   computed: {
     videoIsActive() {
       // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
-      if (!this.videoPlayer) return;
-      return "red";
+      if (!this.videoPlayer) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {
