@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-@import "@/components/Sass/Varibles.sass"
+@import "@/assets/styles/variables.sass"
 
 .task-description
   &__title

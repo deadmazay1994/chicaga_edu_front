@@ -21,9 +21,6 @@ export default {
 };
 </script>
 
-<style>
-body,
-html {
-  height: auto !important;
-}
+<style lang="scss">
+  @import "@/assets/styles/main.sass";
 </style>

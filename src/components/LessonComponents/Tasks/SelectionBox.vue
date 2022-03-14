@@ -154,7 +154,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import "@/components/Sass/Varibles.sass"
+@import "@/assets/styles/variables.sass"
 
 .table-item
   position: relative

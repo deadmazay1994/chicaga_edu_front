@@ -112,7 +112,7 @@ export default {
 <!--</style>-->
 
 <!--<style lang="sass" scoped>-->
-<!--@import "@/components/Sass/Varibles.sass"-->
+<!--@import "@/assets/styles/variables.sass"-->
 
 <!--.header-chat-->
 <!--  &__btn-->
