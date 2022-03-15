@@ -165,6 +165,12 @@ export default {
         this.videoPlayer.removeAttribute("controls");
       });
     }
+
+    this.paused = this.videoPlayer.paused;
+    this.videoPlayer.addEventListener(
+      "pause",
+      () => (this.paused = this.videoPlayer.paused)
+    );
   },
   updated() {
     this.currentTime = this.videoPlayer.currentTime;

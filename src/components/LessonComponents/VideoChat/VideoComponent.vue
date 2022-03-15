@@ -8,14 +8,7 @@
     }"
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
-    <div
-      style="height: inherit; display: flex; align-items: center;"
-      :style="
-        mediaObject.userInfo.screenActive || !this.itsMe
-          ? 'transform: rotateY(180deg) !important;'
-          : ''
-      "
-    >
+    <div style="height: inherit; display: flex; align-items: center;">
       <video-player :video="this.$refs.video" :active="active">
         <div slot="videoSlot" style="height: 100%;">
           <video
@@ -25,6 +18,11 @@
             :muted="muted"
             class="video-component__video"
             @click="$emit('click-by-video')"
+            :style="
+              mediaObject.userInfo.screenActive || !this.itsMe
+                ? 'transform: rotateY(180deg) !important;'
+                : ''
+            "
           ></video>
         </div>
       </video-player>
