@@ -166,14 +166,29 @@ export default {
       return;
     },
     toggleExpand() {
-      if (!this.videoPlayer.requestFullscreen) return;
-      this.$refs.vidFrame.requestFullscreen();
+      let elem = this.$refs.vidFrame;
       this.fullscreenOn = true;
+      this.fullscreenOn = true;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      } else {
+        this.fullscreenOn = false;
+      }
     },
     closeExpand() {
       console.log("close expand!");
       document.exitFullscreen();
       this.fullscreenOn = false;
+    },
+    isMobileSafari() {
+      let userAgent = window.navigator.userAgent;
+      return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
     }
   },
   watch: {
@@ -187,6 +202,15 @@ export default {
   mounted() {
     this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0].children[0];
     this.videoPlayer.volume = 0.5;
+
+    if (this.isMobileSafari()) {
+      // Hacks for Mobile Safari
+      this.videoPlayer.setAttribute("playsinline", true);
+      this.videoPlayer.setAttribute("controls", true);
+      setTimeout(() => {
+        this.videoPlayer.removeAttribute("controls");
+      });
+    }
   },
   updated() {
     this.currentTime = this.videoPlayer.currentTime;
