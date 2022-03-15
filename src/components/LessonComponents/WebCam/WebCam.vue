@@ -70,12 +70,13 @@ export default {
     return {
       medias: [],
       activeVideoIndex: 0,
-      miniaturesOn: false,
+      miniaturesOn: true,
       streamOn: null,
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false
+      del: false,
+      isStream: true
     };
   },
   computed: {
@@ -88,7 +89,7 @@ export default {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
     }
   },
-  props: ["roomId", "isStream"],
+  props: ["roomId"], // пока переместил isStream в data
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
