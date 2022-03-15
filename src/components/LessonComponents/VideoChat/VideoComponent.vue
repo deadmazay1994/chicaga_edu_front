@@ -318,7 +318,7 @@ export default {
   watch: {
     mediaObject: function() {
       this.setStream();
-      this.$refs.video.muted = this.muted;
+      this.$refs.video.muted = !this.muted;
     }
   },
   components: {

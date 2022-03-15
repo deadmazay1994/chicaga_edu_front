@@ -11,7 +11,7 @@
               ><span
                 ref="current"
                 id="current"
-                :class="{ red: videoIsActive, default: !videoIsActive }"
+                :class="{ redline: videoIsActive, default: !videoIsActive }"
               ></span
             ></span>
           </span>
@@ -43,21 +43,28 @@
             </div>
           </div>
         </div>
+        <div class="right-side">
+          <chat-svg :chatOff="false" @clickElem="toggleChat" />
+          <expand-svg :expanded="false" @clickElem="toggleExpand" />
+        </div>
       </div>
     </div>
-    <div class="right-side"></div>
   </div>
 </template>
 
 <script>
 import PlaySvg from "@/components/Icons/PlaySvg";
 import SoundSvg from "@/components/Icons/SoundSvg";
+import ChatSvg from "@/components/Icons/ChatSvg";
+import ExpandSvg from "@/components/Icons/ExpandSvg";
 
 export default {
   name: "video-player",
   components: {
     PlaySvg,
-    SoundSvg
+    SoundSvg,
+    ChatSvg,
+    ExpandSvg
   },
   data() {
     return {
@@ -66,18 +73,16 @@ export default {
       volume: false,
       muteVolume: false,
       paused: false,
-      videoPlayer: undefined
+      videoPlayer: undefined,
+      currentTime: undefined
     };
   },
   props: ["video"],
   computed: {
     videoIsActive() {
       // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
-      if (!this.videoPlayer) {
-        return false
-      } else {
-        return true
-      }
+      if (!this.videoPlayer) return false;
+      return true
     }
   },
   methods: {
@@ -110,15 +115,29 @@ export default {
         this.playVideo();
         this.paused = false;
       }
+    },
+    toggleChat() {
+      return;
+    },
+    toggleExpand() {
+      if (!this.videoPlayer.requestFullscreen) return;
+      this.videoPlayer.requestFullscreen();
     }
   },
   watch: {
     changeVol() {
       this.videoPlayer.volume = this.changeVol;
+    },
+    currentTime() {
+      console.log("current time:", this.currentTime)
     }
   },
   mounted() {
     this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0];
+    this.videoPlayer.volume = .5
+  },
+  updated() {
+    this.currentTime = this.videoPlayer.currentTime
   }
 };
 </script>
@@ -129,7 +148,7 @@ export default {
   bottom: 0
   left: 0
   width: 100%
-  padding: 5px
+  padding: 4px 10px
   background: transparent
   display: flex
   flex-direction: column
@@ -144,16 +163,15 @@ export default {
         #current
           display: block
           line-height: 0
-          height: 4px
+          height: 3px
           width: 100%
-          &red
-            background: red
-          &default
-            background: #333
+          &.redline
+            background: #FF0000
+          &.default
+            background: #333333
 
   .bottom
-    padding: .25rem 5px
-    margin-top: .25rem
+    padding: 10px 5px
     display: flex
     align-items: center
     justify-content: space-between
@@ -164,11 +182,11 @@ export default {
         cursor: pointer
       .volume-area
         display: flex
-        margin-left: 1rem
+        margin-left: 20px
         .sound-svg
           cursor: pointer
         .volume-input-block
-          margin-left: 1rem
+          margin-left: 5px
           overflow: hidden
           display: flex
           align-items: center
@@ -180,25 +198,38 @@ export default {
           .emersion-enter-from,
           .emersion-leave-to
             transform: translateX(-129px)
-
+    .right-side
+      display: flex
+      align-items: center
+      .expand-svg
+        margin-left: 18px
     input[type=range]
       -webkit-appearance: none
-      width: 100%
+      width: 50px
       background: transparent
       &:focus
         outline: none
       &::-webkit-slider-thumb
         -webkit-appearance: none
         border: none
-        height: 14px
-        width: 14px
+        height: 6px
+        width: 6px
         border-radius: 50%
         background: #FFFFFF
         cursor: pointer
-        margin-top: -5px
+        margin-top: -2px
+      &::-moz-slider-thumb
+        -webkit-appearance: none
+        border: none
+        height: 6px
+        width: 6px
+        border-radius: 50%
+        background: #FFFFFF
+        cursor: pointer
+        margin-top: -2px
       &::-webkit-slider-runnable-track
         width: 100%
-        height: 4px
+        height: 2px
         border-radius: 1px
         cursor: pointer
         animate: 0.2s
