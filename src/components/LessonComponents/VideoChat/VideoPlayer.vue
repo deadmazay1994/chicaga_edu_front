@@ -3,10 +3,10 @@
     <div ref="videoElemSlot">
       <figure class="vidFrame" ref="vidFrame">
         <slot name="videoSlot"></slot>
-        <figcaption class="vidBar" v-if="fullscreenOn">
+        <figcaption class="vidBar" v-if="active">
           <div class="top">
             <div class="progress">
-              <span class="buffered"></span>
+              <span class="buffered" :class="{ redline: active }"></span>
             </div>
           </div>
           <dir class="bottom">
@@ -37,61 +37,11 @@
             </div>
             <div class="right-side">
               <chat-svg :chatOff="false" @clickElem="toggleChat" />
-              <expand-svg
-                :expanded="true"
-                @clickElem="closeExpand"
-                @onEsc="closeExpand"
-              />
+              <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
             </div>
           </dir>
         </figcaption>
       </figure>
-    </div>
-    <div class="video-player">
-      <div class="top">
-        <div class="progress">
-          <span ref="total" id="total">
-            <span ref="buffered" id="buffered"
-              ><span
-                ref="current"
-                id="current"
-                :class="{ redline: videoIsActive, default: !videoIsActive }"
-              ></span
-            ></span>
-          </span>
-        </div>
-      </div>
-      <div class="bottom">
-        <div class="left-side">
-          <play-svg :onPause="paused" @clickElem="togglePlay" />
-          <div
-            class="volume-area"
-            @mouseenter="showVolume"
-            @mouseleave="hideVolume"
-          >
-            <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
-            <div class="volume-input-block">
-              <transition name="emersion">
-                <input
-                  ref="volumeControl"
-                  v-show="volume"
-                  type="range"
-                  id="change_vol"
-                  v-model="changeVol"
-                  step="0.05"
-                  min="0"
-                  max="1"
-                  value="1"
-                />
-              </transition>
-            </div>
-          </div>
-        </div>
-        <div class="right-side">
-          <chat-svg :chatOff="false" @clickElem="toggleChat" />
-          <expand-svg :expanded="false" @clickElem="toggleExpand" />
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -122,7 +72,7 @@ export default {
       fullscreenOn: false
     };
   },
-  props: ["video"],
+  props: ["video", "active"],
   computed: {
     videoIsActive() {
       // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
@@ -166,18 +116,22 @@ export default {
       return;
     },
     toggleExpand() {
-      let elem = this.$refs.vidFrame;
-      this.fullscreenOn = true;
-      this.fullscreenOn = true;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
+      if (!this.fullscreenOn) {
+        let elem = this.$refs.vidFrame;
+        this.fullscreenOn = true;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        } else {
+          this.fullscreenOn = false;
+        }
       } else {
+        document.exitFullscreen();
         this.fullscreenOn = false;
       }
     },
@@ -219,206 +173,108 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.video-player
-  position: absolute
-  bottom: 0
-  left: 0
-  width: 100%
-  padding: 4px 10px
-  background: transparent
-  display: flex
-  flex-direction: column
-
-  .top
+.video-player-wrap
+  .vidFrame
+    top: 0
+    left: 0
     width: 100%
-    #total
+    height: auto
+    video
       width: 100%
-      background: #999
-      #buffered
-        background: #000
-        #current
-          display: block
-          line-height: 0
+      // height: 100%
+      // width: auto
+      // margin: 0 auto
+    .vidBar
+      position: absolute
+      bottom: 0
+      right: 0
+      left: 0
+      padding: 15px 25px
+      width: 100%
+      display: flex
+      flex-direction: column
+      .top
+        .buffered.redline
+          margin-bottom: 8px
+          background: #FF0000
           height: 3px
           width: 100%
-          &.redline
-            background: #FF0000
-          &.default
-            background: #333333
-
-  .bottom
-    padding: 10px 5px
-    display: flex
-    align-items: center
-    justify-content: space-between
-    .left-side
-      display: flex
-      align-items: center
-      .play-svg
-        cursor: pointer
-      .volume-area
-        display: flex
-        margin-left: 20px
-        .sound-svg
-          cursor: pointer
-        .volume-input-block
-          margin-left: 5px
-          overflow: hidden
-          display: flex
-          align-items: center
-          .emersion-enter
-            transform: translateX(-129px)
-          .emersion-enter-active,
-          .emersion-leave-active
-            transition: all .2s ease-in-out
-          .emersion-enter-from,
-          .emersion-leave-to
-            transform: translateX(-129px)
-    .right-side
-      display: flex
-      align-items: center
-      .expand-svg
-        margin-left: 18px
-    input[type=range]
-      -webkit-appearance: none
-      width: 50px
-      background: transparent
-      &:focus
-        outline: none
-      &::-webkit-slider-thumb
-        -webkit-appearance: none
-        border: none
-        height: 6px
-        width: 6px
-        border-radius: 50%
-        background: #FFFFFF
-        cursor: pointer
-        margin-top: -2px
-      &::-moz-slider-thumb
-        -webkit-appearance: none
-        border: none
-        height: 6px
-        width: 6px
-        border-radius: 50%
-        background: #FFFFFF
-        cursor: pointer
-        margin-top: -2px
-      &::-webkit-slider-runnable-track
-        width: 100%
-        height: 2px
-        border-radius: 1px
-        cursor: pointer
-        animate: 0.2s
-        background: #fff
-      &::-moz-range-track
-        width: 100%
-        height: 3px
-        border-radius: 1px
-        cursor: pointer
-        animate: 0.2s
-        background: #fff
-      &::-ms-track
-        width: 100%
-        height: 3px
-        border-radius: 1px
-        cursor: pointer
-        animate: 0.2s
-        background: #fff
-
-.vidFrame
-  position: relative
-  top: 0
-  left: 0
-  width: 100%
-  height: auto
-  video
-    height: 100%
-    width: auto
-    margin: 0 auto
-.vidBar
-  position: absolute
-  bottom: 0
-  right: 0
-  left: 0
-  padding: 15px 25px
-  width: 100%
-  display: flex
-  flex-direction: column
-  .bottom
-    display: flex
-    align-items: center
-    justify-content: space-between
-    .left-side
+          display: block
+      .bottom
         display: flex
         align-items: center
-        .play-svg
-          cursor: pointer
-        .volume-area
+        justify-content: space-between
+        .left-side
           display: flex
-          margin-left: 20px
-          .sound-svg
+          align-items: center
+          .play-svg
             cursor: pointer
-          .volume-input-block
-            margin-left: 5px
-            overflow: hidden
+          .volume-area
             display: flex
-            align-items: center
-            .emersion-enter
-              transform: translateX(-129px)
-            .emersion-enter-active,
-            .emersion-leave-active
-              transition: all .2s ease-in-out
-            .emersion-enter-from,
-            .emersion-leave-to
-              transform: translateX(-129px)
-    .right-side
-      display: flex
-      align-items: center
-      .expand-svg
-        margin-left: 18px
-    input[type=range]
-      -webkit-appearance: none
-      width: 50px
-      background: transparent
-      &:focus
-        outline: none
-      &::-webkit-slider-thumb
-        -webkit-appearance: none
-        border: none
-        height: 6px
-        width: 6px
-        border-radius: 50%
-        background: #FFFFFF
-        cursor: pointer
-        margin-top: -2px
-      &::-moz-slider-thumb
-        -webkit-appearance: none
-        border: none
-        height: 6px
-        width: 6px
-        border-radius: 50%
-        background: #FFFFFF
-        cursor: pointer
-        margin-top: -2px
-      &::-webkit-slider-runnable-track
-        width: 100%
-        height: 2px
-        border-radius: 1px
-        cursor: pointer
-        animate: 0.2s
-        background: #fff
-      &::-moz-range-track
-        width: 100%
-        height: 3px
-        border-radius: 1px
-        cursor: pointer
-        animate: 0.2s
-        background: #fff
-      &::-ms-track
-        width: 100%
-        height: 3px
-        border-radius: 1px
-        cursor: pointer
-        animate: 0.2s
-        background: #fff
+            margin-left: 20px
+            .sound-svg
+              cursor: pointer
+            .volume-input-block
+              margin-left: 5px
+              overflow: hidden
+              display: flex
+              align-items: center
+              .emersion-enter
+                transform: translateX(-129px)
+              .emersion-enter-active,
+              .emersion-leave-active
+                transition: all .2s ease-in-out
+              .emersion-enter-from,
+              .emersion-leave-to
+                transform: translateX(-129px)
+        .right-side
+          display: flex
+          align-items: center
+          .expand-svg
+            margin-left: 18px
+        input[type=range]
+          -webkit-appearance: none
+          width: 50px
+          background: transparent
+          &:focus
+            outline: none
+          &::-webkit-slider-thumb
+            -webkit-appearance: none
+            border: none
+            height: 6px
+            width: 6px
+            border-radius: 50%
+            background: #FFFFFF
+            cursor: pointer
+            margin-top: -2px
+          &::-moz-slider-thumb
+            -webkit-appearance: none
+            border: none
+            height: 6px
+            width: 6px
+            border-radius: 50%
+            background: #FFFFFF
+            cursor: pointer
+            margin-top: -2px
+          &::-webkit-slider-runnable-track
+            width: 100%
+            height: 2px
+            border-radius: 1px
+            cursor: pointer
+            animate: 0.2s
+            background: #fff
+          &::-moz-range-track
+            width: 100%
+            height: 3px
+            border-radius: 1px
+            cursor: pointer
+            animate: 0.2s
+            background: #fff
+          &::-ms-track
+            width: 100%
+            height: 3px
+            border-radius: 1px
+            cursor: pointer
+            animate: 0.2s
+            background: #fff
 </style>

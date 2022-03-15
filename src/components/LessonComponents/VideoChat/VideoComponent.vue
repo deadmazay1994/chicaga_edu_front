@@ -16,7 +16,7 @@
           : ''
       "
     >
-      <video-player :video="this.$refs.video">
+      <video-player :video="this.$refs.video" :active="active">
         <div slot="videoSlot" style="height: 100%;">
           <video
             ref="video"
