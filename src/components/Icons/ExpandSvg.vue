@@ -1,5 +1,5 @@
 <template>
-  <div class="expand-svg" @click="clickElem">
+  <div class="expand-svg" @click="clickElem" @keyup.esc="onEsc">
     <svg
       v-if="!expanded"
       width="16"
@@ -52,6 +52,9 @@ export default {
   methods: {
     clickElem() {
       this.$emit("clickElem");
+    },
+    onEsc() {
+      this.$emit("onEsc");
     }
   }
 };

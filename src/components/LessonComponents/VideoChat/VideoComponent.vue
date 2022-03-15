@@ -9,7 +9,7 @@
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
     <div
-      style="height: inherit"
+      style="height: inherit; display: flex; align-items: center;"
       :style="
         mediaObject.userInfo.screenActive || !this.itsMe
           ? 'transform: rotateY(180deg) !important;'
@@ -17,7 +17,7 @@
       "
     >
       <video-player :video="this.$refs.video">
-        <div slot="videoSlot">
+        <div slot="videoSlot" style="height: 100%;">
           <video
             ref="video"
             v-show="mediaObject.userInfo.videoActive"

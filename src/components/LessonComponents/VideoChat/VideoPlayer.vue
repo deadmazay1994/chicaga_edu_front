@@ -1,7 +1,51 @@
 <template>
   <div class="video-player-wrap">
     <div ref="videoElemSlot">
-      <slot name="videoSlot"></slot>
+      <figure class="vidFrame" ref="vidFrame">
+        <slot name="videoSlot"></slot>
+        <figcaption class="vidBar" v-if="fullscreenOn">
+          <div class="top">
+            <div class="progress">
+              <span class="buffered"></span>
+            </div>
+          </div>
+          <dir class="bottom">
+            <div class="left-side">
+              <play-svg :onPause="paused" @clickElem="togglePlay" />
+              <div
+                class="volume-area"
+                @mouseenter="showVolume"
+                @mouseleave="hideVolume"
+              >
+                <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
+                <div class="volume-input-block">
+                  <transition name="emersion">
+                    <input
+                      ref="volumeControl"
+                      v-show="volume"
+                      type="range"
+                      id="change_vol"
+                      v-model="changeVol"
+                      step="0.05"
+                      min="0"
+                      max="1"
+                      value="1"
+                    />
+                  </transition>
+                </div>
+              </div>
+            </div>
+            <div class="right-side">
+              <chat-svg :chatOff="false" @clickElem="toggleChat" />
+              <expand-svg
+                :expanded="true"
+                @clickElem="closeExpand"
+                @onEsc="closeExpand"
+              />
+            </div>
+          </dir>
+        </figcaption>
+      </figure>
     </div>
     <div class="video-player">
       <div class="top">
@@ -74,7 +118,8 @@ export default {
       muteVolume: false,
       paused: false,
       videoPlayer: undefined,
-      currentTime: undefined
+      currentTime: undefined,
+      fullscreenOn: false
     };
   },
   props: ["video"],
@@ -82,7 +127,7 @@ export default {
     videoIsActive() {
       // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
       if (!this.videoPlayer) return false;
-      return true
+      return true;
     }
   },
   methods: {
@@ -90,6 +135,7 @@ export default {
       this.videoPlayer.play();
     },
     pauseVideo() {
+      console.log(this.videoPlayer);
       this.videoPlayer.pause();
     },
     showVolume() {
@@ -121,7 +167,13 @@ export default {
     },
     toggleExpand() {
       if (!this.videoPlayer.requestFullscreen) return;
-      this.videoPlayer.requestFullscreen();
+      this.$refs.vidFrame.requestFullscreen();
+      this.fullscreenOn = true;
+    },
+    closeExpand() {
+      console.log("close expand!");
+      document.exitFullscreen();
+      this.fullscreenOn = false;
     }
   },
   watch: {
@@ -129,15 +181,15 @@ export default {
       this.videoPlayer.volume = this.changeVol;
     },
     currentTime() {
-      console.log("current time:", this.currentTime)
+      console.log("current time:", this.currentTime);
     }
   },
   mounted() {
-    this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0];
-    this.videoPlayer.volume = .5
+    this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0].children[0];
+    this.videoPlayer.volume = 0.5;
   },
   updated() {
-    this.currentTime = this.videoPlayer.currentTime
+    this.currentTime = this.videoPlayer.currentTime;
   }
 };
 </script>
@@ -198,6 +250,103 @@ export default {
           .emersion-enter-from,
           .emersion-leave-to
             transform: translateX(-129px)
+    .right-side
+      display: flex
+      align-items: center
+      .expand-svg
+        margin-left: 18px
+    input[type=range]
+      -webkit-appearance: none
+      width: 50px
+      background: transparent
+      &:focus
+        outline: none
+      &::-webkit-slider-thumb
+        -webkit-appearance: none
+        border: none
+        height: 6px
+        width: 6px
+        border-radius: 50%
+        background: #FFFFFF
+        cursor: pointer
+        margin-top: -2px
+      &::-moz-slider-thumb
+        -webkit-appearance: none
+        border: none
+        height: 6px
+        width: 6px
+        border-radius: 50%
+        background: #FFFFFF
+        cursor: pointer
+        margin-top: -2px
+      &::-webkit-slider-runnable-track
+        width: 100%
+        height: 2px
+        border-radius: 1px
+        cursor: pointer
+        animate: 0.2s
+        background: #fff
+      &::-moz-range-track
+        width: 100%
+        height: 3px
+        border-radius: 1px
+        cursor: pointer
+        animate: 0.2s
+        background: #fff
+      &::-ms-track
+        width: 100%
+        height: 3px
+        border-radius: 1px
+        cursor: pointer
+        animate: 0.2s
+        background: #fff
+
+.vidFrame
+  position: relative
+  top: 0
+  left: 0
+  width: 100%
+  height: auto
+  video
+    height: 100%
+    width: auto
+    margin: 0 auto
+.vidBar
+  position: absolute
+  bottom: 0
+  right: 0
+  left: 0
+  padding: 15px 25px
+  width: 100%
+  display: flex
+  flex-direction: column
+  .bottom
+    display: flex
+    align-items: center
+    justify-content: space-between
+    .left-side
+        display: flex
+        align-items: center
+        .play-svg
+          cursor: pointer
+        .volume-area
+          display: flex
+          margin-left: 20px
+          .sound-svg
+            cursor: pointer
+          .volume-input-block
+            margin-left: 5px
+            overflow: hidden
+            display: flex
+            align-items: center
+            .emersion-enter
+              transform: translateX(-129px)
+            .emersion-enter-active,
+            .emersion-leave-active
+              transition: all .2s ease-in-out
+            .emersion-enter-from,
+            .emersion-leave-to
+              transform: translateX(-129px)
     .right-side
       display: flex
       align-items: center
