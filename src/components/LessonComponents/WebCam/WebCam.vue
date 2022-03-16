@@ -14,6 +14,7 @@
             :active="true"
             :miniature="false"
             :iconOff="false"
+            :autoplayOn="isStream"
             :mediaObject="activeMediaStream.mediaObject"
           />
         </div>
@@ -75,7 +76,8 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false
+      del: false,
+      isStream: true
     };
   },
   computed: {
@@ -88,7 +90,7 @@ export default {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
     }
   },
-  props: ["roomId", "isStream"],
+  props: ["roomId"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;

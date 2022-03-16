@@ -16,6 +16,7 @@
           : ''
       "
     >
+      {{ muted }}
       <video
         ref="video"
         v-show="mediaObject.userInfo.videoActive"
@@ -284,6 +285,17 @@ export default {
           this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
+    },
+    autoplayOnIfWebinar() {
+      if (!this.autoplayOn) return;
+      if (this.$refs.video.paused) {
+        this.$refs.video.play().catch(() => {
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Чтобы начать просмотр, нажмите на кнопку 'Play'"
+          });
+        });
+      }
     }
   },
   computed: {
@@ -323,7 +335,7 @@ export default {
     Camera,
     Reflect
   },
-  props: ["mediaObject", "indexVideo", "active", "itsMe"],
+  props: ["mediaObject", "indexVideo", "active", "itsMe", "autoplayOn"],
   mixins: {},
   beforeMount() {},
   mounted() {
@@ -345,6 +357,7 @@ export default {
     this.audioMuted = !JSON.parse(
       window.localStorage.getItem("videochat_microphone_state")
     );
+    this.autoplayOnIfWebinar();
   }
 };
 </script>
