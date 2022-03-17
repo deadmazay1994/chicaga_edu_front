@@ -250,7 +250,7 @@ export default {
 
 <style lang="sass" scoped>
 .video-chat-miniatures-wrapper
-  height: 100%
+  height: calc(100% - 59px) // 59px высота плеера
   position: absolute
   width: 30%
   min-width: 146px
