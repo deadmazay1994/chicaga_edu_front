@@ -1,6 +1,6 @@
 <template>
   <div class="video-player-wrap">
-    <div ref="videoElemSlot">
+    <div ref="videoElemSlot" class="video-slot">
       <figure class="vidFrame" ref="vidFrame">
         <slot name="videoSlot"></slot>
         <figcaption class="vidBar" v-if="active">
@@ -283,4 +283,12 @@ export default {
             cursor: pointer
             animate: 0.2s
             background: #fff
+
+.video-chat-miniatures-wrapper
+  .video-player-wrap
+    height: 100%
+  .video-slot 
+    height: 100%
+  .vidFrame 
+    height: 100%
 </style>
