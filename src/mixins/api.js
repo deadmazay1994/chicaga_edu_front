@@ -128,6 +128,9 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
+    async checkAccess() {
+      return null;
+    },
     // User
     async register(userData) {
       return post("user", userData);
