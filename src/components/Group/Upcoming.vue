@@ -5,8 +5,8 @@
         <v-skeleton-loader type="article" />
       </v-card>
       <div v-else class="d-flex main-content">
-        <div class="video-wrapper">
-          <web-cam v-if="checkType" :roomId="roomId" />
+        <div class="video-wrapper" v-if="showComponent">
+          <web-cam :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts
@@ -39,11 +39,11 @@ export default {
       timeLesson: String,
       timerId: false,
       lesson: null,
-      DateLessonTime: new Date()
+      DateLessonTime: new Date(),
     };
   },
   props: {
-    checkType: Boolean
+    showComponent: Boolean
   },
   computed: {
     roomId() {
@@ -145,7 +145,7 @@ export default {
 .main-content {
   height: 100%;
   .video-wrapper {
-    width: 50%;
+    flex: 1;
     height: 100%;
   }
   @media (max-width: 900px) {
@@ -154,7 +154,7 @@ export default {
     }
   }
   .countdown {
-    width: 50%;
+    flex: 1;
     align-items: center;
     justify-content: space-between;
   }

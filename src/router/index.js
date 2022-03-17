@@ -179,7 +179,7 @@ const routes = [
         name: "upcoming-lesson",
         component: Upcoming,
         props: {
-          checkType: false
+          showComponent: true
         }
       },
       {
@@ -187,7 +187,7 @@ const routes = [
         name: "upcoming-webinar",
         component: Upcoming,
         props: {
-          checkType: true
+          showComponent: false
         }
       }
     ]
