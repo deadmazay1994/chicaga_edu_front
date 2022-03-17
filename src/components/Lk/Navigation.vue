@@ -27,8 +27,17 @@
       "
       to="/lk/my-groups"
       @click.native="clicked()"
-      >Мои группы</router-link
-    >
+      >Вебинары</router-link
+    > <!-- Добавить маршрут -->
+    <router-link
+      style="color: #0d0d0d"
+      :class="
+        $route.path === '/lk/my-groups' ? 'nav__link active' : 'nav__link'
+      "
+      to="/lk/my-groups"
+      @click.native="clicked()"
+      >Уроки</router-link
+    > <!-- Добавить маршрут -->
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -64,7 +73,6 @@
       @click.native="clicked()"
       >Вопросы и ответы</router-link
     >
-    <button class="nav__link" @click="exit">Выйти</button>
   </nav>
 </template>
 
