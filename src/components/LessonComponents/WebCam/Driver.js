@@ -15,10 +15,6 @@ const defaulSourceSettings = {
 };
 
 export default class {
-  // REFACTOR
-  // Все приватнвые методы должны начинаться с _
-  // В новом стандарте js есть для приватных методов модификатор
-  // В будущем перейдем на него, а пока _
   constructor({ serverURL, secret }) {
     if (!serverURL) return new Error("serverURl parametr is required");
     if (!secret) return new Error("secret parametr is required");
@@ -38,6 +34,9 @@ export default class {
       "streamPropertyChanged",
       this._streamPropertyChangedHandler.bind(this)
     );
+    this._session.on("exception", ({ exception }) => {
+      console.warn(exception);
+    });
   }
   _createMyMediaObject(userInfo) {
     if (!this._publisher?.stream) return;
@@ -83,62 +82,68 @@ export default class {
   get screenIsPublish() {
     return this._screenIsPublish;
   }
-  async joinToRoom(roomId, { clientData, sourceSettings = {}, isStream }) {
-    // REFACTOR
-    // Название isStream плохое
-    // У нас есть объект stream и можно путать isStream и stream
-    // Замени stream на webinar
-    if (!sourceSettings)
-      sourceSettings = { ...defaulSourceSettings, sourceSettings };
+  async joinToRoom(roomId, { clientData, sourceSettings = {}, webinar }) {
+    sourceSettings = { ...defaulSourceSettings, sourceSettings };
     this._clientData = clientData;
     this._screenIsPublish = sourceSettings.videoSource === "screen";
     this._token = await this._getToken(roomId);
     this._setClientId();
-    const modifyClientData = this.modifyClientData(clientData, sourceSettings);
-    await this._session.connect(this._token, {
-      clientData: modifyClientData
-    });
-    if (!isStream) {
-      this.initPublisher(sourceSettings);
-      this.streamCreated(sourceSettings, modifyClientData);
-      this._session.publish(this._publisher);
+    const modifyClientData = this._modifyClientData(clientData, sourceSettings);
+    await this._session
+      .connect(this._token, {
+        clientData: modifyClientData
+      })
+      .catch(err => {
+        console.error("Произошла ошибка при подключении к сессии:", err);
+      });
+    if (!webinar) {
+      this._initPublisher(sourceSettings);
+      this._publisher.on("streamCreated", () =>
+        this._toggleMedia(sourceSettings, modifyClientData)
+      );
+      // this._publisher.on("exception", ({ exception }) => {
+      //   console.warn("joinToRoom():", exception);
+      // });
+      this._session.publish(this._publisher).catch(err => {
+        console.error(
+          "Произошла ошибка при публикации объекта Publisher:",
+          err
+        );
+      });
     }
     window.addEventListener("beforeunload", this.leaveSession.bind(this));
   }
-  initPublisher(sourceSettings) {
-    // REFACTOR
-    // sourceSettings может быть и undefined
-    // По этому поставь ему по умолчанию значение {}
-    // REFACTOR
-    // Все приватнвые методы должны начинаться с _
+  _initPublisher(sourceSettings = {}) {
     this._publisher = this._OV.initPublisher(undefined, {
-      sourceSettings,
+      ...sourceSettings,
       publishAudio: true,
       publishVideo: true
     });
   }
-  streamCreated(sourceSettings, modifyClientData) {
-    // REFACTOR
-    // Название метода не удачное. По нему не понятно, что происходит в нем
-    // Лучше всего создать метод для callback, который передается в streamCreated
-    // Причем уже понятно , что callback выключает видео и адуио, если они не выключены
-    // REFACTOR
-    // Все приватнвые методы должны начинаться с _
-    this._publisher.on("streamCreated", async () => {
-      const videoIsNotPublished = !sourceSettings.publishVideo;
-      if (videoIsNotPublished) {
-        this.updateMediaStream({ publishVideo: false });
-        this._publisher.publishVideo(false);
-      }
-      const audioIsNotPublish = !sourceSettings.publishAudio;
-      if (audioIsNotPublish) {
-        this.updateMediaStream({ publishAudio: false });
-        this._publisher.publishAudio(false);
-      }
-      this._createMyMediaObject(modifyClientData);
-    });
+  _toggleMedia(sourceSettings = {}, modifyClientData) {
+    const videoIsNotPublished = !sourceSettings.publishVideo;
+    if (videoIsNotPublished) {
+      this.updateMediaStream({ publishVideo: false }).catch(err => {
+        console.error(
+          "Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):",
+          err
+        );
+      });
+      this._publisher.publishVideo(false);
+    }
+    const audioIsNotPublish = !sourceSettings.publishAudio;
+    if (audioIsNotPublish) {
+      this.updateMediaStream({ publishAudio: false }).catch(err => {
+        console.error(
+          "Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):",
+          err
+        );
+      });
+      this._publisher.publishAudio(false);
+    }
+    this._createMyMediaObject(modifyClientData);
   }
-  modifyClientData(clientData, sourceSettings) {
+  _modifyClientData(clientData, sourceSettings) {
     return {
       ...clientData,
       videoActive: sourceSettings.publishVideo,
@@ -161,7 +166,12 @@ export default class {
       },
       updateVideo,
       updateAudio
-    );
+    ).catch(err => {
+      console.error(
+        "Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):",
+        err
+      );
+    });
     this.onParticipantsChange();
   }
   publishScreen(settings = {}) {
@@ -180,7 +190,12 @@ export default class {
       },
       updateVideo,
       updateAudio
-    );
+    ).catch(err => {
+      console.error(
+        "Произошла ошибка в обновлении медиапотока (метод - updateMediaStream):",
+        err
+      );
+    });
     this.onParticipantsChange();
   }
   async togglePublishAudio() {
@@ -220,12 +235,32 @@ export default class {
     };
     let videoPromise, audioPromise;
     if (updateVideo) {
-      const videoTrack = await this._getVideoTrack(newSettings);
-      videoPromise = this._publisher.replaceTrack(videoTrack);
+      let videoTrack = undefined;
+      try {
+        videoTrack = await this._getVideoTrack(newSettings);
+      } catch (err) {
+        console.error(
+          "Произошла ошибка при получении видеодорожки (метод - _getVideoTrack):",
+          err
+        );
+      }
+      videoPromise = this._publisher.replaceTrack(videoTrack).catch(err => {
+        console.error("Произошла ошибка при замене текущей видеодорожки:", err);
+      });
     }
     if (updateAudio) {
-      const audioTrack = await this._getAudioTrack(newSettings);
-      audioPromise = this._publisher.replaceTrack(audioTrack);
+      let audioTrack = undefined;
+      try {
+        audioTrack = await this._getAudioTrack(newSettings);
+      } catch (err) {
+        console.error(
+          "Произошла ошибка при получении аудиодорожки (метод - _getAudioTrack):",
+          err
+        );
+      }
+      audioPromise = this._publisher.replaceTrack(audioTrack).catch(err => {
+        console.error("Произошла ошибка при замене текущей аудиодорожки:", err);
+      });
       // Обходит баг в OV
       // https://github.com/OpenVidu/openvidu/issues/449
       this._publisher.videoReference.muted = true;
@@ -243,12 +278,28 @@ export default class {
   }
   async _getVideoTrack(settings) {
     if (!settings.publishVideo) return this._fakeStream.getVideoTracks()[0];
-    const newMediaStream = await this._OV.getUserMedia(settings);
+    let newMediaStream = undefined;
+    try {
+      newMediaStream = await this._OV.getUserMedia(settings);
+    } catch (err) {
+      console.error(
+        "Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):",
+        err
+      );
+    }
     return newMediaStream.getVideoTracks()[0];
   }
   async _getAudioTrack(settings) {
     if (!settings.publishAudio) return this._fakeStream.getAudioTracks()[0];
-    const newMediaStream = await this._OV.getUserMedia(settings);
+    let newMediaStream = undefined;
+    try {
+      newMediaStream = await this._OV.getUserMedia(settings);
+    } catch (err) {
+      console.error(
+        "Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):",
+        err
+      );
+    }
     return newMediaStream.getAudioTracks()[0];
   }
   _setFakeStream() {
@@ -283,9 +334,14 @@ export default class {
     ) + 100000}`;
   }
   _getToken(roomId) {
-    return this._createSession(roomId).then(sessionId =>
-      this._createToken(sessionId)
-    );
+    return this._createSession(roomId)
+      .then(sessionId => this._createToken(sessionId))
+      .catch(err => {
+        console.error(
+          "Произошла ошибка при создании сессии (метод - _createSession):",
+          err
+        );
+      });
   }
   _createSession(sessionId) {
     // Функция взята из примеров в доке OpenVidu
