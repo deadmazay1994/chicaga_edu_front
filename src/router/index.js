@@ -177,7 +177,18 @@ const routes = [
       {
         path: "upcoming/:id/:code/:startTime",
         name: "upcoming-lesson",
-        component: Upcoming
+        component: Upcoming,
+        props: {
+          showComponent: true
+        }
+      },
+      {
+        path: "webinar-upcoming/:id/:code/:startTime",
+        name: "upcoming-webinar",
+        component: Upcoming,
+        props: {
+          showComponent: false
+        }
       }
     ]
   },
