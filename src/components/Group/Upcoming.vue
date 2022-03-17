@@ -6,7 +6,7 @@
       </v-card>
       <div v-else class="d-flex main-content">
         <div class="video-wrapper">
-          <web-cam :roomId="roomId" />
+          <web-cam :roomId="roomId" v-if="showComponent" />
         </div>
         <div class="countdown d-flex flex-column">
           <lesson-starts
@@ -42,6 +42,7 @@ export default {
       DateLessonTime: new Date()
     };
   },
+  props: ["showComponent"],
   computed: {
     roomId() {
       return (
