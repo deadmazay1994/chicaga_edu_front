@@ -7,16 +7,16 @@
 <script>
 export default {
   name: "LessonPlot"
-}
+};
 </script>
 
 <style lang="sass" scoped>
-.lesson-plot 
+.lesson-plot
   display: flex
+  text-transform: uppercase
   align-items: center
   justify-content: center
   height: 100%
   width: 100%
-  span
-    color: red
+  padding: 80px 20px
 </style>
