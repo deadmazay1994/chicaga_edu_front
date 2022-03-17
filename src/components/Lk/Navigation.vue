@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu__nav" v-click-outside="clickOutside" :class="{ 'mobile-active': mobilemenuopen }">
+  <nav class="menu__nav" :class="{ 'mobile-active': mobilemenuopen }">
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -27,8 +27,17 @@
       "
       to="/lk/my-groups"
       @click.native="clicked()"
-      >Мои группы</router-link
-    >
+      >Вебинары</router-link
+    > <!-- Добавить маршрут -->
+    <router-link
+      style="color: #0d0d0d"
+      :class="
+        $route.path === '/lk/my-groups' ? 'nav__link active' : 'nav__link'
+      "
+      to="/lk/my-groups"
+      @click.native="clicked()"
+      >Уроки</router-link
+    > <!-- Добавить маршрут -->
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -64,13 +73,11 @@
       @click.native="clicked()"
       >Вопросы и ответы</router-link
     >
-    <button class="nav__link" @click="exit">Выйти</button>
   </nav>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import vClickOutside from "v-click-outside";
 
 export default {
   name: "navigation",
@@ -79,9 +86,6 @@ export default {
       mobileDetected: false,
     };
   },
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
   methods: {
     ...mapMutations(["logout", "setDraverState"]),
     exit() {
@@ -89,7 +93,7 @@ export default {
       this.$router.push("/auth/login");
       this.$store.commit("pushShuckbar", {
         val: "Вы успешно вышли из личного кабинета",
-        success: true
+        success: true,
       });
     },
     toggleDraverByWindowSize() {
@@ -101,12 +105,6 @@ export default {
         this.setDraverState(false);
       }
     },
-    clickOutside(e) {
-      this.$emit("clicked-outside", e);
-    },
-    clicked() {
-      this.$emit("clicked-router");
-    }
   },
   computed: {
     ...mapGetters(["user", "draver"]),
@@ -116,7 +114,7 @@ export default {
       },
       set(value) {
         this.setDraverState(value);
-      }
+      },
     },
   },
   components: {},
@@ -129,7 +127,7 @@ export default {
     document.onresize = () => {
       this.toggleDraverByWindowSize();
     };
-  }
+  },
 };
 </script>
 

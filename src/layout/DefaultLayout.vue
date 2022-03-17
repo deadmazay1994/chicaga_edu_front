@@ -905,8 +905,21 @@
           @clicked-outside="closeMenu"
           @clicked-router="closeMenu"
           :mobilemenuopen="showBurger"
+          v-click-outside="
+            () => {
+              clickedOutside(true);
+            }
+          "
         />
-        <div class="menu-btn" @click.prevent="openBurgerMenu"></div>
+        <div
+          class="menu-btn"
+          v-click-outside="
+            () => {
+              clickedOutside(false);
+            }
+          "
+          @click.prevent="openBurgerMenu"
+        ></div>
       </div>
       <div class="content">
         <header-app />
@@ -942,7 +955,7 @@ export default {
     };
   },
   directives: {
-    clickOutside: vClickOutside.direcitve
+    clickOutside: vClickOutside.directive
   },
   components: {
     HeaderApp,
@@ -957,6 +970,13 @@ export default {
     ...mapMutations(["checkIsConsultation"]),
     openBurgerMenu() {
       this.showBurger = !this.showBurger;
+    },
+    closeMenu() {
+      this.showBurger = false;
+    },
+    clickedOutside(bool) {
+      if (bool) return;
+      this.showBurger = false;
     }
   },
   computed: {

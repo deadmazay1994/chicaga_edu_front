@@ -39,7 +39,7 @@ export default {
       timeLesson: String,
       timerId: false,
       lesson: null,
-      DateLessonTime: new Date(),
+      DateLessonTime: new Date()
     };
   },
   props: {

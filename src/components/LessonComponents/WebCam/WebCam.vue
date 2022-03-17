@@ -18,12 +18,7 @@
           />
         </div>
       </div>
-      <!-- REFACTOR -->
-      <!-- В v-if слишком сложная логика. Перемести это в computed -->
-      <div
-        class="video-chat-miniatures-wrapper"
-        v-if="medias.length > 0 && miniaturesOn && !isStream"
-      >
+      <div class="video-chat-miniatures-wrapper" v-if="showMiniatures">
         <div class="miniatures-go" @click="scroll('upp')">
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
@@ -75,7 +70,8 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false
+      del: false,
+      isStream: true
     };
   },
   computed: {
@@ -86,9 +82,17 @@ export default {
     },
     miniaturesMediaStream() {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
+    },
+    showMiniatures() {
+      return (
+        (this.medias.length > 0 &&
+          this.miniaturesOn &&
+          this.webinar == false) ||
+        this.webinar == undefined
+      );
     }
   },
-  props: ["roomId", "isStream"],
+  props: ["roomId", "webinar"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
@@ -178,14 +182,15 @@ export default {
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
       // Присоеденяемся к комнате
-      // REFACTOR
-      // Перемести isStreamProp в props и передавай его в копонент, а не вычисляй
-      let isStreamProp = this.user.role == "teacher" ? false : this.isStream; // Передаем в метод свойство стрим/урок
-      driver.joinToRoom(roomId, {
-        clientData: user,
-        sourceSettings: settings,
-        isStream: isStreamProp
-      });
+      driver
+        .joinToRoom(roomId, {
+          clientData: user,
+          sourceSettings: settings,
+          webinar: this.webinar
+        })
+        .catch(err => {
+          console.error("join to room err:", err);
+        });
       this.streamOn = true;
       this.onLoading = false;
     },

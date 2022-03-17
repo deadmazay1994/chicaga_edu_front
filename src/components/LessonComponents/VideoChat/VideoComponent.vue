@@ -8,22 +8,24 @@
     }"
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
-    <div
-      style="height: inherit"
-      :style="
-        mediaObject.userInfo.screenActive || !this.itsMe
-          ? 'transform: rotateY(180deg) !important;'
-          : ''
-      "
-    >
-      <video
-        ref="video"
-        v-show="mediaObject.userInfo.videoActive"
-        autoplay
-        :muted="muted"
-        class="video-component__video"
-        @click="$emit('click-by-video')"
-      ></video>
+    <div style="height: inherit; display: flex; align-items: center;">
+      <video-player :video="this.$refs.video" :active="active">
+        <div slot="videoSlot" style="height: 100%;">
+          <video
+            ref="video"
+            v-show="mediaObject.userInfo.videoActive"
+            autoplay
+            :muted="muted"
+            class="video-component__video"
+            @click="$emit('click-by-video')"
+            :style="
+              mediaObject.userInfo.screenActive || !this.itsMe
+                ? 'transform: rotateY(180deg) !important;'
+                : ''
+            "
+          ></video>
+        </div>
+      </video-player>
     </div>
     <img
       v-if="!mediaObject.userInfo.videoActive"
@@ -71,6 +73,7 @@ import Expand from "@/components/Icons/Expand.vue";
 import MuteMicro from "@/components/Icons/Mute.vue";
 import Camera from "@/components/Icons/Camera.vue";
 import Reflect from "@/components/Icons/Reflect.vue";
+import VideoPlayer from "./VideoPlayer";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
 // import Hark from "hark";
@@ -313,7 +316,7 @@ export default {
   watch: {
     mediaObject: function() {
       this.setStream();
-      this.$refs.video.muted = this.muted;
+      this.$refs.video.muted = !this.muted;
     }
   },
   components: {
@@ -321,7 +324,8 @@ export default {
     // Speaker,
     MuteMicro,
     Camera,
-    Reflect
+    Reflect,
+    VideoPlayer
   },
   props: ["mediaObject", "indexVideo", "active", "itsMe"],
   mixins: {},
@@ -445,6 +449,8 @@ export default {
       width: 150px
     .video-component__name
       font-size: 21px
+      top: 0
+      bottom: auto
     .video-component__video
       display: block
       width: 100%

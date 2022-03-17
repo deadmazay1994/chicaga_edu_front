@@ -4,7 +4,7 @@ export default {
   canvas: null,
   ctx: null,
   drawcolor: "black",
-  tool: "pen",
+  tool: null,
   thickness: 4,
   prevX: null,
   prevY: null,
@@ -22,6 +22,7 @@ export default {
   drawBuffer: [],
   drawId: 0, //Used for undo function
   imgDragActive: false,
+  hasInput: false,
   settings: {
     whiteboardId: "0",
     username: "unknown",
@@ -99,6 +100,8 @@ export default {
     this.ctx = this.canvas.getContext("2d");
     this.oldGCO = this.ctx.globalCompositeOperation;
 
+    console.log($(whiteboardContainer));
+
     $(_this.mouseOverlay).on("mousedown touchstart", function(e) {
       if (_this.imgDragActive) {
         return;
@@ -173,6 +176,88 @@ export default {
         svgCirle.setAttribute("r", 0);
         _this.svgContainer.append(svgCirle);
         startCoords = [_this.prevX, _this.prevY];
+      } else if (_this.tool === "text") {
+        let canvasWrapper = $(whiteboardContainer);
+        let canvasInput = document.createElement("input");
+
+        if (_this.hasInput == false) {
+          $(canvasInput).addClass("canvas-input");
+          // TODO
+          // Вынести стили в файл стилей
+          canvasInput.type = "text";
+          canvasInput.style.position = "fixed";
+          canvasInput.style.left = e.clientX + "px";
+          canvasInput.style.top = e.clientY + "px";
+          canvasInput.style.backgroundColor = "rgba(0, 0, 0, 0.15)";
+          canvasInput.style.padding = "1rem";
+          canvasInput.style.border = "none";
+
+          canvasWrapper.append(canvasInput);
+          document.querySelector(".canvas-input").focus();
+          _this.hasInput = true;
+        }
+
+        // let input = document.querySelector(".canvas-input");
+        // TODO
+        // Сделать выбор шрифта
+        // Сделать выбор размера шрифта
+        _this.ctx.font = "24px sans-serif";
+
+        canvasInput.onkeydown = function(e) {
+          let keyCode = e.key;
+          if (keyCode === "Enter") {
+            _this.ctx.fillText(this.value, _this.prevX, _this.prevY);
+            $(this).remove();
+            _this.hasInput = false;
+          }
+        };
+
+        // if (_this.hasInput == true) {
+        //   input.onblur = function() {
+        //     _this.ctx.fillText(this.value, _this.prevX, _this.prevY);
+        //     input.remove() // срабатывает сразу после добавления инпута
+        //     _this.hasInput = false;
+        //   }
+        // }
+      } else if (_this.tool === "grab") {
+        let canvasWrapper = $(whiteboardContainer);
+        canvasWrapper.css({ cursor: "pointer", overflow: "auto" });
+        _this.canvas.style.position = "static";
+
+        let pos = {
+          top: 0,
+          left: 0,
+          x: 0,
+          y: 0
+        };
+
+        const mouseDownHandler = function() {
+          pos = {
+            left: canvasWrapper.scrollLeft(),
+            top: canvasWrapper.scrollTop(),
+
+            x: _this.prevX,
+            y: _this.prevY
+          };
+
+          document.addEventListener("mousemove", mouseMoveHandler);
+          document.addEventListener("mouseup", mouseUpHandler);
+        };
+
+        const mouseMoveHandler = function() {
+          const dx = _this.prevX - pos.x;
+          const dy = _this.prevY - pos.y;
+
+          canvasWrapper.scrollTop(pos.top - dy);
+          canvasWrapper.scrollLeft(pos.left - dx);
+        };
+
+        const mouseUpHandler = function() {
+          document.removeEventListener("mousemove", mouseMoveHandler);
+          document.removeEventListener("mouseup", mouseUpHandler);
+        };
+
+        canvasWrapper.on("mousedown", mouseDownHandler);
       }
     });
 
@@ -778,6 +863,11 @@ export default {
       this.mouseOverlay.css({ cursor: "crosshair" });
     }
     this.mouseOverlay.find(".xCanvasBtn").click();
+  },
+  clearBoard: function() {
+    var _this = this;
+    _this.sendFunction({ t: "clear" });
+    _this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
   handleEventsAndData: function(content, isNewData, doneCallback) {
     var _this = this;
