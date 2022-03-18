@@ -316,7 +316,6 @@ export default {
   watch: {
     mediaObject: function() {
       this.setStream();
-      this.$refs.video.muted = !this.muted;
     }
   },
   components: {
@@ -453,8 +452,18 @@ export default {
       bottom: auto
     .video-component__video
       display: block
-      width: 100%
+      margin: 0 auto
+      max-width: 100%
       max-height: 100%
+      // position: absolute
+      // max-width: 100%
+      // max-height: 100%
+      // min-width: 50%
+      // min-height: 50%
+      // top: 50%
+      // left: 50%
+      // transform: translate(-50%, -50%) rotateY(180deg) !important
+      // z-index: -1
     .video-component__speaker
       width: 25px
     .video-component__mute-micro

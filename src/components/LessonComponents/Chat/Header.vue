@@ -1,7 +1,10 @@
 <template>
   <div class="messages__header" @click="toggleChat">
     <p class="messages__number-of-members">
-      Чат <span class="number-of-members__number">(4 участника)</span>
+      Чат
+      <span class="number-of-members__number"
+        >{{ this.usersInChat }} участника</span
+      >
     </p>
     <!-- <div class="messages__img">
       <div class="messages__avatar-block">
@@ -74,15 +77,18 @@ export default {
     toggleChat() {
       this.toggleOpenChat();
       this.scrollToBottom();
-    },
+    }
   },
   computed: {
-    ...mapGetters(["user", "chatIsOpen", "newMsgsNum"]),
+    ...mapGetters(["user", "chatIsOpen", "newMsgsNum", "socketUsers"]),
+    usersInChat() {
+      return this.socketUsers.length ? this.socketUsers.length + 1 : 1;
+    }
   },
   components: {},
   props: [],
   mixins: {},
-  beforeMount() {},
+  beforeMount() {}
 };
 </script>
 

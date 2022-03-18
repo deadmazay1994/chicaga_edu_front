@@ -185,11 +185,6 @@ export default {
     left: 0
     width: 100%
     height: auto
-    video
-      width: 100%
-      // height: 100%
-      // width: auto
-      // margin: 0 auto
     .vidBar
       position: absolute
       bottom: 0
