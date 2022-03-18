@@ -68,6 +68,6 @@
 
 <script>
 export default {
-  name: "AuthIntroLogo",
+  name: "AuthIntroLogo"
 };
 </script>

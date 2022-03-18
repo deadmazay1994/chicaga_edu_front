@@ -83,7 +83,7 @@
         &
           padding: 30px
       @media screen and (max-height: 450px)
-        & 
+        &
           padding: .5rem 0
       .auth-form__title
         font-style: normal
@@ -292,7 +292,7 @@ import { mapMutations } from "vuex";
 
 export default {
   methods: {
-    ...mapMutations(["pushShuckbar"]),
+    ...mapMutations(["pushShuckbar"])
   },
   components: {
     AuthPageSymbols,

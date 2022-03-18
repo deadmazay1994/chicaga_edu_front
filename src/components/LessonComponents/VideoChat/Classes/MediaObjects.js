@@ -13,7 +13,7 @@ export default class {
     //     error = 1;
     //   }
     // });
-    if (this.medias.find((e) => e.stream.id === mediaData.stream.id)) {
+    if (this.medias.find(e => e.stream.id === mediaData.stream.id)) {
       error = true;
     }
     error;
@@ -30,11 +30,11 @@ export default class {
     }
   }
   getMyMedia() {
-    return this.medias.find((media) => media.im);
+    return this.medias.find(media => media.im);
   }
   getById(id) {
-    if (this.medias.find((media) => media.id == id)) {
-      return this.medias.find((media) => media.id == id);
+    if (this.medias.find(media => media.id == id)) {
+      return this.medias.find(media => media.id == id);
     } else {
       console.log("This user does't exitst ", id);
       return false;

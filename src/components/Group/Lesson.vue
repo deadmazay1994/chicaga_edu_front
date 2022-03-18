@@ -1,8 +1,7 @@
 <template>
   <v-card class="lesson vue-component pa-5">
     <div class="lesson__title text-h4">{{ lesson.lesson.name }}</div>
-    <div class="question__title text-h4">{{ lesson.time ? new Date() }}</div>
-   
+    <div class="question__title text-h4">{{ lesson.time }}</div>
   </v-card>
 </template>
 
@@ -10,11 +9,9 @@
 export default {
   name: "lesson",
   data: function() {
-    return {
-    };
+    return {};
   },
-  methods: {
-  },
+  methods: {},
   computed: {},
   components: {},
   props: ["lesson"],
@@ -24,11 +21,11 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-  .lesson {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
+.lesson {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 </style>

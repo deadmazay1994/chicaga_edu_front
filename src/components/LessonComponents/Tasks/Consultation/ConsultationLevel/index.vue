@@ -259,10 +259,10 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "choose",
-  data: function () {
+  data: function() {
     return {
       inputCopy: {},
-      activeLevelIndex: 0,
+      activeLevelIndex: 0
     };
   },
   methods: {
@@ -273,10 +273,10 @@ export default {
           [
             {
               file_name: linkToImg,
-              file_type: "image/jpeg",
-            },
-          ],
-        ],
+              file_type: "image/jpeg"
+            }
+          ]
+        ]
       };
     },
     nextLevel() {
@@ -289,22 +289,22 @@ export default {
           .id
       );
       this.setActiveLevelIndex(activeLevelIndex % this.inputCopy.levels.length);
-    },
+    }
   },
   computed: {
-    ...mapGetters(["socket", "activeLevel", "user"]),
+    ...mapGetters(["socket", "activeLevel", "user"])
   },
   components: {
     Description,
     Attachs,
     Chip,
-    CenterBtn,
+    CenterBtn
   },
   props: ["input", "index"],
   beforeMount() {
     this.setActiveLevel("adults");
     this.onDo("toggleLevel");
-  },
+  }
 };
 </script>
 

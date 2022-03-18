@@ -14,7 +14,7 @@
           v-zoom
           :class="{
             'choose-img__img--correct': answer.correctAnsewered == true,
-            'choose-img__img--uncorrect': answer.correctAnsewered == false,
+            'choose-img__img--uncorrect': answer.correctAnsewered == false
           }"
         />
         <tick
@@ -38,10 +38,10 @@ import Zoom from "@/directives/zoom";
 
 export default {
   name: "choose-img",
-  data: function () {
+  data: function() {
     return {
       task: {},
-      inputCopy: false,
+      inputCopy: false
     };
   },
   methods: {
@@ -51,8 +51,8 @@ export default {
     },
     check() {
       this.error = false;
-      this.task.forEach((item) => {
-        item.answers.forEach((answer) => {
+      this.task.forEach(item => {
+        item.answers.forEach(answer => {
           answer.correctAnsewered = answer.selected == answer.correct;
           if (!this.error) {
             this.error = !answer.correctAnsewered;
@@ -62,8 +62,8 @@ export default {
       this.$forceUpdate();
     },
     showAnswers() {
-      this.task.forEach((item) => {
-        item.answers.forEach((answer) =>
+      this.task.forEach(item => {
+        item.answers.forEach(answer =>
           this.$set(answer, "selected", answer.correct)
         );
         this.$forceUpdate();
@@ -75,30 +75,30 @@ export default {
       this.$forceUpdate();
     },
     setTask() {
-      this.task = this.inputCopy.body.map((task) => {
-        task.answers = task.answers.map((answer) => {
+      this.task = this.inputCopy.body.map(task => {
+        task.answers = task.answers.map(answer => {
           answer.selected = false;
           answer.correctAnsewered = null;
           return answer;
         });
         return task;
       });
-    },
+    }
   },
   computed: {
-    ...mapGetters(["socket"]),
+    ...mapGetters(["socket"])
   },
   components: {
     Description,
-    Tick,
+    Tick
   },
   directives: {
-    ...Zoom,
+    ...Zoom
   },
   props: ["input", "saved", "index"],
   beforeMount() {
     this.setTask();
-  },
+  }
 };
 </script>
 

@@ -35,7 +35,7 @@
 export default {
   name: "SoundSvg",
   props: {
-    muted: Boolean,
+    muted: Boolean
   },
   methods: {
     clickElem() {

@@ -54,14 +54,14 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "task-match",
-  data: function () {
+  data: function() {
     return {
       task: {
         shuffled: [],
-        answers: [],
+        answers: []
       },
       inputCopy: {},
-      error: true,
+      error: true
     };
   },
   methods: {
@@ -79,7 +79,7 @@ export default {
     },
     oncheck(data) {
       let error = 0;
-      data.result.forEach((r) => (error = r.correct));
+      data.result.forEach(r => (error = r.correct));
       this.task.shuffled[data.index].correct = error;
       // this.$set(this.task.shuffled, data.index, !error);
     },
@@ -87,11 +87,11 @@ export default {
       // Если прогресса нет
       if (!this.task.shuffled.length) {
         // this.shuffle(this.inputCopy.body).forEach(task => {
-        this.inputCopy.body.forEach((task) => {
+        this.inputCopy.body.forEach(task => {
           this.task.shuffled.push({
             img: task.image,
             word: task.word,
-            correct: -1,
+            correct: -1
           });
         });
       }
@@ -108,7 +108,7 @@ export default {
     },
     check() {
       this.error = false;
-      this.$refs.gap.forEach((child) => {
+      this.$refs.gap.forEach(child => {
         if (!this.error) {
           this.error = child.check();
         } else {
@@ -118,7 +118,7 @@ export default {
     },
     showAnswers() {
       if (Array.isArray(this.$refs.gap)) {
-        this.$refs.gap.forEach((ref) => {
+        this.$refs.gap.forEach(ref => {
           if (ref.showAnswers) {
             ref.showAnswers();
           }
@@ -129,32 +129,32 @@ export default {
       return {
         blue: this.task.shuffled[i].correct == 1,
         red: this.task.shuffled[i].correct == 0,
-        "main-color": this.task.shuffled[i].correct == -1,
+        "main-color": this.task.shuffled[i].correct == -1
       };
     },
     answeredText(i) {
       return {
         "blue--text": this.task.shuffled[i].correct == 1,
-        "red--text": this.task.shuffled[i].correct == 0,
+        "red--text": this.task.shuffled[i].correct == 0
       };
-    },
+    }
   },
   computed: {
-    ...mapGetters(["socket"]),
+    ...mapGetters(["socket"])
   },
   components: {
     Description,
-    Gap,
+    Gap
   },
   directives: {
-    ...Zoom,
+    ...Zoom
   },
   props: ["input", "index", "childSaved"],
   beforeMount() {
     this.setInputCopy();
     this.setAnswers();
     this.setShuffled();
-  },
+  }
 };
 </script>
 

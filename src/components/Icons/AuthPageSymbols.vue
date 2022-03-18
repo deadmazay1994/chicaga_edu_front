@@ -857,6 +857,6 @@
 
 <script>
 export default {
-  name: "AuthPageSymbols",
+  name: "AuthPageSymbols"
 };
 </script>

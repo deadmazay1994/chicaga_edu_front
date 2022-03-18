@@ -5,12 +5,10 @@
     </div>
     <div class="date-info">
       <span class="main--text"
-        ><img src="@/assets/svg/cal_icon.svg" alt="" />
-        {{ date }}</span
+        ><img src="@/assets/svg/cal_icon.svg" alt="" /> {{ date }}</span
       >
       <span class="main--text"
-        ><img src="@/assets/svg/time_icon.svg" alt="" />
-        {{ exactTime }}</span
+        ><img src="@/assets/svg/time_icon.svg" alt="" /> {{ exactTime }}</span
       >
     </div>
   </div>
@@ -22,12 +20,7 @@ import Counter from "./Counter.vue";
 export default {
   name: "LessonStarts",
   components: { Counter },
-  props: [
-    "date",
-    "exactTime",
-    "time",
-    "event"
-  ],
+  props: ["date", "exactTime", "time", "event"]
 };
 </script>
 

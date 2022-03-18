@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     clickElem() {
-      this.$emit('clickElem');
+      this.$emit("clickElem");
     }
   }
 };

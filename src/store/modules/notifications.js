@@ -7,12 +7,12 @@ export default {
         ...params,
         active: true,
         pos: state.notifications.length,
-        state: params.state ? params.state : "default",
+        state: params.state ? params.state : "default"
       });
       state.notifications
-        .filter((elem) => elem.active)
+        .filter(elem => elem.active)
         .reverse()
-        .forEach((element) => {
+        .forEach(element => {
           setTimeout(() => {
             element.active = false;
           }, params.timeout);
@@ -20,14 +20,14 @@ export default {
     }
   },
   state: {
-    notifications: [],
+    notifications: []
   },
   getters: {
     getNotifications(state) {
       return state.notifications;
     },
     getActiveNotifications(state) {
-      return state.notifications.filter((not) => not.active);
-    },
-  },
+      return state.notifications.filter(not => not.active);
+    }
+  }
 };

@@ -104,7 +104,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "register",
-  data: function () {
+  data: function() {
     return {
       step: 1,
       valid: true,
@@ -112,10 +112,10 @@ export default {
         email: "",
         name: "",
         password: "",
-        password_confirmation: "",
+        password_confirmation: ""
       },
       repeatPassword: "",
-      agree: false,
+      agree: false
     };
   },
   methods: {
@@ -128,10 +128,10 @@ export default {
       } else {
         this.$store.commit("pushShuckbar", {
           success: false,
-          val: "Вы должны ознакомится с пользовательским соглашением",
+          val: "Вы должны ознакомится с пользовательским соглашением"
         });
       }
-    },
+    }
   },
   computed: {
     validForm() {
@@ -144,10 +144,10 @@ export default {
     ...mapGetters,
     btnActive() {
       return this.agree && this.valid;
-    },
+    }
   },
   components: {
-    AuthTitle,
+    AuthTitle
   },
   props: [],
   mixins: [Validation],
@@ -156,7 +156,7 @@ export default {
     this.user.name = "";
     this.user.password_confirmation = "";
     this.user.password = "";
-  },
+  }
 };
 </script>
 

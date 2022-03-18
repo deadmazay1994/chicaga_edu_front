@@ -28,7 +28,8 @@
       to="/lk/my-groups"
       @click.native="clicked()"
       >Вебинары</router-link
-    > <!-- Добавить маршрут -->
+    >
+    <!-- Добавить маршрут -->
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -37,7 +38,8 @@
       to="/lk/my-groups"
       @click.native="clicked()"
       >Уроки</router-link
-    > <!-- Добавить маршрут -->
+    >
+    <!-- Добавить маршрут -->
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -83,7 +85,7 @@ export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false,
+      mobileDetected: false
     };
   },
   methods: {
@@ -93,7 +95,7 @@ export default {
       this.$router.push("/auth/login");
       this.$store.commit("pushShuckbar", {
         val: "Вы успешно вышли из личного кабинета",
-        success: true,
+        success: true
       });
     },
     toggleDraverByWindowSize() {
@@ -104,7 +106,7 @@ export default {
         this.mobileDetected = true;
         this.setDraverState(false);
       }
-    },
+    }
   },
   computed: {
     ...mapGetters(["user", "draver"]),
@@ -114,8 +116,8 @@ export default {
       },
       set(value) {
         this.setDraverState(value);
-      },
-    },
+      }
+    }
   },
   components: {},
   props: ["mobilemenuopen"],
@@ -127,7 +129,7 @@ export default {
     document.onresize = () => {
       this.toggleDraverByWindowSize();
     };
-  },
+  }
 };
 </script>
 
