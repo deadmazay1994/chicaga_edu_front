@@ -143,6 +143,12 @@ export default {
           .substring(2, 15)
       );
     },
+    driverErrorHandler(err) {
+      this.$store.commit("pushShuckbar", {
+        success: false,
+        val: err
+      });
+    },
     setActiveVideoIndex(media) {
       this.activeVideoIndex =
         this.medias.findIndex(
@@ -181,6 +187,9 @@ export default {
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
+
+      driver.onErrorHandling = this.driverErrorHandler;
+
       // Присоеденяемся к комнате
       driver
         .joinToRoom(roomId, {
@@ -189,7 +198,11 @@ export default {
           webinar: this.webinar
         })
         .catch(err => {
-          console.error("join to room err:", err);
+          console.error("joinToRoom():", err);
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Ошибка подключения к комнате"
+          });
         });
       this.streamOn = true;
       this.onLoading = false;
