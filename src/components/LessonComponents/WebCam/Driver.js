@@ -360,15 +360,8 @@ export default class {
     ) + 100000}`;
   }
   _getToken(roomId) {
-    return this._createSession(roomId)
-      .then(sessionId => this._createToken(sessionId))
-      .catch(error => {
-        console.error(
-          "Произошла ошибка при создании сессии (метод - _createSession):",
-          error
-        );
-        this.onErrorHandling(error);
-      });
+    return this._createSession(roomId + "ошибка")
+      .then(sessionId => this._createToken(sessionId));
   }
   _createSession(sessionId) {
     // Функция взята из примеров в доке OpenVidu
