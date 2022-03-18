@@ -360,7 +360,7 @@ export default class {
     ) + 100000}`;
   }
   _getToken(roomId) {
-    return this._createSession(roomId + "ошибка")
+    return this._createSession(roomId)
       .then(sessionId => this._createToken(sessionId));
   }
   _createSession(sessionId) {

@@ -154,30 +154,43 @@ export default {
       switch (error.name) {
         case "BROWSER_NOT_SUPPORTED":
           this.showError("Видеочат не поддерживется браузером");
+          break;
         case "DEVICE_ACCESS_DENIED":
           this.showError("Доступ запрещен вашим устройством");
+          break;
         case "DEVICE_ALREADY_IN_USE":
           this.showError("Запрашиваемое устройство ввода занято другим процессом");
+          break;
         case "SCREEN_CAPTURE_DENIED":
           this.showError("Демонстрация экрана была отклонена");
+          break;
         case "SCREEN_SHARING_NOT_SUPPORTED":
           this.showError("Ваш браузер не поддерживает демонстрацию экрана");
+          break;
         case "SCREEN_EXTENSION_NOT_INSTALLED":
           this.showError("Расширение для демонстрации экрана не было установлено");
+          break;
         case "SCREEN_EXTENSION_DISABLED":
           this.showError("Расширение для демонстрации экрана не включено");
+          break;
         case "INPUT_VIDEO_DEVICE_NOT_FOUND":
           this.showError("Вебкамера не была обнаружена");
+          break;
         case "INPUT_AUDIO_DEVICE_NOT_FOUND":
           this.showError("Микрофон не был обнаружен");
+          break;
         case "INPUT_AUDIO_DEVICE_GENERIC_ERROR":
           this.showError("Произошла неизвестная ошибка при попытке доступа к аудиоустройству");
+          break;
         case "NO_INPUT_SOURCE_SET":
           this.showError("Ошибка получения пользовательских медиаданных с устройств");
+          break;
         case "PUBLISHER_PROPERTIES_ERROR":
           this.showError("Не поддерживается частота кадров или разрешение экрана");
+          break;
         case "OPENVIDU_PERMISSION_DENIED":
           this.showError("Доступ запрещен");
+          break;
         case "OPENVIDU_NOT_CONNECTED":
           this.showError("Ошибка публикации видео");
           break;
