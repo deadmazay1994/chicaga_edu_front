@@ -16,7 +16,6 @@
           : ''
       "
     >
-      {{ muted }}
       <video
         ref="video"
         v-show="mediaObject.userInfo.videoActive"
