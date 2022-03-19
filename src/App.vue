@@ -13,14 +13,14 @@ export default {
   computed: {
     layout() {
       return this.$route.meta.layout || "default-layout";
-    },
+    }
   },
   components: {
-    Notifications,
-  },
+    Notifications
+  }
 };
 </script>
 
 <style lang="scss">
-  @import "@/assets/styles/main.sass";
+@import "@/assets/styles/main.sass";
 </style>
