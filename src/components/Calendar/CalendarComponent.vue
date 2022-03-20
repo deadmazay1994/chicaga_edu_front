@@ -5,6 +5,9 @@
         {{ item }}
       </div>
     </div> -->
+    {{ weekDays(2, 2022) }}
+    {{ daysArr }}
+    {{ currentDateObj }}
     <calendar-grid :days="daysArr" />
   </div>
 </template>
@@ -25,11 +28,24 @@ export default {
     };
   },
   computed: {
+    currentDateObj() {
+      return {
+        day: moment().date(),
+        month: moment().month(),
+        year: moment().year(),
+        startOfMonth: moment()
+          .startOf("month")
+          .date(),
+        endOfMonth: moment()
+          .endOf("month")
+          .date()
+      };
+    },
     daysArr() {
       let arr = [];
       this.weekDays(2, 2022).forEach(element => {
         element.days.forEach(element => {
-          arr.push(element);
+          arr.push({ day: element });
         });
       });
       return arr;
@@ -40,8 +56,7 @@ export default {
       const endDate = moment()
         .year(year)
         .month(month)
-        .date(0);
-
+        .date(0); // 28
       return Array(endDate.date())
         .fill(0)
         .map((_, i) =>
@@ -50,7 +65,7 @@ export default {
             .month(month)
             .date(i + 1)
         )
-        .map(day => ({ day, week: day.week() }))
+        .map(day => ({ day, week: day.week(), month: day.month() }))
         .filter(
           ({ week }, i, arr) => arr.findIndex(info => info.week === week) === i
         )
@@ -85,5 +100,4 @@ export default {
 </script>
 
 <style lang="sass">
-
 </style>

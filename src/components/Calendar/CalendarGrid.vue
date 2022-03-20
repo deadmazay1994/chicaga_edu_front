@@ -1,10 +1,12 @@
 <template>
   <div class="calendar-grid">
     <div class="calendar">
-      <!-- <div class="calendar__item" v-for="(item, index) in days" :key="index">
-        {{ item }}
-      </div> -->
-      <calendar-cell :item="item" v-for="(item, index) in days" :key="index" />
+      <calendar-cell
+        :item="item"
+        :options="true"
+        v-for="(item, index) in days"
+        :key="index"
+      />
     </div>
   </div>
 </template>

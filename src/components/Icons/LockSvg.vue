@@ -37,3 +37,10 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.lock-svg
+  display: flex
+  align-items: center
+  justify-content: center
+</style>
