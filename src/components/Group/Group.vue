@@ -11,7 +11,8 @@
       <div class="group__lessons" v-show="hasAcademicGroup && !hasLessons">
         В вашей академической группе нет предстоящих занятий
       </div>
-      <div class="group__lessons" v-if="hasAcademicGroup && hasLessons">
+      <!-- Убрать <!> после теста -->
+      <div class="group__lessons" v-if="!hasAcademicGroup && hasLessons">
         <!-- Show upcomming lessons -->
         <v-data-table
           :items="lessons.schedule"
@@ -67,6 +68,7 @@
           </template>
         </v-data-table>
       </div>
+      <calendar-component />
     </v-container>
   </div>
 </template>
@@ -76,11 +78,13 @@ import api from "@/mixins/api";
 import PageTitle from "@/components/Base/PageTitle";
 // import Lesson from "@/components/Group/Lesson"
 import dateFormat from "dateformat";
+import CalendarComponent from "@/components/Calendar/CalendarComponent";
 
 export default {
   name: "Group",
   components: {
-    PageTitle
+    PageTitle,
+    CalendarComponent
     // Lesson
   },
   data() {
