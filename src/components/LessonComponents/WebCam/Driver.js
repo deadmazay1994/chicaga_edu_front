@@ -304,13 +304,20 @@ export default class {
   }
   _setFakeStream() {
     let silence = () => {
-      let ctx = new AudioContext(),
-        oscillator = ctx.createOscillator();
-      let dst = oscillator.connect(ctx.createMediaStreamDestination());
-      oscillator.start();
-      const gainNode = ctx.createGain();
-      gainNode.gain.value = 0;
-      return Object.assign(dst.stream.getAudioTracks()[0], { enabled: false });
+      try {
+        let AudioContext = window.AudioContext || window.webkitAudioContext;
+        let ctx = new AudioContext(),
+          oscillator = ctx.createOscillator();
+        let dst = oscillator.connect(ctx.createMediaStreamDestination());
+        oscillator.start();
+        const gainNode = ctx.createGain();
+        gainNode.gain.value = 0;
+        return Object.assign(dst.stream.getAudioTracks()[0], {
+          enabled: false
+        });
+      } catch (error) {
+        alert(error + " 1");
+      }
     };
 
     let black = ({ width = 640, height = 480 } = {}) => {
