@@ -1,15 +1,21 @@
 <template>
-  <div class="calendar-cell">
+  <div
+    class="calendar-cell"
+    :class="[
+      { 'calendar-cell_past': item.month !== currMonth },
+      itemState(item)
+    ]"
+  >
     <div class="cell-head">
       <span class="cell-head__date">
         {{ item.day }}
       </span>
       <schevron-svg
         :on="showDropDown"
-        v-if="options"
+        v-if="item.comingSoon"
         @clickElem="toggleDropDown"
       />
-      <lock-svg :show="true" v-else />
+      <lock-svg :show="item.enroled" v-if="item.enroled || item.nonEnroled" />
     </div>
     <div class="cell-body">
       <div class="cell-body__title">
@@ -44,9 +50,17 @@ export default {
   },
   props: {
     item: Object,
-    options: Boolean
+    currentDateObj: Object,
+    currMonth: Number
   },
   methods: {
+    itemState(item) {
+      return {
+        // "calendar-cell--coming-soon": item.state.comingSoon === true,
+        "calendar-cell--enroled": item?.state?.enroled === true,
+        "calendar-cell--non-enroled": item?.state?.enroled === true
+      };
+    },
     toggleDropDown() {
       this.showDropDown = !this.showDropDown;
     }
@@ -63,6 +77,8 @@ export default {
   background: linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   box-shadow: 4px 4px 20px 0px #0000001A
   height: 125px
+  // width: 154px
+  width: 100%
   position: relative
 
   .cell-head
@@ -127,15 +143,15 @@ export default {
     opacity: 0
 
   &.calendar-cell_past
-    .cell-head_date,
+    .cell-head__date,
     .cell-body__title,
     .cell-body__desc
       color: #C4C4C4
 
-  &.calendar-cell_coming-soon
+  &.calendar-cell--coming-soon
     background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &.calendar-cell_enroled
+  &.calendar-cell--enroled
     background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &.calendar-cell_non-enroled
+  &.calendar-cell--non-enroled
     background: linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
 </style>

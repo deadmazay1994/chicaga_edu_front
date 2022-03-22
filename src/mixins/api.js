@@ -128,6 +128,41 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
+    // Calendar
+    getWebinarEvents() {
+      return [
+        {
+          date: 1647959401,
+          title: null,
+          subtitle: null,
+          poster: null,
+          price: 0,
+          responsible: "user_id",
+          subscribed: true,
+          bodyOfEvent: null
+        },
+        {
+          date: 1648034654,
+          title: null,
+          subtitle: null,
+          poster: null,
+          price: 0,
+          responsible: "user_id",
+          subscribed: true,
+          bodyOfEvent: null
+        },
+        {
+          date: 1648207454,
+          title: null,
+          subtitle: null,
+          poster: null,
+          price: 0,
+          responsible: "user_id",
+          subscribed: true,
+          bodyOfEvent: null
+        }
+      ];
+    },
     // User
     async register(userData) {
       return post("user", userData);

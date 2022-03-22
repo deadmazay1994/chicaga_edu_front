@@ -2,10 +2,11 @@
   <div class="calendar-grid">
     <div class="calendar">
       <calendar-cell
+        :currentDateObj="currentDateObj"
+        :currMonth="currMonth"
         :item="item"
-        :options="true"
-        v-for="(item, index) in days"
         :key="index"
+        v-for="(item, index) in days"
       />
     </div>
   </div>
@@ -20,13 +21,16 @@ export default {
     CalendarCell
   },
   props: {
-    days: Array
+    days: Array,
+    currentDateObj: Object,
+    currMonth: Number
   }
 };
 </script>
 
 <style lang="sass">
 .calendar
+  padding: 1rem 2rem
   display: grid
   grid-template-columns: repeat(7, 1fr)
 </style>
