@@ -147,19 +147,19 @@ export default {
       return arr;
     },
     getDate(month, year) {
-      console.log("getDate year:", year);
-      const startWeek = moment()
+      let startWeek = moment()
         .year(year)
         .month(month)
         .startOf("month")
         .week();
-      const endWeek = moment()
+      let endWeek = moment()
         .year(year)
         .month(month)
         .endOf("month")
         .week();
 
       let calendar = [];
+      if (endWeek == 1) endWeek = 53;
       for (let week = startWeek; week <= endWeek; week++) {
         calendar.push({
           week: week,
@@ -167,6 +167,7 @@ export default {
             .fill(0)
             .map((_, i) => {
               let day = moment()
+                .year(year)
                 .week(week)
                 .startOf("week")
                 .clone()
@@ -186,26 +187,25 @@ export default {
         .format("MMMM");
     },
     prev() {
-      console.log(this.$refs.swiper);
       this.$refs.swiperDate.swiper.slidePrev();
       this.$refs.swiperGrid.swiper.slidePrev();
     },
     next() {
       this.$refs.swiperDate.swiper.slideNext();
       this.$refs.swiperGrid.swiper.slideNext();
+    },
+    setCurrentMonth() {
+      let currYear = this.currentDateObj.year;
+      let currMonth = this.currentDateObj.month;
+      let currGridIndex = this.allMonths.findIndex(element => {
+        return element.year == currYear && element.number == currMonth;
+      });
+      this.$refs.swiperDate.swiper.slideTo(currGridIndex, false, false);
+      this.$refs.swiperGrid.swiper.slideTo(currGridIndex, false, false);
     }
   },
   mounted() {
-    this.$refs.swiperDate.swiper.slideTo(
-      this.currentDateObj.month,
-      false,
-      false
-    );
-    this.$refs.swiperGrid.swiper.slideTo(
-      this.currentDateObj.month,
-      false,
-      false
-    );
+    this.setCurrentMonth();
     this.setEvents();
   }
 };

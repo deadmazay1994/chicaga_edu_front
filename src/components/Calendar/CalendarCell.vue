@@ -57,7 +57,6 @@ export default {
   methods: {
     itemState(item) {
       return {
-        // "calendar-cell--coming-soon": item.state.comingSoon === true,
         "calendar-cell--enroled": item?.subscribed === true,
         "calendar-cell--non-enroled": item?.subscribed === false
       };
