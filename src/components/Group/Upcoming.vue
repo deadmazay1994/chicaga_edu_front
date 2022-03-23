@@ -5,7 +5,7 @@
         <v-skeleton-loader type="article" />
       </v-card>
       <div v-else class="d-flex main-content">
-        <div class="video-wrapper" v-if="showComponent">
+        <div class="video-wrapper" v-if="showVideo">
           <web-cam :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
@@ -29,6 +29,7 @@ import api from "@/mixins/api";
 import Prepare from "./Prepare";
 import LessonStarts from "./LessonStarts.vue";
 import WebCam from "../LessonComponents/WebCam/WebCam.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Upcoming",
@@ -46,10 +47,17 @@ export default {
     showComponent: Boolean
   },
   computed: {
+    ...mapGetters(["user"]),
     roomId() {
       return (
         String(this.$route.params.id) + String(Math.floor(Math.random() * 1000))
       );
+    },
+    isTeacher() {
+      return this.user.role == "teacher";
+    },
+    showVideo() {
+      return this.isTeacher || this.showComponent;
     }
   },
   methods: {
