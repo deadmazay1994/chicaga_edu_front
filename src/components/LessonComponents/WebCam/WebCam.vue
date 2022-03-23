@@ -143,6 +143,62 @@ export default {
           .substring(2, 15)
       );
     },
+    showError(error) {
+      this.$store.commit("pushShuckbar", {
+        success: false,
+        val: error
+      });
+    },
+    driverErrorHandler(error) {
+      console.error(error);
+      switch (error.name) {
+        case "BROWSER_NOT_SUPPORTED":
+          this.showError("Видеочат не поддерживется браузером");
+          break;
+        case "DEVICE_ACCESS_DENIED":
+          this.showError("Доступ запрещен вашим устройством");
+          break;
+        case "DEVICE_ALREADY_IN_USE":
+          this.showError("Запрашиваемое устройство ввода занято другим процессом");
+          break;
+        case "SCREEN_CAPTURE_DENIED":
+          this.showError("Демонстрация экрана была отклонена");
+          break;
+        case "SCREEN_SHARING_NOT_SUPPORTED":
+          this.showError("Ваш браузер не поддерживает демонстрацию экрана");
+          break;
+        case "SCREEN_EXTENSION_NOT_INSTALLED":
+          this.showError("Расширение для демонстрации экрана не было установлено");
+          break;
+        case "SCREEN_EXTENSION_DISABLED":
+          this.showError("Расширение для демонстрации экрана не включено");
+          break;
+        case "INPUT_VIDEO_DEVICE_NOT_FOUND":
+          this.showError("Вебкамера не была обнаружена");
+          break;
+        case "INPUT_AUDIO_DEVICE_NOT_FOUND":
+          this.showError("Микрофон не был обнаружен");
+          break;
+        case "INPUT_AUDIO_DEVICE_GENERIC_ERROR":
+          this.showError("Произошла неизвестная ошибка при попытке доступа к аудиоустройству");
+          break;
+        case "NO_INPUT_SOURCE_SET":
+          this.showError("Ошибка получения пользовательских медиаданных с устройств");
+          break;
+        case "PUBLISHER_PROPERTIES_ERROR":
+          this.showError("Не поддерживается частота кадров или разрешение экрана");
+          break;
+        case "OPENVIDU_PERMISSION_DENIED":
+          this.showError("Доступ запрещен");
+          break;
+        case "OPENVIDU_NOT_CONNECTED":
+          this.showError("Ошибка публикации видео");
+          break;
+        default:
+          this.showError("Неизвестная ошибка");
+          break;
+      }
+    },
     setActiveVideoIndex(media) {
       this.activeVideoIndex =
         this.medias.findIndex(
@@ -181,6 +237,9 @@ export default {
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
+
+      driver.onErrorHandling = this.driverErrorHandler;
+
       // Присоеденяемся к комнате
       driver
         .joinToRoom(roomId, {
@@ -189,7 +248,11 @@ export default {
           webinar: this.webinar
         })
         .catch(err => {
-          console.error("join to room err:", err);
+          console.error("joinToRoom():", err);
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Ошибка подключения к комнате"
+          });
         });
       this.streamOn = true;
       this.onLoading = false;
@@ -250,7 +313,7 @@ export default {
 
 <style lang="sass" scoped>
 .video-chat-miniatures-wrapper
-  height: 100%
+  height: calc(100% - 59px) // 59px высота плеера
   position: absolute
   width: 30%
   min-width: 146px
