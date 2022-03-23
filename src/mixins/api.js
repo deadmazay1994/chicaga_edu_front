@@ -133,8 +133,10 @@ export default {
       return [
         {
           date: 1647959401,
-          title: null,
-          subtitle: null,
+          title:
+            "Lorem Ipsum has been the indus Lorem Ipsum has been the indus",
+          subtitle:
+            "Lorem Ipsum has been the industry's standard Lorem Ipsum has been the indus",
           poster: null,
           price: 0,
           responsible: "user_id",
@@ -143,18 +145,18 @@ export default {
         },
         {
           date: 1648034654,
-          title: null,
-          subtitle: null,
+          title: "Lorem Ipsum has been the indus...",
+          subtitle: "Lorem Ipsum has been the industry's standard...",
           poster: null,
           price: 0,
           responsible: "user_id",
-          subscribed: true,
+          subscribed: false,
           bodyOfEvent: null
         },
         {
           date: 1648207454,
-          title: null,
-          subtitle: null,
+          title: "Lorem Ipsum has been the indus...",
+          subtitle: "Lorem Ipsum has been the industry's standard...",
           poster: null,
           price: 0,
           responsible: "user_id",

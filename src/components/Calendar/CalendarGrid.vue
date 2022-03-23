@@ -4,6 +4,7 @@
       <calendar-cell
         :currentDateObj="currentDateObj"
         :currMonth="currMonth"
+        :currYear="currYear"
         :item="item"
         :key="index"
         v-for="(item, index) in days"
@@ -23,14 +24,20 @@ export default {
   props: {
     days: Array,
     currentDateObj: Object,
-    currMonth: Number
+    currMonth: Number,
+    currYear: Number
   }
 };
 </script>
 
 <style lang="sass">
+.calendar-grid
+  margin-top: 39px
+
 .calendar
-  padding: 1rem 2rem
+  max-width: 1078px
+  margin: 0 auto
   display: grid
   grid-template-columns: repeat(7, 1fr)
+  grid-gap: 0
 </style>

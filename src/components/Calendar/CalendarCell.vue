@@ -15,14 +15,14 @@
         v-if="item.comingSoon"
         @clickElem="toggleDropDown"
       />
-      <lock-svg :show="item.enroled" v-if="item.enroled || item.nonEnroled" />
+      <lock-svg :show="item.subscribed" v-if="item.event" />
     </div>
     <div class="cell-body">
       <div class="cell-body__title">
-        Lorem Ipsum has been the indus...
+        {{ item.title }}
       </div>
       <div class="cell-body__desc">
-        Lorem Ipsum has been the industry's standard...
+        {{ item.subtitle }}
       </div>
     </div>
     <transition name="slide">
@@ -51,14 +51,15 @@ export default {
   props: {
     item: Object,
     currentDateObj: Object,
-    currMonth: Number
+    currMonth: Number,
+    currYear: Number
   },
   methods: {
     itemState(item) {
       return {
         // "calendar-cell--coming-soon": item.state.comingSoon === true,
-        "calendar-cell--enroled": item?.state?.enroled === true,
-        "calendar-cell--non-enroled": item?.state?.enroled === true
+        "calendar-cell--enroled": item?.subscribed === true,
+        "calendar-cell--non-enroled": item?.subscribed === false
       };
     },
     toggleDropDown() {
@@ -77,9 +78,10 @@ export default {
   background: linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   box-shadow: 4px 4px 20px 0px #0000001A
   height: 125px
-  // width: 154px
-  width: 100%
+  width: 154px
   position: relative
+  font-family: sf-ui, sans-serif
+  cursor: pointer
 
   .cell-head
     display: flex

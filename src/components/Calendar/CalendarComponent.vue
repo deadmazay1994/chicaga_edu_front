@@ -1,22 +1,25 @@
 <template>
   <div class="calendar-component">
-    <div class="swiper-date">
-      <swiper-arrow :left="true" @clickElem="prev" />
-      <swiper
-        :options="swiperDateOption"
-        ref="swiperDate"
-        class="swiper"
-        :slides-per-view="1"
-      >
-        <swiper-slide
-          class="swiper-no-swiping"
-          v-for="(item, index) in allMonths"
-          :key="index"
+    <div class="celendar-head">
+      <div class="calendar-head__title">{{ title }}</div>
+      <div class="swiper-date">
+        <swiper-arrow :left="true" @clickElem="prev" />
+        <swiper
+          :options="swiperDateOption"
+          ref="swiperDate"
+          class="swiper"
+          :slides-per-view="1"
         >
-          <span class="date-item">{{ item.name }} 2022</span>
-        </swiper-slide>
-      </swiper>
-      <swiper-arrow :right="true" @clickElem="next" />
+          <swiper-slide
+            class="swiper-no-swiping"
+            v-for="(item, index) in allMonths"
+            :key="index"
+          >
+            <span class="date-item">{{ item.name + " " + item.year }}</span>
+          </swiper-slide>
+        </swiper>
+        <swiper-arrow :right="true" @clickElem="next" />
+      </div>
     </div>
     <swiper class="swiper-grid" :options="swiperGridOption" ref="swiperGrid">
       <swiper-slide
@@ -25,9 +28,10 @@
         :key="index"
       >
         <calendar-grid
-          :days="eventArr(item.number, 2022)"
+          :days="eventArr(item.number, item.year)"
           :currentDateObj="currentDateObj"
           :currMonth="item.number"
+          :currYear="item.year"
         />
       </swiper-slide>
     </swiper>
@@ -56,13 +60,18 @@ export default {
     return {
       swiperGridOption: {
         spaceBetween: 100,
-        noSwiping: true
+        noSwiping: true,
+        loop: false
       },
       swiperDateOption: {
-        noSwiping: true
+        noSwiping: true,
+        loop: false
       },
       events: []
     };
+  },
+  props: {
+    title: String
   },
   computed: {
     currentDateObj() {
@@ -80,17 +89,22 @@ export default {
     },
     allMonths() {
       let arr = [];
-      for (let i = 0; i < 12; i++) {
-        let month = moment()
-          .month(i)
-          .locale("ru")
-          .format("MMMM");
-        arr.push({
-          name: month.charAt(0).toUpperCase() + month.slice(1),
-          number: moment()
-            .month(i)
-            .month()
-        });
+      let currYear = moment().year();
+      let years = [currYear - 1, currYear, currYear + 1];
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 12; j++) {
+          let month = moment()
+            .month(j)
+            .locale("en")
+            .format("MMMM");
+          arr.push({
+            name: month,
+            number: moment()
+              .month(j)
+              .month(),
+            year: years[i]
+          });
+        }
       }
       return arr;
     }
@@ -107,9 +121,13 @@ export default {
         this.events.forEach(element => {
           if (
             moment.unix(element.date).date() === item.day &&
-            moment.unix(element.date).month() === item.month
+            moment.unix(element.date).month() === item.month &&
+            moment.unix(element.date).year() === item.year
           ) {
-            item.state = element.subscribed;
+            item.subscribed = element.subscribed;
+            item.event = true;
+            item.title = element.title;
+            item.subtitle = element.subtitle;
           }
         });
       });
@@ -120,21 +138,16 @@ export default {
       this.getDate(month, year).map(element => {
         element.days.map(element => {
           arr.push({
-            // Передаем данные в ячейки здесь
             month: element.month(),
-            day: element.date()
-            // comingSoon:
-            //   element.date() === 27 && element.month() == 2 ? true : false,
-            // enroled:
-            //   element.date() === 23 && element.month() == 2 ? true : false,
-            // nonEnroled:
-            //   element.date() === 24 && element.month() == 2 ? true : false
+            day: element.date(),
+            year: element.year()
           });
         });
       });
       return arr;
     },
     getDate(month, year) {
+      console.log("getDate year:", year);
       const startWeek = moment()
         .year(year)
         .month(month)
@@ -199,11 +212,23 @@ export default {
 </script>
 
 <style lang="sass">
+.celendar-head
+  display: flex
+  align-items: center
+  justify-content: space-between
+  max-width: 1078px
+  margin: 0 auto
+
+  .calendar-head__title
+    font-size: 36px
+    font-weight: 800
+    line-height: 43px
+
 .swiper-date
   display: flex
   align-items: center
   justify-content: center
-  width: 200px
+  width: 230px
   .swiper-slide
     width: 100% !important
     display: flex
@@ -214,6 +239,7 @@ export default {
     font-weight: 900
     line-height: 29px
     color: #A22B21
+    text-transform: uppercase
     user-select: none
 
 .swiper-button-next:after,
