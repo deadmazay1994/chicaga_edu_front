@@ -11,7 +11,9 @@
         class="cell-head__date"
         :class="{
           'cell-head__date--current':
-            item.day == currentDateObj.day && item.year == currentDateObj.year
+            item.day == currentDateObj.day &&
+            item.year == currentDateObj.year &&
+            item.month == currentDateObj.month
         }"
       >
         {{ item.day }}
