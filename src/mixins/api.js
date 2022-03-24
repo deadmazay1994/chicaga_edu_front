@@ -140,6 +140,28 @@ export default {
           poster: null,
           price: 0,
           responsible: "user_id",
+          subEvents: [
+            {
+              date: 1647959401,
+              title: "Lorem Ipsum has been the indus...",
+              subtitle: "Lorem Ipsum has been the industry's standard...",
+              poster: null,
+              price: 0,
+              responsible: "user_id",
+              subscribed: false,
+              bodyOfEvent: null
+            },
+            {
+              date: 1647959401,
+              title: "Lorem Ipsum has been the indus...",
+              subtitle: "Lorem Ipsum has been the industry's standard...",
+              poster: null,
+              price: 0,
+              responsible: "user_id",
+              subscribed: true,
+              bodyOfEvent: null
+            }
+          ],
           subscribed: true,
           bodyOfEvent: null
         },

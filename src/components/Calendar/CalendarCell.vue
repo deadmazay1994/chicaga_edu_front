@@ -20,10 +20,10 @@
       </span>
       <schevron-svg
         :on="showDropDown"
-        v-if="item.comingSoon"
+        v-if="item.subEvents"
         @clickElem="toggleDropDown"
       />
-      <lock-svg :show="item.subscribed" v-if="item.event" />
+      <lock-svg :show="item.subscribed" v-if="item.event && !item.subEvents" />
     </div>
     <div class="cell-body">
       <div class="cell-body__title">
@@ -34,7 +34,11 @@
       </div>
     </div>
     <transition name="slide">
-      <calendar-dropdown v-if="showDropDown" />
+      <calendar-dropdown
+        :class="itemState(item)"
+        v-if="showDropDown"
+        :events="item.subEvents"
+      />
     </transition>
   </div>
 </template>
@@ -72,6 +76,11 @@ export default {
     toggleDropDown() {
       this.showDropDown = !this.showDropDown;
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      console.log(this.item.subEvents);
+    });
   }
 };
 </script>

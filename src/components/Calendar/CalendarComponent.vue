@@ -128,6 +128,7 @@ export default {
             item.event = true;
             item.title = element.title;
             item.subtitle = element.subtitle;
+            item.subEvents = element.subEvents;
           }
         });
       });

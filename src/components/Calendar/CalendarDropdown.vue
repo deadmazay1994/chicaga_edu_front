@@ -1,12 +1,12 @@
 <template>
   <div class="calendar-dropdown">
-    <div class="calendar-dropdown__title">
-      <span>Lorem Ipsum has been the industr</span>
-      <lock-svg :show="true" />
-    </div>
-    <div class="calendar-dropdown__title">
-      <span>Lorem Ipsum has been the industr</span>
-      <lock-svg :show="false" />
+    <div
+      class="calendar-dropdown__title"
+      v-for="(item, index) in events"
+      :key="index"
+    >
+      <span>{{ item.title }}</span>
+      <lock-svg :show="item.subscribed" />
     </div>
   </div>
 </template>
@@ -18,6 +18,9 @@ export default {
   name: "CalendarDropdown",
   components: {
     LockSvg
+  },
+  props: {
+    events: Array
   }
 };
 </script>
@@ -34,10 +37,16 @@ export default {
   height: 80px
   padding: 3px 10px
   border-radius: 10px
-  background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   display: flex
   flex-direction: column
   justify-content: space-evenly
+
+  &.calendar-cell--coming-soon
+    background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
+  &.calendar-cell--enroled
+    background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
+  &.calendar-cell--non-enroled
+    background: linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
 
   .calendar-dropdown__title
     display: flex
