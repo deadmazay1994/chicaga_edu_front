@@ -9,7 +9,10 @@
     <div class="cell-head">
       <span
         class="cell-head__date"
-        :class="{ 'cell-head__date--current': item.day == currentDateObj.day }"
+        :class="{
+          'cell-head__date--current':
+            item.day == currentDateObj.day && item.year == currentDateObj.year
+        }"
       >
         {{ item.day }}
       </span>
