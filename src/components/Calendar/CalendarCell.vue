@@ -7,7 +7,10 @@
     ]"
   >
     <div class="cell-head">
-      <span class="cell-head__date">
+      <span
+        class="cell-head__date"
+        :class="{ 'cell-head__date--current': item.day == currentDateObj.day }"
+      >
         {{ item.day }}
       </span>
       <schevron-svg
@@ -95,6 +98,8 @@ export default {
     letter-spacing: 0em
     text-align: left
     color: #363636
+    &.cell-head__date--current
+      color: red
 
   .cell-head__date,
   .cell-body__title,
