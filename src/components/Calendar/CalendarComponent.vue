@@ -89,7 +89,7 @@ export default {
     },
     allMonths() {
       let arr = [];
-      let currYear = moment().year();
+      let currYear = moment().year();;
       let years = [currYear - 1, currYear, currYear + 1];
       for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 12; j++) {
@@ -147,33 +147,27 @@ export default {
       return arr;
     },
     getDate(month, year) {
-      let startWeek = moment()
-        .year(year)
-        .month(month)
-        .startOf("month")
-        .week();
-      let endWeek = moment()
-        .year(year)
-        .month(month)
-        .endOf("month")
-        .week();
-
       let calendar = [];
-      if (endWeek == 1) endWeek = 53;
-      for (let week = startWeek; week <= endWeek; week++) {
+
+      const today = moment()
+        .year(year)
+        .month(month);
+      const startDay = today
+        .clone()
+        .startOf("month")
+        .startOf("isoWeek");
+      const endDay = today
+        .clone()
+        .endOf("month")
+        .endOf("isoWeek");
+
+      let date = startDay.clone().subtract(1, "day");
+
+      while (date.isBefore(endDay, "day")) {
         calendar.push({
-          week: week,
           days: Array(7)
             .fill(0)
-            .map((_, i) => {
-              let day = moment()
-                .year(year)
-                .week(week)
-                .startOf("week")
-                .clone()
-                .add(i + 1, "day");
-              return day;
-            })
+            .map(() => date.add(1, "day").clone())
         });
       }
 

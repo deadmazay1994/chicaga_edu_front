@@ -33,6 +33,7 @@ export default {
 <style lang="sass">
 .calendar-grid
   margin-top: 39px
+  padding-bottom: 2rem
 
 .calendar
   max-width: 1078px
