@@ -323,6 +323,9 @@ export default {
   },
   created() {
     this.$watch(() => this.$route.params, this?.driver?.leaveSession);
+    window.onpopstate = () => {
+      this.driver.leaveSession();
+    };
   }
 };
 </script>
