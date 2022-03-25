@@ -26,6 +26,8 @@ import Page404 from "Base/404";
 
 import store from "@/store";
 
+import api from "@/mixins/api";
+
 Vue.use(VueRouter);
 const routes = [
   {
@@ -242,6 +244,16 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next();
+  }
+  if (to.name == "lesson_teacher") {
+    if (api.methods.checkAccess(store.getters.user)) next();
+    else {
+      store.commit("pushShuckbar", {
+        val: "access denied",
+        success: false
+      });
+      next(from.path);
+    }
   }
 });
 

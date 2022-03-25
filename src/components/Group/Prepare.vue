@@ -23,7 +23,7 @@ export default {
     return {
       course_id: null,
       id: null,
-      link: '#'
+      link: "#"
     };
   },
   methods: {
