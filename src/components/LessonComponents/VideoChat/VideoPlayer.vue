@@ -66,7 +66,7 @@ export default {
       player: this.video,
       volume: false,
       muteVolume: false,
-      paused: false,
+      paused: undefined,
       videoPlayer: undefined,
       currentTime: undefined,
       fullscreenOn: false
@@ -106,10 +106,8 @@ export default {
     togglePlay() {
       if (!this.paused) {
         this.pauseVideo();
-        this.paused = true;
       } else {
         this.playVideo();
-        this.paused = false;
       }
     },
     toggleChat() {
@@ -166,11 +164,16 @@ export default {
       });
     }
 
-    this.paused = this.videoPlayer.paused;
-    this.videoPlayer.addEventListener(
-      "pause",
-      () => (this.paused = this.videoPlayer.paused)
-    );
+    this.$nextTick(() => {
+      this.paused = this.videoPlayer.paused;
+      this.videoPlayer.addEventListener(
+        "pause",
+        () => (this.paused = this.videoPlayer.paused)
+      );
+      this.videoPlayer.addEventListener("play", () => {
+        this.paused = false;
+      });
+    });
   },
   updated() {
     this.currentTime = this.videoPlayer.currentTime;

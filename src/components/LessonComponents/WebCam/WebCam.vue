@@ -14,6 +14,7 @@
             :active="true"
             :miniature="false"
             :iconOff="false"
+            :autoplay="webinar"
             :mediaObject="activeMediaStream.mediaObject"
           />
         </div>
@@ -70,8 +71,7 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false,
-      isStream: true
+      del: false
     };
   },
   computed: {
@@ -239,6 +239,8 @@ export default {
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
 
       driver.onErrorHandling = this.driverErrorHandler;
+
+      // if (this.user.role == "teacher") this.webinar = false; // вычислять на верхем уровне
 
       // Присоеденяемся к комнате
       driver

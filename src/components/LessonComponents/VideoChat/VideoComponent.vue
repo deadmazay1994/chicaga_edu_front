@@ -287,6 +287,17 @@ export default {
           this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
+    },
+    autoplayWebinar() {
+      if (!this.autoplay) return;
+      if (this.$refs.video.paused) {
+        this.$refs.video.play().catch(() => {
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Чтобы начать просмотр, нажмите на кнопку 'Play"
+          });
+        });
+      }
     }
   },
   computed: {
@@ -326,15 +337,10 @@ export default {
     Reflect,
     VideoPlayer
   },
-  props: ["mediaObject", "indexVideo", "active", "itsMe"],
+  props: ["mediaObject", "indexVideo", "active", "itsMe", "autoplay"],
   mixins: {},
   beforeMount() {},
   mounted() {
-    // this.$refs.video.addEventListener("canplay", () => {
-    //   if (this.muted) {
-    //     this.$refs.video.muted = true;
-    //   }
-    // });
     this.setStream();
     if (!this.isMobileSafari()) {
       this.initSpechEvents();
@@ -348,6 +354,9 @@ export default {
     this.audioMuted = !JSON.parse(
       window.localStorage.getItem("videochat_microphone_state")
     );
+    this.$nextTick(() => {
+      this.autoplayWebinar();
+    });
   }
 };
 </script>
