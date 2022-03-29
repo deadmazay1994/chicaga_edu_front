@@ -21,6 +21,7 @@
   @media screen and (max-width: 1000px)
     &
       flex-direction: column
+
   .auth-intro
     width: 42%
     height: 100%
@@ -34,6 +35,7 @@
       &
         width: 100%
         height: 50px
+
     .auth-intro__logotype
       margin-bottom: 40px
       @media screen and (max-width: 1000px)
@@ -44,6 +46,7 @@
         @media screen and (max-width: 1000px)
           &
             width: 140px
+
     .auth-intro__desc
       font-style: normal
       font-weight: 300
@@ -58,6 +61,7 @@
       @media screen and (max-width:1000px)
         &
           display: none
+
   .auth-body
     height: 100%
     width: 58%
@@ -76,6 +80,7 @@
       &
         width: 100%
         background-size: 150px auto
+
     .auth-form
       max-width: 435px
       width: 100%
@@ -85,6 +90,7 @@
       @media screen and (max-height: 450px)
         &
           padding: .5rem 0
+
       .auth-form__title
         font-style: normal
         font-weight: 700
@@ -98,6 +104,7 @@
           &
             font-size: 24px
             margin-bottom: 60px
+
       .auth-form__header
         display: flex
         align-items: flex-end
@@ -106,6 +113,7 @@
         width: 100%
         h2
           margin-bottom: 0
+
         .auth-form__step
           font-family: Inter
           font-style: normal
@@ -116,6 +124,7 @@
           span
             font-size: 16px
             font-weight: 300
+
       .auth-form__body
         display: flex
         flex-direction: column
@@ -126,6 +135,7 @@
         @media screen and (max-height: 450px)
           &
             padding-bottom: 0
+
         .auth-input
           display: flex
           align-items: center
@@ -159,6 +169,7 @@
               color: #fab5b4
             &::placeholder
               color: #fab5b4
+
         .reset-password-link
           align-self: flex-end
           margin-top: 5px
@@ -172,6 +183,7 @@
           .red-text
             bottom: -40px
             color: #fab5b4
+
       .auth-form__footer
         display: flex
         flex-direction: column
@@ -180,8 +192,10 @@
         @media screen and (max-width:1000px)
           &
             margin-top: 2vh
+
         .auth-form__submit
           margin-bottom: 3vh
+
         .auth-button
           background: red
           box-shadow: inset 3px 3px 15px 3px hsla(0, 0%, 100%, .5)
@@ -201,8 +215,10 @@
               max-width: 200px
           &:disabled
             opacity: .3
+
         .auth-form__link-bar
           text-align: center
+
           .arrow-link
             font-style: normal
             font-weight: 700
@@ -219,10 +235,12 @@
             background-size: 100% 100%
             display: none
             margin-right: 10px
+
           .auth-form__link
             &:first-child
               margin-right: 15px
               display: inline-block
+
       .auth-label
         margin-bottom: 2vh
         font-weight: 700
@@ -264,12 +282,14 @@
           border: 1px solid #fab5b4
           border-radius: 100%
           margin-right: 11px
+
       .auth-msg
         font-style: normal
         font-weight: 500
         font-size: 14px
         line-height: 17px
         color: gray
+
     .register-form
       .auth-form
         .auth-label
