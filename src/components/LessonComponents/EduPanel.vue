@@ -122,98 +122,91 @@ export default {
 };
 </script>
 
-<style>
-.theme--light.v-tabs > .v-tabs-bar {
-  height: 40px;
-}
+<style lang="sass">
+.theme--light.v-tabs > .v-tabs-bar
+  height: 40px
 
 .v-slide-group__prev,
-.v-slide-group__next {
-  display: none;
-}
+.v-slide-group__next
+  display: none
 
-.theme--light.v-tabs-items {
-  width: 100%;
-}
+.theme--light.v-tabs-items
+  width: 100%
 
-.v-tab {
-  display: block;
-  line-height: normal;
-  min-width: 1px;
-  max-width: 100%;
-  outline: none;
-  padding: 0 0px;
-  text-decoration: none;
-  text-transform: inherit !important;
-  transition: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: relative;
-  font-size: 12px;
-  color: #0d0d0d !important;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-family: sf-ui, sans-serif;
-  font-weight: 700;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 0;
-  white-space: nowrap !important;
-}
+.v-tab
+  display: block
+  line-height: normal
+  min-width: 1px
+  max-width: 100%
+  outline: none
+  padding: 0 0px
+  text-decoration: none
+  text-transform: inherit !important
+  transition: none
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  position: relative
+  font-size: 12px
+  color: #0d0d0d !important
+  border: 0
+  background: none
+  cursor: pointer
+  box-sizing: border-box
+  font-family: sf-ui, sans-serif
+  font-weight: 700
+  padding-left: 20px
+  padding-right: 20px
+  margin-bottom: 0
+  white-space: nowrap !important
 
-.v-tab.active {
-  border-bottom: 2px solid red !important;
-  padding-bottom: 5px !important;
-  transform: translateY(2px) !important;
-}
 
-.v-slide-group__content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
+  &.active
+    border-bottom: 2px solid red !important
+    padding-bottom: 5px !important
+    transform: translateY(2px) !important
 
-.theme--light.v-tabs > .v-tabs-bar {
-  background: transparent !important;
-}
+.v-slide-group__content
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 100%
 
-.v-ripple__container {
-  display: none !important;
-}
+.theme--light.v-tabs > .v-tabs-bar
+  background: transparent !important
 
-.task__menu {
-  padding: 25px 10px 20px 10px !important;
-}
-.task__menu__item:first-child {
-}
-.task__menu__item:before {
-  content: "";
-  position: absolute;
-  background: red;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  top: 43%;
-  opacity: 0;
-  transform: translateY(-72%);
-}
-.task__content {
-  height: 100%;
-}
-.task__menu__item.active:before {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  left: 0 !important;
-  top: 3px !important;
-  display: none !important;
-}
+.v-ripple__container
+  display: none !important
 
-.v-slide-group__wrapper {
-  overflow: hidden;
-}
+.task__menu
+  padding: 25px 10px 20px 10px !important
+
+
+  &__item:first-child
+
+
+  &__item:before
+    content: ""
+    position: absolute
+    background: red
+    width: 8px
+    height: 8px
+    border-radius: 50%
+    top: 43%
+    opacity: 0
+    transform: translateY(-72%)
+
+.task__content
+  height: 100%
+
+.task__menu__item.active:before
+  opacity: 1 !important
+  transform: translateY(0) !important
+  left: 0 !important
+  top: 3px !important
+  display: none !important
+
+.v-slide-group__wrapper
+  overflow: hidden
 </style>

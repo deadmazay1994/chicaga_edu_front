@@ -84,8 +84,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped="scoped">
-.messages__controls__textarea {
+<style lang="sass" scoped="scoped">
+.messages__controls__textarea
   //opacity: 0;
   //position: absolute;
   //z-index: 10;
@@ -94,18 +94,14 @@ export default {
   //left: 0;
   //overflow: hidden;
 
-  &::-webkit-file-upload-button {
-    width: 30px !important;
-  }
-}
+  &::-webkit-file-upload-button
+    width: 30px !important
 
-span[aria-hidden="true"] {
-  display: none;
-}
+span[aria-hidden="true"]
+  display: none
 
-#whiteboardContainer {
-  height: 700px !important;
-}
+#whiteboardContainer
+  height: 700px !important
 </style>
 
 <style scoped="scoped">

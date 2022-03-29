@@ -167,7 +167,7 @@ button {
 .active-body {
   overflow: hidden
 }
-
+/* menu */
 .menu {
   margin: 10px 10px 0 0;
   flex-basis: 37%
@@ -266,7 +266,8 @@ button {
     margin-top: 30px
   }
 }
-
+/* menu */
+/* nav */
 .nav__link {
   position: relative;
   overflow: hidden;
