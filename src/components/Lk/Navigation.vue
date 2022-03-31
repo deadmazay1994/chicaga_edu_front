@@ -141,8 +141,55 @@ export default {
 .navigation__drawer
   @media (max-width: 1200px)
     margin-top: -65px
-.nav__link
-  padding-left: 13px
+
 .menu__nav
+  margin-top: 50px
   width: 242px
+
+  @media (max-width: 1100px)
+    &
+      margin-top: 30px
+
+  .nav__link
+    position: relative
+    overflow: hidden
+    display: block
+    padding: 14px 50px 14px 13px
+    font-size: 16px
+
+    @media (max-width: 1460px)
+      &
+        display: flex
+        flex-direction: column
+    @media (max-width: 1300px)
+      &
+        padding: 15px
+        display: inline-block
+    @media (max-width: 1100px)
+      &
+        padding: 10px 15px
+
+    &.active
+      background: hsla(0, 0%, 50%, .1)
+      border-radius: 5px
+      width: 100%
+
+    &.active::after
+      content: ""
+      position: absolute
+      width: 5px
+      height: 100%
+      top: 0
+      left: 0
+      background: red
+
+  @media (max-width: 992px)
+    &
+      position: absolute
+      right: 0
+      top: 39px
+      background: #fff
+      height: 100vh
+      transition: 0.5s
+      transform: translateX(120%)
 </style>

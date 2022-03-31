@@ -206,7 +206,7 @@ button {
 }
 
 .menu__logo,
-.menu__nav,
+/* .menu__nav, */
 .menu__title {
   padding-left: 10px
 }
@@ -257,7 +257,7 @@ button {
   height: 15px
 }
 
-.menu__nav {
+/* .menu__nav {
   margin-top: 50px
 }
 
@@ -308,7 +308,7 @@ button {
   .nav__link {
     padding: 10px 15px
   }
-}
+} */
 
 .link__inner {
   margin: 25px 0 40px 85px;

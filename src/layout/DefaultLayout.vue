@@ -1006,7 +1006,7 @@ export default {
   padding: 20px
   max-width: calc( 100vw - 302px )
   @media (min-width: 1360px)
-    max-height: max(calc( 100vh - 40px ), 1072px)
+    max-height: auto
     display: flex
     flex-direction: column
     .lessons__content
