@@ -75,6 +75,16 @@
       @click.native="clicked()"
       >Вопросы и ответы</router-link
     >
+    <router-link
+      v-if="access"
+      style="color: #0d0d0d"
+      :class="
+        $route.path === '/private-room' ? 'nav__link active' : 'nav__link'
+      "
+      to="/lk/private-room"
+      @click.native="clicked()"
+      >Создать комнату</router-link
+    >
   </nav>
 </template>
 
@@ -85,7 +95,8 @@ export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false
+      mobileDetected: false,
+      access: true
     };
   },
   methods: {
