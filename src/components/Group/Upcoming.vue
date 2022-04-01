@@ -9,13 +9,22 @@
           <web-cam :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
+          <div class="room-link" v-if="room">
+            <router-link :to="room">{{ room }}</router-link>
+          </div>
           <lesson-starts
             :event="lesson"
             :date="dateLesson"
             :exactTime="timeLesson"
             :time="timeToLesson"
+            v-if="!room"
           />
-          <prepare :event="lesson" :roomId="roomId" :time="timeToLesson" />
+          <prepare
+            :event="lesson"
+            :roomId="roomId"
+            :time="timeToLesson"
+            :room="room"
+          />
         </div>
       </div>
     </div>
@@ -44,7 +53,8 @@ export default {
     };
   },
   props: {
-    showComponent: Boolean
+    showComponent: Boolean,
+    room: String
   },
   computed: {
     ...mapGetters(["user"]),

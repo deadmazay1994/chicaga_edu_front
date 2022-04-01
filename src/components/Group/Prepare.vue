@@ -1,6 +1,7 @@
 <template>
   <div class="prepare">
     <div class="title">Готовы присоединиться?</div>
+    {{ link }}
     <div class="buttons">
       <router-link
         :to="link"
@@ -18,7 +19,7 @@ import api from "@/mixins/api";
 
 export default {
   name: "Prepare",
-  props: ["event", "time", "titleText"],
+  props: ["event", "time", "titleText", "room"],
   data() {
     return {
       course_id: null,
@@ -55,7 +56,9 @@ export default {
   },
   mounted() {
     this.setParams();
-    this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
+    // если передана ссылка на конкретную комнату
+    if (this.room) this.link = this.room;
+    else this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
   }
 };
 </script>
