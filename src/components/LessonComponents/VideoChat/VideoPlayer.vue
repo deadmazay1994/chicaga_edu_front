@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="right-side">
-              <chat-svg :chatOff="false" @clickElem="toggleChat" />
+              <chat-svg :chatOff="false" @clickElem="clickChat" />
               <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
             </div>
           </dir>
@@ -112,8 +112,8 @@ export default {
         this.paused = false;
       }
     },
-    toggleChat() {
-      return;
+    clickChat() {
+      this.$emit("clickChat");
     },
     toggleExpand() {
       if (!this.fullscreenOn) {

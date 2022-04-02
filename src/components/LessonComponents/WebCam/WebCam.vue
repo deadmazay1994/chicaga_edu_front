@@ -15,6 +15,7 @@
             :miniature="false"
             :iconOff="false"
             :mediaObject="activeMediaStream.mediaObject"
+            @clickChat="clickChat"
           />
         </div>
       </div>
@@ -94,6 +95,9 @@ export default {
   },
   props: ["roomId", "webinar"],
   methods: {
+    clickChat() {
+      this.$emit("clickChat");
+    },
     scroll(val) {
       const miniatures = this.$refs.miniatures;
       const scrollHeight = miniatures.scrollHeight;
