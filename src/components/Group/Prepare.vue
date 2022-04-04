@@ -1,11 +1,13 @@
 <template>
   <div class="prepare">
     <div class="title">Готовы присоединиться?</div>
-    {{ link }}
     <div class="buttons">
       <router-link
         :to="link"
-        @click.native="callWarn"
+        @click.native="
+          callWarn();
+          returnValue();
+        "
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
@@ -47,11 +49,15 @@ export default {
       }
     },
     callWarn() {
-      if (this.access) return;
+      if (this.access || this.room) return;
       this.$store.commit("pushShuckbar", {
         success: false,
         val: "Ошибка доступа к уроку"
       });
+    },
+    returnValue() {
+      if (!this.room) return;
+      this.$emit("ready");
     }
   },
   mounted() {

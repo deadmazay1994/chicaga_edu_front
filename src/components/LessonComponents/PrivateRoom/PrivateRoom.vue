@@ -1,8 +1,20 @@
 <template>
   <div class="private-room">
-    <web-cam :roomId="this.$route.params.id" @clickChat="toggleChat()" />
-    <div class="chat-block">
-      <chat />
+    <div class="private-room--active" v-if="active">
+      <!-- Пока передаем roomid через route -->
+      <web-cam :roomId="this.$route.params.room" @clickChat="toggleChat()" />
+      <div class="chat-block">
+        <chat />
+      </div>
+    </div>
+    <div class="private-room--upcoming" v-if="!active">
+      <upcoming
+        :roomLink="location"
+        :room="this.$route.path"
+        :roomId="user.id"
+        :showComponent="true"
+        @ready="onReady()"
+      />
     </div>
   </div>
 </template>
@@ -10,17 +22,27 @@
 <script>
 import WebCam from "@/components/LessonComponents/WebCam/WebCam";
 import Chat from "@/components/LessonComponents/Chat/Chat";
+import Upcoming from "@/components/Group/Upcoming";
+import { mapGetters } from "vuex";
 
 export default {
   name: "",
   components: {
     WebCam,
-    Chat
+    Chat,
+    Upcoming
   },
   data() {
     return {
+      active: false,
       chat: false
     };
+  },
+  computed: {
+    ...mapGetters(["user"]),
+    location() {
+      return document.location.href;
+    }
   },
   methods: {
     toggleChat() {
@@ -32,13 +54,16 @@ export default {
         document.querySelector(".chat-block").style.width = "0%";
       }
       this.chat = !this.chat;
+    },
+    onReady() {
+      this.active = true;
     }
   }
 };
 </script>
 
 <style lang="sass" scoped>
-.private-room
+.private-room--active
   position: fixed
   height: 100%
   width: 100%
@@ -62,7 +87,7 @@ export default {
 </style>
 
 <style lang="sass">
-.private-room
+.private-room--active
   .video-player-wrap,
   .video-slot
     height: 100%

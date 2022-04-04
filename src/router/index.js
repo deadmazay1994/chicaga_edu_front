@@ -18,7 +18,6 @@ import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
-import PrivateWaitingRoom from "@/components/LessonComponents/PrivateRoom/PrivateWaitingRoom";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
@@ -193,12 +192,7 @@ const routes = [
         }
       },
       {
-        path: "private-room",
-        name: "private-waiting-room",
-        component: PrivateWaitingRoom
-      },
-      {
-        path: "private-room/:id",
+        path: "private-room/:room",
         name: "private-room",
         component: PrivateRoom
       }

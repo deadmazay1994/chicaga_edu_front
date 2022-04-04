@@ -79,9 +79,11 @@
       v-if="access"
       style="color: #0d0d0d"
       :class="
-        $route.path === `/lk/private-room/` ? 'nav__link active' : 'nav__link'
+        $route.path === `/lk/private-room/${generateRoomId}`
+          ? 'nav__link active'
+          : 'nav__link'
       "
-      :to="{ path: '/lk/private-room/' }"
+      :to="{ path: '/lk/private-room/' + generateRoomId }"
       >Создать комнату</router-link
     >
   </nav>
@@ -95,7 +97,6 @@ export default {
   data: function() {
     return {
       mobileDetected: false,
-      access: true,
       privateRoomLink: `/lk/private-room/${this.generateRoomId}`
     };
   },
@@ -121,6 +122,9 @@ export default {
   },
   computed: {
     ...mapGetters(["user", "draver"]),
+    access() {
+      return this.user.role == "teacher";
+    },
     draverComputed: {
       get() {
         return this.draver;
