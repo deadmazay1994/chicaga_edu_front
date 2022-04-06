@@ -51,6 +51,8 @@ import Description from "./TasksDescription";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "selection-box",
   data: function() {
@@ -117,6 +119,8 @@ export default {
           this.$set(this.results, i, true);
         }
       });
+      this.error = api.methods.selectCorrectAnswer(); // mock
+      this.error = api.methods.selectCorrectVariant(); // mock
     },
     showAnswers() {
       this.inputCopy.body.forEach((task, i) => {

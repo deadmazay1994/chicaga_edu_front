@@ -44,6 +44,8 @@ import Draggable from "./ComprassionDraggable";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "comparison",
   data: function() {
@@ -80,6 +82,7 @@ export default {
           this.error = true;
         }
       });
+      this.error = api.methods.matchWords(); // mock
     },
     showAnswers() {
       this.l1.forEach((word, i) => {

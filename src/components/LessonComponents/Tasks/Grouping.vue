@@ -44,6 +44,8 @@ import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
 
+import api from "@/mixins/api";
+
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "grouping",
@@ -92,6 +94,7 @@ export default {
           this.$set(this.groups, i, { ...this.groups[i], correct: true });
         }
       });
+      this.error = api.methods.groupByDragging(); // mock
     },
     showAnswers() {
       this.inputCopy.body.forEach((e, i) => {

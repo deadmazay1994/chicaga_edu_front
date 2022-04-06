@@ -36,6 +36,8 @@ import Description from "./TasksDescription";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "tf-task",
   data: function() {
@@ -60,6 +62,7 @@ export default {
           this.error = true;
         }
       });
+      this.error = api.methods.trueOrFalse(); // mock
       this.$forceUpdate();
     },
     showAnswers() {

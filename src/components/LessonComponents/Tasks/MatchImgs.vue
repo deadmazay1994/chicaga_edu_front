@@ -52,6 +52,8 @@ import Gap from "./FillGapsItem";
 import Zoom from "@/directives/zoom";
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "task-match",
   data: function() {
@@ -115,6 +117,7 @@ export default {
           child.check();
         }
       });
+      this.error = api.methods.matchPictureAndWord(); // mock
     },
     showAnswers() {
       if (Array.isArray(this.$refs.gap)) {

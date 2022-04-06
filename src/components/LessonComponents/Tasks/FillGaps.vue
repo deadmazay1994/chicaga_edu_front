@@ -39,6 +39,8 @@ import Description from "./TasksDescription";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "fill-gaps",
   data: function() {
@@ -77,6 +79,14 @@ export default {
           }
         });
       }
+      const data = {
+        type: "dz",
+        type_check: "insert_skipped_word",
+        section: 16,
+        answer: []
+      };
+      this.error = api.methods.insertSkippedWord(12, 349, data); // mock
+      this.error = api.methods.dragAndDropWords(); // mock
     },
     showAnswers() {
       if (this.$refs.gap) {

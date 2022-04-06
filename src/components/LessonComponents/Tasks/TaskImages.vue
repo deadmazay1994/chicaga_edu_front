@@ -37,6 +37,7 @@
 
 <script>
 import "@/mixins/methods";
+import api from "@/mixins/api";
 import { mapGetters, mapMutations } from "vuex";
 import Zoom from "@/directives/zoom";
 
@@ -85,6 +86,7 @@ export default {
           this.error = true;
         }
       });
+      this.error = api.methods.imagesOrder(); // mock
     },
     showAnswers() {
       this.task.shuffled.forEach((task, i) =>

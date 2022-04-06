@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import api from "@/mixins/api.js";
+
 export default {
   name: "syllable",
   data: function() {
@@ -47,6 +49,7 @@ export default {
       } else {
         this.correct = false;
       }
+      this.correct = api.methods.selectStressedSyllable(); // mock
       return !this.correct;
     },
     showAnswers() {

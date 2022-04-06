@@ -36,6 +36,8 @@ import Tick from "@/components/Icons/Tick";
 import { mapGetters, mapMutations } from "vuex";
 import Zoom from "@/directives/zoom";
 
+import api from "@/mixins/api";
+
 export default {
   name: "choose-img",
   data: function() {
@@ -60,6 +62,7 @@ export default {
         });
       });
       this.$forceUpdate();
+      this.error = api.methods.selectCorrectImageAnswer();
     },
     showAnswers() {
       this.task.forEach(item => {

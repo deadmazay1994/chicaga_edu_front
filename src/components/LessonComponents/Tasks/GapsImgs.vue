@@ -36,6 +36,8 @@ import Gap from "./FillGapsItem";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "gaps-imgs",
   data: function() {
@@ -56,6 +58,7 @@ export default {
           child.check();
         }
       });
+      this.error = api.methods.writeWordToPicture(); // mock
     },
     onChange(data) {
       // // Если у учителя как-то отличаются данные родительского компонента
