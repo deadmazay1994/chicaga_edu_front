@@ -69,6 +69,7 @@ export default {
       this.sendTaskToTeacher(this.index, data);
     },
     check() {
+      console.log("FillGaps.vue", this.$refs.gap);
       this.error = false;
       if (this.$refs.gap) {
         this.$refs.gap.forEach(child => {

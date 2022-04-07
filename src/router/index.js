@@ -41,7 +41,7 @@ const routes = [
     }
   },
   {
-    path: "/lesson/:courseId/:id/:userid",
+    path: "/lesson/:id/",
     name: "lesson",
     component: Lesson,
     meta: {
