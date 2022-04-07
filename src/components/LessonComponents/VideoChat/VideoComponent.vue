@@ -285,8 +285,7 @@ export default {
         this.videoHidden = false;
       });
     },
-    autoplayOnIfWebinar() {
-      if (!this.autoplayOn) return;
+    playVideo() {
       if (this.$refs.video.paused) {
         this.$refs.video.play().catch(() => {
           this.$store.commit("pushShuckbar", {
@@ -356,7 +355,7 @@ export default {
     this.audioMuted = !JSON.parse(
       window.localStorage.getItem("videochat_microphone_state")
     );
-    this.autoplayOnIfWebinar();
+    if (this.autoplayOn) this.playVideo();
   }
 };
 </script>
