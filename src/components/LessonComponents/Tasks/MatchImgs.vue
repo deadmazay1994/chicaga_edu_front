@@ -9,8 +9,7 @@
         v-for="(group, index) in task.shuffled"
         :key="index"
       >
-        <pre>{{ group }}</pre>
-        <v-img v-zoom contain :src="IMGSTORE + group.img" />
+        <v-img v-zoom contain :src="group.img" />
         <span :class="answeredImg(index)" class="img-index white--text">{{
           index + 1
         }}</span>
@@ -88,8 +87,9 @@ export default {
       if (!this.task.shuffled.length) {
         // this.shuffle(this.inputCopy.body).forEach(task => {
         this.inputCopy.body.forEach(task => {
+          console.log(task);
           this.task.shuffled.push({
-            img: task.image,
+            img: task.file.file_name_abs,
             word: task.word,
             correct: -1
           });
