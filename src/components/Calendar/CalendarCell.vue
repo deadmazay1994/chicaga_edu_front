@@ -2,7 +2,7 @@
   <div
     class="calendar-cell"
     :class="[
-      { 'calendar-cell_past': item.month !== currMonth },
+      { 'calendar-cell--past': item.month !== currMonth },
       itemState(item)
     ]"
   >
@@ -162,7 +162,7 @@ export default {
     transform: translateX(-129px)
     opacity: 0
 
-  &.calendar-cell_past
+  &.calendar-cell--past
     .cell-head__date,
     .cell-body__title,
     .cell-body__desc
