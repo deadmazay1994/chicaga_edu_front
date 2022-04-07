@@ -160,7 +160,9 @@ export default {
           this.showError("Доступ запрещен вашим устройством");
           break;
         case "DEVICE_ALREADY_IN_USE":
-          this.showError("Запрашиваемое устройство ввода занято другим процессом");
+          this.showError(
+            "Запрашиваемое устройство ввода занято другим процессом"
+          );
           break;
         case "SCREEN_CAPTURE_DENIED":
           this.showError("Демонстрация экрана была отклонена");
@@ -169,7 +171,9 @@ export default {
           this.showError("Ваш браузер не поддерживает демонстрацию экрана");
           break;
         case "SCREEN_EXTENSION_NOT_INSTALLED":
-          this.showError("Расширение для демонстрации экрана не было установлено");
+          this.showError(
+            "Расширение для демонстрации экрана не было установлено"
+          );
           break;
         case "SCREEN_EXTENSION_DISABLED":
           this.showError("Расширение для демонстрации экрана не включено");
@@ -181,13 +185,19 @@ export default {
           this.showError("Микрофон не был обнаружен");
           break;
         case "INPUT_AUDIO_DEVICE_GENERIC_ERROR":
-          this.showError("Произошла неизвестная ошибка при попытке доступа к аудиоустройству");
+          this.showError(
+            "Произошла неизвестная ошибка при попытке доступа к аудиоустройству"
+          );
           break;
         case "NO_INPUT_SOURCE_SET":
-          this.showError("Ошибка получения пользовательских медиаданных с устройств");
+          this.showError(
+            "Ошибка получения пользовательских медиаданных с устройств"
+          );
           break;
         case "PUBLISHER_PROPERTIES_ERROR":
-          this.showError("Не поддерживается частота кадров или разрешение экрана");
+          this.showError(
+            "Не поддерживается частота кадров или разрешение экрана"
+          );
           break;
         case "OPENVIDU_PERMISSION_DENIED":
           this.showError("Доступ запрещен");
@@ -306,8 +316,17 @@ export default {
       this.driver.publishScreen();
     });
   },
+  watch: {
+    $route(to, from) {
+      this.driver.leaveSession();
+      this.$router.push(from.path);
+    }
+  },
   created() {
     this.$watch(() => this.$route.params, this?.driver?.leaveSession);
+    window.onpopstate = () => {
+      this.driver.leaveSession();
+    };
   }
 };
 </script>
