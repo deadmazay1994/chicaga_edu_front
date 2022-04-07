@@ -14,6 +14,7 @@
             :active="true"
             :miniature="false"
             :iconOff="false"
+            :autoplayOn="isStream"
             :mediaObject="activeMediaStream.mediaObject"
           />
         </div>
