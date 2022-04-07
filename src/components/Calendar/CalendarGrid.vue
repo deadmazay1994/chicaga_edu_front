@@ -2,12 +2,12 @@
   <div class="calendar-grid">
     <div class="calendar">
       <calendar-cell
+        v-for="(item, index) in days"
         :currentDateObj="currentDateObj"
         :currMonth="currMonth"
         :currYear="currYear"
         :item="item"
         :key="index"
-        v-for="(item, index) in days"
       />
     </div>
   </div>
