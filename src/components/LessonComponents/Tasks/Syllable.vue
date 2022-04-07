@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import api from "@/mixins/api.js";
 
 export default {
@@ -37,19 +38,35 @@ export default {
       correct: null
     };
   },
+  computed: {
+    ...mapGetters(["activeGroupIndexLesson"])
+  },
   methods: {
     activate(index) {
       this.activeIndex = index;
       this.answer = this.input.slogs[index];
       this.correct = null;
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
-      if (this.input.slogs[this.input.answer] == this.answer) {
-        this.correct = true;
-      } else {
-        this.correct = false;
-      }
-      this.correct = api.methods.selectStressedSyllable(); // mock
+      let answers = [];
+      answers.push({ answers: this.input.slogs[this.input.answer] });
+      this.getLesson().then(res => {
+        const data = {
+          type: "dz",
+          type_check: res.type,
+          section: res.section,
+          answer: answers
+        };
+        this.correct = api.methods.selectStressedSyllable(res.id, data); // mock
+      });
       return !this.correct;
     },
     showAnswers() {

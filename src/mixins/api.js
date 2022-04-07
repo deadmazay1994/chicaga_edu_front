@@ -185,7 +185,7 @@ export default {
       //   data
       // );
       console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
+      return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
     },
     async matchWords(courseId, lessonId, data) {
       // return await post(
@@ -193,7 +193,7 @@ export default {
       //   data
       // );
       console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
+      return [Math.random() < 0.5, Math.random() < 0.5];
     },
     async selectCorrectAnswer(courseId, lessonId, data) {
       // return await post(
@@ -201,7 +201,7 @@ export default {
       //   data
       // );
       console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
+      return [Math.random() < 0.5, Math.random() < 0.5];
     },
     async selectCorrectVariant(courseId, lessonId, data) {
       // return await post(

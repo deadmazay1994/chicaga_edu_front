@@ -187,31 +187,10 @@ export default {
     },
     check() {
       if (this.answers) {
-        let error = 0;
-        this.answered = true;
-        if (this.sentence) {
-          let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
-          for (let i = 0; i < this.answers.length; i++) {
-            if (trueAnswers) {
-              if (
-                this.clearDeeper(trueAnswers[i]) ==
-                this.clearDeeper(this.answers[i].val)
-              ) {
-                this.answers[i].correct = true;
-              } else {
-                error = true;
-                this.answers[i].correct = false;
-              }
-            } else {
-              console.log("trueAnswers is false: FillGapsItem:check");
-            }
-          }
-          this.$emit("oncheck", {
-            index: this.index,
-            result: this.answers
-          });
-        }
-        return error;
+        let answers_arr = this.answers.map(elem => {
+          return elem.val;
+        });
+        return answers_arr;
       }
     },
     showAnswers() {

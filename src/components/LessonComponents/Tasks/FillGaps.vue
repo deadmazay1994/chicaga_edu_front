@@ -69,25 +69,26 @@ export default {
       this.sendTaskToTeacher(this.index, data);
     },
     check() {
-      console.log("FillGaps.vue", this.$refs.gap);
-      this.error = false;
+      let answers = [];
       if (this.$refs.gap) {
         this.$refs.gap.forEach(child => {
-          if (!this.error) {
-            this.error = child.check();
-          } else {
-            child.check();
-          }
+          answers.push({ answers: child.check() });
         });
       }
       const data = {
         type: "dz",
         type_check: "insert_skipped_word",
         section: 16,
-        answer: []
+        answer: answers
+      };
+      const data1 = {
+        type: "dz",
+        type_check: "drag_and_drop_words",
+        section: 18,
+        answer: answers
       };
       this.error = api.methods.insertSkippedWord(12, 349, data); // mock
-      this.error = api.methods.dragAndDropWords(); // mock
+      this.error = api.methods.dragAndDropWords(12, 349, data1); // mock
     },
     showAnswers() {
       if (this.$refs.gap) {

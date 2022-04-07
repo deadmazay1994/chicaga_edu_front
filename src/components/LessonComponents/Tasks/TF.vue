@@ -49,20 +49,34 @@ export default {
   },
   methods: {
     ...mapMutations(["saveTask"]),
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
+      let answers = [];
       this.inputCopy.body.forEach(e => {
-        if (!e.right) {
-          e.right = false;
-        }
-        if (e.correct == e.right) {
-          e.error = false;
-        } else {
-          e.error = true;
-          this.error = true;
-        }
+        answers.push(e.correct);
       });
-      this.error = api.methods.trueOrFalse(); // mock
+      this.getLesson().then(res => {
+        const data = {
+          type: "dz",
+          type_check: res.type,
+          section: res.section,
+          answer: answers
+        };
+        let result = api.methods.trueOrFalse(res.id, data); // mock
+        result.then(res => {
+          this.inputCopy.body.forEach((e, i) => {
+            e.error = res[i];
+          });
+        });
+      });
       this.$forceUpdate();
     },
     showAnswers() {
@@ -85,7 +99,7 @@ export default {
       return { "v-radio--white": tf.error != null };
     }
   },
-  computed: { ...mapGetters(["socket"]) },
+  computed: { ...mapGetters(["socket", "activeGroupIndexLesson"]) },
   components: {
     Description
   },

@@ -97,6 +97,7 @@ export default {
       return error;
     },
     checkError(task, i) {
+      console.log("this.underline:", this.underline);
       if (this.underline) {
         return this.checkErrorUnderline(task, i);
       } else {
@@ -111,6 +112,7 @@ export default {
     },
     check() {
       this.error = false;
+      console.log(">>", this.inputCopy.body);
       this.inputCopy.body.forEach((task, i) => {
         if (this.checkError(task, i)) {
           this.$set(this.results, i, false);
@@ -119,6 +121,26 @@ export default {
           this.$set(this.results, i, true);
         }
       });
+      // let answers = [this.l1, this.l2];
+      // this.getLesson().then(res => {
+      //   const data = {
+      //     type: "dz",
+      //     type_check: res.type,
+      //     section: res.section,
+      //     answer: answers
+      //   };
+      //   let result = this.underline
+      //     ? api.methods.selectCorrectAnswer(res.id, data)
+      //     : api.methods.selectCorrectVariant(res.id, data); // mock
+      //   result.then(res => {
+      //     this.l1.forEach((_, i) => {
+      //       // Vue не умеет изменять значение массивов на прямую
+      //       // Нужно изменять так как это указано ниже
+      //       // https://ru.vuejs.org/v2/guide/reactivity.html
+      //       this.$set(this.res, i, res[i]);
+      //     });
+      //   });
+      // });
       this.error = api.methods.selectCorrectAnswer(); // mock
       this.error = api.methods.selectCorrectVariant(); // mock
     },
@@ -144,7 +166,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description
