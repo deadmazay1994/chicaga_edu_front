@@ -22,10 +22,8 @@
     >
     <router-link
       style="color: #0d0d0d"
-      :class="
-        $route.path === '/lk/my-groups' ? 'nav__link active' : 'nav__link'
-      "
-      to="/lk/my-groups"
+      :class="$route.path === '/lk/webinars' ? 'nav__link active' : 'nav__link'"
+      to="/lk/webinars"
       @click.native="clicked()"
       >Вебинары</router-link
     >
