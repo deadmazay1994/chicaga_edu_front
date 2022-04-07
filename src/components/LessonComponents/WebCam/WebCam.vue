@@ -76,8 +76,7 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false,
-      isStream: true
+      del: false
     };
   },
   computed: {
@@ -90,7 +89,7 @@ export default {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
     }
   },
-  props: ["roomId"],
+  props: ["roomId", "isStream"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
