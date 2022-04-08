@@ -76,17 +76,32 @@ export default {
         "img-task--in-correct": this.task.shuffled[i].correct == 0
       };
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
-      this.task.shuffled.forEach((task, i) => {
-        if (task.number == Number(this.task.answers[i])) {
-          task.correct = 1;
-        } else {
-          task.correct = 0;
-          this.error = true;
-        }
+      let answers = this.task.answers;
+      this.getLesson().then(res => {
+        const data = {
+          type: "dz",
+          type_check: res.type,
+          section: res.section,
+          answer: answers
+        };
+        let result = api.methods.imagesOrder(res.id, data); // mock
+        result.then(res => {
+          this.task.shuffled.forEach((task, i) => {
+            task.correct = res[i];
+            this.error = res[i];
+          });
+        });
       });
-      this.error = api.methods.imagesOrder(); // mock
     },
     showAnswers() {
       this.task.shuffled.forEach((task, i) =>
@@ -108,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "teacherId"])
+    ...mapGetters(["socket", "teacherId", "activeGroupIndexLesson"])
   },
   components: {},
   directives: {

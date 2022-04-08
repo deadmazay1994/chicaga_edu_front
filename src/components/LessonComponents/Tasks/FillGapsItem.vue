@@ -187,7 +187,8 @@ export default {
     },
     check() {
       if (this.answers) {
-        let answers_arr = this.answers.map(elem => {
+        let answers_arr = this.answers.map((elem, i) => {
+          this.answers[i].correct = false;
           return elem.val;
         });
         return answers_arr;

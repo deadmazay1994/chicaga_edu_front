@@ -49,6 +49,14 @@ export default {
   },
   methods: {
     ...mapMutations(["saveTask", "saveChildTask"]),
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
       this.$refs.gap.forEach(child => {
@@ -73,7 +81,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"]),
+    ...mapGetters(["socket", "activeGroupIndexLesson"]),
     tasks: function() {
       let tasks = [];
       for (let i = 0; i < this.maxItemLen; i++) {

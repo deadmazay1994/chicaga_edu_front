@@ -89,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description,
