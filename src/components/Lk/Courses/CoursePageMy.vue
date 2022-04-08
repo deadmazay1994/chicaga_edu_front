@@ -36,7 +36,7 @@
                       class="d-block ml-2"
                       link
                       @click.native="clearTasks"
-                      :to="`/lesson/${$route.params.id}/${lesson.uniq_id}`"
+                      :to="`/lesson/${lesson.uniq_id}`"
                       >{{ lesson.name }}</router-link
                     >
                   </div>
@@ -46,7 +46,7 @@
                     class="d-block mb-2"
                     link
                     @click.native="clearTasks"
-                    :to="`/lesson/${$route.params.id}/${lesson.uniq_id}`"
+                    :to="`/lesson/${lesson.uniq_id}`"
                     >Перейти на урок</router-link
                   >
                   <router-link
