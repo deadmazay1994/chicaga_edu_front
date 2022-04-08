@@ -39,8 +39,6 @@ import Description from "./TasksDescription";
 
 import { mapGetters, mapMutations } from "vuex";
 
-import api from "@/mixins/api";
-
 export default {
   name: "fill-gaps",
   data: function() {
@@ -68,45 +66,12 @@ export default {
       data.childRef = this.childRef;
       this.sendTaskToTeacher(this.index, data);
     },
-    async getLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.id);
-      return {
-        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
-        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
-        id: r.id
-      };
-    },
     check() {
-      console.log(
-        "------------------------------fill-gaps-----------------------------------------"
-      );
-      let answers = [];
       if (this.$refs.gap) {
         this.$refs.gap.forEach(child => {
-          answers.push({ answers: child.check() });
+          child.check();
         });
       }
-      this.getLesson().then(res => {
-        const data = {
-          type: "dz",
-          type_check: res.type,
-          section: res.section,
-          answer: answers
-        };
-        let result =
-          res.type == "insert_skipped_word"
-            ? api.methods.insertSkippedWord(res.id, data)
-            : api.methods.dragAndDropWords(res.id, data);
-        result.then(res => {
-          if (this.$refs.gap) {
-            this.$refs.gap.forEach((_, i) => {
-              this.error = res[i];
-            });
-          }
-        });
-      });
-      // this.error = api.methods.insertSkippedWord(12, 349, data); // mock
-      // this.error = api.methods.dragAndDropWords(12, 349, data1); // mock
     },
     showAnswers() {
       if (this.$refs.gap) {
@@ -169,7 +134,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "activeGroupIndexLesson"])
+    ...mapGetters(["socket"])
   },
   components: {
     FillGapsItem,

@@ -125,7 +125,7 @@ export default {
           child.check();
         }
       });
-      this.error = api.methods.matchPictureAndWord(); // mock
+      this.error = api.methods.taskCheck(); // mock
     },
     showAnswers() {
       if (Array.isArray(this.$refs.gap)) {

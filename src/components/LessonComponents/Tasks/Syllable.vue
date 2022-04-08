@@ -65,7 +65,7 @@ export default {
           section: res.section,
           answer: answers
         };
-        this.correct = api.methods.selectStressedSyllable(res.id, data); // mock
+        this.correct = api.methods.taskCheck(res.id, data); // mock
       });
       return !this.correct;
     },

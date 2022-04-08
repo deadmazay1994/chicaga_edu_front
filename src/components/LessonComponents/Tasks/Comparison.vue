@@ -87,7 +87,7 @@ export default {
           section: res.section,
           answer: answers
         };
-        let result = api.methods.matchWords(res.id, data); // mock
+        let result = api.methods.taskCheck(res.id, data); // mock
         result.then(res => {
           this.l1.forEach((_, i) => {
             // Vue не умеет изменять значение массивов на прямую

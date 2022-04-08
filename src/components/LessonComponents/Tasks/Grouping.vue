@@ -97,7 +97,7 @@ export default {
           section: res.section,
           answer: answers
         };
-        let result = api.methods.groupByDragging(res.id, data);
+        let result = api.methods.taskCheck(res.id, data); // mock
         result.then(res => {
           this.inputCopy.body.forEach((_, i) => {
             this.$set(this.groups, i, { ...this.groups[i], correct: res[i] });

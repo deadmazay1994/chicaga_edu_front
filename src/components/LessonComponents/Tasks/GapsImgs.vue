@@ -66,7 +66,7 @@ export default {
           child.check();
         }
       });
-      this.error = api.methods.writeWordToPicture(); // mock
+      // mock
     },
     onChange(data) {
       // // Если у учителя как-то отличаются данные родительского компонента

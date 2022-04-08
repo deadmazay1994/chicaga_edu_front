@@ -94,7 +94,7 @@ export default {
           section: res.section,
           answer: answers
         };
-        let result = api.methods.imagesOrder(res.id, data); // mock
+        let result = api.methods.taskCheck(res.id, data); // mock
         result.then(res => {
           this.task.shuffled.forEach((task, i) => {
             task.correct = res[i];

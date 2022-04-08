@@ -127,9 +127,7 @@ export default {
           section: res.section,
           answer: answers
         };
-        let result = this.underline
-          ? api.methods.selectCorrectAnswer(res.id, data)
-          : api.methods.selectCorrectVariant(res.id, data); // mock
+        let result = api.methods.taskCheck(res.id, data); // mock
         result.then(res => {
           this.inputCopy.body.forEach((_, i) => {
             // Vue не умеет изменять значение массивов на прямую

@@ -70,7 +70,7 @@ export default {
           section: res.section,
           answer: answers
         };
-        let result = api.methods.trueOrFalse(res.id, data); // mock
+        let result = api.methods.taskCheck(res.id, data); // mock
         result.then(res => {
           this.inputCopy.body.forEach((e, i) => {
             e.error = res[i];

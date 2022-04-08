@@ -1,5 +1,6 @@
 <script>
 import "@/mixins/methods";
+import api from "@/mixins/api";
 import { mapGetters } from "vuex";
 
 function getRandomInt(max) {
@@ -185,13 +186,35 @@ export default {
         });
       }
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
+      let answers = [];
       if (this.answers) {
-        let answers_arr = this.answers.map((elem, i) => {
-          this.answers[i].correct = false;
-          return elem.val;
+        this.answered = true;
+        this.answers.forEach(elem => {
+          answers.push(elem);
         });
-        return answers_arr;
+        this.getLesson().then(res => {
+          const data = {
+            type: "dz",
+            type_check: res.type,
+            section: res.section,
+            answer: answers
+          };
+          let result = api.methods.taskCheck(res.id, data); // mock
+          result.then(res => {
+            this.answers.forEach((_, i) => {
+              this.answers[i].correct = res[i];
+            });
+          });
+        });
       }
     },
     showAnswers() {
@@ -228,7 +251,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   beforeMount() {
     if (this.childSaved) {

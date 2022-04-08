@@ -155,102 +155,13 @@ export default {
       return r;
     },
     // Task check
-    async insertSkippedWord(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return [Math.random() < 0.5, Math.random() < 0.5];
-    },
-    async dragAndDropWords(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
-    },
-    async selectStressedSyllable(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
-    },
-    async trueOrFalse(courseId, lessonId, data) {
+    async taskCheck(courseId, lessonId, data) {
       // return await post(
       //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
       //   data
       // );
       console.log(courseId, lessonId, data);
       return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
-    },
-    async matchWords(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return [Math.random() < 0.5, Math.random() < 0.5];
-    },
-    async selectCorrectAnswer(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return [Math.random() < 0.5, Math.random() < 0.5];
-    },
-    async selectCorrectVariant(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return [Math.random() < 0.5, Math.random() < 0.5];
-    },
-    async groupByDragging(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
-    },
-    async imagesOrder(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      // return Math.floor(Math.random() * 2);
-      return [Math.random() < 0.5];
-    },
-    async writeWordToPicture(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
-    },
-    async matchPictureAndWord(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
-    },
-    async selectCorrectImageAnswer(courseId, lessonId, data) {
-      // return await post(
-      //   `user/course/${courseId}/lesson/${lessonId}/task-check`,
-      //   data
-      // );
-      console.log(courseId, lessonId, data);
-      return Math.random() < 0.5;
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {
