@@ -39,7 +39,8 @@ const routes = [
     name: "lesson_teacher",
     component: Lesson,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      forTeacher: true
     }
   },
   {
@@ -245,7 +246,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-  if (to.name == "lesson_teacher") {
+  if (to.meta.forTeacher) {
     if (api.methods.checkAccess(store.getters.user)) next();
     else {
       store.commit("pushShuckbar", {
