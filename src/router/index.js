@@ -30,39 +30,39 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/lk/my-coursers",
+    redirect: "/lk/my-coursers"
   },
   {
     path: "/lesson/:courseId/:id",
     name: "lesson_teacher",
     component: Lesson,
     meta: {
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/lesson/:courseId/:id/:userid",
     name: "lesson",
     component: Lesson,
     meta: {
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/homework/:courseId/:id",
     name: "homework_teacher",
     component: Homework,
     meta: {
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/homework/:courseId/:id/:userid",
     name: "homework",
     component: Homework,
     meta: {
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/lesson-preview/:id",
@@ -70,8 +70,8 @@ const routes = [
     component: LessonPreview,
     meta: {
       // forTeacher: true,
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/course-list-teacher",
@@ -79,20 +79,20 @@ const routes = [
     component: CourseListTeacher,
     meta: {
       // forTeacher: true,
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/404",
     name: "404",
     component: Page404,
     meta: {
-      all: true,
-    },
+      all: true
+    }
   },
   {
     path: "*",
-    redirect: "/404",
+    redirect: "/404"
   },
   {
     path: "/auth",
@@ -100,7 +100,7 @@ const routes = [
     meta: {
       guest: true,
       layout: "auth-wrapper",
-      requiresAuth: false,
+      requiresAuth: false
     },
     children: [
       {
@@ -108,38 +108,38 @@ const routes = [
         name: "login",
         component: Login,
         meta: {
-          layout: "auth-wrapper",
-        },
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "",
         component: Login,
         meta: {
-          layout: "auth-wrapper",
-        },
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "register",
         component: Register,
         meta: {
-          layout: "auth-wrapper",
-        },
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "recover",
         component: Recover,
         meta: {
-          layout: "auth-wrapper",
-        },
+          layout: "auth-wrapper"
+        }
       },
       {
         path: "recover/:hash",
         component: Recover,
         meta: {
-          layout: "auth-wrapper",
-        },
-      },
-    ],
+          layout: "auth-wrapper"
+        }
+      }
+    ]
   },
   {
     path: "/lk",
@@ -147,50 +147,50 @@ const routes = [
     component: Lk,
     meta: {
       requiresAuth: true,
-      guest: false,
+      guest: false
     },
     children: [
       {
         path: "settings",
-        component: Settings,
+        component: Settings
       },
       {
         path: "catalog-coursers",
-        component: CatalogCourses,
+        component: CatalogCourses
       },
       {
         path: "my-coursers",
-        component: MyCourses,
+        component: MyCourses
       },
       {
         path: "course/:id",
-        component: CoursePage,
+        component: CoursePage
       },
       {
         path: "dictionary",
-        component: Dictionary,
+        component: Dictionary
       },
       {
         path: "my-groups",
-        component: Group,
+        component: Group
       },
       {
         path: "upcoming/:id/:code/:startTime",
         name: "upcoming-lesson",
-        component: Upcoming,
-      },
-    ],
+        component: Upcoming
+      }
+    ]
   },
   {
     path: "/faq",
     name: "faq",
-    component: FAQ,
+    component: FAQ
   },
   {
     path: "/agree",
     name: "agree",
-    component: Agree,
-  },
+    component: Agree
+  }
 ];
 
 export const router = new VueRouter({
@@ -198,44 +198,44 @@ export const router = new VueRouter({
   // mode: "history",
   // base: process.env.BASE_URL,
   base: process.env.BASE_URL + "/edu/",
-  routes,
+  routes
 });
 
 // Скрываем страницы от не авторизированных пользователей
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
     if (!localStorage.getItem("token")) {
       next({
         path: "/auth/login",
-        query: { redirect: to.fullPath },
+        query: { redirect: to.fullPath }
       });
       store.commit("pushShuckbar", {
         val: "Пожалуйста, авторизируйтесь",
-        success: false,
+        success: false
       });
     } else {
       next();
     }
-  } else if (to.matched.some((record) => record.meta.guest)) {
+  } else if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
         path: "/lk/my-coursers",
-        query: { redirect: to.fullPath },
+        query: { redirect: to.fullPath }
       });
     } else {
       next();
     }
-  } else if (to.matched.some((record) => record.meta.forTeacher)) {
+  } else if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
       next({
         path: "/lk/my-coursers",
-        query: { redirect: to.fullPath },
+        query: { redirect: to.fullPath }
       });
       store.commit("pushShuckbar", {
         val: "Пожалуйста, авторизируйтесь под аккаунтом учителя",
-        success: false,
+        success: false
       });
     } else {
       next();
