@@ -1,5 +1,5 @@
 // const API_URL = "https://eng-test.avead.dev/api/";
-const API_URL = "https://edu.chicaga.ru/api/";
+const API_URL = "https://dev.edu.chicaga.ru/api/";
 
 import Axios from "axios";
 
@@ -155,15 +155,16 @@ export default {
       return r;
     },
     // Task check
-    async taskCheck(courseId, lessonId, data) {
-      let test = true;
+    async taskCheck(lessonId, data) {
+      let test = false;
       if (test)
         return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
-      else
-        return await post(
-          `user/course/${courseId}/lesson/${lessonId}/task-check`,
-          data
-        );
+      else {
+        console.log("=>", lessonId);
+        let result = await post(`user/lesson/${lessonId}/task-check`, data);
+        console.log("------------>", result);
+        return result;
+      }
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {

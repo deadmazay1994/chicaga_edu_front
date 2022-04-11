@@ -208,6 +208,7 @@ export default {
             section: res.section,
             answer: answers
           };
+          console.log("FillGapsItem.vue res:", res); // test
           let result = api.methods.taskCheck(res.id, data); // mock
           result.then(res => {
             this.answers.forEach((_, i) => {
