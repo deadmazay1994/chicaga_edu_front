@@ -116,9 +116,12 @@ export default {
     };
   },
   methods: {
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return r.id;
+    },
     async getTaskHeaderData() {
-      let r = await api.methods.getTaskHeaderData();
-      console.log("-->", r);
+      let r = await api.methods.getTaskHeaderData(238);
       return r;
     }
   },

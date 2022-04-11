@@ -129,7 +129,8 @@ export default {
       return get("teacher/course/" + courseId);
     },
     async getTaskHeaderData(lessonId) {
-      console.log(lessonId);
+      let r = await post(`user/lesson/${lessonId}`);
+      console.log("r:", r);
       return {
         smile: 100,
         star: 200,
