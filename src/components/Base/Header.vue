@@ -203,7 +203,7 @@ export default {
 
 @media (max-width:600px)
   .header
-    background: linear-gradient(237.57deg, #f9e1da -366.33%, red -139.4%, #ff5454 -133.33%);
+    background: linear-gradient(237.57deg, #f9e1da -366.33%, red -139.4%, #ff5454 -133.33%)
     padding: 18px 25px
 
 .header--clan
