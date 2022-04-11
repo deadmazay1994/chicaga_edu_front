@@ -5,12 +5,12 @@ import Axios from "axios";
 
 async function responseProcessing(response, method, error = "") {
   let res = false;
-  await response.then((data) => {
+  await response.then(data => {
     let d = data.data;
     if ("errors" in d) {
       console.error(error, method, d.errors);
       res = {
-        error: d.errors,
+        error: d.errors
       };
     } else {
       res = d;
@@ -27,8 +27,8 @@ async function get(method, data = "", token = localStorage.getItem("token")) {
     headers: {
       Authorization: "Bearer " + token,
       "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    },
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }
   });
   return responseProcessing(r, method);
 }
@@ -39,8 +39,8 @@ async function post(method, data, token = localStorage.getItem("token")) {
     url: API_URL + method,
     data,
     headers: {
-      Authorization: "Bearer " + token,
-    },
+      Authorization: "Bearer " + token
+    }
   });
   return responseProcessing(r, method);
 }
@@ -51,8 +51,8 @@ async function put(method, data, token = localStorage.getItem("token")) {
     url: API_URL + method,
     data,
     headers: {
-      Authorization: "Bearer " + token,
-    },
+      Authorization: "Bearer " + token
+    }
   });
   return responseProcessing(r);
 }
@@ -62,9 +62,9 @@ async function del(method, data, token = localStorage.getItem("token")) {
     method: "DELETE",
     url: API_URL + method + "/" + data,
     headers: {
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + token
     },
-    crossDomain: true,
+    crossDomain: true
   });
   return responseProcessing(r);
 }
@@ -98,7 +98,7 @@ export default {
       let response = await get("lesson", id);
       return {
         lesson: response.lesson,
-        dz: response.dz,
+        dz: response.dz
       };
     },
     async getFullLesson(id) {
@@ -112,7 +112,7 @@ export default {
         `user/course/${data.courseId}/lesson/${data.lessonId}/lesson-progress`,
         {
           progress: data.progress,
-          id: data.userId,
+          id: data.userId
         }
       );
     },
@@ -121,12 +121,23 @@ export default {
         `user/course/${data.courseId}/lesson/${data.lessonId}/home-work-progress`,
         {
           home_work_progress: data.progress,
-          id: data.userId,
+          id: data.userId
         }
       );
     },
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
+    },
+    async getTaskHeaderData(lessonId) {
+      console.log(lessonId);
+      return {
+        smile: 100,
+        star: 200,
+        brain: 300,
+        lamp: 400,
+        coins: 999,
+        time: 1649937589
+      };
     },
     // User
     async register(userData) {
@@ -143,14 +154,14 @@ export default {
     },
     async recoverPassword(email) {
       return post("user/password/email", {
-        email,
+        email
       });
     },
     async setNewPassword(password, passwordConfirmed, token) {
       let r = await post("user/password/reset", {
         token,
         password,
-        password_confirmation: passwordConfirmed,
+        password_confirmation: passwordConfirmed
       });
       return r;
     },
@@ -167,7 +178,7 @@ export default {
     // Chat
     async createChannel(channelName) {
       return post("channel", {
-        name: channelName,
+        name: channelName
       });
     },
     // Payment
@@ -177,12 +188,12 @@ export default {
       console.log({
         type: type,
         id,
-        count,
+        count
       });
       return post("payment", {
         type: type,
         id,
-        count,
+        count
       });
     },
     // FAQ
@@ -193,7 +204,7 @@ export default {
       } else {
         this.$store.commit("pushShuckbar", {
           success: false,
-          val: "Не получилось получить вопросы и ответы. Попробуйте позже",
+          val: "Не получилось получить вопросы и ответы. Попробуйте позже"
         });
         return [];
       }
@@ -205,7 +216,7 @@ export default {
         for (const key in response.error) {
           let e = response.error[key];
           if (typeof e == "object") {
-            e.forEach((eText) => {
+            e.forEach(eText => {
               errorText += eText + " ";
             });
           } else {
@@ -214,9 +225,9 @@ export default {
         }
       }
       return errorText;
-    },
+    }
   },
   computed: {
-    ...mapGetters(["user"]),
-  },
+    ...mapGetters(["user"])
+  }
 };

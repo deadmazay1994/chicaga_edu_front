@@ -7,28 +7,28 @@
           <svg class="task__header__svg">
             <use xlink:href="#smile1"></use>
           </svg>
-          <span>10</span>
+          <span>{{ smileData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#star"></use>
           </svg>
-          <span>10</span>
+          <span>{{ starData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#brains"></use>
           </svg>
-          <span>10</span>
+          <span>{{ brainData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#bulb"></use>
           </svg>
-          <span>0</span>
+          <span>{{ lampData }}</span>
         </div>
       </div>
       <div class="task__header__item">
@@ -36,14 +36,14 @@
           <svg class="task__header__svg">
             <use xlink:href="#coin"></use>
           </svg>
-          <span>200</span>
+          <span>{{ coinsData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#clock"></use>
           </svg>
-          <span>15:00</span>
+          <span>{{ timeData }}</span>
         </div>
       </div>
     </div>
@@ -99,14 +99,29 @@ import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import Whiteboard from "./WhiteBoard/WhiteBoard";
 
+import api from "@/mixins/api";
+import moment from "moment";
+
 export default {
   name: "edu-panel",
-  data: function () {
+  data: function() {
     return {
       tab: null,
+      smileData: null,
+      starData: null,
+      brainData: null,
+      lampData: null,
+      coinsData: null,
+      timeData: null
     };
   },
-  methods: {},
+  methods: {
+    async getTaskHeaderData() {
+      let r = await api.methods.getTaskHeaderData();
+      console.log("-->", r);
+      return r;
+    }
+  },
   computed: {
     ...mapGetters(["user", "materials", "socket"]),
     taskTabTitle() {
@@ -115,18 +130,28 @@ export default {
       } else {
         return "Задания";
       }
-    },
+    }
   },
   components: {
     Tasks,
     Attachs,
     Whiteboard,
-    TeacherPanel,
+    TeacherPanel
   },
   props: [],
   mixins: {},
   beforeMount() {},
-  mounted() {},
+  mounted() {
+    this.getTaskHeaderData().then(res => {
+      this.smileData = res.smile;
+      this.starData = res.star;
+      this.brainData = res.brain;
+      this.lampData = res.lamp;
+      this.coinsData = res.coins;
+      this.timeData =
+        moment.unix(res.time).hour() + ":" + moment(res.time).minute();
+    });
+  }
 };
 </script>
 
