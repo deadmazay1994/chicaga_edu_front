@@ -46,12 +46,15 @@ export default {
   },
   methods: {
     toggleChat() {
+      let chat = document.querySelector(".chat-block");
       if (!this.chat) {
-        document.querySelector(".video-chat").style.width = "80%";
-        document.querySelector(".chat-block").style.width = "20%";
+        document.querySelector(".video-chat").style.width = "70%";
+        chat.style.width = "30%";
+        chat.style.opacity = 1;
       } else {
         document.querySelector(".video-chat").style.width = "100%";
         document.querySelector(".chat-block").style.width = "0%";
+        chat.style.opacity = 0;
       }
       this.chat = !this.chat;
     },
@@ -63,12 +66,17 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.private-room--active
-  position: fixed
+.private-room
+  position: absolute
   height: 100%
-  width: 100%
+  width:100%
   top: 0
   left: 0
+
+.private-room--active
+  position: absolute
+  height: 100%
+  width: 100%
 
   .video-chat
     width: 100%
@@ -79,14 +87,18 @@ export default {
         height: 100% !important
   .chat-block
     height: 100%
-    position: fixed
+    position: absolute
     width: 0%
+    opacity: 0
     top: 0
     right: 0
     transition: .3s ease-in-out
 </style>
 
 <style lang="sass">
+.main-view
+  position: relative
+
 .private-room--active
   .video-player-wrap,
   .video-slot
@@ -113,10 +125,10 @@ export default {
       .video-player-wrap,
       .video-slot,
       .vidFrame
-        height: auto !important
+        // height: auto !important
 
       .video-chat
-        height: 450px !important
+        // height: 450px !important
       .chat-block
         position: static
 </style>
