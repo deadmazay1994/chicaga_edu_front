@@ -77,11 +77,7 @@ export default {
       this.showDropDown = !this.showDropDown;
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      console.log(this.item.subEvents);
-    });
-  }
+  mounted() {}
 };
 </script>
 

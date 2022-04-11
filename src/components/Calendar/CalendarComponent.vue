@@ -23,7 +23,7 @@
     </div>
     <swiper class="swiper-grid" :options="swiperGridOption" ref="swiperGrid">
       <swiper-slide
-        class="swiper-no-swiping"
+        class="swiper-no-swiping calendar__slide"
         v-for="(item, index) in allMonths"
         :key="index"
       >
@@ -110,9 +110,18 @@ export default {
     }
   },
   methods: {
-    setEvents() {
-      api.methods.getWebinarEvents().map(element => {
-        this.events.push(element);
+    async setEvents() {
+      let webinarsResponse = await api.methods.getWebinarEvents();
+      webinarsResponse.data.forEach(element => {
+        this.events.push({
+          title: element.title,
+          subtitle: element.subtitle,
+          poster: element.poster,
+          price: element.price,
+          responsible: "",
+          date: +new Date(element.date_time) / 1000,
+          subscribed: element.subscribed
+        });
       });
     },
     eventArr(item, year) {
@@ -207,6 +216,9 @@ export default {
 </script>
 
 <style lang="sass">
+.calendar
+  &__slide
+    overflow: auto
 .celendar-head
   display: flex
   align-items: center
