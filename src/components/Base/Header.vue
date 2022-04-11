@@ -182,4 +182,123 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="scss"></style>
+<style scoped="scoped" lang="sass">
+.header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  position: relative
+
+  &::after
+    content: ""
+    width: 100%
+    height: 2.5px
+    position: absolute
+    bottom: -10px
+    background: hsla(0, 0%, 50%, .1)
+
+@media (max-width:600px)
+  .header:after
+    display: none
+
+@media (max-width:600px)
+  .header
+    background: linear-gradient(237.57deg, #f9e1da -366.33%, red -139.4%, #ff5454 -133.33%);
+    padding: 18px 25px
+
+.header--clan
+  margin-bottom: 20px
+
+@media (max-width:700px)
+  .header--clan:after
+    display: none
+
+@media (max-width:600px)
+  .header--clan
+    margin-bottom: 0
+
+.header__title-block
+  display: flex
+  align-items: center
+
+.header__burger
+  width: 23px
+  height: 23px
+  margin-right: 20px
+  display: none
+  cursor: pointer
+
+@media (max-width:1000px)
+  .header__burger
+    display: block
+
+@media (max-width:1300px)
+  .header__burger--lessons
+    display: block
+
+.header__burger .burger__path
+  fill: gray
+
+@media (max-width:600px)
+  .header__burger .burger__path
+    fill: #fff
+
+.header__title
+  color: hsla(0, 0%, 50%, .6)
+  font-size: 14px
+
+@media (max-width:600px)
+  .header__title
+    color: #fff
+
+.profile__menu
+  background: #fff
+  box-shadow: 0 4px 15px hsla(0, 0%, 50%, .2)
+  border-radius: 15px
+  width: 200px
+  padding: 15px
+  position: absolute
+  z-index: -1
+  bottom: -110px
+  right: 0
+  opacity: 0
+  transition: opacity .3s
+
+  &.active
+    opacity: 1
+    z-index: 2
+
+  &, button
+    font-family: sf-ui, sans-serif
+    font-weight: 500
+    font-size: 12px
+
+  button
+    color: #000
+    display: block
+    width: 100%
+    text-align: left
+
+.profile__menu--2
+  bottom: -60px
+
+.profile__menu--3
+  bottom: -295px
+
+.profile__menu-btn
+  padding-bottom: 15px
+  margin-bottom: 15px
+  border-bottom: 1.5px solid hsla(0, 0%, 50%, .1)
+
+.profile__menu-p
+  color: gray
+
+.avatar__img
+  width: 100%
+  height: 100%
+
+.controls__item
+  margin-right: 25px
+  display: flex
+  align-items: center
+</style>
