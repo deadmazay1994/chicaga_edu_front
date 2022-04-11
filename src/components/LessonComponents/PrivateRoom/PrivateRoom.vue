@@ -2,10 +2,11 @@
   <div class="private-room">
     <div class="private-room--active" v-if="active">
       <!-- Пока передаем roomid через route -->
-      <web-cam :roomId="this.$route.params.room" @clickChat="toggleChat()" />
+      <!-- <web-cam :roomId="this.$route.params.room" @clickChat="toggleChat()" />
       <div class="chat-block">
         <chat />
-      </div>
+      </div> -->
+      <chat-module />
     </div>
     <div class="private-room--upcoming" v-if="!active">
       <upcoming
@@ -20,17 +21,20 @@
 </template>
 
 <script>
-import WebCam from "@/components/LessonComponents/WebCam/WebCam";
-import Chat from "@/components/LessonComponents/Chat/Chat";
+// import WebCam from "@/components/LessonComponents/WebCam/WebCam";
+// import Chat from "@/components/LessonComponents/Chat/Chat";
 import Upcoming from "@/components/Group/Upcoming";
+import ChatModule from "@/components/LessonComponents/ChatModule/ChatModule";
+
 import { mapGetters } from "vuex";
 
 export default {
   name: "",
   components: {
-    WebCam,
-    Chat,
-    Upcoming
+    // WebCam,
+    // Chat,
+    Upcoming,
+    ChatModule
   },
   data() {
     return {
