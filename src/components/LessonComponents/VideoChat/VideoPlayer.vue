@@ -3,6 +3,7 @@
     <div ref="videoElemSlot" class="video-slot">
       <figure class="vidFrame" ref="vidFrame">
         <slot name="videoSlot"></slot>
+        <chat />
         <figcaption class="vidBar" v-if="active">
           <div class="top">
             <div class="progress">
@@ -36,7 +37,11 @@
               </div>
             </div>
             <div class="right-side">
-              <chat-svg :chatOff="false" @clickElem="clickChat" />
+              <chat-svg
+                v-if="showChatButton"
+                :chatOff="chatState"
+                @clickElem="clickChat"
+              />
               <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
             </div>
           </dir>
@@ -51,6 +56,7 @@ import PlaySvg from "@/components/Icons/PlaySvg";
 import SoundSvg from "@/components/Icons/SoundSvg";
 import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
+import Chat from "@/components/LessonComponents/Chat/Chat";
 
 export default {
   name: "video-player",
@@ -58,7 +64,8 @@ export default {
     PlaySvg,
     SoundSvg,
     ChatSvg,
-    ExpandSvg
+    ExpandSvg,
+    Chat
   },
   data() {
     return {
@@ -72,7 +79,13 @@ export default {
       fullscreenOn: false
     };
   },
-  props: ["video", "active"],
+  // props: ["video", "active"],
+  props: {
+    video: HTMLObjectElement,
+    active: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   computed: {
     videoIsActive() {
       // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
@@ -154,6 +167,8 @@ export default {
     }
   },
   mounted() {
+    console.log("3 - VideoPlayer (propsCheck):", this.showChatButton2);
+    console.log("3 - chatState (propsCheck):", this.chatState);
     this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0].children[0];
     this.videoPlayer.volume = 0.5;
 
@@ -282,8 +297,8 @@ export default {
 .video-chat-miniatures-wrapper
   .video-player-wrap
     height: 100%
-  .video-slot 
+  .video-slot
     height: 100%
-  .vidFrame 
+  .vidFrame
     height: 100%
 </style>

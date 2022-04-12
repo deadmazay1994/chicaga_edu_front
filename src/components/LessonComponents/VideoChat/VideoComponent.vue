@@ -12,6 +12,8 @@
       <video-player
         :video="this.$refs.video"
         :active="active"
+        :showChatButton="showChatButton"
+        :chatState="chatState"
         @clickChat="clickChat"
       >
         <div slot="videoSlot" style="height: 100%;">
@@ -333,10 +335,20 @@ export default {
     Reflect,
     VideoPlayer
   },
-  props: ["mediaObject", "indexVideo", "active", "itsMe"],
+  // props: ["mediaObject", "indexVideo", "active", "itsMe", "chat"],
+  props: {
+    mediaObject: Object,
+    indexVideo: Number,
+    active: Boolean,
+    itsMe: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   mixins: {},
   beforeMount() {},
   mounted() {
+    console.log("2 - VideoComponent (propsCheck):", this.showChatButton1);
+    console.log("2 - chatState (propsCheck):", this.chatState);
     // this.$refs.video.addEventListener("canplay", () => {
     //   if (this.muted) {
     //     this.$refs.video.muted = true;

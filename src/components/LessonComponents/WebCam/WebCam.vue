@@ -15,6 +15,8 @@
             :miniature="false"
             :iconOff="false"
             :mediaObject="activeMediaStream.mediaObject"
+            :showChatButton="showChatButton"
+            :chatState="chatState"
             @clickChat="clickChat"
           />
         </div>
@@ -93,7 +95,12 @@ export default {
       );
     }
   },
-  props: ["roomId", "webinar"],
+  props: {
+    roomId: String,
+    webinar: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   methods: {
     clickChat() {
       this.$emit("clickChat");
@@ -305,6 +312,8 @@ export default {
     }
   },
   mounted() {
+    console.log("1 - webcam (propsCheck):", this.showChatButton);
+    console.log("1 - chatState (propsCheck):", this.chatState);
     this.setMediaStream();
     this.$on("toggleCamera", () => {
       this.driver.togglePublishVideo();

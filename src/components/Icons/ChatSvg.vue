@@ -37,14 +37,14 @@
 export default {
   name: "ChatSvg",
   data() {
-    return {
-      chatOff: false
-    };
+    return {};
+  },
+  props: {
+    chatOff: Boolean
   },
   methods: {
     clickElem() {
       this.$emit("clickElem");
-      this.chatOff = !this.chatOff;
     }
   }
 };
