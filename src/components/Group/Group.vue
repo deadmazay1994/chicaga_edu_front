@@ -11,6 +11,7 @@
       <div class="group__lessons" v-show="hasAcademicGroup && !hasLessons">
         В вашей академической группе нет предстоящих занятий
       </div>
+      <!-- Убрать <!> после теста -->
       <div class="group__lessons" v-if="hasAcademicGroup && hasLessons">
         <!-- Show upcomming lessons -->
         <v-data-table

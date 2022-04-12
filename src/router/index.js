@@ -16,6 +16,7 @@ import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
+import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
@@ -42,7 +43,7 @@ const routes = [
     }
   },
   {
-    path: "/lesson/:courseId/:id/:userid",
+    path: "/lesson/:id/",
     name: "lesson",
     component: Lesson,
     meta: {
@@ -174,6 +175,10 @@ const routes = [
       {
         path: "my-groups",
         component: Group
+      },
+      {
+        path: "webinars",
+        component: WebinarsComponent
       },
       {
         path: "upcoming/:id/:code/:startTime",

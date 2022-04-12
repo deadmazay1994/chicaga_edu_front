@@ -41,7 +41,7 @@ export default {
     },
     lessonAccessCheck(access) {
       if (access) {
-        this.link = `/lesson/${this.id}/${this.$route.params.code}`;
+        this.link = `/lesson/${this.$route.params.id}/${this.$route.params.code}`;
         this.access = true;
       } else {
         this.link = "/";
