@@ -16,7 +16,7 @@
         :chatState="chatState"
         @clickChat="clickChat"
       >
-        <div slot="videoSlot" style="height: 100%;">
+        <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
           <video
             ref="video"
             v-show="mediaObject.userInfo.videoActive"
@@ -356,8 +356,6 @@ export default {
   mixins: {},
   beforeMount() {},
   mounted() {
-    console.log("2 - VideoComponent (propsCheck):", this.showChatButton1);
-    console.log("2 - chatState (propsCheck):", this.chatState);
     // this.$refs.video.addEventListener("canplay", () => {
     //   if (this.muted) {
     //     this.$refs.video.muted = true;

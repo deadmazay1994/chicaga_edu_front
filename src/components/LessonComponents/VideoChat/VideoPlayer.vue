@@ -1,9 +1,13 @@
 <template>
   <div class="video-player-wrap">
     <div ref="videoElemSlot" class="video-slot">
-      <figure class="vidFrame" ref="vidFrame">
-        <slot name="videoSlot"></slot>
-        <chat />
+      <figure
+        class="vidFrame"
+        ref="vidFrame"
+        :class="{ chatActive: fullscreenChatState }"
+      >
+        <slot name="videoSlot" class="fullscreen-video-block"></slot>
+        <chat ref="chat" v-if="fullscreenOn" />
         <figcaption class="vidBar" v-if="active">
           <div class="top">
             <div class="progress">
@@ -40,6 +44,8 @@
               <chat-svg
                 v-if="showChatButton"
                 :chatOff="chatState"
+                :fullscreenChatState="fullscreenChatState"
+                :fullScreenMode="fullscreenOn"
                 @clickElem="clickChat"
               />
               <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
@@ -76,10 +82,10 @@ export default {
       paused: false,
       videoPlayer: undefined,
       currentTime: undefined,
-      fullscreenOn: false
+      fullscreenOn: false,
+      fullscreenChatState: false
     };
   },
-  // props: ["video", "active"],
   props: {
     video: HTMLObjectElement,
     active: Boolean,
@@ -88,7 +94,6 @@ export default {
   },
   computed: {
     videoIsActive() {
-      // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
       if (!this.videoPlayer) return false;
       return true;
     }
@@ -98,7 +103,6 @@ export default {
       this.videoPlayer.play();
     },
     pauseVideo() {
-      console.log(this.videoPlayer);
       this.videoPlayer.pause();
     },
     showVolume() {
@@ -126,7 +130,9 @@ export default {
       }
     },
     clickChat() {
-      this.$emit("clickChat");
+      if (this.fullscreenOn)
+        this.fullscreenChatState = !this.fullscreenChatState;
+      else this.$emit("clickChat");
     },
     toggleExpand() {
       if (!this.fullscreenOn) {
@@ -149,7 +155,6 @@ export default {
       }
     },
     closeExpand() {
-      console.log("close expand!");
       document.exitFullscreen();
       this.fullscreenOn = false;
     },
@@ -161,14 +166,9 @@ export default {
   watch: {
     changeVol() {
       this.videoPlayer.volume = this.changeVol;
-    },
-    currentTime() {
-      console.log("current time:", this.currentTime);
     }
   },
   mounted() {
-    console.log("3 - VideoPlayer (propsCheck):", this.showChatButton2);
-    console.log("3 - chatState (propsCheck):", this.chatState);
     this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0].children[0];
     this.videoPlayer.volume = 0.5;
 
@@ -301,4 +301,24 @@ export default {
     height: 100%
   .vidFrame
     height: 100%
+
+.vidFrame:fullscreen
+  .lessons__messages
+    position: fixed
+    right: 0
+    left: auto
+    width: 0%
+    opacity: 0
+    transition: .3s ease-in-out
+  .videoSlot-block,
+  .vidBar
+    width: 100%
+    transition: .3s ease-in-out
+  &.chatActive
+    .lessons__messages
+      width: 30%
+      opacity: 1
+    .videoSlot-block,
+    .vidBar
+      width: 70%
 </style>

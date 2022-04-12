@@ -313,8 +313,6 @@ export default {
     }
   },
   mounted() {
-    console.log("1 - webcam (propsCheck):", this.showChatButton);
-    console.log("1 - chatState (propsCheck):", this.chatState);
     this.setMediaStream();
     this.$on("toggleCamera", () => {
       this.driver.togglePublishVideo();

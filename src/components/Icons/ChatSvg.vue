@@ -1,7 +1,7 @@
 <template>
   <div class="chat-svg" @click="clickElem">
     <svg
-      v-if="!chatOff"
+      v-if="!chatSvgOn"
       width="20"
       height="16"
       viewBox="0 0 20 16"
@@ -16,7 +16,7 @@
       />
     </svg>
     <svg
-      v-if="chatOff"
+      v-if="chatSvgOn"
       width="20"
       height="16"
       viewBox="0 0 20 16"
@@ -40,7 +40,15 @@ export default {
     return {};
   },
   props: {
-    chatOff: Boolean
+    chatOff: Boolean,
+    fullScreenMode: Boolean,
+    fullscreenChatState: Boolean
+  },
+  computed: {
+    chatSvgOn() {
+      if (this.fullScreenMode) return this.fullscreenChatState;
+      else return this.chatOff;
+    }
   },
   methods: {
     clickElem() {

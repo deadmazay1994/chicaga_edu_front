@@ -45,16 +45,6 @@ export default {
   },
   methods: {
     toggleChat() {
-      // let chat = document.querySelector(".chat-block");
-      // if (!this.chat) {
-      //   document.querySelector(".video-chat").style.width = "70%";
-      //   chat.style.width = "30%";
-      //   chat.style.opacity = 1;
-      // } else {
-      //   document.querySelector(".video-chat").style.width = "100%";
-      //   document.querySelector(".chat-block").style.width = "0%";
-      //   chat.style.opacity = 0;
-      // }
       this.chatState = !this.chatState;
     }
   }
