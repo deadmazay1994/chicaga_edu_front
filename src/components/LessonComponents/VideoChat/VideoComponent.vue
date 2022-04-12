@@ -9,7 +9,11 @@
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
     <div style="height: inherit; display: flex; align-items: center;">
-      <video-player :video="this.$refs.video" :active="active">
+      <video-player
+        :video="this.$refs.video"
+        :active="active"
+        @clickChat="clickChat"
+      >
         <div slot="videoSlot" style="height: 100%;">
           <video
             ref="video"
@@ -98,6 +102,9 @@ export default {
       "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
+    clickChat() {
+      this.$emit("clickChat");
+    },
     toggleFullSize() {
       this.$emit("toggleFullSize", this.indexVideo);
     },

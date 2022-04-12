@@ -4,7 +4,10 @@
     <div class="buttons">
       <router-link
         :to="link"
-        @click.native="callWarn"
+        @click.native="
+          callWarn();
+          returnValue();
+        "
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
@@ -18,7 +21,7 @@ import api from "@/mixins/api";
 
 export default {
   name: "Prepare",
-  props: ["event", "time", "titleText"],
+  props: ["event", "time", "titleText", "room"],
   data() {
     return {
       course_id: null,
@@ -46,18 +49,22 @@ export default {
       }
     },
     callWarn() {
-      if (this.access) return;
+      if (this.access || this.room) return;
       this.$store.commit("pushShuckbar", {
         success: false,
         val: "Ошибка доступа к уроку"
       });
+    },
+    returnValue() {
+      if (!this.room) return;
+      this.$emit("ready");
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      this.setParams();
-    });
-    this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
+    this.setParams();
+    // если передана ссылка на конкретную комнату
+    if (this.room) this.link = this.room;
+    else this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
   }
 };
 </script>

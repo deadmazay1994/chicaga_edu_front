@@ -36,12 +36,15 @@
 <script>
 export default {
   name: "ChatSvg",
-  props: {
-    chatOff: Boolean
+  data() {
+    return {
+      chatOff: false
+    };
   },
   methods: {
     clickElem() {
       this.$emit("clickElem");
+      this.chatOff = !this.chatOff;
     }
   }
 };
