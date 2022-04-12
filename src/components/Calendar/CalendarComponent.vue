@@ -120,7 +120,8 @@ export default {
           price: element.price,
           responsible: "",
           date: +new Date(element.date_time) / 1000,
-          subscribed: element.subscribed
+          subscribed: element.subscribed,
+          id: element.id
         });
       });
     },
@@ -138,6 +139,8 @@ export default {
             item.title = element.title;
             item.subtitle = element.subtitle;
             item.subEvents = element.subEvents;
+            item.price = element.price;
+            item.id = element.id;
           }
         });
       });

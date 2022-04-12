@@ -5,6 +5,7 @@
       { 'calendar-cell--past': item.month !== currMonth },
       itemState(item)
     ]"
+    @click="openModal()"
   >
     <div class="cell-head">
       <span
@@ -48,6 +49,8 @@ import LockSvg from "@/components/Icons/LockSvg";
 import SchevronSvg from "@/components/Icons/SchevronSvg";
 import CalendarDropdown from "./CalendarDropdown.vue";
 
+import { mapMutations } from "vuex";
+
 export default {
   name: "CalendarCell",
   components: {
@@ -67,6 +70,7 @@ export default {
     currYear: Number
   },
   methods: {
+    ...mapMutations(["toggleModal", "setEventData"]),
     itemState(item) {
       return {
         "calendar-cell--enroled": item?.subscribed === true,
@@ -75,9 +79,15 @@ export default {
     },
     toggleDropDown() {
       this.showDropDown = !this.showDropDown;
+    },
+    openModal() {
+      this.setEventData({ item: this.item });
+      this.toggleModal();
     }
   },
-  mounted() {}
+  mounted() {
+    console.log("calendarCell:", this.item.subscribed);
+  }
 };
 </script>
 
