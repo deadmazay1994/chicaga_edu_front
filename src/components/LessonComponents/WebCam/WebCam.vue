@@ -14,6 +14,7 @@
             :active="true"
             :miniature="false"
             :iconOff="false"
+            :autoplayOn="isStream"
             :mediaObject="activeMediaStream.mediaObject"
             @clickChat="clickChat"
           />
@@ -319,8 +320,17 @@ export default {
       this.driver.publishScreen();
     });
   },
+  watch: {
+    $route(to, from) {
+      this.driver.leaveSession();
+      this.$router.push(from.path);
+    }
+  },
   created() {
     this.$watch(() => this.$route.params, this?.driver?.leaveSession);
+    window.onpopstate = () => {
+      this.driver.leaveSession();
+    };
   }
 };
 </script>
