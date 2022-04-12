@@ -294,6 +294,16 @@ export default {
           this.mediaObject.userInfo.avatar || "/imgs/whitenoize.gif";
         this.videoHidden = false;
       });
+    },
+    playVideo() {
+      if (this.$refs.video.paused) {
+        this.$refs.video.play().catch(() => {
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Чтобы начать просмотр, нажмите на кнопку 'Play'"
+          });
+        });
+      }
     }
   },
   computed: {
@@ -333,7 +343,7 @@ export default {
     Reflect,
     VideoPlayer
   },
-  props: ["mediaObject", "indexVideo", "active", "itsMe"],
+  props: ["mediaObject", "indexVideo", "active", "itsMe", "autoplayOn"],
   mixins: {},
   beforeMount() {},
   mounted() {
@@ -355,6 +365,7 @@ export default {
     this.audioMuted = !JSON.parse(
       window.localStorage.getItem("videochat_microphone_state")
     );
+    if (this.autoplayOn) this.playVideo();
   }
 };
 </script>
