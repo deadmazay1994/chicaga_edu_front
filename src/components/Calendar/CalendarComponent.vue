@@ -112,6 +112,19 @@ export default {
   methods: {
     async setEvents() {
       let webinarsResponse = await api.methods.getWebinarEvents();
+      let recurringDates = [];
+      for (let i = 0; i < webinarsResponse.data.length; i++) {
+        for (let j = i + 1; j < webinarsResponse.data.length; j++) {
+          if (
+            webinarsResponse.data[i].date_time ==
+            webinarsResponse.data[j].date_time
+          ) {
+            if (!recurringDates.includes(webinarsResponse.data[i]))
+              recurringDates.push(webinarsResponse.data[i]);
+          }
+        }
+      }
+      // console.log("webinarResponse:", countElems);
       webinarsResponse.data.forEach(element => {
         this.events.push({
           title: element.title,
@@ -121,7 +134,8 @@ export default {
           responsible: "",
           date: +new Date(element.date_time) / 1000,
           subscribed: element.subscribed,
-          id: element.id
+          id: element.id,
+          subEvents: recurringDates
         });
       });
     },

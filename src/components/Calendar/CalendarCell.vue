@@ -72,18 +72,22 @@ export default {
   methods: {
     ...mapMutations(["toggleModal", "setEventData"]),
     itemState(item) {
+      console.log("subEvents:", item.subEvents);
       return {
-        "calendar-cell--enroled": item?.subscribed === true,
-        "calendar-cell--non-enroled": item?.subscribed === false
+        "calendar-cell--enroled": item?.subscribed === true && !item.subEvents,
+        "calendar-cell--non-enroled":
+          item?.subscribed === false && !!item.subEvents,
+        "calendar-cell--many-events": item.subEvents
       };
     },
     toggleDropDown() {
       this.showDropDown = !this.showDropDown;
     },
     openModal() {
-      if (!this.item.event) return;
-      this.setEventData({ item: this.item });
-      this.toggleModal();
+      return;
+      // if (!this.item.event) return;
+      // this.setEventData({ item: this.item });
+      // this.toggleModal();
     }
   },
   mounted() {
@@ -175,7 +179,7 @@ export default {
     .cell-body__desc
       color: #C4C4C4
 
-  &.calendar-cell--coming-soon
+  &.calendar-cell--many-events
     background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   &.calendar-cell--enroled
     background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
