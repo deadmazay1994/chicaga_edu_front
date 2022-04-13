@@ -65,7 +65,7 @@ export default {
           section: res.section,
           answer: answers.map(a => a.answers)
         };
-        this.correct = api.methods.taskCheck(res.id, data);
+        this.correct = api.methods.taskCheck(this.$route.params.id, data);
       });
       return !this.correct;
     },

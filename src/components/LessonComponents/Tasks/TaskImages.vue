@@ -88,13 +88,14 @@ export default {
       this.error = false;
       let answers = this.task.answers;
       this.getLesson().then(res => {
+        console.log(res);
         const data = {
           type: "lesson",
           type_check: res.type,
           section: res.section,
           answer: answers
         };
-        let result = api.methods.taskCheck(res.id, data); // mock
+        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
         result.then(res => {
           this.task.shuffled.forEach((task, i) => {
             task.correct = res[i];

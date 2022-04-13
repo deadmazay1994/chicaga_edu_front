@@ -69,13 +69,16 @@ export default {
     },
     check() {
       let checkData = {
-        type: "dz",
+        type: "lesson",
         type_check: "insert_skipped_word",
         section: this.inputCopy.section,
-        answer: this.$refs.gap.map(gap => {
-          return { answers: gap.answer };
-        })
+        answer: this.$refs.gap
+          .filter(gap => gap.sentenceMap.length)
+          .map(gap => {
+            return { answers: gap.answer };
+          })
       };
+      console.log(this.$route.params);
       this.taskCheck(this.$route.params.id, checkData);
     },
     showAnswers() {

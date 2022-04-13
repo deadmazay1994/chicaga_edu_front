@@ -125,9 +125,11 @@ export default {
           type: "lesson",
           type_check: res.type,
           section: res.section,
-          answer: answers
+          answer: answers.map(answerArr => {
+            return answerArr.map(answer => (answer ? 1 : 0));
+          })
         };
-        let result = api.methods.taskCheck(res.id, data); // mock
+        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
         result.then(res => {
           this.inputCopy.body.forEach((_, i) => {
             // Vue не умеет изменять значение массивов на прямую
