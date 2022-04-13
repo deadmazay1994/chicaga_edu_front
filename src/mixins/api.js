@@ -192,7 +192,12 @@ export default {
     },
     async subscribeToEvent(eventId) {
       let r = await post("user/subscribe", { id: eventId });
-      console.log("купить:", r);
+      console.log("api-test user/subscribe:", r);
+      return r;
+    },
+    async storeEvent(data) {
+      let r = await post("admin/events", data);
+      console.log("api-test admin/events", r);
       return r;
     },
     // User

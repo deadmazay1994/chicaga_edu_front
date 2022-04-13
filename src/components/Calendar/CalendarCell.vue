@@ -81,6 +81,7 @@ export default {
       this.showDropDown = !this.showDropDown;
     },
     openModal() {
+      if (!this.item.event) return;
       this.setEventData({ item: this.item });
       this.toggleModal();
     }
