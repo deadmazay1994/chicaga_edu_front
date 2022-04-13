@@ -89,7 +89,7 @@ export default {
       let answers = this.task.answers;
       this.getLesson().then(res => {
         const data = {
-          type: "dz",
+          type: "lesson",
           type_check: res.type,
           section: res.section,
           answer: answers

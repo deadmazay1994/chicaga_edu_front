@@ -203,10 +203,10 @@ export default {
         });
         this.getLesson().then(res => {
           const data = {
-            type: "dz",
+            type: "lesson",
             type_check: res.type,
             section: res.section,
-            answer: answers
+            answer: [{ answers: answers.map(a => a.val) }]
           };
           console.log("FillGapsItem.vue res:", res); // test
           let result = api.methods.taskCheck(res.id, data); // mock
@@ -252,7 +252,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "activeGroupIndexLesson"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"]),
+    answer() {
+      return this.answers.map(a => a.val);
+    }
   },
   beforeMount() {
     if (this.childSaved) {

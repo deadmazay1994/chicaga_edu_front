@@ -60,12 +60,12 @@ export default {
       answers.push({ answers: this.input.slogs[this.input.answer] });
       this.getLesson().then(res => {
         const data = {
-          type: "dz",
+          type: "lesson",
           type_check: res.type,
           section: res.section,
-          answer: answers
+          answer: answers.map(a => a.answers)
         };
-        this.correct = api.methods.taskCheck(res.id, data); // mock
+        this.correct = api.methods.taskCheck(res.id, data);
       });
       return !this.correct;
     },
