@@ -36,11 +36,9 @@ export default {
       this.id = r.uniq_id;
     },
     callWarn() {
-      if (api.methods.checkAccess()) return; // тестовая проверка доступа к уроку
-      this.$store.commit("pushShuckbar", {
-        success: false,
-        val: "Ошибка доступа к уроку"
-      });
+      if (api.methods.checkAccess(this.$route.params.id)) {
+        console.log("access check: success");
+      } // тестовая проверка доступа к уроку
     }
   },
   mounted() {

@@ -129,9 +129,17 @@ export default {
       return get("teacher/course/" + courseId);
     },
     // Проверка доступа пользователя к уроку
-    checkAccess(user) {
+    checkAccess(id) {
       // Мок
-      if (user) return true;
+      console.log("lessonId checkAccess id:", id);
+      if (!id) return true;
+      else {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "access denied"
+        });
+        return false;
+      }
     },
     // User
     async register(userData) {

@@ -48,7 +48,8 @@ const routes = [
     name: "lesson",
     component: Lesson,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      checkAccess: true
     }
   },
   {
@@ -205,6 +206,8 @@ export const router = new VueRouter({
 });
 
 // Скрываем страницы от не авторизированных пользователей
+let access = false;
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // этот путь требует авторизации, проверяем залогинен ли
@@ -219,7 +222,7 @@ router.beforeEach((to, from, next) => {
         success: false
       });
     } else {
-      next();
+      access = true;
     }
   } else if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
@@ -228,7 +231,7 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }
       });
     } else {
-      next();
+      access = true;
     }
   } else if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
@@ -241,21 +244,26 @@ router.beforeEach((to, from, next) => {
         success: false
       });
     } else {
-      next();
+      access = true;
     }
   } else {
-    next();
+    access = true;
   }
-  if (to.meta.forTeacher) {
-    if (api.methods.checkAccess(store.getters.user)) next();
+  console.log("lessonId:", to);
+  to.matched.some(record => {
+    console.log("lessonId:", record);
+  });
+  if (to.matched.some(record => record.meta.checkAccess)) {
+    if (api.methods.checkAccess(to.params.id)) access = true;
     else {
       store.commit("pushShuckbar", {
         val: "access denied",
         success: false
       });
-      next(from.path);
+      access = true;
     }
   }
+  if (access) next();
 });
 
 export default router;
