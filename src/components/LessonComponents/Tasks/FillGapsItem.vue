@@ -46,9 +46,10 @@ export default {
               class: {
                 "fill-gaps-item__input": true,
                 "fill-gaps-item__input--correct":
-                  this.answers[gapNum].correct == true,
+                  this.answers[gapNum].correct === true,
                 "fill-gaps-item__input--uncorrect":
-                  !this.answers[gapNum].correct && this.answered
+                  !this.answers[gapNum].correct &&
+                  this.answers[gapNum].correct != null
               },
               style: {
                 // Ширина инпута в зависимости от длинны пропущенного слова
@@ -217,6 +218,17 @@ export default {
           });
         });
       }
+    },
+    setStatus(result) {
+      result.forEach((correct, i) => {
+        if (!this.answers[i]) this.answers[i] = {};
+        this.answers[i].correct = correct;
+        console.log(this.answers[i].correct);
+      });
+      this.$emit("oncheck", {
+        index: this.index,
+        result: this.answers
+      });
     },
     showAnswers() {
       let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
