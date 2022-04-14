@@ -27,7 +27,7 @@ export default {
           {this.inputCopy.description}
         </description>
         <div class="task-wrap">
-          {...texts}
+          <span>{...texts}</span>
           <div class="attachs__files">{this.getAttachComponents()}</div>
         </div>
       </div>

@@ -1,8 +1,13 @@
 <template>
   <div class="lessons__messages chat container-fluid" ref="chat">
     <header-chat />
-    <masseges class="chat__masseges" v-if="chatIsOpen" />
-    <textarea-chat v-if="chatIsOpen" />
+    <masseges
+      v-if="chatDriver"
+      ref="messages"
+      class="chat__masseges"
+      :msgs="msgs"
+    />
+    <textarea-chat />
   </div>
 </template>
 
@@ -10,17 +15,23 @@
 import TextareaChat from "./Textarea";
 import Masseges from "./Masseges";
 import HeaderChat from "./Header";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import Driver from "rocketchat-client-api";
 
 export default {
   name: "chat",
+  data: function() {
+    return {
+      msgs: []
+    };
+  },
   methods: {
     toggle(name) {
       this.$store.dispatch("toggleChannel", name);
-    }
+    },
+    ...mapMutations(["setChatDriver"])
   },
-  computed: mapGetters(["allMsgs", "user", "chatIsOpen"]),
+  computed: mapGetters(["user", "chatDriver"]),
   components: {
     TextareaChat,
     Masseges,
@@ -38,21 +49,27 @@ export default {
     //   socketUrl: "wss://chat.edu.chicaga.ru/websocket/",
     //   chatElem: this.$refs.chat
     // });
-    let getUserInfo = chatId => {
-      chatId;
-      return {
-        name: "Sample user",
-        avatar:
-          "https://www.vokrug.tv/pic/person/2/b/f/4/2bf448098b7badf3b37e87c510da29bc.jpeg"
-      };
-    };
+    // let getUserInfo = chatId => {
+    //   chatId;
+    //   return {
+    //     name: "Sample user",
+    //     avatar:
+    //       "https://www.vokrug.tv/pic/person/2/b/f/4/2bf448098b7badf3b37e87c510da29bc.jpeg"
+    //   };
+    // };
+    const _vue = this;
     const hooks = {
       async transformMsg(msg) {
-        let transformedMsg = msg;
-        let user = getUserInfo(msg.u._id);
-        transformedMsg.u.name = user.name;
-        transformedMsg.u.avatar = user.avatar;
-        return transformedMsg;
+        // let transformedMsg = msg;
+        // let user = getUserInfo(msg.u._id);
+        // transformedMsg.u.name = user.name;
+        // transformedMsg.u.avatar = user.avatar;
+        // return transformedMsg;
+        return msg;
+      },
+      onMsgAdded() {
+        if (!_vue.$refs.messages?.scrollToBottom) return;
+        setTimeout(_vue.$refs.messages.scrollToBottom, 100);
       }
     };
     const driver = new Driver(hooks);
@@ -62,15 +79,12 @@ export default {
       password: this.user.chat_auth_info.password
     });
     let channelId = "NBrWc5LsqrhmaRNKb";
-    try {
-      driver.user.createChannel(channelId);
-    } catch (error) {
-      console.log(error);
-    }
+    driver.user.createChannel(channelId);
     await driver.subscribe([channelId]);
-    await driver.channels[channelId].sendMessage("tesst");
-    console.log(driver.channels);
+    driver.activeChannel = channelId;
     await driver.channels[channelId].loadHistory(300);
+    this.msgs = driver.activeChannel.msgs;
+    this.setChatDriver(driver);
   }
 };
 </script>

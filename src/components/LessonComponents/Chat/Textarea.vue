@@ -22,8 +22,7 @@
       name="msg"
       placeholder="Сообщение"
       class="messages__controls__textarea"
-      :value="getInput"
-      @input="updateInput"
+      v-model="msgText"
       v-on:keyup.enter="enter()"
     />
     <svg class="messages__controls__svg" v-on:click="send()">
@@ -39,16 +38,15 @@ export default {
   name: "textarea-chat",
   data: function() {
     return {
-      files: []
+      files: [],
+      msgText: ""
     };
   },
   methods: {
     send() {
       this.files = [];
-      this.$store.dispatch("sendMsg");
-      this.$store.commit("updateInput", "");
-      this.$store.commit("updateFile", null);
-      this.$store.commit("updatePreload", "");
+      this.chatDriver.activeChannel.sendMessage(this.msgText);
+      this.msgText = "";
     },
     getFile() {
       return this.$refs.fileInput.files[0];
@@ -60,11 +58,11 @@ export default {
       this.$store.commit("updateFile", this.getFile());
     },
     enter() {
-      if (this.getInput || (this.files.length && this.files[0] !== null))
+      if (this.msgText || (this.files.length && this.files[0] !== null))
         this.send();
     }
   },
-  computed: mapGetters(["allMsgs", "getRocket", "getInput", "getAttachments"]),
+  computed: mapGetters(["chatDriver"]),
   watch: {
     getAttachments() {
       this.files.push(this.getAttachments.name);
