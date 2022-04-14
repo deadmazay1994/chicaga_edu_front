@@ -18,6 +18,7 @@
         />
       </div>
     </div>
+    {{ files }}
     <input
       name="msg"
       placeholder="Сообщение"
@@ -45,17 +46,16 @@ export default {
   methods: {
     send() {
       this.files = [];
-      this.chatDriver.activeChannel.sendMessage(this.msgText);
+      this.chatDriver.activeChannel.sendMessage(this.msgText, [
+        ...this.$refs.fileInput.files
+      ]);
       this.msgText = "";
     },
     getFile() {
       return this.$refs.fileInput.files[0];
     },
-    updateInput(e) {
-      this.$store.commit("updateInput", e.target.value);
-    },
-    updateFileInput() {
-      this.$store.commit("updateFile", this.getFile());
+    updateFileInput(e) {
+      e;
     },
     enter() {
       if (this.msgText || (this.files.length && this.files[0] !== null))
