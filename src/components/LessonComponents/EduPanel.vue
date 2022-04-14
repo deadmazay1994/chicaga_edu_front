@@ -7,28 +7,28 @@
           <svg class="task__header__svg">
             <use xlink:href="#smile1"></use>
           </svg>
-          <span>{{ smileData }}</span>
+          <span>{{ animatedSmileData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#star"></use>
           </svg>
-          <span>{{ starData }}</span>
+          <span>{{ animatedStarData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#brains"></use>
           </svg>
-          <span>{{ brainData }}</span>
+          <span>{{ animatedBrainData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#bulb"></use>
           </svg>
-          <span>{{ lampData }}</span>
+          <span>{{ animatedLampData }}</span>
         </div>
       </div>
       <div class="task__header__item">
@@ -36,7 +36,7 @@
           <svg class="task__header__svg">
             <use xlink:href="#coin"></use>
           </svg>
-          <span>{{ coinsData }}</span>
+          <span>{{ animatedCoinsData }}</span>
         </div>
 
         <div class="task__header__inner">
@@ -93,48 +93,83 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import Whiteboard from "./WhiteBoard/WhiteBoard";
 
 import api from "@/mixins/api";
-import moment from "moment";
+import gsap from "gsap";
+// import moment from "moment";
 
 export default {
   name: "edu-panel",
   data: function() {
     return {
       tab: null,
-      smileData: null,
-      starData: null,
-      brainData: null,
-      lampData: null,
-      coinsData: null,
+      smileData: 0,
+      tweenedSmileData: 0,
+      starData: 0,
+      tweenedStarData: 0,
+      brainData: 0,
+      tweenedBrainData: 0,
+      lampData: 0,
+      tweenedLampData: 0,
+      coinsData: 0,
+      tweenedCoinsData: 0,
       timeData: null
     };
   },
   methods: {
-    // async getLesson() {
-    //   let r = await api.methods.getFullLesson(this.$route.params.id);
-    //   console.log("icons fullLesson:", r);
-    // },
-    async getTaskHeaderData() {
-      // console.log("icons params.id:", this.$route.params.id);
-      let r = await api.methods.getTaskHeaderData(this.$route.params.id);
-      // console.log("icons result:", r);
+    ...mapActions(["setUserPoints"]),
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
       return r;
+    },
+    setUserPointsToData() {
+      this.getUserPoints.forEach(item => {
+        console.log("points item:", item);
+        switch (item.point_type.name) {
+          case "Мозги":
+            this.brainData = item.points;
+            break;
+          case "Смайлики":
+            this.smileData = item.points;
+            break;
+          case "Звездочка":
+            this.starData = item.points;
+            break;
+          case "Лампочка":
+            this.lampData = item.points;
+            break;
+        }
+      });
     }
   },
   computed: {
-    ...mapGetters(["user", "materials", "socket"]),
+    ...mapGetters(["user", "materials", "socket", "getUserPoints"]),
     taskTabTitle() {
       if (this.user.role == "teacher") {
         return "Задания и ученики";
       } else {
         return "Задания";
       }
+    },
+    animatedSmileData() {
+      return this.tweenedSmileData.toFixed(0);
+    },
+    animatedStarData() {
+      return this.tweenedStarData.toFixed(0);
+    },
+    animatedBrainData() {
+      return this.tweenedBrainData.toFixed(0);
+    },
+    animatedLampData() {
+      return this.tweenedLampData.toFixed(0);
+    },
+    animatedCoinsData() {
+      return this.tweenedCoinsData.toFixed(0);
     }
   },
   components: {
@@ -146,15 +181,29 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {},
+  watch: {
+    smileData(newValue) {
+      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    },
+    starData(newValue) {
+      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    },
+    brainData(newValue) {
+      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    },
+    lampData(newValue) {
+      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    },
+    coinsData(newValue) {
+      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    }
+  },
   mounted() {
-    this.getTaskHeaderData().then(res => {
-      this.smileData = res.smile;
-      this.starData = res.star;
-      this.brainData = res.brain;
-      this.lampData = res.lamp;
-      this.coinsData = res.coins;
-      this.timeData =
-        moment.unix(res.time).hour() + ":" + moment(res.time).minute();
+    this.setUserPoints().then(() => {
+      this.setUserPointsToData();
+    });
+    this.getLesson().then(res => {
+      this.timeData = res.time;
     });
   }
 };

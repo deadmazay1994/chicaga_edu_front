@@ -15,6 +15,7 @@ import faq from "./modules/faq";
 import paint from "./modules/paint";
 import draver from "./modules/draver";
 import consultation from "./modules/consultation";
+import points from "./modules/points";
 
 Vue.use(Vuex);
 
@@ -45,6 +46,7 @@ export default new Vuex.Store({
     faq,
     paint,
     draver,
-    consultation
+    consultation,
+    points
   }
 });

@@ -5157,6 +5157,11 @@
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.4.tgz"
   "version" "4.2.4"
 
+"gsap@^3.10.3":
+  "integrity" "sha512-O4P5mC6awoo0uSemZ1kS1Nm52I4/3gC8gy6ws6VFXvR1KmA4oRlBY/ZI4+LWsH0MoSDZrpwNyF9FAkB37UTGVg=="
+  "resolved" "https://registry.npmjs.org/gsap/-/gsap-3.10.3.tgz"
+  "version" "3.10.3"
+
 "gzip-size@^5.0.0":
   "integrity" "sha512-FNHi6mmoHvs1mxZAds4PpdCS6QG8B4C1krxJsMutgxl5t3+GlRTzzI3NEkifXx2pVsOvJdOGSmIgDhQ55FwdPA=="
   "resolved" "https://registry.npmjs.org/gzip-size/-/gzip-size-5.1.1.tgz"
@@ -6774,6 +6779,11 @@
   "version" "0.5.5"
   dependencies:
     "minimist" "^1.2.5"
+
+"moment@^2.29.2":
+  "integrity" "sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg=="
+  "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.2.tgz"
+  "version" "2.29.2"
 
 "move-concurrently@^1.0.1":
   "integrity" "sha1-viwAX9oy4LKa8fBdfEszIUxwH5I="
