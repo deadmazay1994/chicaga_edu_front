@@ -110,23 +110,25 @@ export default {
     }
   },
   methods: {
+    returnDuplicates(arr) {
+      const uniq = arr
+        .map(item => {
+          return { count: 1, item: item.date_time };
+        })
+        .reduce((acc, curr) => {
+          acc[curr.item] = (acc[curr.item] || 0) + curr.count;
+          return acc;
+        });
+
+      const duplicates = Object.keys(uniq).filter(a => uniq[a] > 1);
+      let result = arr.filter(item => item.date_time == duplicates);
+      return result;
+    },
     async setEvents() {
       let webinarsResponse = await api.methods.getWebinarEvents();
-      let recurringDates = [];
-      for (let i = 0; i < webinarsResponse.data.length; i++) {
-        for (let j = i + 1; j < webinarsResponse.data.length; j++) {
-          if (
-            webinarsResponse.data[i].date_time ==
-            webinarsResponse.data[j].date_time
-          ) {
-            if (!recurringDates.includes(webinarsResponse.data[i]))
-              recurringDates.push(webinarsResponse.data[i]);
-          }
-        }
-      }
-      // console.log("webinarResponse:", countElems);
+      let duplicatedDates = this.returnDuplicates(webinarsResponse.data);
       webinarsResponse.data.forEach(element => {
-        this.events.push({
+        let obj = {
           title: element.title,
           subtitle: element.subtitle,
           poster: element.poster,
@@ -134,9 +136,14 @@ export default {
           responsible: "",
           date: +new Date(element.date_time) / 1000,
           subscribed: element.subscribed,
-          id: element.id,
-          subEvents: recurringDates
-        });
+          id: element.id
+        };
+        if (element.date_time == duplicatedDates[0].date_time) {
+          obj.subEvents = duplicatedDates;
+        } else {
+          obj.setEvents = undefined;
+        }
+        this.events.push(obj);
       });
     },
     eventArr(item, year) {
@@ -148,11 +155,16 @@ export default {
             moment.unix(element.date).month() === item.month &&
             moment.unix(element.date).year() === item.year
           ) {
+            let subEvents = undefined;
+            if (element.subEvents)
+              subEvents = element.subEvents.filter(
+                item => item.title != element.title
+              );
             item.subscribed = element.subscribed;
             item.event = true;
             item.title = element.title;
             item.subtitle = element.subtitle;
-            item.subEvents = element.subEvents;
+            item.subEvents = subEvents;
             item.price = element.price;
             item.id = element.id;
           }

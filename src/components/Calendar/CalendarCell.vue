@@ -69,10 +69,14 @@ export default {
     currMonth: Number,
     currYear: Number
   },
+  computed: {
+    hasSubEvents() {
+      return !!this.item.subEvents;
+    }
+  },
   methods: {
     ...mapMutations(["toggleModal", "setEventData"]),
     itemState(item) {
-      console.log("subEvents:", item.subEvents);
       return {
         "calendar-cell--enroled": item?.subscribed === true && !item.subEvents,
         "calendar-cell--non-enroled":
@@ -84,14 +88,10 @@ export default {
       this.showDropDown = !this.showDropDown;
     },
     openModal() {
-      return;
-      // if (!this.item.event) return;
-      // this.setEventData({ item: this.item });
-      // this.toggleModal();
+      if (!this.item.event || this.hasSubEvents) return;
+      this.setEventData({ item: this.item });
+      this.toggleModal();
     }
-  },
-  mounted() {
-    console.log("calendarCell:", this.item.subscribed);
   }
 };
 </script>

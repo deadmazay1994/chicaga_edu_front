@@ -4,6 +4,7 @@
       class="calendar-dropdown__title"
       v-for="(item, index) in events"
       :key="index"
+      @click="openModal(item)"
     >
       <span>{{ item.title }}</span>
       <lock-svg :show="item.subscribed" />
@@ -14,6 +15,8 @@
 <script>
 import LockSvg from "@/components/Icons/LockSvg";
 
+import { mapMutations } from "vuex";
+
 export default {
   name: "CalendarDropdown",
   components: {
@@ -21,6 +24,13 @@ export default {
   },
   props: {
     events: Array
+  },
+  methods: {
+    ...mapMutations(["toggleModal", "setEventData"]),
+    openModal(item) {
+      this.setEventData({ item: item });
+      this.toggleModal();
+    }
   }
 };
 </script>
