@@ -1,14 +1,14 @@
 <template>
   <div class="chat-module" :class="viewMode">
     <web-cam
-      :roomId="this.$route.params.room"
+      :roomId="roomId"
       :showChatButton="modeBool"
       :chatState="chatState"
       @clickChat="toggleChat()"
       :class="{ chatActive: chatState }"
     />
     <div class="chat-block" :class="chatSlide">
-      <chat />
+      <chat :roomId="roomId" />
     </div>
   </div>
 </template>
@@ -27,7 +27,11 @@ export default {
   },
   props: {
     id: Number,
-    mode: String
+    mode: String,
+    roomId: {
+      required: true,
+      type: String
+    }
   },
   computed: {
     viewMode() {
