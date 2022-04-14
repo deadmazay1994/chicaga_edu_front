@@ -128,6 +128,66 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
+    // Calendar
+    getWebinarEvents() {
+      return get("user/events");
+      // return [
+      //   {
+      //     date: 1647959401,
+      //     title:
+      //       "Lorem Ipsum has been the indus Lorem Ipsum has been the indus",
+      //     subtitle:
+      //       "Lorem Ipsum has been the industry's standard Lorem Ipsum has been the indus",
+      //     poster: null,
+      //     price: 0,
+      //     responsible: "user_id",
+      //     subEvents: [
+      //       {
+      //         date: 1647959401,
+      //         title: "Lorem Ipsum has been the indus...",
+      //         subtitle: "Lorem Ipsum has been the industry's standard...",
+      //         poster: null,
+      //         price: 0,
+      //         responsible: "user_id",
+      //         subscribed: false,
+      //         bodyOfEvent: null
+      //       },
+      //       {
+      //         date: 1647959401,
+      //         title: "Lorem Ipsum has been the indus...",
+      //         subtitle: "Lorem Ipsum has been the industry's standard...",
+      //         poster: null,
+      //         price: 0,
+      //         responsible: "user_id",
+      //         subscribed: true,
+      //         bodyOfEvent: null
+      //       }
+      //     ],
+      //     subscribed: true,
+      //     bodyOfEvent: null
+      //   },
+      //   {
+      //     date: 1648034654,
+      //     title: "Lorem Ipsum has been the indus...",
+      //     subtitle: "Lorem Ipsum has been the industry's standard...",
+      //     poster: null,
+      //     price: 0,
+      //     responsible: "user_id",
+      //     subscribed: false,
+      //     bodyOfEvent: null
+      //   },
+      //   {
+      //     date: 1648207454,
+      //     title: "Lorem Ipsum has been the indus...",
+      //     subtitle: "Lorem Ipsum has been the industry's standard...",
+      //     poster: null,
+      //     price: 0,
+      //     responsible: "user_id",
+      //     subscribed: true,
+      //     bodyOfEvent: null
+      //   }
+      // ];
+    },
     // User
     async register(userData) {
       return post("user", userData);

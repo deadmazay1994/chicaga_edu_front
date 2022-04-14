@@ -3,27 +3,8 @@ export default {
   actions: {},
   mutations: {
     pushShuckbar(state, params) {
-      if (!params.timeout) {
-        params.timeout = 5000;
-      }
-      state.snuckbars.push({
-        ...params,
-        active: true,
-        pos: state.snuckbars.length,
-        state: params.success
-          ? "success"
-          : params.success === false
-          ? "error"
-          : "default"
-      });
-      state.snuckbars
-        .filter(elem => elem.active)
-        .reverse()
-        .forEach(element => {
-          setTimeout(() => {
-            element.active = false;
-          }, params.timeout);
-        });
+      if (params.success) this._vm.$toast.success(params.val);
+      else this._vm.$toast.error(params.val);
     }
   },
   state: {

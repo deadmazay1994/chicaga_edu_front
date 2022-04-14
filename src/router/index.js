@@ -16,8 +16,10 @@ import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
+import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
+import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -175,6 +177,10 @@ const routes = [
         component: Group
       },
       {
+        path: "webinars",
+        component: WebinarsComponent
+      },
+      {
         path: "upcoming/:id/:code/:startTime",
         name: "upcoming-lesson",
         component: Upcoming,
@@ -189,6 +195,11 @@ const routes = [
         props: {
           showComponent: false
         }
+      },
+      {
+        path: "private-room/:room",
+        name: "private-room",
+        component: PrivateRoom
       }
     ]
   },

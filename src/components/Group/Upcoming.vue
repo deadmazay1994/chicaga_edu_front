@@ -9,13 +9,25 @@
           <web-cam :roomId="roomId" />
         </div>
         <div class="countdown d-flex flex-column">
+          <private-room-link
+            v-if="room && user.role == 'teacher'"
+            :room="roomLink"
+          />
           <lesson-starts
             :event="lesson"
             :date="dateLesson"
             :exactTime="timeLesson"
             :time="timeToLesson"
+            v-if="!room"
           />
-          <prepare :event="lesson" :roomId="roomId" :time="timeToLesson" />
+          <prepare
+            :class="{ center: room && user.role != 'teacher' }"
+            :event="lesson"
+            :roomId="roomId"
+            :time="timeToLesson"
+            :room="room"
+            @ready="ready"
+          />
         </div>
       </div>
     </div>
@@ -29,6 +41,7 @@ import api from "@/mixins/api";
 import Prepare from "./Prepare";
 import LessonStarts from "./LessonStarts.vue";
 import WebCam from "../LessonComponents/WebCam/WebCam.vue";
+import PrivateRoomLink from "@/components/LessonComponents/PrivateRoom/PrivateRoomLink";
 import { mapGetters } from "vuex";
 
 export default {
@@ -44,7 +57,9 @@ export default {
     };
   },
   props: {
-    showComponent: Boolean
+    showComponent: Boolean,
+    room: String,
+    roomLink: String
   },
   computed: {
     ...mapGetters(["user"]),
@@ -62,6 +77,9 @@ export default {
   },
   methods: {
     // Start countdown
+    ready() {
+      this.$emit("ready");
+    },
     startTimer() {
       if (!this.lesson) return;
       this.timeToLesson = Math.floor(
@@ -93,7 +111,8 @@ export default {
   components: {
     Prepare,
     LessonStarts,
-    WebCam
+    WebCam,
+    PrivateRoomLink
   },
   async beforeMount() {
     await this.setLesson();
@@ -131,6 +150,10 @@ export default {
       margin-right: 14px;
     }
   }
+}
+
+.prepare.center {
+  margin: auto 0;
 }
 
 .do-homework {
