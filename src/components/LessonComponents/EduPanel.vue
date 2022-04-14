@@ -116,12 +116,14 @@ export default {
     };
   },
   methods: {
-    async getLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.id);
-      return r.id;
-    },
+    // async getLesson() {
+    //   let r = await api.methods.getFullLesson(this.$route.params.id);
+    //   console.log("icons fullLesson:", r);
+    // },
     async getTaskHeaderData() {
-      let r = await api.methods.getTaskHeaderData(238);
+      // console.log("icons params.id:", this.$route.params.id);
+      let r = await api.methods.getTaskHeaderData(this.$route.params.id);
+      // console.log("icons result:", r);
       return r;
     }
   },

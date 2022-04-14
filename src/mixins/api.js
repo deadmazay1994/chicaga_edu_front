@@ -128,9 +128,9 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
-    async getTaskHeaderData(lessonId) {
-      let r = await post(`user/lesson/${lessonId}`);
-      console.log("r:", r);
+    async getTaskHeaderData() {
+      // let r = await post(`user/lesson/${lessonId}`);
+      // console.log("r:", r);
       return {
         smile: 100,
         star: 200,
