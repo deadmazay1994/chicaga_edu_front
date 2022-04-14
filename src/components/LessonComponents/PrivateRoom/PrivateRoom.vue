@@ -1,7 +1,11 @@
 <template>
   <div class="private-room">
     <div class="private-room--active" v-if="active">
-      <chat-module :mode="'horizontal'" />
+      <chat-module
+        v-if="$route.params.room"
+        :roomId="$route.params.room"
+        :mode="'horizontal'"
+      />
     </div>
     <div class="private-room--upcoming" v-if="!active">
       <upcoming
