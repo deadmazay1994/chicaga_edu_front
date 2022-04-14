@@ -2,13 +2,12 @@
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
       <web-cam
-        class="lesson__video-chat"
-        :class="{ 'lesson__video-chat--active': !chatIsOpen }"
+        class="lesson__video-chat lesson__video-chat--active"
         :roomId="$route.params.groupKey"
       />
       <text-chat
-        class="lesson__text-chat"
-        :class="{ 'lesson__text-chat--active': chatIsOpen }"
+        :roomId="$route.params.id"
+        class="lesson__text-chat lesson__text-chat--active"
       />
       <lesson-start :display="false" />
     </div>
