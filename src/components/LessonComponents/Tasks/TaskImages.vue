@@ -98,9 +98,11 @@ export default {
         let result = api.methods.taskCheck(this.$route.params.id, data); // mock
         result.then(res => {
           this.task.shuffled.forEach((task, i) => {
-            task.correct = res[i];
-            this.error = res[i];
+            console.log(res);
+            task.correct = res.result[i];
+            this.error = res.result[i];
           });
+          console.log(this.task.shuffled);
         });
       });
     },
