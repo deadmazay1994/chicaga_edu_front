@@ -12,13 +12,11 @@
         ></span>
         <input
           type="file"
-          @input="updateFileInput"
           ref="fileInput"
           class="textarea-ctrl__attachment-input"
         />
       </div>
     </div>
-    {{ files }}
     <input
       name="msg"
       placeholder="Сообщение"
@@ -53,9 +51,6 @@ export default {
     },
     getFile() {
       return this.$refs.fileInput.files[0];
-    },
-    updateFileInput(e) {
-      e;
     },
     enter() {
       if (this.msgText || (this.files.length && this.files[0] !== null))

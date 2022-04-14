@@ -62,15 +62,29 @@ export default {
     //       "https://www.vokrug.tv/pic/person/2/b/f/4/2bf448098b7badf3b37e87c510da29bc.jpeg"
     //   };
     // };
+    const chatUrl = "chat.edu.chicaga.ru";
+    const httpChatUrl = "https://" + chatUrl;
+    const wssChatUrl = "wss://" + chatUrl;
     const _vue = this;
     const hooks = {
       async transformMsg(msg) {
-        // let transformedMsg = msg;
+        let transformedMsg = msg;
+        if (msg.attachments) {
+          msg.attachments.forEach(attach => {
+            if (attach[0]) {
+              attach = attach[0];
+            }
+            attach.image_preview = httpChatUrl + attach.image_preview;
+            attach.image_url = httpChatUrl + attach.image_url;
+            attach.title_link = httpChatUrl + attach.title_link;
+          });
+        }
+        // this.chatDriver.connection.url.replace("wss://", "https://");
         // let user = getUserInfo(msg.u._id);
         // transformedMsg.u.name = user.name;
         // transformedMsg.u.avatar = user.avatar;
         // return transformedMsg;
-        return msg;
+        return transformedMsg;
       },
       onMsgAdded() {
         if (!_vue.$refs.messages?.scrollToBottom) return;
@@ -78,7 +92,7 @@ export default {
       }
     };
     const driver = new Driver(hooks);
-    await driver.connect("wss://chat.edu.chicaga.ru");
+    await driver.connect(wssChatUrl);
     await driver.user.login({
       login: this.user.chat_auth_info.username,
       password: this.user.chat_auth_info.password

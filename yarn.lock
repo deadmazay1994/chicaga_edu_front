@@ -9019,10 +9019,10 @@
     "hash-base" "^3.0.0"
     "inherits" "^2.0.1"
 
-"rocketchat-client-api@^0.1.8":
-  "integrity" "sha512-SPMNNYpNjIkppBPJYVpEpO4zz+0j3CzUaO40vrJalpmviEqEowv85oqysXWXKRjdPRuFHIshCg7YCL/g2taP8w=="
-  "resolved" "https://registry.npmjs.org/rocketchat-client-api/-/rocketchat-client-api-0.1.8.tgz"
-  "version" "0.1.8"
+"rocketchat-client-api@^0.1.9":
+  "integrity" "sha512-PSJHu1gDydVEguBQa8UQbYfgb2k3xg11aR7gt3j6QsyUUdykkmwtqifEAxzoVM4jWp0CU1LnrDtUokTrcigrpg=="
+  "resolved" "https://registry.npmjs.org/rocketchat-client-api/-/rocketchat-client-api-0.1.9.tgz"
+  "version" "0.1.9"
   dependencies:
     "@babel/plugin-transform-runtime" "^7.17.0"
     "@babel/runtime" "^7.17.9"
