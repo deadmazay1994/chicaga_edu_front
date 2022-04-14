@@ -37,7 +37,12 @@ export default {
     Masseges,
     HeaderChat
   },
-  props: [],
+  props: {
+    roomId: {
+      required: true,
+      type: String
+    }
+  },
   mixins: {},
   async mounted() {
     // Инициализация чата
@@ -78,11 +83,10 @@ export default {
       login: this.user.chat_auth_info.username,
       password: this.user.chat_auth_info.password
     });
-    let channelId = "NBrWc5LsqrhmaRNKb";
-    driver.user.createChannel(channelId);
-    await driver.subscribe([channelId]);
-    driver.activeChannel = channelId;
-    await driver.channels[channelId].loadHistory(300);
+    driver.user.createChannel(this.roomId);
+    await driver.subscribe([this.roomId]);
+    driver.activeChannel = this.roomId;
+    await driver.channels[this.roomId].loadHistory(300);
     this.msgs = driver.activeChannel.msgs;
     this.setChatDriver(driver);
   }

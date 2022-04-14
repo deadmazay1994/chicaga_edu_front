@@ -5,7 +5,10 @@
         class="lesson__video-chat lesson__video-chat--active"
         :roomId="$route.params.groupKey"
       />
-      <text-chat class="lesson__text-chat lesson__text-chat--active" />
+      <text-chat
+        :roomId="$route.params.id"
+        class="lesson__text-chat lesson__text-chat--active"
+      />
       <lesson-start :display="false" />
     </div>
     <div class="lessons__task" style="width: 50%; margin-left: 0">
