@@ -930,6 +930,7 @@
     <!--<snackbars />-->
     <!--<lightbox />-->
     <!--<bg-component />-->
+    <calendar-modal />
   </v-app>
 </template>
 
@@ -941,6 +942,7 @@ import Navigation from "@/components/Lk/Navigation";
 // import BgComponent from "@/components/Base/Background";
 // import Lightbox from "@/components/Base/Lightbox";
 import vClickOutside from "v-click-outside";
+import CalendarModal from "@/components/Calendar/CalendarModal";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -959,7 +961,8 @@ export default {
     HeaderApp,
     // Modals,
     // Snackbars,
-    Navigation
+    Navigation,
+    CalendarModal
     // BgComponent
     // Lightbox
   },
