@@ -17,49 +17,48 @@ export default {
     setPointByType(state, payload) {
       switch (payload.type) {
         case "images_order":
-          state.smile = payload.value;
+          state.smile += payload.value;
           break;
         case "insert_skipped_word":
-          state.brains = payload.value;
+          state.brains += payload.value;
           break;
         case "drag_and_drop_words":
-          state.star = payload.value;
+          state.star += payload.value;
           break;
         case "select_stressed_syllable":
-          state.smile = payload.value;
+          state.smile += payload.value;
           break;
         case "group_by_dragging":
-          state.star = payload.value;
+          state.star += payload.value;
           break;
         case "match_words":
-          state.star = payload.value;
+          state.star += payload.value;
           break;
         case "select_correct_variant":
-          state.star = payload.value;
+          state.star += payload.value;
           break;
         case "match_picture_and_word":
-          state.star = payload.value;
+          state.star += payload.value;
           break;
         case "true_or_false":
-          state.lamp = payload.value;
+          state.lamp += payload.value;
           break;
         case "select_correct_answer":
-          state.lamp = payload.value;
+          state.lamp += payload.value;
           break;
         case "write_word_to_picture":
-          state.brains = payload.value;
+          state.brains += payload.value;
           break;
         case "select_correct_image_answer":
-          state.lamp = payload.value;
+          state.lamp += payload.value;
           break;
         case "youtube_addons":
-          state.star = payload.value;
+          state.star += payload.value;
           break;
         case "lesson_addons_files":
-          state.smile = payload.value;
+          state.smile += payload.value;
           break;
       }
-      state.taskCheckPoint.push(payload);
     }
   },
   state: {
