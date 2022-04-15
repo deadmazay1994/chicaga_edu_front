@@ -9,19 +9,24 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "check-btn",
   data: function() {
     return {};
   },
   methods: {
+    ...mapMutations(["setPointByType"]),
     check() {
       // this.$parent Это таск
       if (this.$parent.sendTaskToTeacher) {
         this.$parent.sendTaskToTeacher();
       }
       if (this.$parent.check) {
-        this.$parent.check();
+        this.$parent.check().then(res => {
+          this.setPointByType(res); // передать данные...
+        });
       }
       if (this.$parent.onChangeTask) {
         this.$parent.onChangeTask();

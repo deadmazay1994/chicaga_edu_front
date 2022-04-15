@@ -7,28 +7,28 @@
           <svg class="task__header__svg">
             <use xlink:href="#smile1"></use>
           </svg>
-          <span>10</span>
+          <span>{{ smileData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#star"></use>
           </svg>
-          <span>10</span>
+          <span>{{ starData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#brains"></use>
           </svg>
-          <span>10</span>
+          <span>{{ brainsData }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#bulb"></use>
           </svg>
-          <span>0</span>
+          <span>{{ lampData }}</span>
         </div>
       </div>
       <div class="task__header__item">
@@ -36,7 +36,7 @@
           <svg class="task__header__svg">
             <use xlink:href="#coin"></use>
           </svg>
-          <span>200</span>
+          <span>{{ coinsData }}</span>
         </div>
 
         <div class="task__header__inner">
@@ -104,9 +104,24 @@ export default {
   },
   methods: {},
   computed: {
-    ...mapGetters(["user", "materials", "socket"]),
+    ...mapGetters(["user", "materials", "socket", "getUserPointsByType"]),
     taskTabTitle() {
       return "Задания";
+    },
+    smileData() {
+      return this.getUserPointsByType("smile");
+    },
+    starData() {
+      return this.getUserPointsByType("star");
+    },
+    brainsData() {
+      return this.getUserPointsByType("brains");
+    },
+    lampData() {
+      return this.getUserPointsByType("lamp");
+    },
+    coinsData() {
+      return this.getUserPointsByType("coins");
     }
   },
   components: {
@@ -118,7 +133,10 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {},
-  mounted() {}
+  mounted() {
+    // console.log("check type edu:", this.$store.getters.getUserPointsByType("true_or_false"));
+    // this.lampData = this.getUserPointsByType("true_or_false");
+  }
 };
 </script>
 

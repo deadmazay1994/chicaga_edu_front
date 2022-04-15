@@ -48,7 +48,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask"]),
+    ...mapMutations(["saveTask", "setPointByType"]),
     async getLesson() {
       let r = await api.methods.getFullLesson(this.$route.params.id);
       return {
@@ -63,7 +63,7 @@ export default {
       this.inputCopy.body.forEach(e => {
         answers.push(e.correct);
       });
-      this.getLesson().then(res => {
+      let final = this.getLesson().then(res => {
         const data = {
           type: "lesson",
           type_check: res.type,
@@ -71,13 +71,16 @@ export default {
           answer: answers
         };
         let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        result.then(res => {
+        return result.then(res => {
+          this.setPointByType({ value: 999, type: data.type_check });
           this.inputCopy.body.forEach((e, i) => {
             e.error = res[i];
           });
+          return { value: res.points, type: data.type_check };
         });
       });
       this.$forceUpdate();
+      return final;
     },
     showAnswers() {
       this.inputCopy.body.forEach(e => {

@@ -55,7 +55,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask"]),
+    ...mapMutations(["saveTask", "setPointByType"]),
     setShuffled() {
       // let arr = this.shuffle(this.inputCopy.body);
       // Перемешивание отключено
@@ -87,7 +87,7 @@ export default {
     check() {
       this.error = false;
       let answers = this.task.answers;
-      this.getLesson().then(res => {
+      return this.getLesson().then(res => {
         console.log(res);
         const data = {
           type: "lesson",
@@ -96,13 +96,13 @@ export default {
           answer: answers
         };
         let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        result.then(res => {
+        return result.then(res => {
           this.task.shuffled.forEach((task, i) => {
             console.log(res);
             task.correct = res.result[i];
             this.error = res.result[i];
           });
-          console.log(this.task.shuffled);
+          return { value: res.points, type: data.type_check };
         });
       });
     },

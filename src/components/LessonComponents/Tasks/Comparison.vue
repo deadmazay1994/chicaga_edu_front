@@ -80,7 +80,7 @@ export default {
     check() {
       this.error = false;
       let answers = [this.l1, this.l2];
-      this.getLesson().then(res => {
+      return this.getLesson().then(res => {
         const data = {
           type: "lesson",
           type_check: res.type,
@@ -88,13 +88,14 @@ export default {
           answer: answers
         };
         let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        result.then(res => {
+        return result.then(res => {
           this.l1.forEach((_, i) => {
             // Vue не умеет изменять значение массивов на прямую
             // Нужно изменять так как это указано ниже
             // https://ru.vuejs.org/v2/guide/reactivity.html
             this.$set(this.res, i, res[i]);
           });
+          return { value: res.points, type: data.type_check };
         });
       });
     },

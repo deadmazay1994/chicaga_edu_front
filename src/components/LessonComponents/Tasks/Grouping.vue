@@ -90,7 +90,7 @@ export default {
       this.groups.forEach(e => {
         answers.push({ words: e.words, name: e.name });
       });
-      this.getLesson().then(res => {
+      return this.getLesson().then(res => {
         const data = {
           type: "lesson",
           type_check: res.type,
@@ -98,10 +98,11 @@ export default {
           answer: answers
         };
         let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        result.then(res => {
+        return result.then(res => {
           this.inputCopy.body.forEach((_, i) => {
             this.$set(this.groups, i, { ...this.groups[i], correct: res[i] });
           });
+          return { value: res.points, type: data.type_check };
         });
       });
     },
