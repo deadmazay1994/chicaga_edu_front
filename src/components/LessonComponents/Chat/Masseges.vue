@@ -4,11 +4,13 @@
     ref="masseges"
   >
     <massege
-      v-for="(msg, i) in getCurrentMsgs"
+      v-for="(msg, i) in msgs"
       :key="i"
       :text="msg.msg"
       :author="msg.u.name"
-      :avatar="'https://chat.edu.chicaga.ru/avatar/' + msg.u.username"
+      :avatar="
+        msg.u.avatar || 'https://chat.edu.chicaga.ru/avatar/' + msg.u.username
+      "
       :time="msg.time"
       :attachments="msg.attachments"
       role="executor"
@@ -37,23 +39,30 @@ export default {
   methods: {
     onScroll(e, trigger = 75) {
       if (e.target.scrollTop <= trigger && this.t != 0) {
-        this.$store.dispatch("loadMoreMsg");
+        // TODO: load more msgs
         this.t = 0;
       }
+    },
+    scrollToBottom() {
+      this.$refs.masseges.scroll({
+        top: this.$refs.masseges.scrollHeight,
+        behavior: "smooth"
+      });
     }
   },
   computed: {
-    ...mapGetters(["getCurrentMsgs", "getLoading", "preload"])
+    ...mapGetters(["getLoading", "preload", "chatDriver"])
   },
   components: {
     Massege
   },
-  props: [],
+  props: ["msgs"],
   mixins: {},
   mounted() {
     this.$refs.masseges.addEventListener("scroll", e => {
       this.onScroll(e);
     });
+    console.log(this.msgs);
   }
 };
 </script>

@@ -1,15 +1,6 @@
 <template>
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
-      <!-- <web-cam
-        class="lesson__video-chat"
-        :class="{ 'lesson__video-chat--active': !chatIsOpen }"
-        :roomId="$route.params.groupKey"
-      />
-      <text-chat
-        class="lesson__text-chat"
-        :class="{ 'lesson__text-chat--active': chatIsOpen }"
-      /> -->
       <chats-module :roomId="roomId" mode="vertical" />
       <lesson-start :display="false" />
     </div>
