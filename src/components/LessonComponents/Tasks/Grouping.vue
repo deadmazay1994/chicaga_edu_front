@@ -84,27 +84,29 @@ export default {
         id: r.id
       };
     },
-    check() {
+    async check() {
+      console.log("данные lesson vuex:", this.getLessonForTask);
       this.error = false;
       let answers = [];
+      const TYPE_CHECK = "drag_and_drop_words";
+
       this.groups.forEach(e => {
         answers.push({ words: e.words, name: e.name });
       });
-      return this.getLesson().then(res => {
-        const data = {
-          type: "lesson",
-          type_check: res.type,
-          section: res.section,
-          answer: answers
-        };
-        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        return result.then(res => {
-          this.inputCopy.body.forEach((_, i) => {
-            this.$set(this.groups, i, { ...this.groups[i], correct: res[i] });
-          });
-          return { value: res.points, type: data.type_check };
-        });
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data);
+
+      this.inputCopy.body.forEach((_, i) => {
+        this.$set(this.groups, i, { ...this.groups[i], correct: result[i] });
       });
+
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.inputCopy.body.forEach((e, i) => {
@@ -130,7 +132,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "activeGroupIndexLesson"])
+    ...mapGetters(["socket", "activeGroupIndexLesson", "getLessonForTask"])
   },
   components: {
     Description,

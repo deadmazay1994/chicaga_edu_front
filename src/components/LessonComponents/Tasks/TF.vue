@@ -57,30 +57,27 @@ export default {
         id: r.id
       };
     },
-    check() {
+    async check() {
       this.error = false;
       let answers = [];
+      const TYPE_CHECK = "true_or_false";
       this.inputCopy.body.forEach(e => {
         answers.push(e.correct);
       });
-      let final = this.getLesson().then(res => {
-        const data = {
-          type: "lesson",
-          type_check: res.type,
-          section: res.section,
-          answer: answers
-        };
-        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        return result.then(res => {
-          this.setPointByType({ value: 999, type: data.type_check });
-          this.inputCopy.body.forEach((e, i) => {
-            e.error = res[i];
-          });
-          return { value: res.points, type: data.type_check };
-        });
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
+      this.setPointByType({ value: 999, type: data.type_check });
+      this.inputCopy.body.forEach((e, i) => {
+        e.error = result[i];
       });
       this.$forceUpdate();
-      return final;
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.inputCopy.body.forEach(e => {

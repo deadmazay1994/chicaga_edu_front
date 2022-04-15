@@ -55,10 +55,10 @@ export default {
         id: r.id
       };
     },
-    check() {
+    async check() {
       let answers = [];
       answers.push({ answers: this.input.slogs[this.input.answer] });
-      return this.getLesson().then(res => {
+      let r = await this.getLesson().then(res => {
         const data = {
           type: "lesson",
           type_check: res.type,
@@ -66,8 +66,11 @@ export default {
           answer: answers.map(a => a.answers)
         };
         // this.correct = api.methods.taskCheck(this.$route.params.id, data);
-        return api.methods.taskCheck(this.$route.params.id, data);
+        return api.methods.taskCheck(this.$route.params.id, data).then(res => {
+          return { value: res.points, type: data.type_check };
+        });
       });
+      return r;
     },
     showAnswers() {
       this.activate(this.input.answer);

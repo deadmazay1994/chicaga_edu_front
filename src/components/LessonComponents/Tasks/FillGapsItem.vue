@@ -196,6 +196,7 @@ export default {
       };
     },
     check() {
+      console.log("данные FillGapsItem.vue");
       let answers = [];
       if (this.answers) {
         this.answered = true;
@@ -209,7 +210,7 @@ export default {
             section: res.section,
             answer: [{ answers: answers.map(a => a.val) }]
           };
-          console.log("check-res FillGapsItem.vue res:", res); // test
+          console.log("данные FillGapsItem.vue res:", res); // test
           let result = api.methods.taskCheck(res.id, data); // mock
           return result.then(res => {
             this.answers.forEach((_, i) => {

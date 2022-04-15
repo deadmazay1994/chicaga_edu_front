@@ -117,29 +117,30 @@ export default {
         id: r.id
       };
     },
-    check() {
+    async check() {
       this.error = false;
       let answers = this.answers;
-      return this.getLesson().then(res => {
-        const data = {
-          type: "lesson",
-          type_check: res.type,
-          section: res.section,
-          answer: answers.map(answerArr => {
-            return answerArr.map(answer => (answer ? 1 : 0));
-          })
-        };
-        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        return result.then(res => {
-          this.inputCopy.body.forEach((_, i) => {
-            // Vue не умеет изменять значение массивов на прямую
-            // Нужно изменять так как это указано ниже
-            // https://ru.vuejs.org/v2/guide/reactivity.html
-            this.$set(this.results, i, res[i]);
-          });
-          return { value: res.points, type: data.type_check };
-        });
+      const TYPE_CHECK_A = "select_correct_answer";
+      const TYPE_CHECK_V = "select_correct_variant";
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers.map(answerArr => {
+          return answerArr.map(answer => (answer ? 1 : 0));
+        })
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data);
+      this.inputCopy.body.forEach((_, i) => {
+        // Vue не умеет изменять значение массивов на прямую
+        // Нужно изменять так как это указано ниже
+        // https://ru.vuejs.org/v2/guide/reactivity.html
+        this.$set(this.results, i, result[i]);
       });
+      return this.underline
+        ? { value: result.points, type: TYPE_CHECK_A }
+        : { value: result.points, type: TYPE_CHECK_V };
     },
     showAnswers() {
       this.inputCopy.body.forEach((task, i) => {

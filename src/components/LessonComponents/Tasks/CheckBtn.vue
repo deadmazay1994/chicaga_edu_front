@@ -18,15 +18,17 @@ export default {
   },
   methods: {
     ...mapMutations(["setPointByType"]),
-    check() {
+    async check() {
       // this.$parent Это таск
       if (this.$parent.sendTaskToTeacher) {
         this.$parent.sendTaskToTeacher();
       }
       if (this.$parent.check) {
-        this.$parent.check().then(res => {
-          this.setPointByType(res); // передать данные...
-        });
+        let r = await this.$parent.check();
+        this.setPointByType(r);
+        // оставить для отладки
+        console.log("данные $parent checkBtn.vue:", this.$parent);
+        console.log("данные checkBtn.vue:", r);
       }
       if (this.$parent.onChangeTask) {
         this.$parent.onChangeTask();

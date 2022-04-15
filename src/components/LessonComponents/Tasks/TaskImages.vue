@@ -84,27 +84,23 @@ export default {
         id: r.id
       };
     },
-    check() {
+    async check() {
       this.error = false;
       let answers = this.task.answers;
-      return this.getLesson().then(res => {
-        console.log(res);
-        const data = {
-          type: "lesson",
-          type_check: res.type,
-          section: res.section,
-          answer: answers
-        };
-        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        return result.then(res => {
-          this.task.shuffled.forEach((task, i) => {
-            console.log(res);
-            task.correct = res.result[i];
-            this.error = res.result[i];
-          });
-          return { value: res.points, type: data.type_check };
-        });
+      const TYPE_CHECK = "images_order";
+      let r = this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
+      this.task.shuffled.forEach((task, i) => {
+        task.correct = result.result[i];
+        this.error = result.result[i];
       });
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.task.shuffled.forEach((task, i) =>

@@ -17,6 +17,7 @@ import draver from "./modules/draver";
 import consultation from "./modules/consultation";
 import notifications from "./modules/notifications";
 import points from "./modules/points";
+import fullLesson from "./modules/fullLesson";
 
 Vue.use(Vuex);
 
@@ -49,6 +50,7 @@ export default new Vuex.Store({
     draver,
     consultation,
     notifications,
-    points
+    points,
+    fullLesson
   }
 });
