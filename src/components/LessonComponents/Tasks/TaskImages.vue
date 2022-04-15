@@ -37,6 +37,7 @@
 
 <script>
 import "@/mixins/methods";
+import api from "@/mixins/api";
 import { mapGetters, mapMutations } from "vuex";
 import Zoom from "@/directives/zoom";
 
@@ -75,15 +76,34 @@ export default {
         "img-task--in-correct": this.task.shuffled[i].correct == 0
       };
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
-      this.task.shuffled.forEach((task, i) => {
-        if (task.number == Number(this.task.answers[i])) {
-          task.correct = 1;
-        } else {
-          task.correct = 0;
-          this.error = true;
-        }
+      let answers = this.task.answers;
+      this.getLesson().then(res => {
+        console.log(res);
+        const data = {
+          type: "lesson",
+          type_check: res.type,
+          section: res.section,
+          answer: answers
+        };
+        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
+        result.then(res => {
+          this.task.shuffled.forEach((task, i) => {
+            console.log(res);
+            task.correct = res.result[i];
+            this.error = res.result[i];
+          });
+          console.log(this.task.shuffled);
+        });
       });
     },
     showAnswers() {
@@ -106,7 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "teacherId"])
+    ...mapGetters(["socket", "teacherId", "activeGroupIndexLesson"])
   },
   components: {},
   directives: {

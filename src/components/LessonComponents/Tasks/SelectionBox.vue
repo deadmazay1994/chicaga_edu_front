@@ -51,6 +51,8 @@ import Description from "./TasksDescription";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "selection-box",
   data: function() {
@@ -107,15 +109,35 @@ export default {
         return error;
       }
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
-      this.inputCopy.body.forEach((task, i) => {
-        if (this.checkError(task, i)) {
-          this.$set(this.results, i, false);
-          this.error = true;
-        } else {
-          this.$set(this.results, i, true);
-        }
+      let answers = this.answers;
+      this.getLesson().then(res => {
+        const data = {
+          type: "lesson",
+          type_check: res.type,
+          section: res.section,
+          answer: answers.map(answerArr => {
+            return answerArr.map(answer => (answer ? 1 : 0));
+          })
+        };
+        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
+        result.then(res => {
+          this.inputCopy.body.forEach((_, i) => {
+            // Vue не умеет изменять значение массивов на прямую
+            // Нужно изменять так как это указано ниже
+            // https://ru.vuejs.org/v2/guide/reactivity.html
+            this.$set(this.results, i, res[i]);
+          });
+        });
       });
     },
     showAnswers() {
@@ -140,7 +162,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description

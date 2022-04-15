@@ -44,6 +44,8 @@ import Draggable from "./ComprassionDraggable";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "comparison",
   data: function() {
@@ -67,18 +69,33 @@ export default {
       });
       this.onChange();
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
-      this.l1.forEach((word, i) => {
-        let original = this.inputCopy.body.find(words => words.w1 == word);
-        // Vue не умеет изменять значение массивов на прямую
-        // Нужно изменять так как это указано ниже
-        if (this.l2[i] == original.w2) {
-          this.$set(this.res, i, true);
-        } else {
-          this.$set(this.res, i, false);
-          this.error = true;
-        }
+      let answers = [this.l1, this.l2];
+      this.getLesson().then(res => {
+        const data = {
+          type: "lesson",
+          type_check: res.type,
+          section: res.section,
+          answer: answers
+        };
+        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
+        result.then(res => {
+          this.l1.forEach((_, i) => {
+            // Vue не умеет изменять значение массивов на прямую
+            // Нужно изменять так как это указано ниже
+            // https://ru.vuejs.org/v2/guide/reactivity.html
+            this.$set(this.res, i, res[i]);
+          });
+        });
       });
     },
     showAnswers() {
@@ -96,7 +113,6 @@ export default {
       };
     },
     onChange() {
-      console.log("test");
       this.resetHeight();
       this.reset();
       this.onChangeTask();
@@ -138,7 +154,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description,
