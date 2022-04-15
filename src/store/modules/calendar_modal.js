@@ -2,7 +2,7 @@ export default {
   namespaces: true,
   actions: {},
   mutations: {
-    toggleModal(state) {
+    toggleModale(state) {
       state.modal = !state.modal;
     },
     setEventData(state, payload) {

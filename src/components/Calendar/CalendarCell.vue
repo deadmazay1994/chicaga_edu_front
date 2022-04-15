@@ -75,7 +75,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["toggleModal", "setEventData"]),
+    ...mapMutations(["toggleModale", "setEventData"]),
     itemState(item) {
       return {
         "calendar-cell--enroled": item?.subscribed === true && !item.subEvents,
@@ -90,7 +90,7 @@ export default {
     openModal() {
       if (!this.item.event || this.hasSubEvents) return;
       this.setEventData({ item: this.item });
-      this.toggleModal();
+      this.toggleModale();
     }
   }
 };

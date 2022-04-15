@@ -26,10 +26,10 @@ export default {
     events: Array
   },
   methods: {
-    ...mapMutations(["toggleModal", "setEventData"]),
+    ...mapMutations(["toggleModale", "setEventData"]),
     openModal(item) {
-      this.setEventData({ item: item });
-      this.toggleModal();
+      this.setEventData({ item });
+      this.toggleModale();
     }
   }
 };
