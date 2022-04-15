@@ -1,8 +1,13 @@
 <template>
   <div class="video-player-wrap">
     <div ref="videoElemSlot" class="video-slot">
-      <figure class="vidFrame" ref="vidFrame">
-        <slot name="videoSlot"></slot>
+      <figure
+        class="vidFrame"
+        ref="vidFrame"
+        :class="{ chatActive: fullscreenChatState }"
+      >
+        <slot name="videoSlot" class="fullscreen-video-block"></slot>
+        <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
         <figcaption class="vidBar" v-if="active">
           <div class="top">
             <div class="progress">
@@ -36,7 +41,13 @@
               </div>
             </div>
             <div class="right-side">
-              <chat-svg :chatOff="false" @clickElem="clickChat" />
+              <chat-svg
+                v-if="showChatButton"
+                :chatOff="chatState"
+                :fullscreenChatState="fullscreenChatState"
+                :fullScreenMode="fullscreenOn"
+                @clickElem="clickChat"
+              />
               <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
             </div>
           </dir>
@@ -51,6 +62,7 @@ import PlaySvg from "@/components/Icons/PlaySvg";
 import SoundSvg from "@/components/Icons/SoundSvg";
 import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
+import Chat from "@/components/LessonComponents/Chat/Chat";
 
 export default {
   name: "video-player",
@@ -58,7 +70,8 @@ export default {
     PlaySvg,
     SoundSvg,
     ChatSvg,
-    ExpandSvg
+    ExpandSvg,
+    Chat
   },
   data() {
     return {
@@ -69,15 +82,23 @@ export default {
       paused: false,
       videoPlayer: undefined,
       currentTime: undefined,
-      fullscreenOn: false
+      fullscreenOn: false,
+      fullscreenChatState: false
     };
   },
-  props: ["video", "active"],
+  props: {
+    video: HTMLObjectElement,
+    active: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   computed: {
     videoIsActive() {
-      // const isVideoPlaying = Boolean(this.videoPlayer.currentTime > 0 && !this.videoPlayer.paused && !this.videoPlayer.ended && this.videoPlayer.readyState > 2);
       if (!this.videoPlayer) return false;
       return true;
+    },
+    roomId() {
+      return this.$parent.$parent._props.roomId;
     }
   },
   methods: {
@@ -85,7 +106,6 @@ export default {
       this.videoPlayer.play();
     },
     pauseVideo() {
-      console.log(this.videoPlayer);
       this.videoPlayer.pause();
     },
     showVolume() {
@@ -113,7 +133,9 @@ export default {
       }
     },
     clickChat() {
-      this.$emit("clickChat");
+      if (this.fullscreenOn)
+        this.fullscreenChatState = !this.fullscreenChatState;
+      else this.$emit("clickChat");
     },
     toggleExpand() {
       if (!this.fullscreenOn) {
@@ -136,7 +158,6 @@ export default {
       }
     },
     closeExpand() {
-      console.log("close expand!");
       document.exitFullscreen();
       this.fullscreenOn = false;
     },
@@ -148,9 +169,6 @@ export default {
   watch: {
     changeVol() {
       this.videoPlayer.volume = this.changeVol;
-    },
-    currentTime() {
-      console.log("current time:", this.currentTime);
     }
   },
   mounted() {
@@ -282,8 +300,28 @@ export default {
 .video-chat-miniatures-wrapper
   .video-player-wrap
     height: 100%
-  .video-slot 
+  .video-slot
     height: 100%
-  .vidFrame 
+  .vidFrame
     height: 100%
+
+.vidFrame:fullscreen
+  .lessons__messages
+    position: fixed
+    right: 0
+    left: auto
+    width: 0%
+    opacity: 0
+    transition: .3s ease-in-out
+  .videoSlot-block,
+  .vidBar
+    width: 100%
+    transition: .3s ease-in-out
+  &.chatActive
+    .lessons__messages
+      width: 30%
+      opacity: 1
+    .videoSlot-block,
+    .vidBar
+      width: 70%
 </style>
