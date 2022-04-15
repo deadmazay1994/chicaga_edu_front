@@ -52,14 +52,15 @@ export default {
     ...mapGetters(["getModal", "getEventData"])
   },
   methods: {
-    ...mapMutations(["toggleModal"]),
+    ...mapMutations(["toggleModale"]),
     close() {
-      this.toggleModal();
+      this.toggleModale();
     },
-    subscribe() {
-      let r = api.methods.subscribeToEvent(this.getEventData.item.id);
-      console.log("calendarModal buy item.id:", this.getEventData.item.id);
-      console.log("calendarModal buy:", r);
+    async subscribe() {
+      let r = await api.methods.subscribeToEvent(this.getEventData.item.id);
+      if (r.success && r.data.payment_url)
+        return (location.href = r.data.payment_url);
+      alert("Что-то пошло не так при оплате");
       return r;
     }
   }
