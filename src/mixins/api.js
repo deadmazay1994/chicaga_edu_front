@@ -226,6 +226,18 @@ export default {
       });
       return r;
     },
+    // Task check
+    async taskCheck(lessonId, data) {
+      let test = false;
+      if (test)
+        return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
+      else {
+        console.log("=>", lessonId);
+        let result = await post(`user/lesson/${lessonId}/task-check`, data);
+        console.log("------------>", result);
+        return result;
+      }
+    },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {
       return post("user/vocabulary", { word, transcription });

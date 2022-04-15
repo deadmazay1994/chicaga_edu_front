@@ -51,6 +51,8 @@ import Gap from "./FillGapsItem";
 import Zoom from "@/directives/zoom";
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "task-match",
   data: function() {
@@ -106,6 +108,14 @@ export default {
     setAnswers() {
       this.inputCopy.body.forEach(() => this.task.answers.push(""));
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
       this.$refs.gap.forEach(child => {
@@ -115,6 +125,7 @@ export default {
           child.check();
         }
       });
+      this.error = api.methods.taskCheck(); // mock
     },
     showAnswers() {
       if (Array.isArray(this.$refs.gap)) {
@@ -140,7 +151,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description,

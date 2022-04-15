@@ -44,6 +44,8 @@ import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
 
+import api from "@/mixins/api";
+
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "grouping",
@@ -74,23 +76,33 @@ export default {
         });
       });
     },
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
     check() {
       this.error = false;
-      this.inputCopy.body.forEach((e, i) => {
-        let error = false;
-        e.words.forEach(word => {
-          if (!(this.groups[i].words.indexOf(word) + 1) && word) {
-            error = 1;
-          }
+      let answers = [];
+      this.groups.forEach(e => {
+        answers.push({ words: e.words, name: e.name });
+      });
+      this.getLesson().then(res => {
+        const data = {
+          type: "lesson",
+          type_check: res.type,
+          section: res.section,
+          answer: answers
+        };
+        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
+        result.then(res => {
+          this.inputCopy.body.forEach((_, i) => {
+            this.$set(this.groups, i, { ...this.groups[i], correct: res[i] });
+          });
         });
-        if (error) {
-          // Vue не позволяет имзенять значения массива на прямую
-          this.$set(this.groups, i, { ...this.groups[i], correct: false });
-          this.error = true;
-        } else {
-          // Vue не позволяет имзенять значения массива на прямую
-          this.$set(this.groups, i, { ...this.groups[i], correct: true });
-        }
       });
     },
     showAnswers() {
@@ -117,7 +129,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description,
