@@ -820,6 +820,7 @@ button {
 }
 
 .lessons__messages {
+  color: #000;
   font-family: sf-ui, sans-serif;
   font-weight: 500;
   background: #fff;
