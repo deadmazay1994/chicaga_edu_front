@@ -7,7 +7,7 @@
         :class="{ chatActive: fullscreenChatState }"
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
-        <chat ref="chat" v-if="fullscreenOn" />
+        <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
         <figcaption class="vidBar" v-if="active">
           <div class="top">
             <div class="progress">
@@ -96,6 +96,9 @@ export default {
     videoIsActive() {
       if (!this.videoPlayer) return false;
       return true;
+    },
+    roomId() {
+      return this.$parent.$parent._props.roomId;
     }
   },
   methods: {
