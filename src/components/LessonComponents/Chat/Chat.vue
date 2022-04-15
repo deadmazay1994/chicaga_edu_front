@@ -97,7 +97,7 @@ export default {
       login: this.user.chat_auth_info.username,
       password: this.user.chat_auth_info.password
     });
-    driver.user.createChannel(this.roomId);
+    await driver.user.createChannel(this.roomId);
     await driver.subscribe([this.roomId]);
     driver.activeChannel = this.roomId;
     await driver.channels[this.roomId].loadHistory(300);
