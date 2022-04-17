@@ -21,7 +21,7 @@ export default {
           }
           // Если данная группа выбрана, то выводим ее
           renderedGrops.push(
-            <div v-show={this.activeGroup == gropIndex}>{rendered}</div>
+            <div v-show={this.activeGroup == gropIndex}> {rendered}</div>
           );
         }
       });

@@ -16,6 +16,8 @@
             :iconOff="false"
             :autoplayOn="isStream"
             :mediaObject="activeMediaStream.mediaObject"
+            :showChatButton="showChatButton"
+            :chatState="chatState"
             @clickChat="clickChat"
           />
         </div>
@@ -94,7 +96,12 @@ export default {
       );
     }
   },
-  props: ["roomId", "webinar"],
+  props: {
+    roomId: String,
+    webinar: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   methods: {
     clickChat() {
       this.$emit("clickChat");

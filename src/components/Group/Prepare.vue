@@ -61,10 +61,10 @@ export default {
     }
   },
   mounted() {
-    this.setParams();
-    // если передана ссылка на конкретную комнату
-    if (this.room) this.link = this.room;
-    else this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
+    this.$nextTick(() => {
+      this.setParams();
+    });
+    this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
   }
 };
 </script>

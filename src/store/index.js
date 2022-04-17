@@ -16,6 +16,7 @@ import paint from "./modules/paint";
 import draver from "./modules/draver";
 import consultation from "./modules/consultation";
 import notifications from "./modules/notifications";
+import calendar_modal from "./modules/calendar_modal";
 
 Vue.use(Vuex);
 
@@ -47,6 +48,7 @@ export default new Vuex.Store({
     paint,
     draver,
     consultation,
-    notifications
+    notifications,
+    calendar_modal
   }
 });

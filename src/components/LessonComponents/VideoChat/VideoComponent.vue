@@ -12,9 +12,11 @@
       <video-player
         :video="this.$refs.video"
         :active="active"
+        :showChatButton="showChatButton"
+        :chatState="chatState"
         @clickChat="clickChat"
       >
-        <div slot="videoSlot" style="height: 100%;">
+        <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
           <video
             ref="video"
             v-show="mediaObject.userInfo.videoActive"
@@ -343,7 +345,14 @@ export default {
     Reflect,
     VideoPlayer
   },
-  props: ["mediaObject", "indexVideo", "active", "itsMe", "autoplayOn"],
+  props: {
+    mediaObject: Object,
+    indexVideo: Number,
+    active: Boolean,
+    itsMe: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   mixins: {},
   beforeMount() {},
   mounted() {

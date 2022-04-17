@@ -129,8 +129,10 @@ export default {
       return get("teacher/course/" + courseId);
     },
     // Calendar
-    getWebinarEvents() {
-      return get("user/events");
+    async getWebinarEvents() {
+      let r = await get("user/events");
+      console.log("api return webinar:", r);
+      return r;
       // return [
       //   {
       //     date: 1647959401,
@@ -188,6 +190,16 @@ export default {
       //   }
       // ];
     },
+    async subscribeToEvent(eventId) {
+      let r = await post("user/subscribe", { id: eventId });
+      console.log("api-test user/subscribe:", r);
+      return r;
+    },
+    async storeEvent(data) {
+      let r = await post("admin/events", data);
+      console.log("api-test admin/events", r);
+      return r;
+    },
     // User
     async register(userData) {
       return post("user", userData);
@@ -213,6 +225,18 @@ export default {
         password_confirmation: passwordConfirmed
       });
       return r;
+    },
+    // Task check
+    async taskCheck(lessonId, data) {
+      let test = false;
+      if (test)
+        return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
+      else {
+        console.log("=>", lessonId);
+        let result = await post(`user/lesson/${lessonId}/task-check`, data);
+        console.log("------------>", result);
+        return result;
+      }
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {
