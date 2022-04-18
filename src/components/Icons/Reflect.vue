@@ -32,15 +32,15 @@
 <script>
 export default {
   name: "reflect",
-  data: function () {
+  data: function() {
     return {};
   },
   methods: {},
   computed: {},
   components: {},
-  props: ['reflected'],
+  props: ["reflected"],
   mixins: {},
-  beforeMount() {},
+  beforeMount() {}
 };
 </script>
 

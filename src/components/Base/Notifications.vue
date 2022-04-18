@@ -1,6 +1,6 @@
 <template>
   <div class="notifications">
-    <transition-group name="notifications" tag="div">
+    <transition name="notifications" tag="div">
       <div
         v-for="(not, i) in snuckbarsActive"
         :key="i"
@@ -14,7 +14,7 @@
         />
         {{ not.val }}
       </div>
-    </transition-group>
+    </transition>
   </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
   name: "Notifications",
   components: { Close },
   computed: {
-    ...mapGetters(["snuckbars", "snuckbarsActive"]),
-  },
+    ...mapGetters(["snuckbars", "snuckbarsActive"])
+  }
 };
 </script>
 

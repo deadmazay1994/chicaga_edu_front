@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu__nav" v-click-outside="clickOutside" :class="{ 'mobile-active': mobilemenuopen }">
+  <nav class="menu__nav" :class="{ 'mobile-active': mobilemenuopen }">
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -22,13 +22,22 @@
     >
     <router-link
       style="color: #0d0d0d"
+      :class="$route.path === '/lk/webinars' ? 'nav__link active' : 'nav__link'"
+      to="/lk/webinars"
+      @click.native="clicked()"
+      >Вебинары</router-link
+    >
+    <!-- Добавить маршрут -->
+    <router-link
+      style="color: #0d0d0d"
       :class="
         $route.path === '/lk/my-groups' ? 'nav__link active' : 'nav__link'
       "
       to="/lk/my-groups"
       @click.native="clicked()"
-      >Мои группы</router-link
+      >Уроки</router-link
     >
+    <!-- Добавить маршрут -->
     <router-link
       style="color: #0d0d0d"
       :class="
@@ -64,23 +73,18 @@
       @click.native="clicked()"
       >Вопросы и ответы</router-link
     >
-    <button class="nav__link" @click="exit">Выйти</button>
   </nav>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import vClickOutside from "v-click-outside";
 
 export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false,
+      mobileDetected: false
     };
-  },
-  directives: {
-    clickOutside: vClickOutside.directive
   },
   methods: {
     ...mapMutations(["logout", "setDraverState"]),
@@ -100,12 +104,6 @@ export default {
         this.mobileDetected = true;
         this.setDraverState(false);
       }
-    },
-    clickOutside(e) {
-      this.$emit("clicked-outside", e);
-    },
-    clicked() {
-      this.$emit("clicked-router");
     }
   },
   computed: {
@@ -117,7 +115,7 @@ export default {
       set(value) {
         this.setDraverState(value);
       }
-    },
+    }
   },
   components: {},
   props: ["mobilemenuopen"],

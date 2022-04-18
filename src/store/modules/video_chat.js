@@ -98,7 +98,7 @@ export default {
       }
     },
     toggleMediaTrackPC({ getters, dispatch }, { mediaType, value, el }) {
-      console.log({"mediaType": mediaType, "value": value, "el": el});
+      console.log({ mediaType: mediaType, value: value, el: el });
       let track;
       if (mediaType == "video" && getters.myActiveMediaName == "camera") {
         track = getters.myWebcamMedia.getVideoTracks()[0];

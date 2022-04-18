@@ -14,30 +14,30 @@ export default {
           ? "success"
           : params.success === false
           ? "error"
-          : "default",
+          : "default"
       });
       state.snuckbars
-        .filter((elem) => elem.active)
+        .filter(elem => elem.active)
         .reverse()
-        .forEach((element) => {
+        .forEach(element => {
           setTimeout(() => {
             element.active = false;
           }, params.timeout);
         });
-    },
+    }
   },
   state: {
-    snuckbars: [],
+    snuckbars: []
   },
   getters: {
-    snuckbars: (state) => {
+    snuckbars: state => {
       return state.snuckbars;
     },
-    snuckbarsActive: (state) => {
-      return state.snuckbars.filter((snack) => snack.active);
+    snuckbarsActive: state => {
+      return state.snuckbars.filter(snack => snack.active);
     },
-    lastBar: (state) => {
+    lastBar: state => {
       return state.snuckbars[state.snuckbars.length - 1];
-    },
-  },
+    }
+  }
 };

@@ -14,16 +14,12 @@
             :active="true"
             :miniature="false"
             :iconOff="false"
+            :autoplayOn="isStream"
             :mediaObject="activeMediaStream.mediaObject"
           />
         </div>
       </div>
-      <!-- REFACTOR -->
-      <!-- В v-if слишком сложная логика. Перемести это в computed -->
-      <div
-        class="video-chat-miniatures-wrapper"
-        v-if="medias.length > 0 && miniaturesOn && !isStream"
-      >
+      <div class="video-chat-miniatures-wrapper" v-if="showMiniatures">
         <div class="miniatures-go" @click="scroll('upp')">
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
@@ -75,7 +71,8 @@ export default {
       mediaError: null,
       onLoading: true,
       driver: null,
-      del: false
+      del: false,
+      isStream: true
     };
   },
   computed: {
@@ -86,9 +83,17 @@ export default {
     },
     miniaturesMediaStream() {
       return this.medias.filter((m, i) => i !== this.activeVideoIndex);
+    },
+    showMiniatures() {
+      return (
+        (this.medias.length > 0 &&
+          this.miniaturesOn &&
+          this.webinar == false) ||
+        this.webinar == undefined
+      );
     }
   },
-  props: ["roomId", "isStream"],
+  props: ["roomId", "webinar"],
   methods: {
     scroll(val) {
       const miniatures = this.$refs.miniatures;
@@ -139,6 +144,72 @@ export default {
           .substring(2, 15)
       );
     },
+    showError(error) {
+      this.$store.commit("pushShuckbar", {
+        success: false,
+        val: error
+      });
+    },
+    driverErrorHandler(error) {
+      console.error(error);
+      switch (error.name) {
+        case "BROWSER_NOT_SUPPORTED":
+          this.showError("Видеочат не поддерживется браузером");
+          break;
+        case "DEVICE_ACCESS_DENIED":
+          this.showError("Доступ запрещен вашим устройством");
+          break;
+        case "DEVICE_ALREADY_IN_USE":
+          this.showError(
+            "Запрашиваемое устройство ввода занято другим процессом"
+          );
+          break;
+        case "SCREEN_CAPTURE_DENIED":
+          this.showError("Демонстрация экрана была отклонена");
+          break;
+        case "SCREEN_SHARING_NOT_SUPPORTED":
+          this.showError("Ваш браузер не поддерживает демонстрацию экрана");
+          break;
+        case "SCREEN_EXTENSION_NOT_INSTALLED":
+          this.showError(
+            "Расширение для демонстрации экрана не было установлено"
+          );
+          break;
+        case "SCREEN_EXTENSION_DISABLED":
+          this.showError("Расширение для демонстрации экрана не включено");
+          break;
+        case "INPUT_VIDEO_DEVICE_NOT_FOUND":
+          this.showError("Вебкамера не была обнаружена");
+          break;
+        case "INPUT_AUDIO_DEVICE_NOT_FOUND":
+          this.showError("Микрофон не был обнаружен");
+          break;
+        case "INPUT_AUDIO_DEVICE_GENERIC_ERROR":
+          this.showError(
+            "Произошла неизвестная ошибка при попытке доступа к аудиоустройству"
+          );
+          break;
+        case "NO_INPUT_SOURCE_SET":
+          this.showError(
+            "Ошибка получения пользовательских медиаданных с устройств"
+          );
+          break;
+        case "PUBLISHER_PROPERTIES_ERROR":
+          this.showError(
+            "Не поддерживается частота кадров или разрешение экрана"
+          );
+          break;
+        case "OPENVIDU_PERMISSION_DENIED":
+          this.showError("Доступ запрещен");
+          break;
+        case "OPENVIDU_NOT_CONNECTED":
+          this.showError("Ошибка публикации видео");
+          break;
+        default:
+          this.showError("Неизвестная ошибка");
+          break;
+      }
+    },
     setActiveVideoIndex(media) {
       this.activeVideoIndex =
         this.medias.findIndex(
@@ -177,15 +248,23 @@ export default {
       // вызывается эта функция, чтобы обновить список подписчиков,
       // который используем мы
       driver.onParticipantsChange = this.setMediaStreamFromDirver;
+
+      driver.onErrorHandling = this.driverErrorHandler;
+
       // Присоеденяемся к комнате
-      // REFACTOR
-      // Перемести isStreamProp в props и передавай его в копонент, а не вычисляй
-      let isStreamProp = this.user.role == "teacher" ? false : this.isStream; // Передаем в метод свойство стрим/урок
-      driver.joinToRoom(roomId, {
-        clientData: user,
-        sourceSettings: settings,
-        isStream: isStreamProp
-      });
+      driver
+        .joinToRoom(roomId, {
+          clientData: user,
+          sourceSettings: settings,
+          webinar: this.webinar
+        })
+        .catch(err => {
+          console.error("joinToRoom():", err);
+          this.$store.commit("pushShuckbar", {
+            success: false,
+            val: "Ошибка подключения к комнате"
+          });
+        });
       this.streamOn = true;
       this.onLoading = false;
     },
@@ -237,15 +316,24 @@ export default {
       this.driver.publishScreen();
     });
   },
+  watch: {
+    $route(to, from) {
+      this.driver.leaveSession();
+      this.$router.push(from.path);
+    }
+  },
   created() {
     this.$watch(() => this.$route.params, this?.driver?.leaveSession);
+    window.onpopstate = () => {
+      this.driver.leaveSession();
+    };
   }
 };
 </script>
 
 <style lang="sass" scoped>
 .video-chat-miniatures-wrapper
-  height: 100%
+  height: calc(100% - 59px) // 59px высота плеера
   position: absolute
   width: 30%
   min-width: 146px

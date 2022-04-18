@@ -55,7 +55,7 @@
               {{ taskTabTitle }}
             </template>
           </v-tab>
-          <v-tab class="task__menu__item">White board</v-tab>
+          <v-tab class="task__menu__item">Сюжет</v-tab>
           <v-tab class="task__menu__item">Материалы урока</v-tab>
           <v-tab class="task__menu__item">Домашнее задание</v-tab>
         </v-tabs>
@@ -65,12 +65,8 @@
           <tasks class="edu-panel__tasks-component" />
         </v-tab-item>
         <v-tab-item>
-          <whiteboard
-            class="edu-panel__whiteboard"
-            server="https://edu.chicaga.ru:5000/"
-            :socketProp="socket"
-            :username="user.name"
-          />
+          <!-- здесь будет новый компонент -->
+          <lesson-plot />
         </v-tab-item>
         <v-tab-item>
           <attachs
@@ -97,7 +93,7 @@ import { mapGetters } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
-import Whiteboard from "./WhiteBoard/WhiteBoard";
+import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
 export default {
   name: "edu-panel",
@@ -116,8 +112,8 @@ export default {
   components: {
     Tasks,
     Attachs,
-    Whiteboard,
-    TeacherPanel
+    TeacherPanel,
+    LessonPlot
   },
   props: [],
   mixins: {},

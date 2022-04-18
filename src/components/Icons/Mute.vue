@@ -34,7 +34,7 @@
 <script>
 export default {
   name: "mute",
-  data: function () {
+  data: function() {
     return {};
   },
   methods: {},
@@ -42,7 +42,7 @@ export default {
   components: {},
   props: ["muted"],
   mixins: {},
-  beforeMount() {},
+  beforeMount() {}
 };
 </script>
 

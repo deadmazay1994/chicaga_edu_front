@@ -42,15 +42,15 @@ import Zoom from "@/directives/zoom";
 
 export default {
   name: "task-images",
-  data: function () {
+  data: function() {
     return {
       description: "",
       task: {
         answers: [],
-        shuffled: [],
+        shuffled: []
       },
       error: true,
-      inputCopy: false,
+      inputCopy: false
     };
   },
   methods: {
@@ -72,7 +72,7 @@ export default {
     answeredClass(i) {
       return {
         "img-task--correct": this.task.shuffled[i].correct == 1,
-        "img-task--in-correct": this.task.shuffled[i].correct == 0,
+        "img-task--in-correct": this.task.shuffled[i].correct == 0
       };
     },
     check() {
@@ -103,14 +103,14 @@ export default {
     },
     getFileName(element) {
       return element?.file?.file_name_abs;
-    },
+    }
   },
   computed: {
-    ...mapGetters(["socket", "teacherId"]),
+    ...mapGetters(["socket", "teacherId"])
   },
   components: {},
   directives: {
-    ...Zoom,
+    ...Zoom
   },
   props: ["input", "index"],
   beforeMount() {
@@ -121,7 +121,7 @@ export default {
     if (!this._data.isSavedTask) {
       this.setAlphabetical();
     }
-  },
+  }
 };
 </script>
 

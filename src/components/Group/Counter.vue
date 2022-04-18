@@ -1,30 +1,32 @@
 <template>
   <div class="counter vue-component">
     <div class="title">
-      <h4 class="main--text">{{ (currentTime > 0) ? titlePrepare : titleLate }}</h4>
+      <h4 class="main--text">
+        {{ currentTime > 0 ? titlePrepare : titleLate }}
+      </h4>
     </div>
     <div class="counter-content">
       <div class="counter-item">
-                <div class="counter-num">{{timeStrGetHours(currentTime)}}</div>
-                <div class="counter-text">ЧАС</div>
-            </div> 
-            <div class="counter-item">
-                <div class="counter-num">{{timeStrGetMinutes(currentTime)}}</div>
-                <div class="counter-text">МИН</div>
-            </div> 
-            <div class="counter-item">
-                <div class="counter-num">{{timeStrGetSeconds(currentTime)}}</div>
-                <div class="counter-text">СЕК</div>
-            </div>
+        <div class="counter-num">{{ timeStrGetHours(currentTime) }}</div>
+        <div class="counter-text">ЧАС</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-num">{{ timeStrGetMinutes(currentTime) }}</div>
+        <div class="counter-text">МИН</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-num">{{ timeStrGetSeconds(currentTime) }}</div>
+        <div class="counter-text">СЕК</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'timer',
+  name: "timer",
   props: {
-    currentTime: Number,
+    currentTime: Number
   },
   data: () => ({
     timerID: null,
@@ -32,43 +34,45 @@ export default {
     titleLate: "Занятие уже началось"
   }),
   methods: {
-  
     timeStrUppendZeroToStartStr(str) {
-        if (String(str).length == 1) return `0${str}`
-        return str
+      if (String(str).length == 1) return `0${str}`;
+      return str;
     },
     timeStrGetHours(seconds) {
-        return (this.currentTime > 0) ? this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600)) : this.timeStrUppendZeroToStartStr(0)
+      return this.currentTime > 0
+        ? this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600))
+        : this.timeStrUppendZeroToStartStr(0);
     },
     timeStrGetMinutes(seconds) {
-        return (this.currentTime > 0) ? this.timeStrUppendZeroToStartStr(
-            Math.floor((seconds % 3600) / 60)
-        ) : this.timeStrUppendZeroToStartStr(0)
+      return this.currentTime > 0
+        ? this.timeStrUppendZeroToStartStr(Math.floor((seconds % 3600) / 60))
+        : this.timeStrUppendZeroToStartStr(0);
     },
     timeStrGetSeconds(seconds) {
-        return (this.currentTime > 0) ? this.timeStrUppendZeroToStartStr((seconds % 3600) % 60) : this.timeStrUppendZeroToStartStr(0)
+      return this.currentTime > 0
+        ? this.timeStrUppendZeroToStartStr((seconds % 3600) % 60)
+        : this.timeStrUppendZeroToStartStr(0);
     },
     changeTimer() {
       this.timerID = setInterval(() => {
-        this.$emit('updateTimer')
+        this.$emit("updateTimer");
         if (this.currentTime === 0) {
-          clearInterval(this.timerID)
+          clearInterval(this.timerID);
         }
-      }, 1000)
+      }, 1000);
     }
   },
   mounted() {
-    this.changeTimer()
+    this.changeTimer();
   },
   beforeDestroy() {
-    clearInterval(this.timerID)
+    clearInterval(this.timerID);
   }
-}
+};
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .counter {
- 
   .title {
     font-size: 14px;
     line-height: 18px;

@@ -16,6 +16,7 @@ import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
+import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import Group from "@/components/Group/Group";
@@ -179,9 +180,24 @@ const routes = [
         component: Group
       },
       {
+        path: "webinars",
+        component: WebinarsComponent
+      },
+      {
         path: "upcoming/:id/:code/:startTime",
         name: "upcoming-lesson",
-        component: Upcoming
+        component: Upcoming,
+        props: {
+          showComponent: true
+        }
+      },
+      {
+        path: "webinar-upcoming/:id/:code/:startTime",
+        name: "upcoming-webinar",
+        component: Upcoming,
+        props: {
+          showComponent: false
+        }
       }
     ]
   },

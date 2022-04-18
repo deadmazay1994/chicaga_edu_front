@@ -60,7 +60,8 @@ export default {
       this.$store.commit("updateFile", this.getFile());
     },
     enter() {
-      if (this.getInput || this.files.length && this.files[0] !== null) this.send();
+      if (this.getInput || (this.files.length && this.files[0] !== null))
+        this.send();
     }
   },
   computed: mapGetters(["allMsgs", "getRocket", "getInput", "getAttachments"]),

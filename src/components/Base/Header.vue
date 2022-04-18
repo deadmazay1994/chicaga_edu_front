@@ -150,17 +150,17 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "header-app",
-  data: function () {
+  data: function() {
     return {};
   },
   methods: {
     ...mapMutations(["toggleDraver"]),
     showSignIn() {
       this.$store.commit("showSignIn");
-    },
+    }
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user"])
   },
   // components: {
   //   DictAdd
@@ -178,7 +178,7 @@ export default {
     //   });
     //   console.log(r);
     // }
-  },
+  }
 };
 </script>
 
