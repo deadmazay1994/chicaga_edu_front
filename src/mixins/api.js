@@ -144,7 +144,7 @@ export default {
     },
     // Calendar
     async getWebinarEvents() {
-      let r = await get("user/events");
+      let r = await get("events");
       console.log("api return webinar:", r);
       return r;
       // return [
