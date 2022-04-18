@@ -4,6 +4,7 @@
     <div class="buttons">
       <router-link
         :to="link"
+        @click.native="callWarn"
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
@@ -22,7 +23,8 @@ export default {
     return {
       course_id: null,
       id: null,
-      link: "#"
+      link: null,
+      access: null
     };
   },
   methods: {
@@ -33,10 +35,27 @@ export default {
       let r = await api.methods.getFullLesson(this.$route.params.id);
       this.course_id = r.course_id;
       this.id = r.uniq_id;
+    },
+    lessonAccessCheck(access) {
+      if (access) {
+        this.link = `/lesson/${this.id}/${this.$route.params.code}`;
+        this.access = true;
+      } else {
+        this.link = "/";
+        this.access = false;
+      }
+    },
+    callWarn() {
+      if (this.access) return;
+      this.$store.commit("pushShuckbar", {
+        success: false,
+        val: "Ошибка доступа к уроку"
+      });
     }
   },
   mounted() {
     this.setParams();
+    this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
   }
 };
 </script>
