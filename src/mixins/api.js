@@ -128,6 +128,20 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
+    async getUserPoints() {
+      let r = await get(`user/points`);
+      console.log("r user:", await get("user"));
+      console.log("r:", r);
+      return r;
+      // return {
+      //   smile: 100,
+      //   star: 200,
+      //   brain: 300,
+      //   lamp: 400,
+      //   coins: 999,
+      //   time: 1649937589
+      // };
+    },
     // Calendar
     async getWebinarEvents() {
       let r = await get("user/events");
