@@ -221,19 +221,23 @@ router.beforeEach((to, from, next) => {
         val: "Пожалуйста, авторизируйтесь",
         success: false
       });
+      access = false;
     } else {
       access = true;
     }
-  } else if (to.matched.some(record => record.meta.guest)) {
+  }
+  if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
         path: "/lk/my-coursers",
         query: { redirect: to.fullPath }
       });
+      access = false;
     } else {
       access = true;
     }
-  } else if (to.matched.some(record => record.meta.forTeacher)) {
+  }
+  if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
       next({
         path: "/lk/my-coursers",
@@ -243,16 +247,13 @@ router.beforeEach((to, from, next) => {
         val: "Пожалуйста, авторизируйтесь под аккаунтом учителя",
         success: false
       });
+      access = false;
     } else {
       access = true;
     }
   } else {
     access = true;
   }
-  console.log("lessonId:", to);
-  to.matched.some(record => {
-    console.log("lessonId:", record);
-  });
   if (to.matched.some(record => record.meta.checkAccess)) {
     if (api.methods.checkAccess(to.params.id)) access = true;
     else {
@@ -260,7 +261,7 @@ router.beforeEach((to, from, next) => {
         val: "access denied",
         success: false
       });
-      access = true;
+      access = false;
     }
   }
   if (access) next();

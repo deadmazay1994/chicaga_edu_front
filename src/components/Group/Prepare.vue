@@ -5,7 +5,6 @@
       <router-link
         :to="link"
         tag="button"
-        @click.native="callWarn()"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
       >
@@ -34,11 +33,6 @@ export default {
       let r = await api.methods.getFullLesson(this.$route.params.id);
       this.course_id = r.course_id;
       this.id = r.uniq_id;
-    },
-    callWarn() {
-      if (api.methods.checkAccess(this.$route.params.id)) {
-        console.log("access check: success");
-      } // тестовая проверка доступа к уроку
     }
   },
   mounted() {
