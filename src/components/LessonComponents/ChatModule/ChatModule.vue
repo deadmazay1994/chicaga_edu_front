@@ -73,7 +73,7 @@ export default {
     display: block
     .video-chat,
     .chat-block
-      height: 50%
+      flex: 1
 
   &.horizontal
     display: flex
