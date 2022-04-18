@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   transpileDependencies: ["vuetify"],
-  publicPath: "/demo_app/",
+  publicPath: process.env.NODE_ENV === "production" ? "/edu/" : "/",
   configureWebpack: {
     resolve: {
       alias: {
