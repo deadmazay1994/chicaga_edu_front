@@ -206,9 +206,9 @@ export const router = new VueRouter({
 });
 
 // Скрываем страницы от не авторизированных пользователей
-let access = false;
 
 router.beforeEach((to, from, next) => {
+  let access = false;
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
