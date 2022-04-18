@@ -12,7 +12,6 @@
         ></span>
         <input
           type="file"
-          @input="updateFileInput"
           ref="fileInput"
           class="textarea-ctrl__attachment-input"
         />
@@ -22,8 +21,7 @@
       name="msg"
       placeholder="Сообщение"
       class="messages__controls__textarea"
-      :value="getInput"
-      @input="updateInput"
+      v-model="msgText"
       v-on:keyup.enter="enter()"
     />
     <svg class="messages__controls__svg" v-on:click="send()">
@@ -39,32 +37,27 @@ export default {
   name: "textarea-chat",
   data: function() {
     return {
-      files: []
+      files: [],
+      msgText: ""
     };
   },
   methods: {
     send() {
       this.files = [];
-      this.$store.dispatch("sendMsg");
-      this.$store.commit("updateInput", "");
-      this.$store.commit("updateFile", null);
-      this.$store.commit("updatePreload", "");
+      this.chatDriver.activeChannel.sendMessage(this.msgText, [
+        ...this.$refs.fileInput.files
+      ]);
+      this.msgText = "";
     },
     getFile() {
       return this.$refs.fileInput.files[0];
     },
-    updateInput(e) {
-      this.$store.commit("updateInput", e.target.value);
-    },
-    updateFileInput() {
-      this.$store.commit("updateFile", this.getFile());
-    },
     enter() {
-      if (this.getInput || (this.files.length && this.files[0] !== null))
+      if (this.msgText || (this.files.length && this.files[0] !== null))
         this.send();
     }
   },
-  computed: mapGetters(["allMsgs", "getRocket", "getInput", "getAttachments"]),
+  computed: mapGetters(["chatDriver"]),
   watch: {
     getAttachments() {
       this.files.push(this.getAttachments.name);
