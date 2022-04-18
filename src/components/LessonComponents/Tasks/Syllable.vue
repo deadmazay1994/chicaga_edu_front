@@ -55,6 +55,10 @@ export default {
         id: r.id
       };
     },
+    setStatus(status) {
+      this.sendData();
+      this.correct = status;
+    },
     async check() {
       let answers = [];
       answers.push({ answers: this.input.slogs[this.input.answer] });
@@ -78,6 +82,7 @@ export default {
     },
     onChange() {
       this.sendData();
+      this.$emit("input", this.answer);
     },
     sendData() {
       this.$emit("sendChanges", {

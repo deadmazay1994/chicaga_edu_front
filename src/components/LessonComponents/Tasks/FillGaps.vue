@@ -90,10 +90,10 @@ export default {
       //   });
       //   console.log("данные this.taskCheck");
       // });
-      const type_check = "insert_skipped_word";
+      const type_check = this.inputCopy.type;
       const checkData = {
         type: "lesson",
-        type_check: type_check,
+        type_check: this.inputCopy.type,
         section: this.inputCopy.section,
         answer: this.$refs.gap.map(gap => {
           return { answers: gap.answer };

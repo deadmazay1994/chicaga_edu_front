@@ -87,12 +87,12 @@ export default {
     async check() {
       this.error = false;
       let answers = this.task.answers;
-      const TYPE_CHECK = "images_order";
-      let r = this.getLesson();
+      const TYPE_CHECK = this.inputCopy.type;
+      console.log();
       const data = {
         type: "lesson",
-        type_check: r.type,
-        section: r.section,
+        type_check: this.inputCopy.type,
+        section: this.inputCopy.section,
         answer: answers
       };
       let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
