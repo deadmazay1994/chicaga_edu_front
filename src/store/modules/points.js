@@ -11,63 +11,80 @@ export default {
     }
   },
   mutations: {
-    setUserPoints(state, data) {
-      state.points = data;
+    setUserPoints(state, pointsArr) {
+      pointsArr.forEach(item => {
+        console.log("points item:", item);
+        switch (item.point_type.name) {
+          case "Мозги":
+            state.points.brain = item.points;
+            break;
+          case "Смайлики":
+            state.points.smile = item.points;
+            break;
+          case "Звездочка":
+            state.points.star = item.points;
+            break;
+          case "Лампочка":
+            state.points.lamp = item.points;
+            break;
+        }
+      });
     },
     setPointByType(state, payload) {
       switch (payload.type) {
         case "images_order":
-          state.smile += payload.value;
+          state.points.smile += payload.value;
           break;
         case "insert_skipped_word":
-          state.brains += payload.value;
+          state.points.brain += payload.value;
           break;
         case "drag_and_drop_words":
-          state.star += payload.value;
+          state.points.star += payload.value;
           break;
         case "select_stressed_syllable":
-          state.smile += payload.value;
+          state.points.smile += payload.value;
           break;
         case "group_by_dragging":
-          state.star += payload.value;
+          state.points.star += payload.value;
           break;
         case "match_words":
-          state.star += payload.value;
+          state.points.star += payload.value;
           break;
         case "select_correct_variant":
-          state.star += payload.value;
+          state.points.star += payload.value;
           break;
         case "match_picture_and_word":
           state.star += payload.value;
           break;
         case "true_or_false":
-          state.lamp += payload.value;
+          state.points.lamp += payload.value;
           break;
         case "select_correct_answer":
-          state.lamp += payload.value;
+          state.points.lamp += payload.value;
           break;
         case "write_word_to_picture":
-          state.brains += payload.value;
+          state.points.brains += payload.value;
           break;
         case "select_correct_image_answer":
-          state.lamp += payload.value;
+          state.points.lamp += payload.value;
           break;
         case "youtube_addons":
-          state.star += payload.value;
+          state.points.star += payload.value;
           break;
         case "lesson_addons_files":
-          state.smile += payload.value;
+          state.points.smile += payload.value;
           break;
       }
     }
   },
   state: {
-    points: null,
-    smile: 0,
-    star: 0,
-    brains: 0,
-    lamp: 0,
-    coins: 0
+    points: {
+      smile: 0,
+      brain: 0,
+      star: 0,
+      lamp: 0,
+      coins: 0
+    }
   },
   getters: {
     getUserPoints(state) {
@@ -86,6 +103,7 @@ export default {
         case "coins":
           return state.coins;
       }
-    }
+    },
+    points: state => state.points
   }
 };

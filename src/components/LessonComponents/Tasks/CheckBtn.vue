@@ -25,6 +25,7 @@ export default {
       }
       if (this.$parent.check) {
         let r = await this.$parent.check();
+        console.log(r);
         this.setPointByType(r);
         // оставить для отладки
         console.log("данные $parent checkBtn.vue:", this.$parent);

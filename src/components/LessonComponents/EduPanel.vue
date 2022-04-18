@@ -7,28 +7,28 @@
           <svg class="task__header__svg">
             <use xlink:href="#smile1"></use>
           </svg>
-          <span>{{ animatedSmileData }}</span>
+          <span>{{ points.smile }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#star"></use>
           </svg>
-          <span>{{ animatedStarData }}</span>
+          <span>{{ points.star }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#brains"></use>
           </svg>
-          <span>{{ animatedBrainData }}</span>
+          <span>{{ points.brain }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#bulb"></use>
           </svg>
-          <span>{{ animatedLampData }}</span>
+          <span>{{ points.lamp }}</span>
         </div>
       </div>
       <div class="task__header__item">
@@ -36,7 +36,7 @@
           <svg class="task__header__svg">
             <use xlink:href="#coin"></use>
           </svg>
-          <span>{{ animatedCoinsData }}</span>
+          <span>{{ points.coins }}</span>
         </div>
 
         <!-- <div class="task__header__inner">
@@ -102,18 +102,7 @@ export default {
   name: "edu-panel",
   data: function() {
     return {
-      tab: null,
-      smileData: 0,
-      tweenedSmileData: 0,
-      starData: 0,
-      tweenedStarData: 0,
-      brainData: 0,
-      tweenedBrainData: 0,
-      lampData: 0,
-      tweenedLampData: 0,
-      coinsData: 0,
-      tweenedCoinsData: 0,
-      timeData: null
+      tab: null
     };
   },
   methods: {
@@ -143,24 +132,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "materials", "socket", "getUserPoints"]),
+    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
     taskTabTitle() {
       return "Задания";
     },
-    animatedSmileData() {
-      return this.tweenedSmileData.toFixed(0);
-    },
-    animatedStarData() {
-      return this.tweenedStarData.toFixed(0);
-    },
-    animatedBrainData() {
-      return this.tweenedBrainData.toFixed(0);
-    },
-    animatedLampData() {
-      return this.tweenedLampData.toFixed(0);
-    },
-    animatedCoinsData() {
-      return this.tweenedCoinsData.toFixed(0);
+    brain() {
+      return this.points.brain.toFixed(0);
     }
   },
   components: {
@@ -173,26 +150,28 @@ export default {
   mixins: {},
   beforeMount() {},
   watch: {
-    smileData(newValue) {
-      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    },
-    starData(newValue) {
-      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    },
-    brainData(newValue) {
-      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    },
-    lampData(newValue) {
-      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    },
-    coinsData(newValue) {
-      gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    points(newValue) {
+      gsap.to(this.$data, { duration: 0.5, points: newValue });
     }
+    // smile(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // star(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // brain(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // lamp(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // coins(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // }
   },
-  mounted() {
-    this.setUserPoints().then(() => {
-      this.setUserPointsToData();
-    });
+  async mounted() {
+    await this.setUserPoints();
+    console.log(this.smile);
     this.getLesson().then(res => {
       this.timeData = res.time;
     });

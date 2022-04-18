@@ -91,12 +91,10 @@ export default {
       //   console.log("данные this.taskCheck");
       // });
       const type_check = "insert_skipped_word";
-      let r = await this.getLesson();
-      console.log("данные FillGaps.vue r:", r);
       const checkData = {
         type: "lesson",
         type_check: type_check,
-        section: r.section,
+        section: this.inputCopy.section,
         answer: this.$refs.gap.map(gap => {
           return { answers: gap.answer };
         })
@@ -106,6 +104,7 @@ export default {
           Object.keys(r.result).forEach(index => {
             this.$refs.gap[index].setStatus(r.result[index].answers);
           });
+          return r;
         }
       );
       console.log("данные FillGaps.vue result:", result);
