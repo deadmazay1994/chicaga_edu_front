@@ -4,6 +4,7 @@
       class="calendar-dropdown__title"
       v-for="(item, index) in events"
       :key="index"
+      @click="openModal(item)"
     >
       <span>{{ item.title }}</span>
       <lock-svg :show="item.subscribed" />
@@ -14,6 +15,8 @@
 <script>
 import LockSvg from "@/components/Icons/LockSvg";
 
+import { mapMutations } from "vuex";
+
 export default {
   name: "CalendarDropdown",
   components: {
@@ -21,6 +24,13 @@ export default {
   },
   props: {
     events: Array
+  },
+  methods: {
+    ...mapMutations(["toggleModale", "setEventData"]),
+    openModal(item) {
+      this.setEventData({ item });
+      this.toggleModale();
+    }
   }
 };
 </script>
@@ -34,14 +44,14 @@ export default {
   width: 100%
   margin-right: -100%
   z-index: 10
-  height: 80px
+  height: auto
   padding: 3px 10px
   border-radius: 10px
   display: flex
   flex-direction: column
   justify-content: space-evenly
 
-  &.calendar-cell--coming-soon
+  &.calendar-cell--many-events
     background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   &.calendar-cell--enroled
     background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)

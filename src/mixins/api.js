@@ -129,8 +129,10 @@ export default {
       return get("teacher/course/" + courseId);
     },
     // Calendar
-    getWebinarEvents() {
-      return get("user/events");
+    async getWebinarEvents() {
+      let r = await get("user/events");
+      console.log("api return webinar:", r);
+      return r;
       // return [
       //   {
       //     date: 1647959401,
@@ -187,6 +189,16 @@ export default {
       //     bodyOfEvent: null
       //   }
       // ];
+    },
+    async subscribeToEvent(eventId) {
+      let r = await post("user/subscribe", { id: eventId });
+      console.log("api-test user/subscribe:", r);
+      return r;
+    },
+    async storeEvent(data) {
+      let r = await post("admin/events", data);
+      console.log("api-test admin/events", r);
+      return r;
     },
     // User
     async register(userData) {

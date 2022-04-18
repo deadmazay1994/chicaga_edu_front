@@ -93,7 +93,7 @@ export default {
       const type_check = "insert_skipped_word";
       let r = await this.getLesson();
       console.log("данные FillGaps.vue r:", r);
-      const data = {
+      const checkData = {
         type: "lesson",
         type_check: type_check,
         section: r.section,
@@ -101,7 +101,13 @@ export default {
           return { answers: gap.answer };
         })
       };
-      let result = await api.methods.taskCheck(r.id, data);
+      let result = await this.taskCheck(this.$route.params.id, checkData).then(
+        r => {
+          Object.keys(r.result).forEach(index => {
+            this.$refs.gap[index].setStatus(r.result[index].answers);
+          });
+        }
+      );
       console.log("данные FillGaps.vue result:", result);
       return { value: result.points, type: type_check };
     },
