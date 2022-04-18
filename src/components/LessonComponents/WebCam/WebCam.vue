@@ -16,6 +16,9 @@
             :iconOff="false"
             :autoplayOn="isStream"
             :mediaObject="activeMediaStream.mediaObject"
+            :showChatButton="showChatButton"
+            :chatState="chatState"
+            @clickChat="clickChat"
           />
         </div>
       </div>
@@ -93,8 +96,16 @@ export default {
       );
     }
   },
-  props: ["roomId", "webinar"],
+  props: {
+    roomId: String,
+    webinar: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   methods: {
+    clickChat() {
+      this.$emit("clickChat");
+    },
     scroll(val) {
       const miniatures = this.$refs.miniatures;
       const scrollHeight = miniatures.scrollHeight;

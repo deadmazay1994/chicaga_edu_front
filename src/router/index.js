@@ -19,6 +19,7 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
+import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -42,7 +43,7 @@ const routes = [
     }
   },
   {
-    path: "/lesson/:courseId/:id/:userid",
+    path: "/lesson/:id/",
     name: "lesson",
     component: Lesson,
     meta: {
@@ -194,6 +195,11 @@ const routes = [
         props: {
           showComponent: false
         }
+      },
+      {
+        path: "private-room/:room",
+        name: "private-room",
+        component: PrivateRoom
       }
     ]
   },

@@ -5,6 +5,7 @@
       { 'calendar-cell--past': item.month !== currMonth },
       itemState(item)
     ]"
+    @click="openModal()"
   >
     <div class="cell-head">
       <span
@@ -48,6 +49,8 @@ import LockSvg from "@/components/Icons/LockSvg";
 import SchevronSvg from "@/components/Icons/SchevronSvg";
 import CalendarDropdown from "./CalendarDropdown.vue";
 
+import { mapMutations } from "vuex";
+
 export default {
   name: "CalendarCell",
   components: {
@@ -66,21 +69,29 @@ export default {
     currMonth: Number,
     currYear: Number
   },
+  computed: {
+    hasSubEvents() {
+      return !!this.item.subEvents;
+    }
+  },
   methods: {
+    ...mapMutations(["toggleModale", "setEventData"]),
     itemState(item) {
       return {
-        "calendar-cell--enroled": item?.subscribed === true,
-        "calendar-cell--non-enroled": item?.subscribed === false
+        "calendar-cell--enroled": item?.subscribed === true && !item.subEvents,
+        "calendar-cell--non-enroled":
+          item?.subscribed === false && !!item.subEvents,
+        "calendar-cell--many-events": item.subEvents
       };
     },
     toggleDropDown() {
       this.showDropDown = !this.showDropDown;
+    },
+    openModal() {
+      if (!this.item.event || this.hasSubEvents) return;
+      this.setEventData({ item: this.item });
+      this.toggleModale();
     }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      console.log(this.item.subEvents);
-    });
   }
 };
 </script>
@@ -168,7 +179,7 @@ export default {
     .cell-body__desc
       color: #C4C4C4
 
-  &.calendar-cell--coming-soon
+  &.calendar-cell--many-events
     background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   &.calendar-cell--enroled
     background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)

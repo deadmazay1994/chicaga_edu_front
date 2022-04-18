@@ -1,5 +1,5 @@
 // const API_URL = "https://eng-test.avead.dev/api/";
-const API_URL = "https://edu.chicaga.ru/api/";
+const API_URL = "https://dev.edu.chicaga.ru/api/";
 
 import Axios from "axios";
 
@@ -129,63 +129,76 @@ export default {
       return get("teacher/course/" + courseId);
     },
     // Calendar
-    getWebinarEvents() {
-      return [
-        {
-          date: 1647959401,
-          title:
-            "Lorem Ipsum has been the indus Lorem Ipsum has been the indus",
-          subtitle:
-            "Lorem Ipsum has been the industry's standard Lorem Ipsum has been the indus",
-          poster: null,
-          price: 0,
-          responsible: "user_id",
-          subEvents: [
-            {
-              date: 1647959401,
-              title: "Lorem Ipsum has been the indus...",
-              subtitle: "Lorem Ipsum has been the industry's standard...",
-              poster: null,
-              price: 0,
-              responsible: "user_id",
-              subscribed: false,
-              bodyOfEvent: null
-            },
-            {
-              date: 1647959401,
-              title: "Lorem Ipsum has been the indus...",
-              subtitle: "Lorem Ipsum has been the industry's standard...",
-              poster: null,
-              price: 0,
-              responsible: "user_id",
-              subscribed: true,
-              bodyOfEvent: null
-            }
-          ],
-          subscribed: true,
-          bodyOfEvent: null
-        },
-        {
-          date: 1648034654,
-          title: "Lorem Ipsum has been the indus...",
-          subtitle: "Lorem Ipsum has been the industry's standard...",
-          poster: null,
-          price: 0,
-          responsible: "user_id",
-          subscribed: false,
-          bodyOfEvent: null
-        },
-        {
-          date: 1648207454,
-          title: "Lorem Ipsum has been the indus...",
-          subtitle: "Lorem Ipsum has been the industry's standard...",
-          poster: null,
-          price: 0,
-          responsible: "user_id",
-          subscribed: true,
-          bodyOfEvent: null
-        }
-      ];
+    async getWebinarEvents() {
+      let r = await get("user/events");
+      console.log("api return webinar:", r);
+      return r;
+      // return [
+      //   {
+      //     date: 1647959401,
+      //     title:
+      //       "Lorem Ipsum has been the indus Lorem Ipsum has been the indus",
+      //     subtitle:
+      //       "Lorem Ipsum has been the industry's standard Lorem Ipsum has been the indus",
+      //     poster: null,
+      //     price: 0,
+      //     responsible: "user_id",
+      //     subEvents: [
+      //       {
+      //         date: 1647959401,
+      //         title: "Lorem Ipsum has been the indus...",
+      //         subtitle: "Lorem Ipsum has been the industry's standard...",
+      //         poster: null,
+      //         price: 0,
+      //         responsible: "user_id",
+      //         subscribed: false,
+      //         bodyOfEvent: null
+      //       },
+      //       {
+      //         date: 1647959401,
+      //         title: "Lorem Ipsum has been the indus...",
+      //         subtitle: "Lorem Ipsum has been the industry's standard...",
+      //         poster: null,
+      //         price: 0,
+      //         responsible: "user_id",
+      //         subscribed: true,
+      //         bodyOfEvent: null
+      //       }
+      //     ],
+      //     subscribed: true,
+      //     bodyOfEvent: null
+      //   },
+      //   {
+      //     date: 1648034654,
+      //     title: "Lorem Ipsum has been the indus...",
+      //     subtitle: "Lorem Ipsum has been the industry's standard...",
+      //     poster: null,
+      //     price: 0,
+      //     responsible: "user_id",
+      //     subscribed: false,
+      //     bodyOfEvent: null
+      //   },
+      //   {
+      //     date: 1648207454,
+      //     title: "Lorem Ipsum has been the indus...",
+      //     subtitle: "Lorem Ipsum has been the industry's standard...",
+      //     poster: null,
+      //     price: 0,
+      //     responsible: "user_id",
+      //     subscribed: true,
+      //     bodyOfEvent: null
+      //   }
+      // ];
+    },
+    async subscribeToEvent(eventId) {
+      let r = await post("user/subscribe", { id: eventId });
+      console.log("api-test user/subscribe:", r);
+      return r;
+    },
+    async storeEvent(data) {
+      let r = await post("admin/events", data);
+      console.log("api-test admin/events", r);
+      return r;
     },
     // User
     async register(userData) {
@@ -212,6 +225,18 @@ export default {
         password_confirmation: passwordConfirmed
       });
       return r;
+    },
+    // Task check
+    async taskCheck(lessonId, data) {
+      let test = false;
+      if (test)
+        return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
+      else {
+        console.log("=>", lessonId);
+        let result = await post(`user/lesson/${lessonId}/task-check`, data);
+        console.log("------------>", result);
+        return result;
+      }
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {

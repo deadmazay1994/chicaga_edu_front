@@ -926,11 +926,11 @@
         <router-view class="lessons__content main-view" />
       </div>
     </div>
-    <notifications />
     <!--<modals />-->
     <!--<snackbars />-->
     <!--<lightbox />-->
     <!--<bg-component />-->
+    <calendar-modal />
   </v-app>
 </template>
 
@@ -941,8 +941,8 @@ import HeaderApp from "@/components/Base/Header";
 import Navigation from "@/components/Lk/Navigation";
 // import BgComponent from "@/components/Base/Background";
 // import Lightbox from "@/components/Base/Lightbox";
-import Notifications from "@/components/Base/Notifications";
 import vClickOutside from "v-click-outside";
+import CalendarModal from "@/components/Calendar/CalendarModal";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -962,9 +962,9 @@ export default {
     // Modals,
     // Snackbars,
     Navigation,
+    CalendarModal
     // BgComponent
     // Lightbox
-    Notifications
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),

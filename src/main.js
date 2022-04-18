@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import PortalVue from "portal-vue";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 import TaskFunctions from "@/mixins/tasks";
 import SocketFunctions from "@/mixins/socket";
@@ -30,6 +32,23 @@ Vue.mixin({
 });
 
 Vue.use(PortalVue);
+
+const options = {
+  position: "bottom-right",
+  timeout: 5000,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.6,
+  showCloseButtonOnHover: false,
+  hideProgressBar: true,
+  closeButton: "button",
+  icon: true,
+  rtl: false
+};
+
+Vue.use(Toast, options);
 
 // Стандарные функции тасков
 Vue.mixin(TaskFunctions);
