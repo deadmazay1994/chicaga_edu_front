@@ -223,7 +223,6 @@ export default {
       result.forEach((correct, i) => {
         if (!this.answers[i]) this.answers[i] = {};
         this.answers[i].correct = correct;
-        console.log(this.answers[i].correct);
       });
       this.$emit("oncheck", {
         index: this.index,

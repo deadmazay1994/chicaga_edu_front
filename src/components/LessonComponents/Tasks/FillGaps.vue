@@ -77,8 +77,8 @@ export default {
         })
       };
       this.taskCheck(this.$route.params.id, checkData).then(r => {
-        r.result.forEach((e, i) => {
-          this.$refs.gap[i].setStatus(e.answers);
+        Object.keys(r.result).forEach(index => {
+          this.$refs.gap[index].setStatus(r.result[index].answers);
         });
       });
     },
