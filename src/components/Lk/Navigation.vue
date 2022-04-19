@@ -84,6 +84,7 @@
       :to="{ path: '/lk/private-room/' + generateRoomId }"
       >Создать комнату</router-link
     >
+    <span class="nav__link" @click="exit">Выйти</span>
   </nav>
 </template>
 

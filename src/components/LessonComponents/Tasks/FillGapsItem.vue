@@ -196,25 +196,27 @@ export default {
       };
     },
     check() {
+      console.log("данные FillGapsItem.vue");
       let answers = [];
       if (this.answers) {
         this.answered = true;
         this.answers.forEach(elem => {
           answers.push(elem);
         });
-        this.getLesson().then(res => {
+        return this.getLesson().then(res => {
           const data = {
             type: "lesson",
             type_check: res.type,
             section: res.section,
             answer: [{ answers: answers.map(a => a.val) }]
           };
-          console.log("FillGapsItem.vue res:", res); // test
+          console.log("данные FillGapsItem.vue res:", res); // test
           let result = api.methods.taskCheck(res.id, data); // mock
-          result.then(res => {
+          return result.then(res => {
             this.answers.forEach((_, i) => {
               this.answers[i].correct = res[i];
             });
+            return { value: res.points, type: data.type_check };
           });
         });
       }

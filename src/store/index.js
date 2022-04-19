@@ -12,10 +12,11 @@ import socket from "./modules/socket";
 import lightbox from "./modules/lightbox";
 import videoChat from "./modules/video_chat";
 import faq from "./modules/faq";
-import paint from "./modules/paint";
 import draver from "./modules/draver";
 import consultation from "./modules/consultation";
 import notifications from "./modules/notifications";
+import points from "./modules/points";
+import fullLesson from "./modules/fullLesson";
 import calendar_modal from "./modules/calendar_modal";
 
 Vue.use(Vuex);
@@ -45,10 +46,11 @@ export default new Vuex.Store({
     lightbox,
     videoChat,
     faq,
-    paint,
     draver,
     consultation,
     notifications,
+    points,
+    fullLesson,
     calendar_modal
   }
 });
