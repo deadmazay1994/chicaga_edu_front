@@ -26,6 +26,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import api from "@/mixins/api.js";
+
 export default {
   name: "syllable",
   data: function() {
@@ -35,19 +38,43 @@ export default {
       correct: null
     };
   },
+  computed: {
+    ...mapGetters(["activeGroupIndexLesson"])
+  },
   methods: {
     activate(index) {
       this.activeIndex = index;
       this.answer = this.input.slogs[index];
       this.correct = null;
     },
-    check() {
-      if (this.input.slogs[this.input.answer] == this.answer) {
-        this.correct = true;
-      } else {
-        this.correct = false;
-      }
-      return !this.correct;
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
+    setStatus(status) {
+      this.sendData();
+      this.correct = status;
+    },
+    async check() {
+      let answers = [];
+      answers.push({ answers: this.input.slogs[this.input.answer] });
+      let r = await this.getLesson().then(res => {
+        const data = {
+          type: "lesson",
+          type_check: res.type,
+          section: res.section,
+          answer: answers.map(a => a.answers)
+        };
+        // this.correct = api.methods.taskCheck(this.$route.params.id, data);
+        return api.methods.taskCheck(this.$route.params.id, data).then(res => {
+          return { value: res.points, type: data.type_check };
+        });
+      });
+      return r;
     },
     showAnswers() {
       this.activate(this.input.answer);
@@ -55,6 +82,7 @@ export default {
     },
     onChange() {
       this.sendData();
+      this.$emit("input", this.answer);
     },
     sendData() {
       this.$emit("sendChanges", {

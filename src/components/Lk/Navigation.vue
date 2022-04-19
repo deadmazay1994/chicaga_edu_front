@@ -73,6 +73,18 @@
       @click.native="clicked()"
       >Вопросы и ответы</router-link
     >
+    <router-link
+      v-if="access"
+      style="color: #0d0d0d"
+      :class="
+        $route.path === `/lk/private-room/${generateRoomId}`
+          ? 'nav__link active'
+          : 'nav__link'
+      "
+      :to="{ path: '/lk/private-room/' + generateRoomId }"
+      >Создать комнату</router-link
+    >
+    <span class="nav__link" @click="exit">Выйти</span>
   </nav>
 </template>
 
@@ -83,7 +95,8 @@ export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false
+      mobileDetected: false,
+      privateRoomLink: `/lk/private-room/${this.generateRoomId}`
     };
   },
   methods: {
@@ -108,6 +121,9 @@ export default {
   },
   computed: {
     ...mapGetters(["user", "draver"]),
+    access() {
+      return this.user.role == "teacher";
+    },
     draverComputed: {
       get() {
         return this.draver;
@@ -115,6 +131,9 @@ export default {
       set(value) {
         this.setDraverState(value);
       }
+    },
+    generateRoomId() {
+      return String(this.user.id) + String(Math.floor(Math.random() * 1000));
     }
   },
   components: {},

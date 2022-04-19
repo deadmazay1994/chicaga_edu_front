@@ -37,6 +37,7 @@
 
 <script>
 import "@/mixins/methods";
+import api from "@/mixins/api";
 import { mapGetters, mapMutations } from "vuex";
 import Zoom from "@/directives/zoom";
 
@@ -54,7 +55,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask"]),
+    ...mapMutations(["saveTask", "setPointByType"]),
     setShuffled() {
       // let arr = this.shuffle(this.inputCopy.body);
       // Перемешивание отключено
@@ -75,16 +76,31 @@ export default {
         "img-task--in-correct": this.task.shuffled[i].correct == 0
       };
     },
-    check() {
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
+    async check() {
       this.error = false;
+      let answers = this.task.answers;
+      const TYPE_CHECK = this.inputCopy.type;
+      console.log();
+      const data = {
+        type: "lesson",
+        type_check: this.inputCopy.type,
+        section: this.inputCopy.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
       this.task.shuffled.forEach((task, i) => {
-        if (task.number == Number(this.task.answers[i])) {
-          task.correct = 1;
-        } else {
-          task.correct = 0;
-          this.error = true;
-        }
+        task.correct = result.result[i];
+        this.error = result.result[i];
       });
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.task.shuffled.forEach((task, i) =>
@@ -106,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "teacherId"])
+    ...mapGetters(["socket", "teacherId", "activeGroupIndexLesson"])
   },
   components: {},
   directives: {

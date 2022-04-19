@@ -1,5 +1,5 @@
 <template>
-  <div class="messages__header" @click="toggleChat">
+  <div class="messages__header">
     <p class="messages__number-of-members">
       Чат
       <span class="number-of-members__number"

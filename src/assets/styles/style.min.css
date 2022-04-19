@@ -820,6 +820,7 @@ button {
 }
 
 .lessons__messages {
+  color: #000;
   font-family: sf-ui, sans-serif;
   font-weight: 500;
   background: #fff;
@@ -4918,4 +4919,30 @@ input:checked~.auth-checkbox__decor {
 
 .mb50 {
   margin-bottom: 50px
+}
+.v-application {height: 100%;}
+.main-view {height: 100%; overflow-y: auto;}
+.main-view::-webkit-scrollbar {
+  display: none;
+}
+.main-view > .container {
+  height: 100% !important;
+}
+.main-view > .container > .row > .col-md-12 {
+  height: 100%;
+}
+.chat__masseges {
+  height: 100% !important;
+}
+
+.lessons__content .chat-module .chat-block {
+  height: 50%;
+}
+
+.private-room .chat-module .chat-block {
+  height: 100% !important;
+}
+
+.chat-module .chat-block .lessons__messages {
+  height: 100% !important;
 }

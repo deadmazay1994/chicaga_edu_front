@@ -9,19 +9,27 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "check-btn",
   data: function() {
     return {};
   },
   methods: {
-    check() {
+    ...mapMutations(["setPointByType"]),
+    async check() {
       // this.$parent Это таск
       if (this.$parent.sendTaskToTeacher) {
         this.$parent.sendTaskToTeacher();
       }
       if (this.$parent.check) {
-        this.$parent.check();
+        let r = await this.$parent.check();
+        console.log(r);
+        this.setPointByType(r);
+        // оставить для отладки
+        console.log("данные $parent checkBtn.vue:", this.$parent);
+        console.log("данные checkBtn.vue:", r);
       }
       if (this.$parent.onChangeTask) {
         this.$parent.onChangeTask();

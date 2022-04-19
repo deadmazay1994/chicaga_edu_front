@@ -23,7 +23,7 @@
     </div>
     <swiper class="swiper-grid" :options="swiperGridOption" ref="swiperGrid">
       <swiper-slide
-        class="swiper-no-swiping"
+        class="swiper-no-swiping calendar__slide"
         v-for="(item, index) in allMonths"
         :key="index"
       >
@@ -110,9 +110,40 @@ export default {
     }
   },
   methods: {
-    setEvents() {
-      api.methods.getWebinarEvents().map(element => {
-        this.events.push(element);
+    returnDuplicates(arr) {
+      const uniq = arr
+        .map(item => {
+          return { count: 1, item: item.date_time };
+        })
+        .reduce((acc, curr) => {
+          acc[curr.item] = (acc[curr.item] || 0) + curr.count;
+          return acc;
+        });
+
+      const duplicates = Object.keys(uniq).filter(a => uniq[a] > 1);
+      let result = arr.filter(item => item.date_time == duplicates);
+      return result;
+    },
+    async setEvents() {
+      let webinarsResponse = await api.methods.getWebinarEvents();
+      let duplicatedDates = this.returnDuplicates(webinarsResponse.data);
+      webinarsResponse.data.forEach(element => {
+        let obj = {
+          title: element.title,
+          subtitle: element.subtitle,
+          poster: element.poster,
+          price: element.price,
+          responsible: "",
+          date: +new Date(element.date_time) / 1000,
+          subscribed: element.subscribed,
+          id: element.id
+        };
+        if (element.date_time == duplicatedDates[0].date_time) {
+          obj.subEvents = duplicatedDates;
+        } else {
+          obj.setEvents = undefined;
+        }
+        this.events.push(obj);
       });
     },
     eventArr(item, year) {
@@ -124,11 +155,18 @@ export default {
             moment.unix(element.date).month() === item.month &&
             moment.unix(element.date).year() === item.year
           ) {
+            let subEvents = undefined;
+            if (element.subEvents)
+              subEvents = element.subEvents.filter(
+                item => item.title != element.title
+              );
             item.subscribed = element.subscribed;
             item.event = true;
             item.title = element.title;
             item.subtitle = element.subtitle;
-            item.subEvents = element.subEvents;
+            item.subEvents = subEvents;
+            item.price = element.price;
+            item.id = element.id;
           }
         });
       });
@@ -207,6 +245,9 @@ export default {
 </script>
 
 <style lang="sass">
+.calendar
+  &__slide
+    overflow: auto
 .celendar-head
   display: flex
   align-items: center

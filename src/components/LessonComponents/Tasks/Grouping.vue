@@ -44,6 +44,8 @@ import Description from "./TasksDescription";
 
 import Draggable from "vuedraggable";
 
+import api from "@/mixins/api";
+
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "grouping",
@@ -74,24 +76,37 @@ export default {
         });
       });
     },
-    check() {
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
+    async check() {
+      console.log("данные lesson vuex:", this.getLessonForTask);
       this.error = false;
-      this.inputCopy.body.forEach((e, i) => {
-        let error = false;
-        e.words.forEach(word => {
-          if (!(this.groups[i].words.indexOf(word) + 1) && word) {
-            error = 1;
-          }
-        });
-        if (error) {
-          // Vue не позволяет имзенять значения массива на прямую
-          this.$set(this.groups, i, { ...this.groups[i], correct: false });
-          this.error = true;
-        } else {
-          // Vue не позволяет имзенять значения массива на прямую
-          this.$set(this.groups, i, { ...this.groups[i], correct: true });
-        }
+      let answers = [];
+      const TYPE_CHECK = "drag_and_drop_words";
+
+      this.groups.forEach(e => {
+        answers.push({ words: e.words, name: e.name });
       });
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data);
+
+      this.inputCopy.body.forEach((_, i) => {
+        this.$set(this.groups, i, { ...this.groups[i], correct: result[i] });
+      });
+
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.inputCopy.body.forEach((e, i) => {
@@ -117,7 +132,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson", "getLessonForTask"])
   },
   components: {
     Description,

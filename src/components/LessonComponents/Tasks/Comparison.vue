@@ -44,6 +44,8 @@ import Draggable from "./ComprassionDraggable";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "comparison",
   data: function() {
@@ -67,19 +69,33 @@ export default {
       });
       this.onChange();
     },
-    check() {
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
+    async check() {
       this.error = false;
-      this.l1.forEach((word, i) => {
-        let original = this.inputCopy.body.find(words => words.w1 == word);
+      let answers = [this.l1, this.l2];
+      const TYPE_CHECK = "match_words";
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
+      this.l1.forEach((_, i) => {
         // Vue не умеет изменять значение массивов на прямую
         // Нужно изменять так как это указано ниже
-        if (this.l2[i] == original.w2) {
-          this.$set(this.res, i, true);
-        } else {
-          this.$set(this.res, i, false);
-          this.error = true;
-        }
+        // https://ru.vuejs.org/v2/guide/reactivity.html
+        this.$set(this.res, i, result[i]);
       });
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.l1.forEach((word, i) => {
@@ -96,7 +112,6 @@ export default {
       };
     },
     onChange() {
-      console.log("test");
       this.resetHeight();
       this.reset();
       this.onChangeTask();
@@ -138,7 +153,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket"])
+    ...mapGetters(["socket", "activeGroupIndexLesson"])
   },
   components: {
     Description,

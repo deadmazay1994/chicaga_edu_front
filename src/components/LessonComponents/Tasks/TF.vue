@@ -36,6 +36,8 @@ import Description from "./TasksDescription";
 
 import { mapGetters, mapMutations } from "vuex";
 
+import api from "@/mixins/api";
+
 export default {
   name: "tf-task",
   data: function() {
@@ -46,21 +48,36 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveTask"]),
-    check() {
+    ...mapMutations(["saveTask", "setPointByType"]),
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
+    async check() {
       this.error = false;
+      let answers = [];
+      const TYPE_CHECK = "true_or_false";
       this.inputCopy.body.forEach(e => {
-        if (!e.right) {
-          e.right = false;
-        }
-        if (e.correct == e.right) {
-          e.error = false;
-        } else {
-          e.error = true;
-          this.error = true;
-        }
+        answers.push(e.correct);
+      });
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
+      this.setPointByType({ value: 999, type: data.type_check });
+      this.inputCopy.body.forEach((e, i) => {
+        e.error = result[i];
       });
       this.$forceUpdate();
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.inputCopy.body.forEach(e => {
@@ -82,7 +99,7 @@ export default {
       return { "v-radio--white": tf.error != null };
     }
   },
-  computed: { ...mapGetters(["socket"]) },
+  computed: { ...mapGetters(["socket", "activeGroupIndexLesson"]) },
   components: {
     Description
   },

@@ -1,15 +1,7 @@
 <template>
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
-      <web-cam
-        class="lesson__video-chat"
-        :class="{ 'lesson__video-chat--active': !chatIsOpen }"
-        :roomId="$route.params.groupKey"
-      />
-      <text-chat
-        class="lesson__text-chat"
-        :class="{ 'lesson__text-chat--active': chatIsOpen }"
-      />
+      <chats-module :roomId="roomId" mode="vertical" />
       <lesson-start :display="false" />
     </div>
     <div class="lessons__task" style="width: 50%; margin-left: 0">
@@ -19,8 +11,9 @@
 </template>
 
 <script>
-import WebCam from "@/components//LessonComponents/WebCam/WebCam.vue";
-import TextChat from "@/components/LessonComponents/Chat/Chat";
+// import WebCam from "@/components//LessonComponents/WebCam/WebCam.vue";
+// import TextChat from "@/components/LessonComponents/Chat/Chat";
+import ChatsModule from "@/components/LessonComponents/ChatModule/ChatModule";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 import LessonStart from "@/components/LessonComponents/LessonStart";
 
@@ -72,13 +65,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"])
+    ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"]),
+    roomId() {
+      return this.$route.params.id + this.$route.params.groupKey || "";
+    }
   },
   components: {
     EduPanel,
     LessonStart,
-    TextChat,
-    WebCam
+    ChatsModule
+    // TextChat,
+    // WebCam
   },
   props: [],
   mixins: [OurCursor, SocketMixin],

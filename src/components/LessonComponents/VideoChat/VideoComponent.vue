@@ -9,8 +9,14 @@
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
     <div style="height: inherit; display: flex; align-items: center;">
-      <video-player :video="this.$refs.video" :active="active">
-        <div slot="videoSlot" style="height: 100%;">
+      <video-player
+        :video="this.$refs.video"
+        :active="active"
+        :showChatButton="showChatButton"
+        :chatState="chatState"
+        @clickChat="clickChat"
+      >
+        <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
           <video
             ref="video"
             v-show="mediaObject.userInfo.videoActive"
@@ -98,6 +104,9 @@ export default {
       "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
+    clickChat() {
+      this.$emit("clickChat");
+    },
     toggleFullSize() {
       this.$emit("toggleFullSize", this.indexVideo);
     },
@@ -336,7 +345,14 @@ export default {
     Reflect,
     VideoPlayer
   },
-  props: ["mediaObject", "indexVideo", "active", "itsMe", "autoplayOn"],
+  props: {
+    mediaObject: Object,
+    indexVideo: Number,
+    active: Boolean,
+    itsMe: Boolean,
+    showChatButton: Boolean,
+    chatState: Boolean
+  },
   mixins: {},
   beforeMount() {},
   mounted() {
