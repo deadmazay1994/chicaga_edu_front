@@ -7,28 +7,28 @@
           <svg class="task__header__svg">
             <use xlink:href="#smile1"></use>
           </svg>
-          <span>10</span>
+          <span>{{ points.smile }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#star"></use>
           </svg>
-          <span>10</span>
+          <span>{{ points.star }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#brains"></use>
           </svg>
-          <span>10</span>
+          <span>{{ points.brain }}</span>
         </div>
 
         <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#bulb"></use>
           </svg>
-          <span>0</span>
+          <span>{{ points.lamp }}</span>
         </div>
       </div>
       <div class="task__header__item">
@@ -36,15 +36,15 @@
           <svg class="task__header__svg">
             <use xlink:href="#coin"></use>
           </svg>
-          <span>200</span>
+          <span>{{ points.coins }}</span>
         </div>
 
-        <div class="task__header__inner">
+        <!-- <div class="task__header__inner">
           <svg class="task__header__svg">
             <use xlink:href="#clock"></use>
           </svg>
           <span>15:00</span>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="task__content" style="height: 100%">
@@ -89,11 +89,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
+
+import api from "@/mixins/api";
+import gsap from "gsap";
 
 export default {
   name: "edu-panel",
@@ -102,11 +105,39 @@ export default {
       tab: null
     };
   },
-  methods: {},
+  methods: {
+    ...mapActions(["setUserPoints"]),
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return r;
+    },
+    setUserPointsToData() {
+      this.getUserPoints.forEach(item => {
+        console.log("points item:", item);
+        switch (item.point_type.name) {
+          case "Мозги":
+            this.brainData = item.points;
+            break;
+          case "Смайлики":
+            this.smileData = item.points;
+            break;
+          case "Звездочка":
+            this.starData = item.points;
+            break;
+          case "Лампочка":
+            this.lampData = item.points;
+            break;
+        }
+      });
+    }
+  },
   computed: {
-    ...mapGetters(["user", "materials", "socket"]),
+    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
     taskTabTitle() {
       return "Задания";
+    },
+    brain() {
+      return this.points.brain.toFixed(0);
     }
   },
   components: {
@@ -118,7 +149,33 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {},
-  mounted() {}
+  watch: {
+    points(newValue) {
+      gsap.to(this.$data, { duration: 0.5, points: newValue });
+    }
+    // smile(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // star(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // brain(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // lamp(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // },
+    // coins(newValue) {
+    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
+    // }
+  },
+  async mounted() {
+    await this.setUserPoints();
+    console.log(this.smile);
+    this.getLesson().then(res => {
+      this.timeData = res.time;
+    });
+  }
 };
 </script>
 
@@ -188,8 +245,6 @@ export default {
 
 .task__menu {
   padding: 25px 10px 20px 10px !important;
-}
-.task__menu__item:first-child {
 }
 .task__menu__item:before {
   content: "";

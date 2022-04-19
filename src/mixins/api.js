@@ -128,6 +128,20 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
+    async getUserPoints() {
+      let r = await get(`user/points`);
+      console.log("r user:", await get("user"));
+      console.log("r:", r);
+      return r;
+      // return {
+      //   smile: 100,
+      //   star: 200,
+      //   brain: 300,
+      //   lamp: 400,
+      //   coins: 999,
+      //   time: 1649937589
+      // };
+    },
     // Calendar
     async getWebinarEvents() {
       let r = await get("user/events");
@@ -232,9 +246,9 @@ export default {
       if (test)
         return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
       else {
-        console.log("=>", lessonId);
+        console.log("check response api data:", data);
         let result = await post(`user/lesson/${lessonId}/task-check`, data);
-        console.log("------------>", result);
+        console.log("check response api result:", result);
         return result;
       }
     },

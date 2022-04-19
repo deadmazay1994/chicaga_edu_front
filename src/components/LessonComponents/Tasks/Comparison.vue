@@ -77,26 +77,25 @@ export default {
         id: r.id
       };
     },
-    check() {
+    async check() {
       this.error = false;
       let answers = [this.l1, this.l2];
-      this.getLesson().then(res => {
-        const data = {
-          type: "lesson",
-          type_check: res.type,
-          section: res.section,
-          answer: answers
-        };
-        let result = api.methods.taskCheck(this.$route.params.id, data); // mock
-        result.then(res => {
-          this.l1.forEach((_, i) => {
-            // Vue не умеет изменять значение массивов на прямую
-            // Нужно изменять так как это указано ниже
-            // https://ru.vuejs.org/v2/guide/reactivity.html
-            this.$set(this.res, i, res[i]);
-          });
-        });
+      const TYPE_CHECK = "match_words";
+      let r = await this.getLesson();
+      const data = {
+        type: "lesson",
+        type_check: r.type,
+        section: r.section,
+        answer: answers
+      };
+      let result = await api.methods.taskCheck(this.$route.params.id, data); // mock
+      this.l1.forEach((_, i) => {
+        // Vue не умеет изменять значение массивов на прямую
+        // Нужно изменять так как это указано ниже
+        // https://ru.vuejs.org/v2/guide/reactivity.html
+        this.$set(this.res, i, result[i]);
       });
+      return { value: result.points, type: TYPE_CHECK };
     },
     showAnswers() {
       this.l1.forEach((word, i) => {

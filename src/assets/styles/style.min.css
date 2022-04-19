@@ -676,7 +676,7 @@ button {
 
 @media (max-width:1000px) {
   .lessons__content {
-    flex-direction: column
+    flex-direction: column-reverse
   }
 }
 
@@ -4926,25 +4926,4 @@ input:checked~.auth-checkbox__decor {
 }
 .main-view > .container > .row > .col-md-12 {
   height: 100%;
-}
-.chat__masseges {
-  height: 100%;
-}
-
-.lessons__content .chat-module .chat-block {
-  height: calc( 50% - 30px );
-}
-
-.private-room .chat-module .chat-block {
-  height: 100% !important;
-}
-
-.chat-module .chat-block .lessons__messages {
-  height: 100% !important;
-}
-
-@media (max-width: 767px) {
-  .chat__masseges {
-    height: 300px !important;
-}
 }

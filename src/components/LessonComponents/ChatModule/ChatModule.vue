@@ -56,6 +56,15 @@ export default {
 </script>
 
 <style lang="sass">
+.lessons__content .chat-module .chat-block
+  height: calc( 50% - 30px )
+
+.private-room .chat-module .chat-block
+  height: 100% !important
+
+.chat-module .chat-block .lessons__messages
+  height: 100% !important
+
 .container > .row
   height: 100%
   & > col
@@ -88,7 +97,9 @@ export default {
 
     .lessons__messages
       margin-top: 0
-      border-radius: 0 20px 20px 0
+      border-radius: 0 0 20px 20px
+      @media (min-width: 767px)
+        border-radius: 0 20px 20px 0
 
     .video-chat,
     .chat-block
@@ -106,4 +117,40 @@ export default {
       &.active
         width: 30%
         opacity: 1
+
+  @media (max-width: 767px)
+    &
+      display: block
+
+      .video-chat,
+      .chat-block
+        flex: 1
+
+      .video-player-wrap,
+      .video-slot
+        height: auto
+
+      .video-chat,
+      .vidFrame
+        height: 100% !important
+
+      .lessons__messages
+        margin-top: 0
+
+      .video-chat
+        height: 50% !important
+      .chat-block
+        height: 75% !important
+
+      .video-chat
+        width: 100%
+        &.chatActive
+          width: 100%
+
+      .chat-block
+        width: 0%
+        opacity: 0
+        &.active
+          width: 100%
+          opacity: 1
 </style>

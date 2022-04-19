@@ -120,4 +120,8 @@ export default {
 .chat__top {
   height: 80%;
 }
+
+.chat__masseges {
+  height: 100%;
+}
 </style>

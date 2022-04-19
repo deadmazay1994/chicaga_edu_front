@@ -4,10 +4,7 @@
     <div class="buttons">
       <router-link
         :to="link"
-        @click.native="
-          callWarn();
-          returnValue();
-        "
+        @click.native="returnValue()"
         tag="button"
         :disabled="timeStrGetMinutes(time) > 10"
         >Присоединиться</router-link
@@ -48,13 +45,6 @@ export default {
         this.access = false;
       }
     },
-    callWarn() {
-      if (this.access || this.room) return;
-      this.$store.commit("pushShuckbar", {
-        success: false,
-        val: "Ошибка доступа к уроку"
-      });
-    },
     returnValue() {
       if (!this.room) return;
       this.$emit("ready");
@@ -64,7 +54,8 @@ export default {
     this.$nextTick(() => {
       this.setParams();
     });
-    this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
+    if (this.room) this.link = this.room;
+    else this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
   }
 };
 </script>

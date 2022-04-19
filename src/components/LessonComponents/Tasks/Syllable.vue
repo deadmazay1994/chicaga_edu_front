@@ -55,19 +55,26 @@ export default {
         id: r.id
       };
     },
-    check() {
+    setStatus(status) {
+      this.sendData();
+      this.correct = status;
+    },
+    async check() {
       let answers = [];
       answers.push({ answers: this.input.slogs[this.input.answer] });
-      this.getLesson().then(res => {
+      let r = await this.getLesson().then(res => {
         const data = {
           type: "lesson",
           type_check: res.type,
           section: res.section,
           answer: answers.map(a => a.answers)
         };
-        this.correct = api.methods.taskCheck(this.$route.params.id, data);
+        // this.correct = api.methods.taskCheck(this.$route.params.id, data);
+        return api.methods.taskCheck(this.$route.params.id, data).then(res => {
+          return { value: res.points, type: data.type_check };
+        });
       });
-      return !this.correct;
+      return r;
     },
     showAnswers() {
       this.activate(this.input.answer);
@@ -75,6 +82,7 @@ export default {
     },
     onChange() {
       this.sendData();
+      this.$emit("input", this.answer);
     },
     sendData() {
       this.$emit("sendChanges", {
