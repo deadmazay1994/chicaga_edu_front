@@ -11,7 +11,7 @@ import Register from "@/components/Lk/Auth/Register";
 import Recover from "@/components/Lk/Auth/Recover";
 
 import CourseListTeacher from "@/components/Teacher/CourseListTeacher";
-import Upcoming from "@/components/Group/Upcoming";
+import UpcomingLesson from "@/components/LessonComponents/Upcoming";
 import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
@@ -20,6 +20,7 @@ import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
+import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -187,7 +188,7 @@ const routes = [
       {
         path: "upcoming/:id/:code/:startTime",
         name: "upcoming-lesson",
-        component: Upcoming,
+        component: UpcomingLesson,
         props: {
           showComponent: true
         }
@@ -195,17 +196,22 @@ const routes = [
       {
         path: "webinar-upcoming/:id/:code/:startTime",
         name: "upcoming-webinar",
-        component: Upcoming,
+        component: UpcomingLesson,
         props: {
           showComponent: false
         }
-      },
-      {
-        path: "private-room/:room",
-        name: "private-room",
-        component: PrivateRoom
       }
     ]
+  },
+  {
+    path: "/conference/:room",
+    name: "private-room-upcoming",
+    component: PrivateRoomUpcoming
+  },
+  {
+    path: "/conference/room/:room",
+    name: "private-room",
+    component: PrivateRoom
   },
   {
     path: "/faq",
