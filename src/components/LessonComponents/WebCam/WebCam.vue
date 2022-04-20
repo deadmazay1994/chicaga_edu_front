@@ -27,18 +27,17 @@
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
         <div class="video-chat-miniatures-list" ref="miniatures">
-          <template v-for="(mediaObject, index) in miniaturesMediaStream">
-            <video-component
-              class="video-chat__video video-chat__video--miniature"
-              :miniature="true"
-              :iconOff="true"
-              :itsMe="mediaObject.itsMe"
-              :mediaObject="mediaObject.mediaObject"
-              :indexVideo="index"
-              :key="index"
-              @click-by-video="setActiveVideoIndex(mediaObject)"
-            />
-          </template>
+          <video-component
+            v-for="(mediaObject, index) in miniaturesMediaStream"
+            class="video-chat__video video-chat__video--miniature"
+            :miniature="true"
+            :iconOff="true"
+            :itsMe="mediaObject.itsMe"
+            :mediaObject="mediaObject.mediaObject"
+            :indexVideo="index"
+            :key="index"
+            @click-by-video="setActiveVideoIndex(mediaObject)"
+          />
         </div>
         <div class="miniatures-go" @click="scroll('down')">
           <img src="@/assets/imgs/down-arrow.svg" alt="arrow down" />

@@ -1009,7 +1009,7 @@ button {
 }
 
 .messages__content {
-  height: 300px;
+  /* height: 300px; */
   width: 440px;
   display: none;
   overflow-y: auto
@@ -1089,16 +1089,6 @@ button {
   width: 24px;
   height: 24px;
   cursor: pointer
-}
-
-.messages__controls__textarea {
-  font-family: sf-ui, sans-serif;
-  font-weight: 500;
-  padding: 10px 0 10px 10px;
-  background: hsla(0, 0%, 50%, .1);
-  border-radius: 10px;
-  border: 0;
-  flex-basis: 70%
 }
 
 .lessons__video {
@@ -4915,15 +4905,4 @@ input:checked~.auth-checkbox__decor {
 
 .mb50 {
   margin-bottom: 50px
-}
-.v-application {height: 100%;}
-.main-view {height: 100%;}
-.main-view::-webkit-scrollbar {
-  display: none;
-}
-.main-view > .container {
-  height: 100% !important;
-}
-.main-view > .container > .row > .col-md-12 {
-  height: 100%;
 }

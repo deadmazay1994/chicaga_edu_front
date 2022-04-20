@@ -64,4 +64,8 @@ export default {
   display: flex
   align-items: center
   justify-content: center
+
+  @media (max-width: 1400px)
+    &
+      display: none
 </style>

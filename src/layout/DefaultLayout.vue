@@ -1004,26 +1004,29 @@ export default {
 
 .v-app
   display: block !important
+  height: 100%
 .v-application--wrapp,
 .page,
 .content
   height: auto !important
 
-// .content
-//   .lessons__content,
-//   .main-view
-//     height: auto !important
-
 .content
   padding: 20px
   max-width: calc( 100vw - 302px )
-  overflow: auto
   @media (min-width: 1360px)
     max-height: calc( 100vh - 60px )
     display: flex
     flex-direction: column
+    .main-view
+      overflow-y: auto
+      overflow-x: hidden
+      height: 100%
+      & > .container
+        height: 100% !important
+        & > .row > .col-md-12
+          height: 100%
     .lessons__content
-      height: calc(100% - 60px - 40px - 56px)
+      height: calc(100% - 60px - 56px)
       .lessons__chat,
       .lessons__task
         height: 100%

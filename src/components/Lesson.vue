@@ -139,12 +139,6 @@ export default {
     max-width: 45%;
   }
   @media (min-width: 1360px) {
-    .lessons__chat {
-      .lessons__messages {
-        height: 50% !important;
-        min-height: 350px;
-      }
-    }
     .lessons__task {
       .lesson__item {
         height: 100%;
@@ -217,8 +211,6 @@ export default {
 
 @media (max-width: 600px) {
   .lessons-pg {
-    // margin: 0 -15px;
-
     .task__menu {
       display: flex;
       justify-content: space-between;
