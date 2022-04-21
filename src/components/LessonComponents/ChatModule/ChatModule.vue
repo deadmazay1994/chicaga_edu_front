@@ -68,7 +68,7 @@ export default {
   .chat-block
     height: 50%
     .lessons__messages
-      min-height: 350px
+      min-height: 450px
       @media (max-width: 1360px)
         max-height: 350px
 
