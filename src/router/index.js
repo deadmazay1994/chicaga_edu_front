@@ -30,9 +30,14 @@ import Page404 from "Base/404";
 import store from "@/store";
 
 import api from "@/mixins/api";
+import Stand from "@/components/Stand";
 
 Vue.use(VueRouter);
 const routes = [
+  {
+    path: "/stand",
+    component: Stand
+  },
   {
     path: "/",
     redirect: "/lk/my-coursers"

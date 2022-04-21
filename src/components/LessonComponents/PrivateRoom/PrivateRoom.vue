@@ -24,4 +24,14 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.private-room
+  height: 100%
+  width:100%
+  &__chats
+    height: 100%
+
+.private-room--active
+  height: 100%
+  width: 100%
+</style>

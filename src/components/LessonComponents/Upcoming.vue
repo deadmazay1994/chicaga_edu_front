@@ -9,7 +9,7 @@
         }
       }"
       :disabled="timeToLesson > 600"
-      class="upcoming"
+      class="lesson-upcoming__upcoming"
     >
       <lesson-starts
         style="margin: 0 auto"
@@ -94,4 +94,9 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.lesson-upcoming
+  height: 100%
+  &__upcoming
+    height: 100%
+</style>

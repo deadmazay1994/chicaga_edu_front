@@ -1,9 +1,10 @@
 <template>
   <div class="private-upcoming vue-component">
-    <div class="row" style="width: 100%">
+    <div class="row" style="width: 100%; height: 100%">
       <div class="col-md-6 col-sm-12">
         <web-cam
           :roomId="'presonal__' + (Math.random() + 1).toString(36).substring(7)"
+          style="height: 100%"
         />
       </div>
       <div class="col-md-6 col-sm-12 private-ipcoming__right">
