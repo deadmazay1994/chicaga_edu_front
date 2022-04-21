@@ -66,6 +66,5 @@ export default {
   justify-content: center
 
   @media (max-width: 1400px)
-    &
-      display: none
+    display: none
 </style>

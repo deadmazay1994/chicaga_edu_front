@@ -57,7 +57,7 @@ export default {
 
 <style lang="sass">
 .main-view
-  height: calc(100% - 56px - 20px)
+  height: calc(100% - 76px)
   & > .container
     height: 100%
 
