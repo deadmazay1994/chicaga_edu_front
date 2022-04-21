@@ -81,11 +81,20 @@ export default {
       .chat-block
         .lessons__messages
           min-height: 300px
+          max-height: 400px
 
 .chat-module
   height: 100%
   .video-chat-miniatures-wrapper
     width: 15% !important
+
+  .video-chat
+      min-height: 350px
+
+  .chat-block
+    .lessons__messages
+      min-height: 350px
+      max-height: 450px
 
   .lessons__messages
     position: static
@@ -126,6 +135,7 @@ export default {
     .chat-block
       width: 0%
       opacity: 0
+
       &.active
         width: 30%
         opacity: 1
