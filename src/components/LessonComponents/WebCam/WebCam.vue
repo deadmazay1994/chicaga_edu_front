@@ -384,16 +384,9 @@ export default {
     flex-wrap: wrap
     width: 100%
     height: 100%
-    padding: 10px
-    padding-top: 40px
-    position: absolute
-    left: 0
-    top: 0
   &__video-wrap
     width: 50%
     display: flex
-    height: 150px
-    margin-bottom: 10px
     &--active
       width: 0
   .video-chat__video--miniature
@@ -405,11 +398,6 @@ export default {
     width: 50%
     min-width: 140px
     height: 450px
-    // &--miniature
-    //   &:nth-child(2n)
-    //     justify-self: end
-    // &:last-child
-    //   margin-right: 0
   &__video--active
     width: 100%
     margin: 0
