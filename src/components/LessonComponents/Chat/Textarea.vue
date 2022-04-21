@@ -77,64 +77,57 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped="scoped">
-.messages__controls__textarea {
-  //opacity: 0;
-  //position: absolute;
-  //z-index: 10;
-  //width: 30px;
-  //top: 0;
-  //left: 0;
-  //overflow: hidden;
+<style lang="sass" scoped="scoped">
+.messages__controls__textarea
+  font-family: sf-ui, sans-serif
+  font-weight: 500
+  padding: 10px 0 10px 10px
+  background: hsla(0, 0%, 50%, .1)
+  border-radius: 10px
+  border: 0
+  width: 65%
 
-  &::-webkit-file-upload-button {
-    width: 30px !important;
-  }
-}
+  &::-webkit-file-upload-button
+    width: 30px !important
 
-span[aria-hidden="true"] {
-  display: none;
-}
+span[aria-hidden="true"]
+  display: none
 
-#whiteboardContainer {
-  height: 700px !important;
-}
-</style>
+#whiteboardContainer
+  height: 700px !important
 
-<style scoped="scoped">
-.textarea-ctrl__attachment-input {
-  position: absolute;
-  width: 100%;
-  height: 200%;
-  border-radius: 100%;
-  cursor: pointer;
-  top: -100%;
-  outline: none;
-  opacity: 0;
-}
-.textarea-ctrl__item {
-  border: 1px solid #e3eaee;
-  border-radius: 100%;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 7px;
-  cursor: pointer;
-  position: relative;
-}
-.textarea-ctrl__item:active {
-  background: #eee;
-}
-.textarea-ctrl__attach-have {
-  display: block;
-  width: 10px;
-  height: 10px;
-  background: #ccad72;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  border-radius: 100%;
-}
+.textarea-ctrl__attachment-input
+  position: absolute
+  width: 100%
+  height: 200%
+  border-radius: 100%
+  cursor: pointer
+  top: -100%
+  outline: none
+  opacity: 0
+
+.textarea-ctrl__item
+  border: 1px solid #e3eaee
+  border-radius: 100%
+  width: 35px
+  height: 35px
+  display: flex
+  justify-content: center
+  align-items: center
+  margin-left: 7px
+  cursor: pointer
+  position: relative
+
+.textarea-ctrl__item:active
+  background: #eee
+
+.textarea-ctrl__attach-have
+  display: block
+  width: 10px
+  height: 10px
+  background: #ccad72
+  position: absolute
+  top: 0px
+  right: 0px
+  border-radius: 100%
 </style>

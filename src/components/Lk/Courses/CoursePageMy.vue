@@ -155,9 +155,5 @@ export default {
   .course-page-my .v-list {
     margin: 0 -15px;
   }
-
-  .lessons__content {
-    margin: 0 -15px;
-  }
 }
 </style>

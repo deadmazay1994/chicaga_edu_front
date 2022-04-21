@@ -36,11 +36,6 @@
   box-sizing: border-box
 }
 
-body,
-html {
-  height: 100%
-}
-
 input:focus,
 textarea:focus {
   outline: 0
@@ -60,10 +55,6 @@ button {
 img {
   max-width: 100%;
   height: auto
-}
-
-body {
-  overflow-x: hidden
 }
 
 a,
@@ -680,7 +671,7 @@ button {
 
 @media (max-width:1000px) {
   .lessons__content {
-    flex-direction: column
+    flex-direction: column-reverse
   }
 }
 
@@ -826,7 +817,6 @@ button {
   background: #fff;
   box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2);
   border-radius: 20px;
-  margin-top: 35px;
   padding: 18px 25px 10px;
   font-size: 12px;
   max-width: 100%
@@ -1013,7 +1003,7 @@ button {
 }
 
 .messages__content {
-  height: 300px;
+  /* height: 300px; */
   width: 440px;
   display: none;
   overflow-y: auto
@@ -1093,16 +1083,6 @@ button {
   width: 24px;
   height: 24px;
   cursor: pointer
-}
-
-.messages__controls__textarea {
-  font-family: sf-ui, sans-serif;
-  font-weight: 500;
-  padding: 10px 0 10px 10px;
-  background: hsla(0, 0%, 50%, .1);
-  border-radius: 10px;
-  border: 0;
-  flex-basis: 70%
 }
 
 .lessons__video {
@@ -4919,30 +4899,4 @@ input:checked~.auth-checkbox__decor {
 
 .mb50 {
   margin-bottom: 50px
-}
-.v-application {height: 100%;}
-.main-view {height: 100%; overflow-y: auto;}
-.main-view::-webkit-scrollbar {
-  display: none;
-}
-.main-view > .container {
-  height: 100% !important;
-}
-.main-view > .container > .row > .col-md-12 {
-  height: 100%;
-}
-.chat__masseges {
-  height: 100% !important;
-}
-
-.lessons__content .chat-module .chat-block {
-  height: 50%;
-}
-
-.private-room .chat-module .chat-block {
-  height: 100% !important;
-}
-
-.chat-module .chat-block .lessons__messages {
-  height: 100% !important;
 }
