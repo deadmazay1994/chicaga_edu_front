@@ -128,6 +128,19 @@ export default {
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
     },
+    // Проверка доступа пользователя к уроку
+    checkAccess(id) {
+      // Мок
+      console.log("lessonId checkAccess id:", id);
+      if (!id) return true;
+      else {
+        this.$store.commit("pushShuckbar", {
+          success: false,
+          val: "access denied"
+        });
+        return false;
+      }
+    },
     async getUserPoints() {
       let r = await get(`user/points`);
       console.log("r user:", await get("user"));
@@ -254,7 +267,10 @@ export default {
     },
     // Vocalibry (Dictionary)
     async addToVocalibry(word, transcription) {
-      return post("user/vocabulary", { word, transcription });
+      return post("user/vocabulary", {
+        word,
+        transcription
+      });
     },
     async getVocalibry() {
       return get("user/vocabularies");

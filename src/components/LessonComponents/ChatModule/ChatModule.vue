@@ -84,6 +84,7 @@ export default {
 
   .video-chat
     min-height: 350px
+    height: 100%
     .video-chat-miniatures-wrapper
       width: 15% !important
 

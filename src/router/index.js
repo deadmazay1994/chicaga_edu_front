@@ -11,7 +11,7 @@ import Register from "@/components/Lk/Auth/Register";
 import Recover from "@/components/Lk/Auth/Recover";
 
 import CourseListTeacher from "@/components/Teacher/CourseListTeacher";
-import Upcoming from "@/components/Group/Upcoming";
+import UpcomingLesson from "@/components/LessonComponents/Upcoming";
 import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
@@ -20,6 +20,7 @@ import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
+import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -28,6 +29,7 @@ import Page404 from "Base/404";
 
 import store from "@/store";
 
+import api from "@/mixins/api";
 import Stand from "@/components/Stand";
 
 Vue.use(VueRouter);
@@ -45,7 +47,8 @@ const routes = [
     name: "lesson_teacher",
     component: Lesson,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      forTeacher: true
     }
   },
   {
@@ -53,7 +56,8 @@ const routes = [
     name: "lesson",
     component: Lesson,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      checkAccess: true
     }
   },
   {
@@ -189,7 +193,7 @@ const routes = [
       {
         path: "upcoming/:id/:code/:startTime",
         name: "upcoming-lesson",
-        component: Upcoming,
+        component: UpcomingLesson,
         props: {
           showComponent: true
         }
@@ -197,17 +201,22 @@ const routes = [
       {
         path: "webinar-upcoming/:id/:code/:startTime",
         name: "upcoming-webinar",
-        component: Upcoming,
+        component: UpcomingLesson,
         props: {
           showComponent: false
         }
-      },
-      {
-        path: "private-room/:room",
-        name: "private-room",
-        component: PrivateRoom
       }
     ]
+  },
+  {
+    path: "/conference/:room",
+    name: "private-room-upcoming",
+    component: PrivateRoomUpcoming
+  },
+  {
+    path: "/conference/room/:room",
+    name: "private-room",
+    component: PrivateRoom
   },
   {
     path: "/faq",
@@ -230,7 +239,9 @@ export const router = new VueRouter({
 });
 
 // Скрываем страницы от не авторизированных пользователей
+
 router.beforeEach((to, from, next) => {
+  let access = false;
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
@@ -243,19 +254,23 @@ router.beforeEach((to, from, next) => {
         val: "Пожалуйста, авторизируйтесь",
         success: false
       });
+      access = false;
     } else {
-      next();
+      access = true;
     }
-  } else if (to.matched.some(record => record.meta.guest)) {
+  }
+  if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
         path: "/lk/my-coursers",
         query: { redirect: to.fullPath }
       });
+      access = false;
     } else {
-      next();
+      access = true;
     }
-  } else if (to.matched.some(record => record.meta.forTeacher)) {
+  }
+  if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
       next({
         path: "/lk/my-coursers",
@@ -265,12 +280,24 @@ router.beforeEach((to, from, next) => {
         val: "Пожалуйста, авторизируйтесь под аккаунтом учителя",
         success: false
       });
+      access = false;
     } else {
-      next();
+      access = true;
     }
   } else {
-    next();
+    access = true;
   }
+  if (to.matched.some(record => record.meta.checkAccess)) {
+    if (api.methods.checkAccess(to.params.id)) access = true;
+    else {
+      store.commit("pushShuckbar", {
+        val: "access denied",
+        success: false
+      });
+      access = false;
+    }
+  }
+  if (access) next();
 });
 
 export default router;
