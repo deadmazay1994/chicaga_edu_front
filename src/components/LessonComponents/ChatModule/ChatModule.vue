@@ -56,33 +56,6 @@ export default {
 </script>
 
 <style lang="sass">
-.main-view
-  height: calc(100% - 56px - 20px)
-  & > .container
-    height: 100%
-
-  .container > .row
-    height: 100%
-    & > col
-      height: 100%
-
-.lessons-pg
-  height: auto
-  .chat-svg
-    display: none
-  .chat-module
-    .chat-block
-      height: calc( 50% - 30px )
-      .lessons__messages
-        height: 100%
-    @media (max-width: 1360px)
-      .video-chat
-        min-height: 450px
-      .chat-block
-        .lessons__messages
-          min-height: 300px
-          max-height: 400px
-
 .chat-module
   height: 100%
   .video-chat-miniatures-wrapper
@@ -90,11 +63,14 @@ export default {
 
   .video-chat
       min-height: 350px
+      height: 50%
 
   .chat-block
+    height: 50%
     .lessons__messages
       min-height: 350px
-      max-height: 450px
+      @media (max-width: 1360px)
+        max-height: 350px
 
   .lessons__messages
     position: static
@@ -140,32 +116,31 @@ export default {
         width: 30%
         opacity: 1
 
-@media (max-width: 1400px)
-  .chat-module.horizontal
-    display: block
-    .video-chat,
-    .chat-block
-      flex: 1
-    .video-player-wrap,
-    .video-slot
-      height: auto
-    .video-chat,
-    .vidFrame
-      height: 100% !important
-    .lessons__messages
-      margin-top: 0
-    .video-chat
-      height: 50% !important
-    .chat-block
-      height: 55% !important
-    .video-chat
-      width: 100%
-      &.chatActive
+    @media (max-width: 1400px)
+      display: block
+      .video-chat,
+      .chat-block
+        flex: 1
+      .video-player-wrap,
+      .video-slot
+        height: auto
+      .video-chat,
+      .vidFrame
+        height: 100% !important
+      .lessons__messages
+        margin-top: 0
+      .video-chat
+        height: 50% !important
+      .chat-block
+        height: 55% !important
+      .video-chat
         width: 100%
-    .chat-block
-      width: 0%
-      opacity: 0
-      &.active
-        width: 100%
-        opacity: 1
+        &.chatActive
+          width: 100%
+      .chat-block
+        width: 0%
+        opacity: 0
+        &.active
+          width: 100%
+          opacity: 1
 </style>

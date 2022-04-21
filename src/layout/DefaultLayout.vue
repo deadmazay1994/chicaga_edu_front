@@ -1010,6 +1010,16 @@ export default {
 .content
   height: auto !important
 
+.main-view
+  height: calc(100% - 56px - 20px)
+  & > .container
+    height: 100%
+
+  .container > .row
+    height: 100%
+    & > col
+      height: 100%
+
 .content
   padding: 20px
   max-width: calc( 100vw - 302px )

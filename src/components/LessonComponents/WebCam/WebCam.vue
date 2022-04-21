@@ -379,7 +379,6 @@ export default {
   align-items: center
   justify-content: space-between
   positon: relative
-  height: calc( 50% - 30px )
   &__videos-wrap
     display: flex
     flex-wrap: wrap
