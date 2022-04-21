@@ -5,6 +5,7 @@
         v-if="$route.params.room"
         :roomId="$route.params.room"
         :mode="'horizontal'"
+        class="private-room__chats"
       />
     </div>
     <div class="private-room--upcoming" v-if="!active">
@@ -68,6 +69,8 @@ export default {
 .private-room
   height: 100%
   width:100%
+  &__chats
+    height: 100%
 
 .private-room--active
   height: 100%

@@ -1,5 +1,5 @@
 <template>
-  <div class="lessons__messages chat container-fluid" ref="chat">
+  <div class="chat container-fluid" ref="chat">
     <header-chat />
     <masseges
       v-if="chatDriver"
@@ -111,11 +111,7 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  min-height: 402px;
 }
 .chat__top {
   height: 80%;

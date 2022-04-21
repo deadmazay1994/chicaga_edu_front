@@ -28,8 +28,14 @@ import Page404 from "Base/404";
 
 import store from "@/store";
 
+import Stand from "@/components/Stand";
+
 Vue.use(VueRouter);
 const routes = [
+  {
+    path: "/stand",
+    component: Stand
+  },
   {
     path: "/",
     redirect: "/lk/my-coursers"

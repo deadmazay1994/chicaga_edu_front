@@ -1,7 +1,11 @@
 <template>
   <div class="lessons-pg">
     <div class="lessons__chat" style="flex-baisis: auto">
-      <chats-module :roomId="roomId" mode="vertical" />
+      <chats-module
+        class="lesson__chat-module"
+        :roomId="roomId"
+        mode="vertical"
+      />
       <lesson-start :display="false" />
     </div>
     <div class="lessons__task" style="width: 50%; margin-left: 0">
@@ -113,6 +117,10 @@ export default {
 </script>
 
 <style lang="sass" scoped="">
+.lessons
+  &__chat
+    overflow: auto
+    max-height: 100%
 .lesson
   &__container
     padding: 0 20px
@@ -139,12 +147,7 @@ export default {
   .chat-svg
     display: none
   .chat-module
-    .chat-block
-      height: calc( 50% - 30px )
-      .lessons__messages
-        height: 100%
-    .video-chat
-      height: calc( 50% - 30px )
+    height: 100%
     @media (max-width: 1360px)
       .video-chat
         min-height: 450px
@@ -152,6 +155,9 @@ export default {
         .lessons__messages
           min-height: 300px
           max-height: 400px
+      .chat-block
+      .lessons__messages
+        height: 100%
 
 .lessons-pg
   .lessons__chat
