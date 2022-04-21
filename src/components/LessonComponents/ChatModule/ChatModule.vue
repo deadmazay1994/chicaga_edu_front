@@ -131,10 +131,10 @@ export default {
         margin-left: 10px
 
       .lessons__messages
-      margin-top: 0
-      border-radius: 0 0 20px 20px
-      @media (min-width: 1400px)
-        border-radius: 0 20px 20px 0
+        margin-top: 0
+        border-radius: 0 0 20px 20px
+        @media (min-width: 1400px)
+          border-radius: 0 20px 20px 0
 
     // в мобильных устройствах и в маленьких экранах
     // отображать в дефолтном виде (вертикальном)
