@@ -55,25 +55,27 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .chat-module
   height: 100%
-  .video-chat-miniatures-wrapper
-    width: 15% !important
+  min-height: 700px
+  max-height: 1500px
 
   .video-chat
-      min-height: 350px
-      height: 50%
+    min-height: 350px
+    height: 50%
+    .video-chat-miniatures-wrapper
+      width: 15% !important
 
   .chat-block
     height: 50%
     .lessons__messages
       min-height: 350px
+      position: static
       @media (max-width: 1360px)
         max-height: 350px
 
-  .lessons__messages
-    position: static
+
 
   &.default
     display: block
@@ -92,12 +94,6 @@ export default {
     .vidFrame
       height: 100% !important
 
-    .lessons__messages
-      margin-top: 0
-      border-radius: 0 0 20px 20px
-      @media (min-width: 1400px)
-        border-radius: 0 20px 20px 0
-
     .video-chat,
     .chat-block
       height: auto
@@ -111,11 +107,18 @@ export default {
     .chat-block
       width: 0%
       opacity: 0
-
       &.active
         width: 30%
         opacity: 1
 
+      .lessons__messages
+      margin-top: 0
+      border-radius: 0 0 20px 20px
+      @media (min-width: 1400px)
+        border-radius: 0 20px 20px 0
+
+    // в мобильных устройствах и в маленьких экранах
+    // отображать в дефолтном виде (вертикальном)
     @media (max-width: 1400px)
       display: block
       .video-chat,
