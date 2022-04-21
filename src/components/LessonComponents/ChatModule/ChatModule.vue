@@ -58,8 +58,6 @@ export default {
 <style lang="sass" scoped>
 .chat-module
   height: 100%
-  min-height: 700px
-  max-height: 1500px
 
   .video-chat
     min-height: 350px
@@ -110,10 +108,10 @@ export default {
         opacity: 1
 
       .lessons__messages
-      margin-top: 0
-      border-radius: 0 0 20px 20px
-      @media (min-width: 1400px)
-        border-radius: 0 20px 20px 0
+        margin-top: 0
+        border-radius: 0 0 20px 20px
+        @media (min-width: 1400px)
+          border-radius: 0 20px 20px 0
 
     // в мобильных устройствах и в маленьких экранах
     // отображать в дефолтном виде (вертикальном)
