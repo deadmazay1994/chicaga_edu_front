@@ -75,8 +75,6 @@ export default {
       @media (max-width: 1360px)
         max-height: 350px
 
-
-
   &.default
     display: block
     .video-chat,
