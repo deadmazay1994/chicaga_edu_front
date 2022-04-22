@@ -47,8 +47,7 @@ const routes = [
     name: "lesson_teacher",
     component: Lesson,
     meta: {
-      requiresAuth: true,
-      forTeacher: true
+      requiresAuth: true
     }
   },
   {
