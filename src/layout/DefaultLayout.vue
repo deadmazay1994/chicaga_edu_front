@@ -1002,17 +1002,44 @@ export default {
   &-text
     color: darken($main-color, 15%) !important
 
+.v-app
+  display: block !important
+  height: 100%
+.v-application--wrapp,
+.page,
+.content
+  height: auto !important
+
+.main-view
+  height: calc(100% - 56px - 20px)
+  & > .container
+    height: 100%
+
+  .container > .row
+    height: 100%
+    & > col
+      height: 100%
+
 .content
   padding: 20px
   max-width: calc( 100vw - 302px )
   @media (min-width: 1360px)
-    // max-height: max(calc( 100vh - 40px ), 1072px)
+    max-height: calc( 100vh - 60px )
     display: flex
     flex-direction: column
-    .lessons__content
+    .main-view
+      overflow-y: auto
+      overflow-x: hidden
       height: 100%
+      & > .container
+        height: 100% !important
+        & > .row > .col-md-12
+          height: 100%
+    .lessons__content
+      height: calc(100% - 60px - 56px)
       .lessons__chat,
       .lessons__task
+        height: 100%
         display: flex
         flex-direction: column
         justify-content: space-between
@@ -1027,9 +1054,8 @@ export default {
   background-attachment: fixed
   background-size: 100% 100%
   width: 100%
-  height: 100%
+  height: auto
   display: flex
-  overflow: hidden
   padding: 20px 20px 20px 10px
 
 .content

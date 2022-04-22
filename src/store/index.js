@@ -12,7 +12,6 @@ import socket from "./modules/socket";
 import lightbox from "./modules/lightbox";
 import videoChat from "./modules/video_chat";
 import faq from "./modules/faq";
-import paint from "./modules/paint";
 import draver from "./modules/draver";
 import consultation from "./modules/consultation";
 import notifications from "./modules/notifications";
@@ -47,7 +46,6 @@ export default new Vuex.Store({
     lightbox,
     videoChat,
     faq,
-    paint,
     draver,
     consultation,
     notifications,

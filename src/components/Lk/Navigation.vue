@@ -77,13 +77,14 @@
       v-if="access"
       style="color: #0d0d0d"
       :class="
-        $route.path === `/lk/private-room/${generateRoomId}`
+        $route.path === `/conference/${generateRoomId}`
           ? 'nav__link active'
           : 'nav__link'
       "
-      :to="{ path: '/lk/private-room/' + generateRoomId }"
+      :to="{ name: 'private-room-upcoming', params: { room: generateRoomId } }"
       >Создать комнату</router-link
     >
+    <span class="nav__link" @click="exit">Выйти</span>
   </nav>
 </template>
 
@@ -94,8 +95,7 @@ export default {
   name: "navigation",
   data: function() {
     return {
-      mobileDetected: false,
-      privateRoomLink: `/lk/private-room/${this.generateRoomId}`
+      mobileDetected: false
     };
   },
   methods: {
@@ -132,7 +132,11 @@ export default {
       }
     },
     generateRoomId() {
-      return String(this.user.id) + String(Math.floor(Math.random() * 1000));
+      return (
+        String(this.user.id) +
+        "__" +
+        (Math.random() + 1).toString(36).substring(7)
+      );
     }
   },
   components: {},

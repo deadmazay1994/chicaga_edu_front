@@ -2,16 +2,10 @@
   <div class="prepare">
     <div class="title">Готовы присоединиться?</div>
     <div class="buttons">
-      <router-link
-        :to="link"
-        @click.native="
-          callWarn();
-          returnValue();
-        "
-        tag="button"
-        :disabled="timeStrGetMinutes(time) > 10"
-        >Присоединиться</router-link
-      >
+      <router-link :to="link" tag="button" :disabled="disabled"
+        ><slot></slot
+      ></router-link>
+      <!-- :disabled="timeStrGetMinutes(time) > 10" -->
     </div>
   </div>
 </template>
@@ -21,12 +15,11 @@ import api from "@/mixins/api";
 
 export default {
   name: "Prepare",
-  props: ["event", "time", "titleText", "room"],
+  props: ["disabled", "link"],
   data() {
     return {
       course_id: null,
       id: null,
-      link: null,
       access: null
     };
   },
@@ -39,22 +32,6 @@ export default {
       this.course_id = r.course_id;
       this.id = r.uniq_id;
     },
-    lessonAccessCheck(access) {
-      if (access) {
-        this.link = `/lesson/${this.$route.params.id}/${this.$route.params.code}`;
-        this.access = true;
-      } else {
-        this.link = "/";
-        this.access = false;
-      }
-    },
-    callWarn() {
-      if (this.access || this.room) return;
-      this.$store.commit("pushShuckbar", {
-        success: false,
-        val: "Ошибка доступа к уроку"
-      });
-    },
     returnValue() {
       if (!this.room) return;
       this.$emit("ready");
@@ -64,7 +41,6 @@ export default {
     this.$nextTick(() => {
       this.setParams();
     });
-    this.lessonAccessCheck(true); // получаем доступ к уроку здесь (пока метода нет - передаем true/false)
   }
 };
 </script>
