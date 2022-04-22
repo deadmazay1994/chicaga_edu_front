@@ -16,15 +16,26 @@
         >
           {{ word }}
         </div>
+        <chip v-for="(word, i) in dragList" :key="i">
+          <template v-slot:word>
+            {{ word }}
+          </template>
+        </chip>
       </draggable>
       <v-col cols="12" v-for="(item, index) in inputCopy.body" :key="index">
         <fill-gaps-item
           :sentence="item.sentence"
           :index="index"
           :childSaved="childSaved"
-          ref="gap"
+          
           class="fill-gaps__item"
           @sendChanges="onChange"
+        />
+        <chip-input
+          :sentence="item.sentence"
+          ref="gap"
+          :index="index"
+          :childSaved="childSaved"
         />
       </v-col>
     </v-row>
@@ -34,6 +45,8 @@
 
 <script>
 import FillGapsItem from "./FillGapsItem";
+import ChipInput from "./ChipInput.vue";
+import Chip from "./Chip.vue";
 import Draggable from "vuedraggable";
 import Description from "./TasksDescription";
 import api from "@/mixins/api.js";
@@ -139,7 +152,13 @@ export default {
         e.originalEvent.x,
         e.originalEvent.y
       );
-      if (input.className.indexOf("fill-gaps-item__input") + 1) {
+      console.log(
+        "test22 dragEnd input:",
+        input.className.indexOf("fill-gaps-item__input")
+      );
+      if (input.className.indexOf("chip-input") + 1) {
+        console.log("test22 finded")
+        console.log("test22 dragEnd item:", e.item);
         let text = e.item.textContent;
         let parentIndex = this.getElementIndex(
           input.parentElement.parentElement
@@ -152,6 +171,7 @@ export default {
     getElementIndex(element, onlyThisElement = false) {
       let prev = 0;
       let tagName = element.tagName;
+      console.log("test22 element.previousSibling", element.previousSibling);
       while (element.previousSibling) {
         element = element.previousSibling;
         if (onlyThisElement && element.tagName == tagName) {
@@ -176,7 +196,9 @@ export default {
   components: {
     FillGapsItem,
     Description,
-    Draggable
+    Draggable,
+    ChipInput,
+    Chip
   },
   mixins: [api],
   props: {
