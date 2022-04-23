@@ -191,7 +191,7 @@ export default class {
     });
     if (!settings.publishVideo) this._publisher.publishVideo(true);
     const updateVideo = true;
-    const updateAudio = false;
+    const updateAudio = true;
     this.updateMediaStream(
       {
         ...settings,
@@ -293,20 +293,60 @@ export default class {
     window.removeEventListener("beforeunload", this.leaveSession);
   }
   async _getMediaStream(settings) {
-    let mediaStream = await this._OV.getUserMedia(settings).catch(error => {
+    let mediaStream;
+    let errorCallback = error => {
       console.error(
         "Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):",
         error
       );
       this.onErrorHandling(error);
-    });
+    };
+    if (settings.videoSource === "screen") {
+      mediaStream = await navigator.mediaDevices
+        .getDisplayMedia({
+          audio: true,
+          video: true
+        })
+        .catch(errorCallback);
+      let mediaStreamForAudio = await this._OV
+        .getUserMedia({
+          ...settings,
+          videoSource: false
+        })
+        .catch(errorCallback);
+      let mergedAudioTrack = this._mergeAudioTracks(
+        mediaStream.getAudioTracks()[0],
+        mediaStreamForAudio.getAudioTracks()[0]
+      );
+      mediaStream.removeTrack(mediaStream.getAudioTracks()[0]);
+      mediaStream.addTrack(mergedAudioTrack);
+    } else {
+      mediaStream = await this._OV.getUserMedia(settings).catch(errorCallback);
+    }
     // Если нет одного из типов треков, то ставим фейковый тип
     if (!settings.publishVideo)
       mediaStream.addTrack(this._fakeStream.getVideoTracks()[0]);
     if (!settings.publishAudio)
       mediaStream.addTrack(this._fakeStream.getAudioTracks()[0]);
-    console.log(mediaStream);
     return mediaStream;
+  }
+  _mergeAudioTracks(first, second) {
+    let fisrtMedia = new MediaStream();
+    fisrtMedia.addTrack(first);
+
+    let secondMedia = new MediaStream();
+    secondMedia.addTrack(second);
+
+    const audioContext = new AudioContext();
+    let audioIn_01 = audioContext.createMediaStreamSource(fisrtMedia);
+    let audioIn_02 = audioContext.createMediaStreamSource(secondMedia);
+
+    let dest = audioContext.createMediaStreamDestination();
+
+    audioIn_01.connect(dest);
+    audioIn_02.connect(dest);
+
+    return dest.stream.getAudioTracks()[0];
   }
   _setFakeStream() {
     let silence = () => {
