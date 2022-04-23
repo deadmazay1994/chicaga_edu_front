@@ -23,6 +23,7 @@
             autoplay
             :muted="muted"
             class="video-component__video"
+            :class="mirrorClass"
             @click="$emit('click-by-video')"
           ></video>
         </div>
@@ -326,13 +327,10 @@ export default {
     iconOff() {
       return !this.itsMe;
     },
-    mirrorStyle() {
-      // this.mediaObject.userInfo.screenActive || !this.itsMe
-      //           ? ';'
-      //           : ''
-      // if (this.itsMe)
-      if (this.mediaObject.userInfo.screenActive || !this.itsMe)
-        return "transform: rotateY(180deg) !important";
+    mirrorClass() {
+      let screenIsNotActive = !this.mediaObject.userInfo.screenActive;
+      if (screenIsNotActive && this.itsMe)
+        return "video-component__video--mirror";
       return "";
     }
   },
@@ -411,6 +409,8 @@ export default {
     height: inherit
     cursor: pointer
     transform: rotateY(0) !important
+    &--mirror
+      transform: rotateY(180deg) !important
   &__avatar
     max-width: 100%
     max-height: 100%
