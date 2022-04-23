@@ -21,7 +21,10 @@
           />
         </div>
       </div>
-      <div class="video-chat-miniatures-wrapper" v-if="showMiniatures">
+      <div
+        class="video-chat-miniatures-wrapper"
+        v-if="showMiniatures && miniaturesMediaStream.length"
+      >
         <div class="miniatures-go" @click="scroll('upp')">
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
@@ -345,7 +348,7 @@ export default {
   height: calc(100% - 59px) // 59px высота плеера
   position: absolute
   width: 30%
-  min-width: 146px
+  min-width: 159px
   background-color: #9d000040
   z-index: 10 !important
   right: 0
