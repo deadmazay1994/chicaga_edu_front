@@ -259,6 +259,7 @@ export default class {
     let mediaStream = await this._getMediaStream(newSettings);
     let videoPromise, audioPromise;
     let replaceTrack = (track, errorText) => {
+      if (!track) return;
       return this._publisher.replaceTrack(track).catch(error => {
         console.error(errorText, error);
         this.onErrorHandling(error);
@@ -314,12 +315,17 @@ export default class {
           videoSource: false
         })
         .catch(errorCallback);
-      let mergedAudioTrack = this._mergeAudioTracks(
-        mediaStream.getAudioTracks()[0],
+      if (
+        mediaStream.getAudioTracks()[0] &&
         mediaStreamForAudio.getAudioTracks()[0]
-      );
-      mediaStream.removeTrack(mediaStream.getAudioTracks()[0]);
-      mediaStream.addTrack(mergedAudioTrack);
+      ) {
+        let mergedAudioTrack = this._mergeAudioTracks(
+          mediaStream.getAudioTracks()[0],
+          mediaStreamForAudio.getAudioTracks()[0]
+        );
+        mediaStream.removeTrack(mediaStream.getAudioTracks()[0]);
+        mediaStream.addTrack(mergedAudioTrack);
+      }
     } else {
       mediaStream = await this._OV.getUserMedia(settings).catch(errorCallback);
     }
