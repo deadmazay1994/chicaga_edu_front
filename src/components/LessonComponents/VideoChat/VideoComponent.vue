@@ -24,11 +24,6 @@
             :muted="muted"
             class="video-component__video"
             @click="$emit('click-by-video')"
-            :style="
-              mediaObject.userInfo.screenActive || !this.itsMe
-                ? 'transform: rotateY(180deg) !important;'
-                : ''
-            "
           ></video>
         </div>
       </video-player>
@@ -330,6 +325,15 @@ export default {
     },
     iconOff() {
       return !this.itsMe;
+    },
+    mirrorStyle() {
+      // this.mediaObject.userInfo.screenActive || !this.itsMe
+      //           ? ';'
+      //           : ''
+      // if (this.itsMe)
+      if (this.mediaObject.userInfo.screenActive || !this.itsMe)
+        return "transform: rotateY(180deg) !important";
+      return "";
     }
   },
   watch: {
@@ -406,6 +410,7 @@ export default {
   &__video
     height: inherit
     cursor: pointer
+    transform: rotateY(0) !important
   &__avatar
     max-width: 100%
     max-height: 100%
