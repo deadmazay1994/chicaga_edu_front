@@ -5,7 +5,6 @@
       <router-link :to="link" tag="button" :disabled="disabled"
         ><slot></slot
       ></router-link>
-      <!-- :disabled="timeStrGetMinutes(time) > 10" -->
     </div>
   </div>
 </template>

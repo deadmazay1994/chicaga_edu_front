@@ -9,7 +9,7 @@
       </div>
       <div class="col-md-6 col-sm-12 private-ipcoming__right">
         <slot></slot>
-        <prepare :link="link">Присоедениться</prepare>
+        <prepare :disabled="disabled" :link="link">Присоедениться</prepare>
       </div>
     </div>
   </div>
@@ -37,6 +37,9 @@ export default {
   props: {
     link: {
       required: true
+    },
+    disabled: {
+      default: false
     }
   },
   mixins: {},
