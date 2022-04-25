@@ -157,9 +157,14 @@ export default {
     },
     // Calendar
     async getWebinarEvents() {
-      let r = await get("user/events");
-      console.log("api return webinar:", r);
-      return r;
+      let otherEvents = await get("user/events/others");
+      console.log(otherEvents.data);
+      otherEvents.data.forEach(e => (e.subscribed = false));
+      let onlyMyEvents = await get("user/events/mine");
+      onlyMyEvents.data.forEach(e => (e.subscribed = true));
+      let events = [...onlyMyEvents.data, ...otherEvents.data];
+      console.log(events);
+      return events;
       // return [
       //   {
       //     date: 1647959401,
@@ -218,8 +223,8 @@ export default {
       // ];
     },
     async subscribeToEvent(eventId) {
-      let r = await post("user/subscribe", { id: eventId });
-      console.log("api-test user/subscribe:", r);
+      let r = await post("user/events/subscribe", { id: eventId });
+      console.log("api-test user/events/subscribe:", r);
       return r;
     },
     async storeEvent(data) {

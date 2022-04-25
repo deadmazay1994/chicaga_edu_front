@@ -191,7 +191,7 @@ export default class {
     });
     if (!settings.publishVideo) this._publisher.publishVideo(true);
     const updateVideo = true;
-    const updateAudio = false;
+    const updateAudio = true;
     this.updateMediaStream(
       {
         ...settings,
@@ -256,41 +256,28 @@ export default class {
       ...sourceSettings,
       ...settings
     };
+    let mediaStream = await this._getMediaStream(newSettings);
     let videoPromise, audioPromise;
+    let replaceTrack = (track, errorText) => {
+      if (!track) return;
+      return this._publisher.replaceTrack(track).catch(error => {
+        console.error(errorText, error);
+        this.onErrorHandling(error);
+      });
+    };
     if (updateVideo) {
-      let videoTrack = await this._getVideoTrack(newSettings).catch(error => {
-        console.error(
-          "Произошла ошибка при получении видеодорожки (метод - _getVideoTrack):",
-          error
-        );
-        this.onErrorHandling(error);
-      });
-      videoPromise = this._publisher.replaceTrack(videoTrack).catch(error => {
-        console.error(
-          "Произошла ошибка при замене текущей видеодорожки:",
-          error
-        );
-        this.onErrorHandling(error);
-      });
+      let videoTrack = mediaStream.getVideoTracks()[0];
+      videoPromise = replaceTrack(
+        videoTrack,
+        "Произошла ошибка при замене текущей видеодорожки:"
+      );
     }
     if (updateAudio) {
-      let audioTrack = undefined;
-      try {
-        audioTrack = await this._getAudioTrack(newSettings);
-      } catch (error) {
-        console.error(
-          "Произошла ошибка при получении аудиодорожки (метод - _getAudioTrack):",
-          error
-        );
-        this.onErrorHandling(error);
-      }
-      audioPromise = this._publisher.replaceTrack(audioTrack).catch(error => {
-        console.error(
-          "Произошла ошибка при замене текущей аудиодорожки:",
-          error
-        );
-        this.onErrorHandling(error);
-      });
+      let audioTrack = mediaStream.getAudioTracks()[0];
+      audioPromise = replaceTrack(
+        audioTrack,
+        "Произошла ошибка при замене текущей видеодорожки:"
+      );
       // Обходит баг в OV
       // https://github.com/OpenVidu/openvidu/issues/449
       this._publisher.videoReference.muted = true;
@@ -306,27 +293,66 @@ export default class {
 
     window.removeEventListener("beforeunload", this.leaveSession);
   }
-  async _getVideoTrack(settings) {
-    if (!settings.publishVideo) return this._fakeStream.getVideoTracks()[0];
-    let newMediaStream = await this._OV.getUserMedia(settings).catch(error => {
+  async _getMediaStream(settings) {
+    let mediaStream;
+    let errorCallback = error => {
       console.error(
         "Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):",
         error
       );
       this.onErrorHandling(error);
-    });
-    return newMediaStream.getVideoTracks()[0];
+    };
+    if (settings.videoSource === "screen") {
+      mediaStream = await navigator.mediaDevices
+        .getDisplayMedia({
+          audio: true,
+          video: true
+        })
+        .catch(errorCallback);
+      let mediaStreamForAudio = await this._OV
+        .getUserMedia({
+          ...settings,
+          videoSource: false
+        })
+        .catch(errorCallback);
+      if (
+        mediaStream.getAudioTracks()[0] &&
+        mediaStreamForAudio.getAudioTracks()[0]
+      ) {
+        let mergedAudioTrack = this._mergeAudioTracks(
+          mediaStream.getAudioTracks()[0],
+          mediaStreamForAudio.getAudioTracks()[0]
+        );
+        mediaStream.removeTrack(mediaStream.getAudioTracks()[0]);
+        mediaStream.addTrack(mergedAudioTrack);
+      }
+    } else {
+      mediaStream = await this._OV.getUserMedia(settings).catch(errorCallback);
+    }
+    // Если нет одного из типов треков, то ставим фейковый тип
+    if (!settings.publishVideo)
+      mediaStream.addTrack(this._fakeStream.getVideoTracks()[0]);
+    if (!settings.publishAudio)
+      mediaStream.addTrack(this._fakeStream.getAudioTracks()[0]);
+    return mediaStream;
   }
-  async _getAudioTrack(settings) {
-    if (!settings.publishAudio) return this._fakeStream.getAudioTracks()[0];
-    let newMediaStream = await this._OV.getUserMedia(settings).catch(error => {
-      console.error(
-        "Произошла ошибка при получении пользовательского медиапотока (метод - this._OV.getUserMedia):",
-        error
-      );
-      this.onErrorHandling(error);
-    });
-    return newMediaStream.getAudioTracks()[0];
+  _mergeAudioTracks(first, second) {
+    let fisrtMedia = new MediaStream();
+    fisrtMedia.addTrack(first);
+
+    let secondMedia = new MediaStream();
+    secondMedia.addTrack(second);
+
+    const audioContext = new AudioContext();
+    let audioIn_01 = audioContext.createMediaStreamSource(fisrtMedia);
+    let audioIn_02 = audioContext.createMediaStreamSource(secondMedia);
+
+    let dest = audioContext.createMediaStreamDestination();
+
+    audioIn_01.connect(dest);
+    audioIn_02.connect(dest);
+
+    return dest.stream.getAudioTracks()[0];
   }
   _setFakeStream() {
     let silence = () => {
@@ -367,8 +393,9 @@ export default class {
     ) + 100000}`;
   }
   _getToken(roomId) {
-    return this._createSession(roomId)
-      .then(sessionId => this._createToken(sessionId));
+    return this._createSession(roomId).then(sessionId =>
+      this._createToken(sessionId)
+    );
   }
   _createSession(sessionId) {
     // Функция взята из примеров в доке OpenVidu
