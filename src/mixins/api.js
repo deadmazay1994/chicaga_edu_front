@@ -221,6 +221,12 @@ export default {
       //   }
       // ];
     },
+    async getWebinar(id) {
+      return get(`events/${id}`).then(r => {
+        if (r.data) return r.data;
+        return { r };
+      });
+    },
     async subscribeToEvent(eventId) {
       let r = await post("user/events/subscribe", { id: eventId });
       console.log("api-test user/events/subscribe:", r);

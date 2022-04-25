@@ -93,13 +93,11 @@ export default {
       if (!this.item?.subscribed) return;
       // TODO
       // Сделать возможность указывать название роута за пределами календаря
-      console.log(this.item);
       this.$router.push({
         name: "upcoming-webinar",
         params: {
           id: this.item.lessonUid,
-          // Если необходимо будет проводить несколько вебинаров в одно время, то тут надо будет передавать код данного вебинара
-          code: "webinar",
+          code: this.item.id,
           startTime: this.item.date * 1000
         }
       });

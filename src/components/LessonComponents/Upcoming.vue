@@ -87,6 +87,10 @@ export default {
       this.DateLessonTime = moment(
         new Date(parseInt(this.$route.params.startTime))
       ).valueOf();
+    } else {
+      let r = await this.getWebinar(this.$route.params.code);
+      this.DateLessonTime = moment(r.date_time).valueOf();
+      console.log(r.date_time, this.DateLessonTime);
     }
     this.startTimer();
     this.setDateAndTime();
