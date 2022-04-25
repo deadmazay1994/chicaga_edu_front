@@ -5,7 +5,7 @@
       { 'calendar-cell--past': item.month !== currMonth },
       itemState(item)
     ]"
-    @click="openModal()"
+    @click="item.subscribed ? toEventPage() : openModal()"
   >
     <div class="cell-head">
       <span
@@ -86,6 +86,23 @@ export default {
     },
     toggleDropDown() {
       this.showDropDown = !this.showDropDown;
+    },
+    toEventPage() {
+      // TODO
+      // Вывести предупреждение пользователю, если он не зарегистрирован
+      if (!this.item?.subscribed) return;
+      // TODO
+      // Сделать возможность указывать название роута за пределами календаря
+      console.log(this.item);
+      this.$router.push({
+        name: "upcoming-webinar",
+        params: {
+          id: this.item.lessonUid,
+          // Если необходимо будет проводить несколько вебинаров в одно время, то тут надо будет передавать код данного вебинара
+          code: "webinar",
+          startTime: this.item.date * 1000
+        }
+      });
     },
     openModal() {
       if (!this.item.event || this.hasSubEvents) return;
