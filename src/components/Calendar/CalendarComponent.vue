@@ -139,7 +139,7 @@ export default {
           id: element.id,
           lessonUid: element.lesson_uid
         };
-        if (element.date_time == duplicatedDates[0].date_time) {
+        if (element.date_time == duplicatedDates[0]?.date_time) {
           obj.subEvents = duplicatedDates;
         } else {
           obj.setEvents = undefined;
