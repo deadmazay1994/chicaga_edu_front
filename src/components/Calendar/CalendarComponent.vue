@@ -126,8 +126,8 @@ export default {
     },
     async setEvents() {
       let webinarsResponse = await api.methods.getWebinarEvents();
-      let duplicatedDates = this.returnDuplicates(webinarsResponse.data);
-      webinarsResponse.data.forEach(element => {
+      let duplicatedDates = this.returnDuplicates(webinarsResponse);
+      webinarsResponse.forEach(element => {
         let obj = {
           title: element.title,
           subtitle: element.subtitle,
@@ -136,7 +136,8 @@ export default {
           responsible: "",
           date: +new Date(element.date_time) / 1000,
           subscribed: element.subscribed,
-          id: element.id
+          id: element.id,
+          lessonUid: element.lesson_uid
         };
         if (element.date_time == duplicatedDates[0].date_time) {
           obj.subEvents = duplicatedDates;
@@ -167,6 +168,8 @@ export default {
             item.subEvents = subEvents;
             item.price = element.price;
             item.id = element.id;
+            item.lessonUid = element.lessonUid;
+            item.date = element.date;
           }
         });
       });

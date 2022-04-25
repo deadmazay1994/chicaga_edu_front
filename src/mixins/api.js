@@ -157,14 +157,13 @@ export default {
     },
     // Calendar
     async getWebinarEvents() {
-      let otherEvents = await get("user/events/others");
-      console.log(otherEvents.data);
-      otherEvents.data.forEach(e => (e.subscribed = false));
-      let onlyMyEvents = await get("user/events/mine");
-      onlyMyEvents.data.forEach(e => (e.subscribed = true));
-      let events = [...onlyMyEvents.data, ...otherEvents.data];
-      console.log(events);
-      return events;
+      let otherEvents = get("user/events/others");
+      let onlyMyEvents = get("user/events/mine");
+      return Promise.all([otherEvents, onlyMyEvents]).then(webinars => {
+        webinars[0].data.forEach(e => (e.subscribed = false));
+        webinars[1].data.forEach(e => (e.subscribed = true));
+        return [...webinars[0].data, ...webinars[1].data];
+      });
       // return [
       //   {
       //     date: 1647959401,
