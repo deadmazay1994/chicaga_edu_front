@@ -10,6 +10,7 @@ function getRandomInt(max) {
 export default {
   name: "fill-gaps-item",
   render(h) {
+    h("div", { class: "test" }, "some text");
     const res = [this.getImg(h)];
     let gap = false;
     let letters = [];
@@ -39,6 +40,7 @@ export default {
             )
           );
           letters = [];
+          console.log("test22 gapNum:", gapNum);
           this.pushMissingAnswers(gapNum);
           if (!this.inputSize) this.setInputSize(this.sentenceMap[gapNum] * 10);
           res.push(
@@ -57,6 +59,7 @@ export default {
               },
               on: {
                 input: event => {
+                  console.log("test22 updateModeliInput event:", event);
                   this.updateModelInput(
                     event.target.value,
                     event.target.dataset.index
@@ -76,6 +79,7 @@ export default {
           letters.push(l);
         }
         if (i == this.newSentence.split("").length - 1) {
+          console.log("resPush3");
           res.push(
             h(
               "span",
@@ -91,6 +95,7 @@ export default {
     } else {
       console.log("this.newSentence is false: render:parseText");
     }
+    console.log("res3:", res);
     return h(
       "div",
       {
@@ -281,6 +286,7 @@ export default {
   },
   mounted() {
     this.parseText();
+    console.log("test22 childSaved:", this.childSaved);
     if (this.childSaved) {
       this.updateAllmodels();
     }
