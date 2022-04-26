@@ -9,33 +9,34 @@
         :forceFallback="true"
         :move="dragMove"
       >
-        <div
+        <!-- <div
           class="fill-gaps__drag-word table-item"
           v-for="(word, i) in dragList"
           :key="i"
         >
           {{ word }}
-        </div>
-        <chip v-for="(word, i) in dragList" :key="i">
+        </div> -->
+        <chip v-for="(item, i) in dragListState" :key="i" :state="item.state">
           <template v-slot:word>
-            {{ word }}
+            {{ item.text }}
           </template>
         </chip>
       </draggable>
       <v-col cols="12" v-for="(item, index) in inputCopy.body" :key="index">
-        <fill-gaps-item
+        <!-- <fill-gaps-item
           :sentence="item.sentence"
           :index="index"
           :childSaved="childSaved"
           
           class="fill-gaps__item"
           @sendChanges="onChange"
-        />
+        /> -->
         <chip-input
           :sentence="item.sentence"
           ref="gap"
           :index="index"
           :childSaved="childSaved"
+          @clickElem="clickChip()"
         />
       </v-col>
     </v-row>
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import FillGapsItem from "./FillGapsItem";
+// import FillGapsItem from "./FillGapsItem";
 import ChipInput from "./ChipInput.vue";
 import Chip from "./Chip.vue";
 import Draggable from "vuedraggable";
@@ -58,6 +59,7 @@ export default {
   data: function() {
     return {
       dragList: [],
+      dragListState: [],
       draging: false,
       inputCopy: {},
       error: true,
@@ -152,21 +154,35 @@ export default {
         e.originalEvent.x,
         e.originalEvent.y
       );
-      console.log(
-        "test22 dragEnd input:",
-        input.className.indexOf("fill-gaps-item__input")
-      );
-      if (input.className.indexOf("chip-input") + 1) {
-        console.log("test22 finded")
+      console.log("test25 dragEnd input:", input.className);
+      if (
+        input.className.indexOf("chip-input") + 1 ||
+        input.className.indexOf("chip") + 1
+      ) {
+        console.log("test22 finded");
         console.log("test22 dragEnd item:", e.item);
         let text = e.item.textContent;
         let parentIndex = this.getElementIndex(
           input.parentElement.parentElement
         );
         let inputIndex = this.getElementIndex(input, true);
-        this.$refs.gap[parentIndex].updateModelInput(text, inputIndex);
-        this.$refs.gap[parentIndex].sendData();
+        console.log("test25 textContent:", e.newIndex);
+        console.log("test25 parentIndex:", parentIndex);
+
+        // для всех элементов устанавливаем default модификатор
+        this.dragListState.forEach(element => {
+          element.state = "default";
+        });
+        // и для конкретного - empty
+        this.dragListState[e.newIndex].state = "empty";
+        console.log("test25 input1", this.$refs.gap);
+        this.$refs.gap[parentIndex - 1].updateModelInput(text, inputIndex);
+        // this.$refs.gap[parentIndex].sendData();
       }
+    },
+    clickChip() {
+      console.log("test25 clicked");
+      this.answer[0] = "";
     },
     getElementIndex(element, onlyThisElement = false) {
       let prev = 0;
@@ -194,7 +210,7 @@ export default {
     ...mapGetters(["socket"])
   },
   components: {
-    FillGapsItem,
+    // FillGapsItem,
     Description,
     Draggable,
     ChipInput,
@@ -212,6 +228,11 @@ export default {
     if (this.drag) {
       this.setDragList();
     }
+  },
+  mounted() {
+    this.dragList.forEach(element => {
+      this.dragListState.push({ text: element, state: "default" });
+    });
   }
 };
 </script>

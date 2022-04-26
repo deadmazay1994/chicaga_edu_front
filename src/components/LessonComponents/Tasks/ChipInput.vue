@@ -1,18 +1,35 @@
 <script>
+import Chip from "./Chip.vue";
+
 export default {
   name: "ChipInput",
   render() {
-    return (
-      <div>
-        <input class="chip-input" ref="input" type="text" />
-        {this.sentence}
-        {this.answers}
+    this.pushMissingAnswers(0);
+    let condition = "";
+    console.log("test25 this.answer:", this.answer[0], this.answer[0] !== "");
+    if (this.answer[0])
+      condition = (
+        <chip ref="chip" vOn:clickElem={this.clickElem()}>
+          <template slot="word">{this.answer}</template>
+        </chip>
+      );
+    let html = (
+      <div class="chip-input">
+        <div class="chip-input__element" ref="input">
+          {condition}
+        </div>
+        {this.newSentence}
       </div>
     );
+    return html;
+  },
+  components: {
+    Chip
   },
   data() {
     return {
-      answers: []
+      answers: [],
+      newSentence: ""
     };
   },
   props: {
@@ -51,23 +68,45 @@ export default {
     },
     updateModelInput(value, inputIndex) {
       if (this.answers) {
-        console.log("test22", value);
+        console.log("test25", value, inputIndex);
+        console.log("test25 answers:", this.answers, "index:", inputIndex);
         this.answers[inputIndex].value = value;
+        // console.log("test25 input:", this.$refs.chip.$el);
         this.$set(this.answers, inputIndex, this.answers[inputIndex]);
-        this.$refs.input[inputIndex].value = value;
-        this.sendData();
+        // this.$refs.chip.$el.innerHTML = value;
+        // this.sendData();
       }
     },
     customForceUpdate(data) {
       data.answers.forEach((element, i) => {
         this.updateModelInput(element.value, i);
       });
+    },
+    getTitle() {
+      this.n;
+    },
+    clickElem() {
+      console.log("test25 clicked ChipInput.vue");
+      this.$emit("clickElem");
+    }
+  },
+  beforeMount() {
+    if (this.sentence) {
+      this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "");
     }
   }
 };
 </script>
 
 <style lang="sass" scoped>
-input
+.chip-input
+  display: flex
+  align-items: flex-end
+
+.chip-input__element
+  width: 200px
+  margin-top: .5rem
+  height: 35px
   border-bottom: 1px solid black
+  text-align: center
 </style>
