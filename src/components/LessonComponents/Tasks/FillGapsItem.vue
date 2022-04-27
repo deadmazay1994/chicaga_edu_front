@@ -1,12 +1,9 @@
 <script>
 import "@/mixins/methods";
-import api from "@/mixins/api";
 import { mapGetters } from "vuex";
-
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
 export default {
   name: "fill-gaps-item",
   render(h) {
@@ -39,7 +36,6 @@ export default {
             )
           );
           letters = [];
-          console.log("test22 gapNum:", gapNum);
           this.pushMissingAnswers(gapNum);
           if (!this.inputSize) this.setInputSize(this.sentenceMap[gapNum] * 10);
           res.push(
@@ -47,10 +43,9 @@ export default {
               class: {
                 "fill-gaps-item__input": true,
                 "fill-gaps-item__input--correct":
-                  this.answers[gapNum].correct === true,
+                  this.answers[gapNum].correct == true,
                 "fill-gaps-item__input--uncorrect":
-                  !this.answers[gapNum].correct &&
-                  this.answers[gapNum].correct != null
+                  !this.answers[gapNum].correct && this.answered
               },
               style: {
                 // Ширина инпута в зависимости от длинны пропущенного слова
@@ -58,7 +53,6 @@ export default {
               },
               on: {
                 input: event => {
-                  console.log("test22 updateModeliInput event:", event);
                   this.updateModelInput(
                     event.target.value,
                     event.target.dataset.index
@@ -78,7 +72,6 @@ export default {
           letters.push(l);
         }
         if (i == this.newSentence.split("").length - 1) {
-          console.log("resPush3");
           res.push(
             h(
               "span",
@@ -94,7 +87,6 @@ export default {
     } else {
       console.log("this.newSentence is false: render:parseText");
     }
-    console.log("res3:", res);
     return h(
       "div",
       {
@@ -137,7 +129,6 @@ export default {
     createElementFromHTML(htmlString) {
       var div = document.createElement("div");
       div.innerHTML = htmlString.trim();
-
       // Change this to div.childNodes to support multiple top-level nodes
       return div.firstChild;
     },
@@ -191,49 +182,34 @@ export default {
         });
       }
     },
-    async getLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.id);
-      return {
-        type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
-        section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
-        id: r.id
-      };
-    },
     check() {
-      console.log("данные FillGapsItem.vue");
-      let answers = [];
       if (this.answers) {
+        let error = 0;
         this.answered = true;
-        this.answers.forEach(elem => {
-          answers.push(elem);
-        });
-        return this.getLesson().then(res => {
-          const data = {
-            type: "lesson",
-            type_check: res.type,
-            section: res.section,
-            answer: [{ answers: answers.map(a => a.val) }]
-          };
-          console.log("данные FillGapsItem.vue res:", res); // test
-          let result = api.methods.taskCheck(res.id, data); // mock
-          return result.then(res => {
-            this.answers.forEach((_, i) => {
-              this.answers[i].correct = res[i];
-            });
-            return { value: res.points, type: data.type_check };
+        if (this.sentence) {
+          let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
+          for (let i = 0; i < this.answers.length; i++) {
+            if (trueAnswers) {
+              if (
+                this.clearDeeper(trueAnswers[i]) ==
+                this.clearDeeper(this.answers[i].val)
+              ) {
+                this.answers[i].correct = true;
+              } else {
+                error = true;
+                this.answers[i].correct = false;
+              }
+            } else {
+              console.log("trueAnswers is false: FillGapsItem:check");
+            }
+          }
+          this.$emit("oncheck", {
+            index: this.index,
+            result: this.answers
           });
-        });
+        }
+        return error;
       }
-    },
-    setStatus(result) {
-      result.forEach((correct, i) => {
-        if (!this.answers[i]) this.answers[i] = {};
-        this.answers[i].correct = correct;
-      });
-      this.$emit("oncheck", {
-        index: this.index,
-        result: this.answers
-      });
     },
     showAnswers() {
       let trueAnswers = this.sentence.match(/\[(.*?)\]/g);
@@ -269,10 +245,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "activeGroupIndexLesson"]),
-    answer() {
-      return this.answers.map(a => a.val);
-    }
+    ...mapGetters(["socket"])
   },
   beforeMount() {
     if (this.childSaved) {
@@ -285,7 +258,6 @@ export default {
   },
   mounted() {
     this.parseText();
-    console.log("test22 childSaved:", this.childSaved);
     if (this.childSaved) {
       this.updateAllmodels();
     }
@@ -302,7 +274,6 @@ export default {
 <style lang="sass">
 // Scoped не ставить!!!
 @import "@/assets/styles/variables.sass"
-
 .fill-gaps-item
   border-radius: 10px
   // display: inline-flex
@@ -338,12 +309,10 @@ export default {
     margin-bottom: 5px
     max-height: 50px
     width: auto
-
 .fill-gaps-item--uncorrect
   .fill-gaps-item__input
     color: $error_color--text
     border-bottom: 1px solid $error_color--text
-
 .fill-gaps-item--correct
   .fill-gaps-item__input
     color: $success_color--text

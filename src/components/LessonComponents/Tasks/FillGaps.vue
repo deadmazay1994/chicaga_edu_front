@@ -1,7 +1,6 @@
 <template>
   <div class="fill-gaps vue-component">
     <description :index="index">{{ inputCopy.description }}</description>
-    {{ inputCopy }}
     <v-row no-gutters class="test">
       <draggable
         v-model="dragList"
@@ -10,34 +9,22 @@
         :forceFallback="true"
         :move="dragMove"
       >
-        <!-- <div
+        <div
           class="fill-gaps__drag-word table-item"
           v-for="(word, i) in dragList"
           :key="i"
         >
           {{ word }}
-        </div> -->
-        <chip v-for="(item, i) in dragListState" :key="i" :state="item.state">
-          <template v-slot:word>
-            {{ item.text }}
-          </template>
-        </chip>
+        </div>
       </draggable>
       <v-col cols="12" v-for="(item, index) in inputCopy.body" :key="index">
-        <!-- <fill-gaps-item
+        <fill-gaps-item
           :sentence="item.sentence"
           :index="index"
           :childSaved="childSaved"
-          
+          ref="gap"
           class="fill-gaps__item"
           @sendChanges="onChange"
-        /> -->
-        <chip-input
-          :sentence="item.sentence"
-          ref="gap"
-          :index="index"
-          :childSaved="childSaved"
-          @clickElem="clickChip()"
         />
       </v-col>
     </v-row>
@@ -46,21 +33,15 @@
 </template>
 
 <script>
-// import FillGapsItem from "./FillGapsItem";
-import ChipInput from "./ChipInput.vue";
-import Chip from "./Chip.vue";
+import FillGapsItem from "./FillGapsItem";
 import Draggable from "vuedraggable";
 import Description from "./TasksDescription";
-import api from "@/mixins/api.js";
-
 import { mapGetters, mapMutations } from "vuex";
-
 export default {
   name: "fill-gaps",
   data: function() {
     return {
       dragList: [],
-      dragListState: [],
       draging: false,
       inputCopy: {},
       error: true,
@@ -83,48 +64,17 @@ export default {
       data.childRef = this.childRef;
       this.sendTaskToTeacher(this.index, data);
     },
-    async getLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.id);
-      return {
-        // type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
-        // section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
-        id: r.id
-      };
-    },
-    async check() {
-      // let checkData = {
-      //   type: "lesson",
-      //   type_check: "insert_skipped_word",
-      //   section: this.inputCopy.section,
-      //   answer: this.$refs.gap.map(gap => {
-      //     return { answers: gap.answer };
-      //   })
-      // };
-      // this.taskCheck(this.$route.params.id, checkData).then(r => {
-      //   r.result.forEach((e, i) => {
-      //     this.$refs.gap[i].setStatus(e.answers);
-      //   });
-      //   console.log("данные this.taskCheck");
-      // });
-      const type_check = this.inputCopy.type;
-      const checkData = {
-        type: "lesson",
-        type_check: this.inputCopy.type,
-        section: this.inputCopy.section,
-        answer: this.$refs.gap.map(gap => {
-          return { answers: gap.answer };
-        })
-      };
-      let result = await this.taskCheck(this.$route.params.id, checkData).then(
-        r => {
-          Object.keys(r.result).forEach(index => {
-            this.$refs.gap[index].setStatus(r.result[index].answers);
-          });
-          return r;
-        }
-      );
-      console.log("данные FillGaps.vue result:", result);
-      return { value: result.points, type: type_check };
+    check() {
+      this.error = false;
+      if (this.$refs.gap) {
+        this.$refs.gap.forEach(child => {
+          if (!this.error) {
+            this.error = child.check();
+          } else {
+            child.check();
+          }
+        });
+      }
     },
     showAnswers() {
       if (this.$refs.gap) {
@@ -155,40 +105,19 @@ export default {
         e.originalEvent.x,
         e.originalEvent.y
       );
-      console.log("test25 dragEnd input:", input.className);
-      if (
-        input.className.indexOf("chip-input") + 1 ||
-        input.className.indexOf("chip") + 1
-      ) {
-        console.log("test22 finded");
-        console.log("test22 dragEnd item:", e.item);
+      if (input.className.indexOf("fill-gaps-item__input") + 1) {
         let text = e.item.textContent;
         let parentIndex = this.getElementIndex(
           input.parentElement.parentElement
         );
         let inputIndex = this.getElementIndex(input, true);
-        console.log("test25 textContent:", e.newIndex);
-        console.log("test25 parentIndex:", parentIndex);
-
-        // для всех элементов устанавливаем default модификатор
-        this.dragListState.forEach(element => {
-          element.state = "default";
-        });
-        // и для конкретного - empty
-        this.dragListState[e.newIndex].state = "empty";
-        console.log("test25 input1", this.$refs.gap);
         this.$refs.gap[parentIndex].updateModelInput(text, inputIndex);
-        // this.$refs.gap[parentIndex].sendData();
+        this.$refs.gap[parentIndex].sendData();
       }
-    },
-    clickChip() {
-      console.log("test25 clicked");
-      this.answer[0] = "";
     },
     getElementIndex(element, onlyThisElement = false) {
       let prev = 0;
       let tagName = element.tagName;
-      console.log("test22 element.previousSibling", element.previousSibling);
       while (element.previousSibling) {
         element = element.previousSibling;
         if (onlyThisElement && element.tagName == tagName) {
@@ -211,13 +140,10 @@ export default {
     ...mapGetters(["socket"])
   },
   components: {
-    // FillGapsItem,
+    FillGapsItem,
     Description,
-    Draggable,
-    ChipInput,
-    Chip
+    Draggable
   },
-  mixins: [api],
   props: {
     input: { required: true },
     drag: { required: false },
@@ -229,11 +155,6 @@ export default {
     if (this.drag) {
       this.setDragList();
     }
-  },
-  mounted() {
-    this.dragList.forEach(element => {
-      this.dragListState.push({ text: element, state: "default" });
-    });
   }
 };
 </script>
