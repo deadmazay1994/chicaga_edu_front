@@ -46,7 +46,8 @@ export default {
       selectedIndex: null,
       selectText: null,
       selectedChips: [],
-      resultArr: []
+      resultArr: [],
+      unbound: false
     };
   },
   props: {
@@ -80,7 +81,7 @@ export default {
     // выбираем пропущенное слово снизу
     select(i) {
       // если мы не выбирали ответ - selectedIndex == null
-      if (this.selectedIndex !== null) {
+      if (this.unbound === true) {
         // отмена чипса при повторном нажатии на него
         this.unselect(i);
       }
@@ -105,6 +106,7 @@ export default {
       // заполняем список (индексов) уже выбранных чипсов
       this.selectedChips.push(i);
       this.selectedIndex = null;
+      this.unbound = true;
     },
     async check() {
       let answers = [];

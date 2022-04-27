@@ -1,9 +1,9 @@
 <template>
   <div class="chip-input" @click="clickElement">
-    <div class="chip-input__element" ref="input">
+    <span class="chip-input__text">{{ newSentence }}</span>
+    <div class="chip-input__element" ref="input" v-if="inSquareSentence !== ''">
       <chip :width="25" :text="text" :state="state" :selected="selected" />
     </div>
-    <span class="chip-input__text">{{ newSentence }}</span>
   </div>
 </template>
 
@@ -53,6 +53,6 @@ export default {
   display: flex
   align-items: flex-end
 
-  .chip-input__text
+  .chip-input__element
     margin-left: 10px
 </style>
