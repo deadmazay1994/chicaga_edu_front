@@ -1,6 +1,7 @@
 <template>
   <div class="fill-gaps vue-component">
     <description :index="index">{{ inputCopy.description }}</description>
+    {{ inputCopy }}
     <v-row no-gutters class="test">
       <draggable
         v-model="dragList"
@@ -176,7 +177,7 @@ export default {
         // и для конкретного - empty
         this.dragListState[e.newIndex].state = "empty";
         console.log("test25 input1", this.$refs.gap);
-        this.$refs.gap[parentIndex - 1].updateModelInput(text, inputIndex);
+        this.$refs.gap[parentIndex].updateModelInput(text, inputIndex);
         // this.$refs.gap[parentIndex].sendData();
       }
     },

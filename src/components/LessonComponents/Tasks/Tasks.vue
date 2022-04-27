@@ -171,6 +171,7 @@ export default {
 .tasks
   max-height: 100%
   &__wrap
+    padding: 20px 25px 18px 25px
     z-index: 1
     opacity: 0.99
     position: relative

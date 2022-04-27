@@ -10,7 +10,6 @@ function getRandomInt(max) {
 export default {
   name: "fill-gaps-item",
   render(h) {
-    h("div", { class: "test" }, "some text");
     const res = [this.getImg(h)];
     let gap = false;
     let letters = [];

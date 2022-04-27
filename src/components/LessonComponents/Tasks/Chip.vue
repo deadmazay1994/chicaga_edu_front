@@ -1,7 +1,19 @@
 <template>
-  <div class="chip" :class="'chip--' + state" @click.native="clickElem">
-    <span>
-      <slot name="word"></slot>
+  <div
+    class="chip"
+    :class="['chip--' + state, { empty: !checkText }, { selected: selected }]"
+    @click="clickElem"
+  >
+    <span class="text" v-if="checkText">
+      {{ text }}
+    </span>
+    <span
+      class="empty"
+      v-else
+      ref="empty"
+      :style="{ width: randomWidth + 'px' }"
+    >
+      {{ emptyString }}
     </span>
   </div>
 </template>
@@ -13,6 +25,23 @@ export default {
     state: {
       type: String,
       default: "default"
+    },
+    text: {
+      type: String
+    },
+    width: {
+      type: Number,
+      default: 100
+    },
+    selected: Boolean
+  },
+  computed: {
+    checkText() {
+      return !!this.text;
+    },
+    randomWidth() {
+      let random = Math.floor(Math.random() * (25 - 5)) + 10;
+      return this.width + random;
     }
   },
   methods: {
@@ -29,13 +58,20 @@ export default {
   padding: 0 12px
   border-radius: 15px
   border: 1.5px solid #C4C4C4
-  font-family: sf-ui, sans-serif
-  font-size: 16px
-  font-weight: 500
-  background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
-  -webkit-background-clip: text
-  // -webkit-text-fill-color: transparent
   cursor: pointer
+  box-sizing: border-box
+
+  .text
+    font-family: "sf-ui", sans-serif
+    font-size: 16px
+    font-weight: 500
+    line-height: 20px
+    background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+  .empty
+    display: inline-block
 
   &--default
     border-color: #C4C4C4
@@ -55,6 +91,13 @@ export default {
     border-color: #E6E6E6
     background: #E6E6E6
     box-shadow: 0px 1.5px 0px 0px #E6E6E6
-    span
+    .text
       opacity: 0
+
+  &.empty
+    box-shadow: none
+
+  &.selected
+    border-color: #99CBFF
+    box-shadow: 0px 0px 6px 0px #99CBFF
 </style>
