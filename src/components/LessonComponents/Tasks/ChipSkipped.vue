@@ -1,10 +1,5 @@
 <template>
   <div class="chip-skipped">
-    {{ selectedChips }}
-    <hr />
-    {{ inputCopy.body }}
-    <hr />
-    {{ resultArr }}
     <description :index="index">{{ inputCopy.description }}</description>
     <div class="chip-list">
       <chip
@@ -74,17 +69,20 @@ export default {
         }
       });
     },
+    unselect(i) {
+      this.resultArr[i].text = "";
+      let answerIndex = this.resultArr[i].answerIndex;
+      if (this.selectedChips.includes(answerIndex)) {
+        this.selectedChips.splice(this.selectedChips.indexOf(answerIndex), 1);
+        this.chipsList[answerIndex].state = "default";
+      }
+    },
+    // выбираем пропущенное слово снизу
     select(i) {
+      // если мы не выбирали ответ - selectedIndex == null
       if (this.selectedIndex !== null) {
-        console.log("unselect", i, this.resultArr[i].index);
-        this.resultArr[i].text = "";
-        this.chipsList[i].state = "default";
-        this.selectedChips.forEach(element => {
-          if (this.resultArr[i].index == element) {
-            this.selectedChips.splice(element);
-            this.chipsList[element].state = "default";
-          }
-        });
+        // отмена чипса при повторном нажатии на него
+        this.unselect(i);
       }
       this.resultArr.forEach(element => {
         element.selected = false;
@@ -93,31 +91,26 @@ export default {
       this.selectedIndex = i;
       this.resultArr[i].selected = true;
     },
+    // выбираем ответ сверху
     selectChip(i, text) {
       if (this.selectedIndex === null) return;
       if (this.selectedChips.includes(i)) return;
       // верхнему, выбранному чипсу присваиваем состояние - 'empty'
       this.chipsList[i].state = "empty";
       this.resultArr[this.selectedIndex].selected = false;
+      this.resultArr[this.selectedIndex].answerIndex = i;
+
       this.resultArr[this.selectedIndex].text = text;
-      // список (индексов) уже выбранных чипсов
+
+      // заполняем список (индексов) уже выбранных чипсов
       this.selectedChips.push(i);
     },
-    // async getLesson() {
-    //   let r = await api.methods.getFullLesson(this.$route.params.id);
-    //   return {
-    //     type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
-    //     section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
-    //     id: r.id
-    //   };
-    // },
     async check() {
       let answers = [];
-
+      // заполняем вспомогательный массив для вставки состояний, статуса и значений для чипсов (снизу)
       this.resultArr.forEach(element => {
         answers.push({ answers: [element.text] });
       });
-      // let r = await this.getLesson();
       console.log("answer:", answers);
       const data = {
         type: "lesson",
@@ -125,7 +118,6 @@ export default {
         section: this.inputCopy.section,
         answer: answers
       };
-      console.log("ответ:", this.inputCopy);
       let result = await api.methods.taskCheck(this.$route.params.id, data);
       result.result.forEach((element, index) => {
         if (element[0] === true) {
@@ -148,7 +140,8 @@ export default {
         index: i,
         text: null,
         selected: false,
-        state: "default"
+        state: "default",
+        answerIndex: null
       });
     });
   }
