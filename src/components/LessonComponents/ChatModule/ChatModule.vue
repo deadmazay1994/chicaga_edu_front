@@ -5,6 +5,7 @@
       :showChatButton="modeBool"
       :chatState="chatState"
       @clickChat="toggleChat()"
+      :shareMedia="shareMedia"
       :class="{ chatActive: chatState }"
       class="chat-module__web-cam"
     />
@@ -32,6 +33,10 @@ export default {
     roomId: {
       required: true,
       type: String
+    },
+    shareMedia: {
+      default: true,
+      type: Boolean
     }
   },
   computed: {

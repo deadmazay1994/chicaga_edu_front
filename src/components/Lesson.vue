@@ -4,6 +4,7 @@
       <chats-module
         class="lesson__chat-module"
         :roomId="roomId"
+        :shareMedia="shareMedia"
         mode="vertical"
       />
       <lesson-start :display="false" />
@@ -72,6 +73,12 @@ export default {
     ...mapGetters(["socket", "user", "teacherId", "socketUrl", "chatIsOpen"]),
     roomId() {
       return this.$route.params.id + this.$route.params.groupKey || "";
+    },
+    shareMedia() {
+      let isNotWebinar = !this.$route.params.webinarMode;
+      let userIsTeacher = this.user.role === "teacher";
+      if (isNotWebinar || userIsTeacher) return true;
+      return false;
     }
   },
   components: {
@@ -81,7 +88,7 @@ export default {
     // TextChat,
     // WebCam
   },
-  props: [],
+  props: ["webinarMode"],
   mixins: [OurCursor, SocketMixin],
   beforeMount() {
     console.log(this.$route.params.id);

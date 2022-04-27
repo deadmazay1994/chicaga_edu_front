@@ -52,7 +52,7 @@
       </span>
       <a href="http://localhost:8080/edu/#/faq">ссылка на FAQ</a>
     </div>
-    <div class="loading" v-if="onLoading">
+    <div class="loading" v-if="!medias.length">
       <v-skeleton-loader type="image" height="100%" />
     </div>
   </div>
@@ -92,14 +92,17 @@ export default {
       return (
         (this.medias.length > 0 &&
           this.miniaturesOn &&
-          this.webinar == false) ||
-        this.webinar == undefined
+          this.shareMedia == true) ||
+        this.webinar !== undefined
       );
     }
   },
   props: {
     roomId: String,
-    webinar: Boolean,
+    shareMedia: {
+      default: true,
+      type: Boolean
+    },
     showChatButton: Boolean,
     chatState: Boolean
   },
@@ -268,7 +271,11 @@ export default {
         .joinToRoom(roomId, {
           clientData: user,
           sourceSettings: settings,
-          webinar: this.webinar
+          webinar: !this.shareMedia
+        })
+        .then(() => {
+          this.streamOn = true;
+          this.onLoading = false;
         })
         .catch(err => {
           console.error("joinToRoom():", err);
@@ -277,8 +284,6 @@ export default {
             val: "Ошибка подключения к комнате"
           });
         });
-      this.streamOn = true;
-      this.onLoading = false;
     },
     mediaStreamErrorHundle(error) {
       this.mediaError = error;

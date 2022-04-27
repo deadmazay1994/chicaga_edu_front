@@ -43,7 +43,7 @@ const routes = [
     redirect: "/lk/my-coursers"
   },
   {
-    path: "/lesson/:id/:groupKey/",
+    path: "/lesson/:id/:groupKey/:webinarMode?",
     name: "lesson_teacher",
     component: Lesson,
     meta: {
@@ -200,27 +200,33 @@ const routes = [
       {
         path: "webinar-upcoming/:id/:code",
         name: "upcoming-webinar",
-        component: UpcomingLesson,
-        props: {
-          showComponent: false
-        }
+        component: UpcomingLesson
       }
     ]
   },
   {
     path: "/conference/:room",
     name: "private-room-upcoming",
-    component: PrivateRoomUpcoming
+    component: PrivateRoomUpcoming,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/conference/room/:room",
     name: "private-room",
-    component: PrivateRoom
+    component: PrivateRoom,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/faq",
     name: "faq",
-    component: FAQ
+    component: FAQ,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/agree",
