@@ -58,7 +58,6 @@ export default {
   methods: {
     ...mapMutations(["setPointByType"]),
     setChipsList() {
-      this.chipsList = [];
       this.inputCopy.body.forEach(element => {
         if (element.sentence.match(/\[(.*?)\]/g)) {
           element.sentence.match(/\[(.*?)\]/g).forEach(word => {
@@ -69,6 +68,7 @@ export default {
           });
         }
       });
+      this.chipsList = this.chipsList.sort(() => Math.random() - 0.5);
     },
     unselect(i) {
       this.resultArr[i].text = "";
@@ -149,12 +149,6 @@ export default {
     });
   }
 };
-
-// const clickHandler = function() {
-//   alert("Hi");
-// };
-
-// EventBus.$on("clicked", clickHandler);
 </script>
 
 <style lang="sass" scoped>
