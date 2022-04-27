@@ -104,6 +104,7 @@ export default {
 
       // заполняем список (индексов) уже выбранных чипсов
       this.selectedChips.push(i);
+      this.selectedIndex = null;
     },
     async check() {
       let answers = [];
