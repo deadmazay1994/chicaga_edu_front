@@ -1,14 +1,9 @@
 <template>
   <div class="lesson-upcoming vue-component">
     <upcoming
-      :link="{
-        name: 'lesson_teacher',
-        params: {
-          id: $route.params.id,
-          groupKey: $route.params.code
-        }
-      }"
+      :link="link"
       :disabled="timeToLesson > 600"
+      :showVideoChat="!isWebinar"
       class="lesson-upcoming__upcoming"
     >
       <lesson-starts
@@ -74,12 +69,27 @@ export default {
       return true;
     }
   },
-  computed: {},
+  computed: {
+    link() {
+      let link = {
+        name: "lesson_teacher",
+        params: {
+          id: this.$route.params.id,
+          groupKey: this.$route.params.code
+        }
+      };
+      if (this.isWebinar) link.params.webinarMode = true;
+      return link;
+    },
+    isWebinar() {
+      return this.$route.name.includes("webinar");
+    }
+  },
   components: {
     Upcoming,
     LessonStarts
   },
-  props: [],
+  props: {},
   mixins: [api],
   async beforeMount() {
     await this.setLesson();

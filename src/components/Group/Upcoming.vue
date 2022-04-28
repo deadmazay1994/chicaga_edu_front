@@ -1,7 +1,10 @@
 <template>
   <div class="private-upcoming vue-component">
-    <div class="row" style="width: 100%; height: 100%">
-      <div class="col-md-6 col-sm-12">
+    <div
+      class="row"
+      style="width: 100%; height: 100%; display: flex; justify-content: center"
+    >
+      <div class="col-md-6 col-sm-12" v-if="showVideoChat">
         <web-cam
           :roomId="'presonal__' + (Math.random() + 1).toString(36).substring(7)"
           style="height: 100%"
@@ -40,6 +43,9 @@ export default {
     },
     disabled: {
       default: false
+    },
+    showVideoChat: {
+      default: true
     }
   },
   mixins: {},
