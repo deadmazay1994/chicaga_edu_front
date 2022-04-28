@@ -15,6 +15,7 @@
         :showChatButton="showChatButton"
         :chatState="chatState"
         @clickChat="clickChat"
+        @clickExpand="clickExpand"
       >
         <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
           <video
@@ -100,6 +101,9 @@ export default {
       "toggleMediaTrackPC"
     ]),
     ...mapMutations(["setmyCaptureMedia"]),
+    clickExpand() {
+      this.$emit("clickExpand");
+    },
     clickChat() {
       this.$emit("clickChat");
     },

@@ -18,6 +18,7 @@
             :showChatButton="showChatButton"
             :chatState="chatState"
             @clickChat="clickChat"
+            @clickExpand="clickExpand"
           />
         </div>
       </div>
@@ -126,6 +127,9 @@ export default {
           behavior: "smooth"
         });
       }
+    },
+    clickExpand() {
+      this.$emit("clickExpand");
     },
     videoWrapJustify(currentIndex) {
       // Если текущий элемент стоит до активного,
