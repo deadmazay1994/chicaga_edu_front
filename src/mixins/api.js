@@ -269,7 +269,7 @@ export default {
       if (test)
         return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
       else {
-        console.log("answer check response api data:", data);
+        console.log("task check answers:", data);
         let result = await post(`user/lesson/${lessonId}/task-check`, data);
         console.log("answer check response api result:", result);
         return result;

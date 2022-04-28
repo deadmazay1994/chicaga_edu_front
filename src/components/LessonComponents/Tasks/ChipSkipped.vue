@@ -74,6 +74,7 @@ export default {
       this.resultArr[i].text = "";
       let answerIndex = this.resultArr[i].answerIndex;
       if (this.selectedChips.includes(answerIndex)) {
+        this.resultArr[i].answerIndex = null;
         this.selectedChips.splice(this.selectedChips.indexOf(answerIndex), 1);
         this.chipsList[answerIndex].state = "default";
       }
@@ -123,7 +124,8 @@ export default {
       };
       let result = await api.methods.taskCheck(this.$route.params.id, data);
       result.result.forEach((element, index) => {
-        if (element[0] === true) {
+        console.log("task check status:", element);
+        if (element.answers[0] === true) {
           this.resultArr[index].state = "success";
         } else {
           this.resultArr[index].state = "error";
@@ -160,6 +162,9 @@ export default {
     margin-top: 10px
 
   .chip-list
-    .chip + .chip
-      margin-left: 1rem
+    .chip 
+      margin-bottom: 3.5px
+      margin-right: 5px
+      &:last-child
+        margin-right: 0
 </style>
