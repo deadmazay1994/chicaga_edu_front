@@ -55,8 +55,6 @@ Vue.mixin(TaskFunctions);
 // Стандартные функции сокетов
 Vue.mixin(SocketFunctions);
 
-export const EventBus = new Vue();
-
 const VueObject = new Vue({
   router,
   store,
