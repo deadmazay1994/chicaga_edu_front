@@ -66,7 +66,6 @@ export default {
   },
   props: {
     input: { require: true },
-    drag: { require: false },
     index: { require: false }
   },
   methods: {
@@ -82,6 +81,13 @@ export default {
           });
         });
       });
+      this.variantsList = [
+        ...this.variantsList,
+        ...this.inputCopy.extra_words.split(",").map(text => ({
+          text,
+          state: "default"
+        }))
+      ];
       this.variantsList = this.variantsList.sort(() => Math.random() - 0.5);
     },
     setSentencesMap() {
