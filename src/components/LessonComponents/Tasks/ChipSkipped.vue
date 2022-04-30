@@ -3,7 +3,7 @@
     <description :index="index">{{ inputCopy.description }}</description>
     <div class="chip-list">
       <chip
-        v-for="(chip, i) in chipsList"
+        v-for="(chip, i) in variantsList"
         :key="'2' + i"
         :state="chip.state"
         :text="chip.text"
@@ -12,22 +12,17 @@
         @click="selectChip(i, chip.text)"
       />
     </div>
-    <div
-      class="answer-item"
-      v-for="(item, i) in splitedWordsArr"
-      :key="'3' + i"
-    >
-      <template v-for="(j, k) in item">
+    <div class="answer-item" v-for="(item, i) in sentencesMap" :key="'3' + i">
+      <template v-for="(text, j) in item">
         <template>
-          {{ j }}
+          {{ text }}
           <chip-input
-            :key="'4' + k"
-            v-if="k != item.length - matchGaps"
+            :key="'4' + j"
             :index="index"
-            :text="resultArr[i][k].text"
-            :state="resultArr[i][k].state"
-            :selected="resultArr[i][k].selected"
-            @click="select(i, k)"
+            :text="resultArr[i][j].text"
+            :state="resultArr[i][j].state"
+            :selected="resultArr[i][j].selected"
+            @click="select(i, j)"
           ></chip-input>
         </template>
       </template>
@@ -44,6 +39,8 @@ import Chip from "./Chip.vue";
 import { mapMutations } from "vuex";
 import api from "@/mixins/api";
 
+const regularGaps = /\[(.*?)\]/g;
+
 export default {
   name: "ChipSkipped",
   components: {
@@ -53,15 +50,18 @@ export default {
   },
   data() {
     return {
-      chipsList: [],
+      // Чипсы, которые выводятся в списке вариантов
+      variantsList: [],
       inputCopy: {},
       selectedIndex: null,
-      selectText: null,
       selectedChips: [],
       resultArr: [],
       unbound: false,
-      splitedWordsArr: [],
-      matchGaps: 0
+      // Карты предложений
+      // Массив частей предложений
+      // После каждой части гарантированно идет пропуск
+      // Части могут быть и пустумы строками
+      sentencesMap: []
     };
   },
   props: {
@@ -71,24 +71,32 @@ export default {
   },
   methods: {
     ...mapMutations(["setPointByType"]),
-    setChipsList() {
+    setVariantsList() {
       this.inputCopy.body.map(element => {
-        if (element.sentence.match(/\[(.*?)\]/g)) {
-          element.sentence.match(/\[(.*?)\]/g).map(word => {
-            this.chipsList.push({
-              text: word.replace("[", "").replace("]", ""),
-              state: "default"
-            });
+        let matches = element.sentence.match(regularGaps);
+        if (!matches) return;
+        matches.forEach(word => {
+          this.variantsList.push({
+            text: word.replace("[", "").replace("]", ""),
+            state: "default"
           });
-        }
+        });
       });
-      this.chipsList = this.chipsList.sort(() => Math.random() - 0.5);
-      this.inputCopy.body.map(element => {
-        if (!(element.sentence.match(/\[(.*?)\]/g).length > 1))
-          this.matchGaps = 1;
-        this.splitedWordsArr.push(
-          element.sentence.replaceAll(/\[(.*?)\]/g, "🐜").split("🐜")
-        );
+      this.variantsList = this.variantsList.sort(() => Math.random() - 0.5);
+    },
+    setSentencesMap() {
+      this.sentencesMap = this.inputCopy.body.map(element => {
+        // Для коректной работы алгоритма требуется, чтобы предложение начиналось и заканчивалось не с пропуска
+        // Иначе при split все начинает путаться
+        // Добавим к каждому предложение по сиволу в начало и конец
+        // Тогда алгоритм будет работать корректно, а потом уберем эти символы
+        let updatedSentense = "a" + element.sentence + "a";
+        let textMap = updatedSentense.replaceAll(regularGaps, "🐜").split("🐜");
+        // Удаляем символы, которые оказались в первом и последнем массивах
+        // В начале и в конце соответсвенно
+        if (textMap[0]?.slice) textMap[0] = textMap[0].slice(1);
+        if (textMap[1]?.slice) textMap[1] = textMap[1].slice(0, -1);
+        return textMap.filter(i => i);
       });
     },
     unselect(i, k) {
@@ -97,7 +105,7 @@ export default {
       if (this.selectedChips.includes(answerIndex)) {
         this.resultArr[i][k].answerIndex = null;
         this.selectedChips.splice(this.selectedChips.indexOf(answerIndex), 1);
-        this.chipsList[answerIndex].state = "default";
+        this.variantsList[answerIndex].state = "default";
       }
     },
     // выбираем пропущенное слово снизу
@@ -123,7 +131,7 @@ export default {
       if (this.selectedIndex === null) return;
       if (this.selectedChips.includes(i)) return;
       // верхнему, выбранному чипсу присваиваем состояние - 'empty'
-      this.chipsList[i].state = "empty";
+      this.variantsList[i].state = "empty";
       this.resultArr[this.selectedIndex.firstIndex][
         this.selectedIndex.secondIndex
       ].selected = false;
@@ -141,65 +149,52 @@ export default {
       this.unbound = true;
     },
     async check() {
-      let answers = [];
-      // заполняем вспомогательный массив для вставки состояний, статуса и значений для чипсов (снизу)
-      this.resultArr.map(element => {
-        if (!element) return;
-        element.map(e => {
-          if (e && e.text) {
-            answers.push({ answers: [e.text] });
-          }
-        });
-      });
-      console.log("answer:", answers);
-      const data = {
+      let result = await api.methods.taskCheck(
+        this.$route.params.id,
+        this.getDataForCheck()
+      );
+      this.dispalyResults(result.result);
+      return { value: result.points, type: this.inputCopy.type };
+    },
+    getDataForCheck() {
+      return {
         type: "lesson",
         type_check: this.inputCopy.type,
         section: this.inputCopy.section,
-        answer: answers
+        answer: this.resultArr.map(row => {
+          if (!row.map) return { answers: [] };
+          return {
+            answers: row.map(gap => (gap.text !== null ? gap.text : ""))
+          };
+        })
       };
-      let result = await api.methods.taskCheck(this.$route.params.id, data);
-      result.result.map((answer, index) => {
-        if (this.matchGaps > 0) {
-          answer.answers[0] == true
-            ? (this.resultArr[index][0].state = "success")
-            : (this.resultArr[index][0].state = "error");
-        } else {
-          this.resultArr.map((element, i) => {
-            element.map((e, k) => {
-              if (e && e.text) {
-                answer.answers[0] == true
-                  ? (this.resultArr[i][k].state = "success")
-                  : (this.resultArr[i][k].state = "error");
-              }
-            });
-          });
-        }
+    },
+    dispalyResults(results) {
+      results.forEach((row, i) => {
+        row.answers.forEach((answer, j) => {
+          this.resultArr[i][j].state = answer ? "success" : "error";
+        });
       });
-      return { value: result.points, type: this.inputCopy.type };
+    },
+    initResultArr() {
+      this.resultArr = this.sentencesMap.map(sentence =>
+        sentence.map((_, i) => ({
+          index: i,
+          answerIndex: null,
+          text: null,
+          state: "default",
+          selected: false
+        }))
+      );
     }
   },
   beforeMount() {
     this.setInputCopy();
-    this.setChipsList();
+    this.setVariantsList();
+    this.setSentencesMap();
+    this.initResultArr();
   },
-  mounted() {
-    this.splitedWordsArr.map(e => {
-      this.resultArr.push(
-        e.map((e, i) => {
-          if (i !== this.splitedWordsArr.length) {
-            return {
-              index: i,
-              answerIndex: null,
-              text: null,
-              state: "default",
-              selected: false
-            };
-          }
-        })
-      );
-    });
-  }
+  mounted() {}
 };
 </script>
 
