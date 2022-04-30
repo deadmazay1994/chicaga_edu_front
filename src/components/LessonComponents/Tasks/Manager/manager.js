@@ -16,9 +16,7 @@ export default function manager(data, type, index, h) {
       componentName = "task-images";
       break;
     case "drag_and_drop_words":
-      // attrs.props.drag = true;
       componentName = "chip-skipped";
-      // componentName = "fill-gaps";
       break;
     case "match_words":
       componentName = "comparison";

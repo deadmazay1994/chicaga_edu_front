@@ -1,24 +1,39 @@
 <template>
   <div class="chip-skipped">
+    <div v-for="(item, i) in inputCopy.body" :key="'1' + i">
+      {{ item }}
+    </div>
     <description :index="index">{{ inputCopy.description }}</description>
     <div class="chip-list">
       <chip
         v-for="(chip, i) in chipsList"
-        :key="i"
+        :key="'2' + i"
         :state="chip.state"
         :text="chip.text"
-        @clickElem="selectChip(i, chip.text)"
+        :answer="chip.text"
+        :checkText="Boolean(chip.text)"
+        @click="selectChip(i, chip.text)"
       />
     </div>
-    <div class="answer-item" v-for="(item, i) in inputCopy.body" :key="i">
-      <chip-input
-        :sentence="item.sentence"
-        :selected="resultArr[i].selected"
-        :index="index"
-        :text="resultArr[i].text"
-        :state="resultArr[i].state"
-        @clickElement="select(i)"
-      ></chip-input>
+    <div
+      class="answer-item"
+      v-for="(item, i) in splitedWordsArr"
+      :key="'3' + i"
+    >
+      <template v-for="(j, k) in item">
+        <template>
+          {{ j }}
+          <chip-input
+            :key="'4' + k"
+            v-if="k != item.length - matchGaps"
+            :index="index"
+            :text="resultArr[i][k].text"
+            :state="resultArr[i][k].state"
+            :selected="resultArr[i][k].selected"
+            @click="select(i, k)"
+          ></chip-input>
+        </template>
+      </template>
     </div>
     <slot></slot>
   </div>
@@ -47,7 +62,9 @@ export default {
       selectText: null,
       selectedChips: [],
       resultArr: [],
-      unbound: false
+      unbound: false,
+      splitedWordsArr: [],
+      matchGaps: 0
     };
   },
   props: {
@@ -58,9 +75,9 @@ export default {
   methods: {
     ...mapMutations(["setPointByType"]),
     setChipsList() {
-      this.inputCopy.body.forEach(element => {
+      this.inputCopy.body.map(element => {
         if (element.sentence.match(/\[(.*?)\]/g)) {
-          element.sentence.match(/\[(.*?)\]/g).forEach(word => {
+          element.sentence.match(/\[(.*?)\]/g).map(word => {
             this.chipsList.push({
               text: word.replace("[", "").replace("]", ""),
               state: "default"
@@ -69,29 +86,40 @@ export default {
         }
       });
       this.chipsList = this.chipsList.sort(() => Math.random() - 0.5);
+      this.inputCopy.body.map(element => {
+        if (!(element.sentence.match(/\[(.*?)\]/g).length > 1))
+          this.matchGaps = 1;
+        this.splitedWordsArr.push(
+          element.sentence.replaceAll(/\[(.*?)\]/g, "🐜").split("🐜")
+        );
+      });
     },
-    unselect(i) {
-      this.resultArr[i].text = "";
-      let answerIndex = this.resultArr[i].answerIndex;
+    unselect(i, k) {
+      this.resultArr[i][k].text = "";
+      let answerIndex = this.resultArr[i][k].answerIndex;
       if (this.selectedChips.includes(answerIndex)) {
-        this.resultArr[i].answerIndex = null;
+        this.resultArr[i][k].answerIndex = null;
         this.selectedChips.splice(this.selectedChips.indexOf(answerIndex), 1);
         this.chipsList[answerIndex].state = "default";
       }
     },
     // выбираем пропущенное слово снизу
-    select(i) {
+    select(i, k) {
       // если мы не выбирали ответ - selectedIndex == null
       if (this.unbound === true) {
         // отмена чипса при повторном нажатии на него
-        this.unselect(i);
+        this.unselect(i, k);
       }
-      this.resultArr.forEach(element => {
-        element.selected = false;
+      this.resultArr.map(element => {
+        element.map(e => {
+          if (e) {
+            e.selected = false;
+          }
+        });
       });
       this.selectedIndex = null;
-      this.selectedIndex = i;
-      this.resultArr[i].selected = true;
+      this.selectedIndex = { firstIndex: i, secondIndex: k };
+      this.resultArr[i][k].selected = true;
     },
     // выбираем ответ сверху
     selectChip(i, text) {
@@ -99,10 +127,16 @@ export default {
       if (this.selectedChips.includes(i)) return;
       // верхнему, выбранному чипсу присваиваем состояние - 'empty'
       this.chipsList[i].state = "empty";
-      this.resultArr[this.selectedIndex].selected = false;
-      this.resultArr[this.selectedIndex].answerIndex = i;
+      this.resultArr[this.selectedIndex.firstIndex][
+        this.selectedIndex.secondIndex
+      ].selected = false;
+      this.resultArr[this.selectedIndex.firstIndex][
+        this.selectedIndex.secondIndex
+      ].answerIndex = i;
 
-      this.resultArr[this.selectedIndex].text = text;
+      this.resultArr[this.selectedIndex.firstIndex][
+        this.selectedIndex.secondIndex
+      ].text = text;
 
       // заполняем список (индексов) уже выбранных чипсов
       this.selectedChips.push(i);
@@ -112,8 +146,13 @@ export default {
     async check() {
       let answers = [];
       // заполняем вспомогательный массив для вставки состояний, статуса и значений для чипсов (снизу)
-      this.resultArr.forEach(element => {
-        answers.push({ answers: [element.text] });
+      this.resultArr.map(element => {
+        if (!element) return;
+        element.map(e => {
+          if (e && e.text) {
+            answers.push({ answers: [e.text] });
+          }
+        });
       });
       console.log("answer:", answers);
       const data = {
@@ -123,12 +162,21 @@ export default {
         answer: answers
       };
       let result = await api.methods.taskCheck(this.$route.params.id, data);
-      result.result.forEach((element, index) => {
-        console.log("task check status:", element);
-        if (element.answers[0] === true) {
-          this.resultArr[index].state = "success";
+      result.result.map((answer, index) => {
+        if (this.matchGaps > 0) {
+          answer.answers[0] == true
+            ? (this.resultArr[index][0].state = "success")
+            : (this.resultArr[index][0].state = "error");
         } else {
-          this.resultArr[index].state = "error";
+          this.resultArr.map((element, i) => {
+            element.map((e, k) => {
+              if (e && e.text) {
+                answer.answers[0] == true
+                  ? (this.resultArr[i][k].state = "success")
+                  : (this.resultArr[i][k].state = "error");
+              }
+            });
+          });
         }
       });
       return { value: result.points, type: this.inputCopy.type };
@@ -139,15 +187,20 @@ export default {
     this.setChipsList();
   },
   mounted() {
-    console.log("inputCopy:", this.inputCopy);
-    this.inputCopy.body.forEach((_, i) => {
-      this.resultArr.push({
-        index: i,
-        text: null,
-        selected: false,
-        state: "default",
-        answerIndex: null
-      });
+    this.splitedWordsArr.map(e => {
+      this.resultArr.push(
+        e.map((e, i) => {
+          if (i !== this.splitedWordsArr.length) {
+            return {
+              index: i,
+              answerIndex: null,
+              text: null,
+              state: "default",
+              selected: false
+            };
+          }
+        })
+      );
     });
   }
 };
@@ -162,7 +215,7 @@ export default {
     margin-top: 10px
 
   .chip-list
-    .chip 
+    .chip
       margin-bottom: 3.5px
       margin-right: 5px
       &:last-child

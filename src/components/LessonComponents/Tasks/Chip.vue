@@ -1,20 +1,17 @@
 <template>
   <div
     class="chip"
-    :class="['chip--' + state, { empty: !checkText }, { selected: selected }]"
-    @click="clickElem"
+    :class="[
+      'chip--' + state,
+      { 'chip--empty-answer': !checkText },
+      { 'chip--selected': selected }
+    ]"
+    @click="click"
   >
-    <span class="text" v-if="checkText">
+    <span class="chip__text" v-if="checkText">
       {{ text }}
     </span>
-    <span
-      class="empty"
-      v-else
-      ref="empty"
-      :style="{ width: randomWidth + 'px' }"
-    >
-      {{ emptyString }}
-    </span>
+    <span class="chip__empty" v-else ref="empty"> </span>
   </div>
 </template>
 
@@ -33,20 +30,12 @@ export default {
       type: Number,
       default: 100
     },
-    selected: Boolean
-  },
-  computed: {
-    checkText() {
-      return !!this.text;
-    },
-    randomWidth() {
-      let random = Math.floor(Math.random() * (25 - 5)) + 10;
-      return this.width + random;
-    }
+    selected: Boolean,
+    checkText: Boolean
   },
   methods: {
-    clickElem() {
-      this.$emit("clickElem");
+    click() {
+      this.$emit("click");
     }
   }
 };
@@ -61,7 +50,7 @@ export default {
   cursor: pointer
   box-sizing: border-box
 
-  .text
+  .chip__text
     font-family: "sf-ui", sans-serif
     font-size: 16px
     font-weight: 500
@@ -70,8 +59,9 @@ export default {
     -webkit-background-clip: text
     -webkit-text-fill-color: transparent
 
-  .empty
+  .chip__empty
     display: inline-block
+    width: 50px
 
   &--default
     border-color: #C4C4C4
@@ -90,14 +80,12 @@ export default {
   &--empty
     border-color: #E6E6E6
     background: #E6E6E6
-    box-shadow: 0px 1.5px 0px 0px #E6E6E6
-    .text
-      opacity: 0
-
-  &.empty
     box-shadow: none
-
-  &.selected
+    .chip__text
+      opacity: 0
+  &--empty-answer
+    box-shadow: none
+  &--selected
     border-color: #99CBFF
     box-shadow: 0px 0px 6px 0px #99CBFF
 </style>

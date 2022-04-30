@@ -1,53 +1,32 @@
 <template>
-  <div class="chip-input">
-    <span class="chip-input__text">{{ newSentence }}</span>
-    <div
-      class="chip-input__element"
-      ref="input"
-      v-if="inSquareSentence !== ''"
-      @click="clickElement"
-    >
-      <chip :width="25" :text="text" :state="state" :selected="selected" />
-    </div>
-  </div>
+  <span class="chip-input" @click="clickElement">
+    <chip
+      :text="text"
+      :state="state"
+      :selected="selected"
+      :checkText="Boolean(text)"
+    />
+  </span>
 </template>
 
 <script>
 import Chip from "./Chip.vue";
-import { EventBus } from "../../../main";
-
 export default {
   name: "ChipInput",
   components: {
     Chip
-  },
-  data() {
-    return {
-      newSentence: "",
-      inSquareSentence: ""
-    };
   },
   props: {
     state: {
       type: String
     },
     text: String,
-    sentence: { required: true },
     index: { required: false },
     selected: Boolean
   },
   methods: {
-    select() {
-      EventBus.$emit("clicked");
-    },
     clickElement() {
-      this.$emit("clickElement");
-    }
-  },
-  beforeMount() {
-    if (this.sentence) {
-      this.newSentence = this.sentence.replace(/\[(.*?)\]/g, "");
-      this.inSquareSentence = this.sentence.match(/[^[\]]+(?=])/g)[0];
+      this.$emit("click");
     }
   }
 };
@@ -55,7 +34,7 @@ export default {
 
 <style lang="sass" scoped>
 .chip-input
-  display: flex
+  display: inline-flex
   align-items: flex-end
 
   .chip-input__element
