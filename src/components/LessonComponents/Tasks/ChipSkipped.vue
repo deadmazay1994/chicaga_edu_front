@@ -1,8 +1,5 @@
 <template>
   <div class="chip-skipped">
-    <div v-for="(item, i) in inputCopy.body" :key="'1' + i">
-      {{ item }}
-    </div>
     <description :index="index">{{ inputCopy.description }}</description>
     <div class="chip-list">
       <chip
