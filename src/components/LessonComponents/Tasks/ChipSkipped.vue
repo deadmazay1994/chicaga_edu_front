@@ -15,8 +15,9 @@
     <div class="answer-item" v-for="(item, i) in sentencesMap" :key="'3' + i">
       <template v-for="(text, j) in item">
         <template>
-          {{ text }}
+          {{ text.replaceAll("{gap}", "") }}
           <chip-input
+            v-if="text.endsWith('{gap}')"
             :key="'4' + j"
             :index="index"
             :text="resultArr[i][j].text"
@@ -70,41 +71,6 @@ export default {
   },
   methods: {
     ...mapMutations(["setPointByType"]),
-    setVariantsList() {
-      this.inputCopy.body.map(element => {
-        let matches = element.sentence.match(regularGaps);
-        if (!matches) return;
-        matches.forEach(word => {
-          this.variantsList.push({
-            text: word.replace("[", "").replace("]", ""),
-            state: "default"
-          });
-        });
-      });
-      this.variantsList = [
-        ...this.variantsList,
-        ...this.inputCopy.extra_words.split(",").map(text => ({
-          text,
-          state: "default"
-        }))
-      ];
-      this.variantsList = this.variantsList.sort(() => Math.random() - 0.5);
-    },
-    setSentencesMap() {
-      this.sentencesMap = this.inputCopy.body.map(element => {
-        // Для коректной работы алгоритма требуется, чтобы предложение начиналось и заканчивалось не с пропуска
-        // Иначе при split все начинает путаться
-        // Добавим к каждому предложение по сиволу в начало и конец
-        // Тогда алгоритм будет работать корректно, а потом уберем эти символы
-        let updatedSentense = "a" + element.sentence + "a";
-        let textMap = updatedSentense.replaceAll(regularGaps, "🐜").split("🐜");
-        // Удаляем символы, которые оказались в первом и последнем массивах
-        // В начале и в конце соответсвенно
-        if (textMap[0]?.slice) textMap[0] = textMap[0].slice(1);
-        if (textMap[1]?.slice) textMap[1] = textMap[1].slice(0, -1);
-        return textMap.filter(i => i);
-      });
-    },
     unselect(i, k) {
       this.resultArr[i][k].text = "";
       let answerIndex = this.resultArr[i][k].answerIndex;
@@ -162,6 +128,51 @@ export default {
       this.dispalyResults(result.result);
       return { value: result.points, type: this.inputCopy.type };
     },
+    setVariantsList() {
+      // Устнавливаем варианты из пропусков
+      this.inputCopy.body.map(element => {
+        let matches = element.sentence.match(regularGaps);
+        if (!matches) return;
+        matches.forEach(word => {
+          this.variantsList.push({
+            text: word.replace("[", "").replace("]", ""),
+            state: "default"
+          });
+        });
+      });
+      // Устанавливаем варианты из лишних/дополнительных слов
+      let extraWords = this.inputCopy?.extra_words?.split
+        ? this.inputCopy.extra_words.split(",")
+        : [];
+      this.variantsList = [
+        ...this.variantsList,
+        ...extraWords.map(text => ({
+          text,
+          state: "default"
+        }))
+      ];
+      // Перемашиваем, чтобы проходить задание было интересней
+      this.variantsList = this.variantsList.sort(() => Math.random() - 0.5);
+    },
+    setSentencesMap() {
+      this.sentencesMap = this.inputCopy.body.map(element => {
+        // Для коректной работы алгоритма требуется, чтобы предложение начиналось и заканчивалось не с пропуска
+        // Иначе при split все начинает путаться
+        // Добавим к каждому предложение по сиволу в начало и конец
+        // Тогда алгоритм будет работать корректно, а потом уберем эти символы
+        let updatedSentense = "a" + element.sentence + "a";
+        // По {gap} потом будем понимать, что в строке был пропуск
+        // Все строки, которые получаться будут заканичваться на {gap}
+        let textMap = updatedSentense
+          .replaceAll(regularGaps, "{gap}🐜")
+          .split("🐜");
+        // Удаляем символы, которые оказались в первом и последнем массивах
+        // В начале и в конце соответсвенно
+        if (textMap[0]?.slice) textMap[0] = textMap[0].slice(1);
+        if (textMap[1]?.slice) textMap[1] = textMap[1].slice(0, -1);
+        return textMap.filter(i => i);
+      });
+    },
     getDataForCheck() {
       return {
         type: "lesson",
@@ -176,21 +187,30 @@ export default {
       };
     },
     dispalyResults(results) {
-      results.forEach((row, i) => {
-        row.answers.forEach((answer, j) => {
-          this.resultArr[i][j].state = answer ? "success" : "error";
-        });
-      });
+      for (const i in results) {
+        let row = results[i];
+        row.answers
+          .filter(answer => {
+            console.log(answer);
+            return true;
+          })
+          .forEach((answer, j) => {
+            if (!this.resultArr[i][j]) return;
+            this.resultArr[i][j].state = answer ? "success" : "error";
+          });
+      }
     },
     initResultArr() {
       this.resultArr = this.sentencesMap.map(sentence =>
-        sentence.map((_, i) => ({
-          index: i,
-          answerIndex: null,
-          text: null,
-          state: "default",
-          selected: false
-        }))
+        sentence
+          .filter(sentence => sentence.endsWith("{gap}"))
+          .map((_, i) => ({
+            index: i,
+            answerIndex: null,
+            text: null,
+            state: "default",
+            selected: false
+          }))
       );
     }
   },
