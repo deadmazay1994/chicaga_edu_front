@@ -74,6 +74,9 @@ export default {
         case "lesson_addons_files":
           state.points.smile += payload.value;
           break;
+        case "test_coins":
+          state.points.coins += payload.value;
+          break;
       }
     }
   },
