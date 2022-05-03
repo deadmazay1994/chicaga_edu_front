@@ -163,19 +163,19 @@ export default {
     //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
     // }
     "points.smile": function() {
-      this.$refs.coolSvg.animate();
+      this.$refs.animatedCool.animate();
     },
     "points.star": function() {
-      this.$refs.starSvg.animate();
+      this.$refs.animatedStar.animate();
     },
     "points.brain": function() {
-      this.$refs.brainSvg.animate();
+      this.$refs.animatedBrain.animate();
     },
     "points.lamp": function() {
-      this.$refs.lampSvg.animate();
+      this.$refs.animatedLamp.animate();
     },
     "points.coins": function() {
-      this.$refs.coinPng.animate();
+      this.$refs.animatedCoin.animate();
     }
   },
   async mounted() {
