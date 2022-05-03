@@ -36,7 +36,10 @@
 import FillGapsItem from "./FillGapsItem";
 import Draggable from "vuedraggable";
 import Description from "./TasksDescription";
+import api from "@/mixins/api.js";
+
 import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "fill-gaps",
   data: function() {
@@ -64,17 +67,48 @@ export default {
       data.childRef = this.childRef;
       this.sendTaskToTeacher(this.index, data);
     },
-    check() {
-      this.error = false;
-      if (this.$refs.gap) {
-        this.$refs.gap.forEach(child => {
-          if (!this.error) {
-            this.error = child.check();
-          } else {
-            child.check();
-          }
-        });
-      }
+    async getLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      return {
+        // type: r.lesson[this.activeGroupIndexLesson].tasks[0].type,
+        // section: r.lesson[this.activeGroupIndexLesson].tasks[0].section,
+        id: r.id
+      };
+    },
+    async check() {
+      // let checkData = {
+      //   type: "lesson",
+      //   type_check: "insert_skipped_word",
+      //   section: this.inputCopy.section,
+      //   answer: this.$refs.gap.map(gap => {
+      //     return { answers: gap.answer };
+      //   })
+      // };
+      // this.taskCheck(this.$route.params.id, checkData).then(r => {
+      //   r.result.forEach((e, i) => {
+      //     this.$refs.gap[i].setStatus(e.answers);
+      //   });
+      //   console.log("данные this.taskCheck");
+      // });
+      const type_check = this.inputCopy.type;
+      const checkData = {
+        type: "lesson",
+        type_check: this.inputCopy.type,
+        section: this.inputCopy.section,
+        answer: this.$refs.gap.map(gap => {
+          return { answers: gap.answer };
+        })
+      };
+      let result = await this.taskCheck(this.$route.params.id, checkData).then(
+        r => {
+          Object.keys(r.result).forEach(index => {
+            this.$refs.gap[index].setStatus(r.result[index].answers);
+          });
+          return r;
+        }
+      );
+      console.log("данные FillGaps.vue result:", result);
+      return { value: result.points, type: type_check };
     },
     showAnswers() {
       if (this.$refs.gap) {
@@ -144,6 +178,7 @@ export default {
     Description,
     Draggable
   },
+  mixins: [api],
   props: {
     input: { required: true },
     drag: { required: false },
