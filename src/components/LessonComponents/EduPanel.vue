@@ -4,47 +4,30 @@
     <div class="task__header">
       <div class="task__header__item">
         <div class="task__header__inner">
-          <svg class="task__header__svg">
-            <use xlink:href="#smile1"></use>
-          </svg>
-          <span>{{ points.smile }}</span>
+          <animated-cool-svg ref="animatedCool" />
+          <span class="points">{{ points.smile }}</span>
         </div>
 
         <div class="task__header__inner">
-          <svg class="task__header__svg">
-            <use xlink:href="#star"></use>
-          </svg>
-          <span>{{ points.star }}</span>
+          <animated-star-svg ref="animatedStar" />
+          <span class="points">{{ points.star }}</span>
         </div>
 
         <div class="task__header__inner">
-          <svg class="task__header__svg">
-            <use xlink:href="#brains"></use>
-          </svg>
-          <span>{{ points.brain }}</span>
+          <animated-brain-svg ref="animatedBrain" />
+          <span class="points">{{ points.brain }}</span>
         </div>
 
         <div class="task__header__inner">
-          <svg class="task__header__svg">
-            <use xlink:href="#bulb"></use>
-          </svg>
-          <span>{{ points.lamp }}</span>
+          <animated-lamp-svg ref="animatedLamp" />
+          <span class="points">{{ points.lamp }}</span>
         </div>
       </div>
       <div class="task__header__item">
         <div class="task__header__inner">
-          <svg class="task__header__svg">
-            <use xlink:href="#coin"></use>
-          </svg>
-          <span>{{ points.coins }}</span>
+          <animated-coin-png ref="animatedCoin" />
+          <span class="points">{{ points.coins }}</span>
         </div>
-
-        <!-- <div class="task__header__inner">
-          <svg class="task__header__svg">
-            <use xlink:href="#clock"></use>
-          </svg>
-          <span>15:00</span>
-        </div> -->
       </div>
     </div>
     <div class="task__content" style="height: 100%">
@@ -95,6 +78,12 @@ import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
+import AnimatedCoolSvg from "@/components/Icons/AnimatedCoolSvg";
+import AnimatedStarSvg from "@/components/Icons/AnimatedStarSvg";
+import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
+import AnimatedLampSvg from "@/components/Icons/AnimatedLampSvg";
+import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
+
 import api from "@/mixins/api";
 import gsap from "gsap";
 
@@ -113,7 +102,6 @@ export default {
     },
     setUserPointsToData() {
       this.getUserPoints.forEach(item => {
-        console.log("points item:", item);
         switch (item.point_type.name) {
           case "Мозги":
             this.brainData = item.points;
@@ -144,7 +132,12 @@ export default {
     Tasks,
     Attachs,
     TeacherPanel,
-    LessonPlot
+    LessonPlot,
+    AnimatedCoolSvg,
+    AnimatedStarSvg,
+    AnimatedBrainSvg,
+    AnimatedLampSvg,
+    AnimatedCoinPng
   },
   props: [],
   mixins: {},
@@ -152,7 +145,8 @@ export default {
   watch: {
     points(newValue) {
       gsap.to(this.$data, { duration: 0.5, points: newValue });
-    }
+      // this.clickCool();
+    },
     // smile(newValue) {
     //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
     // },
@@ -168,10 +162,24 @@ export default {
     // coins(newValue) {
     //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
     // }
+    "points.smile": function() {
+      this.$refs.animatedCool.animate();
+    },
+    "points.star": function() {
+      this.$refs.animatedStar.animate();
+    },
+    "points.brain": function() {
+      this.$refs.animatedBrain.animate();
+    },
+    "points.lamp": function() {
+      this.$refs.animatedLamp.animate();
+    },
+    "points.coins": function() {
+      this.$refs.animatedCoin.animate();
+    }
   },
   async mounted() {
     await this.setUserPoints();
-    console.log(this.smile);
     this.getLesson().then(res => {
       this.timeData = res.time;
     });
@@ -270,5 +278,9 @@ export default {
 
 .v-slide-group__wrapper {
   overflow: hidden;
+}
+
+.points {
+  margin-left: 0.5rem;
 }
 </style>

@@ -1141,14 +1141,8 @@ button {
   align-items: center
 }
 
-@media (max-width:1000px) {
-  .task__header {
-    display: none
-  }
-}
 
 .task__header--sm {
-  display: none;
   margin-bottom: 35px
 }
 
