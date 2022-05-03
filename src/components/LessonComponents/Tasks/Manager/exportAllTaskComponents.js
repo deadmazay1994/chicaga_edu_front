@@ -1,5 +1,6 @@
 import TaskImages from "Tasks/TaskImages";
 import FillGaps from "Tasks/FillGaps";
+import ChipSkipped from "Tasks/ChipSkipped";
 import TF from "Tasks/TF";
 import MatchImgs from "Tasks/MatchImgs";
 import Syllable from "Tasks/ChooseSyllable";
@@ -22,6 +23,7 @@ import ChooseGroup from "./ChooseGroup";
 export default {
   TaskImages,
   FillGaps: FillGaps,
+  ChipSkipped,
   TF,
   MatchImgs,
   Syllable,
