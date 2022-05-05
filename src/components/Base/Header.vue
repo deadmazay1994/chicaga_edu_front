@@ -2,6 +2,7 @@
   <header class="header">
     <div class="header__title-block">
       <img src="@/assets/imgs/burger.svg" alt="" />
+      <breadcrumbs />
       <!-- <h2 class="header__title">Уроки с преподователем</h2> -->
     </div>
 
@@ -182,4 +183,32 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="scss"></style>
+<style lang="sass">
+.header__title-block
+  flex: 1
+
+.breadcrumb
+  list-style: none
+  padding-left: 0 !important
+  width: 100%
+
+  li.breadcrumb-item
+    display: inline-block
+    font-family: sf-ui, sans-serif
+    font-weight: 600
+    font-size: 14px
+    line-height: 16.71px
+
+    & + li.breadcrumb-item
+      margin-left: .25rem
+
+      &::before
+        content: "/"
+        color: #FF0000
+
+    a
+      color: rgba(128, 128, 128, 0.6)
+
+    .router-link-exact-active
+      color: rgba(128, 128, 128, 1)
+</style>
