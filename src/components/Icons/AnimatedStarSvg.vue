@@ -28,6 +28,7 @@ export default {
       this.$emit("click");
       let star = this.$refs.star;
       let keyframes = [
+        { transform: "scale(2)" },
         { transform: "rotateY(0.5turn)" },
         { transform: "rotateY(0turn)" }
       ];
@@ -44,6 +45,7 @@ export default {
   cursor: pointer
   width: 25px
   height: 25px
+  position: absolute
 
   svg
     width: 100%

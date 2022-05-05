@@ -12,18 +12,23 @@ export default {
   },
   methods: {
     animate() {
+      let timerId = undefined;
       this.$emit("click");
+      this.$refs.coin.animate(
+        [{ transform: "scale(2)" }, { transform: "scale(1)" }],
+        { duration: 1000, iterations: 1 }
+      );
       let pos = 25;
-      const interval = 250;
+      const interval = 200;
       const diff = 25;
 
-      this.timerId = setInterval(() => {
+      timerId = setInterval(() => {
         this.$refs.coin.style.backgroundPosition = `-${pos}px 0px`;
         if (pos < 200) pos = pos + diff;
         else {
           pos = 0;
           this.$refs.coin.style.backgroundPosition = `-${pos}px 0px`;
-          clearInterval(this.timerId);
+          clearInterval(timerId);
         }
       }, interval);
     }
@@ -36,8 +41,10 @@ export default {
   cursor: pointer
 
 .coin
+  position: absolute
   width: 25px
   height: 25px
   background-image: url("~@/assets/imgs/coin-sprites.png")
   background-position: 0px 0px
+  background-size: cover
 </style>

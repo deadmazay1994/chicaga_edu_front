@@ -6,6 +6,7 @@
       viewBox="0 0 70 70"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      ref="svg"
     >
       <path
         d="M59.7488 10.2512C53.1381 3.64058 44.3489 0 35 0C25.6511 0 16.8619 3.64058 10.2512 10.2512C3.64058 16.8619 0 25.6511 0 35C0 44.3489 3.64058 53.1381 10.2512 59.7488C16.8619 66.3594 25.6511 70 35 70C44.3489 70 53.1381 66.3594 59.7488 59.7488C66.3594 53.1381 70 44.3489 70 35C70 25.6511 66.3593 16.8619 59.7488 10.2512Z"
@@ -49,12 +50,20 @@ export default {
       let rMouth = this.$refs.rMouth;
       let rGlasses = this.$refs.rGlasses;
 
-      let options = { duration: 1500, iterations: 1, easing: "ease-in-out" };
+      let options = { duration: 1000, iterations: 1, easing: "ease-in-out" };
       let keyframes = [
         { transform: "translateY(-10.91px)" },
         { transform: "translateY(0px)" }
       ];
 
+      this.$refs.svg.animate(
+        [{ transform: "scale(2)" }, { transform: "scale(1)" }],
+        {
+          duration: 1000,
+          iterations: 1,
+          easing: "ease"
+        }
+      );
       lMouth.animate(keyframes, options);
       lGlasses.animate(keyframes, options);
       rMouth.animate(keyframes, options);
@@ -70,6 +79,7 @@ export default {
   cursor: pointer
   width: 25px
   height: 25px
+  position: absolute
 
   svg
     width: 100%

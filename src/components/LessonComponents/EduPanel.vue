@@ -29,6 +29,8 @@
           <span class="points">{{ points.coins }}</span>
         </div>
       </div>
+      <!-- Для тестирования анимации  -->
+      <!-- <button @click="test()">test</button> -->
     </div>
     <div class="task__content" style="height: 100%">
       <div class="task__menu">
@@ -117,6 +119,14 @@ export default {
             break;
         }
       });
+    },
+    // для тестирования анимации
+    test() {
+      this.$refs.animatedCool.animate();
+      this.$refs.animatedStar.animate();
+      this.$refs.animatedBrain.animate();
+      this.$refs.animatedLamp.animate();
+      this.$refs.animatedCoin.animate();
     }
   },
   computed: {
@@ -281,6 +291,6 @@ export default {
 }
 
 .points {
-  margin-left: 0.5rem;
+  margin-left: 35px;
 }
 </style>

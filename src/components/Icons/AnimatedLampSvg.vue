@@ -6,6 +6,7 @@
       viewBox="0 0 71 83"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      ref="lamp"
     >
       <circle
         ref="light"
@@ -61,18 +62,23 @@ export default {
   methods: {
     animate() {
       this.$emit("click");
+      const options = { duration: 1000, iteration: 1 };
+      this.$refs.lamp.animate(
+        [{ transform: "scale(2)" }, { transform: "scale(1)" }],
+        options
+      );
       this.$refs.light.animate(
         [{ transform: "scale(1.0)" }, { transform: "scale(0.6)" }],
-        { duration: 1000, iteration: 1 }
+        options
       );
-      this.$refs.leftSide.animate([{ fill: "#FFD9A0" }, { fill: "#FFAE65" }], {
-        duration: 1000,
-        iteration: 1
-      });
-      this.$refs.rightSide.animate([{ fill: "#FFAE65" }, { fill: "#FFD9A0" }], {
-        duration: 1000,
-        iteration: 1
-      });
+      this.$refs.leftSide.animate(
+        [{ fill: "#FFD9A0" }, { fill: "#FFAE65" }],
+        options
+      );
+      this.$refs.rightSide.animate(
+        [{ fill: "#FFAE65" }, { fill: "#FFD9A0" }],
+        options
+      );
     }
   }
 };
@@ -83,6 +89,7 @@ export default {
   cursor: pointer
   width: 25px
   height: 25px
+  position: absolute
 
   svg
     width: 100%

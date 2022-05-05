@@ -140,7 +140,11 @@ export default {
     animate() {
       this.$emit("click");
       this.$refs.brainSvg.animate(
-        [{ transform: "scale(1.1)" }, { transform: "scale(1.0)" }],
+        [
+          { transform: "scale(2)" },
+          { transform: "scale(2.1)" },
+          { transform: "scale(1.0)" }
+        ],
         { duration: 1000, iteration: 1 }
       );
       this.$refs.group.animate(
@@ -157,6 +161,7 @@ export default {
   cursor: pointer
   width: 25px
   height: 25px
+  position: absolute
 
   svg
     width: 100%
