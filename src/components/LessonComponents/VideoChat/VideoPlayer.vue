@@ -48,7 +48,7 @@
                 :fullScreenMode="fullscreenOn"
                 @clickElem="clickChat"
               />
-              <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
+              <expand-svg :expanded="fullscreenOn" @clickElem="clickExpand" />
             </div>
           </dir>
         </figcaption>
@@ -156,6 +156,9 @@ export default {
         document.exitFullscreen();
         this.fullscreenOn = false;
       }
+    },
+    clickExpand() {
+      this.$emit("clickExpand");
     },
     closeExpand() {
       document.exitFullscreen();
