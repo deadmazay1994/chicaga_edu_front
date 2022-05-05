@@ -91,7 +91,7 @@ export default {
     height: 50%
   &__text-chat
     color: #000
-    font-family: sf-ui, sans-serif
+    font-family: Manrope, sans-serif
     font-weight: 500
     background: #fff
     box-shadow: 0 4px 20px hsl(0deg 0% 50% / 20%)

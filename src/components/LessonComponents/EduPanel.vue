@@ -222,7 +222,7 @@ export default {
   background: none;
   cursor: pointer;
   box-sizing: border-box;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   padding-left: 20px;
   padding-right: 20px;
