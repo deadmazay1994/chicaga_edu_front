@@ -177,6 +177,7 @@ export default {
     display: flex
     flex-direction: column
     justify-content: space-between
+    // padding-left: 25px
   &__fixed
     margin: 0
   &__task
