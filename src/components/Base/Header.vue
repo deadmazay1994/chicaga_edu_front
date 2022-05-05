@@ -6,13 +6,10 @@
     </div>
 
     <div class="header__controls">
-      <!-- <div class="controls__item controls__item--header">
-        <svg class="header__svg">
-          <use xlink:href="#coin"></use>
-        </svg>
-
-        <span class="coin__text">00016847 т.</span>
-      </div> -->
+      <div class="controls__item controls__item--header">
+        <animated-coin-png ref="animatedCoin" />
+        <span class="coin__text">{{ points.coins }}</span>
+      </div>
 
       <!-- <div class="header__additional-menu header__additional-menu--right">
         <svg
@@ -148,8 +145,13 @@
 
 import { mapGetters, mapMutations } from "vuex";
 
+import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
+
 export default {
   name: "header-app",
+  components: {
+    AnimatedCoinPng
+  },
   data: function() {
     return {};
   },
@@ -160,7 +162,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "points"])
   },
   // components: {
   //   DictAdd
@@ -178,6 +180,11 @@ export default {
     //   });
     //   console.log(r);
     // }
+  },
+  watch: {
+    "points.coins": function() {
+      this.$refs.animatedCoin.animate();
+    }
   }
 };
 </script>
