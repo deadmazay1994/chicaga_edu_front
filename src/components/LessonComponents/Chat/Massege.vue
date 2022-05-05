@@ -1,12 +1,16 @@
 <template>
-  <div class="messages__item">
-    <div class="messages__author-img-block">
+  <div
+    class="messages__item"
+    :class="{ 'messages__item--left': isUserMessage }"
+  >
+    <div class="messages__author-img-block" v-if="!isUserMessage">
       <img class="messages__author-img" :src="avatar" alt="Avatar" />
     </div>
-
     <div class="messages__message">
       <div style="display: flex; justify-content: space-between">
-        <h4 class="message__author">{{ author || "Пользователь" }}</h4>
+        <h4 v-if="!isUserMessage" class="message__author">
+          {{ author || "Пользователь" }}
+        </h4>
         {{ time }}
       </div>
       <p class="message__text">{{ text }}</p>
@@ -42,7 +46,10 @@ export default {
   },
   methods: {},
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user"]),
+    isUserMessage() {
+      return this.user.chat_auth_info.name === this.author;
+    }
   },
   components: {
     // Avatar,
@@ -58,6 +65,58 @@ export default {
 <style scoped="scoped" lang="sass">
 @import "@/assets/styles/variables.sass"
 
+.messages__item
+  display: flex
+  align-items: flex-end
+  margin-bottom: 15px
+
+  &--left
+    justify-content: flex-end
+
+    .messages__message
+      background: #FCDBE3
+      border-radius: 10px 10px 0px 10px
+
+      &::before
+        border-left: 1rem solid #FCDBE3
+        border-bottom-right-radius: 0
+        left: auto
+        right: -0.35rem
+
+      &::after
+        left: auto
+        right: -40px
+        border-bottom-right-radius: 0
+        border-bottom-left-radius: 0.5rem
+
+.messages__message
+  flex-grow: 1
+  background: #f8f8f8
+  border-radius: 10px 10px 10px 0px
+  position: relative
+  padding: 10px 25px 10px 10px
+  max-width: 70%
+
+  &::before,
+  &::after
+    bottom: -0.1rem
+    content: ""
+    height: 1rem
+    position: absolute
+
+  &::before
+    border-bottom-right-radius: 0.8rem 0.7rem
+    border-left: 1rem solid #f8f8f8
+    left: -0.35rem
+    bottom: 0px
+
+  &::after
+    background-color: #fff
+    border-bottom-right-radius: 0.5rem
+    left: 20px
+    transform: translate(-30px, -2px)
+    width: 10px
+
 .massege
   display: flex
   margin-bottom: 20px
@@ -71,17 +130,12 @@ export default {
 .content__massege
   width: 90%
 
-.massege__author
-  color: #96aeba
-  font-size: 0.9rem
-  margin-left: 7px
-
 .content-massege__info
   display: flex
   justify-content: space-between
   flex-wrap: wrap
 
-.content-massege__time
+  .content-massege__time
   color: $main_color
 
 .content-massege__user
@@ -91,6 +145,24 @@ export default {
 .text__content-massege
   word-wrap: wrap
 
-.messages__message
-  max-width: 70%
+.message__author,
+.message__text
+  font-family: sf-ui, sans-serif
+
+.message__text
+  font-weight: 500
+  font-size: 12px
+  margin-bottom: 0
+  line-height: 14.32px
+
+.message__author
+  color: rgba(255, 0, 0, .8)
+  margin-bottom: 5px
+  font-weight: 600
+  font-size: 12px
+  line-height: 14.32px
+
+.message__link
+  text-decoration: underline
+  color: #598aeb
 </style>
