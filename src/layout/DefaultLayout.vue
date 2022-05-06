@@ -822,7 +822,7 @@
       </symbol>
     </svg>
     <div class="page">
-      <div class="menu menu--lessons" style="flex-basis: auto">
+      <!-- <div class="menu menu--lessons" style="flex-basis: auto">
         <div class="logos">
           <svg
             style="display: block; max-width: 200px; height: auto"
@@ -920,7 +920,26 @@
           "
           @click.prevent="openBurgerMenu"
         ></div>
-      </div>
+      </div> -->
+      <sidebar-component :mobilemenuopen="showBurger">
+        <navigation
+          @clicked-outside="closeMenu"
+          @clicked-router="closeMenu"
+          v-click-outside="
+            () => {
+              clickedOutside(true);
+            }
+          "
+        />
+      </sidebar-component>
+      <mobile-menu
+        @click="openBurgerMenu()"
+        v-click-outside="
+          () => {
+            clickedOutside(false);
+          }
+        "
+      />
       <div class="content">
         <header-app />
         <router-view class="lessons__content main-view" />
@@ -943,6 +962,8 @@ import Navigation from "@/components/Lk/Navigation";
 // import Lightbox from "@/components/Base/Lightbox";
 import vClickOutside from "v-click-outside";
 import CalendarModal from "@/components/Calendar/CalendarModal";
+import SidebarComponent from "@/components/Lk/SidebarComponent";
+import MobileMenu from "@/components/Lk/MobileMenu";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -962,7 +983,9 @@ export default {
     // Modals,
     // Snackbars,
     Navigation,
-    CalendarModal
+    CalendarModal,
+    SidebarComponent,
+    MobileMenu
     // BgComponent
     // Lightbox
   },
@@ -1021,8 +1044,11 @@ export default {
       height: 100%
 
 .content
+  margin-left: 127px
   padding: 20px
   max-width: calc( 100vw - 302px )
+  @media (max-width: 1000px)
+    margin-left: 0
   @media (min-width: 1360px)
     max-height: calc( 100vh - 60px )
     display: flex
@@ -1091,9 +1117,6 @@ export default {
 .menu--lessons
   display: block !important
 
-.menu-btn
-  display: none
-
 .header__avatar
   display: block !important
 
@@ -1153,19 +1176,9 @@ export default {
     display: flex
     align-items: center
     justify-content: center
+    flex-direction: column
 
     cursor: pointer
-
-  .mobile-active
-    right: 242px !important
-    box-shadow: -8px 8px 11px 2px #0005
-
-  .menu-btn:before
-    content: ""
-    width: 16px
-    height: 12px
-    display: block
-    background-image: url("data:image/svg+xml,%3Csvg width='16' height='12' viewBox='0 0 16 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 6H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.5 1H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.5 11H14.5' stroke='%23181818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A")
 
   .menu__nav
     position: absolute

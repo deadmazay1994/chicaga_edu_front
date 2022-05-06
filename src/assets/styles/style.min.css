@@ -202,15 +202,15 @@ button {
   padding-left: 10px
 }
 
-.logo {
+/* .logo {
   max-width: 157px
-}
+} */
 
-@media (max-width:1100px) {
+/* @media (max-width:1100px) {
   .logo {
     max-width: 130px
   }
-}
+} */
 
 .menu__title {
   font-size: 18px

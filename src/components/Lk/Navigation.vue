@@ -1,126 +1,72 @@
 <template>
-  <nav class="menu__nav" :class="{ 'mobile-active': mobilemenuopen }">
-    <router-link
-      style="color: #0d0d0d"
-      :class="
-        $route.path === '/lk/catalog-coursers'
-          ? 'nav__link active'
-          : 'nav__link'
-      "
-      to="/lk/catalog-coursers"
-      @click.native="clicked()"
-      >Каталог курсов</router-link
-    >
-    <router-link
-      style="color: #0d0d0d"
-      :class="
-        $route.path === '/lk/my-coursers' ? 'nav__link active' : 'nav__link'
-      "
-      to="/lk/my-coursers"
-      @click.native="clicked()"
-      >Мои курсы</router-link
-    >
-    <router-link
-      style="color: #0d0d0d"
-      :class="$route.path === '/lk/webinars' ? 'nav__link active' : 'nav__link'"
-      to="/lk/webinars"
-      @click.native="clicked()"
-      >Вебинары</router-link
-    >
-    <!-- Добавить маршрут -->
-    <router-link
-      style="color: #0d0d0d"
-      :class="
-        $route.path === '/lk/my-groups' ? 'nav__link active' : 'nav__link'
-      "
-      to="/lk/my-groups"
-      @click.native="clicked()"
-      >Уроки</router-link
-    >
-    <!-- Добавить маршрут -->
-    <router-link
-      style="color: #0d0d0d"
-      :class="
-        $route.path === '/lk/dictionary' ? 'nav__link active' : 'nav__link'
-      "
-      to="/lk/dictionary"
-      @click.native="clicked()"
-      >Словарь</router-link
-    >
-    <router-link
-      style="color: #0d0d0d"
-      :class="$route.path === '/lk/settings' ? 'nav__link active' : 'nav__link'"
-      to="/lk/settings"
-      @click.native="clicked()"
-      >Настройки</router-link
-    >
-    <router-link
-      style="color: #0d0d0d"
-      v-if="user.role == 'teacher'"
-      :class="
-        $route.path === '/course-list-teacher'
-          ? 'nav__link active'
-          : 'nav__link'
-      "
-      to="/course-list-teacher"
-      @click.native="clicked()"
-      >Результаты</router-link
-    >
-    <router-link
-      style="color: #0d0d0d"
-      :class="$route.path === '/faq' ? 'nav__link active' : 'nav__link'"
-      to="/faq"
-      @click.native="clicked()"
-      >Вопросы и ответы</router-link
-    >
-    <router-link
-      v-if="access"
-      style="color: #0d0d0d"
-      :class="
-        $route.path === `/conference/${generateRoomId}`
-          ? 'nav__link active'
-          : 'nav__link'
-      "
-      :to="{ name: 'private-room-upcoming', params: { room: generateRoomId } }"
-      >Создать комнату</router-link
-    >
-    <span class="nav__link" @click="exit">Выйти</span>
-  </nav>
+  <div class="navigation">
+    <template v-for="(item, k) in links">
+      <router-link :key="k" :to="item.url" class="router-link">
+        <img :src="item.src" :alt="item.name" />
+        {{ item.showCondition ? item.showCondition() : false }}
+      </router-link>
+    </template>
+    <span class="router-link exit-link" @click="exit()">
+      <img src="@/assets/svg/exit.svg" alt="Выйти" />
+    </span>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
-  name: "navigation",
-  data: function() {
+  data() {
     return {
+      links: [
+        {
+          name: "Каталог курсов",
+          url: "/lk/catalog-coursers",
+          src: require("@/assets/svg/courses.svg")
+        },
+        {
+          name: "Мои курсы",
+          url: "/lk/my-coursers",
+          src: require("@/assets/svg/education.svg")
+        },
+        {
+          name: "Вебинары",
+          url: "/lk/webinars",
+          src: require("@/assets/svg/group.svg")
+        },
+        {
+          name: "Уроки",
+          url: "/lk/my-groups",
+          src: require("@/assets/svg/book.svg")
+        },
+        { name: "Словарь", url: "#", src: require("@/assets/svg/book.svg") },
+        {
+          name: "Настройки",
+          url: "/lk/settings",
+          src: require("@/assets/svg/settings.svg")
+        },
+        {
+          name: "Вопросы и ответы",
+          url: "/faq",
+          src: require("@/assets/svg/question.svg")
+        },
+        {
+          name: "Создать комнату",
+          url: "#",
+          src: require("@/assets/svg/question.svg"),
+          showCondition: () => {
+            return "asdasd";
+          }
+        }
+      ],
       mobileDetected: false
     };
   },
-  methods: {
-    ...mapMutations(["logout", "setDraverState"]),
-    exit() {
-      this.logout();
-      this.$router.push("/auth/login");
-      this.$store.commit("pushShuckbar", {
-        val: "Вы успешно вышли из личного кабинета",
-        success: true
-      });
-    },
-    toggleDraverByWindowSize() {
-      if (window.innerWidth >= 1200) {
-        this.mobileDetected = false;
-        this.setDraverState(true);
-      } else {
-        this.mobileDetected = true;
-        this.setDraverState(false);
-      }
-    }
-  },
+  props: ["mobilemenuopen"],
   computed: {
     ...mapGetters(["user", "draver"]),
     access() {
+      // предоставить доступ только учителю
       return this.user.role == "teacher";
     },
     draverComputed: {
@@ -139,30 +85,46 @@ export default {
       );
     }
   },
-  components: {},
-  props: ["mobilemenuopen"],
-  mixins: {},
-  beforeMount() {
-    this.toggleDraverByWindowSize();
-  },
-  created() {
-    document.onresize = () => {
-      this.toggleDraverByWindowSize();
-    };
+  methods: {
+    ...mapMutations(["logout", "setDraverState"]),
+    exit() {
+      this.logout();
+      this.$router.push("/auth/login");
+      this.$store.commit("pushShuckbar", {
+        val: "Вы успешно вышли из личного кабинета",
+        success: true
+      });
+    }
   }
+  // mounted() {
+  //   if this
+  //   this.links.push({})
+  // }
 };
 </script>
 
-<style scoped="scoped" lang="sass">
+<style lang="sass" scoped>
 .navigation
-  &__drawer
-    height: 100vh
-    top: 64px !important
-.navigation__drawer
-  @media (max-width: 1200px)
-    margin-top: -65px
-.nav__link
-  padding-left: 13px
-.menu__nav
-  width: 242px
+  display: flex
+  align-items: center
+  flex-direction: column
+
+  .router-link
+    width: 47px
+    height: 47px
+    display: flex
+    align-items: center
+    justify-content: center
+    background: #fff
+    border-radius: 15px
+    margin-top: 12px
+    transition: all .15s ease-in-out
+
+    &-active
+      box-shadow: inset 3px 0px 1px rgba(147, 43, 31, 0.5)
+    &:hover
+      background: #D9D9D9
+
+  .exit-link
+    cursor: pointer
 </style>
