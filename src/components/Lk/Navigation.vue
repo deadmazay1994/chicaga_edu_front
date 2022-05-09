@@ -1,9 +1,13 @@
 <template>
   <div class="navigation">
     <template v-for="(item, k) in links">
-      <router-link :key="k" :to="item.url" class="router-link">
+      <router-link
+        :key="k"
+        :to="item.url + (item.params ? item.params() : '')"
+        class="router-link"
+        v-if="item.showCondition ? item.showCondition() : false"
+      >
         <img :src="item.src" :alt="item.name" />
-        {{ item.showCondition ? item.showCondition() : false }}
       </router-link>
     </template>
     <span class="router-link exit-link" @click="exit()">
@@ -22,40 +26,49 @@ export default {
         {
           name: "Каталог курсов",
           url: "/lk/catalog-coursers",
-          src: require("@/assets/svg/courses.svg")
+          src: require("@/assets/svg/courses.svg"),
+          showCondition: () => true
         },
         {
           name: "Мои курсы",
           url: "/lk/my-coursers",
-          src: require("@/assets/svg/education.svg")
+          src: require("@/assets/svg/education.svg"),
+          showCondition: () => true
         },
         {
           name: "Вебинары",
           url: "/lk/webinars",
-          src: require("@/assets/svg/group.svg")
+          src: require("@/assets/svg/group.svg"),
+          showCondition: () => true
         },
         {
           name: "Уроки",
           url: "/lk/my-groups",
-          src: require("@/assets/svg/book.svg")
+          src: require("@/assets/svg/book.svg"),
+          showCondition: () => true
         },
         { name: "Словарь", url: "#", src: require("@/assets/svg/book.svg") },
         {
           name: "Настройки",
           url: "/lk/settings",
-          src: require("@/assets/svg/settings.svg")
+          src: require("@/assets/svg/settings.svg"),
+          showCondition: () => true
         },
         {
           name: "Вопросы и ответы",
           url: "/faq",
-          src: require("@/assets/svg/question.svg")
+          src: require("@/assets/svg/question.svg"),
+          showCondition: () => true
         },
         {
           name: "Создать комнату",
-          url: "#",
+          url: "/conference/",
+          params: () => {
+            return this.generateRoomId;
+          },
           src: require("@/assets/svg/question.svg"),
           showCondition: () => {
-            return "asdasd";
+            return this.user.role === "teacher";
           }
         }
       ],
@@ -96,10 +109,6 @@ export default {
       });
     }
   }
-  // mounted() {
-  //   if this
-  //   this.links.push({})
-  // }
 };
 </script>
 

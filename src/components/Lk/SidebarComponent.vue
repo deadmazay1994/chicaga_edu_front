@@ -103,28 +103,4 @@ export default {
 
     &--mobile-active
       transform: translateX(0)
-//   .sidebar-component
-//     height: auto !important
-//     width: 100%
-//     z-index: 9001
-//     padding: 15px
-//     background-image: none
-//     box-shadow: 0 4px 20px hsl(0deg 0% 50% / 20%)
-
-//     &__background
-//       background-image: none
-//       background: #fff
-//       filter: none
-
-//     &__content
-//       flex-direction: row-reverse
-//       justify-content: space-between
-//       z-index: 9002
-//       height: 100%
-
-//       .logo
-//         display: block
-//         max-width: auto !important
-//       .sidebar-logo
-//         display: none
 </style>
