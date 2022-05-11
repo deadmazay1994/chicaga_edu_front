@@ -167,3 +167,14 @@ export default {
   }
 }
 </style>
+
+<style lang="sass" scoped>
+.messages__content
+  scrollbar-gutter: stable
+  &::-webkit-scrollbar
+    width: 10px
+  &::-webkit-scrollbar-thumb
+    background-color: rgba(128, 128, 128, 0.1)
+    border-radius: 50px
+    height: 65%
+</style>

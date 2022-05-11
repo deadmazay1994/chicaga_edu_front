@@ -1009,9 +1009,9 @@ button {
   overflow-y: auto
 }
 
-.messages__content::-webkit-scrollbar {
+/* .messages__content::-webkit-scrollbar {
   width: 0
-}
+} */
 
 .messages__content.active {
   display: block
@@ -1027,12 +1027,6 @@ button {
   }
 }
 
-.messages__item {
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: 15px
-}
-
 .messages__author-img-block {
   max-width: 35px;
   max-height: 35px;
@@ -1045,30 +1039,6 @@ button {
 .messages__author-img {
   width: 100%;
   height: 100%
-}
-
-.messages__message {
-  flex-grow: 1;
-  background: #f8f8f8;
-  border-radius: 10px;
-  padding: 10px
-}
-
-.message__author,
-.message__text {
-  font-family: sf-ui, sans-serif;
-  font-weight: 500;
-  font-size: 12px
-}
-
-.message__link {
-  text-decoration: underline;
-  color: #598aeb
-}
-
-.message__author {
-  color: rgba(255, 0, 0, .8);
-  margin-bottom: 5px
 }
 
 .messages__controls {
