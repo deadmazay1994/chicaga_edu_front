@@ -23,12 +23,6 @@
           <span class="points">{{ points.lamp }}</span>
         </div>
       </div>
-      <div class="task__header__item">
-        <div class="task__header__inner">
-          <animated-coin-png ref="animatedCoin" />
-          <span class="points">{{ points.coins }}</span>
-        </div>
-      </div>
     </div>
     <div class="task__content" style="height: 100%">
       <div class="task__menu">
@@ -82,7 +76,6 @@ import AnimatedCoolSvg from "@/components/Icons/AnimatedCoolSvg";
 import AnimatedStarSvg from "@/components/Icons/AnimatedStarSvg";
 import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
 import AnimatedLampSvg from "@/components/Icons/AnimatedLampSvg";
-import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 
 import api from "@/mixins/api";
 import gsap from "gsap";
@@ -136,8 +129,7 @@ export default {
     AnimatedCoolSvg,
     AnimatedStarSvg,
     AnimatedBrainSvg,
-    AnimatedLampSvg,
-    AnimatedCoinPng
+    AnimatedLampSvg
   },
   props: [],
   mixins: {},
@@ -173,9 +165,6 @@ export default {
     },
     "points.lamp": function() {
       this.$refs.animatedLamp.animate();
-    },
-    "points.coins": function() {
-      this.$refs.animatedCoin.animate();
     }
   },
   async mounted() {
