@@ -167,5 +167,5 @@ export default {
   &__choose-group
     padding: 10px 0
   &__workspace
-      padding: 0px
+    padding: 0px
 </style>
