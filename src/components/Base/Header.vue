@@ -117,7 +117,7 @@
           <p class="profile__menu-p">У вас нет новых уведомлений</p>
         </div>
       </div> -->
-
+      <progress-bar bar-class="bg-info" :numbers="33" :value="3" />
       <div class="header__avatar">
         <router-link to="/lk/settings">
           <v-list-item-avatar>
@@ -145,6 +145,7 @@
 
 <script>
 // import DictAdd from "@/components/Lk/DictAdd";
+import ProgressBar from "@/components/Lk/ProgressBar";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -162,9 +163,10 @@ export default {
   computed: {
     ...mapGetters(["user"])
   },
-  // components: {
-  //   DictAdd
-  // },
+  components: {
+    // DictAdd
+    ProgressBar
+  },
   props: [],
   mixins: {},
   beforeMount() {
@@ -182,4 +184,7 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="scss"></style>
+<style scoped="scoped" lang="sass">
+.header__avatar
+  margin-left: 82px
+</style>
