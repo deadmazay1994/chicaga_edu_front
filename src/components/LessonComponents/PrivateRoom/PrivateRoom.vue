@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ChatModule from "@/components/LessonComponents/ChatModule/ChatModule";
+import ChatModule from "@/components/ChatModule/ChatModule";
 
 export default {
   name: "PrivateRoom",
