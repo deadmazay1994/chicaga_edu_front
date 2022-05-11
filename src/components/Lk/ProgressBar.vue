@@ -2,7 +2,12 @@
   <div class="progress-bar__wrapper">
     <div class="progress-bar" :style="backgroundDashes">
       <div class="progress-bar__main" :style="barStyle"></div>
-      <div class="progress-bar__ed" v-if="barStyle.width != '100%'"></div>
+      <div class="progress-bar__ending" v-if="barStyle.width != '100%'"></div>
+      <div class="progress-bar__number-wrapper">
+        <span class="progress-bar__number"
+          >{{ Math.round((value / numbers) * 100) }}%</span
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -49,11 +54,6 @@ export default {
         backgroundRepeat: "no-repeat"
       };
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.ready = true;
-    }, 0);
   }
 };
 </script>
@@ -64,13 +64,15 @@ export default {
   border-radius: 26px
   border-bottom: 1px dashed #c4c4c4
   width: 314px
+
 .progress-bar
+  position: relative
   display: flex
   background-color: #F8F8F8
   background-repeat: no-repeat
   width: 100%
   height: 20px
-  border: 1px solid #c4c4c4
+  border: 1px solid rgba(128, 128, 128, 1)
   border-radius: 10px
   overflow: hidden
   position: relative
@@ -80,8 +82,23 @@ export default {
     width: 1%
     background: linear-gradient(0.21deg, #B5D637 0%, #E9FE97 99.63%)
 
-  &__ed
+  &__ending
     height: 100%
     width: 6px
     background-image: url('~@/assets/svg/progress-gradient.svg')
+
+  .progress-bar__number-wrapper
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 100%
+    width: 100%
+    .progress-bar__number
+      display: inline
+      text-align: center
+      vertical-align: bottom
+      font-weight: 600
+      font-size: 14px
+      line-height: normal
 </style>
