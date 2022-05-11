@@ -79,7 +79,7 @@ export default {
 
 <style lang="sass" scoped="scoped">
 .messages__controls__textarea
-  font-family: sf-ui, sans-serif
+  font-family: Manrope, sans-serif
   font-weight: 500
   padding: 10px 0 10px 10px
   background: hsla(0, 0%, 50%, .1)
