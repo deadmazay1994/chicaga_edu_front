@@ -7,7 +7,7 @@
         class="router-link"
         v-if="item.showCondition ? item.showCondition() : false"
       >
-        <img :src="item.src" :alt="item.name" />
+        <component :is="item.icon" />
       </router-link>
     </template>
     <span class="router-link exit-link" @click="exit()">
@@ -19,6 +19,13 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 
+import CoursesIcon from "@/components/Icons/CoursesIcon";
+import EducationIcon from "@/components/Icons/EducationIcon";
+import GroupIcon from "@/components/Icons/GroupIcon";
+import BookIcon from "@/components/Icons/BookIcon";
+import SettingsIcon from "@/components/Icons/SettingsIcon";
+import QuestionIcon from "@/components/Icons/QuestionIcon";
+
 export default {
   data() {
     return {
@@ -27,37 +34,48 @@ export default {
           name: "Каталог курсов",
           url: "/lk/catalog-coursers",
           src: require("@/assets/svg/courses.svg"),
+          icon: "CoursesIcon",
           showCondition: () => true
         },
         {
           name: "Мои курсы",
           url: "/lk/my-coursers",
           src: require("@/assets/svg/education.svg"),
+          icon: "EducationIcon",
           showCondition: () => true
         },
         {
           name: "Вебинары",
           url: "/lk/webinars",
           src: require("@/assets/svg/group.svg"),
+          icon: "GroupIcon",
           showCondition: () => true
         },
         {
           name: "Уроки",
           url: "/lk/my-groups",
           src: require("@/assets/svg/book.svg"),
+          icon: "BookIcon",
           showCondition: () => true
         },
-        { name: "Словарь", url: "#", src: require("@/assets/svg/book.svg") },
+        {
+          name: "Словарь",
+          url: "#",
+          src: require("@/assets/svg/book.svg"),
+          icon: "BookIcon"
+        },
         {
           name: "Настройки",
           url: "/lk/settings",
           src: require("@/assets/svg/settings.svg"),
+          icon: "SettingsIcon",
           showCondition: () => true
         },
         {
           name: "Вопросы и ответы",
           url: "/faq",
           src: require("@/assets/svg/question.svg"),
+          icon: "QuestionIcon",
           showCondition: () => true
         },
         {
@@ -67,6 +85,7 @@ export default {
             return this.generateRoomId;
           },
           src: require("@/assets/svg/question.svg"),
+          icon: "QuestionIcon",
           showCondition: () => {
             return this.user.role === "teacher";
           }
@@ -76,6 +95,14 @@ export default {
     };
   },
   props: ["mobilemenuopen"],
+  components: {
+    CoursesIcon,
+    EducationIcon,
+    GroupIcon,
+    BookIcon,
+    SettingsIcon,
+    QuestionIcon
+  },
   computed: {
     ...mapGetters(["user", "draver"]),
     access() {
@@ -131,9 +158,17 @@ export default {
 
     &-active
       box-shadow: inset 3px 0px 1px rgba(147, 43, 31, 0.5)
+
     &:hover
       background: #D9D9D9
 
   .exit-link
     cursor: pointer
+</style>
+
+<style lang="sass">
+.router-link-active
+  .icon
+    path
+      fill: #E84145
 </style>

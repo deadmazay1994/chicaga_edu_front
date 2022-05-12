@@ -6,8 +6,10 @@
     <div class="sidebar-component__background"></div>
     <div class="sidebar-component__content">
       <div class="content__logo">
-        <sidebar-logo />
-        <logo />
+        <router-link to="/">
+          <sidebar-logo />
+          <logo />
+        </router-link>
       </div>
       <slot></slot>
     </div>

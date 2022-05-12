@@ -822,22 +822,21 @@
       </symbol>
     </svg>
     <div class="page">
-      <sidebar-component :mobilemenuopen="showBurger">
-        <navigation
-          @clicked-outside="closeMenu"
-          @clicked-router="closeMenu"
-          v-click-outside="
-            () => {
-              clickedOutside(true);
-            }
-          "
-        />
+      <sidebar-component
+        :mobilemenuopen="showBurger"
+        v-click-outside="
+          () => {
+            clickedOutside(true);
+          }
+        "
+      >
+        <navigation @clicked-outside="closeMenu" @clicked-router="closeMenu" />
       </sidebar-component>
       <mobile-menu
         @click="openBurgerMenu()"
         v-click-outside="
           () => {
-            clickedOutside(false);
+            clickedOutside(true);
           }
         "
       />
@@ -976,6 +975,8 @@ export default {
   height: auto
   display: flex
   padding: 20px 20px 20px 10px
+  @media (min-width: 1000px)
+    justify-content: center
 
 .content
   flex-grow: 1
@@ -983,6 +984,8 @@ export default {
   box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
   border-radius: 30px
   padding: 10px 70px 30px
+  @media (min-width: 1000px)
+    margin-left: 87px
 
 // magnifier
 

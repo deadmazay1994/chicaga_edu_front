@@ -50,11 +50,11 @@ export default {
 
   span
     display: block
-    width: 16px
-    height: 2px
-    margin-bottom: 3px
+    width: 22px
+    height: 3px
+    margin-bottom: 3.5px
     position: relative
-    background: #000
+    background: #323232
     border-radius: 3px
     z-index: 1
 </style>
