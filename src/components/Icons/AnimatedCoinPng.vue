@@ -1,5 +1,7 @@
 <template>
-  <div class="animated-coin-png coin" ref="coin"></div>
+  <div class="animated-svg-wrapper">
+    <div class="animated-coin-png coin" ref="coin"></div>
+  </div>
 </template>
 
 <script>
@@ -37,6 +39,11 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.animated-svg-wrapper
+  position: relative
+  width: 25px
+  height: 25px
+
 .animated-coin-png
   cursor: pointer
 
