@@ -39,12 +39,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations([
-      "saveTask",
-      "saveChildTask",
-      "setVideoOff",
-      "setAudioOff"
-    ]),
+    ...mapMutations(["saveTask", "saveChildTask"]),
     getFileName(e) {
       if (e?.file_name_abs) return e?.file_name_abs;
       if (e?.file?.file_name_abs) return e?.file?.file_name_abs;

@@ -48,7 +48,7 @@
                 :fullScreenMode="fullscreenOn"
                 @clickElem="clickChat"
               />
-              <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
+              <expand-svg :expanded="fullscreenOn" @clickElem="clickExpand" />
             </div>
           </dir>
         </figcaption>
@@ -62,7 +62,7 @@ import PlaySvg from "@/components/Icons/PlaySvg";
 import SoundSvg from "@/components/Icons/SoundSvg";
 import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
-import Chat from "@/components/LessonComponents/Chat/Chat";
+import Chat from "@/components/Chat/Chat";
 
 export default {
   name: "video-player",
@@ -87,7 +87,7 @@ export default {
     };
   },
   props: {
-    video: HTMLObjectElement,
+    video: HTMLVideoElement,
     active: Boolean,
     showChatButton: Boolean,
     chatState: Boolean
@@ -156,6 +156,9 @@ export default {
         document.exitFullscreen();
         this.fullscreenOn = false;
       }
+    },
+    clickExpand() {
+      this.$emit("clickExpand");
     },
     closeExpand() {
       document.exitFullscreen();

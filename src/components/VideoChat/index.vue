@@ -6,7 +6,7 @@
           class="video-chat__video-wrap"
           v-if="medias.length > activeVideoIndex"
         >
-          <video-component
+          <video-item
             :indexVideo="activeVideoIndex"
             class="video-chat__video video-chat__video--active"
             :itsMe="activeMediaStream.itsMe"
@@ -18,6 +18,7 @@
             :showChatButton="showChatButton"
             :chatState="chatState"
             @clickChat="clickChat"
+            @clickExpand="clickExpand"
           />
         </div>
       </div>
@@ -29,7 +30,7 @@
           <img src="@/assets/imgs/arrow-up.svg" alt="arrow up" />
         </div>
         <div class="video-chat-miniatures-list" ref="miniatures">
-          <video-component
+          <video-item
             v-for="(mediaObject, index) in miniaturesMediaStream"
             class="video-chat__video video-chat__video--miniature"
             :miniature="true"
@@ -59,13 +60,13 @@
 </template>
 
 <script>
-import VideoComponent from "@/components/LessonComponents/VideoChat/VideoComponent";
-import Driver from "./Driver";
+import VideoItem from "@/components/VideoChat/Item";
+import Driver from "./Driver/";
 import { mapGetters } from "vuex";
 
 export default {
   name: "WebCam",
-  components: { VideoComponent },
+  components: { VideoItem },
   data() {
     return {
       medias: [],
@@ -126,6 +127,9 @@ export default {
           behavior: "smooth"
         });
       }
+    },
+    clickExpand() {
+      this.$emit("clickExpand");
     },
     videoWrapJustify(currentIndex) {
       // Если текущий элемент стоит до активного,

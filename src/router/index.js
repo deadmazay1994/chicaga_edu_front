@@ -293,9 +293,9 @@ router.beforeEach((to, from, next) => {
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
     if (!localStorage.getItem("token")) {
+      localStorage.setItem("to", to.fullPath);
       next({
-        path: "/auth/login",
-        query: { redirect: to.fullPath }
+        path: "/auth/login"
       });
       store.commit("pushShuckbar", {
         val: "Пожалуйста, авторизируйтесь",

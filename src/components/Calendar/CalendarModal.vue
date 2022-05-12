@@ -89,7 +89,7 @@ export default {
   margin-top: -287px
   margin-left: -260px
   background: #FFFFFF
-  font-family:  sf-ui, sans-serif
+  font-family: Manrope, sans-serif
   color: #252525
   border-radius: 15px
   // padding: 30px 25px 25px 25px
@@ -102,7 +102,7 @@ export default {
     background: url(~@/assets/imgs/calendarHeader.png) no-repeat
 
     .modal-head__title
-      font-family:  sf-ui, sans-serif !important
+      font-family: Manrope, sans-serif !important
       font-weight: 600
       font-size: 32px
       line-height: 41.6px

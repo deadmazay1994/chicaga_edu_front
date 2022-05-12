@@ -1,10 +1,11 @@
 <template>
-  <div class="chat-module" :class="viewMode">
+  <div class="chat-module" :class="viewMode" ref="chatFrame">
     <web-cam
       :roomId="roomId"
       :showChatButton="modeBool"
       :chatState="chatState"
       @clickChat="toggleChat()"
+      @clickExpand="toggleFullScreen"
       :shareMedia="shareMedia"
       :class="{ chatActive: chatState }"
       class="chat-module__web-cam"
@@ -16,8 +17,8 @@
 </template>
 
 <script>
-import WebCam from "@/components/LessonComponents/WebCam/WebCam";
-import Chat from "@/components/LessonComponents/Chat/Chat";
+import WebCam from "@/components/VideoChat";
+import Chat from "@/components/Chat/Chat";
 
 export default {
   name: "ChatModule",
@@ -56,6 +57,26 @@ export default {
   methods: {
     toggleChat() {
       this.chatState = !this.chatState;
+    },
+    toggleFullScreen() {
+      if (!this.fullscreenOn) {
+        let elem = this.$refs.chatFrame;
+        this.fullscreenOn = true;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        } else {
+          this.fullscreenOn = false;
+        }
+      } else {
+        document.exitFullscreen();
+        this.fullscreenOn = false;
+      }
     }
   }
 };
@@ -70,7 +91,7 @@ export default {
     height: 50%
   &__text-chat
     color: #000
-    font-family: sf-ui, sans-serif
+    font-family: Manrope, sans-serif
     font-weight: 500
     background: #fff
     box-shadow: 0 4px 20px hsl(0deg 0% 50% / 20%)

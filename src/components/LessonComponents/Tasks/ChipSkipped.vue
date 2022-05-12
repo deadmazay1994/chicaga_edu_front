@@ -186,6 +186,19 @@ export default {
         })
       };
     },
+    initResultArr() {
+      this.resultArr = this.sentencesMap.map(sentence =>
+        sentence
+          .filter(sentence => sentence.endsWith("{gap}"))
+          .map((_, i) => ({
+            index: i,
+            answerIndex: null,
+            text: null,
+            state: "default",
+            selected: false
+          }))
+      );
+    },
     dispalyResults(results) {
       for (const i in results) {
         let row = results[i];
@@ -199,19 +212,6 @@ export default {
             this.resultArr[i][j].state = answer ? "success" : "error";
           });
       }
-    },
-    initResultArr() {
-      this.resultArr = this.sentencesMap.map(sentence =>
-        sentence
-          .filter(sentence => sentence.endsWith("{gap}"))
-          .map((_, i) => ({
-            index: i,
-            answerIndex: null,
-            text: null,
-            state: "default",
-            selected: false
-          }))
-      );
     }
   },
   beforeMount() {
