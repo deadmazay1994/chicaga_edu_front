@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import WebCam from "@/components/LessonComponents/WebCam/WebCam";
-import Chat from "@/components/LessonComponents/Chat/Chat";
+import WebCam from "@/components/VideoChat";
+import Chat from "@/components/Chat/Chat";
 
 export default {
   name: "ChatModule",
