@@ -204,7 +204,6 @@ export default {
 
   li.breadcrumb-item
     display: inline-block
-    font-family: sf-ui, sans-serif
     font-weight: 600
     font-size: 14px
     line-height: 16.71px
@@ -212,9 +211,15 @@ export default {
     & + li.breadcrumb-item
       margin-left: .25rem
 
+      span
+        margin-left: .25rem
+
       &::before
         content: "/"
         color: #FF0000
+
+    span
+      color: rgba(128, 128, 128, 1)
 
     a
       color: rgba(128, 128, 128, 0.6)
