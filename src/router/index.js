@@ -48,7 +48,7 @@ const routes = [
     component: Lesson,
     meta: {
       requiresAuth: true,
-      breadcrumb: () => `Урок`
+      breadcrumb: { dynamic: true }
     }
   },
   {
@@ -165,9 +165,10 @@ const routes = [
     meta: {
       requiresAuth: true,
       guest: false,
-      breadcrumb: {
-        label: "Личный кабинет"
-      }
+      breadcrumb: "Личный кабинет"
+      // {
+      //   label: "Личный кабинет"
+      // }
     },
     children: [
       {
@@ -227,7 +228,7 @@ const routes = [
           showComponent: true
         },
         meta: {
-          breadcrumb: () => `Комната ожидания`
+          breadcrumb: `Комната ожидания`
         }
       },
       {

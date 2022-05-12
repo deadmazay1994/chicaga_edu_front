@@ -102,7 +102,7 @@ export default {
       };
     },
     async getFullLesson(id) {
-      return get("lesson", id);
+      return await get("lesson", id);
     },
     async getLessonProgress(courseId, lesonId) {
       return await get(`user/course/${courseId}/lesson/${lesonId}`);
