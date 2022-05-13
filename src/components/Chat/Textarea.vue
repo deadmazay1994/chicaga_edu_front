@@ -17,13 +17,14 @@
         />
       </div>
     </div>
-    <input
+    <textarea
       name="msg"
       placeholder="Сообщение"
       class="messages__controls__textarea"
       v-model="msgText"
-      v-on:keyup.enter="enter()"
-    />
+      v-on:keyup.enter.exact="enter()"
+      rows="1"
+    ></textarea>
     <svg class="messages__controls__svg" v-on:click="send()">
       <use xlink:href="#forward"></use>
     </svg>
@@ -70,7 +71,7 @@ export default {
     let form = this.$refs.form;
     form.onkeyup = e => {
       if (e.keyCode == 13 && e.ctrlKey) {
-        this.send();
+        this.msgText += "\r\n";
       }
     };
   }
