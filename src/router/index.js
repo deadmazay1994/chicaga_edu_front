@@ -21,6 +21,7 @@ import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
+import StoreComponent from "@/components/Lk/Store/StoreComponent";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -201,6 +202,10 @@ const routes = [
         path: "webinar-upcoming/:id/:code",
         name: "upcoming-webinar",
         component: UpcomingLesson
+      },
+      {
+        path: "store",
+        component: StoreComponent
       }
     ]
   },
