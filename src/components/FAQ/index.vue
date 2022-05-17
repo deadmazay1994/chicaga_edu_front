@@ -1,7 +1,6 @@
 <template>
   <div class="faq vue-component front relative">
     <v-container>
-      <page-title :title="title" :subtitle="subtitle" />
       <div class="faq__questions">
         <v-row v-if="faq.length">
           <v-col cols="12" md="8" lg="6" v-for="(question, i) in faq" :key="i">
@@ -29,8 +28,6 @@
 <script>
 import Question from "./Question";
 
-import PageTitle from "@/components/Base/PageTitle";
-
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "faq",
@@ -46,7 +43,7 @@ export default {
   computed: {
     ...mapGetters(["faq"])
   },
-  components: { PageTitle, Question },
+  components: { Question },
   props: [],
   mixins: {},
   beforeMount() {
