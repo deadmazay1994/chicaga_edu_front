@@ -28,29 +28,23 @@ export default {
       this.breadcrumbList = [];
       for (let i = 0; i < this.$route.matched.length; i++) {
         let currRoute = this.$route.matched[i];
+        let name;
         if (typeof currRoute.meta.breadcrumb === "function") {
-          let r = await currRoute.meta.breadcrumb(this.$route);
-          if (currRoute.name === this.$route.name)
-            this.breadcrumbList.push({ name: r, link: false });
-          else
-            this.breadcrumbList.push({
-              name: r,
-              link: true,
-              path: currRoute.path
-            });
+          name = await currRoute.meta.breadcrumb(this.$route);
         } else {
-          if (currRoute.name === this.$route.name)
-            this.breadcrumbList.push({
-              name: currRoute.meta.breadcrumb,
-              link: false
-            });
-          else
-            this.breadcrumbList.push({
-              name: currRoute.meta.breadcrumb,
-              link: true,
-              path: currRoute.path
-            });
+          name = currRoute.meta.breadcrumb;
         }
+        if (currRoute.name === this.$route.name)
+          this.breadcrumbList.push({
+            name,
+            link: false
+          });
+        else
+          this.breadcrumbList.push({
+            name,
+            link: true,
+            path: currRoute.path
+          });
       }
     }
   },

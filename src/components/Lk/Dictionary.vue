@@ -1,6 +1,5 @@
 <template>
   <div class="dictionary vue-component">
-    <page-title title="Словарь" />
     <v-row v-if="!dictLoaded">
       <v-col v-for="(i, j) in new Array(16)" :key="j" cols="3">
         <v-card class="front">
@@ -29,8 +28,6 @@
 </template>
 
 <script>
-import PageTitle from "@/components/Base/PageTitle";
-
 import { mapGetters } from "vuex";
 
 export default {
@@ -46,9 +43,7 @@ export default {
   computed: {
     ...mapGetters(["dictionary", "dictLoaded"])
   },
-  components: {
-    PageTitle
-  },
+  components: {},
   props: [],
   mixins: {},
   beforeMount() {

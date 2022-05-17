@@ -1,5 +1,6 @@
 <template>
   <div class="page-title vue-component">
+    <div class="text-h2 front relative"></div>
     <div class="text-subtitle-2 mt-2 front relative">{{ subtitle }}</div>
   </div>
 </template>
