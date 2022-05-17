@@ -8,6 +8,7 @@
         width: returnStampWidth(index) + '%'
       }"
     >
+      <span class="stamp__title">{{ stamp.title }}</span>
       <div
         class="stamp__element"
         :style="{ width: returnProgress(index) + '%' }"
@@ -69,13 +70,19 @@ export default {
   cursor: pointer
 
   &:hover
-      transform: scaleY(1.75)
+    .stamp__title
+      opacity: 1
+  & + .stamp
+    margin-left: 2px
 
   .stamp__element
     height: 8px
     width: 0%
     background: #FF0000
 
-  & + .stamp
-    margin-left: 2px
+  .stamp__title
+    opacity: 0
+    position: absolute
+    margin-top: -33px
+    drop-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 1)
 </style>

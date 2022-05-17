@@ -13,7 +13,12 @@
             <div class="progress">
               <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
               <!-- <span class="buffered" :class="{ redline: active }"></span> -->
-              <Progress :currentTime="currentTime" :fullTime="30.526667" />
+              <Progress
+                @rewindTo="rewindTo"
+                ref="progress"
+                :currentTime="currentTime_"
+                :fullTime="returnVideo.duration"
+              />
             </div>
           </div>
           <dir class="bottom">
@@ -79,6 +84,7 @@ export default {
   },
   data() {
     return {
+      currentTime_: 0,
       changeVol: null,
       player: this.video,
       volume: false,
@@ -94,8 +100,7 @@ export default {
     video: HTMLVideoElement,
     active: Boolean,
     showChatButton: Boolean,
-    chatState: Boolean,
-    currentTime: Number
+    chatState: Boolean
   },
   computed: {
     videoIsActive() {
@@ -104,9 +109,22 @@ export default {
     },
     roomId() {
       return this.$parent.$parent._props.roomId;
+    },
+    returnVideo() {
+      let video = this.$refs.videoElemSlot.$el.querySelector("video");
+      return video ? video : 0;
     }
   },
   methods: {
+    onTimeUpdate(currentTime) {
+      this.currentTime_ = currentTime;
+    },
+    rewindTo(x) {
+      let progressPercent = (x * 100) / this.$refs.progress.$el.clientWidth;
+      console.log("time width:", progressPercent);
+      let time = (progressPercent * 30.52667) / 100;
+      this.$emit("rewind", time);
+    },
     playVideo() {
       this.videoPlayer.play();
     },

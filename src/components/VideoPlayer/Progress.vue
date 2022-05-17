@@ -1,6 +1,9 @@
 <template>
   <div class="progress" ref="progress" @click="rewind($event)">
     <progress-item
+      :key="index"
+      ref="progressItem"
+      @rewindTo="rewindTo"
       :currentTime="currentTime"
       :fullTime="fullTime"
       :timestamps="timestamps"
@@ -35,13 +38,12 @@ export default {
   props: ["currentTime", "fullTime"],
   methods: {
     rewind(e) {
-      // let x = e.pageX;
-      // let y = e.pageY;
       let rect = this.$refs.progress.getBoundingClientRect();
-      console.log(
-        e.target.getBoundingClientRect(),
-        `test: x -- ${e.clientX - rect.left} \n y -- ${e.clientY - rect.top}`
-      );
+      let elemX = e.clientX - rect.left;
+      this.rewindTo(elemX);
+    },
+    rewindTo(x) {
+      this.$emit("rewindTo", x);
     }
   }
 };
