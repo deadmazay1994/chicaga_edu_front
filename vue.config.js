@@ -19,7 +19,7 @@ module.exports = {
           __dirname,
           "src/components/LessonComponents/VideoChat/"
         ),
-        Chat: path.resolve(__dirname, "src/components/LessonComponents/Chat/"),
+        Chat: path.resolve(__dirname, "src/components/Chat/"),
         Components: path.resolve(__dirname, "src/components/"),
         Mixns: path.resolve(__dirname, "src/mixins")
       }

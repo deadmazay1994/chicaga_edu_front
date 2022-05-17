@@ -4,7 +4,7 @@
     <div class="task__header">
       <div class="task__header__item">
         <div class="task__header__inner">
-          <animated-cool-svg ref="animatedCool" />
+          <animated-cool-svg ref="animatedCool" style="position: absolute;" />
           <span class="points">{{ points.smile }}</span>
         </div>
 
@@ -21,12 +21,6 @@
         <div class="task__header__inner">
           <animated-lamp-svg ref="animatedLamp" />
           <span class="points">{{ points.lamp }}</span>
-        </div>
-      </div>
-      <div class="task__header__item">
-        <div class="task__header__inner">
-          <animated-coin-png ref="animatedCoin" />
-          <span class="points">{{ points.coins }}</span>
         </div>
       </div>
     </div>
@@ -82,7 +76,6 @@ import AnimatedCoolSvg from "@/components/Icons/AnimatedCoolSvg";
 import AnimatedStarSvg from "@/components/Icons/AnimatedStarSvg";
 import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
 import AnimatedLampSvg from "@/components/Icons/AnimatedLampSvg";
-import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 
 import api from "@/mixins/api";
 import gsap from "gsap";
@@ -117,6 +110,14 @@ export default {
             break;
         }
       });
+    },
+    // для тестирования анимации
+    test() {
+      this.$refs.animatedCool.animate();
+      this.$refs.animatedStar.animate();
+      this.$refs.animatedBrain.animate();
+      this.$refs.animatedLamp.animate();
+      this.$refs.animatedCoin.animate();
     }
   },
   computed: {
@@ -136,8 +137,7 @@ export default {
     AnimatedCoolSvg,
     AnimatedStarSvg,
     AnimatedBrainSvg,
-    AnimatedLampSvg,
-    AnimatedCoinPng
+    AnimatedLampSvg
   },
   props: [],
   mixins: {},
@@ -173,9 +173,6 @@ export default {
     },
     "points.lamp": function() {
       this.$refs.animatedLamp.animate();
-    },
-    "points.coins": function() {
-      this.$refs.animatedCoin.animate();
     }
   },
   async mounted() {
@@ -222,7 +219,7 @@ export default {
   background: none;
   cursor: pointer;
   box-sizing: border-box;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   padding-left: 20px;
   padding-right: 20px;
@@ -281,6 +278,6 @@ export default {
 }
 
 .points {
-  margin-left: 0.5rem;
+  margin-left: 35px;
 }
 </style>

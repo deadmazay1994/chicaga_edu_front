@@ -1,6 +1,5 @@
 <template>
   <div class="catalog-c vue-component">
-    <page-title title="Мои курсы" />
     <v-row>
       <template v-if="myCourses.length">
         <v-col v-for="course in myCourses" :key="course.id" cols="12" lg="4">
@@ -20,7 +19,6 @@
 </template>
 
 <script>
-import PageTitle from "@/components/Base/PageTitle";
 import CourseCard from "@/components/Lk/Courses/CourseCard";
 import Plug from "./CatalogCoursePlug";
 
@@ -39,7 +37,6 @@ export default {
   },
   components: {
     CourseCard,
-    PageTitle,
     Plug
   },
   props: [],

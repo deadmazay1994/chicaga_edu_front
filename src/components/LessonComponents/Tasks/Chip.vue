@@ -51,7 +51,7 @@ export default {
   box-sizing: border-box
 
   .chip__text
-    font-family: "sf-ui", sans-serif
+    font-family: Manrope, sans-serif
     font-size: 16px
     font-weight: 500
     line-height: 20px

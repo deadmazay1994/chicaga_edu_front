@@ -1,5 +1,5 @@
 // const API_URL = "https://eng-test.avead.dev/api/";
-const API_URL = "https://dev.edu.chicaga.ru/api/";
+const API_URL = "https://edu.chicaga.ru/api/";
 
 import Axios from "axios";
 
@@ -102,7 +102,7 @@ export default {
       };
     },
     async getFullLesson(id) {
-      return get("lesson", id);
+      return await get("lesson", id);
     },
     async getLessonProgress(courseId, lesonId) {
       return await get(`user/course/${courseId}/lesson/${lesonId}`);

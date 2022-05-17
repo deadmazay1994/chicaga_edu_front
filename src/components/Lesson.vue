@@ -7,7 +7,6 @@
         :shareMedia="shareMedia"
         mode="vertical"
       />
-      <lesson-start :display="false" />
     </div>
     <div class="lessons__task" style="width: 50%; margin-left: 0">
       <edu-panel class="lesson__edu-panel lesson__item" />
@@ -16,11 +15,8 @@
 </template>
 
 <script>
-// import WebCam from "@/components//LessonComponents/WebCam/WebCam.vue";
-// import TextChat from "@/components/LessonComponents/Chat/Chat";
-import ChatsModule from "@/components/LessonComponents/ChatModule/ChatModule";
+import ChatsModule from "@/components/ChatModule/ChatModule";
 import EduPanel from "@/components/LessonComponents/EduPanel";
-import LessonStart from "@/components/LessonComponents/LessonStart";
 
 import Io from "socket.io-client";
 import SocketMixin from "@/mixins/socket.js";
@@ -83,10 +79,7 @@ export default {
   },
   components: {
     EduPanel,
-    LessonStart,
     ChatsModule
-    // TextChat,
-    // WebCam
   },
   props: ["webinarMode"],
   mixins: [OurCursor, SocketMixin],

@@ -122,7 +122,7 @@ export default {
   height: 125px
   width: 154px
   position: relative
-  font-family: sf-ui, sans-serif
+  font-family: Manrope, sans-serif
   cursor: pointer
 
   .cell-head
