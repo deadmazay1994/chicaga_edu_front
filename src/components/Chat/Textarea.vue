@@ -23,7 +23,6 @@
       class="messages__controls__textarea"
       v-model="msgText"
       v-on:keyup.enter.exact="enter()"
-      readonly
       rows="1"
     ></textarea>
     <svg class="messages__controls__svg" v-on:click="send()">
