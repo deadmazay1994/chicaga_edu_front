@@ -1,33 +1,5 @@
 @charset "UTF-8";
 
-@font-face {
-  font-family: sf-ui;
-  src: url(../fonts/sf-ui-display-medium.woff) format("woff");
-  font-weight: 500;
-  font-style: normal
-}
-
-@font-face {
-  font-family: sf-ui;
-  src: url(../fonts/sf-ui-display-semibold.woff) format("woff");
-  font-weight: 600;
-  font-style: normal
-}
-
-@font-face {
-  font-family: sf-ui;
-  src: url(../fonts/sf-ui-display-bold.woff) format("woff");
-  font-weight: 700;
-  font-style: normal
-}
-
-@font-face {
-  font-family: sf-ui;
-  src: url(../fonts/sf-ui-display-black.woff) format("woff");
-  font-weight: 900;
-  font-style: normal
-}
-
 *,
 :after,
 :before {
@@ -55,13 +27,6 @@ button {
 img {
   max-width: 100%;
   height: auto
-}
-
-a,
-body,
-button {
-  font-family: sf-ui, sans-serif;
-  font-weight: 700
 }
 
 a,
@@ -221,7 +186,7 @@ button {
   padding: 20px 15px;
   margin-top: 30px;
   font-size: 12px;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500
 }
 
@@ -544,7 +509,7 @@ button {
 
 .profile__menu,
 .profile__menu button {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px
 }
@@ -639,7 +604,7 @@ button {
 }
 
 .banner {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   color: #fff;
   font-size: 22px;
@@ -767,7 +732,7 @@ button {
 }
 
 .member__name {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 8px;
   position: absolute;
@@ -804,7 +769,7 @@ button {
 
 .lessons__messages {
   color: #000;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   background: #fff;
   box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2);
@@ -841,7 +806,7 @@ button {
 }
 
 .messages__number-of-members {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 14px
 }
@@ -862,7 +827,7 @@ button {
   color: #000;
   border-radius: 5px;
   width: 155px;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   display: none
@@ -885,7 +850,7 @@ button {
 }
 
 .messages__content-initial {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   text-align: center;
@@ -971,7 +936,7 @@ button {
   border-radius: 5px;
   width: 155px;
   padding: 5px 5px 5px 25px;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   display: none
@@ -1001,9 +966,9 @@ button {
   overflow-y: auto
 }
 
-.messages__content::-webkit-scrollbar {
+/* .messages__content::-webkit-scrollbar {
   width: 0
-}
+} */
 
 .messages__content.active {
   display: block
@@ -1019,12 +984,6 @@ button {
   }
 }
 
-.messages__item {
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: 15px
-}
-
 .messages__author-img-block {
   max-width: 35px;
   max-height: 35px;
@@ -1037,30 +996,6 @@ button {
 .messages__author-img {
   width: 100%;
   height: 100%
-}
-
-.messages__message {
-  flex-grow: 1;
-  background: #f8f8f8;
-  border-radius: 10px;
-  padding: 10px
-}
-
-.message__author,
-.message__text {
-  font-family: sf-ui, sans-serif;
-  font-weight: 500;
-  font-size: 12px
-}
-
-.message__link {
-  text-decoration: underline;
-  color: #598aeb
-}
-
-.message__author {
-  color: rgba(255, 0, 0, .8);
-  margin-bottom: 5px
 }
 
 .messages__controls {
@@ -1404,7 +1339,7 @@ button {
 }
 
 .task__item-input {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   border: 0;
   border-bottom: 1px solid #0d0d0d;
@@ -1443,7 +1378,7 @@ button {
 }
 
 .student-results__header {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 14px;
   justify-content: space-between;
@@ -1618,7 +1553,7 @@ button {
 }
 
 .red-btn--team {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   padding: 11px 70px;
   font-size: 20px
@@ -1767,7 +1702,7 @@ button {
 }
 
 .shop__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px
 }
@@ -1832,7 +1767,7 @@ button {
 }
 
 .popular__item-title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   margin-bottom: 10px
@@ -1844,7 +1779,7 @@ button {
 }
 
 .merch__item-price {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 12px;
   display: flex;
@@ -1852,7 +1787,7 @@ button {
 }
 
 .merch__item-price--order {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 16px
 }
@@ -1885,7 +1820,7 @@ button {
 }
 
 .shop__more {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   color: gray;
@@ -1899,7 +1834,7 @@ button {
 }
 
 .hoodie__price {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 12px;
   background: rgba(255, 0, 0, .8);
@@ -1978,7 +1913,7 @@ button {
 }
 
 .hoodie__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 14px;
   text-align: center;
@@ -2076,14 +2011,14 @@ button {
 }
 
 .slider__subtitle {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   margin-bottom: 15px
 }
 
 .slider__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 22px;
   color: #0d0d0d;
@@ -2253,14 +2188,14 @@ button {
 }
 
 .promotion__item-text {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 12px;
   text-align: center
 }
 
 .promotion__item-span {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700
 }
 
@@ -2353,7 +2288,7 @@ button {
 }
 
 .speaker__item-title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   margin-bottom: 10px
@@ -2371,7 +2306,7 @@ button {
 }
 
 .courses__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px;
   position: relative;
@@ -2411,7 +2346,7 @@ button {
 }
 
 .courses__title--hidden {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 10px;
@@ -2468,7 +2403,7 @@ button {
 }
 
 .course__last-price {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   color: hsla(0, 0%, 50%, .6);
   margin-bottom: 5px
@@ -2520,7 +2455,7 @@ button {
 }
 
 .course__text {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 10px;
   margin-left: 10px;
@@ -2534,7 +2469,7 @@ button {
 }
 
 .course__tag {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   padding: 4px 20px;
   margin-right: 25px;
@@ -2552,7 +2487,7 @@ button {
 }
 
 .course__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 14px;
@@ -2568,7 +2503,7 @@ button {
 }
 
 .course__btn {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 12px;
   color: red;
@@ -2632,7 +2567,7 @@ button {
 
 .form__input,
 .form__label {
-  font-family: sf-ui, sans-serif
+  font-family: Manrope, sans-serif
 }
 
 .form__input {
@@ -2686,7 +2621,7 @@ button {
 }
 
 .order__btn {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   background: red;
@@ -2697,7 +2632,7 @@ button {
 }
 
 .order__btn--bold {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 14px;
   padding: 15px 70px;
@@ -2772,7 +2707,7 @@ button {
 }
 
 .radio-label {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 14px;
   margin-left: 10px
@@ -2796,7 +2731,7 @@ button {
 
 .order__pay,
 .order__total {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500
 }
 
@@ -2819,12 +2754,12 @@ button {
 }
 
 .order__span {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700
 }
 
 .modal--about__content {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   padding: 25px;
   box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2);
@@ -2846,7 +2781,7 @@ button {
 }
 
 .modal--about__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px;
   align-self: flex-start
@@ -2910,7 +2845,7 @@ button {
 }
 
 .modal--about__price {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px
 }
@@ -3096,7 +3031,7 @@ button {
 }
 
 .cart__item-amount {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   color: gray;
   font-size: 12px
@@ -3116,7 +3051,7 @@ button {
 }
 
 .cart__item-title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
   margin-bottom: 7px
@@ -3192,7 +3127,7 @@ button {
 
 .total__price,
 .total__title {
-  font-family: sf-ui, sans-serif
+  font-family: Manrope, sans-serif
 }
 
 .total__price {
@@ -3224,7 +3159,7 @@ button {
   padding: 15px;
   align-items: center;
   justify-content: space-between;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px;
   color: #fff;
@@ -3296,7 +3231,7 @@ button {
 .shop-slider__item p {
   position: relative;
   z-index: 4;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 22px
 }
@@ -3349,7 +3284,7 @@ button {
 }
 
 .war__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   font-size: 45px
 }
@@ -3367,7 +3302,7 @@ button {
 }
 
 .war__subtitle {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 20px;
   margin-top: 10px
@@ -3386,7 +3321,7 @@ button {
 }
 
 .war__players-number {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 14px;
   color: red;
@@ -3471,7 +3406,7 @@ button {
 }
 
 .config__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   color: red;
   font-size: 20px;
@@ -3481,7 +3416,7 @@ button {
 .config__item {
   width: 70%;
   margin: 0 auto 35px;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   text-align: left;
   font-size: 14px
@@ -3517,7 +3452,7 @@ button {
 }
 
 .sidebar__item {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   background: #fff2f2;
   box-shadow: 0 4px 10px hsla(0, 0%, 50%, .2);
@@ -3537,7 +3472,7 @@ button {
 }
 
 .sidebar__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 16px;
   color: #000
@@ -3558,7 +3493,7 @@ button {
 .history__item {
   display: flex;
   align-items: center;
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   color: gray;
   font-size: 14px
@@ -3607,7 +3542,7 @@ button {
 }
 
 .rating__item-text {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 16px;
   color: gray;
@@ -3627,7 +3562,7 @@ button {
 }
 
 .rating__number {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 14px
@@ -3863,7 +3798,7 @@ button {
 }
 
 .clan-task__content {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 500;
   max-height: 630px;
   overflow: auto
@@ -3929,7 +3864,7 @@ button {
 
 .clan-task__task-name,
 .clan-task__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   font-size: 18px
 }
@@ -3999,7 +3934,7 @@ button {
 }
 
 .modal--clan {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600
 }
 
@@ -4170,7 +4105,7 @@ button {
 }
 
 .modal--final-result__title {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   margin: 0 auto 15px;
   max-width: 200px;
@@ -4178,7 +4113,7 @@ button {
 }
 
 .modal--final-result__title--modified {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 700;
   border-bottom: 2px solid red;
   padding-bottom: 5px;
@@ -4396,7 +4331,7 @@ button {
 }
 
 .diagram .text {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   position: absolute;
   z-index: 3;
@@ -4426,7 +4361,7 @@ button {
 }
 
 .modal--final-result__evalution__item p {
-  font-family: sf-ui, sans-serif;
+  font-family: Manrope, sans-serif;
   font-weight: 600;
   margin-top: 15px;
   font-size: 12px

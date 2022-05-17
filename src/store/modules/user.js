@@ -28,9 +28,11 @@ export default {
             commit("setUser", response.data);
             commit("setToken", response.data.api_token);
             let redirectUrl = "/lk/my-coursers";
-            if (router.currentRoute.query.redirect)
-              redirectUrl = router.currentRoute.query.redirect;
+            if (localStorage.getItem("to")) {
+              redirectUrl = localStorage.getItem("to");
+            }
             router.push({ path: redirectUrl });
+            localStorage.removeItem("to");
             barText = "Вы успешно авторизировались";
             barStatus = true;
           }

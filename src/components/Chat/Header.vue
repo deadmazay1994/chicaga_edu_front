@@ -3,7 +3,7 @@
     <p class="messages__number-of-members">
       Чат
       <span class="number-of-members__number"
-        >{{ this.usersInChat }} участника</span
+        >({{ this.usersInChat }} участника)</span
       >
     </p>
     <!-- <div class="messages__img">

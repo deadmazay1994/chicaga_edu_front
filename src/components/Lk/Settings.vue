@@ -1,6 +1,5 @@
 <template>
   <div class="user-settings vue-component">
-    <page-title :title="pageTitle" :subtitle="subtitle" />
     <v-form @submit.prevent v-model="valid" :lazy-validatio="true" ref="form">
       <v-row class="mt-10" style="justify-content: space-between">
         <v-col cols="12" md="6">
@@ -69,7 +68,6 @@
 
 <script>
 import UploadAvatar from "vue-image-crop-upload";
-import PageTitle from "@/components/Base/PageTitle";
 
 import { mapGetters } from "vuex";
 
@@ -77,7 +75,6 @@ export default {
   name: "user-settings",
   data: function() {
     return {
-      pageTitle: "Настройки",
       subtitle: "На данной странице вы можете изменить данные о себе",
       showUpladAvatar: false,
       oldPassword: "",
@@ -123,8 +120,7 @@ export default {
     ...mapGetters(["user", "avatar"])
   },
   components: {
-    UploadAvatar,
-    PageTitle
+    UploadAvatar
   },
   props: [],
   mixins: {},

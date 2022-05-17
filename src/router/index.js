@@ -48,7 +48,10 @@ const routes = [
     component: Lesson,
     meta: {
       requiresAuth: true,
-      breadcrumb: () => `Урок`
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      }
     }
   },
   {
@@ -58,7 +61,10 @@ const routes = [
     meta: {
       requiresAuth: true,
       checkAccess: true,
-      breadcrumb: routeParams => `Урок ${routeParams.id}`
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      }
     }
   },
   {
@@ -67,7 +73,7 @@ const routes = [
     component: Homework,
     meta: {
       requiresAuth: true,
-      breadcrumb: () => `Домашняя работа`
+      breadcrumb: `Домашняя работа`
     }
   },
   {
@@ -76,7 +82,7 @@ const routes = [
     component: Homework,
     meta: {
       requiresAuth: true,
-      breadcrumb: () => `Домашняя работа`
+      breadcrumb: `Домашняя работа`
     }
   },
   {
@@ -86,7 +92,7 @@ const routes = [
     meta: {
       // forTeacher: true,
       requiresAuth: true,
-      breadcrumb: () => `Превью урока`
+      breadcrumb: `Превью урока`
     }
   },
   {
@@ -165,9 +171,10 @@ const routes = [
     meta: {
       requiresAuth: true,
       guest: false,
-      breadcrumb: {
-        label: "Личный кабинет"
-      }
+      breadcrumb: "Личный кабинет"
+      // {
+      //   label: "Личный кабинет"
+      // }
     },
     children: [
       {
@@ -227,7 +234,7 @@ const routes = [
           showComponent: true
         },
         meta: {
-          breadcrumb: () => `Комната ожидания`
+          breadcrumb: `Комната ожидания`
         }
       },
       {
@@ -293,9 +300,9 @@ router.beforeEach((to, from, next) => {
     // этот путь требует авторизации, проверяем залогинен ли
     // пользователь, и если нет, перенаправляем на страницу логина
     if (!localStorage.getItem("token")) {
+      localStorage.setItem("to", to.fullPath);
       next({
-        path: "/auth/login",
-        query: { redirect: to.fullPath }
+        path: "/auth/login"
       });
       store.commit("pushShuckbar", {
         val: "Пожалуйста, авторизируйтесь",

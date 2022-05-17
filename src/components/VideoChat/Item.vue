@@ -14,8 +14,8 @@
         :active="active"
         :showChatButton="showChatButton"
         :chatState="chatState"
-        @clickChat="clickChat"
-        @clickExpand="clickExpand"
+        @clickChat="$emit('clickChat')"
+        @clickExpand="$emit('clickExpand')"
       >
         <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
           <video
@@ -72,14 +72,12 @@
 
 <script>
 import Expand from "@/components/Icons/Expand.vue";
-// import Speaker from "@/components/Icons/Speaker.vue";
 import MuteMicro from "@/components/Icons/Mute.vue";
 import Camera from "@/components/Icons/Camera.vue";
 import Reflect from "@/components/Icons/Reflect.vue";
-import VideoPlayer from "./VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
 
-import { mapActions, mapGetters, mapMutations } from "vuex";
-// import Hark from "hark";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "video-component",
@@ -90,26 +88,10 @@ export default {
       borderColor: "",
       audioMuted: null,
       cameraOff: null
-      // cameraOffState: window.localStorage.getItem("videochat_microphone_state"),
-      // audioMutedState: window.localStorage.getItem("videochat_camera_state")
     };
   },
   methods: {
-    ...mapActions([
-      "setCapture",
-      "toggleCaptureAndCameraAction",
-      "toggleMediaTrackPC"
-    ]),
     ...mapMutations(["setmyCaptureMedia"]),
-    clickExpand() {
-      this.$emit("clickExpand");
-    },
-    clickChat() {
-      this.$emit("clickChat");
-    },
-    toggleFullSize() {
-      this.$emit("toggleFullSize", this.indexVideo);
-    },
     toggleFullSizeVideoInWindow() {
       let elem = this.$refs.video;
       if (elem.requestFullscreen) {
@@ -123,172 +105,25 @@ export default {
       }
     },
     toggleCamera() {
-      // this.mediaObject.videoOff = !this.mediaObject.videoOff;
-      // window.localStorage.setItem(
-      //   "videochat_camera_state",
-      //   this.mediaObject.videoOff
-      // );
-      // this.toggleMediaTrackPC({
-      //   mediaType: "video",
-      //   value: this.mediaObject.videoOff,
-      //   el: this.$el
-      // });
       window.localStorage.setItem("videochat_camera_state", this.cameraOff);
       this.cameraOff = !this.cameraOff;
       this.$parent.$emit("toggleCamera", this.cameraOff);
     },
     toggleMicro() {
-      // console.log("this.mediaObject.audioOff", this.mediaObject.audioOff);
-      // this.mediaObject.audioOff = !this.mediaObject.audioOff;
-      // window.localStorage.setItem(
-      //   "videochat_microphone_state",
-      //   this.mediaObject.audioOff
-      // );
       window.localStorage.setItem(
         "videochat_microphone_state",
         this.audioMuted
       );
       this.audioMuted = !this.audioMuted;
       this.$parent.$emit("toggleMicro", this.audioMuted);
-      // this.toggleMediaTrackPC({
-      //   mediaType: "audio",
-      //   value: this.mediaObject.audioOff,
-      //   el: this.$el
-      // });
     },
     setStream(stream = this.mediaObject.stream) {
       stream.addVideoElement(this.$refs.video);
-      // console.log(stream.mediaStream);
-      // if (!this.mediaObject.im) {
-      //   console.log(stream.getTracks());
-      // }
-
-      // if ("srcObject" in video) {
-      //   video.srcObject = stream;
-      // } else {
-      //   this.alertError(`srcObject is undefined`);
-      //   video.src = window.URL.createObjectURL(stream); // for older browsers
-      // }
-      // if (this.isMobileSafari()) {
-      //   // Hacks for Mobile Safari
-      //   video.setAttribute("playsinline", true);
-      //   video.setAttribute("controls", true);
-      //   setTimeout(() => {
-      //     video.removeAttribute("controls");
-      //   });
-      //   this.alertError(`detected mobile safari`);
-      // }
-      // video.play();
-    },
-    isMobileSafari() {
-      let userAgent = window.navigator.userAgent;
-      return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
-    },
-    async initSpechEvents() {
-      // let stream;
-      // if (this.mediaObject.im) {
-      //   // Получаем независый трек
-      //   let getIndependedAudioStream = async () => {
-      //     let audio = false;
-      //     try {
-      //       audio = await navigator.mediaDevices.getUserMedia({
-      //         audio: true
-      //       });
-      //     } catch (e) {
-      //       console.log(e);
-      //     }
-      //     return audio;
-      //   };
-      //   stream = await getIndependedAudioStream();
-      // } else {
-      //   stream = this.mediaObject.stream;
-      //   console.log(stream.getAudioTracks());
-      // }
-      // let speechEvents = Hark(stream, {
-      //   interval: 10
-      // });
-      // speechEvents.on("speaking", this.onSpeeking);
-      // speechEvents.on("stopped_speaking", this.onStopSpeeking);
-    },
-    onSpeeking() {
-      // console.group("Start speeking");
-      // console.dirxml(this.$el);
-      // consolehark.groupEnd();
-      let setBorderColor = () => {
-        let myAudioEnabled = !this.mediaObject.audioOff;
-        let itsNotIm = !this.mediaObject.im;
-        if (itsNotIm || myAudioEnabled) {
-          this.borderColor = this.mediaObject.color
-            ? this.mediaObject.color
-            : "#c4ac7e";
-        }
-      };
-      setBorderColor();
-
-      // Включает звук, когда уровень громкости становится достаточным
-      // Позволяет фильтровать тихие шумы
-      let unMuteByAudioLevel = () => {
-        // Включение только своего трека при условии, что пользовтель себя не замьютил
-        let myAudioEnabled = !this.mediaObject.audioOff;
-        if (this.mediaObject.im && myAudioEnabled) {
-          this.toggleMediaTrackPC({
-            mediaType: "audio",
-            value: false,
-            el: this.$el
-          });
-        }
-      };
-      unMuteByAudioLevel();
-    },
-    onStopSpeeking() {
-      this.borderColor = "";
-
-      // Выключает звук, когда уровень громкости становится достаточно малым
-      // Позволяет фильтровать тихие шумы
-      let muteByAudioLevel = () => {
-        this.toggleMediaTrackPC({
-          mediaType: "audio",
-          value: true,
-          el: this.$el
-        });
-      };
-      if (this.mediaObject.im) {
-        muteByAudioLevel();
-      }
     },
     toggleScreenAndCapture() {
-      if (this.mediaObject.userInfo.screenActive) return this.publishWebcam();
-      this.publishScreen();
-    },
-    publishScreen() {
+      if (this.mediaObject.userInfo.screenActive)
+        return this.$parent.$emit("publishWebcam");
       this.$parent.$emit("publishScreen");
-    },
-    publishWebcam() {
-      this.$parent.$emit("publishWebcam");
-    },
-    initMyVideoStates() {
-      if (this.mediaObject.im) {
-        let videoState =
-          window.localStorage.getItem("videochat_camera_state") == "true";
-        let audioState =
-          window.localStorage.getItem("videochat_microphone_state") == "true";
-        if (videoState) {
-          this.mediaObject.videoOff = videoState;
-          this.toggleMediaTrackPC({
-            mediaType: "video",
-            value: videoState,
-            el: this.$el
-          });
-        }
-        if (audioState) {
-          this.mediaObject.audioOff = audioState;
-          this.toggleMediaTrackPC({
-            mediaType: "audio",
-            value: audioState,
-            el: this.$el
-          });
-        }
-      }
     },
     onCanPlay() {
       this.$refs.video.addEventListener("canplay", () => {
@@ -322,9 +157,6 @@ export default {
         "border-color": this.borderColor
       };
     },
-    videoIsActive() {
-      return this.mediaObject.userInfo.videoActive === false;
-    },
     muted() {
       return this.itsMe;
     },
@@ -345,7 +177,6 @@ export default {
   },
   components: {
     Expand,
-    // Speaker,
     MuteMicro,
     Camera,
     Reflect,
@@ -362,17 +193,7 @@ export default {
   mixins: {},
   beforeMount() {},
   mounted() {
-    // this.$refs.video.addEventListener("canplay", () => {
-    //   if (this.muted) {
-    //     this.$refs.video.muted = true;
-    //   }
-    // });
     this.setStream();
-    if (!this.isMobileSafari()) {
-      this.initSpechEvents();
-      this.onStopSpeeking();
-    }
-    this.initMyVideoStates();
     this.onCanPlay();
     this.cameraOff = !JSON.parse(
       window.localStorage.getItem("videochat_camera_state")

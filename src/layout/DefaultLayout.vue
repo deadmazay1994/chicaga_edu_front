@@ -1079,9 +1079,6 @@ export default {
   width: 100px
   height: 100px
 
-.task-wrap
-  padding: 0 20px
-
 /* Our cursor */
 .our-cursor
   position: absolute
