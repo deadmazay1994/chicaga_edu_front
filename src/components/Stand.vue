@@ -1,8 +1,12 @@
 <template>
-  <div class="stand vue-component"></div>
+  <div class="stand vue-component">
+    <video-test />
+  </div>
 </template>
 
 <script>
+import VideoTest from "@/components/Base/VideoTest";
+
 export default {
   name: "stand",
   data: function() {
@@ -10,7 +14,9 @@ export default {
   },
   methods: {},
   computed: {},
-  components: {},
+  components: {
+    VideoTest
+  },
   props: [],
   mixins: {},
   beforeMount() {}

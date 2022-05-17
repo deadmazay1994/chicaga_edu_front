@@ -11,7 +11,9 @@
         <figcaption class="vidBar" v-if="active">
           <div class="top">
             <div class="progress">
-              <span class="buffered" :class="{ redline: active }"></span>
+              <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
+              <!-- <span class="buffered" :class="{ redline: active }"></span> -->
+              <Progress :currentTime="currentTime" :fullTime="30.526667" />
             </div>
           </div>
           <dir class="bottom">
@@ -63,6 +65,7 @@ import SoundSvg from "@/components/Icons/SoundSvg";
 import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
 import Chat from "@/components/Chat/Chat";
+import Progress from "./Progress.vue";
 
 export default {
   name: "video-player",
@@ -71,7 +74,8 @@ export default {
     SoundSvg,
     ChatSvg,
     ExpandSvg,
-    Chat
+    Chat,
+    Progress
   },
   data() {
     return {
@@ -81,7 +85,7 @@ export default {
       muteVolume: false,
       paused: false,
       videoPlayer: undefined,
-      currentTime: undefined,
+      fullTime: undefined,
       fullscreenOn: false,
       fullscreenChatState: false
     };
@@ -90,7 +94,8 @@ export default {
     video: HTMLVideoElement,
     active: Boolean,
     showChatButton: Boolean,
-    chatState: Boolean
+    chatState: Boolean,
+    currentTime: Number
   },
   computed: {
     videoIsActive() {
@@ -192,10 +197,11 @@ export default {
       "pause",
       () => (this.paused = this.videoPlayer.paused)
     );
-  },
-  updated() {
-    this.currentTime = this.videoPlayer.currentTime;
   }
+  // updated() {
+  //   this.fullTime = this.videoPlayer.duration;
+  //   this.currentTime = this.videoPlayer.currentTime;
+  // }
 };
 </script>
 
@@ -219,6 +225,7 @@ export default {
       display: flex
       flex-direction: column
       .top
+        margin-bottom: .65rem
         .buffered.redline
           margin-bottom: 8px
           background: #FF0000

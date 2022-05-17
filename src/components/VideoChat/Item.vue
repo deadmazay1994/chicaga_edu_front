@@ -10,6 +10,7 @@
   >
     <div style="height: inherit; display: flex; align-items: center;">
       <video-player
+        :currentTime="currentTime"
         :video="this.$refs.video"
         :active="active"
         :showChatButton="showChatButton"
@@ -18,7 +19,10 @@
         @clickExpand="$emit('clickExpand')"
       >
         <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
+          {{ currentTime }}
           <video
+            @timeupdate="currentTime_ = $event.target.currentTime"
+            src="../../../../video.mp4"
             ref="video"
             v-show="mediaObject.userInfo.videoActive"
             autoplay
@@ -83,6 +87,7 @@ export default {
   name: "video-component",
   data: function() {
     return {
+      currentTime_: 0,
       background: "/imgs/whitenoize.gif",
       videoHidden: true,
       borderColor: "",
@@ -118,7 +123,8 @@ export default {
       this.$parent.$emit("toggleMicro", this.audioMuted);
     },
     setStream(stream = this.mediaObject.stream) {
-      stream.addVideoElement(this.$refs.video);
+      // stream.addVideoElement(this.$refs.video);
+      console.log(stream);
     },
     toggleScreenAndCapture() {
       if (this.mediaObject.userInfo.screenActive)
@@ -168,6 +174,13 @@ export default {
       if (screenIsNotActive && this.itsMe)
         return "video-component__video--mirror";
       return "";
+    },
+    currentTime: {
+      get: ({ currentTime_ }) => currentTime_,
+      set(time) {
+        console.log("test", time);
+        this.$refs.video.currentTime = time;
+      }
     }
   },
   watch: {
