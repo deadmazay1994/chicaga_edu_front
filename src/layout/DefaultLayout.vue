@@ -1063,7 +1063,7 @@ export default {
   background: #fff
   box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
   border-radius: 30px
-  padding: 10px 70px 30px
+  padding: 22px 20px
 
 // magnifier
 
