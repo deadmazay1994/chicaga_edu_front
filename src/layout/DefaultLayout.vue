@@ -1015,7 +1015,6 @@ export default {
 
 @media (max-width: 1460px)
   .content
-    margin-top: 50px
     & .col-md-10
       flex: inherit
       max-width: 100%
@@ -1098,6 +1097,8 @@ export default {
     margin-top: 15px !important
 
 @media (max-width: 960px)
+  .content
+    margin-top: 100px
   .task-wrap
     padding: 0
 
