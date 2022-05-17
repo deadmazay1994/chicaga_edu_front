@@ -116,7 +116,7 @@
           <p class="profile__menu-p">У вас нет новых уведомлений</p>
         </div>
       </div> -->
-
+      <progress-bar bar-class="bg-info" :numbers="33" :value="3" />
       <div class="header__avatar">
         <router-link to="/lk/settings">
           <v-list-item-avatar>
@@ -144,6 +144,7 @@
 
 <script>
 // import DictAdd from "@/components/Lk/DictAdd";
+import ProgressBar from "@/components/Lk/ProgressBar";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -154,7 +155,8 @@ export default {
   name: "header-app",
   components: {
     AnimatedCoinPng,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ProgressBar
   },
   data: function() {
     return {};
@@ -168,23 +170,9 @@ export default {
   computed: {
     ...mapGetters(["user", "points"])
   },
-  // components: {
-  //   DictAdd
-  // },
   props: [],
   mixins: {},
-  beforeMount() {
-    // api;
-    // for (let i = 1; i < 31; i++) {
-    //   let r = api.methods.register({
-    //     name: "teacher" + i,
-    //     email: "t@t" + i + ".ru",
-    //     password: "12345678",
-    //     password_confirmation: "12345678"
-    //   });
-    //   console.log(r);
-    // }
-  },
+  beforeMount() {},
   watch: {
     "points.coins": function() {
       this.$refs.animatedCoin.animate();
