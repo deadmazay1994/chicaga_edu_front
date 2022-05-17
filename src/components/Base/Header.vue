@@ -2,6 +2,8 @@
   <header class="header">
     <div class="header__title-block">
       <img src="@/assets/imgs/burger.svg" alt="" />
+      <!-- <breadcrumbs /> -->
+      <breadcrumbs-component />
       <!-- <h2 class="header__title">Уроки с преподователем</h2> -->
     </div>
 
@@ -146,11 +148,13 @@
 import { mapGetters, mapMutations } from "vuex";
 
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
+import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
 
 export default {
   name: "header-app",
   components: {
-    AnimatedCoinPng
+    AnimatedCoinPng,
+    BreadcrumbsComponent
   },
   data: function() {
     return {};
@@ -189,4 +193,37 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="scss"></style>
+<style lang="sass">
+.header__title-block
+  flex: 1
+
+.breadcrumb
+  list-style: none
+  padding-left: 0 !important
+  width: 100%
+
+  li.breadcrumb-item
+    display: inline-block
+    font-weight: 600
+    font-size: 14px
+    line-height: 16.71px
+
+    & + li.breadcrumb-item
+      margin-left: .25rem
+
+      span
+        margin-left: .25rem
+
+      &::before
+        content: "/"
+        color: #FF0000
+
+    span
+      color: rgba(128, 128, 128, 1)
+
+    a
+      color: rgba(128, 128, 128, 0.6)
+
+    .router-link-exact-active
+      color: rgba(128, 128, 128, 1)
+</style>
