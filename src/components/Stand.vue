@@ -1,12 +1,8 @@
 <template>
-  <div class="stand vue-component">
-    <chat roomId="sdfsdfsdf"></chat>
-  </div>
+  <div class="stand vue-component"></div>
 </template>
 
 <script>
-import Chat from "@/components/LessonComponents/WebCam/WebCam";
-
 export default {
   name: "stand",
   data: function() {
@@ -14,9 +10,7 @@ export default {
   },
   methods: {},
   computed: {},
-  components: {
-    Chat
-  },
+  components: {},
   props: [],
   mixins: {},
   beforeMount() {}

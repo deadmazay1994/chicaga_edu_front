@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import WebCam from "@/components/LessonComponents/WebCam/WebCam";
+import WebCam from "@/components/VideoChat";
 import Prepare from "@/components/Group/Prepare.vue";
 
 export default {
