@@ -17,7 +17,7 @@
                 @rewindTo="rewindTo"
                 ref="progress"
                 :currentTime="currentTime_"
-                :fullTime="returnVideo.duration"
+                :fullTime="30"
               />
             </div>
           </div>
