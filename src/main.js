@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify";
 import PortalVue from "portal-vue";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import VueBreadcrumbs from "vue-2-breadcrumbs";
 
 import TaskFunctions from "@/mixins/tasks";
 import SocketFunctions from "@/mixins/socket";
@@ -49,6 +50,8 @@ const options = {
 };
 
 Vue.use(Toast, options);
+
+Vue.use(VueBreadcrumbs);
 
 // Стандарные функции тасков
 Vue.mixin(TaskFunctions);

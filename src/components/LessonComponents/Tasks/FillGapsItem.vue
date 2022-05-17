@@ -302,9 +302,8 @@ export default {
   border-radius: 10px
   // display: inline-flex
   // align-items: center
-  padding: 10px
+  padding: 10px 0
   width: calc( 100% - 40px )
-  margin-left: 8px
   &--correct
     background: $success_color
     color: $success_color--text

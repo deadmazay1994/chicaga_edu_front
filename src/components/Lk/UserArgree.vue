@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import PageTitle from "@/components/Base/PageTitle";
-
 export default {
   name: "agree",
   data: function() {
@@ -51,7 +49,7 @@ export default {
   },
   methods: {},
   computed: {},
-  components: { PageTitle },
+  components: {},
   props: [],
   mixins: {},
   beforeMount() {}

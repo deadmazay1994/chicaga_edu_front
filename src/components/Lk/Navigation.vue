@@ -163,6 +163,7 @@ export default {
     margin-top: -65px
 .nav__link
   padding-left: 13px
+  cursor: pointer
 .menu__nav
   width: 242px
 </style>
