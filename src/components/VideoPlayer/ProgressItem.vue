@@ -8,11 +8,11 @@
 <script>
 export default {
   name: "ProgressItem",
-  props: ["currentTime", "fullTime", "timestamps", "timestamp", "index"],
+  props: ["currentTime", "duration", "timestamps", "timestamp", "index"],
   computed: {
     progress() {
-      if (this.currentTime && this.fullTime)
-        return (this.currentTime * 100) / this.fullTime;
+      if (this.currentTime && this.duration)
+        return (this.currentTime * 100) / this.duration;
       return 0;
     },
     // progressItemWidth - отвечает за ширину одного таймкода (полоса таймкода)
@@ -32,9 +32,9 @@ export default {
     // возвращает значение Number, которые используется для ширины одного таймкода в процентах
     returnStampWidth(index) {
       let currentTimeStampTime = this.timestamps[index];
-      let curr = (currentTimeStampTime.time * 100) / this.fullTime;
+      let curr = (currentTimeStampTime.time * 100) / this.duration;
       let prev =
-        index > 0 ? (this.timestamps[index - 1].time * 100) / this.fullTime : 0;
+        index > 0 ? (this.timestamps[index - 1].time * 100) / this.duration : 0;
       console.log(`index: ${index}, curr: ${curr}, prev: ${prev}`);
       return curr - prev;
     },

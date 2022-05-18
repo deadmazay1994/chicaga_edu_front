@@ -5,7 +5,7 @@
       ref="progressItem"
       :key="index"
       :index="index"
-      :fullTime="fullTime"
+      :duration="duration"
       :timestamp="timestamp"
       :timestamps="timestamps"
       :currentTime="currentTime"
@@ -24,7 +24,7 @@ export default {
   },
   props: {
     currentTime: Number,
-    fullTime: Number,
+    duration: Number,
     timestamps: {
       type: Array
     }

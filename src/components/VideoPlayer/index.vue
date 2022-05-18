@@ -15,8 +15,8 @@
             <Progress
               @rewindTo="rewindTo"
               ref="progress"
-              :currentTime="currentTime_"
-              :fullTime="fullTime"
+              :currentTime="currentTime"
+              :duration="duration"
               :timestamps="timestamps"
             />
           </div>
@@ -91,7 +91,7 @@ export default {
     return {
       сurrentTitle: undefined,
       duration: 0,
-      currentTime_: 0,
+      currentTime: 0,
       changeVol: null,
       player: this.video,
       volume: false,
@@ -107,8 +107,7 @@ export default {
     video: HTMLVideoElement,
     active: Boolean,
     showChatButton: Boolean,
-    chatState: Boolean,
-    fullTime: Number
+    chatState: Boolean
   },
   computed: {
     videoIsActive() {
@@ -119,7 +118,7 @@ export default {
       return this.$parent.$parent._props.roomId;
     },
     currVideoTime() {
-      let currentTimeSeconds = Math.floor(this.currentTime_);
+      let currentTimeSeconds = Math.floor(this.currentTime);
       if (currentTimeSeconds / 3600 <= 1)
         return `${this.timeStrGetMinutes(
           currentTimeSeconds
@@ -138,38 +137,38 @@ export default {
       return str;
     },
     timeStrGetHours(seconds) {
-      return this.currentTime_ > 0
+      return this.currentTime > 0
         ? this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600))
         : this.timeStrUppendZeroToStartStr(0);
     },
     timeStrGetMinutes(seconds) {
-      return this.currentTime_ > 0
+      return this.currentTime > 0
         ? this.timeStrUppendZeroToStartStr(Math.floor((seconds % 3600) / 60))
         : this.timeStrUppendZeroToStartStr(0);
     },
     timeStrGetSeconds(seconds) {
-      return this.currentTime_ > 0
+      return this.currentTime > 0
         ? this.timeStrUppendZeroToStartStr((seconds % 3600) % 60)
         : this.timeStrUppendZeroToStartStr(0);
     },
-    onTimeUpdate(currentTime) {
-      this.currentTime_ = currentTime;
+    onTimeUpdate() {
+      this.currentTime = this.videoPlayer.currentTime;
 
       for (let i = 0; i < this.timestamps.length; i++) {
         let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
         let currentTimeStampTime = this.timestamps[i];
         if (
-          this.currentTime_ > previousTimeStampTime &&
-          this.currentTime_ < currentTimeStampTime.time
+          this.currentTime > previousTimeStampTime &&
+          this.currentTime < currentTimeStampTime.time
         ) {
           this.сurrentTitle = currentTimeStampTime.title;
         }
       }
     },
     rewindTo(x) {
-      let progressPercent = (x * 100) / this.$refs.progress.$el.clientWidth;
-      let time = (progressPercent * this.fullTime) / 100;
-      this.$emit("rewind", time);
+      this.videoPlayer.currentTime =
+        (x / this.$refs.progress.$el.clientWidth) * this.duration;
+      this.onTimeUpdate();
     },
     playVideo() {
       this.videoPlayer.play();
@@ -239,7 +238,7 @@ export default {
     },
     setTimestaps() {
       this.timestamps = api.methods.getTimestamps();
-      this.timestamps.push({ title: "Заключение", time: this.fullTime });
+      this.timestamps.push({ title: "Заключение", time: this.duration });
     }
   },
   watch: {
@@ -248,7 +247,8 @@ export default {
     }
   },
   mounted() {
-    this.videoPlayer = this.$refs.videoElemSlot.children[0].children[0].children[0];
+    if (!this.$slots.videoSlot) return;
+    this.videoPlayer = this.$slots.videoSlot[0].elm.querySelector("video");
     this.videoPlayer.volume = 0.5;
 
     if (this.isMobileSafari()) {
@@ -265,11 +265,11 @@ export default {
       "pause",
       () => (this.paused = this.videoPlayer.paused)
     );
-    this.setTimestaps();
-    // баг с duration
     this.videoPlayer.addEventListener("loadedmetadata", event => {
       this.duration = event.target.duration;
+      this.setTimestaps();
     });
+    this.videoPlayer.addEventListener("timeupdate", this.onTimeUpdate);
   }
 };
 </script>
