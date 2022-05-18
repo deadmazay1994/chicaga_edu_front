@@ -47,7 +47,7 @@
               </div>
               <div class="left-side__current-timestamp">{{ сurrentTitle }}</div>
               <div class="left-side__current-time">
-                {{ currVideoTime }}
+                {{ currVideoTime }} / {{ formattedDuration }}
               </div>
             </div>
             <div class="right-side">
@@ -74,6 +74,7 @@ import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
 import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress.vue";
+import moment from "moment";
 
 import api from "@/mixins/api";
 
@@ -118,39 +119,13 @@ export default {
       return this.$parent.$parent._props.roomId;
     },
     currVideoTime() {
-      let currentTimeSeconds = Math.floor(this.currentTime);
-      if (currentTimeSeconds / 3600 <= 1)
-        return `${this.timeStrGetMinutes(
-          currentTimeSeconds
-        )}:${this.timeStrGetSeconds(currentTimeSeconds)}`;
-      else
-        return `${this.timeStrGetHours(
-          currentTimeSeconds
-        )}:${this.timeStrGetMinutes(
-          currentTimeSeconds
-        )}:${this.timeStrGetSeconds(currentTimeSeconds)}`;
+      return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
+    },
+    formattedDuration() {
+      return moment.utc(this.duration * 1000).format("HH:mm:ss");
     }
   },
   methods: {
-    timeStrUppendZeroToStartStr(str) {
-      if (String(str).length == 1) return `0${str}`;
-      return str;
-    },
-    timeStrGetHours(seconds) {
-      return this.currentTime > 0
-        ? this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600))
-        : this.timeStrUppendZeroToStartStr(0);
-    },
-    timeStrGetMinutes(seconds) {
-      return this.currentTime > 0
-        ? this.timeStrUppendZeroToStartStr(Math.floor((seconds % 3600) / 60))
-        : this.timeStrUppendZeroToStartStr(0);
-    },
-    timeStrGetSeconds(seconds) {
-      return this.currentTime > 0
-        ? this.timeStrUppendZeroToStartStr((seconds % 3600) % 60)
-        : this.timeStrUppendZeroToStartStr(0);
-    },
     onTimeUpdate() {
       this.currentTime = this.videoPlayer.currentTime;
 
