@@ -35,9 +35,6 @@ export default {
       let elemX = e.clientX - rect.left;
       this.$emit("rewindTo", elemX);
     }
-  },
-  mounted() {
-    this.timestamps.push({ title: "Заключение", time: this.fullTime });
   }
 };
 </script>

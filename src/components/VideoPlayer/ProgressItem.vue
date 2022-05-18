@@ -35,7 +35,7 @@ export default {
       let curr = (currentTimeStampTime.time * 100) / this.fullTime;
       let prev =
         index > 0 ? (this.timestamps[index - 1].time * 100) / this.fullTime : 0;
-
+      console.log(`index: ${index}, curr: ${curr}, prev: ${prev}`);
       return curr - prev;
     },
     // возвращает значение Number, которые используется для ширины прогрессбара в процентах
@@ -84,6 +84,9 @@ export default {
     background: #FF0000
 
   .progress-item__title
+    font-size: 16px
+    font-weight: 500
+    color: #fff
     opacity: 0
     position: absolute
     margin-top: -33px

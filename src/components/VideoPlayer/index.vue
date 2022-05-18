@@ -10,17 +10,15 @@
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
         <figcaption class="vidBar" v-if="active">
           <div class="top">
-            <div class="progress">
-              <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
-              <!-- <span class="buffered" :class="{ redline: active }"></span> -->
-              <Progress
-                @rewindTo="rewindTo"
-                ref="progress"
-                :currentTime="currentTime_"
-                :fullTime="fullTime"
-                :timestamps="timestamps"
-              />
-            </div>
+            <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
+            <!-- <span class="buffered" :class="{ redline: active }"></span> -->
+            <Progress
+              @rewindTo="rewindTo"
+              ref="progress"
+              :currentTime="currentTime_"
+              :fullTime="fullTime"
+              :timestamps="timestamps"
+            />
           </div>
           <div class="bottom">
             <div class="left-side">
@@ -47,7 +45,10 @@
                   </transition>
                 </div>
               </div>
-              <div class="left-side__current-timestamp">currTitle</div>
+              <div class="left-side__current-timestamp">{{ сurrentTitle }}</div>
+              <div class="left-side__current-time">
+                {{ currVideoTime }}
+              </div>
             </div>
             <div class="right-side">
               <chat-svg
@@ -88,6 +89,7 @@ export default {
   },
   data() {
     return {
+      сurrentTitle: undefined,
       duration: 0,
       currentTime_: 0,
       changeVol: null,
@@ -115,11 +117,54 @@ export default {
     },
     roomId() {
       return this.$parent.$parent._props.roomId;
+    },
+    currVideoTime() {
+      let currentTimeSeconds = Math.floor(this.currentTime_);
+      if (currentTimeSeconds / 3600 <= 1)
+        return `${this.timeStrGetMinutes(
+          currentTimeSeconds
+        )}:${this.timeStrGetSeconds(currentTimeSeconds)}`;
+      else
+        return `${this.timeStrGetHours(
+          currentTimeSeconds
+        )}:${this.timeStrGetMinutes(
+          currentTimeSeconds
+        )}:${this.timeStrGetSeconds(currentTimeSeconds)}`;
     }
   },
   methods: {
+    timeStrUppendZeroToStartStr(str) {
+      if (String(str).length == 1) return `0${str}`;
+      return str;
+    },
+    timeStrGetHours(seconds) {
+      return this.currentTime_ > 0
+        ? this.timeStrUppendZeroToStartStr(Math.floor(seconds / 3600))
+        : this.timeStrUppendZeroToStartStr(0);
+    },
+    timeStrGetMinutes(seconds) {
+      return this.currentTime_ > 0
+        ? this.timeStrUppendZeroToStartStr(Math.floor((seconds % 3600) / 60))
+        : this.timeStrUppendZeroToStartStr(0);
+    },
+    timeStrGetSeconds(seconds) {
+      return this.currentTime_ > 0
+        ? this.timeStrUppendZeroToStartStr((seconds % 3600) % 60)
+        : this.timeStrUppendZeroToStartStr(0);
+    },
     onTimeUpdate(currentTime) {
       this.currentTime_ = currentTime;
+
+      for (let i = 0; i < this.timestamps.length; i++) {
+        let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
+        let currentTimeStampTime = this.timestamps[i];
+        if (
+          this.currentTime_ > previousTimeStampTime &&
+          this.currentTime_ < currentTimeStampTime.time
+        ) {
+          this.сurrentTitle = currentTimeStampTime.title;
+        }
+      }
     },
     rewindTo(x) {
       let progressPercent = (x * 100) / this.$refs.progress.$el.clientWidth;
@@ -220,11 +265,11 @@ export default {
       "pause",
       () => (this.paused = this.videoPlayer.paused)
     );
+    this.setTimestaps();
+    // баг с duration
     this.videoPlayer.addEventListener("loadedmetadata", event => {
       this.duration = event.target.duration;
     });
-
-    this.setTimestaps();
   }
 };
 </script>
@@ -232,6 +277,8 @@ export default {
 <style lang="sass" scoped>
 .video-player-wrap
   height: 100%
+  position: relative
+  background: #000
   .video-slot
     height: 100%
   .vidFrame
@@ -239,6 +286,9 @@ export default {
     left: 0
     width: 100%
     height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
     .vidBar
       position: absolute
       bottom: 0
@@ -263,6 +313,8 @@ export default {
         .left-side
           display: flex
           align-items: center
+          font-size: 13px
+          color: #ffffff
           .play-svg
             cursor: pointer
           .volume-area
@@ -284,7 +336,8 @@ export default {
               .emersion-leave-to
                 transform: translateX(-129px)
           .left-side__current-timestamp
-            font-size: 13px
+            margin-left: .5rem
+          .left-side__current-time
             margin-left: .5rem
         .right-side
           display: flex
@@ -364,4 +417,11 @@ export default {
     .videoSlot-block,
     .vidBar
       width: 70%
+
+.videoSlot-block
+  width: 100%
+
+video
+  height: 100%
+  width: 100%
 </style>

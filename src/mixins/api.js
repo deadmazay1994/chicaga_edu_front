@@ -144,11 +144,11 @@ export default {
     getTimestamps() {
       return [
         {
-          title: 1,
+          title: "первый",
           time: 10.526667
         },
         {
-          title: 2,
+          title: "второй",
           time: 50
         }
       ];
