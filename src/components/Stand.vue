@@ -6,8 +6,9 @@
         :video="videoElement"
         :active="true"
         @rewind="rewind"
-        :fullTime="fullTime"
+        :fullTime="100"
       >
+        {{ this.$refs.video }}
         <div slot="videoSlot" class="videoSlot-block">
           <video
             @timeupdate="onTimeUpdateListener"
@@ -38,7 +39,7 @@ export default {
   methods: {
     rewind(time) {
       this.$refs.video.pause();
-      this.currentTime = time;
+      this.$refs.video.currentTime = time;
       this.$refs.video.play();
     },
     onTimeUpdateListener() {

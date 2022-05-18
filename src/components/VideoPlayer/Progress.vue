@@ -1,11 +1,14 @@
 <template>
   <div class="progress" ref="progress" @click="rewind($event)">
     <progress-item
+      v-for="(timestamp, index) in timestamps"
       ref="progressItem"
-      @rewindTo="rewindTo"
-      :currentTime="currentTime"
+      :key="index"
+      :index="index"
       :fullTime="fullTime"
+      :timestamp="timestamp"
       :timestamps="timestamps"
+      :currentTime="currentTime"
     />
   </div>
 </template>
@@ -17,28 +20,20 @@ export default {
   name: "Progress",
   components: { ProgressItem },
   data() {
-    return {
-      timestamps: [
-        {
-          title: 1,
-          time: 10.526667
-        },
-        {
-          title: 2,
-          time: 50
-        }
-      ]
-    };
+    return {};
   },
-  props: ["currentTime", "fullTime"],
+  props: {
+    currentTime: Number,
+    fullTime: Number,
+    timestamps: {
+      type: Array
+    }
+  },
   methods: {
     rewind(e) {
       let rect = this.$refs.progress.getBoundingClientRect();
       let elemX = e.clientX - rect.left;
-      this.rewindTo(elemX);
-    },
-    rewindTo(x) {
-      this.$emit("rewindTo", x);
+      this.$emit("rewindTo", elemX);
     }
   },
   mounted() {

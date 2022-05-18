@@ -17,7 +17,8 @@
                 @rewindTo="rewindTo"
                 ref="progress"
                 :currentTime="currentTime_"
-                :fullTime="duration"
+                :fullTime="fullTime"
+                :timestamps="timestamps"
               />
             </div>
           </div>
@@ -46,6 +47,7 @@
                   </transition>
                 </div>
               </div>
+              <div class="left-side__current-timestamp">currTitle</div>
             </div>
             <div class="right-side">
               <chat-svg
@@ -72,6 +74,8 @@ import ExpandSvg from "@/components/Icons/ExpandSvg";
 import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress.vue";
 
+import api from "@/mixins/api";
+
 export default {
   name: "video-player",
   components: {
@@ -93,7 +97,8 @@ export default {
       paused: false,
       videoPlayer: undefined,
       fullscreenOn: false,
-      fullscreenChatState: false
+      fullscreenChatState: false,
+      timestamps: []
     };
   },
   props: {
@@ -118,8 +123,7 @@ export default {
     },
     rewindTo(x) {
       let progressPercent = (x * 100) / this.$refs.progress.$el.clientWidth;
-      console.log("time width:", progressPercent);
-      let time = (progressPercent * 30.52667) / 100;
+      let time = (progressPercent * this.fullTime) / 100;
       this.$emit("rewind", time);
     },
     playVideo() {
@@ -187,6 +191,10 @@ export default {
     isMobileSafari() {
       let userAgent = window.navigator.userAgent;
       return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
+    },
+    setTimestaps() {
+      this.timestamps = api.methods.getTimestamps();
+      this.timestamps.push({ title: "Заключение", time: this.fullTime });
     }
   },
   watch: {
@@ -212,10 +220,11 @@ export default {
       "pause",
       () => (this.paused = this.videoPlayer.paused)
     );
-
-    this.videoPlayer.addEventListener("loadedmetadata", (event) => {
+    this.videoPlayer.addEventListener("loadedmetadata", event => {
       this.duration = event.target.duration;
     });
+
+    this.setTimestaps();
   }
 };
 </script>
@@ -274,6 +283,9 @@ export default {
               .emersion-enter-from,
               .emersion-leave-to
                 transform: translateX(-129px)
+          .left-side__current-timestamp
+            font-size: 13px
+            margin-left: .5rem
         .right-side
           display: flex
           align-items: center
