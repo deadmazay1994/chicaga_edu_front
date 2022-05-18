@@ -13,7 +13,7 @@
         </h4>
         {{ time }}
       </div>
-      <p class="message__text">{{ text }}</p>
+      <p class="message__text"><span v-html="returnText"></span></p>
       <attachments :attachments="attachments" />
     </div>
   </div>
@@ -49,6 +49,9 @@ export default {
     ...mapGetters(["user"]),
     isUserMessage() {
       return this.user.chat_auth_info.name === this.author;
+    },
+    returnText() {
+      return this.text.replace(/(?:\r\n|\r|\n)/g, "<br />");
     }
   },
   components: {

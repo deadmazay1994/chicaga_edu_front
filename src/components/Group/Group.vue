@@ -1,6 +1,5 @@
 <template>
   <div class="group vue-component">
-    <page-title :title="'Академическая группа'" />
     <v-card class="front" v-if="loading">
       <v-skeleton-loader type="article" />
     </v-card>
@@ -74,14 +73,12 @@
 
 <script>
 import api from "@/mixins/api";
-import PageTitle from "@/components/Base/PageTitle";
 // import Lesson from "@/components/Group/Lesson"
 import dateFormat from "dateformat";
 
 export default {
   name: "Group",
   components: {
-    PageTitle
     // Lesson
   },
   data() {
