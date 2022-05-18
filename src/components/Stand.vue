@@ -3,9 +3,10 @@
     <div class="video">
       <video-player
         ref="videoPlayer"
-        :video="this.$refs.video"
+        :video="videoElement"
         :active="true"
         @rewind="rewind"
+        :fullTime="fullTime"
       >
         <div slot="videoSlot" class="videoSlot-block">
           <video
@@ -29,30 +30,22 @@ export default {
   name: "stand",
   data: function() {
     return {
-      currentTime_: 0
+      currentTime_: 0,
+      fullTime: null,
+      videoElement: undefined
     };
   },
   methods: {
     rewind(time) {
-      console.log("time", time);
       this.$refs.video.pause();
       this.currentTime = time;
       this.$refs.video.play();
     },
     onTimeUpdateListener() {
       this.$refs.videoPlayer.onTimeUpdate(this.$refs.video.currentTime);
-      // this.$emit("timeupdate", this.$refs.video.currentTime);
     }
   },
-  computed: {
-    currentTime: {
-      get: ({ currentTime_ }) => currentTime_,
-      set(time) {
-        console.log("test", time);
-        this.$refs.video.currentTime = time;
-      }
-    }
-  },
+  computed: {},
   components: {
     VideoPlayer
   },

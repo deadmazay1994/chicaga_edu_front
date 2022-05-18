@@ -1,7 +1,6 @@
 <template>
   <div class="progress" ref="progress" @click="rewind($event)">
     <progress-item
-      :key="index"
       ref="progressItem"
       @rewindTo="rewindTo"
       :currentTime="currentTime"
@@ -26,11 +25,7 @@ export default {
         },
         {
           title: 2,
-          time: 20
-        },
-        {
-          title: 3,
-          time: 30.526667
+          time: 50
         }
       ]
     };
@@ -45,6 +40,9 @@ export default {
     rewindTo(x) {
       this.$emit("rewindTo", x);
     }
+  },
+  mounted() {
+    this.timestamps.push({ title: "Заключение", time: this.fullTime });
   }
 };
 </script>

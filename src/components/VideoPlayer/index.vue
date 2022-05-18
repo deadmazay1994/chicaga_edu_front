@@ -17,11 +17,11 @@
                 @rewindTo="rewindTo"
                 ref="progress"
                 :currentTime="currentTime_"
-                :fullTime="30"
+                :fullTime="duration"
               />
             </div>
           </div>
-          <dir class="bottom">
+          <div class="bottom">
             <div class="left-side">
               <play-svg :onPause="paused" @clickElem="togglePlay" />
               <div
@@ -57,7 +57,7 @@
               />
               <expand-svg :expanded="fullscreenOn" @clickElem="clickExpand" />
             </div>
-          </dir>
+          </div>
         </figcaption>
       </figure>
     </div>
@@ -84,6 +84,7 @@ export default {
   },
   data() {
     return {
+      duration: 0,
       currentTime_: 0,
       changeVol: null,
       player: this.video,
@@ -91,7 +92,6 @@ export default {
       muteVolume: false,
       paused: false,
       videoPlayer: undefined,
-      fullTime: undefined,
       fullscreenOn: false,
       fullscreenChatState: false
     };
@@ -100,7 +100,8 @@ export default {
     video: HTMLVideoElement,
     active: Boolean,
     showChatButton: Boolean,
-    chatState: Boolean
+    chatState: Boolean,
+    fullTime: Number
   },
   computed: {
     videoIsActive() {
@@ -109,10 +110,6 @@ export default {
     },
     roomId() {
       return this.$parent.$parent._props.roomId;
-    },
-    returnVideo() {
-      let video = this.$refs.videoElemSlot.$el.querySelector("video");
-      return video ? video : 0;
     }
   },
   methods: {
@@ -215,11 +212,11 @@ export default {
       "pause",
       () => (this.paused = this.videoPlayer.paused)
     );
+
+    this.videoPlayer.addEventListener("loadedmetadata", (event) => {
+      this.duration = event.target.duration;
+    });
   }
-  // updated() {
-  //   this.fullTime = this.videoPlayer.duration;
-  //   this.currentTime = this.videoPlayer.currentTime;
-  // }
 };
 </script>
 
