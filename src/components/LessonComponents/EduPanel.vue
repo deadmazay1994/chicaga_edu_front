@@ -4,7 +4,7 @@
     <div class="task__header">
       <div class="task__header__item">
         <div class="task__header__inner">
-          <animated-cool-svg ref="animatedCool" />
+          <animated-cool-svg ref="animatedCool" style="position: absolute;" />
           <span class="points">{{ points.smile }}</span>
         </div>
 
@@ -110,6 +110,14 @@ export default {
             break;
         }
       });
+    },
+    // для тестирования анимации
+    test() {
+      this.$refs.animatedCool.animate();
+      this.$refs.animatedStar.animate();
+      this.$refs.animatedBrain.animate();
+      this.$refs.animatedLamp.animate();
+      this.$refs.animatedCoin.animate();
     }
   },
   computed: {
@@ -270,6 +278,6 @@ export default {
 }
 
 .points {
-  margin-left: 0.5rem;
+  margin-left: 35px;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div class="catalog-c vue-component">
-    <page-title :title="title" />
     <v-row>
       <v-col v-for="course in catalogCourses" :key="course.id" cols="12" lg="4">
         <course-card :course="course" :buy="false" />
@@ -11,7 +10,6 @@
 </template>
 
 <script>
-import PageTitle from "@/components/Base/PageTitle";
 import CourseCard from "@/components/Lk/Courses/CourseCard";
 import Plug from "./CatalogCoursePlug";
 
@@ -35,7 +33,6 @@ export default {
     ...mapGetters(["catalogCourses"])
   },
   components: {
-    PageTitle,
     CourseCard,
     Plug
   },

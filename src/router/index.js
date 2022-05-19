@@ -48,7 +48,11 @@ const routes = [
     name: "lesson_teacher",
     component: Lesson,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      }
     }
   },
   {
@@ -57,7 +61,11 @@ const routes = [
     component: Lesson,
     meta: {
       requiresAuth: true,
-      checkAccess: true
+      checkAccess: true,
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      }
     }
   },
   {
@@ -65,7 +73,8 @@ const routes = [
     name: "homework_teacher",
     component: Homework,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: `Домашняя работа`
     }
   },
   {
@@ -73,7 +82,8 @@ const routes = [
     name: "homework",
     component: Homework,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: `Домашняя работа`
     }
   },
   {
@@ -82,7 +92,8 @@ const routes = [
     component: LessonPreview,
     meta: {
       // forTeacher: true,
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: `Превью урока`
     }
   },
   {
@@ -91,7 +102,8 @@ const routes = [
     component: CourseListTeacher,
     meta: {
       // forTeacher: true,
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: "Список курсов"
     }
   },
   {
@@ -159,36 +171,61 @@ const routes = [
     component: Lk,
     meta: {
       requiresAuth: true,
-      guest: false
+      guest: false,
+      breadcrumb: "Личный кабинет"
+      // {
+      //   label: "Личный кабинет"
+      // }
     },
     children: [
       {
         path: "settings",
-        component: Settings
+        component: Settings,
+        meta: {
+          breadcrumb: "Настройки"
+        }
       },
       {
         path: "catalog-coursers",
-        component: CatalogCourses
+        component: CatalogCourses,
+        meta: {
+          breadcrumb: "Каталог курсов"
+        }
       },
       {
         path: "my-coursers",
-        component: MyCourses
+        component: MyCourses,
+        meta: {
+          breadcrumb: "Мои курсы"
+        }
       },
       {
         path: "course/:id",
-        component: CoursePage
+        component: CoursePage,
+        meta: {
+          breadcrumb: routeParams => `Курс ${routeParams.id}`
+        }
       },
       {
         path: "dictionary",
-        component: Dictionary
+        component: Dictionary,
+        meta: {
+          breadcrumb: "Словарь"
+        }
       },
       {
         path: "my-groups",
-        component: Group
+        component: Group,
+        meta: {
+          breadcrumb: "Мои группы"
+        }
       },
       {
         path: "webinars",
-        component: WebinarsComponent
+        component: WebinarsComponent,
+        meta: {
+          breadcrumb: "Вебинары"
+        }
       },
       {
         path: "upcoming/:id/:code/:startTime",
@@ -196,6 +233,9 @@ const routes = [
         component: UpcomingLesson,
         props: {
           showComponent: true
+        },
+        meta: {
+          breadcrumb: `Комната ожидания`
         }
       },
       {
@@ -214,7 +254,8 @@ const routes = [
     name: "private-room-upcoming",
     component: PrivateRoomUpcoming,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: "Частная комната"
     }
   },
   {
@@ -222,7 +263,8 @@ const routes = [
     name: "private-room",
     component: PrivateRoom,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: "Частная комната"
     }
   },
   {
@@ -230,13 +272,17 @@ const routes = [
     name: "faq",
     component: FAQ,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: "FAQ"
     }
   },
   {
     path: "/agree",
     name: "agree",
-    component: Agree
+    component: Agree,
+    meta: {
+      breadcrumb: "Согласие"
+    }
   }
 ];
 

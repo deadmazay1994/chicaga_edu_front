@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import PageTitle from "@/components/Base/PageTitle";
 import CourseMy from "./CoursePageMy";
 import CourseCatalog from "./CoursePageCatalog";
 
@@ -37,7 +36,6 @@ export default {
     ...mapGetters(["course"])
   },
   components: {
-    PageTitle,
     CourseMy,
     CourseCatalog
   },

@@ -282,7 +282,7 @@
 </style>
 
 <style>
-/* @import "../assets/styles/style.min.css"; */
+@import "../assets/styles/style.min.css";
 </style>
 
 <script>
