@@ -16,6 +16,8 @@
     "core-js": "^3.6.5",
     "dateformat": "^5.0.2",
     "draggable": "^4.2.0",
+    "emoji-mart-vue": "^2.6.6",
+    "emoji-mart-vue-fast": "^10.2.1",
     "eslint-plugin-prettier-vue": "^3.1.0",
     "gsap": "^3.10.3",
     "hark": "^1.2.3",
