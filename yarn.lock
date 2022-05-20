@@ -729,14 +729,6 @@
     "@babel/helper-create-regexp-features-plugin" "^7.10.4"
     "@babel/helper-plugin-utils" "^7.10.4"
 
-"@babel/polyfill@^7.12.1":
-  "integrity" "sha512-X0pi0V6gxLi6lFZpGmeNa4zxtwEmCs42isWLNjZZDE0Y8yVfgu0T2OAHlzBbdYlqbW/YXVvoBHpATEM+goCj8g=="
-  "resolved" "https://registry.npmjs.org/@babel/polyfill/-/polyfill-7.12.1.tgz"
-  "version" "7.12.1"
-  dependencies:
-    "core-js" "^2.6.5"
-    "regenerator-runtime" "^0.13.4"
-
 "@babel/preset-env@^7.9.6":
   "integrity" "sha512-tcmuQ6vupfMZPrLrc38d0sF2OjLT3/bZ0dry5HchNCQbrokoQi4reXqclvkkAT5b+gWc23meVWpve5P/7+w/zw=="
   "resolved" "https://registry.npmjs.org/@babel/preset-env/-/preset-env-7.10.4.tgz"
@@ -826,7 +818,7 @@
     "core-js-pure" "^3.0.0"
     "regenerator-runtime" "^0.13.4"
 
-"@babel/runtime@^7.16.3", "@babel/runtime@^7.17.9", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.17.9", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
   "integrity" "sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg=="
   "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.17.9.tgz"
   "version" "7.17.9"
@@ -3595,11 +3587,6 @@
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.11.tgz"
   "version" "2.6.11"
 
-"core-js@^2.6.5":
-  "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
-  "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
-  "version" "2.6.12"
-
 "core-js@^3.6.5":
   "integrity" "sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA=="
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.6.5.tgz"
@@ -4397,15 +4384,6 @@
   "version" "3.5.0"
   dependencies:
     "emoji-datasource" "4.1.0"
-
-"emoji-mart-vue-fast@^10.2.1":
-  "integrity" "sha512-PtKihhsXBEEw1jHwnoRyJAnJP1OlK4EJrEze58EbUUV7iHWGLub+yuiNSj2Uo1JBHraz4fw/pH98nFysVoe0qg=="
-  "resolved" "https://registry.npmjs.org/emoji-mart-vue-fast/-/emoji-mart-vue-fast-10.2.1.tgz"
-  "version" "10.2.1"
-  dependencies:
-    "@babel/polyfill" "^7.12.1"
-    "@babel/runtime" "^7.16.3"
-    "vue-virtual-scroller" "^1.0.10"
 
 "emoji-mart-vue@^2.6.6":
   "integrity" "sha512-844CI/Sa99G6goiZN6u+zT5XxB4wUhpYYTK8s3FrU2fl9y0ckbqe0uw7EuY0R53hb4bo9uJHVOPywE+C4vu4fg=="
@@ -9237,11 +9215,6 @@
     "ajv" "^6.12.5"
     "ajv-keywords" "^3.5.2"
 
-"scrollparent@^2.0.1":
-  "integrity" "sha1-cV1bnMV3YPsivczDvvtb/gaxoxc="
-  "resolved" "https://registry.npmjs.org/scrollparent/-/scrollparent-2.0.1.tgz"
-  "version" "2.0.1"
-
 "sdp@^2.12.0", "sdp@^2.6.0":
   "integrity" "sha512-jhXqQAQVM+8Xj5EjJGVweuEzgtGWb3tmEEpl3CLP3cStInSbVHSg0QWOGQzNq8pSID4JkpeV2mPqlMDLrm0/Vw=="
   "resolved" "https://registry.npmjs.org/sdp/-/sdp-2.12.0.tgz"
@@ -10827,11 +10800,6 @@
     "vue-hot-reload-api" "^2.3.0"
     "vue-style-loader" "^4.1.0"
 
-"vue-observe-visibility@^0.4.4":
-  "integrity" "sha512-xo0CEVdkjSjhJoDdLSvoZoQrw/H2BlzB5jrCBKGZNXN2zdZgMuZ9BKrxXDjNP2AxlcCoKc8OahI3F3r3JGLv2Q=="
-  "resolved" "https://registry.npmjs.org/vue-observe-visibility/-/vue-observe-visibility-0.4.6.tgz"
-  "version" "0.4.6"
-
 "vue-resize@^0.4.5":
   "integrity" "sha512-bhP7MlgJQ8TIkZJXAfDf78uJO+mEI3CaLABLjv0WNzr4CcGRGPIAItyWYnP6LsPA4Oq0WE+suidNs6dgpO4RHg=="
   "resolved" "https://registry.npmjs.org/vue-resize/-/vue-resize-0.4.5.tgz"
@@ -10873,21 +10841,12 @@
   "resolved" "https://registry.npmjs.org/vue-toastification/-/vue-toastification-1.7.14.tgz"
   "version" "1.7.14"
 
-"vue-virtual-scroller@^1.0.10":
-  "integrity" "sha512-Hn4qSBDhRY4XdngPioYy/ykDjrLX/NMm1fQXm/4UQQ/Xv1x8JbHGFZNftQowTcfICgN7yc31AKnUk1UGLJ2ndA=="
-  "resolved" "https://registry.npmjs.org/vue-virtual-scroller/-/vue-virtual-scroller-1.0.10.tgz"
-  "version" "1.0.10"
-  dependencies:
-    "scrollparent" "^2.0.1"
-    "vue-observe-visibility" "^0.4.4"
-    "vue-resize" "^0.4.5"
-
 "vue-zoomer@^0.3.6":
   "integrity" "sha512-MzouVy32Lbwg6+5XzBy/BIRKxg3ulyi3TGpn3WaVFxLlomoxsDx81Q6i5JF+o7sP3dGRq+PJzjuymJcVCJoRDA=="
   "resolved" "https://registry.npmjs.org/vue-zoomer/-/vue-zoomer-0.3.6.tgz"
   "version" "0.3.6"
 
-"vue@^2.0.0", "vue@^2.3.0", "vue@^2.5.18", "vue@^2.6.11", "vue@^2.6.4", "vue@>2.0.0":
+"vue@^2.0.0", "vue@^2.3.0", "vue@^2.5.18", "vue@^2.6.11", "vue@^2.6.4":
   "integrity" "sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.11.tgz"
   "version" "2.6.11"

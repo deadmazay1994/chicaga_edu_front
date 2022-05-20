@@ -26,14 +26,10 @@
       rows="1"
     ></textarea>
     <div class="emoji">
-      <Picker
+      <smile-picker
         v-if="showEmoji"
-        ref="emojiSheet"
-        class="emoji-sheet"
-        :data="emojiIndex"
-        :set="native"
-        :emojiSize="30"
-        @select="sendEmoji"
+        @onSendEmoji="enterEmoji"
+        style="position: absolute; left: -310px; top: -473px; z-index: 1;"
       />
       <smile @click="showEmojiSheet()" />
     </div>
@@ -46,25 +42,24 @@
 <script>
 import { mapGetters } from "vuex";
 
-import data from "emoji-mart-vue-fast/data/all.json";
-import "emoji-mart-vue-fast/css/emoji-mart.css";
-import { Picker, EmojiIndex } from "emoji-mart-vue-fast";
-
-let emojiIndex = new EmojiIndex(data);
-
 import Smile from "./icons/Smile.vue";
+import SmilePicker from "./SmilePicker";
 
 export default {
   name: "textarea-chat",
+  components: {
+    Smile,
+    SmilePicker
+  },
   data: function() {
     return {
       files: [],
       msgText: "",
-      emojiIndex: emojiIndex,
-      emojisOutput: "",
       showEmoji: false
     };
   },
+  props: [],
+  computed: mapGetters(["chatDriver"]),
   methods: {
     send() {
       this.files = [];
@@ -80,22 +75,18 @@ export default {
       if (this.msgText || (this.files.length && this.files[0] !== null))
         this.send();
     },
-    sendEmoji(emoji) {
-      this.emojisOutput = this.emojisOutput + emoji.native;
-      this.msgText += emoji.native;
+    enterEmoji(emoji) {
+      this.msgText += emoji;
     },
     showEmojiSheet() {
       this.showEmoji = !this.showEmoji;
     }
   },
-  computed: mapGetters(["chatDriver"]),
   watch: {
     getAttachments() {
       this.files.push(this.getAttachments.name);
     }
   },
-  components: { Picker, Smile },
-  props: [],
   mixins: {},
   mounted() {
     let form = this.$refs.form;
@@ -164,9 +155,4 @@ span[aria-hidden="true"]
 
 .emoji
   position: relative
-  .emoji-sheet
-    position: absolute
-    left: -349px
-    top: -420px
-    z-index: 1
 </style>
