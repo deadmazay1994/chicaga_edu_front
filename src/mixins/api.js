@@ -141,6 +141,18 @@ export default {
         return false;
       }
     },
+    getTimestamps() {
+      return [
+        {
+          title: "первый",
+          time: 10.526667
+        },
+        {
+          title: "второй",
+          time: 50
+        }
+      ];
+    },
     async getUserPoints() {
       let r = await get(`user/points`);
       console.log("r user:", await get("user"));
