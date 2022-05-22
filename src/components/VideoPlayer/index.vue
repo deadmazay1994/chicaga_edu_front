@@ -10,7 +10,7 @@
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
       </figure>
     </div>
-    <substrate :player-element="$el" :duration="1000">
+    <substrate :player-element="$el" style="z-index: 2" :duration="1000">
       <figcaption class="vidBar" v-if="active">
         <div class="top">
           <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
