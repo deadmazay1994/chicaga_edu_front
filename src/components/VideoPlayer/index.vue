@@ -51,7 +51,9 @@
               {{ сurrentTitle }}
             </div>
             <div class="left-side__current-time">
-              {{ currVideoTime }} / {{ formattedDuration }}
+              {{ currVideoTime }}
+              <template v-if="formattedDuration">
+               / {{ formattedDuration }}</template>
             </div>
           </div>
           <div class="right-side">
@@ -127,6 +129,8 @@ export default {
       return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
     },
     formattedDuration() {
+      
+      if (!this.duration || this.duration === Infinity) return false
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
     }
   },
