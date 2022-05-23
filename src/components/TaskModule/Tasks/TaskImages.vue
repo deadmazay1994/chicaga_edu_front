@@ -12,7 +12,6 @@
             ref="input"
             v-model="task.answers[index]"
             maxlength="1"
-            @input="onChangeTask"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
             type="number"
           />
@@ -29,7 +28,6 @@
 import "@/mixins/methods";
 import api from "@/mixins/api";
 import { mapGetters, mapMutations } from "vuex";
-import Zoom from "@/directives/zoom";
 
 export default {
   name: "task-images",
@@ -112,12 +110,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["socket", "teacherId", "activeGroupIndexLesson"])
+    ...mapGetters([ "activeGroupIndexLesson"])
   },
   components: {},
-  directives: {
-    ...Zoom
-  },
+  directives: {},
   props: ["input", "taskObject"],
   beforeMount() {
     this.inputCopy = this.taskObject
