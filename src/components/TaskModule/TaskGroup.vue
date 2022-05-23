@@ -2,6 +2,7 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
+        <div class="task-group__title" :key="index">{{ task.description }}</div>
         <component
           :key="index"
           :is="returnComponent(task.type)"
@@ -56,6 +57,10 @@ export default {
   margin-top: 16px
   border-top: 2px solid #E6E6E6
   padding-top: 22px
+
+.task-group__title
+  font-weight: 300
+  margin-bottom: 10px
 
 .check-btn
   display: block

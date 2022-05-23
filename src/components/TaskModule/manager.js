@@ -30,7 +30,7 @@ export default function manager(type) {
       break;
     case "select_correct_variant":
       // attrs.props.underline = true;
-      componentName = "selection-box";
+      componentName = "chip-skipped";
       break;
     case "insert_skipped_word":
       componentName = "fill-gaps";
