@@ -1,12 +1,12 @@
 <template>
-  <div class=' vue-component'></div>
+  <div class="table vue-component"></div>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: "",
   data: function() {
-    return {}
+    return {};
   },
   methods: {},
   computed: {},
@@ -14,7 +14,7 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass"></style>
