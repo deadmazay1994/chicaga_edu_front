@@ -22,6 +22,7 @@ import { mapMutations } from "vuex";
 
 import ChipSkipped from "./Tasks/ChipSkipped";
 import TaskImages from "./Tasks/TaskImages"
+import FillGaps from "./Tasks/FillGaps"
 
 import manager from "./manager";
 
@@ -43,7 +44,8 @@ export default {
   computed: {},
   components: {
     ChipSkipped,
-    TaskImages
+    TaskImages,
+    FillGaps
   },
   props: {
     tasks: Array,
