@@ -2,14 +2,14 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
-        <div class="task-group__title" :key="index">{{ task.description }}</div>
+        <div class="task-group__title" :key="index + 'i'">{{ task.description }}</div>
         <component
-          :key="index"
+          :key="index + 'j'"
           :is="returnComponent(task.type)"
           :taskObject="task"
           ref="taskComponent"
         ></component>
-        <button class="check-btn" @click="checkTask(index)" :key="index">
+        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'">
           Проверить
         </button>
       </template>
@@ -34,7 +34,6 @@ export default {
       return manager(type);
     },
     checkTask(index) {
-      console.log("task-check", this.$refs.taskComponent[index].check());
       let response = this.$refs.taskComponent[index].check();
       this.setPointByType(response);
     }
