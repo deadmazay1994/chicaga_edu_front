@@ -20,7 +20,9 @@
 <script>
 import { mapMutations } from "vuex";
 
-import ChipSkipped from "./Tasks/ChipSkipped.vue";
+import ChipSkipped from "./Tasks/ChipSkipped";
+import TaskImages from "./Tasks/TaskImages"
+
 import manager from "./manager";
 
 export default {
@@ -40,7 +42,8 @@ export default {
   },
   computed: {},
   components: {
-    ChipSkipped
+    ChipSkipped,
+    TaskImages
   },
   props: {
     tasks: Array,
