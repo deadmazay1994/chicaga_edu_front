@@ -115,7 +115,7 @@ export default {
   },
   components: {},
   directives: {},
-  props: ["input", "taskObject"],
+  props: ["input", "taskObject", "unique_id"],
   beforeMount() {
     this.inputCopy = this.taskObject;
     this.description = this.inputCopy.description;

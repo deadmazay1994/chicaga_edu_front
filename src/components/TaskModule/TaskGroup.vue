@@ -9,6 +9,7 @@
           :key="index + 'j'"
           :is="returnComponent(task.type)"
           :taskObject="task"
+          :unique_id="unique_id"
           ref="taskComponent"
         ></component>
         <button class="check-btn" @click="checkTask(index)" :key="index + 'k'">
@@ -54,7 +55,8 @@ export default {
   props: {
     tasks: Array,
     index: Number,
-    activeGroup: Number
+    activeGroup: Number,
+    unique_id: String
   },
   mixins: {},
   beforeMount() {}

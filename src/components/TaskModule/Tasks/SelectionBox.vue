@@ -1,8 +1,9 @@
 <template>
   <div class="selection-box">
-    <div v-for="(item, index) in selectAnswersArray" :key="index">
+    <!-- <div v-for="(item, index) in selectAnswersArray" :key="index">
       <div v-if="item !== null">{{ item }}</div>
-    </div>
+    </div> -->
+    {{ taskBody }}
     <template v-for="(task, index) in taskBody">
       <template v-if="task.text !== null">
         <div class="task" :key="index">
@@ -38,7 +39,8 @@ export default {
     };
   },
   props: {
-    taskObject: Object
+    taskObject: Object,
+    unique_id: String
   },
   components: {
     Chip
@@ -74,6 +76,7 @@ export default {
   },
   mounted() {
     this.taskBody = this.taskObject.body;
+    console.log(this.taskBody);
     this.selectAnswersArray = this.taskBody
       .filter(element => element.text !== null)
       .map(element => {

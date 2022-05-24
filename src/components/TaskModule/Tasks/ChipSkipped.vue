@@ -68,7 +68,8 @@ export default {
   props: {
     input: { require: true },
     index: { require: false },
-    taskObject: Object
+    taskObject: Object,
+    unique_id: String
   },
   methods: {
     ...mapMutations(["setPointByType"]),
