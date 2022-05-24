@@ -1,30 +1,60 @@
 <template>
-  <div class='task-module vue-component'>
-
+  <div class="task-module vue-component">
+    <div class="tasks-module__header">
+      <navigation-button
+        v-for="(group, index) in tasks"
+        :key="index"
+        :class="{ 'task-navigation-button--active': activeGroup === index }"
+        @moveToGroup="moveToGroup(index)"
+        >{{ index }}</navigation-button
+      >
+    </div>
+    <template v-for="(task, index) in tasks">
+      <task-group
+        :key="index"
+        v-if="index === activeGroup"
+        :tasks="task.tasks"
+      />
+    </template>
   </div>
-  
 </template>
 
 <script>
+import NavigationButton from "./NavigationButton";
+import TaskGroup from "./TaskGroup";
+
 export default {
-  name: 'task-module',
+  name: "task-module",
   data: function() {
     return {
-      activeG: 0
+      activeGroup: 0
+    };
+  },
+  methods: {
+    moveToGroup(index) {
+      this.activeGroup = index;
     }
   },
-  methods: {},
   computed: {},
-  components: {},
+  components: {
+    NavigationButton,
+    TaskGroup
+  },
   props: {
     tasks: {
       required: true,
-      type: Object
+      type: Array
     }
   },
   mixins: {},
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass">
+.tasks-module
+  &__header
+    display: flex
+    flex-wrap: wrap
+    gap: 16px
+</style>
