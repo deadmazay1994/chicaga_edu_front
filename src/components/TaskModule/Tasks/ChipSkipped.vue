@@ -1,6 +1,6 @@
 <template>
   <div class="chip-skipped">
-    <description :index="index">{{ inputCopy.description }}</description>
+    <!-- <description :index="index">{{ inputCopy.description }}</description> -->
     <div class="chip-list">
       <chip
         v-for="(chip, i) in variantsList"
@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import Description from "./TasksDescription.vue";
-import ChipInput from "./ChipInput.vue";
-import Chip from "./Chip.vue";
+// import Description from "./TasksDescription.vue";
+import ChipInput from "../Widjets/Chip/ChipInput.vue";
+import Chip from "../Widjets/Chip/Index.vue";
 
 import { mapMutations } from "vuex";
 import api from "@/mixins/api";
@@ -43,9 +43,9 @@ import api from "@/mixins/api";
 const regularGaps = /\[(.*?)\]/g;
 
 export default {
-  name: "ChipSkipped",
+  name: "InsertSkippedWord",
   components: {
-    Description,
+    // Description,
     ChipInput,
     Chip
   },
@@ -67,7 +67,8 @@ export default {
   },
   props: {
     input: { require: true },
-    index: { require: false }
+    index: { require: false },
+    taskObject: Object
   },
   methods: {
     ...mapMutations(["setPointByType"]),
@@ -217,7 +218,9 @@ export default {
     }
   },
   beforeMount() {
-    this.setInputCopy();
+    // this.setInputCopy();
+    this.inputCopy = this.taskObject;
+    console.log("inputCopy:", this.inputCopy);
     this.setVariantsList();
     this.setSentencesMap();
     this.initResultArr();
