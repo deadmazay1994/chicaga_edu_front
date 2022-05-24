@@ -1,9 +1,12 @@
 <template>
   <div class="task-image-numbers">
-    <div class="img-task"
+    <div
+      class="img-task"
       v-for="(tasks, index) in task.shuffled"
       :key="tasks.word"
-      @click="setFocus(index)" :class="answeredClass(index)">
+      @click="setFocus(index)"
+      :class="answeredClass(index)"
+    >
       <div class="img-task__check">
         <div class="img-task__word">{{ tasks.word }}</div>
         <div class="img-task__input">
@@ -17,9 +20,7 @@
           />
         </div>
       </div>
-      <img
-        :src="getFileName(tasks)"
-      />
+      <img :src="getFileName(tasks)" />
     </div>
   </div>
 </template>
@@ -110,13 +111,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([ "activeGroupIndexLesson"])
+    ...mapGetters(["activeGroupIndexLesson"])
   },
   components: {},
   directives: {},
   props: ["input", "taskObject"],
   beforeMount() {
-    this.inputCopy = this.taskObject
+    this.inputCopy = this.taskObject;
     this.description = this.inputCopy.description;
     this.setAnswers();
     this.setShuffled();

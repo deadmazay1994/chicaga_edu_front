@@ -183,7 +183,7 @@ export default {
     childSaved: { required: false }
   },
   beforeMount() {
-    this.inputCopy = this.taskObject
+    this.inputCopy = this.taskObject;
     if (this.drag) {
       this.setDragList();
     }

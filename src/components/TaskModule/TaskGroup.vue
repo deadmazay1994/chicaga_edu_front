@@ -2,7 +2,9 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
-        <div class="task-group__title" :key="index + 'i'">{{ task.description }}</div>
+        <div class="task-group__title" :key="index + 'i'">
+          {{ task.description }}
+        </div>
         <component
           :key="index + 'j'"
           :is="returnComponent(task.type)"
@@ -21,8 +23,8 @@
 import { mapMutations } from "vuex";
 
 import ChipSkipped from "./Tasks/ChipSkipped";
-import TaskImages from "./Tasks/TaskImages"
-import FillGaps from "./Tasks/FillGaps"
+import TaskImages from "./Tasks/TaskImages";
+import FillGaps from "./Tasks/FillGaps";
 
 import manager from "./manager";
 
