@@ -27,6 +27,7 @@ import ChipSkipped from "./Tasks/ChipSkipped";
 import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
+import TF from "./Tasks/TF";
 
 import manager from "./manager";
 
@@ -50,7 +51,8 @@ export default {
     ChipSkipped,
     TaskImages,
     FillGaps,
-    SelectionBox
+    SelectionBox,
+    TF
   },
   props: {
     tasks: Array,

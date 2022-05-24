@@ -1,5 +1,6 @@
 <template>
   <div class="selection-box">
+    {{ taskObject.body }}
     <template v-for="(task, index) in taskBody">
       <template v-if="task.text !== null">
         <div class="task" :key="index">
@@ -88,16 +89,19 @@ export default {
     }
   },
   mounted() {
-    this.taskBody = this.taskObject.body;
-    console.log(this.taskBody);
-    this.selectAnswersArray = this.taskBody
-      .filter(element => element.text !== null)
-      .map(element => {
-        return element.answers.map(element => {
-          // Добавляем новые свойства в объект
-          return { answer: element, selected: false, state: "default" };
+    console.log("test123", this.taskObject.body);
+    setTimeout(() => {
+      this.taskBody = this.taskObject.body;
+      console.log(this.taskBody);
+      this.selectAnswersArray = this.taskBody
+        // .filter(element => element.text !== null)
+        .map(element => {
+          return element.answers.map(element => {
+            // Добавляем новые свойства в объект
+            return { answer: element, selected: false, state: "default" };
+          });
         });
-      });
+    }, 3000);
   }
 };
 </script>
