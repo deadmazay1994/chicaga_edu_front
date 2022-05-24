@@ -1,6 +1,9 @@
 <template>
   <div class="stand vue-component">
-    <task-module :tasks="tasks" />
+    <task-module
+      :tasks="tasks"
+      :unique_id="'992015f8b7f20b56a7cdd631a0dc399d'"
+    />
   </div>
 </template>
 

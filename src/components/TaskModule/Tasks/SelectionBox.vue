@@ -1,9 +1,5 @@
 <template>
   <div class="selection-box">
-    <!-- <div v-for="(item, index) in selectAnswersArray" :key="index">
-      <div v-if="item !== null">{{ item }}</div>
-    </div> -->
-    {{ taskBody }}
     <template v-for="(task, index) in taskBody">
       <template v-if="task.text !== null">
         <div class="task" :key="index">
@@ -16,6 +12,7 @@
                   :text="answerObject.answer.text"
                   :checkText="true"
                   :selected="answerObject.selected"
+                  :state="answerObject.state"
                   @click="selectAnswer(index, i)"
                 />
               </template>
@@ -28,6 +25,8 @@
 </template>
 
 <script>
+import api from "@/mixins/api";
+
 import Chip from "../Widjets/Chip";
 
 export default {
@@ -58,20 +57,34 @@ export default {
         type_check: this.taskObject.type,
         section: this.taskObject.section,
         answer: this.selectAnswersArray.map(row => {
-          // if ((typeof row[Symbol.iterator] !== "function") === false)
-          //   return { answers: [] };
-          return {
-            answers: row.map(answer => {
-              if (answer.selected === true) {
-                return answer.selected;
-              }
-            })
-          };
+          if (!Array.isArray(row)) return [];
+          return row.map(answer => {
+            if (answer.selected === true) return 1;
+            else return 0;
+          });
         })
       };
     },
-    check() {
-      console.log("test getDataForCheck:", this.getDataForCheck());
+    displayResults(results) {
+      results.map((row, i) => {
+        row.map((answer, j) => {
+          if (!this.selectAnswersArray[i][j]) return;
+          if (!this.selectAnswersArray[i][j].selected) return;
+          this.selectAnswersArray[i][j].state = answer ? "success" : "error";
+        });
+      });
+    },
+    async check() {
+      let result = await api.methods.taskCheck(
+        this.unique_id,
+        this.getDataForCheck()
+      );
+      this.displayResults(result.result);
+      // Убираем выделение
+      this.selectAnswersArray.map(row => {
+        row.map(element => (element.selected = false));
+      });
+      return { value: result.points, type: this.taskObject.type };
     }
   },
   mounted() {
@@ -81,7 +94,8 @@ export default {
       .filter(element => element.text !== null)
       .map(element => {
         return element.answers.map(element => {
-          return { answer: element, selected: false };
+          // Добавляем новые свойства в объект
+          return { answer: element, selected: false, state: "default" };
         });
       });
   }
