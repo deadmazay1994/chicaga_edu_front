@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Chip from "./Index.vue";
+import Chip from "./index.vue";
 export default {
   name: "ChipInput",
   components: {

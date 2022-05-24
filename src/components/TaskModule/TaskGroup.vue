@@ -25,6 +25,7 @@ import { mapMutations } from "vuex";
 import ChipSkipped from "./Tasks/ChipSkipped";
 import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
+import SelectionBox from "./Tasks/SelectionBox";
 
 import manager from "./manager";
 
@@ -47,7 +48,8 @@ export default {
   components: {
     ChipSkipped,
     TaskImages,
-    FillGaps
+    FillGaps,
+    SelectionBox
   },
   props: {
     tasks: Array,

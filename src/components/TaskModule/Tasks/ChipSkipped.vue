@@ -35,7 +35,7 @@
 <script>
 // import Description from "./TasksDescription.vue";
 import ChipInput from "../Widjets/Chip/ChipInput.vue";
-import Chip from "../Widjets/Chip/Index.vue";
+import Chip from "../Widjets/Chip/index.vue";
 
 import { mapMutations } from "vuex";
 import api from "@/mixins/api";
