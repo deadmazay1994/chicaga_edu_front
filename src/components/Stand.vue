@@ -1,11 +1,27 @@
 <template>
-  <div class="stand vue-component">
-    <task-module :tasks="tasks" />
-  </div>
+    <div>
+        <div>
+            <chip
+                class="chip--part chip--part-first"
+                text="com"
+            >
+            </chip>
+            <chip
+                class="chip--part chip--part-center chip--part-selected chip--success"
+                text="pu"
+            >
+            </chip>
+            <chip
+                class="chip--part chip--part-last chip--error"
+                text="ter"
+            >
+            </chip>
+        </div>
+    </div>
 </template>
 
 <script>
-import TaskModule from "@/components/TaskModule";
+import Chip from "@/components/LessonComponents/Tasks/Chip";
 
 export default {
   name: "stand",
@@ -290,7 +306,7 @@ export default {
   },
   methods: {},
   components: {
-    TaskModule
+    Chip,
   },
   props: [],
   mixins: {}
@@ -298,6 +314,4 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.video
-  flex-basis: 50%
 </style>
