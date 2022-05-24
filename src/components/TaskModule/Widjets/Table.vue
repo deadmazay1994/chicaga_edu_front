@@ -77,6 +77,7 @@ export default {
     flex-grow: 1
     width: 100%
     min-height: 200px
+    background-color: #ffffff
     border: 1px solid #e8e8e8
     border-bottom-right-radius: 10px
     border-bottom-left-radius: 10px
