@@ -1,10 +1,13 @@
 <template>
   <div>
-    <!-- <div v-for="(item, index) in taskObject" :key="index">
-      {{ item }}
-    </div> -->
-    {{ MutatedTaskObject }}
-    <select-chips :taskObject="MutatedTaskObject" :unique_id="unique_id" />
+    <select-chips
+      :taskObject="MutatedTaskObject"
+      :unique_id="unique_id"
+      :singleSelect="true"
+      :mutationResponse="mutation"
+      :getAnswersFunction="changeAnswerRequest"
+      ref="selectChips"
+    />
   </div>
 </template>
 <script>
@@ -15,22 +18,38 @@ export default {
   components: {
     SelectChips
   },
-  data() {
-    return {
-      MutatedTaskObject: null
-    };
-  },
   props: {
     taskObject: Object,
     unique_id: String
   },
-  mounted() {
-    this.MutatedTaskObject = this.taskObject;
-    this.MutatedTaskObject.body.map(element => {
-      element.answers = [{ text: true }, { text: false }];
-    });
-    console.log("taskObject:", this.MutatedTaskObject);
-    console.log("taskObject body:", this.taskObject.body);
+  computed: {
+    MutatedTaskObject() {
+      let obj = this.taskObject;
+      obj.body.map(element => {
+        element.answers = [{ text: "true" }, { text: "false" }];
+      });
+      return obj;
+    }
+  },
+  methods: {
+    check() {
+      this.$refs.selectChips.check();
+    },
+    mutation(response) {
+      return response.result.map(result => [result, result]);
+      // console.log("0", response);
+      // return response.userSelected.map((row, i) => {
+      //   return [
+
+      //   ]
+      // });
+    },
+    changeAnswerRequest(selectAnswersArray) {
+      return selectAnswersArray.map(row => {
+        if (!Array.isArray(row)) return [];
+        return row[0].selected;
+      });
+    }
   }
 };
 </script>

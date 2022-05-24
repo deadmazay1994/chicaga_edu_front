@@ -1,6 +1,8 @@
 <template>
   <div class="selection-box">
-    {{ taskObject.body }}
+    <div v-for="(item, index) in selectAnswersArray" :key="index">
+      {{ item }}
+    </div>
     <template v-for="(task, index) in taskBody">
       <template v-if="task.text !== null">
         <div class="task" :key="index">
@@ -40,7 +42,19 @@ export default {
   },
   props: {
     taskObject: Object,
-    unique_id: String
+    unique_id: String,
+    singleSelect: {
+      type: Boolean,
+      default: false
+    },
+    mutationResponse: {
+      type: Function,
+      default: response => response.result
+    },
+    getAnswersFunction: {
+      type: Function,
+      default: null
+    }
   },
   components: {
     Chip
@@ -48,29 +62,35 @@ export default {
   methods: {
     selectAnswer(row, i) {
       // "Выбрать / Отменить" вариант ответа
+      if (this.singleSelect) {
+        this.selectAnswersArray[row].map(element => (element.selected = false));
+      }
       this.selectAnswersArray[row][i].selected = !this.selectAnswersArray[row][
         i
       ].selected;
     },
     getDataForCheck() {
-      return {
-        type: "lesson",
-        type_check: this.taskObject.type,
-        section: this.taskObject.section,
-        answer: this.selectAnswersArray.map(row => {
+      let answerFunction = selectAnswersArray => {
+        return selectAnswersArray.map(row => {
           if (!Array.isArray(row)) return [];
           return row.map(answer => {
             if (answer.selected === true) return 1;
             else return 0;
           });
-        })
+        });
+      };
+      if (this.getAnswersFunction) answerFunction = this.getAnswersFunction;
+      return {
+        type: "lesson",
+        type_check: this.taskObject.type,
+        section: this.taskObject.section,
+        answer: answerFunction(this.selectAnswersArray)
       };
     },
     displayResults(results) {
       results.map((row, i) => {
         row.map((answer, j) => {
           if (!this.selectAnswersArray[i][j]) return;
-          if (!this.selectAnswersArray[i][j].selected) return;
           this.selectAnswersArray[i][j].state = answer ? "success" : "error";
         });
       });
@@ -80,28 +100,31 @@ export default {
         this.unique_id,
         this.getDataForCheck()
       );
-      this.displayResults(result.result);
+      const resultObj = {
+        result: result.result,
+        userSelected: this.selectAnswersArray // сюда передать выбор пользователя
+      };
+      result = this.mutationResponse(resultObj);
+      this.displayResults(result);
       // Убираем выделение
-      this.selectAnswersArray.map(row => {
-        row.map(element => (element.selected = false));
-      });
+      // this.selectAnswersArray.map(row => {
+      //   row.map(element => (element.selected = false));
+      // });
       return { value: result.points, type: this.taskObject.type };
     }
   },
   mounted() {
     console.log("test123", this.taskObject.body);
-    setTimeout(() => {
-      this.taskBody = this.taskObject.body;
-      console.log(this.taskBody);
-      this.selectAnswersArray = this.taskBody
-        // .filter(element => element.text !== null)
-        .map(element => {
-          return element.answers.map(element => {
-            // Добавляем новые свойства в объект
-            return { answer: element, selected: false, state: "default" };
-          });
+    this.taskBody = this.taskObject.body;
+    console.log(this.taskBody);
+    this.selectAnswersArray = this.taskBody
+      // .filter(element => element.text !== null)
+      .map(element => {
+        return element.answers.map(element => {
+          // Добавляем новые свойства в объект
+          return { answer: element, selected: false, state: "default" };
         });
-    }, 3000);
+      });
   }
 };
 </script>
