@@ -144,7 +144,7 @@ export default {
     getTimestamps() {
       return [
         {
-          title: "Start",
+          title: "Greeting",
           time: 75
         },
         {

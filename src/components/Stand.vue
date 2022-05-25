@@ -7,7 +7,7 @@
             ref="video"
             class="video-component__video"
             @click="$emit('click-by-video')"
-            src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            src="https://chicaga-media.storage.yandexcloud.net/videos/example_lesson.mp4"
           ></video>
         </div>
       </video-player>
