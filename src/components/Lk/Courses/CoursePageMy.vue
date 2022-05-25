@@ -23,7 +23,7 @@
                 <div class="d-flex align-center is-title" style="width: 70%">
                   <v-avatar
                     size="30"
-                    :color="lesson.finished ? 'success' : 'error'"
+                    :color="'success'"
                   >
                     <span
                       class="headline white--text text-subtitle-1"
@@ -40,22 +40,6 @@
                       >{{ lesson.name }}</router-link
                     >
                   </div>
-                </div>
-                <div style="width: 30%" class="is-btns">
-                  <router-link
-                    class="d-block mb-2"
-                    link
-                    @click.native="clearTasks"
-                    :to="`/lesson/${lesson.uniq_id}`"
-                    >Перейти на урок</router-link
-                  >
-                  <router-link
-                    class="d-block"
-                    link
-                    @click.native="clearTasks"
-                    :to="`/homework/${$route.params.id}/${lesson.uniq_id}`"
-                    >Перейти на ДЗ</router-link
-                  >
                 </div>
               </div>
             </v-list-item>
