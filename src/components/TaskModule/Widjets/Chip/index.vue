@@ -1,10 +1,12 @@
 <template>
   <div
-    class="chip"
+    class="chip chip"
     :class="[
       'chip--' + state,
       { 'chip--empty-answer': !checkText },
-      { 'chip--selected': selected }
+      { 'chip--selected': selected },
+      syllablePosition,
+      syllableSelected
     ]"
     @click="click"
   >
@@ -31,7 +33,9 @@ export default {
       default: 100
     },
     selected: Boolean,
-    checkText: Boolean
+    checkText: Boolean,
+    syllablePosition: String,
+    syllableSelected: String
   },
   methods: {
     click() {

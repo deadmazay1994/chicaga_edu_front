@@ -28,6 +28,7 @@ import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
+import Syllable from "./Tasks/Syllable"
 
 import manager from "./manager";
 
@@ -52,7 +53,8 @@ export default {
     TaskImages,
     FillGaps,
     SelectionBox,
-    TF
+    TF,
+    Syllable
   },
   props: {
     tasks: Array,
