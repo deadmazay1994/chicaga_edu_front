@@ -318,6 +318,7 @@ export default {
   props: [],
   mixins: {}
 };
+
 </script>
 
 <style scoped="scoped" lang="sass"></style>
