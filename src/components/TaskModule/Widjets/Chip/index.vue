@@ -8,7 +8,7 @@
     ]"
     @click="click"
   >
-    <span class="chip__text" v-if="text">
+    <span class="chip__text" v-if="checkText">
       {{ text }}
     </span>
     <span class="chip__empty" v-else ref="empty"> </span>
@@ -92,7 +92,7 @@ export default {
     border-color: #404040
     box-shadow: 0px 1.5px 0px #404040
     .chip__text
-      font-weight: 800
+      font-weight: 700
   &--success
     color: #8EDC51
     border-color: #8EDC51
@@ -114,4 +114,6 @@ export default {
   &--selected
     border-color: #99CBFF
     box-shadow: 0px 0px 6px 0px #99CBFF
+    // .chip__text
+    //   font-weight: 700
 </style>

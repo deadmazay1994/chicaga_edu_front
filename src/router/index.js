@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Lesson from "@/components/Lesson";
+import LessonRecord from "@/components/LessonRecord"
 import Homework from "@/components/Homework";
 import LessonPreview from "@/components/LessonPreview";
 
@@ -45,7 +46,7 @@ const routes = [
   {
     path: "/lesson/:id/:groupKey/:webinarMode?",
     name: "lesson_teacher",
-    component: Lesson,
+    component: LessonRecord,
     meta: {
       requiresAuth: true,
       breadcrumb: async route => {
