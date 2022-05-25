@@ -180,7 +180,8 @@ export default {
     taskObject: { required: true },
     drag: { required: false },
     index: { required: false },
-    childSaved: { required: false }
+    childSaved: { required: false },
+    unique_id: String
   },
   beforeMount() {
     this.inputCopy = this.taskObject;

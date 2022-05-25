@@ -35,7 +35,7 @@
 <script>
 // import Description from "./TasksDescription.vue";
 import ChipInput from "../Widjets/Chip/ChipInput.vue";
-import Chip from "../Widjets/Chip/Index.vue";
+import Chip from "../Widjets/Chip";
 
 import { mapMutations } from "vuex";
 import api from "@/mixins/api";
@@ -68,7 +68,8 @@ export default {
   props: {
     input: { require: true },
     index: { require: false },
-    taskObject: Object
+    taskObject: Object,
+    unique_id: String
   },
   methods: {
     ...mapMutations(["setPointByType"]),

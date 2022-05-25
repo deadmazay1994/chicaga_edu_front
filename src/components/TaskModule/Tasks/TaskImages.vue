@@ -117,10 +117,7 @@ export default {
   },
   components: {},
   directives: {},
-  props: {
-    input: { require: true },
-    taskObject: Object
-  },
+  props: ["input", "taskObject", "unique_id"],
   beforeMount() {
     this.inputCopy = this.taskObject;
     console.log(this.taskObject);
