@@ -30,6 +30,7 @@
 <script>
 import Chip from "@/components/LessonComponents/Tasks/Chip";
 import TaskModule from "@/components/TaskModule";
+Chip
 
 export default {
   name: "stand",
@@ -313,14 +314,10 @@ export default {
     };
   },
   methods: {},
-  components: {
-    Chip,
-    TaskModule
-  },
+  components: { TaskModule },
   props: [],
   mixins: {}
 };
 </script>
 
-<style scoped="scoped" lang="sass">
-</style>
+<style scoped="scoped" lang="sass"></style>
