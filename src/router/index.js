@@ -67,19 +67,19 @@ const routes = [
       }
     }
   },
-  {
-    path: "/lesson/:id/",
-    name: "lesson",
-    component: Lesson,
-    meta: {
-      requiresAuth: true,
-      checkAccess: true,
-      breadcrumb: async route => {
-        let r = await api.methods.getFullLesson(route.params.id);
-        return r.name;
-      }
-    }
-  },
+  // {
+  //   path: "/lesson/:id/",
+  //   name: "lesson",
+  //   component: Lesson,
+  //   meta: {
+  //     requiresAuth: true,
+  //     checkAccess: true,
+  //     breadcrumb: async route => {
+  //       let r = await api.methods.getFullLesson(route.params.id);
+  //       return r.name;
+  //     }
+  //   }
+  // },
   {
     path: "/homework/:courseId/:id",
     name: "homework_teacher",
@@ -229,7 +229,7 @@ const routes = [
         path: "my-groups",
         component: Group,
         meta: {
-          breadcrumb: "Мои группы"
+          breadcrumb: "Расписание"
         }
       },
       {

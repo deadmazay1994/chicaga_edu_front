@@ -39,26 +39,23 @@
       </div>
       <v-tabs-items v-model="tab" ref="tabsItem">
         <v-tab-item class="edu-panel__tasks">
-          <tasks :tasks="lessonTasks" class="edu-panel__tasks-component" />
+          <tasks :tasks="lessonTasks" :unique_id="$route.params.id" class="edu-panel__tasks-component" />
         </v-tab-item>
         <v-tab-item>
           <!-- здесь будет новый компонент -->
-          <lesson-plot />
+          <lesson-plot>Coming soon</lesson-plot>
         </v-tab-item>
         <v-tab-item>
-          <attachs
-            v-for="(material, index) in materials"
-            :key="index"
-            :input="material"
-            class="mx-5"
-          />
+          <lesson-plot>There are no additional materials for this lesson</lesson-plot>
         </v-tab-item>
         <v-tab-item class="edu-panel__tasks">
-          <tasks
+          <!-- <tasks
             class="edu-panel__tasks-component"
             :isHomework="true"
             :noAddAtempt="true"
-          />
+          /> -->
+          
+          <lesson-plot>There is no homework for this lesson</lesson-plot>
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -68,7 +65,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Tasks from "@/components/TaskModule";
-import Attachs from "@/components/LessonComponents/Tasks/Attachs";
+// import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
@@ -131,7 +128,7 @@ export default {
   },
   components: {
     Tasks,
-    Attachs,
+    // Attachs,
     TeacherPanel,
     LessonPlot,
     AnimatedCoolSvg,
@@ -143,7 +140,6 @@ export default {
   mixins: {},
   async beforeMount() {
     await this.$store.dispatch("setLesson", this.$route.params.id);
-    console.log(this.lessonTasks)
   },
   watch: {
     points(newValue) {
@@ -291,6 +287,7 @@ export default {
 .edu-panel .task__menu {
   min-height: 64px;
   padding: 0;
+  margin-bottom: 15px;
 }
 .edu-panel .task__menu * {
   min-height: 100%;
@@ -328,5 +325,24 @@ export default {
 .lessons-pg .edu-panel .v-tab.active {
   border-bottom: none !important;
   padding-bottom: 5px !important;
+}
+
+.task__menu {
+  flex-shrink: 0;
+}
+.lessons-pg .lessons__task .lesson__item .task__content {
+  height: 100%;
+}
+.task-module.vue-component.edu-panel__tasks-component {
+  height: 100%;
+}
+.task-module.vue-component.edu-panel__tasks-component .task-group {
+  height: calc(100% - 88px);
+  overflow: auto;
+}
+@media (min-width: 1360px) {
+  .lessons-pg .lessons__task .lesson__item .task__content .v-window.v-tabs-items {
+    height: calc(100% - 85px);
+  }
 }
 </style>

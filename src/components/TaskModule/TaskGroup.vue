@@ -11,6 +11,7 @@
           :taskObject="task"
           :unique_id="unique_id"
           ref="taskComponent"
+          class="task-group__task"
         ></component>
         <button class="check-btn" @click="checkTask(index)" :key="index + 'k'" v-if="!addonsTypeList.includes(task.type) ">
           Проверить
@@ -29,6 +30,7 @@ import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
 import Attachs from "./Tasks/Attachs";
+import ChooseOne from "./Tasks/ChooseOne"
 
 import manager from "./manager";
 
@@ -56,7 +58,8 @@ export default {
     FillGaps,
     SelectionBox,
     TF,
-    Attachs
+    Attachs,
+    ChooseOne
   },
   props: {
     tasks: Array,
@@ -73,7 +76,8 @@ export default {
   margin-top: 16px
   border-top: 2px solid #E6E6E6
   padding-top: 22px
-
+  &__task
+    margin-bottom: 10px
 .task-group__title
   font-weight: 300
   margin-bottom: 10px
