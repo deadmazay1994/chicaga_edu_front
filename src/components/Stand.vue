@@ -4,17 +4,38 @@
       :tasks="tasks"
       :unique_id="'992015f8b7f20b56a7cdd631a0dc399d'"
     />
+  
+    <div>
+        <div>
+            <chip
+                class="chip--part chip--part-first"
+                text="com"
+            >
+            </chip>
+            <chip
+                class="chip--part chip--part-center chip--part-selected chip--success"
+                text="pu"
+            >
+            </chip>
+            <chip
+                class="chip--part chip--part-last chip--error"
+                text="ter"
+            >
+            </chip>
+        </div>
+    </div>
   </div>
 </template>
 
 <script>
-import TaskModule from "./TaskModule";
+import Chip from "@/components/LessonComponents/Tasks/Chip";
+import TaskModule from "@/components/TaskModule";
 
 export default {
   name: "stand",
   data: function() {
     return {
-      tasks: [
+       tasks: [
         {
           tasks: [
             {
@@ -27,30 +48,6 @@ export default {
                     file_type: "image/jpeg",
                     file_name_abs:
                       "https://edu.chicaga.ru/storage/lessons/624ee2293b513.jpg"
-                  },
-                  name: null,
-                  number: "1"
-                },
-                {
-                  file: {
-                    ext: "jpg",
-                    file: "/storage/lessons/624ee2293b513.jpg",
-                    file_name: "/storage/lessons/624ee2293b513.jpg",
-                    file_type: "image/jpeg",
-                    file_name_abs:
-                      "https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg"
-                  },
-                  name: null,
-                  number: "2"
-                },
-                {
-                  file: {
-                    ext: "jpg",
-                    file: "/storage/lessons/624ee2293b513.jpg",
-                    file_name: "/storage/lessons/624ee2293b513.jpg",
-                    file_type: "image/jpeg",
-                    file_name_abs:
-                      "https://dl.fujifilm-x.com/global/products/cameras/x100f/sample-images/ff_x100f_001.JPG"
                   },
                   name: null,
                   number: "1"
@@ -239,45 +236,6 @@ export default {
             {
               body: [
                 {
-                  file: {
-                    ext: "jpg",
-                    file: "/storage/lessons/624ee52e59807.jpg",
-                    file_name: "/storage/lessons/624ee52e59807.jpg",
-                    file_type: "image/jpeg",
-                    file_name_abs:
-                      "https://edu.chicaga.ru/storage/lessons/624ee52e59807.jpg"
-                  },
-                  word: "is [brick]",
-                  number: "1"
-                },
-                {
-                  file: {
-                    ext: "webp",
-                    file: "/storage/lessons/624ee52e5e0a4.webp",
-                    file_name: "/storage/lessons/624ee52e5e0a4.webp",
-                    file_type: "image/webp",
-                    file_name_abs:
-                      "https://edu.chicaga.ru/storage/lessons/624ee52e5e0a4.webp"
-                  },
-                  word: "is [arrow]",
-                  number: "2"
-                }
-              ],
-              type: "match_picture_and_word",
-              group: null,
-              section: "14",
-              sort_order: "8",
-              description: "Сопоставить картинку и слово",
-              group_index: "0"
-            }
-          ],
-          group_name: null
-        },
-        {
-          tasks: [
-            {
-              body: [
-                {
                   text: "2 + 2 = 4",
                   right: "0"
                 },
@@ -327,50 +285,6 @@ export default {
               section: "16",
               sort_order: "10",
               description: "select_correct_answer",
-              group_index: "0"
-            }
-          ],
-          group_name: null
-        },
-        {
-          tasks: [
-            {
-              body: [
-                {
-                  tasks: [
-                    {
-                      file: {
-                        ext: "jpg",
-                        file: "/storage/lessons/624ee52e65931.jpg",
-                        file_name: "/storage/lessons/624ee52e65931.jpg",
-                        file_type: "image/jpeg",
-                        file_name_abs:
-                          "https://edu.chicaga.ru/storage/lessons/624ee52e65931.jpg"
-                      },
-                      text: "is [brick]"
-                    },
-                    {
-                      img: null,
-                      file: {
-                        ext: "webp",
-                        file: "/storage/lessons/624ee52e6a0db.webp",
-                        file_name: "/storage/lessons/624ee52e6a0db.webp",
-                        file_type: "image/webp",
-                        file_name_abs:
-                          "https://edu.chicaga.ru/storage/lessons/624ee52e6a0db.webp"
-                      },
-                      text: "is [arrow]"
-                    }
-                  ],
-                  title: "write_word_to_picture"
-                }
-              ],
-              type: "write_word_to_picture",
-              group: null,
-              addons: [],
-              section: "17",
-              sort_order: "11",
-              description: "Вписать слова к картинкам",
               group_index: "0"
             }
           ],
