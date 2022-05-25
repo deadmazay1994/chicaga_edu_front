@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="task__content" style="height: 100%">
+    <div class="task__content">
       <div class="task__menu">
         <v-tabs active-class="active" hide-slider v-model="tab">
           <v-tab class="task__menu__item">
@@ -39,7 +39,7 @@
       </div>
       <v-tabs-items v-model="tab" ref="tabsItem">
         <v-tab-item class="edu-panel__tasks">
-          <tasks class="edu-panel__tasks-component" />
+          <tasks :tasks="lessonTasks" class="edu-panel__tasks-component" />
         </v-tab-item>
         <v-tab-item>
           <!-- здесь будет новый компонент -->
@@ -67,7 +67,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Tasks from "@/components/LessonComponents/Tasks/Tasks";
+import Tasks from "@/components/TaskModule";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
@@ -121,7 +121,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
+    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points", "lessonTasks"]),
     taskTabTitle() {
       return "Задания";
     },
@@ -141,7 +141,10 @@ export default {
   },
   props: [],
   mixins: {},
-  beforeMount() {},
+  async beforeMount() {
+    await this.$store.dispatch("setLesson", this.$route.params.id);
+    console.log(this.lessonTasks)
+  },
   watch: {
     points(newValue) {
       gsap.to(this.$data, { duration: 0.5, points: newValue });
@@ -276,6 +279,7 @@ export default {
 .points {
   margin-left: 35px;
 }
+
 
 /* new styles */
 

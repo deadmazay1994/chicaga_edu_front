@@ -2,7 +2,7 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
-        <div class="task-group__title" :key="index + 'i'">
+        <div class="task-group__title" :key="index + 'i'" v-if="task.type != 'lesson_addons_files'">
           {{ task.description }}
         </div>
         <component
@@ -12,7 +12,7 @@
           :unique_id="unique_id"
           ref="taskComponent"
         ></component>
-        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'">
+        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'" v-if="!addonsTypeList.includes(task.type) ">
           Проверить
         </button>
       </template>
@@ -28,13 +28,16 @@ import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
+import Attachs from "./Tasks/Attachs";
 
 import manager from "./manager";
 
 export default {
   name: "TaskGroup",
   data: function() {
-    return {};
+    return {
+      addonsTypeList: ['lesson_addons_files']
+    };
   },
   methods: {
     ...mapMutations(["setPointByType"]),
@@ -52,7 +55,8 @@ export default {
     TaskImages,
     FillGaps,
     SelectionBox,
-    TF
+    TF,
+    Attachs
   },
   props: {
     tasks: Array,
