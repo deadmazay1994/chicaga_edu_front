@@ -154,7 +154,7 @@ export default {
   justify-content: center
   min-width: 50px
   max-width: 250px
-  height: 120px
+  height: 180px
   margin: 4px
   background-color: #ffffff
   border: 2px solid #dcdcdc
