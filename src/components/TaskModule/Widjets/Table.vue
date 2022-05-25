@@ -1,6 +1,7 @@
 <template>
   <div class="d-table vue-component">
     <div class="d-table__table">
+      {{ tableData }}
       <div class="d-table__head">
         <div
           class="d-table__title"
@@ -9,6 +10,9 @@
           style="width: 25%"
           @click="clickColumn(index)"
         >
+          <span v-if="comparisonMode">{{
+            comparisonModeObjects[index].title
+          }}</span>
           {{ column.name }}
         </div>
         <!-- <div class="d-table__title" style="width: 25%">
@@ -27,19 +31,33 @@
       <div class="d-table__body">
         <div
           class="d-table__field"
+          :class="{ 'd-table__field--column': comparisonMode }"
           v-for="(column, index) in tableData"
           :key="index"
           style="width: 25%"
           @click="clickColumn(index)"
         >
-          <template v-for="(chip, i) in emptyChipsArray[index]">
-            <template v-if="chip">
-              <chip
-                :key="i"
-                :text="chip.word"
-                :checkText="true"
-                @click="deleteChip(index, i)"
-              />
+          <template v-if="comparisonMode">
+            <template v-for="(chip, i) in tableData">
+              <template>
+                <chip
+                  :key="i"
+                  :checkText="true"
+                  :text="index == 0 ? chip.w1 : chip.w2"
+                />
+              </template>
+            </template>
+          </template>
+          <template v-else>
+            <template v-for="(chip, i) in emptyChipsArray[index]">
+              <template v-if="chip">
+                <chip
+                  :key="i"
+                  :text="chip.word"
+                  :checkText="true"
+                  @click="deleteChip(index, i)"
+                />
+              </template>
             </template>
           </template>
         </div>
@@ -68,7 +86,12 @@ export default {
   data: function() {
     return {
       tableData: undefined,
-      emptyChipsArray: []
+      emptyChipsArray: [],
+      comparisonModeObjects: [
+        { title: "Английский", type: "w1" },
+        { title: "Русский", type: "w2" }
+      ],
+      comparisonSelectedArray: []
     };
   },
   methods: {
@@ -110,18 +133,30 @@ export default {
     Chip
   },
   props: {
-    taskBody: Array
+    taskBody: Array,
+    comparisonMode: {
+      type: Boolean,
+      default: false
+    }
   },
   mixins: {},
   beforeMount() {},
   mounted() {
     this.tableData = this.taskBody;
-    console.log(this.tableData);
-    this.tableData.map(() => {
-      // console.log("-",element);
-      this.emptyChipsArray.push([]);
-    });
-    console.log(this.emptyChipsArray);
+    if (this.comparisonMode) {
+      this.emptyChipsArray.push([], []);
+      this.tableData.map(tableDataObject => {
+        tableDataObject.selected = false;
+        this.comparisonSelectedArray.push(tableDataObject);
+      });
+    } else {
+      console.log(this.tableData);
+      this.tableData.map(() => {
+        // console.log("-",element);
+        this.emptyChipsArray.push([]);
+      });
+      console.log(this.emptyChipsArray);
+    }
   }
 };
 </script>
@@ -162,6 +197,11 @@ export default {
   &__field
     flex-grow: 1
     padding: 9px
+    &--column
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 8px
   &__field:not(:last-child)
     border-right: 2px solid #e8e8e8
 </style>

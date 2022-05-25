@@ -28,7 +28,8 @@ import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
-import Grouping from "./Tasks/Grouping"
+import Grouping from "./Tasks/Grouping";
+import Comparison from "./Tasks/Comparison.vue";
 
 import manager from "./manager";
 
@@ -54,7 +55,8 @@ export default {
     FillGaps,
     SelectionBox,
     TF,
-    Grouping
+    Grouping,
+    Comparison
   },
   props: {
     tasks: Array,
