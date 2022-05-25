@@ -233,7 +233,6 @@ export default {
 .v-tab.active {
   border-bottom: 2px solid red !important;
   padding-bottom: 5px !important;
-  transform: translateY(2px) !important;
 }
 
 .v-slide-group__content {
@@ -251,9 +250,6 @@ export default {
   display: none !important;
 }
 
-.task__menu {
-  padding: 25px 10px 20px 10px !important;
-}
 .task__menu__item:before {
   content: "";
   position: absolute;
@@ -284,25 +280,53 @@ export default {
   margin-left: 35px;
 }
 
-.task__menu {
+
+/* new styles */
+
+.edu-panel .task__content {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.edu-panel .task__menu {
+  min-height: 64px;
+  padding: 0;
+}
+.edu-panel .task__menu * {
+  min-height: 100%;
+}
+.lessons-pg .edu-panel .v-slide-group__content {
+  align-items: center;
+  justify-content: stretch;
+}
+
+.lessons-pg .edu-panel .task__menu__item {
+  display: flex;
+  flex-grow: 1;
   flex-shrink: 0;
+  flex-basis: 25%;
+  height: 100%;
+  margin-right: 0;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: normal;
+  text-align: center;
+  white-space: normal !important;
 }
 
-.lessons-pg .lessons__task .lesson__item .task__content {
-  height: 100%;
-}
-.task-module.vue-component.edu-panel__tasks-component {
-  height: 100%;
-  margin: 15px 0;
-}
-.task-module.vue-component.edu-panel__tasks-component .task-group {
-  height: calc(100% - 88px);
-  overflow: auto;
+.lessons-pg .edu-panel .task__menu__item.active {
+  border-bottom: none;
+  transform: none;
+  padding-bottom: 5px;
+  color: #ffffff !important;
+  background-image: linear-gradient(180deg, #FF6440 0%, #CC2D23 100%);
+  box-shadow: inset 0px 0px 10px rgba(169, 47, 33, 0.5);
 }
 
-@media (min-width: 1360px) {
-  .lessons-pg .lessons__task .lesson__item .task__content .v-window.v-tabs-items {
-    height: calc(100% - 85px);
-  }
+.lessons-pg .edu-panel .v-tab.active {
+  border-bottom: none !important;
+  padding-bottom: 5px !important;
 }
 </style>

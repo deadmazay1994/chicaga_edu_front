@@ -1,5 +1,6 @@
 <template>
   <div class="stand vue-component">
+
   </div>
 </template>
 
@@ -9,7 +10,7 @@ export default {
   name: "stand",
   data: function() {
     return {
-       tasks: [
+      tasks: [
         {
           tasks: [
             {
@@ -290,7 +291,6 @@ export default {
   props: [],
   mixins: {}
 };
-
 </script>
 
 <style scoped="scoped" lang="sass"></style>
