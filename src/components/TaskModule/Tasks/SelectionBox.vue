@@ -1,8 +1,5 @@
 <template>
   <div class="selection-box">
-    <div v-for="(item, index) in selectAnswersArray" :key="index">
-      {{ item }}
-    </div>
     <template v-for="(task, index) in taskBody">
       <template v-if="task.text !== null">
         <div class="task" :key="index">
