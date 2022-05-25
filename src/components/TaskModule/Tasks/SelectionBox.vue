@@ -27,7 +27,7 @@
 <script>
 import api from "@/mixins/api";
 
-import Chip from "../Widjets/Chip";
+import Chip from "../Widjets/Chip/";
 
 export default {
   name: "SelectionBox",
