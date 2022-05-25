@@ -28,6 +28,7 @@ import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
+import Attachs from "./Tasks/Attachs";
 
 import manager from "./manager";
 
@@ -52,7 +53,8 @@ export default {
     TaskImages,
     FillGaps,
     SelectionBox,
-    TF
+    TF,
+    Attachs
   },
   props: {
     tasks: Array,
