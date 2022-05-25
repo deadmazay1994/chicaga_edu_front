@@ -33,6 +33,29 @@ export default {
                                 "file": "/storage/lessons/624ee2293b513.jpg",
                                 "file_name": "/storage/lessons/624ee2293b513.jpg",
                                 "file_type": "image/jpeg",
+                                "file_name_abs": "https://dl.fujifilm-x.com/global/products/cameras/x100f/sample-images/ff_x100f_001.JPG"
+                            },
+                            "name": null,
+                            "number": "1"
+                        },
+                        
+                        {
+                            "file": {
+                                "ext": "jpg",
+                                "file": "/storage/lessons/624ee2293b513.jpg",
+                                "file_name": "/storage/lessons/624ee2293b513.jpg",
+                                "file_type": "image/jpeg",
+                                "file_name_abs": "https://edu.chicaga.ru/storage/lessons/624ee2293b513.jpg"
+                            },
+                            "name": null,
+                            "number": "1"
+                        },
+                        {
+                            "file": {
+                                "ext": "jpg",
+                                "file": "/storage/lessons/624ee2293b513.jpg",
+                                "file_name": "/storage/lessons/624ee2293b513.jpg",
+                                "file_type": "image/jpeg",
                                 "file_name_abs": "https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg"
                             },
                             "name": null,
