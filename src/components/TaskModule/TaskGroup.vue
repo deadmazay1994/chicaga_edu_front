@@ -2,7 +2,7 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
-        <div class="task-group__title" :key="index + 'i'">
+        <div class="task-group__title" :key="index + 'i'" v-if="task.type != 'lesson_addons_files'">
           {{ task.description }}
         </div>
         <component
@@ -12,7 +12,7 @@
           :unique_id="unique_id"
           ref="taskComponent"
         ></component>
-        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'">
+        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'" v-if="!addonsTypeList.includes(task.type) ">
           Проверить
         </button>
       </template>
@@ -35,7 +35,9 @@ import manager from "./manager";
 export default {
   name: "TaskGroup",
   data: function() {
-    return {};
+    return {
+      addonsTypeList: ['lesson_addons_files']
+    };
   },
   methods: {
     ...mapMutations(["setPointByType"]),

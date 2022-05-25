@@ -44,9 +44,21 @@ const routes = [
     redirect: "/lk/my-coursers"
   },
   {
+    path: "/lesson/:id/",
+    name: "lesson_record",
+    component: LessonRecord,
+    meta: {
+      requiresAuth: true,
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      }
+    }
+  },
+  {
     path: "/lesson/:id/:groupKey/:webinarMode?",
     name: "lesson_teacher",
-    component: LessonRecord,
+    component: Lesson,
     meta: {
       requiresAuth: true,
       breadcrumb: async route => {

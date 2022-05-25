@@ -293,6 +293,7 @@ export default {
 }
 .task-module.vue-component.edu-panel__tasks-component {
   height: 100%;
+  margin: 15px 0;
 }
 .task-module.vue-component.edu-panel__tasks-component .task-group {
   height: calc(100% - 88px);
