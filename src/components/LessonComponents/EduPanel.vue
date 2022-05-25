@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="task__content" style="height: 100%">
+    <div class="task__content">
       <div class="task__menu">
         <v-tabs active-class="active" hide-slider v-model="tab">
           <v-tab class="task__menu__item">
@@ -282,5 +282,26 @@ export default {
 
 .points {
   margin-left: 35px;
+}
+
+.task__menu {
+  flex-shrink: 0;
+}
+
+.lessons-pg .lessons__task .lesson__item .task__content {
+  height: 100%;
+}
+.task-module.vue-component.edu-panel__tasks-component {
+  height: 100%;
+}
+.task-module.vue-component.edu-panel__tasks-component .task-group {
+  height: calc(100% - 88px);
+  overflow: auto;
+}
+
+@media (min-width: 1360px) {
+  .lessons-pg .lessons__task .lesson__item .task__content .v-window.v-tabs-items {
+    height: calc(100% - 85px);
+  }
 }
 </style>
