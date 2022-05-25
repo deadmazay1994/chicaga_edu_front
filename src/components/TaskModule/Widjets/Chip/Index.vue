@@ -8,6 +8,7 @@
     ]"
     @click="click"
   >
+  
     <span class="chip__text" v-if="checkText">
       {{ text }}
     </span>
