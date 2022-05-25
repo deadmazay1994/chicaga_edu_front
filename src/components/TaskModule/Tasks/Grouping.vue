@@ -1,7 +1,7 @@
 <template>
   <div class="grouping">
     {{ selectedChip }}
-    <br>
+    <br />
     {{ taskBody }}
     <hr />
     {{ selectedChipsArray }}
@@ -11,11 +11,17 @@
         :key="index"
         :text="chip.word"
         :checkText="true"
+        :state="chip.state"
         :selected="chip.selected"
         @click="selectChip(index)"
       />
     </div>
-    <Table :taskBody="taskObject.body" @click="clickTableColumn" ref="table" />
+    <Table
+      :taskBody="taskObject.body"
+      @click="clickTableColumn"
+      @undisabledChip="undisabledChip"
+      ref="table"
+    />
   </div>
 </template>
 
@@ -29,7 +35,9 @@ export default {
     return {
       taskBody: undefined,
       selectedChipsArray: [],
-      selectedChip: undefined
+      selectedChip: undefined,
+      selectedChipIndex: undefined,
+      defaultChip: undefined
     };
   },
   props: {
@@ -46,7 +54,9 @@ export default {
       this.selectedChipsArray.map(chip => (chip.selected = false));
       this.selectedChipsArray[i].selected = !this.selectedChipsArray[i]
         .selected;
+      // Присваем значение в data самого объекта чипса и его индекса
       this.selectedChip = this.selectedChipsArray[i];
+      this.selectedChipIndex = i;
     },
     clickTableColumn(columnIndex) {
       this.$refs.table.setChip(this.selectedChip, columnIndex);
@@ -55,13 +65,44 @@ export default {
       // Возвращаем selectedChip с изначальным значением
       this.selectedChipsArray.map(chip => (chip.selected = false));
       this.selectedChip = undefined;
+      // disable на выбранный сверху чипс
+      this.defaultChip = this.selectedChipsArray[this.selectedChipIndex];
+      this.selectedChipsArray[this.selectedChipIndex].state = "empty";
+    },
+    undisabledChip(chip) {
+      // console.log(this.selectedChipsArray.indexOf(chip));
+      // this.selectedChipsArray[
+      //   this.selectedChipsArray.indexOf(chip)
+      // ] = this.defaultChip;
+      this.$set(this.defaultChip.state, "state", "default");
+      console.log(
+        "+",
+        this.selectedChipsArray[this.selectedChipsArray.indexOf(chip)]
+      );
+      console.log(this.defaultChip);
+      this.$set(
+        this.selectedChipsArray,
+        this.selectedChipsArray.indexOf(chip),
+        this.defaultChip
+      );
+      // let findedChip = this.selectedChipsArray.filter(
+      //   headerChip => headerChip.word === chip.word
+      // )[0];
+      // findedChip.state = "default";
+      // let index = this.selectedChipsArray.indexOf(findedChip);
+      // // let obj = (this.selectedChipsArray[index].state = "default");
+      // this.selectedChipsArray[index] = findedChip;
     }
   },
   mounted() {
     this.taskBody = this.taskObject.body;
     this.taskObject.body.map(object => {
       object.words.map(word => {
-        this.selectedChipsArray.push({ word: word, selected: false });
+        this.selectedChipsArray.push({
+          word: word,
+          selected: false,
+          state: "default"
+        });
       });
     });
   }

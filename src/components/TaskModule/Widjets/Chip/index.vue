@@ -107,6 +107,7 @@ export default {
     border-color: #E6E6E6
     background: #E6E6E6
     box-shadow: none
+    pointer-events: none !important
     .chip__text
       opacity: 0
   &--empty-answer

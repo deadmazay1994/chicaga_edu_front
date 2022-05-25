@@ -32,13 +32,16 @@
           style="width: 25%"
           @click="clickColumn(index)"
         >
-          <chip
-            v-for="(chip, i) in emptyChipsArray[index]"
-            :key="i"
-            :text="(chip.word) ? chip.word : null"
-            :checkText="true"
-            @click="deleteChip(index, i)"
-          />
+          <template v-for="(chip, i) in emptyChipsArray[index]">
+            <template v-if="chip">
+              <chip
+                :key="i"
+                :text="chip.word"
+                :checkText="true"
+                @click="deleteChip(index, i)"
+              />
+            </template>
+          </template>
         </div>
         <!-- <div class="d-table__field" style="width: 25%">
           chipchipchipchipchipchipchipchipchipchip
@@ -84,12 +87,13 @@ export default {
       this.emptyChipsArray[columnIndex].push(selectedChip);
     },
     deleteChip(row, i) {
-      console.log("массив1", this.emptyChipsArray);
-      console.log("массив2", this.emptyChipsArray[row]);
-      console.log("массив3", this.emptyChipsArray[row][i]);
-      console.log("до", this.emptyChipsArray);
+      this.$emit("undisabledChip", this.emptyChipsArray[row][i]);
+      // console.log("массив1", this.emptyChipsArray);
+      // console.log("массив2", this.emptyChipsArray[row]);
+      // console.log("массив3", this.emptyChipsArray[row][i]);
+      // console.log("до", this.emptyChipsArray);
       this.emptyChipsArray[row].splice(i, 1);
-      console.log("после", this.emptyChipsArray);
+      // console.log("после", this.emptyChipsArray);
     }
   },
   computed: {
