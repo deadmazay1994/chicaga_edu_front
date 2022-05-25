@@ -2,7 +2,16 @@
   <div class="d-table vue-component">
     <div class="d-table__table">
       <div class="d-table__head">
-        <div class="d-table__title" style="width: 25%">
+        <div
+          class="d-table__title"
+          v-for="(column, index) in tableData"
+          :key="index"
+          style="width: 25%"
+          @click="clickColumn(index)"
+        >
+          {{ column.name }}
+        </div>
+        <!-- <div class="d-table__title" style="width: 25%">
           food
         </div>
         <div class="d-table__title" style="width: 25%">
@@ -13,10 +22,25 @@
         </div>
         <div class="d-table__title" style="width: 25%">
           placesplacesplacesplaces
-        </div>
+        </div> -->
       </div>
       <div class="d-table__body">
-        <div class="d-table__field" style="width: 25%">
+        <div
+          class="d-table__field"
+          v-for="(column, index) in tableData"
+          :key="index"
+          style="width: 25%"
+          @click="clickColumn(index)"
+        >
+          <chip
+            v-for="(chip, i) in emptyChipsArray[index]"
+            :key="i"
+            :text="(chip.word) ? chip.word : null"
+            :checkText="true"
+            @click="deleteChip(index, i)"
+          />
+        </div>
+        <!-- <div class="d-table__field" style="width: 25%">
           chipchipchipchipchipchipchipchipchipchip
         </div>
         <div class="d-table__field" style="width: 25%">
@@ -27,24 +51,74 @@
         </div>
         <div class="d-table__field" style="width: 25%">
           chip
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Chip from "../Widjets/Chip";
+
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      tableData: undefined,
+      emptyChipsArray: []
+    };
   },
-  methods: {},
-  computed: {},
-  components: {},
-  props: [],
+  methods: {
+    clickColumn(index) {
+      this.$emit("click", index);
+    },
+    clickHeaderColumn() {
+      console.log("header column");
+      // this.$emit("clickHeaderColumn");
+    },
+    clickBodyColumn() {
+      // this.$emit("clickBodyColumn");
+      console.log("body column");
+    },
+    setChip(selectedChip, columnIndex) {
+      this.emptyChipsArray[columnIndex].push(selectedChip);
+    },
+    deleteChip(row, i) {
+      console.log("массив1", this.emptyChipsArray);
+      console.log("массив2", this.emptyChipsArray[row]);
+      console.log("массив3", this.emptyChipsArray[row][i]);
+      console.log("до", this.emptyChipsArray);
+      this.emptyChipsArray[row].splice(i, 1);
+      console.log("после", this.emptyChipsArray);
+    }
+  },
+  computed: {
+    // tableData() {
+    //   let tableDataArray = this.taskBody;
+    //   console.log(tableDataArray);
+    //   tableDataArray.map(() => {
+    //     this.emptyChipsArray.push([]);
+    //   });
+    //   return tableDataArray;
+    // }
+  },
+  components: {
+    Chip
+  },
+  props: {
+    taskBody: Array
+  },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    this.tableData = this.taskBody;
+    console.log(this.tableData);
+    this.tableData.map(() => {
+      // console.log("-",element);
+      this.emptyChipsArray.push([]);
+    });
+    console.log(this.emptyChipsArray);
+  }
 };
 </script>
 
