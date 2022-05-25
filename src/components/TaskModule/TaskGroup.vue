@@ -9,6 +9,7 @@
           :key="index + 'j'"
           :is="returnComponent(task.type)"
           :taskObject="task"
+          :unique_id="unique_id"
           ref="taskComponent"
         ></component>
         <button class="check-btn" @click="checkTask(index)" :key="index + 'k'">
@@ -25,6 +26,7 @@ import { mapMutations } from "vuex";
 import ChipSkipped from "./Tasks/ChipSkipped";
 import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
+import SelectionBox from "./Tasks/SelectionBox";
 
 import manager from "./manager";
 
@@ -47,12 +49,14 @@ export default {
   components: {
     ChipSkipped,
     TaskImages,
-    FillGaps
+    FillGaps,
+    SelectionBox
   },
   props: {
     tasks: Array,
     index: Number,
-    activeGroup: Number
+    activeGroup: Number,
+    unique_id: String
   },
   mixins: {},
   beforeMount() {}

@@ -14,6 +14,7 @@
         :key="index"
         v-if="index === activeGroup"
         :tasks="task.tasks"
+        :unique_id="unique_id"
       />
     </template>
   </div>
@@ -44,7 +45,8 @@ export default {
     tasks: {
       required: true,
       type: Array
-    }
+    },
+    unique_id: String
   },
   mixins: {},
   beforeMount() {}
