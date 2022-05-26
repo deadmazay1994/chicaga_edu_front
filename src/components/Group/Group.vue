@@ -50,19 +50,6 @@
                     : "Не запланировано"
                 }}
               </td>
-              <td>
-                <router-link
-                  :to="{
-                    name: 'homework',
-                    params: {
-                      courseId: 0,
-                      id: item.lesson.uniq_id,
-                      userid: 0
-                    }
-                  }"
-                  >Домашнее задание</router-link
-                >
-              </td>
             </tr>
           </template>
         </v-data-table>
@@ -98,7 +85,6 @@ export default {
         { text: "Название", value: "name" },
         { text: "Время начала", value: "time_start" },
         { text: "Дата начала", value: "date_start" },
-        { text: "Домашнее задание" }
       ]
     };
   },

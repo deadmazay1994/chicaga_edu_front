@@ -2,7 +2,11 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
-        <div class="task-group__title" :key="index + 'i'">
+        <div
+          class="task-group__title"
+          :key="index + 'i'"
+          v-if="task.type != 'lesson_addons_files'"
+        >
           {{ task.description }}
         </div>
         <component
@@ -11,8 +15,14 @@
           :taskObject="task"
           :unique_id="unique_id"
           ref="taskComponent"
+          class="task-group__task"
         ></component>
-        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'">
+        <button
+          class="check-btn"
+          @click="checkTask(index)"
+          :key="index + 'k'"
+          v-if="!addonsTypeList.includes(task.type)"
+        >
           Проверить
         </button>
       </template>
@@ -30,13 +40,17 @@ import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
 import Grouping from "./Tasks/Grouping";
 import Comparison from "./Tasks/Comparison.vue";
+import Attachs from "./Tasks/Attachs";
+import ChooseOne from "./Tasks/ChooseOne";
 
 import manager from "./manager";
 
 export default {
   name: "TaskGroup",
   data: function() {
-    return {};
+    return {
+      addonsTypeList: ["lesson_addons_files"]
+    };
   },
   methods: {
     ...mapMutations(["setPointByType"]),
@@ -56,7 +70,9 @@ export default {
     SelectionBox,
     TF,
     Grouping,
-    Comparison
+    Comparison,
+    Attachs,
+    ChooseOne
   },
   props: {
     tasks: Array,
@@ -73,7 +89,8 @@ export default {
   margin-top: 16px
   border-top: 2px solid #E6E6E6
   padding-top: 22px
-
+  &__task
+    margin-bottom: 10px
 .task-group__title
   font-weight: 300
   margin-bottom: 10px

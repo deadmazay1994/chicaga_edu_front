@@ -26,7 +26,7 @@ export default function manager(type) {
       componentName = "match-imgs";
       break;
     case "select_correct_answer":
-      componentName = "selection-box";
+      componentName = "choose-one";
       break;
     case "select_correct_variant":
       // attrs.props.underline = true;

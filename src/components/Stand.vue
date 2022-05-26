@@ -4,39 +4,17 @@
       :tasks="tasks"
       :unique_id="'992015f8b7f20b56a7cdd631a0dc399d'"
     />
-  
-    <div>
-        <div>
-            <chip
-                class="chip--part chip--part-first"
-                text="com"
-            >
-            </chip>
-            <chip
-                class="chip--part chip--part-center chip--part-selected chip--success"
-                text="pu"
-            >
-            </chip>
-            <chip
-                class="chip--part chip--part-last chip--error"
-                text="ter"
-            >
-            </chip>
-        </div>
-    </div>
   </div>
 </template>
 
 <script>
-import Chip from "@/components/LessonComponents/Tasks/Chip";
-import TaskModule from "@/components/TaskModule";
-Chip
+import TaskModule from "./TaskModule";
 
 export default {
   name: "stand",
   data: function() {
     return {
-       tasks: [
+      tasks: [
         {
           tasks: [
             {
@@ -314,11 +292,12 @@ export default {
     };
   },
   methods: {},
-  components: { TaskModule },
   props: [],
-  mixins: {}
+  mixins: {},
+  components: {
+    TaskModule
+  }
 };
-
 </script>
 
 <style scoped="scoped" lang="sass"></style>
