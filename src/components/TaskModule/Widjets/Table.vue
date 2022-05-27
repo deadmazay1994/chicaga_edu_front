@@ -20,7 +20,7 @@
           style="width: 25%"
           @click="clickColumn(index)"
         >
-          <slot v-bind:columnIndex="columnIndex">{{ index }}</slot>
+          <slot v-bind:columnIndex="index"></slot>
         </div>
       </div>
     </div>

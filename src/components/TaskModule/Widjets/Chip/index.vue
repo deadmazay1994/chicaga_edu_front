@@ -58,6 +58,7 @@ export default {
     background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
     -webkit-background-clip: text
     -webkit-text-fill-color: transparent
+    user-select: none
 
   .chip__empty
     display: inline-block
