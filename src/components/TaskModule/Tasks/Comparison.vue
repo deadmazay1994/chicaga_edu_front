@@ -1,6 +1,12 @@
 <template>
   <div class="comparison">
-    {{ taskBody }}
+    <div v-for="(item, index) in selectedChipsArray" :key="index">
+      {{ item }}
+    </div>
+    <hr />
+    selectedChip: {{ selectedChip }}
+    <br />
+    pastSelectedChip: {{ pastSelectedChip }}
     <Table :tableColumns="[{ name: 'Английский' }, { name: 'Русский' }]">
       <template v-slot:default="slotProps">
         <div class="comparison__column">
@@ -58,23 +64,37 @@ export default {
     selectChip(object) {
       let swapChip = () => {
         // Меняем местами чипсы
+        // Пояснение: pastChip - чипс который мы нажали первым, currChip - чипс который мы нажали вторым
         if (!this.selectedChip) return;
-        // Сохраняем текущий выделенный чипс
-        this.pastSelectedChip = this.selectedChipsArray[index];
-        this.selectedChipsArray[index] = this.selectedChip;
-
-        let j = this.selectedChipsArray.indexOf(this.selectedChip);
-        this.selectedChipsArray[j] = this.pastSelectedChip;
-
-        this.selectedChipsArray.map(chip => (chip.selected = false));
+        if (this.selectedChip.column === this.selectedChipsArray[index].column)
+          return;
+        this.pastSelectedChip = this.selectedChip;
+        let targetRow = this.selectedChipsArray.find(
+          chip =>
+            chip.index === this.pastSelectedChip.index &&
+            chip.column === this.selectedChipsArray[index].column
+        );
+        let targetRowIndex = this.selectedChipsArray.indexOf(targetRow);
+        // this.selectedChipsArray[
+        //   targetRowIndex
+        // ] = this.selectedChipsArray.splice(
+        //   index,
+        //   1,
+        //   this.selectedChipsArray[targetRowIndex]
+        // )[0];
+        let savedSelect = this.selectedChipsArray[targetRowIndex];
+        let savedSelectIndex = this.selectedChipsArray[targetRowIndex].index;
+        this.selectedChipsArray[targetRowIndex].index = this.selectedChipsArray[
+          index
+        ].index;
+        this.selectedChipsArray[targetRowIndex] = this.selectedChipsArray[
+          index
+        ];
+        this.selectedChipsArray[index].index = savedSelectIndex;
+        this.selectedChipsArray[index] = savedSelect;
+        this.pastSelectedChip = undefined;
+        this.selectedChip = undefined;
       };
-
-      // let unselect = () => {
-      //   if (this.select) {
-      //     this.selectedChipsArray.map(chip => (chip.selected = false));
-      //   }
-      //   this.select = !this.select;
-      // };
 
       let index = this.selectedChipsArray.indexOf(object);
       swapChip();
@@ -86,7 +106,6 @@ export default {
         .selected;
 
       // Убираем выделение после свапа чипсов
-      // unselect();
       if (this.select) {
         this.selectedChipsArray.map(chip => (chip.selected = false));
       }
