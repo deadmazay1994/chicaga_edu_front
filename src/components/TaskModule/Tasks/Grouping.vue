@@ -1,31 +1,40 @@
 <template>
   <div class="grouping">
-    {{ selectedChip }}
-    <br />
-    {{ taskBody }}
-    <hr />
-    {{ selectedChipsArray }}
     <div class="grouping__header">
       <chip
+        class="grouping__header__chip"
         v-for="(chip, index) in selectedChipsArray"
         :key="index"
         :text="chip.word"
         :checkText="true"
         :state="chip.state"
         :selected="chip.selected"
-        @click="selectChip(index)"
+        @click="selectChip(chip)"
       />
     </div>
-    <Table
-      :taskBody="taskObject.body"
-      @click="clickTableColumn"
-      @undisabledChip="undisabledChip"
-      ref="table"
-    />
+    <Table :tableColumns="taskColumns" @click="pushChipToColumn">
+      <template v-slot:default="slotProps">
+        <transition-group name="flip-list" class="grouping__column">
+          <template v-for="(obj, index) in selectedChipsArrayToTable">
+            <template v-if="obj.column === slotProps.columnIndex">
+              <chip
+                class="grouping__item"
+                :key="index"
+                :checkText="true"
+                :text="obj.chip.word"
+                @click="deleteChipFromColumn(obj)"
+              />
+            </template>
+          </template>
+        </transition-group>
+      </template>
+    </Table>
   </div>
 </template>
 
 <script>
+import api from "@/mixins/api";
+
 import Table from "../Widjets/Table.vue";
 import Chip from "../Widjets/Chip";
 
@@ -34,7 +43,9 @@ export default {
   data() {
     return {
       taskBody: undefined,
+      taskColumns: [],
       selectedChipsArray: [],
+      selectedChipsArrayToTable: [],
       selectedChip: undefined,
       selectedChipIndex: undefined,
       defaultChip: undefined
@@ -49,49 +60,67 @@ export default {
     Chip
   },
   methods: {
-    selectChip(i) {
-      // Убираем выделение остальных чипсов и выделяем только один
+    selectChip(chip) {
+      // Выделение чипсов ставим на false
       this.selectedChipsArray.map(chip => (chip.selected = false));
-      this.selectedChipsArray[i].selected = !this.selectedChipsArray[i]
-        .selected;
-      // Присваем значение в data самого объекта чипса и его индекса
-      this.selectedChip = this.selectedChipsArray[i];
-      this.selectedChipIndex = i;
+      let selectedChip = this.selectedChipsArray.find(obj => obj === chip);
+      selectedChip.selected = true;
+      // сохраняем выделенный чипс в свойство data
+      this.selectedChip = selectedChip;
     },
-    clickTableColumn(columnIndex) {
-      this.$refs.table.setChip(this.selectedChip, columnIndex);
-      // Обвноляем переменные
-      // Убираем выделение всех чипсов
-      // Возвращаем selectedChip с изначальным значением
-      this.selectedChipsArray.map(chip => (chip.selected = false));
+    // Перемещаем чипс в таблицу, i - индекс колонки
+    pushChipToColumn(i) {
+      // Чипс который перемещен становится пустым в "grouping__header"
+      this.selectedChipsArray.find(chip => chip === this.selectedChip).state =
+        "empty";
+      // Пушим новый объект с вспомогательными свойствами
+      this.selectedChipsArrayToTable.push({
+        columnName: this.taskColumns[i].name,
+        column: i,
+        chip: this.selectedChip
+      });
+      // Обновляем свойства
+      this.selectedChip.selected = false;
       this.selectedChip = undefined;
-      // disable на выбранный сверху чипс
-      this.defaultChip = this.selectedChipsArray[this.selectedChipIndex];
-      this.selectedChipsArray[this.selectedChipIndex].state = "empty";
     },
-    undisabledChip(chip) {
-      // console.log(this.selectedChipsArray.indexOf(chip));
-      // this.selectedChipsArray[
-      //   this.selectedChipsArray.indexOf(chip)
-      // ] = this.defaultChip;
-      this.$set(this.defaultChip.state, "state", "default");
-      console.log(
-        "+",
-        this.selectedChipsArray[this.selectedChipsArray.indexOf(chip)]
+    // Удаляем чипсы при нажатии на них в таблице
+    deleteChipFromColumn(obj) {
+      let targetIndex = this.selectedChipsArrayToTable.indexOf(obj);
+      let targetChipIndex = this.selectedChipsArray.indexOf(obj.chip);
+      this.selectedChipsArrayToTable.splice(targetIndex, 1);
+      this.selectedChipsArray[targetChipIndex].state = "default";
+    },
+    getDataForCheck() {
+      let answerArr = this.taskColumns.map(column => {
+        let filterResult = this.selectedChipsArrayToTable
+          .filter(object => object.columnName === column.name)
+          .map(object => object.chip.word);
+        return { name: column.name, words: filterResult };
+      });
+      return {
+        type: "lesson",
+        type_check: this.taskObject.type,
+        section: this.taskObject.section,
+        answer: answerArr
+      };
+    },
+    async check() {
+      let result = await api.methods.taskCheck(
+        this.unique_id,
+        this.getDataForCheck()
       );
-      console.log(this.defaultChip);
-      this.$set(
-        this.selectedChipsArray,
-        this.selectedChipsArray.indexOf(chip),
-        this.defaultChip
-      );
-      // let findedChip = this.selectedChipsArray.filter(
-      //   headerChip => headerChip.word === chip.word
-      // )[0];
-      // findedChip.state = "default";
-      // let index = this.selectedChipsArray.indexOf(findedChip);
-      // // let obj = (this.selectedChipsArray[index].state = "default");
-      // this.selectedChipsArray[index] = findedChip;
+
+      this.displayResults(result.result);
+      return { value: result.point, type: this.taskObject.type };
+    },
+    displayResults(results) {
+      this.taskColumns.map(column => {
+        results.map(resultObj => {
+          if (resultObj.name === column.name) {
+            column.state = resultObj.correct;
+          }
+        });
+      });
     }
   },
   mounted() {
@@ -101,9 +130,11 @@ export default {
         this.selectedChipsArray.push({
           word: word,
           selected: false,
-          state: "default"
+          state: "default",
+          column: undefined
         });
       });
+      this.taskColumns.push({ name: object.name, state: undefined });
     });
   }
 };
@@ -114,4 +145,17 @@ export default {
   display: flex
   flex-wrap: wrap
   gap: 16px
+  margin-bottom: 23px
+
+.grouping__column
+  height: 100%
+  cursor: pointer
+  display: flex
+  align-items: center
+  flex-direction: column
+  gap: 7px
+
+// Надо заменить анимацию
+// .flip-list-move
+//   transition: transform 1s
 </style>

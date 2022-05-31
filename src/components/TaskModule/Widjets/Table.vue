@@ -4,6 +4,7 @@
       <div class="d-table__head">
         <div
           class="d-table__title"
+          :class="tableTitleState(column.state)"
           v-for="(column, index) in tableColumns"
           :key="index"
           style="width: 25%"
@@ -15,6 +16,7 @@
       <div class="d-table__body">
         <div
           class="d-table__field"
+          :class="tableFieldState(column.state)"
           v-for="(column, index) in tableColumns"
           :key="index"
           style="width: 25%"
@@ -36,6 +38,15 @@ export default {
   methods: {
     clickColumn(index) {
       this.$emit("click", index);
+    },
+    tableTitleState(boolean) {
+      return { "d-table__title--success": boolean };
+    },
+    tableFieldState(boolean) {
+      return {
+        "d-table__field--success": boolean,
+        "d-table__field--error": boolean === false
+      };
     }
   },
   computed: {},
@@ -78,6 +89,8 @@ export default {
   &__title
     flex-grow: 1
     padding: 10px
+    &--success
+      background-color: rgba(142, 220, 81, 1)
   &__body
     display: flex
     flex-grow: 1
@@ -90,6 +103,10 @@ export default {
   &__field
     flex-grow: 1
     padding: 9px
+    &--success
+      background-color: rgba(142, 220, 81, .35)
+    &--error
+      background-color: rgba(233, 74, 69, .35)
     &--column
       display: flex
       flex-direction: column

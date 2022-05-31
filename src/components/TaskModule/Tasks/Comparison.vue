@@ -1,9 +1,6 @@
 <template>
   <div class="comparison">
-    <div v-for="(item, index) in selectedChipsArray" :key="index">
-      {{ item }}
-    </div>
-    <Table :tableColumns="[{ name: 'Английский' }, { name: 'Русский' }]">
+    <Table :tableColumns="returnColumnNames">
       <template v-slot:default="slotProps">
         <transition-group name="flip-list" tag="div" class="comparison__column">
           <template v-for="(chip, index) in selectedChipsArray">
@@ -14,6 +11,7 @@
                 :checkText="true"
                 :text="chip.w1 ? chip.w1 : chip.w2"
                 :selected="chip.selected"
+                :state="chip.state"
                 @click="selectChip(chip)"
               />
               <!-- Вызываем метод для вычисления текущей колонки -->
@@ -52,6 +50,13 @@ export default {
     taskObject: Object,
     unique_id: String
   },
+  computed: {
+    returnColumnNames() {
+      return Object.keys(this.taskObject.addons).map(addon => ({
+        name: this.taskObject.addons[addon]
+      }));
+    }
+  },
   methods: {
     // Метод для вычисления текущей колонки
     returnColumnIndex(chip, columnIndex) {
@@ -59,14 +64,10 @@ export default {
         this.selectedChipsArray.indexOf(chip)
       ].column = columnIndex;
     },
-    arrayMove(arr, oldIndex, newIndex) {
-      if (newIndex >= arr.length) {
-        let k = newIndex - arr.length + 1;
-        while (k--) {
-          arr.push(undefined);
-        }
-      }
-      arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+    arrayMove(arr, fromIndex, toIndex) {
+      let element = arr[fromIndex];
+      arr.splice(fromIndex, 1);
+      arr.splice(toIndex, 0, element);
       return arr;
     },
     selectChip(object) {
@@ -87,19 +88,22 @@ export default {
             chip.column === this.selectedChipsArray[index].column
         );
         let targetRowIndex = this.selectedChipsArray.indexOf(targetRow);
+
         // Сохраняем селект в переменную. Используется для замены элементов массива
         let savedSelect = this.selectedChipsArray[targetRowIndex];
         let savedSelectIndex = this.selectedChipsArray[targetRowIndex].index;
-        console.log("savedSelectIndex", savedSelectIndex);
+
         // Собственно замена элементов массива "selectedChipsArray" (замена чипсов)
+        // стоит знать, что нужно ещё и заменить индексы элементов
         this.selectedChipsArray[targetRowIndex].index = this.selectedChipsArray[
           index
         ].index;
+        this.selectedChipsArray[index].index = savedSelectIndex;
         this.selectedChipsArray[targetRowIndex] = this.selectedChipsArray[
           index
         ];
-        this.selectedChipsArray[index].index = savedSelectIndex;
         this.selectedChipsArray[index] = savedSelect;
+
         // Обновляем перменные для currChip и pastChip
         this.pastSelectedChip = undefined;
         this.selectedChip = undefined;
@@ -149,7 +153,15 @@ export default {
         this.getDataForCheck()
       );
 
+      this.displayResults(result.result.l1);
       return { value: result.points, type: this.taskObject.type };
+    },
+    displayResults(results) {
+      results.map((result, i) => {
+        this.selectedChipsArray
+          .filter(chip => chip.index === i)
+          .map(chip => (chip.state = result ? "success" : "error"));
+      });
     }
   },
   mounted() {
@@ -163,7 +175,8 @@ export default {
           index: i,
           column: undefined,
           selected: false,
-          lang: prop === "w1" ? 1 : 2
+          lang: prop === "w1" ? 1 : 2,
+          state: "default"
         });
       }
     });
@@ -178,6 +191,7 @@ export default {
   flex-direction: column
   gap: 7px
 
-.flip-list-move
-  transition: transform 1s
+// Надо заменить анимацию
+// .flip-list-move
+//   transition: transform 1s
 </style>
