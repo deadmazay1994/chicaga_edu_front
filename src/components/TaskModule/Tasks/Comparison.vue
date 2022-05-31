@@ -3,16 +3,13 @@
     <div v-for="(item, index) in selectedChipsArray" :key="index">
       {{ item }}
     </div>
-    <hr />
-    selectedChip: {{ selectedChip }}
-    <br />
-    pastSelectedChip: {{ pastSelectedChip }}
     <Table :tableColumns="[{ name: 'Английский' }, { name: 'Русский' }]">
       <template v-slot:default="slotProps">
-        <div class="comparison__column">
+        <transition-group name="flip-list" tag="div" class="comparison__column">
           <template v-for="(chip, index) in selectedChipsArray">
             <template v-if="slotProps.columnIndex === index % 2">
               <chip
+                class="comprasion__item"
                 :key="index"
                 :checkText="true"
                 :text="chip.w1 ? chip.w1 : chip.w2"
@@ -23,7 +20,7 @@
               {{ returnColumnIndex(chip, slotProps.columnIndex) }}
             </template>
           </template>
-        </div>
+        </transition-group>
       </template>
     </Table>
   </div>
@@ -47,7 +44,8 @@ export default {
       selectedChipsArray: [],
       selectedChip: undefined,
       pastSelectedChip: undefined,
-      select: false
+      select: false,
+      chipSwaped: false
     };
   },
   props: {
@@ -61,29 +59,39 @@ export default {
         this.selectedChipsArray.indexOf(chip)
       ].column = columnIndex;
     },
+    arrayMove(arr, oldIndex, newIndex) {
+      if (newIndex >= arr.length) {
+        let k = newIndex - arr.length + 1;
+        while (k--) {
+          arr.push(undefined);
+        }
+      }
+      arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+      return arr;
+    },
     selectChip(object) {
       let swapChip = () => {
         // Меняем местами чипсы
         // Пояснение: pastChip - чипс который мы нажали первым, currChip - чипс который мы нажали вторым
         if (!this.selectedChip) return;
+        // проверка на текущую колонку (нельзя производить замену между чипсами
+        // из одной и той же колонки)
         if (this.selectedChip.column === this.selectedChipsArray[index].column)
           return;
+        // Фиксируем pastChip
         this.pastSelectedChip = this.selectedChip;
+        // Находим чипс на который нам нужно свапнуть currChip
         let targetRow = this.selectedChipsArray.find(
           chip =>
             chip.index === this.pastSelectedChip.index &&
             chip.column === this.selectedChipsArray[index].column
         );
         let targetRowIndex = this.selectedChipsArray.indexOf(targetRow);
-        // this.selectedChipsArray[
-        //   targetRowIndex
-        // ] = this.selectedChipsArray.splice(
-        //   index,
-        //   1,
-        //   this.selectedChipsArray[targetRowIndex]
-        // )[0];
+        // Сохраняем селект в переменную. Используется для замены элементов массива
         let savedSelect = this.selectedChipsArray[targetRowIndex];
         let savedSelectIndex = this.selectedChipsArray[targetRowIndex].index;
+        console.log("savedSelectIndex", savedSelectIndex);
+        // Собственно замена элементов массива "selectedChipsArray" (замена чипсов)
         this.selectedChipsArray[targetRowIndex].index = this.selectedChipsArray[
           index
         ].index;
@@ -92,8 +100,10 @@ export default {
         ];
         this.selectedChipsArray[index].index = savedSelectIndex;
         this.selectedChipsArray[index] = savedSelect;
+        // Обновляем перменные для currChip и pastChip
         this.pastSelectedChip = undefined;
         this.selectedChip = undefined;
+        this.chipSwaped = true;
       };
 
       let index = this.selectedChipsArray.indexOf(object);
@@ -112,7 +122,10 @@ export default {
       this.select = !this.select;
 
       // Сохраняем чипс
-      this.selectedChip = this.selectedChipsArray[index];
+      if (!this.chipSwaped) {
+        this.selectedChip = this.selectedChipsArray[index];
+      }
+      this.chipSwaped = false;
     },
     getDataForCheck() {
       let answerArr = [
@@ -164,4 +177,7 @@ export default {
   align-items: center
   flex-direction: column
   gap: 7px
+
+.flip-list-move
+  transition: transform 1s
 </style>
