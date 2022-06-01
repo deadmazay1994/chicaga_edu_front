@@ -1,6 +1,13 @@
 <template>
   <div class="g-input vue-component">
-    <input class="g-input__input" type="text" name="ФИО" placeholder="Соловьева Ульяна" aria-label="Поле для ввода ваших ФИО" required>
+    <input
+      class="g-input__input"
+      type="text"
+      name="ФИО"
+      placeholder="Соловьева Ульяна"
+      aria-label="Поле для ввода ваших ФИО"
+      required
+    />
   </div>
 </template>
 
