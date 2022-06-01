@@ -1,5 +1,11 @@
 <template>
-  <div class='stand vue-component'></div>
+  <div class='stand vue-component'>
+    <div>
+      <c-btn>gdfgd</c-btn>
+      <c-input />
+      <c-textarea />
+    </div>
+  </div>
 </template>
 
 <script>
