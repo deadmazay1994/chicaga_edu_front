@@ -283,9 +283,6 @@ export default {
     this.videoElement.addEventListener("timeupdate", this.onTimeUpdate);
     this.videoElement.addEventListener("play", () => (this.paused = false));
     this.videoElement.addEventListener("pause", () => (this.paused = true));
-    this.$refs.vidFrame.addEventListener("click", () => {
-      console.log("test event");
-    });
   }
 };
 </script>
