@@ -1,29 +1,26 @@
 <template>
-  <div class="stand vue-component">
-    <div class="class">
-      <ui-input></ui-input>
+  <div class='stand vue-component'>
+    <div>
+      <c-btn>gdfgd</c-btn>
+      <c-input />
+      <c-textarea />
     </div>
   </div>
 </template>
 
 <script>
-import UiInput from "@/components/Ui/Input.vue";
-
 export default {
-  name: "stand",
+  name: 'stand',
   data: function() {
-    return {};
+    return {}
   },
   methods: {},
-  components: {
-    UiInput
-  },
+  computed: {},
+  components: {},
   props: [],
-  mixins: {}
-};
+  mixins: {},
+  beforeMount() {}
+}
 </script>
 
-<style scoped="scoped" lang="sass">
-.class
-  flex-basis: 100%
-</style>
+<style scoped='scoped' lang='sass'></style>
