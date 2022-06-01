@@ -23,7 +23,12 @@ import VideoPlayer from "@/components/VideoPlayer";
 export default {
   name: "stand",
   data: function() {
-    return {};
+    return {
+      clicks: 0,
+      timer: null,
+      result: [],
+      counter: 0
+    };
   },
   methods: {},
   components: {

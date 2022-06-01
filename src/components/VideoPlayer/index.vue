@@ -1,5 +1,11 @@
 <template>
-  <div class="video-player-wrap">
+  <div
+    class="video-player-wrap"
+    tabindex="0"
+    ref="videoWrapper"
+    v-on:keyup.right="rewindToLeftOrRight(true)"
+    v-on:keyup.left="rewindToLeftOrRight(false)"
+  >
     <div class="video-slot">
       <figure
         class="vidFrame"
@@ -8,6 +14,10 @@
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
+        <div class="mobile-rewind-block" v-if="isMobile">
+          <div class="mobile-rewind-block__elem" @click="oneClick(false)"></div>
+          <div class="mobile-rewind-block__elem" @click="oneClick(true)"></div>
+        </div>
       </figure>
     </div>
     <substrate :player-element="$el" style="z-index: 2" :duration="1000">
@@ -53,7 +63,8 @@
             <div class="left-side__current-time">
               {{ currVideoTime }}
               <template v-if="formattedDuration">
-               / {{ formattedDuration }}</template>
+                / {{ formattedDuration }}</template
+              >
             </div>
           </div>
           <div class="right-side">
@@ -108,7 +119,10 @@ export default {
       videoElement: undefined,
       fullscreenOn: false,
       fullscreenChatState: false,
-      timestamps: []
+      timestamps: [],
+      dbClickDelay: 700,
+      dbClickClicks: 0,
+      dbClickTimer: null
     };
   },
   props: {
@@ -118,6 +132,9 @@ export default {
     chatState: Boolean
   },
   computed: {
+    isMobile() {
+      return window.innerWidth <= 1000;
+    },
     videoIsActive() {
       if (!this.videoElement) return false;
       return true;
@@ -129,12 +146,23 @@ export default {
       return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
     },
     formattedDuration() {
-      
-      if (!this.duration || this.duration === Infinity) return false
+      if (!this.duration || this.duration === Infinity) return false;
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
     }
   },
   methods: {
+    oneClick(boolean) {
+      this.dbClickClicks++;
+      if (this.dbClickClicks === 1) {
+        this.dbClickTimer = setTimeout(() => {
+          this.dbClickClicks = 0;
+        }, this.dbClickDelay);
+      } else {
+        clearTimeout(this.dbClickTimer);
+        this.rewindToLeftOrRight(boolean);
+        this.dbClickClicks = 0;
+      }
+    },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
 
@@ -148,6 +176,11 @@ export default {
           this.сurrentTitle = currentTimeStampTime.title;
         }
       }
+    },
+    rewindToLeftOrRight(right) {
+      if (right) this.videoElement.currentTime += 10;
+      else this.videoElement.currentTime -= 10;
+      this.onTimeUpdate();
     },
     rewindTo(x) {
       this.videoElement.currentTime =
@@ -251,6 +284,9 @@ export default {
     this.videoElement.addEventListener("timeupdate", this.onTimeUpdate);
     this.videoElement.addEventListener("play", () => (this.paused = false));
     this.videoElement.addEventListener("pause", () => (this.paused = true));
+
+    // У videoWrapper 'tabindex = 0'. Здесь происходит автофокус на весь этот элемент
+    this.$refs.videoWrapper.focus();
   }
 };
 </script>
@@ -406,4 +442,16 @@ export default {
 video
   height: 100%
   width: 100%
+
+.mobile-rewind-block
+  position: absolute
+  display: flex
+  height: 100%
+  width: 100%
+
+  &__elem
+    width: 100%
+    height: 85%
+    cursor: pointer
+    z-index: 3
 </style>
