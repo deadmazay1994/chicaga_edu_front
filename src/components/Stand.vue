@@ -6,7 +6,6 @@
           <video
             ref="video"
             autoplay
-            muted
             class="video-component__video"
             @click="$emit('click-by-video')"
             src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"

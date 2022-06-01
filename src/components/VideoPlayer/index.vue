@@ -347,8 +347,9 @@ export default {
 
       .settings-menu-wrapper
         position: absolute
-        top: -175px
-        left: -254px
+        // top: -175px
+        // left: -254px
+        transform: translate(-100%, -100%)
     input[type=range]
       -webkit-appearance: none
       width: 50px

@@ -74,7 +74,6 @@ export default {
   color: #FFFFFF
   font-size: 12px
   width: 270px
-  min-height: 150px
 
   &__row
     display: flex
@@ -93,8 +92,6 @@ export default {
     cursor: pointer
 
 .sub-menu
-  position: absolute
-  top: -133px
   &__title
     display: flex
     align-items: center
