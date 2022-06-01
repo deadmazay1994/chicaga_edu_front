@@ -1,10 +1,12 @@
 <template>
   <div
-    class="chip"
+    class="chip chip"
     :class="[
       'chip--' + state,
       { 'chip--empty-answer': !checkText },
-      { 'chip--selected': selected }
+      { 'chip--selected': selected },
+      postionClass,
+      borderSelectedClass
     ]"
     @click="click"
   >
@@ -31,7 +33,21 @@ export default {
       default: 100
     },
     selected: Boolean,
-    checkText: Boolean
+    checkText: Boolean,
+    position: String,
+    borderSelected: Boolean
+  },
+  computed: {
+    postionClass() {
+      if (this.position === "start") return "chip--part-first";
+      if (this.position === "center") return "chip--part-center";
+      if (this.position === "end") return "chip--part-last";
+      return "";
+    },
+    borderSelectedClass() {
+      if (this.borderSelected) return "chip--part-selected";
+      return "";
+    }
   },
   methods: {
     click() {

@@ -29,6 +29,7 @@ import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
+import Syllable from "./Tasks/Syllable"
 import Attachs from "./Tasks/Attachs";
 import ChooseOne from "./Tasks/ChooseOne"
 
@@ -59,7 +60,8 @@ export default {
     SelectionBox,
     TF,
     Attachs,
-    ChooseOne
+    ChooseOne,
+    Syllable
   },
   props: {
     tasks: Array,
