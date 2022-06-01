@@ -1,24 +1,17 @@
 <template>
   <div class="stand vue-component">
-    <div class="video">
-      <video-player :active="true">
-        <div slot="videoSlot" class="videoSlot-block">
-          <video
-            ref="video"
-            autoplay
-            muted
-            class="video-component__video"
-            @click="$emit('click-by-video')"
-            src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-          ></video>
-        </div>
-      </video-player>
+    <div class="class">
+      <ui-button></ui-button>
+      <c-btn>
+        Текст
+      </c-btn>
     </div>
   </div>
 </template>
 
 <script>
-import VideoPlayer from "@/components/VideoPlayer";
+import UiButton from "@/components/Ui/Button.vue";
+import CBtn from "./UiElements/C-btn.vue";
 
 export default {
   name: "stand",
@@ -27,7 +20,8 @@ export default {
   },
   methods: {},
   components: {
-    VideoPlayer
+    UiButton,
+    CBtn
   },
   props: [],
   mixins: {}
@@ -35,6 +29,6 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.video
-  flex-basis: 50%
+.class
+  flex-basis: 100%
 </style>
