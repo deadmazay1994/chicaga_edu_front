@@ -6,14 +6,17 @@
         ref="vidFrame"
         :class="{ chatActive: fullscreenChatState }"
       >
-        <slot name="videoSlot" class="fullscreen-video-block"></slot>
+        <slot @click="playOrPauseVideo($event)" name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
+        <transition name="fade" class="play-button-transition" tag="div">
+          <PlayVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPlayed" />
+          <PauseVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPaused" />
+        </transition>
       </figure>
     </div>
-    <substrate :player-element="$el" style="z-index: 2" :duration="1000">
+    <substrate @click.native="playOrPauseVideo($event)" :player-element="$el" style="z-index: 2" :duration="1000">
       <figcaption class="vidBar" v-if="active">
         <div class="top">
-          <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
           <Progress
             @rewindTo="rewindTo"
             ref="progress"
@@ -53,10 +56,18 @@
             <div class="left-side__current-time">
               {{ currVideoTime }}
               <template v-if="formattedDuration">
-               / {{ formattedDuration }}</template>
+                / {{ formattedDuration }}</template
+              >
             </div>
           </div>
           <div class="right-side">
+            <div class="right-side__settings">
+              <SettingsMenuVue
+                @changeSpeed="changeVideoSpeed"
+                v-if="settingsMenu"
+              />
+              <gear @click="settingsMenu = !settingsMenu" />
+            </div>
             <chat-svg
               v-if="showChatButton"
               :chatOff="chatState"
@@ -81,6 +92,10 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
+import Gear from "../Icons/Gear.vue";
+import SettingsMenuVue from "./SettingsMenu.vue";
+import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
+import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
 
 import api from "@/mixins/api";
 
@@ -93,10 +108,15 @@ export default {
     ExpandSvg,
     Chat,
     Progress,
-    Substrate
+    Substrate,
+    Gear,
+    SettingsMenuVue,
+    PlayVideoCenterVue,
+    PauseVideoCenterVue
   },
   data() {
     return {
+      settingsMenu: false,
       сurrentTitle: undefined,
       duration: 0,
       currentTime: 0,
@@ -108,7 +128,9 @@ export default {
       videoElement: undefined,
       fullscreenOn: false,
       fullscreenChatState: false,
-      timestamps: []
+      timestamps: [],
+      videoJustPaused: false,
+      videoJustPlayed: false
     };
   },
   props: {
@@ -129,15 +151,20 @@ export default {
       return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
     },
     formattedDuration() {
-      
-      if (!this.duration || this.duration === Infinity) return false
+      if (!this.duration || this.duration === Infinity) return false;
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
+    },
+    videoIsPaused() {
+      return this.videoElement.paused;
     }
   },
   methods: {
+    changeVideoSpeed(speed) {
+      this.videoElement.playbackRate = speed;
+    },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
-
+      if (this.duration === Infinity) return;
       for (let i = 0; i < this.timestamps.length; i++) {
         let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
         let currentTimeStampTime = this.timestamps[i];
@@ -159,6 +186,23 @@ export default {
     },
     pauseVideo() {
       this.videoElement.pause();
+    },
+    playOrPauseVideo(event) {
+      if (!event.target.classList.contains("video-substrate")) return;
+      let paused = this.videoElement.paused;
+      if (paused) {
+        this.playVideo();
+        this.videoJustPlayed = true;
+        setTimeout(() => {
+          this.videoJustPlayed = false;
+        }, 1000);
+      } else {
+        this.pauseVideo();
+        this.videoJustPaused = true;
+        setTimeout(() => {
+          this.videoJustPaused = false;
+        }, 1000);
+      }
     },
     showVolume() {
       this.volume = true;
@@ -326,6 +370,15 @@ export default {
       align-items: center
       .expand-svg
         margin-left: 18px
+
+      &__settings
+        position: relative
+
+      .settings-menu-wrapper
+        position: absolute
+        // top: -175px
+        // left: -254px
+        transform: translate(-100%, -100%)
     input[type=range]
       -webkit-appearance: none
       width: 50px
@@ -406,4 +459,14 @@ export default {
 video
   height: 100%
   width: 100%
+
+.pause-video-center,
+.play-video-center
+  position: absolute
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 1s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
 </style>
