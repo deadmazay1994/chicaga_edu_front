@@ -16,6 +16,10 @@
         :image="item.src"
         :title="item.title"
         :price="item.price"
+        :count="item.count"
+        @clickTrashButton="deleteBasketItem(index, item)"
+        @decrease="decreaseBasketItemsCount(index, item)"
+        @increase="increaseBasketItemsCount(index, item)"
       />
     </div>
     <cart-total />
@@ -23,6 +27,8 @@
 </template>
 
 <script>
+import api from "@/mixins/api";
+
 import CartItem from "./CartItem.vue";
 import CartTotal from "./CartTotal.vue";
 
@@ -34,29 +40,32 @@ export default {
   },
   data() {
     return {
-      cartItems: [
-        {
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000
-        },
-        {
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000
-        },
-        {
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000
-        },
-        {
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000
-        }
-      ]
+      cartItems: undefined
     };
+  },
+  methods: {
+    async setBasketItems() {
+      this.cartItems = await api.methods.getBasketItems();
+    },
+    async deleteBasketItem(index, data) {
+      this.cartItems.splice(index, 1);
+      let result = await this.api.deleteitemFromBasket(data);
+      console.log(result);
+    },
+    async decreaseBasketItemsCount(index, data) {
+      if (this.cartItems[index].count <= 1) return;
+      this.cartItems[index].count -= 1;
+      let result = await this.api.decreaseBasketItemsCount(data);
+      console.log(result);
+    },
+    async increaseBasketItemsCount(index, data) {
+      this.cartItems[index].count += 1;
+      let result = await this.api.increaseBasketItemsCount(data);
+      console.log(result);
+    }
+  },
+  mounted() {
+    this.setBasketItems();
   }
 };
 </script>

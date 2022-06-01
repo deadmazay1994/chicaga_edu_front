@@ -249,6 +249,45 @@ export default {
       console.log("api-test admin/events", r);
       return r;
     },
+    // Basket
+    // fake basket items
+    getBasketItems() {
+      return [
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        }
+      ];
+    },
+    deleteitemFromBasket(data) {
+      console.log(data);
+    },
+    increaseBasketItemsCount(data) {
+      console.log(data);
+    },
+    decreaseBasketItemsCount(data) {
+      console.log(data);
+    },
     // User
     async register(userData) {
       return post("user", userData);
