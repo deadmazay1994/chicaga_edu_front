@@ -983,7 +983,6 @@ export default {
   background: #fff
   box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
   border-radius: 30px
-  padding: 10px 70px 30px
   @media (min-width: 1000px)
     margin-left: 87px
 
@@ -1015,7 +1014,6 @@ export default {
 
 @media (max-width: 1460px)
   .content
-    margin-top: 50px
     & .col-md-10
       flex: inherit
       max-width: 100%
@@ -1098,6 +1096,8 @@ export default {
     margin-top: 15px !important
 
 @media (max-width: 960px)
+  .content
+    margin-top: 100px
   .task-wrap
     padding: 0
 
