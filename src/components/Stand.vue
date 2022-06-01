@@ -1,39 +1,20 @@
 <template>
-  <div class="stand vue-component">
-    <div class="video">
-      <video-player :active="true">
-        <div slot="videoSlot" class="videoSlot-block">
-          <video
-            ref="video"
-            autoplay
-            class="video-component__video"
-            @click="$emit('click-by-video')"
-            src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-          ></video>
-        </div>
-      </video-player>
-    </div>
-  </div>
+  <div class='stand vue-component'></div>
 </template>
 
 <script>
-import VideoPlayer from "@/components/VideoPlayer";
-
 export default {
-  name: "stand",
+  name: 'stand',
   data: function() {
-    return {};
+    return {}
   },
   methods: {},
-  components: {
-    VideoPlayer
-  },
+  computed: {},
+  components: {},
   props: [],
-  mixins: {}
-};
+  mixins: {},
+  beforeMount() {}
+}
 </script>
 
-<style scoped="scoped" lang="sass">
-.video
-  flex-basis: 50%
-</style>
+<style scoped='scoped' lang='sass'></style>
