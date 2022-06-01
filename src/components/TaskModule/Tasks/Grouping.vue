@@ -15,14 +15,14 @@
     <Table :tableColumns="taskColumns" @click="pushChipToColumn">
       <template v-slot:default="slotProps">
         <transition-group name="flip-list" class="grouping__column">
-          <template v-for="(obj, index) in selectedChipsArrayToTable">
-            <template v-if="obj.column === slotProps.columnIndex">
+          <template v-for="(selected, index) in selectedChipsArrayToTable">
+            <template v-if="selected.column === slotProps.columnIndex">
               <chip
                 class="grouping__item"
                 :key="index"
                 :checkText="true"
-                :text="obj.chip.word"
-                @click="deleteChipFromColumn(obj)"
+                :text="selected.chip ? selected.chip.word : ''"
+                @click="deleteChipFromColumn(selected)"
               />
             </template>
           </template>
@@ -70,9 +70,12 @@ export default {
     },
     // Перемещаем чипс в таблицу, i - индекс колонки
     pushChipToColumn(i) {
+      if (!this.selectedChip) return;
       // Чипс который перемещен становится пустым в "grouping__header"
-      this.selectedChipsArray.find(chip => chip === this.selectedChip).state =
-        "empty";
+      let selected = this.selectedChipsArray.find(
+        chip => chip === this.selectedChip
+      );
+      if (selected?.state) selected.state = "empty";
       // Пушим новый объект с вспомогательными свойствами
       this.selectedChipsArrayToTable.push({
         columnName: this.taskColumns[i].name,
@@ -80,8 +83,10 @@ export default {
         chip: this.selectedChip
       });
       // Обновляем свойства
-      this.selectedChip.selected = false;
-      this.selectedChip = undefined;
+      if (this.selectedChip) {
+        this.selectedChip.selected = false;
+        this.selectedChip = undefined;
+      }
     },
     // Удаляем чипсы при нажатии на них в таблице
     deleteChipFromColumn(obj) {

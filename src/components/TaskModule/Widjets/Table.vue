@@ -86,6 +86,7 @@ export default {
     background: linear-gradient(180deg, #fff4f7 0%, #fcdbe3 100%)
     border-top-right-radius: 10px
     border-top-left-radius: 10px
+    overflow: hidden
   &__title
     flex-grow: 1
     padding: 10px

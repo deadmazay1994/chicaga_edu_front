@@ -24,7 +24,7 @@ export default {
     MutatedTaskObject() {
       let obj = this.taskObject;
       obj.body.map(element => {
-        console.log(element)
+        console.log(element);
         element.answers = this.taskObject.addons.map(a => ({ text: a }));
       });
       return obj;

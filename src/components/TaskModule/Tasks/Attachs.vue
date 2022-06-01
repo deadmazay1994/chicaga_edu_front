@@ -192,7 +192,7 @@ export default {
   },
   components: {
     VuetifyAudio,
-    VImg,
+    VImg
   },
   props: ["input", "index", "taskObject"],
   mixins: [MediaEvents, SocketMixin],

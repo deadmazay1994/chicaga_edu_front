@@ -137,7 +137,7 @@ export default {
   methods: {
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
-      if (this.duration === Infinity) return
+      if (this.duration === Infinity) return;
       for (let i = 0; i < this.timestamps.length; i++) {
         let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
         let currentTimeStampTime = this.timestamps[i];

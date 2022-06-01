@@ -49,7 +49,11 @@
                 <img :src="avatar" alt="avatar" />
               </v-avatar>
             </div>
-            <button style="margin-left: 0;" class="red-btn active" @click="save">
+            <button
+              style="margin-left: 0;"
+              class="red-btn active"
+              @click="save"
+            >
               Сохранить настройки
             </button>
           </v-card>

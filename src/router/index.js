@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Lesson from "@/components/Lesson";
-import LessonRecord from "@/components/LessonRecord"
+import LessonRecord from "@/components/LessonRecord";
 import Homework from "@/components/Homework";
 import LessonPreview from "@/components/LessonPreview";
 
