@@ -21,10 +21,7 @@
                 style="width: 100%"
               >
                 <div class="d-flex align-center is-title" style="width: 70%">
-                  <v-avatar
-                    size="30"
-                    :color="'success'"
-                  >
+                  <v-avatar size="30" :color="'success'">
                     <span
                       class="headline white--text text-subtitle-1"
                       style="text-decoration: underline;"

@@ -84,7 +84,7 @@ export default {
         },
         { text: "Название", value: "name" },
         { text: "Время начала", value: "time_start" },
-        { text: "Дата начала", value: "date_start" },
+        { text: "Дата начала", value: "date_start" }
       ]
     };
   },

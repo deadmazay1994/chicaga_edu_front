@@ -1,7 +1,10 @@
 <template>
   <div class="lessons-pg">
-    <div class="lessons__chat" style="flex-baisis: auto;     overflow-x: hidden;">
-      <video-player :active="true"  >
+    <div
+      class="lessons__chat"
+      style="flex-baisis: auto;     overflow-x: hidden;"
+    >
+      <video-player :active="true">
         <div slot="videoSlot" class="videoSlot-block">
           <video
             ref="video"
@@ -25,7 +28,7 @@ import Io from "socket.io-client";
 import SocketMixin from "@/mixins/socket.js";
 import OurCursor from "@/mixins/ourCursor";
 
-import VideoPlayer from "@/components/VideoPlayer"
+import VideoPlayer from "@/components/VideoPlayer";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
 

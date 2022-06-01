@@ -2,31 +2,27 @@
   <div class="d-table vue-component">
     <div class="d-table__table">
       <div class="d-table__head">
-        <div class="d-table__title" style="width: 25%">
-          food
-        </div>
-        <div class="d-table__title" style="width: 25%">
-          technology technology
-        </div>
-        <div class="d-table__title" style="width: 25%">
-          sports
-        </div>
-        <div class="d-table__title" style="width: 25%">
-          placesplacesplacesplaces
+        <div
+          class="d-table__title"
+          :class="tableTitleState(column.state)"
+          v-for="(column, index) in tableColumns"
+          :key="index"
+          style="width: 25%"
+          @click="clickColumn(index)"
+        >
+          {{ column.name }}
         </div>
       </div>
       <div class="d-table__body">
-        <div class="d-table__field" style="width: 25%">
-          chipchipchipchipchipchipchipchipchipchip
-        </div>
-        <div class="d-table__field" style="width: 25%">
-          chip
-        </div>
-        <div class="d-table__field" style="width: 25%">
-          chip
-        </div>
-        <div class="d-table__field" style="width: 25%">
-          chip
+        <div
+          class="d-table__field"
+          :class="tableFieldState(column.state)"
+          v-for="(column, index) in tableColumns"
+          :key="index"
+          style="width: 25%"
+          @click="clickColumn(index)"
+        >
+          <slot v-bind:columnIndex="index"></slot>
         </div>
       </div>
     </div>
@@ -35,16 +31,37 @@
 
 <script>
 export default {
-  name: "",
+  name: "Table",
   data: function() {
     return {};
   },
-  methods: {},
+  methods: {
+    clickColumn(index) {
+      this.$emit("click", index);
+    },
+    tableTitleState(boolean) {
+      return { "d-table__title--success": boolean };
+    },
+    tableFieldState(boolean) {
+      return {
+        "d-table__field--success": boolean,
+        "d-table__field--error": boolean === false
+      };
+    }
+  },
   computed: {},
   components: {},
-  props: [],
+  props: {
+    tableColumns: {
+      type: Array,
+      default() {
+        return [{ name: "First column" }, { name: "Second column" }];
+      }
+    }
+  },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {}
 };
 </script>
 
@@ -69,9 +86,12 @@ export default {
     background: linear-gradient(180deg, #fff4f7 0%, #fcdbe3 100%)
     border-top-right-radius: 10px
     border-top-left-radius: 10px
+    overflow: hidden
   &__title
     flex-grow: 1
     padding: 10px
+    &--success
+      background-color: rgba(142, 220, 81, 1)
   &__body
     display: flex
     flex-grow: 1
@@ -84,6 +104,15 @@ export default {
   &__field
     flex-grow: 1
     padding: 9px
+    &--success
+      background-color: rgba(142, 220, 81, .35)
+    &--error
+      background-color: rgba(233, 74, 69, .35)
+    &--column
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 8px
   &__field:not(:last-child)
     border-right: 2px solid #e8e8e8
 </style>

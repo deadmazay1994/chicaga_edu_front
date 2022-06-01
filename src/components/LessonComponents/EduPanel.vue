@@ -39,14 +39,20 @@
       </div>
       <v-tabs-items v-model="tab" ref="tabsItem">
         <v-tab-item class="edu-panel__tasks">
-          <tasks :tasks="lessonTasks" :unique_id="$route.params.id" class="edu-panel__tasks-component" />
+          <tasks
+            :tasks="lessonTasks"
+            :unique_id="$route.params.id"
+            class="edu-panel__tasks-component"
+          />
         </v-tab-item>
         <v-tab-item>
           <!-- здесь будет новый компонент -->
           <lesson-plot>Coming soon</lesson-plot>
         </v-tab-item>
         <v-tab-item>
-          <lesson-plot>There are no additional materials for this lesson</lesson-plot>
+          <lesson-plot
+            >There are no additional materials for this lesson</lesson-plot
+          >
         </v-tab-item>
         <v-tab-item class="edu-panel__tasks">
           <!-- <tasks
@@ -54,7 +60,7 @@
             :isHomework="true"
             :noAddAtempt="true"
           /> -->
-          
+
           <lesson-plot>There is no homework for this lesson</lesson-plot>
         </v-tab-item>
       </v-tabs-items>
@@ -118,7 +124,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points", "lessonTasks"]),
+    ...mapGetters([
+      "user",
+      "materials",
+      "socket",
+      "getUserPoints",
+      "points",
+      "lessonTasks"
+    ]),
     taskTabTitle() {
       return "Задания";
     },
@@ -276,7 +289,6 @@ export default {
   margin-left: 35px;
 }
 
-
 /* new styles */
 
 .edu-panel .task__content {
@@ -318,7 +330,7 @@ export default {
   transform: none;
   padding-bottom: 5px;
   color: #ffffff !important;
-  background-image: linear-gradient(180deg, #FF6440 0%, #CC2D23 100%);
+  background-image: linear-gradient(180deg, #ff6440 0%, #cc2d23 100%);
   box-shadow: inset 0px 0px 10px rgba(169, 47, 33, 0.5);
 }
 
@@ -341,7 +353,11 @@ export default {
   overflow: auto;
 }
 @media (min-width: 1360px) {
-  .lessons-pg .lessons__task .lesson__item .task__content .v-window.v-tabs-items {
+  .lessons-pg
+    .lessons__task
+    .lesson__item
+    .task__content
+    .v-window.v-tabs-items {
     height: calc(100% - 85px);
   }
 }

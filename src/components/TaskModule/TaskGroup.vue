@@ -2,7 +2,11 @@
   <div class="task-group">
     <template v-for="(task, index) in tasks">
       <template>
-        <div class="task-group__title" :key="index + 'i'" v-if="task.type != 'lesson_addons_files'">
+        <div
+          class="task-group__title"
+          :key="index + 'i'"
+          v-if="task.type != 'lesson_addons_files'"
+        >
           {{ task.description }}
         </div>
         <component
@@ -13,7 +17,12 @@
           ref="taskComponent"
           class="task-group__task"
         ></component>
-        <button class="check-btn" @click="checkTask(index)" :key="index + 'k'" v-if="!addonsTypeList.includes(task.type) ">
+        <button
+          class="check-btn"
+          @click="checkTask(index)"
+          :key="index + 'k'"
+          v-if="!addonsTypeList.includes(task.type)"
+        >
           Проверить
         </button>
       </template>
@@ -29,9 +38,11 @@ import TaskImages from "./Tasks/TaskImages";
 import FillGaps from "./Tasks/FillGaps";
 import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
+import Grouping from "./Tasks/Grouping";
+import Comparison from "./Tasks/Comparison.vue";
 import Syllable from "./Tasks/Syllable"
 import Attachs from "./Tasks/Attachs";
-import ChooseOne from "./Tasks/ChooseOne"
+import ChooseOne from "./Tasks/ChooseOne";
 
 import manager from "./manager";
 
@@ -39,7 +50,7 @@ export default {
   name: "TaskGroup",
   data: function() {
     return {
-      addonsTypeList: ['lesson_addons_files']
+      addonsTypeList: ["lesson_addons_files"]
     };
   },
   methods: {
@@ -59,6 +70,8 @@ export default {
     FillGaps,
     SelectionBox,
     TF,
+    Grouping,
+    Comparison,
     Attachs,
     ChooseOne,
     Syllable
