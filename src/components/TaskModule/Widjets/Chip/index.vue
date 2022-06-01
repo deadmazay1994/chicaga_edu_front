@@ -5,8 +5,8 @@
       'chip--' + state,
       { 'chip--empty-answer': !checkText },
       { 'chip--selected': selected },
-      syllablePosition,
-      syllableSelected
+      postionClass,
+      borderSelectedClass
     ]"
     @click="click"
   >
@@ -34,8 +34,20 @@ export default {
     },
     selected: Boolean,
     checkText: Boolean,
-    syllablePosition: String,
-    syllableSelected: String
+    position: String,
+    borderSelected: Boolean
+  },
+  computed: {
+    postionClass() {
+      if (this.position === "start") return "chip--part-first";
+      if (this.position === "center") return "chip--part-center";
+      if (this.position === "end") return "chip--part-last";
+      return "";
+    },
+    borderSelectedClass() {
+      if (this.borderSelected) return "chip--part-selected";
+      return "";
+    }
   },
   methods: {
     click() {

@@ -11,8 +11,8 @@
         :text="syllable.text"
         :checkText="true"
         :state="syllable.state"
-        :syllablePosition="getSyllablePosition(i, chip.length)"
-        :syllableSelected="syllableSelected(row, i)"
+        :position="getSyllablePosition(i, chip.length)"
+        :borderSelected="syllable.selected"
         @click="selectSyllable(row, i)"
       />
     </div>
@@ -41,19 +41,15 @@ export default {
   },
   methods: {
     selectSyllable(row, i) {
+      this.selectedChipsArray[row].forEach(chip => (chip.selected = false));
       this.selectedChipsArray[row][i].selected = !this.selectedChipsArray[row][
         i
       ].selected;
     },
-    syllableSelected(row, i) {
-      if (this.selectedChipsArray[row][i].selected === true) {
-        return "chip--part-selected";
-      }
-    },
     getSyllablePosition(i, wordLength) {
-      if (i === 0) return "chip--part-first";
-      else if (i > 0 && i < wordLength - 1) return "chip--part-center";
-      else return "chip--part-last";
+      if (i === 0) return "start";
+      if (i === wordLength - 1) return "end";
+      return "center";
     },
     getDataForCheck() {
       let result = [];
