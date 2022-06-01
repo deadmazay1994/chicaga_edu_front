@@ -1,20 +1,20 @@
 <template>
-  <div class="video-player-wrap" @click="playOrPauseVideo($event)">
+  <div class="video-player-wrap">
     <div class="video-slot">
       <figure
         class="vidFrame"
         ref="vidFrame"
         :class="{ chatActive: fullscreenChatState }"
       >
-        <slot name="videoSlot" class="fullscreen-video-block"></slot>
+        <slot @click="playOrPauseVideo($event)" name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
         <transition name="fade" class="play-button-transition" tag="div">
-          <PlayVideoCenterVue v-if="videoJustPlayed" />
-          <PauseVideoCenterVue v-if="videoJustPaused" />
+          <PlayVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPlayed" />
+          <PauseVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPaused" />
         </transition>
       </figure>
     </div>
-    <substrate :player-element="$el" style="z-index: 2" :duration="1000">
+    <substrate @click.native="playOrPauseVideo($event)" :player-element="$el" style="z-index: 2" :duration="1000">
       <figcaption class="vidBar" v-if="active">
         <div class="top">
           <Progress
@@ -183,13 +183,13 @@ export default {
         this.videoJustPlayed = true;
         setTimeout(() => {
           this.videoJustPlayed = false;
-        }, 2000);
+        }, 1000);
       } else {
         this.pauseVideo();
         this.videoJustPaused = true;
         setTimeout(() => {
           this.videoJustPaused = false;
-        }, 2000);
+        }, 1000);
       }
     },
     showVolume() {
