@@ -61,6 +61,13 @@
             </div>
           </div>
           <div class="right-side">
+            <div class="right-side__settings">
+              <SettingsMenuVue
+                @changeSpeed="changeVideoSpeed"
+                v-if="settingsMenu"
+              />
+              <gear @click="settingsMenu = !settingsMenu" />
+            </div>
             <chat-svg
               v-if="showChatButton"
               :chatOff="chatState"
@@ -85,6 +92,8 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
+import Gear from "../Icons/Gear.vue";
+import SettingsMenuVue from "./SettingsMenu.vue";
 import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
 import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
 
@@ -100,11 +109,14 @@ export default {
     Chat,
     Progress,
     Substrate,
+    Gear,
+    SettingsMenuVue,
     PlayVideoCenterVue,
     PauseVideoCenterVue
   },
   data() {
     return {
+      settingsMenu: false,
       сurrentTitle: undefined,
       duration: 0,
       currentTime: 0,
@@ -147,8 +159,8 @@ export default {
     }
   },
   methods: {
-    test(event) {
-      alert(event.target);
+    changeVideoSpeed(speed) {
+      this.videoElement.playbackRate = speed;
     },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
@@ -358,6 +370,15 @@ export default {
       align-items: center
       .expand-svg
         margin-left: 18px
+
+      &__settings
+        position: relative
+
+      .settings-menu-wrapper
+        position: absolute
+        // top: -175px
+        // left: -254px
+        transform: translate(-100%, -100%)
     input[type=range]
       -webkit-appearance: none
       width: 50px
