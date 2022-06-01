@@ -110,7 +110,7 @@ export default {
     Progress,
     Substrate,
     Gear,
-    SettingsMenuVue
+    SettingsMenuVue,
     PlayVideoCenterVue,
     PauseVideoCenterVue
   },
