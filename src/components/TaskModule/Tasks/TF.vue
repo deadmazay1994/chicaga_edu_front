@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     check() {
-      this.$refs.selectChips.check();
+      return this.$refs.selectChips.check();
     },
     mutation(response) {
       return response.result.map(result => [result, result]);

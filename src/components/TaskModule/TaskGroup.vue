@@ -58,8 +58,9 @@ export default {
     returnComponent(type) {
       return manager(type);
     },
-    checkTask(index) {
-      let response = this.$refs.taskComponent[index].check();
+    async checkTask(index) {
+      let response = await this.$refs.taskComponent[index].check();
+      console.log(response)
       this.setPointByType(response);
     }
   },

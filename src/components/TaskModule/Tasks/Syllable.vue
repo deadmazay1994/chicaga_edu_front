@@ -73,11 +73,12 @@ export default {
       });
     },
     async check() {
-      let resut = await api.methods.taskCheck(
+      let result = await api.methods.taskCheck(
         this.unique_id,
         this.getDataForCheck()
       );
-      this.displayResults(resut.result);
+      this.displayResults(result.result);
+      return { value: result.points, type: this.taskObject.type };
     }
   },
   mounted() {

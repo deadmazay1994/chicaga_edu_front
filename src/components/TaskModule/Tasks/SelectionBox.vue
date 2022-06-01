@@ -101,12 +101,8 @@ export default {
         result: result.result,
         userSelected: this.selectAnswersArray // сюда передать выбор пользователя
       };
-      result = this.mutationResponse(resultObj);
-      this.displayResults(result);
-      // Убираем выделение
-      // this.selectAnswersArray.map(row => {
-      //   row.map(element => (element.selected = false));
-      // });
+      let resultMutated = this.mutationResponse(resultObj);
+      this.displayResults(resultMutated);
       return { value: result.points, type: this.taskObject.type };
     }
   },

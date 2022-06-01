@@ -114,9 +114,8 @@ export default {
         this.unique_id,
         this.getDataForCheck()
       );
-
       this.displayResults(result.result);
-      return { value: result.point, type: this.taskObject.type };
+      return { value: result.points, type: this.taskObject.type };
     },
     displayResults(results) {
       this.taskColumns.map(column => {

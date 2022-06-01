@@ -24,7 +24,6 @@ export default {
     MutatedTaskObject() {
       let obj = this.taskObject;
       obj.body.map(element => {
-        console.log(element);
         element.answers = this.taskObject.addons.map(a => ({ text: a }));
       });
       return obj;
@@ -32,16 +31,10 @@ export default {
   },
   methods: {
     check() {
-      this.$refs.selectChips.check();
+      return this.$refs.selectChips.check();
     },
     mutation(response) {
       return response.result.map(result => [result, result]);
-      // console.log("0", response);
-      // return response.userSelected.map((row, i) => {
-      //   return [
-
-      //   ]
-      // });
     },
     changeAnswerRequest(selectAnswersArray) {
       return selectAnswersArray.map(row => {
