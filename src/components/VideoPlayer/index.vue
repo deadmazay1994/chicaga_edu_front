@@ -15,8 +15,14 @@
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
         <div class="mobile-rewind-block" v-if="isMobile">
-          <div class="mobile-rewind-block__elem" @click="oneClick(false)"></div>
-          <div class="mobile-rewind-block__elem" @click="oneClick(true)"></div>
+          <div
+            class="mobile-rewind-block__elem"
+            @click="doubleClick(false)"
+          ></div>
+          <div
+            class="mobile-rewind-block__elem"
+            @click="doubleClick(true)"
+          ></div>
         </div>
       </figure>
     </div>
