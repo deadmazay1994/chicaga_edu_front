@@ -49,12 +49,12 @@
                 <img :src="avatar" alt="avatar" />
               </v-avatar>
             </div>
+            <button style="margin-left: 0;" class="red-btn active" @click="save">
+              Сохранить настройки
+            </button>
           </v-card>
         </v-col>
       </v-row>
-      <v-btn class="main-color main-color--text front" @click="save"
-        >Сохранить настройки</v-btn
-      >
       <!-- // Когда будет сервер исправить  на cropUploadSuccess -->
       <upload-avatar
         langType="ru"

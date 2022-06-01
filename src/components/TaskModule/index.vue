@@ -6,7 +6,7 @@
         :key="index"
         :class="{ 'task-navigation-button--active': activeGroup === index }"
         @moveToGroup="moveToGroup(index)"
-        >{{ index }}</navigation-button
+        >{{ index + 1 }}</navigation-button
       >
     </div>
     <template v-for="(task, index) in tasks">
