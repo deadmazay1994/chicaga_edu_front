@@ -1,5 +1,5 @@
 <template>
-  <div class="video-player-wrap">
+  <div class="video-player-wrap" @click="playOrPauseVideo($event)">
     <div class="video-slot">
       <figure
         class="vidFrame"
@@ -8,12 +8,15 @@
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
+        <transition name="fade" class="play-button-transition" tag="div">
+          <PlayVideoCenterVue v-if="videoJustPlayed" />
+          <PauseVideoCenterVue v-if="videoJustPaused" />
+        </transition>
       </figure>
     </div>
     <substrate :player-element="$el" style="z-index: 2" :duration="1000">
       <figcaption class="vidBar" v-if="active">
         <div class="top">
-          <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
           <Progress
             @rewindTo="rewindTo"
             ref="progress"
@@ -53,7 +56,8 @@
             <div class="left-side__current-time">
               {{ currVideoTime }}
               <template v-if="formattedDuration">
-               / {{ formattedDuration }}</template>
+                / {{ formattedDuration }}</template
+              >
             </div>
           </div>
           <div class="right-side">
@@ -81,6 +85,8 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
+import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
+import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
 
 import api from "@/mixins/api";
 
@@ -93,7 +99,9 @@ export default {
     ExpandSvg,
     Chat,
     Progress,
-    Substrate
+    Substrate,
+    PlayVideoCenterVue,
+    PauseVideoCenterVue
   },
   data() {
     return {
@@ -108,7 +116,9 @@ export default {
       videoElement: undefined,
       fullscreenOn: false,
       fullscreenChatState: false,
-      timestamps: []
+      timestamps: [],
+      videoJustPaused: false,
+      videoJustPlayed: false
     };
   },
   props: {
@@ -129,12 +139,17 @@ export default {
       return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
     },
     formattedDuration() {
-      
-      if (!this.duration || this.duration === Infinity) return false
+      if (!this.duration || this.duration === Infinity) return false;
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
+    },
+    videoIsPaused() {
+      return this.videoElement.paused;
     }
   },
   methods: {
+    test(event) {
+      alert(event.target);
+    },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
 
@@ -159,6 +174,23 @@ export default {
     },
     pauseVideo() {
       this.videoElement.pause();
+    },
+    playOrPauseVideo(event) {
+      if (!event.target.classList.contains("video-substrate")) return;
+      let paused = this.videoElement.paused;
+      if (paused) {
+        this.playVideo();
+        this.videoJustPlayed = true;
+        setTimeout(() => {
+          this.videoJustPlayed = false;
+        }, 2000);
+      } else {
+        this.pauseVideo();
+        this.videoJustPaused = true;
+        setTimeout(() => {
+          this.videoJustPaused = false;
+        }, 2000);
+      }
     },
     showVolume() {
       this.volume = true;
@@ -251,6 +283,9 @@ export default {
     this.videoElement.addEventListener("timeupdate", this.onTimeUpdate);
     this.videoElement.addEventListener("play", () => (this.paused = false));
     this.videoElement.addEventListener("pause", () => (this.paused = true));
+    this.$refs.vidFrame.addEventListener("click", () => {
+      console.log("test event");
+    });
   }
 };
 </script>
@@ -406,4 +441,14 @@ export default {
 video
   height: 100%
   width: 100%
+
+.pause-video-center,
+.play-video-center
+  position: absolute
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 1s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
 </style>
