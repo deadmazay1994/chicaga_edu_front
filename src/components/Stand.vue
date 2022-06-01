@@ -1,17 +1,13 @@
 <template>
   <div class="stand vue-component">
     <div class="class">
-      <ui-button></ui-button>
-      <c-btn>
-        Текст
-      </c-btn>
+      <ui-input></ui-input>
     </div>
   </div>
 </template>
 
 <script>
-import UiButton from "@/components/Ui/Button.vue";
-import CBtn from "./UiElements/C-btn.vue";
+import UiInput from "@/components/Ui/Input.vue";
 
 export default {
   name: "stand",
@@ -20,8 +16,7 @@ export default {
   },
   methods: {},
   components: {
-    UiButton,
-    CBtn
+    UiInput
   },
   props: [],
   mixins: {}
