@@ -2,7 +2,7 @@
   <div class="shop__cart">
     <div class="cart__header">
       <h3 class="cart__title">
-        Корзина <span class="cart__number">{{ cartItems.length }}</span>
+        Корзина <span class="cart__number">{{ cartItemsLength }}</span>
       </h3>
       <svg class="cart__svg">
         <use xlink:href="#cart"></use>
@@ -44,7 +44,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getBasketItems"])
+    ...mapGetters(["getBasketItems"]),
+    cartItemsLength() {
+      return this.cartItems.reduce((acc, item) => acc + item.count, 0);
+    }
   },
   methods: {
     ...mapActions([
