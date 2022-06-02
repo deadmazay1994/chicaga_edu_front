@@ -2,12 +2,14 @@
   <div class="store-component">
     <div class="shop__content">
       <div class="shop__content-inner merch__content active">
-        <store-slider />
+        <div class="merch__content__inner">
+          <store-slider />
 
-        <div class="merch__block merch__popular">
-          <h2 class="shop__title shop__title--merch mb20">Популярные товары</h2>
-          <popular-content />
-          <merch-showcase />
+          <div class="merch__block merch__popular">
+            <h2 class="shop__title shop__title--merch mb20">Популярные товары</h2>
+            <popular-content />
+            <merch-showcase />
+          </div>
         </div>
       </div>
       <shop-cart />
@@ -49,13 +51,23 @@ p
   .swiper-slide
     width: 100%
 
+.store-component
+  height: 100%
 .shop__content
   display: flex
   justify-content: space-between
+  height: 100%
 
   @media ($media_md2)
     padding: 0 15px
 
+.merch__content
+  height: 100%
+  overflow: hidden
+.merch__content__inner
+  height: 100%
+  overflow-y: auto
+  padding-right: 20px
 .shop__content-inner
   // flex-grow: 1;
   width: 50%
@@ -70,7 +82,7 @@ p
   border-radius: 20px
   padding: 25px
 
-  margin: 0 0 0 35px
+  margin: 0 0 0 15px
   flex-basis: 40%
 
   @media ($media_xl)

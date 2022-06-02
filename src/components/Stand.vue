@@ -1,24 +1,14 @@
 <template>
   <div class="stand vue-component">
-    <div class="video">
-      <video-player :active="true">
-        <div slot="videoSlot" class="videoSlot-block">
-          <video
-            ref="video"
-            autoplay
-            muted
-            class="video-component__video"
-            @click="$emit('click-by-video')"
-            src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-          ></video>
-        </div>
-      </video-player>
+    <div>
+      <product-order></product-order>
     </div>
   </div>
 </template>
 
 <script>
-import VideoPlayer from "@/components/VideoPlayer";
+import ProductOrder from "@/components/Lk/Store/ProductOrder.vue";
+
 
 export default {
   name: "stand",
@@ -26,15 +16,20 @@ export default {
     return {};
   },
   methods: {},
+  computed: {},
   components: {
-    VideoPlayer
+    ProductOrder
   },
   props: [],
-  mixins: {}
+  mixins: {},
+  beforeMount() {}
 };
 </script>
 
 <style scoped="scoped" lang="sass">
-.video
-  flex-basis: 50%
+.stand>div
+  width: 100%
+.stand-inner
+  width: 100%
+  position: relative
 </style>
