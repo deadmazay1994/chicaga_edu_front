@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import tester from "@/components/Lk/Store/ProductCard";
+import tester from "@/components/Lk/Store/StoreComponent.vue";
 
 export default {
   name: "stand",
