@@ -28,4 +28,7 @@ export default {
 <style scoped="scoped" lang="sass">
 .stand>div
   width: 100%
+.stand-inner
+  width: 100%
+  position: relative
 </style>
