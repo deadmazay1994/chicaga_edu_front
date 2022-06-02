@@ -25,6 +25,11 @@ export default {
       let result = await api.methods.increaseBasketItemsCount(payload.data);
       console.log("requestIncreaseBasketItemsCount:", result);
       commit("increaseBasketItemsCount", payload.index);
+    },
+    async requestPushItemToBasket({ commit }, payload) {
+      let result = await api.methods.pushItemToBasket();
+      console.log("requestPushItemToBasket", result);
+      commit("pushItemToBasket", payload);
     }
   },
   mutations: {
@@ -41,10 +46,13 @@ export default {
     },
     increaseBasketItemsCount(state, index) {
       state.basketItems[index].count += 1;
+    },
+    pushItemToBasket(state, item) {
+      state.basketItems.push(item);
     }
   },
   state: {
-    basketItems: null
+    basketItems: []
   },
   getters: {
     getBasketItems(state) {

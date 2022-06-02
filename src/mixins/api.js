@@ -301,6 +301,9 @@ export default {
     },
     // Basket
     // fake basket items
+    pushItemToBasket(data) {
+      console.log(data);
+    },
     getBasketItems() {
       return [
         {
@@ -308,28 +311,32 @@ export default {
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
-          count: 1
+          count: 1,
+          size: "S"
         },
         {
           id: 2,
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
-          count: 1
+          count: 1,
+          size: "S"
         },
         {
           id: 3,
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
-          count: 1
+          count: 1,
+          size: "S"
         },
         {
           id: 4,
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
-          count: 1
+          count: 1,
+          size: "S"
         }
       ];
     },

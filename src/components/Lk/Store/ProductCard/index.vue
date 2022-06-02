@@ -45,7 +45,11 @@
             </div>
           </div>
 
-          <c-btn btnClass="product-card__red-btn">
+          <c-btn
+            btnClass="product-card__red-btn"
+            :disabled="false"
+            @click="pushItemToBasket()"
+          >
             Добавить в корзину
           </c-btn>
 
@@ -59,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 import CBtn from "@/components/UiElements/C-btn.vue";
@@ -75,9 +79,33 @@ export default {
       productInfo: this.getShopModalData
     };
   },
-  methods: {},
+  methods: {
+    ...mapActions(["requestPushItemToBasket"]),
+    pushItemToBasket() {
+      let item = {
+        id: this.productInfo.id,
+        title: this.productInfo.title,
+        src: this.productInfo.images[0],
+        price: this.productInfo.price,
+        count: 1,
+        color: this.getActiveColor,
+        size: this.getActiveSize
+      };
+      this.requestPushItemToBasket(item);
+      this.$store.commit("pushShuckbar", {
+        success: true,
+        val: "Товар добавлен в корзину"
+      });
+      this.$store.commit("toggleShopModale");
+    }
+  },
   computed: {
-    ...mapGetters(["getShopModalData", "getActiveColor"])
+    ...mapGetters([
+      "getShopModalData",
+      "getActiveColor",
+      "getActiveColor",
+      "getActiveSize"
+    ])
   },
   components: {
     AnimatedCoinPng,
