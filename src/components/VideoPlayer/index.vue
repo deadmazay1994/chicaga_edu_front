@@ -24,7 +24,6 @@
             @click="doubleClick(true)"
           ></div>
         </div>
-<<<<<<< HEAD
         <div class="show-rewind-svgs">
           <div class="show-rewind-svgs__elem">
             <transition name="fade">
@@ -37,12 +36,10 @@
             </transition>
           </div>
         </div>
-=======
         <transition name="fade" class="play-button-transition" tag="div">
           <PlayVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPlayed" />
           <PauseVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPaused" />
         </transition>
->>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
       </figure>
     </div>
     <substrate @click.native="playOrPauseVideo($event)" :player-element="$el" style="z-index: 2" :duration="1000">
@@ -123,14 +120,11 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
-<<<<<<< HEAD
 import RewindSvgVue from "../Icons/RewindSvg.vue";
-=======
 import Gear from "../Icons/Gear.vue";
 import SettingsMenuVue from "./SettingsMenu.vue";
 import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
 import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
->>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
 
 import api from "@/mixins/api";
 
@@ -144,14 +138,11 @@ export default {
     Chat,
     Progress,
     Substrate,
-<<<<<<< HEAD
-    RewindSvgVue
-=======
+    RewindSvgVue,
     Gear,
     SettingsMenuVue,
     PlayVideoCenterVue,
     PauseVideoCenterVue
->>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
   },
   data() {
     return {
@@ -171,13 +162,10 @@ export default {
       dbClickDelay: 600,
       dbClickClicks: 0,
       dbClickTimer: null,
-<<<<<<< HEAD
       hasRewindLeft: false,
-      hasRewindRight: false
-=======
+      hasRewindRight: false,
       videoJustPaused: false,
-      videoJustPlayed: false
->>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
+      videoJustPlayed: false,
     };
   },
   props: {
