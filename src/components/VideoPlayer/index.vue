@@ -12,7 +12,7 @@
         ref="vidFrame"
         :class="{ chatActive: fullscreenChatState }"
       >
-        <slot name="videoSlot" class="fullscreen-video-block"></slot>
+        <slot @click="playOrPauseVideo($event)" name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
         <div class="mobile-rewind-block">
           <div
@@ -24,6 +24,7 @@
             @click="doubleClick(true)"
           ></div>
         </div>
+<<<<<<< HEAD
         <div class="show-rewind-svgs">
           <div class="show-rewind-svgs__elem">
             <transition name="fade">
@@ -36,12 +37,17 @@
             </transition>
           </div>
         </div>
+=======
+        <transition name="fade" class="play-button-transition" tag="div">
+          <PlayVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPlayed" />
+          <PauseVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPaused" />
+        </transition>
+>>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
       </figure>
     </div>
-    <substrate :player-element="$el" style="z-index: 2" :duration="1000">
+    <substrate @click.native="playOrPauseVideo($event)" :player-element="$el" style="z-index: 2" :duration="1000">
       <figcaption class="vidBar" v-if="active">
         <div class="top">
-          <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
           <Progress
             @rewindTo="rewindTo"
             ref="progress"
@@ -86,6 +92,13 @@
             </div>
           </div>
           <div class="right-side">
+            <div class="right-side__settings">
+              <SettingsMenuVue
+                @changeSpeed="changeVideoSpeed"
+                v-if="settingsMenu"
+              />
+              <gear @click="settingsMenu = !settingsMenu" />
+            </div>
             <chat-svg
               v-if="showChatButton"
               :chatOff="chatState"
@@ -110,7 +123,14 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
+<<<<<<< HEAD
 import RewindSvgVue from "../Icons/RewindSvg.vue";
+=======
+import Gear from "../Icons/Gear.vue";
+import SettingsMenuVue from "./SettingsMenu.vue";
+import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
+import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
+>>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
 
 import api from "@/mixins/api";
 
@@ -124,10 +144,18 @@ export default {
     Chat,
     Progress,
     Substrate,
+<<<<<<< HEAD
     RewindSvgVue
+=======
+    Gear,
+    SettingsMenuVue,
+    PlayVideoCenterVue,
+    PauseVideoCenterVue
+>>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
   },
   data() {
     return {
+      settingsMenu: false,
       сurrentTitle: undefined,
       duration: 0,
       currentTime: 0,
@@ -143,8 +171,13 @@ export default {
       dbClickDelay: 600,
       dbClickClicks: 0,
       dbClickTimer: null,
+<<<<<<< HEAD
       hasRewindLeft: false,
       hasRewindRight: false
+=======
+      videoJustPaused: false,
+      videoJustPlayed: false
+>>>>>>> 21edea0e15fd0a7189fc763d632d4f29141c4fbf
     };
   },
   props: {
@@ -167,6 +200,9 @@ export default {
     formattedDuration() {
       if (!this.duration || this.duration === Infinity) return false;
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
+    },
+    videoIsPaused() {
+      return this.videoElement.paused;
     }
   },
   methods: {
@@ -182,9 +218,12 @@ export default {
         this.dbClickClicks = 0;
       }
     },
+    changeVideoSpeed(speed) {
+      this.videoElement.playbackRate = speed;
+    },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
-
+      if (this.duration === Infinity) return;
       for (let i = 0; i < this.timestamps.length; i++) {
         let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
         let currentTimeStampTime = this.timestamps[i];
@@ -222,6 +261,23 @@ export default {
     },
     pauseVideo() {
       this.videoElement.pause();
+    },
+    playOrPauseVideo(event) {
+      if (!event.target.classList.contains("video-substrate")) return;
+      let paused = this.videoElement.paused;
+      if (paused) {
+        this.playVideo();
+        this.videoJustPlayed = true;
+        setTimeout(() => {
+          this.videoJustPlayed = false;
+        }, 1000);
+      } else {
+        this.pauseVideo();
+        this.videoJustPaused = true;
+        setTimeout(() => {
+          this.videoJustPaused = false;
+        }, 1000);
+      }
     },
     showVolume() {
       this.volume = true;
@@ -392,6 +448,15 @@ export default {
       align-items: center
       .expand-svg
         margin-left: 18px
+
+      &__settings
+        position: relative
+
+      .settings-menu-wrapper
+        position: absolute
+        // top: -175px
+        // left: -254px
+        transform: translate(-100%, -100%)
     input[type=range]
       -webkit-appearance: none
       width: 50px
