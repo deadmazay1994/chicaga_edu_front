@@ -168,8 +168,9 @@ export default {
           .split("🐜");
         // Удаляем символы, которые оказались в первом и последнем массивах
         // В начале и в конце соответсвенно
+        const textMapLength = textMap.length
         if (textMap[0]?.slice) textMap[0] = textMap[0].slice(1);
-        if (textMap[1]?.slice) textMap[1] = textMap[1].slice(0, -1);
+        if (textMap[textMapLength - 1]?.slice) textMap[textMapLength - 1] = textMap[textMapLength - 1].slice(0, -1);
         return textMap.filter(i => i);
       });
     },
