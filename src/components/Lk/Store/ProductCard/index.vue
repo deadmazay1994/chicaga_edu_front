@@ -12,10 +12,12 @@
               />
             </div>
 
-            <div class="product-card__dots dots">
-              <button class="dots__item dots__item--active"></button>
-              <button class="dots__item"></button>
-              <button class="dots__item"></button>
+            <div class="product-card__dots">
+              <button
+                class="product-card__dot product-card__dot--active"
+              ></button>
+              <button class="product-card__dot"></button>
+              <button class="product-card__dot"></button>
             </div>
           </div>
         </div>
@@ -176,6 +178,50 @@ export default {
     object-fit: contain;
   }
 
+  &__dots {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 2;
+  }
+
+  &__dot {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+  }
+
+  &__dot::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: $gray;
+    border: 2px solid $gray;
+    border-radius: inherit;
+    transition-property: background-color, width, height, opacity;
+    transition-duration: 0.3s;
+  }
+
+  &__dot--active::before {
+    width: 14px;
+    height: 14px;
+    background-color: transparent;
+  }
+
+  &__dot:hover::before {
+    opacity: 0.7;
+  }
+
   &__content-side {
     flex-grow: 2;
   }
@@ -220,50 +266,6 @@ export default {
     padding-top: 15px;
     padding-bottom: 15px;
     font-size: 14px;
-  }
-}
-
-.dots {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  z-index: 2;
-
-  &__item {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 50%;
-  }
-
-  &__item::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    background-color: $gray;
-    border: 2px solid $gray;
-    border-radius: inherit;
-    transition-property: background-color, width, height, opacity;
-    transition-duration: 0.3s;
-  }
-
-  &__item--active::before {
-    width: 14px;
-    height: 14px;
-    background-color: transparent;
-  }
-
-  &__item:hover::before {
-    opacity: 0.7;
   }
 }
 </style>
