@@ -14,7 +14,7 @@
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
-        <div class="mobile-rewind-block" v-if="isMobile">
+        <div class="mobile-rewind-block">
           <div
             class="mobile-rewind-block__elem"
             @click="doubleClick(false)"
@@ -126,7 +126,7 @@ export default {
       fullscreenOn: false,
       fullscreenChatState: false,
       timestamps: [],
-      dbClickDelay: 700,
+      dbClickDelay: 600,
       dbClickClicks: 0,
       dbClickTimer: null
     };
@@ -138,9 +138,6 @@ export default {
     chatState: Boolean
   },
   computed: {
-    isMobile() {
-      return window.innerWidth <= 1000;
-    },
     videoIsActive() {
       if (!this.videoElement) return false;
       return true;
@@ -157,7 +154,7 @@ export default {
     }
   },
   methods: {
-    oneClick(boolean) {
+    doubleClick(boolean) {
       this.dbClickClicks++;
       if (this.dbClickClicks === 1) {
         this.dbClickTimer = setTimeout(() => {
@@ -450,10 +447,14 @@ video
   width: 100%
 
 .mobile-rewind-block
+  display: none
   position: absolute
-  display: flex
   height: 100%
   width: 100%
+
+  @media (max-width: 1000px)
+    &
+      display: flex
 
   &__elem
     width: 100%
