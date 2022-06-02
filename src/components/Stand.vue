@@ -9,6 +9,7 @@
 <script>
 import ProductOrder from "@/components/Lk/Store/ProductOrder.vue";
 
+
 export default {
   name: "stand",
   data: function() {
