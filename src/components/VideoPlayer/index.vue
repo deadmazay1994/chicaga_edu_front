@@ -12,26 +12,28 @@
         ref="vidFrame"
         :class="{ chatActive: fullscreenChatState }"
       >
-        <slot @click="playOrPauseVideo($event)" name="videoSlot" class="fullscreen-video-block"></slot>
-        <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
-        <div class="mobile-rewind-block">
-          <div
-            class="mobile-rewind-block__elem"
-            @click="doubleClick(false)"
-          ></div>
-          <div
-            class="mobile-rewind-block__elem"
-            @click="doubleClick(true)"
-          ></div>
-        </div>
+        <slot name="videoSlot" class="fullscreen-video-block video-block"></slot>
+        <!-- <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" /> -->
         <transition name="fade" class="play-button-transition" tag="div">
-          <PlayVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPlayed" />
-          <PauseVideoCenterVue @click="playOrPauseVideo($event)" v-show="videoJustPaused" />
+          <PauseVideoCenterVue style="z-index: 10" v-show="videoJustPaused" />
+        </transition>
+        <transition name="fade" class="play-button-transition" tag="div">
+          <PlayVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
         </transition>
       </figure>
     </div>
     <substrate @click.native="playOrPauseVideo($event)" :player-element="$el" style="z-index: 2" :duration="1000">
-      <figcaption class="vidBar" v-if="active">
+      <div class="mobile-rewind-block">
+        <div
+          class="mobile-rewind-block__elem"
+          @click="doubleClick(false)"
+        ></div>
+        <div
+          class="mobile-rewind-block__elem"
+          @click="doubleClick(true)"
+        ></div>
+      </div>
+      <figcaption @click.stop class="vidBar" v-if="active">
         <div class="top">
           <Progress
             @rewindTo="rewindTo"
@@ -91,7 +93,7 @@
               :fullScreenMode="fullscreenOn"
               @clickElem="clickChat"
             />
-            <expand-svg :expanded="fullscreenOn" @clickElem="clickExpand" />
+            <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
           </div>
         </div>
       </figcaption>
@@ -104,7 +106,7 @@ import PlaySvg from "@/components/Icons/PlaySvg";
 import SoundSvg from "@/components/Icons/SoundSvg";
 import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
-import Chat from "@/components/Chat/Chat";
+// import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
@@ -122,7 +124,7 @@ export default {
     SoundSvg,
     ChatSvg,
     ExpandSvg,
-    Chat,
+    // Chat,
     Progress,
     Substrate,
     Gear,
@@ -149,7 +151,8 @@ export default {
       dbClickClicks: 0,
       dbClickTimer: null,
       videoJustPaused: false,
-      videoJustPlayed: false
+      videoJustPlayed: false,
+      playPauseClickEvent: null
     };
   },
   props: {
@@ -223,22 +226,25 @@ export default {
     pauseVideo() {
       this.videoElement.pause();
     },
-    playOrPauseVideo(event) {
-      if (!event.target.classList.contains("video-substrate")) return;
-      let paused = this.videoElement.paused;
-      if (paused) {
-        this.playVideo();
-        this.videoJustPlayed = true;
-        setTimeout(() => {
-          this.videoJustPlayed = false;
-        }, 1000);
-      } else {
-        this.pauseVideo();
-        this.videoJustPaused = true;
-        setTimeout(() => {
-          this.videoJustPaused = false;
-        }, 1000);
-      }
+    playOrPauseVideo(e) {
+      this.playPauseClickEvent = e
+      setTimeout(() => {
+        if (this.playPauseClickEvent.detail != 1) return
+        let paused = this.videoElement.paused;
+        if (paused) {
+          this.playVideo();
+          this.videoJustPlayed = true;
+          setTimeout(() => {
+            this.videoJustPlayed = false;
+          }, 1000);
+        } else {
+          this.pauseVideo();
+          this.videoJustPaused = true;
+          setTimeout(() => {
+            this.videoJustPaused = false;
+          }, 1000);
+        }
+      }, 100)
     },
     showVolume() {
       this.volume = true;
@@ -265,8 +271,10 @@ export default {
       else this.$emit("clickChat");
     },
     toggleExpand() {
+      console.log(1)
       if (!this.fullscreenOn) {
-        let elem = this.$refs.vidFrame;
+        console.log(2)
+        let elem = this.$el;
         this.fullscreenOn = true;
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
@@ -498,6 +506,7 @@ export default {
 video
   height: 100%
   width: 100%
+  pointer-events: none
 
 .mobile-rewind-block
   display: none
