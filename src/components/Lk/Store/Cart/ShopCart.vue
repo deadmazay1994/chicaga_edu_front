@@ -46,7 +46,7 @@ export default {
   computed: {
     ...mapGetters(["getBasketItems"]),
     cartItemsLength() {
-      return this.cartItems.reduce((acc, item) => acc + item.count, 0);
+      return this.getBasketItems.reduce((acc, item) => acc + item.count, 0);
     }
   },
   methods: {

@@ -2,7 +2,12 @@
   <div class="merch__block merch__hoodie">
     <div class="shop__more-inner">
       <h2 class="shop__title shop__title--merch">Худи</h2>
-      <button class="shop__more shop__more--merch">Смотреть всё</button>
+      <router-link
+        class="shop__more shop__more--merch"
+        tag="button"
+        to="/lk/shop-more"
+        >Смотреть всё</router-link
+      >
     </div>
 
     <div class="hoodie__content active">
