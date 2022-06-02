@@ -33,7 +33,6 @@ export default {
       this.playerElement.addEventListener("click", e => {
         clickEvent = e
         setTimeout(() => {
-          console.log(clickEvent.detail)
           if (clickEvent.detail === 1) fireFunction()
         }, 100)
       });
