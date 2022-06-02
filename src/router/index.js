@@ -22,9 +22,11 @@ import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
+import StoreComponent from "@/components/Lk/Store/StoreComponent";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
+import ShopMore from "@/components/Lk/Store/ShopMore";
 
 import Page404 from "Base/404";
 
@@ -257,6 +259,21 @@ const routes = [
         component: UpcomingLesson,
         meta: {
           breadcrumb: "Комната ожидания"
+        }
+      },
+      {
+        path: "store",
+        component: StoreComponent,
+        meta: {
+          breadcrumb: "Магазин"
+        }
+      },
+      {
+        path: "shop-more",
+        name: "shop-more",
+        component: ShopMore,
+        meta: {
+          breadcrumb: "Магазин"
         }
       }
     ]
