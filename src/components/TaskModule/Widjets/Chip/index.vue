@@ -1,14 +1,16 @@
 <template>
   <div
-    class="chip"
+    class="chip chip"
     :class="[
       'chip--' + state,
       { 'chip--empty-answer': !checkText },
-      { 'chip--selected': selected }
+      { 'chip--selected': selected },
+      postionClass,
+      borderSelectedClass
     ]"
     @click="click"
   >
-    <span class="chip__text" v-if="text">
+    <span class="chip__text" v-if="checkText">
       {{ text }}
     </span>
     <span class="chip__empty" v-else ref="empty"> </span>
@@ -31,7 +33,21 @@ export default {
       default: 100
     },
     selected: Boolean,
-    checkText: Boolean
+    checkText: Boolean,
+    position: String,
+    borderSelected: Boolean
+  },
+  computed: {
+    postionClass() {
+      if (this.position === "start") return "chip--part-first";
+      if (this.position === "center") return "chip--part-center";
+      if (this.position === "end") return "chip--part-last";
+      return "";
+    },
+    borderSelectedClass() {
+      if (this.borderSelected) return "chip--part-selected";
+      return "";
+    }
   },
   methods: {
     click() {
@@ -58,6 +74,7 @@ export default {
     background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
     -webkit-background-clip: text
     -webkit-text-fill-color: transparent
+    user-select: none
 
   .chip__empty
     display: inline-block
@@ -92,7 +109,7 @@ export default {
     border-color: #404040
     box-shadow: 0px 1.5px 0px #404040
     .chip__text
-      font-weight: 800
+      font-weight: 700
   &--success
     color: #8EDC51
     border-color: #8EDC51
@@ -107,6 +124,7 @@ export default {
     border-color: #E6E6E6
     background: #E6E6E6
     box-shadow: none
+    pointer-events: none !important
     .chip__text
       opacity: 0
   &--empty-answer
@@ -114,4 +132,6 @@ export default {
   &--selected
     border-color: #99CBFF
     box-shadow: 0px 0px 6px 0px #99CBFF
+    // .chip__text
+    //   font-weight: 700
 </style>

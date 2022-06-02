@@ -144,12 +144,24 @@ export default {
     getTimestamps() {
       return [
         {
-          title: "первый",
-          time: 10.526667
+          title: "Greeting",
+          time: 75
         },
         {
-          title: "второй",
-          time: 50
+          title: "What is in the bag",
+          time: 60 * 7 + 22
+        },
+        {
+          title: "Things",
+          time: 643
+        },
+        {
+          title: "Articles",
+          time: 19 * 60 + 41
+        },
+        {
+          title: "grammar",
+          time: 28 * 60 + 7
         }
       ];
     },

@@ -55,15 +55,15 @@ export default {
           name: "Уроки",
           url: "/lk/my-groups",
           src: require("@/assets/svg/book.svg"),
-          icon: "BookIcon",
+          icon: "EducationIcon",
           showCondition: () => true
         },
-        {
-          name: "Словарь",
-          url: "#",
-          src: require("@/assets/svg/book.svg"),
-          icon: "BookIcon"
-        },
+        // {
+        //   name: "Словарь",
+        //   url: "#",
+        //   src: require("@/assets/svg/book.svg"),
+        //   icon: "BookIcon"
+        // },
         {
           name: "Настройки",
           url: "/lk/settings",

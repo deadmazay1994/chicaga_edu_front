@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Lesson from "@/components/Lesson";
+import LessonRecord from "@/components/LessonRecord";
 import Homework from "@/components/Homework";
 import LessonPreview from "@/components/LessonPreview";
 
@@ -44,6 +45,18 @@ const routes = [
     redirect: "/lk/my-coursers"
   },
   {
+    path: "/lesson/:id/",
+    name: "lesson_record",
+    component: LessonRecord,
+    meta: {
+      requiresAuth: true,
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      }
+    }
+  },
+  {
     path: "/lesson/:id/:groupKey/:webinarMode?",
     name: "lesson_teacher",
     component: Lesson,
@@ -55,19 +68,19 @@ const routes = [
       }
     }
   },
-  {
-    path: "/lesson/:id/",
-    name: "lesson",
-    component: Lesson,
-    meta: {
-      requiresAuth: true,
-      checkAccess: true,
-      breadcrumb: async route => {
-        let r = await api.methods.getFullLesson(route.params.id);
-        return r.name;
-      }
-    }
-  },
+  // {
+  //   path: "/lesson/:id/",
+  //   name: "lesson",
+  //   component: Lesson,
+  //   meta: {
+  //     requiresAuth: true,
+  //     checkAccess: true,
+  //     breadcrumb: async route => {
+  //       let r = await api.methods.getFullLesson(route.params.id);
+  //       return r.name;
+  //     }
+  //   }
+  // },
   {
     path: "/homework/:courseId/:id",
     name: "homework_teacher",
@@ -217,7 +230,7 @@ const routes = [
         path: "my-groups",
         component: Group,
         meta: {
-          breadcrumb: "Мои группы"
+          breadcrumb: "Расписание"
         }
       },
       {
