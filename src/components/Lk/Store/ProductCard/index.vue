@@ -63,19 +63,7 @@
           </c-btn>
 
           <div class="product-card__footer">
-            <button class="product-card__additional">
-              <svg class="product-card__svg">
-                <use xlink:href="#help"></use>
-              </svg>
-              <span>Помощь</span>
-            </button>
-
-            <button class="product-card__additional">
-              <svg class="product-card__svg">
-                <use xlink:href="#delivery"></use>
-              </svg>
-              <span>Доставка</span>
-            </button>
+            <product-additions />
           </div>
         </div>
       </div>
@@ -86,6 +74,7 @@
 <script>
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 import CBtn from "@/components/UiElements/C-btn.vue";
+import ProductAdditions from "./ProductAdditions";
 import ProductColors from "./ProductColors";
 import ProductSizes from "./ProductSizes";
 
@@ -99,6 +88,7 @@ export default {
   components: {
     AnimatedCoinPng,
     CBtn,
+    ProductAdditions,
     ProductColors,
     ProductSizes
   },
@@ -222,26 +212,6 @@ export default {
 
   &__desc-vars {
     padding-top: 10px;
-  }
-
-  &__footer {
-    display: flex;
-  }
-
-  &__svg {
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-  }
-
-  &__additional {
-    display: flex;
-    align-items: center;
-    color: gray;
-  }
-
-  &__additional:not(:last-child) {
-    margin-right: 50px;
   }
 
   &__red-btn {
