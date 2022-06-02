@@ -24,6 +24,18 @@
             @click="doubleClick(true)"
           ></div>
         </div>
+        <div class="show-rewind-svgs">
+          <div class="show-rewind-svgs__elem">
+            <transition name="fade">
+              <RewindSvgVue :left="true" v-if="hasRewindLeft" />
+            </transition>
+          </div>
+          <div class="show-rewind-svgs__elem">
+            <transition name="fade">
+              <RewindSvgVue :right="true" v-if="hasRewindRight" />
+            </transition>
+          </div>
+        </div>
       </figure>
     </div>
     <substrate :player-element="$el" style="z-index: 2" :duration="1000">
@@ -98,6 +110,7 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
+import RewindSvgVue from "../Icons/RewindSvg.vue";
 
 import api from "@/mixins/api";
 
@@ -110,7 +123,8 @@ export default {
     ExpandSvg,
     Chat,
     Progress,
-    Substrate
+    Substrate,
+    RewindSvgVue
   },
   data() {
     return {
@@ -128,7 +142,9 @@ export default {
       timestamps: [],
       dbClickDelay: 600,
       dbClickClicks: 0,
-      dbClickTimer: null
+      dbClickTimer: null,
+      hasRewindLeft: false,
+      hasRewindRight: false
     };
   },
   props: {
@@ -181,8 +197,19 @@ export default {
       }
     },
     rewindToLeftOrRight(right) {
-      if (right) this.videoElement.currentTime += 10;
-      else this.videoElement.currentTime -= 10;
+      if (right) {
+        this.videoElement.currentTime += 10;
+        this.hasRewindRight = true;
+        setTimeout(() => {
+          this.hasRewindRight = false;
+        }, 800);
+      } else {
+        this.videoElement.currentTime -= 10;
+        this.hasRewindLeft = true;
+        setTimeout(() => {
+          this.hasRewindLeft = false;
+        }, 800);
+      }
       this.onTimeUpdate();
     },
     rewindTo(x) {
@@ -446,6 +473,18 @@ video
   height: 100%
   width: 100%
 
+.show-rewind-svgs
+  position: absolute
+  display: flex
+  height: 100%
+  width: 100%
+
+  &__elem
+    display: flex
+    align-items: center
+    justify-content: center
+    flex: 1
+
 .mobile-rewind-block
   display: none
   position: absolute
@@ -461,4 +500,9 @@ video
     height: 85%
     cursor: pointer
     z-index: 3
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 1s
+.fade-enter, .fade-leave-to
+  opacity: 0
 </style>
