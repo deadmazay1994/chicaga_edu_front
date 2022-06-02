@@ -45,15 +45,9 @@
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Цвет:</span>
               <span>Персиковый</span>
-
-              <!-- <div
-                class="product-card__inner product-card__colors product-card__m10"
-              >
-                <button class="colors__item"></button>
-                <button class="colors__item colors__item--white"></button>
-                <button class="colors__item colors__item--black"></button>
-                <button class="colors__item colors__item--red"></button>
-              </div> -->
+              <div class="product-card__colors-container">
+                <product-colors />
+              </div>
             </div>
 
             <div class="product-card__desc">
@@ -96,6 +90,7 @@
 
 <script>
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
+import ProductColors from "./ProductColors";
 
 export default {
   name: "stand",
@@ -105,7 +100,8 @@ export default {
   methods: {},
   computed: {},
   components: {
-    AnimatedCoinPng
+    AnimatedCoinPng,
+    ProductColors
   },
   props: [],
   mixins: {},
@@ -225,6 +221,10 @@ export default {
     margin-right: 0.2em;
   }
 
+  &__colors-container {
+    padding-top: 10px;
+  }
+
   &__footer {
     display: flex;
   }
@@ -288,34 +288,5 @@ export default {
   &__item:hover::before {
     opacity: 0.7;
   }
-}
-
-.colors__item {
-  background: #f4dfc5;
-  border: 2px solid red;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-}
-
-.colors__item--white {
-  background: $white;
-  border-color: gray;
-}
-
-.colors__item--black {
-  background: #0d0d0d;
-  border-color: gray;
-}
-
-.colors__item--red {
-  background: rgba(255, 0, 0, 0.8);
-  border-color: gray;
-}
-
-.colors__item:last-child {
-  margin-right: 0;
 }
 </style>
