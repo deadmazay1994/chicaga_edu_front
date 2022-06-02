@@ -6,18 +6,38 @@
     </div>
 
     <div class="hoodie__content active">
-      <merch-showcase-item v-for="(item, index) in 3" :key="index" />
+      <merch-showcase-item
+        v-for="(item, index) in storeGoods"
+        :key="index"
+        :item="item"
+        :index="index"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import api from "@/mixins/api";
 import MerchShowcaseItem from "./MerchShowcaseItem.vue";
 
 export default {
   name: "MerchShowcase",
   components: {
     MerchShowcaseItem
+  },
+  data() {
+    return {
+      storeGoods: undefined
+    };
+  },
+  methods: {
+    async setGoods() {
+      let result = await api.methods.getGoods();
+      this.storeGoods = result;
+    }
+  },
+  mounted() {
+    this.setGoods();
   }
 };
 </script>

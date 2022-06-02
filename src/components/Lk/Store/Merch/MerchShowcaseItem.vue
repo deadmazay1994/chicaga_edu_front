@@ -4,15 +4,11 @@
       <svg class="merch__svg">
         <use xlink:href="#coin"></use>
       </svg>
-      <span>1000 т.</span>
+      <span>{{ item.price }} т.</span>
     </div>
 
-    <img
-      class="hoodie__img"
-      src="@/assets/imgs/shop/merch/hoodie-item.png"
-      alt="hoodie"
-    />
-    <h3 class="hoodie__title">Худи Peach</h3>
+    <img class="hoodie__img" :src="item.src" :alt="`hoodie + ${index}`" />
+    <h3 class="hoodie__title">{{ item.title }}</h3>
 
     <div class="hoodie__hover-text">
       <span>Подробнее</span>
@@ -25,7 +21,11 @@
 
 <script>
 export default {
-  name: "MerchShowcaseItem"
+  name: "MerchShowcaseItem",
+  props: {
+    item: Object,
+    index: Number
+  }
 };
 </script>
 

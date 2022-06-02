@@ -249,6 +249,29 @@ export default {
       console.log("api-test admin/events", r);
       return r;
     },
+    // Store
+    getGoods() {
+      return [
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        }
+      ]
+    },
     // Basket
     // fake basket items
     getBasketItems() {
