@@ -11,7 +11,7 @@
     <h3 class="hoodie__title">{{ item.title }}</h3>
 
     <div class="hoodie__hover-text">
-      <span>Подробнее</span>
+      <span @click="openModal(item.id)">Подробнее</span>
       <svg class="hoodie__svg">
         <use xlink:href="#arrow-down"></use>
       </svg>
