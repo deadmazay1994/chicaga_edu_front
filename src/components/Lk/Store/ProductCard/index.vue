@@ -58,9 +58,9 @@
             </div>
           </div>
 
-          <button class="cart__btn cart__btn--about">
+          <c-btn btnClass="product-card__red-btn">
             Добавить в корзину
-          </button>
+          </c-btn>
 
           <div class="product-card__footer">
             <button class="product-card__additional">
@@ -85,6 +85,7 @@
 
 <script>
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
+import CBtn from "@/components/UiElements/C-btn.vue";
 import ProductColors from "./ProductColors";
 import ProductSizes from "./ProductSizes";
 
@@ -97,6 +98,7 @@ export default {
   computed: {},
   components: {
     AnimatedCoinPng,
+    CBtn,
     ProductColors,
     ProductSizes
   },
@@ -240,6 +242,14 @@ export default {
 
   &__additional:not(:last-child) {
     margin-right: 50px;
+  }
+
+  &__red-btn {
+    margin-top: 0;
+    margin-bottom: 35px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 14px;
   }
 }
 
