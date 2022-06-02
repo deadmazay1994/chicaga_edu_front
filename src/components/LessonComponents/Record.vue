@@ -7,7 +7,7 @@
             ref="video"
             class="record__video"
             @click="$emit('click-by-video')"
-            src="https://chicaga-media.storage.yandexcloud.net/videos/example_lesson.mp4"
+            src="https://chicaga-media.storage.yandexcloud.net/videos/5 урок през.mp4"
           ></video>
         </div>
       </video-player>
