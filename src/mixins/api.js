@@ -253,24 +253,51 @@ export default {
     getGoods() {
       return [
         {
+          id: 1,
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
           count: 1
         },
         {
+          id: 2,
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
           count: 1
         },
         {
+          id: 3,
           title: "Худи Peach",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
           count: 1
         }
-      ]
+      ];
+    },
+    getProductInfo(id) {
+      console.log(id);
+      return {
+        id: 1,
+        title: "Худи Peach",
+        images: [
+          require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          require("@/assets/imgs/shop/merch/hoodie-item.png")
+        ],
+        price: 1000,
+        count: 1,
+        description: `Подробное описание... Худи свободного кроя изготовлено из хлопка...
+          Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
+        composition: ["хлопок 83%", "полиэстер 17%"],
+        colors: [
+          { color: "peach", title: "Персиковый" },
+          { color: "black", title: "Чёрный" },
+          { color: "white", title: "Белый" },
+          { color: "red", title: "Красный" }
+        ],
+        sizes: ["XS", "S", "M", "L", "XL"]
+      };
     },
     // Basket
     // fake basket items

@@ -1,61 +1,46 @@
 <template>
   <div class="product-card vue-component">
     <div class="product-card__inner">
-      <div class="product-card__title">Худи Peach</div>
+      <div class="product-card__title">{{ productInfo.title }}</div>
       <div class="product-card__main">
-        <div class="product-card__img-side">
-          <div class="product-card__img-container">
-            <div class="product-card__img-inner">
-              <img
-                src="@/assets/imgs/shop/merch/hoodie-item.png"
-                alt="hoodie"
-              />
-            </div>
-
-            <div class="product-card__dots">
-              <button
-                class="product-card__dot product-card__dot--active"
-              ></button>
-              <button class="product-card__dot"></button>
-              <button class="product-card__dot"></button>
-            </div>
-          </div>
-        </div>
+        <ProductSwiperVue :productImages="productInfo.images" />
         <div class="product-card__content-side">
           <div class="product-card__price-box">
             <div class="product-card__coin">
               <animated-coin-png ref="animatedCoin" />
             </div>
 
-            <span class="product-card__price">1000 т.</span>
+            <span class="product-card__price">{{ productInfo.price }} т.</span>
           </div>
 
           <div class="product-card__desc-box">
             <div class="product-card__desc">
-              Подробное описание... Худи свободного кроя изготовлено из
-              хлопка...
-              <br />
-              Модель с карманами, эластичными манжетами на рукавах и поясе
-              дополнена застёжкой-молнией и капюшоном.
+              {{ productInfo.description }}
             </div>
 
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Состав:</span>
-              <span>хлопок 83%, полиэстер 17%</span>
+              <span class="product-card__desc-composition">
+                <span
+                  v-for="(composition, index) in productInfo.composition"
+                  :key="index"
+                  >{{ composition }}</span
+                >
+              </span>
             </div>
 
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Цвет:</span>
-              <span>Персиковый</span>
+              <span>{{ getActiveColor }}</span>
               <div class="product-card__desc-vars">
-                <product-colors />
+                <product-colors :colorsArray="productInfo.colors" />
               </div>
             </div>
 
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Таблица размеров:</span>
               <div class="product-card__desc-vars">
-                <product-sizes />
+                <product-sizes :productSizesArray="productInfo.sizes" />
               </div>
             </div>
           </div>
@@ -74,29 +59,40 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 import CBtn from "@/components/UiElements/C-btn.vue";
 import ProductAdditions from "./ProductAdditions";
 import ProductColors from "./ProductColors";
 import ProductSizes from "./ProductSizes";
+import ProductSwiperVue from "./ProductSwiper.vue";
 
 export default {
   name: "stand",
   data: function() {
-    return {};
+    return {
+      productInfo: this.getShopModalData
+    };
   },
   methods: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["getShopModalData", "getActiveColor"])
+  },
   components: {
     AnimatedCoinPng,
     CBtn,
     ProductAdditions,
     ProductColors,
-    ProductSizes
+    ProductSizes,
+    ProductSwiperVue
   },
   props: [],
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    this.productInfo = this.getShopModalData;
+  }
 };
 </script>
 
@@ -254,6 +250,12 @@ export default {
   &__desc-caption {
     color: $gray;
     margin-right: 0.2em;
+  }
+
+  &__desc-composition {
+    span + span {
+      margin-left: 0.25rem;
+    }
   }
 
   &__desc-vars {

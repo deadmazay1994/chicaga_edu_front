@@ -2,25 +2,17 @@
   <div class="product-colors vue-component">
     <div class="product-colors__inner">
       <button
-        class="product-colors__item product-colors__item--peach product-colors__item--active"
+        class="product-colors__item"
+        :class="[
+          'product-colors__item--' + color.color,
+          { 'product-colors__item--active': color.active }
+        ]"
+        v-for="(color, index) in colors"
+        :key="index"
+        @click="changeColor(index)"
       >
         <span class="sr-only">
-          Персиковый
-        </span>
-      </button>
-      <button class="product-colors__item product-colors__item--white">
-        <span class="sr-only">
-          Белый
-        </span>
-      </button>
-      <button class="product-colors__item product-colors__item--black">
-        <span class="sr-only">
-          Черный
-        </span>
-      </button>
-      <button class="product-colors__item product-colors__item--red">
-        <span class="sr-only">
-          Красный
+          {{ color.title }}
         </span>
       </button>
     </div>
@@ -28,17 +20,44 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      colors: undefined
+    };
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["setActiveColor"]),
+    changeColor(index) {
+      this.colors.map(color => (color.active = false));
+      // Какой-то непонятный костыль из-за непоятной проблемы
+      // Реактивность с colors пока не работает
+      // Почему? Не знаю...
+      this.colors[index].active = true;
+      let newObj = this.colors[index];
+      this.$set(this.colors, index, newObj);
+      this.setActiveColor(newObj.title);
+    }
+  },
   computed: {},
   components: {},
-  props: [],
+  props: {
+    colorsArray: Array
+  },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    this.colors = this.colorsArray.map((color, i) => {
+      if (i == 0) color.active = true;
+      else color.active = false;
+      return color;
+    });
+    let activeColor = this.colorsArray.find(color => color.active);
+    this.setActiveColor(activeColor.title);
+  }
 };
 </script>
 

@@ -20,11 +20,21 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from "vuex";
+
 export default {
   name: "MerchShowcaseItem",
   props: {
     item: Object,
     index: Number
+  },
+  methods: {
+    ...mapMutations(["toggleShopModale"]),
+    ...mapActions(["setShopProductInfo"]),
+    openModal(id) {
+      this.setShopProductInfo(id);
+      this.toggleShopModale();
+    }
   }
 };
 </script>

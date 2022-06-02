@@ -1,37 +1,50 @@
 <template>
   <div class="product-sizes vue-component">
     <div class="product-sizes__inner">
-      <button class="product-sizes__item product-sizes__item--active">
-        xs
-      </button>
-      <button class="product-sizes__item">
-        s
-      </button>
-      <button class="product-sizes__item">
-        m
-      </button>
-      <button class="product-sizes__item">
-        l
-      </button>
-      <button class="product-sizes__item">
-        xl
+      <button
+        class="product-sizes__item"
+        :class="{ 'product-sizes__item--active': size.active }"
+        v-for="(size, index) in productSizes"
+        :key="index"
+        @click="changeSize(index)"
+      >
+        {{ size.title }}
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      productSizes: undefined
+    };
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["setActiveSize"]),
+    changeSize(index) {
+      this.productSizes.map(size => (size.active = false));
+      this.setActiveSize(this.productSizes[index].title);
+      this.productSizes[index].active = true;
+    }
+  },
   computed: {},
   components: {},
-  props: [],
+  props: {
+    productSizesArray: Array
+  },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    console.log(this.productSizesArray);
+    this.productSizes = this.productSizesArray.map((size, i) => {
+      return { title: size, active: i === 0 ? true : false };
+    });
+  }
 };
 </script>
 
