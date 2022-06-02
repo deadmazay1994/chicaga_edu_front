@@ -10,24 +10,27 @@
     </div>
 
     <div class="cart__content">
-      <cart-item
-        v-for="(item, index) in cartItems"
-        :key="index"
-        :image="item.src"
-        :title="item.title"
-        :price="item.price"
-        :count="item.count"
-        @clickTrashButton="deleteBasketItem(index, item)"
-        @decrease="decreaseBasketItemsCount(index, item)"
-        @increase="increaseBasketItemsCount(index, item)"
-      />
+      <transition-group name="list">
+        <cart-item
+          class="list-item"
+          v-for="(item, index) in cartItems"
+          :key="index"
+          :image="item.src"
+          :title="item.title"
+          :price="item.price"
+          :count="item.count"
+          @clickTrashButton="deleteBasketItem(index, item)"
+          @decrease="decreaseBasketItemsCount(index, item)"
+          @increase="increaseBasketItemsCount(index, item)"
+        />
+      </transition-group>
     </div>
-    <cart-total />
+    <cart-total :cartGoods="cartItems" />
   </div>
 </template>
 
 <script>
-import api from "@/mixins/api";
+import { mapActions, mapGetters } from "vuex";
 
 import CartItem from "./CartItem.vue";
 import CartTotal from "./CartTotal.vue";
@@ -43,25 +46,29 @@ export default {
       cartItems: undefined
     };
   },
+  computed: {
+    ...mapGetters(["getBasketItems"])
+  },
   methods: {
+    ...mapActions([
+      "requestBasketItems",
+      "requestDeleteBasketItem",
+      "requestDecreaseBasketItemsCount",
+      "requestIncreaseBasketItemsCount"
+    ]),
     async setBasketItems() {
-      this.cartItems = await api.methods.getBasketItems();
+      await this.requestBasketItems();
+      console.log("setBasketItems", this.getBasketItems);
+      this.cartItems = this.getBasketItems;
     },
-    async deleteBasketItem(index, data) {
-      this.cartItems.splice(index, 1);
-      let result = await this.api.deleteitemFromBasket(data);
-      console.log(result);
+    deleteBasketItem(index, data) {
+      this.requestDeleteBasketItem({ index: index, data: data });
     },
-    async decreaseBasketItemsCount(index, data) {
-      if (this.cartItems[index].count <= 1) return;
-      this.cartItems[index].count -= 1;
-      let result = await this.api.decreaseBasketItemsCount(data);
-      console.log(result);
+    decreaseBasketItemsCount(index, data) {
+      this.requestDecreaseBasketItemsCount({ index: index, data: data });
     },
-    async increaseBasketItemsCount(index, data) {
-      this.cartItems[index].count += 1;
-      let result = await this.api.increaseBasketItemsCount(data);
-      console.log(result);
+    increaseBasketItemsCount(index, data) {
+      this.requestIncreaseBasketItemsCount({ index: index, data: data });
     }
   },
   mounted() {
@@ -105,4 +112,11 @@ export default {
   &::-webkit-scrollbar-thumb
     background: rgba(128, 128, 128, 0.1)
     border-radius: 40p
+
+.list-enter-active, .list-leave-active
+  transition: all 1s
+
+.list-enter, .list-leave-to
+  opacity: 0
+  transform: translateY(30px)
 </style>
