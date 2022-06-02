@@ -22,13 +22,13 @@
 
       <div class="cart__item-controls">
         <div class="amount__controls">
-          <button>-</button>
-          <span class="amount__number">1</span>
-          <button>+</button>
+          <button @click="$emit('decrease')">-</button>
+          <span class="amount__number">{{ count }}</span>
+          <button @click="$emit('increase')">+</button>
         </div>
 
         <button>
-          <svg class="cart__bin">
+          <svg class="cart__bin" @click="$emit('clickTrashButton')">
             <use xlink:href="#bin"></use>
           </svg>
         </button>
@@ -43,7 +43,11 @@ export default {
   props: {
     title: String,
     image: String,
-    price: Number
+    price: Number,
+    count: {
+      type: Number,
+      default: 1
+    }
   }
 };
 </script>

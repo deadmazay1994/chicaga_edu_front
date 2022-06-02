@@ -20,13 +20,14 @@ export default {
     tester
   },
   props: [],
-  mixins: {},
-  beforeMount() {}
+  mixins: {}
 };
 </script>
 
 <style scoped="scoped" lang="sass">
+
 .stand-inner
   width: 100%
   position: relative
+
 </style>
