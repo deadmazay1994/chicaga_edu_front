@@ -1,13 +1,14 @@
 <template>
   <div class="stand vue-component">
-    <div class="stand-inner">
-      <tester></tester>
+    <div>
+      <product-order></product-order>
     </div>
   </div>
 </template>
 
 <script>
-import tester from "@/components/Lk/Store/StoreComponent.vue";
+import ProductOrder from "@/components/Lk/Store/ProductOrder.vue";
+
 
 export default {
   name: "stand",
@@ -17,17 +18,18 @@ export default {
   methods: {},
   computed: {},
   components: {
-    tester
+    ProductOrder
   },
   props: [],
-  mixins: {}
+  mixins: {},
+  beforeMount() {}
 };
 </script>
 
 <style scoped="scoped" lang="sass">
-
+.stand>div
+  width: 100%
 .stand-inner
   width: 100%
   position: relative
-
 </style>
