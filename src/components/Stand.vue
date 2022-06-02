@@ -1,26 +1,31 @@
 <template>
-  <div class='stand vue-component'>
+  <div class="stand vue-component">
     <div>
-      <c-btn>gdfgd</c-btn>
-      <c-input />
-      <c-textarea />
+      <product-order></product-order>
     </div>
   </div>
 </template>
 
 <script>
+import ProductOrder from "@/components/Lk/Store/ProductOrder.vue";
+
 export default {
-  name: 'stand',
+  name: "stand",
   data: function() {
-    return {}
+    return {};
   },
   methods: {},
   computed: {},
-  components: {},
+  components: {
+    ProductOrder
+  },
   props: [],
   mixins: {},
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass">
+.stand>div
+  width: 100%
+</style>
