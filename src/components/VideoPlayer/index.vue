@@ -53,18 +53,10 @@
             <div class="left-side__current-time">
               {{ currVideoTime }}
               <template v-if="formattedDuration">
-                / {{ formattedDuration }}</template
-              >
+               / {{ formattedDuration }}</template>
             </div>
           </div>
           <div class="right-side">
-            <div class="right-side__settings">
-              <SettingsMenuVue
-                @changeSpeed="changeVideoSpeed"
-                v-if="settingsMenu"
-              />
-              <gear @click="settingsMenu = !settingsMenu" />
-            </div>
             <chat-svg
               v-if="showChatButton"
               :chatOff="chatState"
@@ -89,8 +81,6 @@ import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
-import Gear from "../Icons/Gear.vue";
-import SettingsMenuVue from "./SettingsMenu.vue";
 
 import api from "@/mixins/api";
 
@@ -103,13 +93,10 @@ export default {
     ExpandSvg,
     Chat,
     Progress,
-    Substrate,
-    Gear,
-    SettingsMenuVue
+    Substrate
   },
   data() {
     return {
-      settingsMenu: false,
       сurrentTitle: undefined,
       duration: 0,
       currentTime: 0,
@@ -142,14 +129,12 @@ export default {
       return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
     },
     formattedDuration() {
-      if (!this.duration || this.duration === Infinity) return false;
+      
+      if (!this.duration || this.duration === Infinity) return false
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
     }
   },
   methods: {
-    changeVideoSpeed(speed) {
-      this.videoElement.playbackRate = speed;
-    },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
 
@@ -341,14 +326,6 @@ export default {
       align-items: center
       .expand-svg
         margin-left: 18px
-
-      &__settings
-        position: relative
-
-      .settings-menu-wrapper
-        position: absolute
-        top: -175px
-        left: -254px
     input[type=range]
       -webkit-appearance: none
       width: 50px
