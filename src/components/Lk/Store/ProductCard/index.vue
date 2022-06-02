@@ -45,21 +45,16 @@
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Цвет:</span>
               <span>Персиковый</span>
-              <div class="product-card__colors-container">
+              <div class="product-card__desc-vars">
                 <product-colors />
               </div>
             </div>
 
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Таблица размеров:</span>
-
-              <!-- <div class="product-card__inner product-card__m10">
-                <span class="product-card__size active">xs</span>
-                <span class="product-card__size">s</span>
-                <span class="product-card__size">m</span>
-                <span class="product-card__size">l</span>
-                <span class="product-card__size">xl</span>
-              </div> -->
+              <div class="product-card__desc-vars">
+                <product-sizes />
+              </div>
             </div>
           </div>
 
@@ -91,6 +86,7 @@
 <script>
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 import ProductColors from "./ProductColors";
+import ProductSizes from "./ProductSizes";
 
 export default {
   name: "stand",
@@ -101,7 +97,8 @@ export default {
   computed: {},
   components: {
     AnimatedCoinPng,
-    ProductColors
+    ProductColors,
+    ProductSizes
   },
   props: [],
   mixins: {},
@@ -221,7 +218,7 @@ export default {
     margin-right: 0.2em;
   }
 
-  &__colors-container {
+  &__desc-vars {
     padding-top: 10px;
   }
 
