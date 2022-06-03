@@ -1,141 +1,143 @@
 <template>
-  <div
-    class="video-player-wrap"
-    tabindex="0"
-    ref="videoWrapper"
-    v-on:keyup.right="rewindToLeftOrRight(true)"
-    v-on:keyup.left="rewindToLeftOrRight(false)"
-  >
-    <div class="video-slot">
-      <figure
-        class="vidFrame"
-        ref="vidFrame"
-        :class="{ chatActive: fullscreenChatState }"
-      >
-        <slot name="videoSlot" class="fullscreen-video-block"></slot>
-        <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
+  <div class="video-player">
+    <div
+      class="video-player-wrap"
+      tabindex="0"
+      ref="videoWrapper"
+      v-on:keyup.right="rewindToLeftOrRight(true)"
+      v-on:keyup.left="rewindToLeftOrRight(false)"
+    >
+      <div class="video-slot">
+        <figure
+          class="vidFrame"
+          ref="vidFrame"
+          :class="{ chatActive: fullscreenChatState }"
+        >
+          <slot name="videoSlot" class="fullscreen-video-block"></slot>
+          <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
+          <div class="mobile-rewind-block">
+            <div
+              class="mobile-rewind-block__elem"
+              @click="doubleClick(false)"
+            ></div>
+            <div
+              class="mobile-rewind-block__elem"
+              @click="doubleClick(true)"
+            ></div>
+          </div>
+          <div class="show-rewind-svgs">
+            <div class="show-rewind-svgs__elem">
+              <transition name="fade">
+                <RewindSvgVue :left="true" v-if="hasRewindLeft" />
+              </transition>
+            </div>
+            <div class="show-rewind-svgs__elem">
+              <transition name="fade">
+                <RewindSvgVue :right="true" v-if="hasRewindRight" />
+              </transition>
+            </div>
+          </div>
+          <!-- <transition name="fade" class="play-button-transition" tag="div">
+            <PlayVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
+            
+          </transition>
+          <transition name="fade" class="play-button-transition" tag="div">
+            <PauseVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
+          </transition> -->
+        </figure>
+      </div>
+      <substrate :player-element="$el" style="z-index: 2" :duration="1000">
         <div class="mobile-rewind-block">
           <div
             class="mobile-rewind-block__elem"
-            @click="doubleClick(false)"
+            @click="
+              $event => {
+                doubleClick(false);
+                playOrPauseVideo($event);
+              }
+            "
           ></div>
           <div
             class="mobile-rewind-block__elem"
-            @click="doubleClick(true)"
+            @click="
+              $event => {
+                doubleClick(true);
+                playOrPauseVideo($event);
+              }
+            "
           ></div>
         </div>
-        <div class="show-rewind-svgs">
-          <div class="show-rewind-svgs__elem">
-            <transition name="fade">
-              <RewindSvgVue :left="true" v-if="hasRewindLeft" />
-            </transition>
+        <figcaption @click.stop class="vidBar" v-if="active">
+          <div class="top">
+            <Progress
+              @rewindTo="rewindTo"
+              ref="progress"
+              :currentTime="currentTime"
+              :duration="duration"
+              :timestamps="timestamps"
+            />
           </div>
-          <div class="show-rewind-svgs__elem">
-            <transition name="fade">
-              <RewindSvgVue :right="true" v-if="hasRewindRight" />
-            </transition>
-          </div>
-        </div>
-        <!-- <transition name="fade" class="play-button-transition" tag="div">
-          <PlayVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
-          
-        </transition>
-        <transition name="fade" class="play-button-transition" tag="div">
-          <PauseVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
-        </transition> -->
-      </figure>
-    </div>
-    <substrate :player-element="$el" style="z-index: 2" :duration="1000">
-      <div class="mobile-rewind-block">
-        <div
-          class="mobile-rewind-block__elem"
-          @click="
-            $event => {
-              doubleClick(false);
-              playOrPauseVideo($event);
-            }
-          "
-        ></div>
-        <div
-          class="mobile-rewind-block__elem"
-          @click="
-            $event => {
-              doubleClick(true);
-              playOrPauseVideo($event);
-            }
-          "
-        ></div>
-      </div>
-      <figcaption @click.stop class="vidBar" v-if="active">
-        <div class="top">
-          <Progress
-            @rewindTo="rewindTo"
-            ref="progress"
-            :currentTime="currentTime"
-            :duration="duration"
-            :timestamps="timestamps"
-          />
-        </div>
-        <div class="bottom">
-          <div class="left-side">
-            <play-svg :onPause="paused" @clickElem="togglePlay" />
-            <div
-              class="volume-area"
-              @mouseenter="showVolume"
-              @mouseleave="hideVolume"
-            >
-              <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
-              <div class="volume-input-block">
-                <transition name="emersion">
-                  <input
-                    ref="volumeControl"
-                    v-show="volume"
-                    type="range"
-                    id="change_vol"
-                    v-model="changeVol"
-                    step="0.05"
-                    min="0"
-                    max="1"
-                    value="1"
-                  />
-                </transition>
+          <div class="bottom">
+            <div class="left-side">
+              <play-svg :onPause="paused" @clickElem="togglePlay" />
+              <div
+                class="volume-area"
+                @mouseenter="showVolume"
+                @mouseleave="hideVolume"
+              >
+                <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
+                <div class="volume-input-block">
+                  <transition name="emersion">
+                    <input
+                      ref="volumeControl"
+                      v-show="volume"
+                      type="range"
+                      id="change_vol"
+                      v-model="changeVol"
+                      step="0.05"
+                      min="0"
+                      max="1"
+                      value="1"
+                    />
+                  </transition>
+                </div>
+              </div>
+              <div class="left-side__current-timestamp">
+                {{ сurrentTitle }}
+              </div>
+              <div class="left-side__current-time">
+                {{ currVideoTime }}
+                <template v-if="formattedDuration">
+                  / {{ formattedDuration }}</template
+                >
               </div>
             </div>
-            <div class="left-side__current-timestamp">
-              {{ сurrentTitle }}
-            </div>
-            <div class="left-side__current-time">
-              {{ currVideoTime }}
-              <template v-if="formattedDuration">
-                / {{ formattedDuration }}</template
-              >
-            </div>
-          </div>
-          <div class="right-side" style="z-index: 100">
-            <div class="right-side__settings">
-              <SettingsMenuVue
-                @changeSpeed="changeVideoSpeed"
-                v-if="settingsMenu"
+            <div class="right-side" style="z-index: 100">
+              <div class="right-side__settings">
+                <SettingsMenuVue
+                  @changeSpeed="changeVideoSpeed"
+                  v-if="settingsMenu"
+                />
+                <gear @click="settingsMenu = !settingsMenu" />
+              </div>
+              <chat-svg
+                v-if="showChatButton"
+                :chatOff="chatState"
+                :fullscreenChatState="fullscreenChatState"
+                :fullScreenMode="fullscreenOn"
+                @clickElem="clickChat"
               />
-              <gear @click="settingsMenu = !settingsMenu" />
+              <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
             </div>
-            <chat-svg
-              v-if="showChatButton"
-              :chatOff="chatState"
-              :fullscreenChatState="fullscreenChatState"
-              :fullScreenMode="fullscreenOn"
-              @clickElem="clickChat"
-            />
-            <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
           </div>
-        </div>
-      </figcaption>
-    </substrate>
-    <timecodes
-      :timecodesArray="timestamps"
-      @clickTimecode="clickTimecode"
-      style="margin-top: 21px;"
-    />
+        </figcaption>
+      </substrate>
+      <timecodes
+        :timecodesArray="timestamps"
+        @clickTimecode="clickTimecode"
+        style="margin-top: 21px;"
+      />
+    </div>
   </div>
 </template>
 
@@ -414,6 +416,11 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.video-player
+  height: 368px
+  width: 617px
+  position: relative
+  border-radius: 20px
 .video-player-wrap
   height: 100%
   background: #000
