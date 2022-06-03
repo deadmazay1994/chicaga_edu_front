@@ -50,7 +50,7 @@ export default {
   display: flex
   flex-direction: column
   .lesson-left-side-component__bottom
-    margin-top: 30px
+    margin-top: 20px
     display: flex
     flex-direction: column
     justify-content: space-between
