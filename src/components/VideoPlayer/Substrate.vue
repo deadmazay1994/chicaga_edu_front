@@ -64,12 +64,12 @@ export default {
   top: 0
   width: 100%
   height: 100%
-  position: absolute
   pointer-events: none
   transition: .2s
   opacity: 1
   & > *
     opacity: 0
+  position: absolute
   &--active
     background: #0005
     pointer-events: all
