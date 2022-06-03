@@ -1,20 +1,26 @@
 <template>
-  <div class='stand vue-component'></div>
+  <div class="stand vue-component">
+    <Evaluation />
+  </div>
 </template>
 
 <script>
+import Evaluation from "@/components/LessonComponents/Evaluation";
+
 export default {
-  name: 'stand',
+  name: "stand",
   data: function() {
-    return {}
+    return {};
   },
   methods: {},
   computed: {},
-  components: {},
+  components: {
+    Evaluation
+  },
   props: [],
   mixins: {},
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass"></style>
