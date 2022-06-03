@@ -18,15 +18,19 @@
 
 <script>
 import moment from "moment";
+import api from "@/mixins/api";
 
 export default {
   name: "timecodes",
   components: {},
   data: function() {
-    return {};
+    return {
+      timecodesArray: undefined
+    };
   },
   props: {
-    timecodesArray: Array
+    // пока получаем из апи внутри этого компонента
+    // timecodesArray: Array
   },
   computed: {},
   methods: {
@@ -38,13 +42,17 @@ export default {
       let time = index === 0 ? 0 : this.timecodesArray[index - 1].time;
       this.$emit("clickTimecode", time);
     }
+  },
+  mounted() {
+    this.timecodesArray = api.methods.getTimestamps();
   }
 };
 </script>
 
 <style scoped="scoped" lang="sass">
 .timecodes
-  padding: 0 .5rem
+  .timecodes__title
+    font-family: "Manrope", sans-serif
   .timecodes__grid
     display: grid
     grid-template-columns: 1fr 1fr

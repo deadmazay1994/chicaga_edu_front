@@ -1,22 +1,12 @@
 <template>
   <div class="stand vue-component">
-    <!-- <div class="video-block"> -->
-    <video-player :active="true">
-      <div slot="videoSlot" class="videoSlot-block">
-        <video
-          ref="video"
-          class="video-component__video"
-          @click="$emit('click-by-video')"
-          src="https://chicaga-media.storage.yandexcloud.net/videos/example_lesson.mp4"
-        ></video>
-      </div>
-    </video-player>
-    <!-- </div> -->
+    <LessonLeftSideComponentVue class="stand__item" />
+    <div class="some-block stand__item"></div>
   </div>
 </template>
 
 <script>
-import VideoPlayer from "@/components/VideoPlayer";
+import LessonLeftSideComponentVue from "./LessonComponents/LessonLeftSideComponent.vue";
 
 export default {
   name: "stand",
@@ -26,7 +16,7 @@ export default {
   methods: {},
   computed: {},
   components: {
-    VideoPlayer
+    LessonLeftSideComponentVue
   },
   props: [],
   mixins: {},
@@ -35,8 +25,10 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.video-block
-  position: relative
-  height: 368px
-  width: 617px
+.stand
+  display: flex
+  gap: 20px
+  &__item
+    flex: 1
+    height: 100%
 </style>

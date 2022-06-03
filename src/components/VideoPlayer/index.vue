@@ -132,11 +132,11 @@
           </div>
         </figcaption>
       </substrate>
-      <timecodes
+      <!-- <timecodes
         :timecodesArray="timestamps"
         @clickTimecode="clickTimecode"
         style="margin-top: 21px;"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -155,7 +155,7 @@ import Gear from "../Icons/Gear.vue";
 import SettingsMenuVue from "./SettingsMenu.vue";
 // import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
 // import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
-import Timecodes from "./Timecodes.vue";
+// import Timecodes from "./Timecodes.vue";
 
 import api from "@/mixins/api";
 
@@ -174,7 +174,7 @@ export default {
     SettingsMenuVue,
     // PlayVideoCenterVue,
     // PauseVideoCenterVue,
-    Timecodes
+    // Timecodes
   },
   data() {
     return {
@@ -417,10 +417,11 @@ export default {
 
 <style lang="sass" scoped>
 .video-player
-  height: 368px
-  width: 617px
+  height: auto
+  width: 100%
   position: relative
   border-radius: 20px
+  overflow: hidden
 .video-player-wrap
   height: 100%
   background: #000
@@ -576,11 +577,13 @@ export default {
 
 .videoSlot-block
   width: 100%
+  height: 100%
 
 video
   height: 100%
   width: 100%
   pointer-events: none
+  object-fit: cover
 
 .show-rewind-svgs
   position: absolute
