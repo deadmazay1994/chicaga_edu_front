@@ -52,7 +52,8 @@ const routes = [
       breadcrumb: async route => {
         let r = await api.methods.getFullLesson(route.params.id);
         return r.name;
-      }
+      },
+      layout: "main-layout"
     }
   },
   {
