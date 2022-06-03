@@ -389,7 +389,6 @@ export default {
 <style lang="sass" scoped>
 .video-player-wrap
   height: 100%
-  position: relative
   background: #000
   .video-slot
     height: 100%
@@ -402,6 +401,7 @@ export default {
     align-items: center
     justify-content: center
 .vidBar
+  z-index: 3
   position: absolute
   bottom: 0
   right: 0
