@@ -4,7 +4,13 @@
       <div class="header__part header__part--1">
         <div class="header__title-block">
           <img src="@/assets/imgs/burger.svg" alt="" />
+<<<<<<< HEAD
           <slot></slot>
+=======
+          <!-- <breadcrumbs /> -->
+          <breadcrumbs-component />
+          <!-- <h2 class="header__title">Уроки с преподователем</h2> -->
+>>>>>>> Header: рестайл
         </div>
       </div>
 
@@ -123,11 +129,21 @@
           </div>
           <div class="header__avatar">
             <router-link to="/lk/settings">
+<<<<<<< HEAD
               <img
                 class="avatar__img"
                 :src="user.avatar_link"
                 alt="Ваше фото"
               />
+=======
+              <v-list-item-avatar>
+                <img
+                  class="avatar__img"
+                  :src="user.avatar_link"
+                  alt="Ваше фото"
+                />
+              </v-list-item-avatar>
+>>>>>>> Header: рестайл
             </router-link>
           </div>
 
