@@ -1,5 +1,5 @@
 <template>
-  <div class="merch__item hoodie__item">
+  <div class="merch__item hoodie__item" @click="openModal(item.id)">
     <div class="merch__item-price hoodie__price">
       <svg class="merch__svg">
         <use xlink:href="#coin"></use>

@@ -27,9 +27,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "CartTotal",
   data() {
-    return {
-      total: undefined
-    };
+    return {};
   },
   props: {},
   computed: {

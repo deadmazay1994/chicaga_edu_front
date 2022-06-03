@@ -7,7 +7,11 @@
       >Вернуться</router-link
     >
     <div class="shop-more__grid">
-      <ShopMoreItem v-for="(item, index) in goods" :key="index" :item="item" />
+      <ShopMoreItem
+        v-for="(item, index) in products"
+        :key="index"
+        :item="item"
+      />
     </div>
   </div>
 </template>
@@ -23,18 +27,18 @@ export default {
   },
   data: function() {
     return {
-      goods: undefined
+      products: undefined
     };
   },
   props: [],
   computed: {},
   methods: {
-    setGoods() {
-      this.goods = api.methods.getGoods();
+    setProducts() {
+      this.products = api.methods.getProducts();
     }
   },
   mounted() {
-    this.setGoods();
+    this.setProducts();
   }
 };
 </script>

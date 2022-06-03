@@ -1,7 +1,10 @@
 <template>
   <transition name="fade">
     <div class="store-modal vue-component" v-if="getShopModal">
-      <ProductCard v-click-outside="onClickOutside" />
+      <ProductCard
+        :productInfo="getShopModalData"
+        v-click-outside="onClickOutside"
+      />
     </div>
   </transition>
 </template>
@@ -19,11 +22,13 @@ export default {
     ProductCard
   },
   data: function() {
-    return {};
+    return {
+      productInfo: undefined
+    };
   },
   props: [],
   computed: {
-    ...mapGetters(["getShopModal"])
+    ...mapGetters(["getShopModal", "getShopModalData"])
   },
   directives: {
     clickOutside: vClickOutside.directive
@@ -33,6 +38,9 @@ export default {
     onClickOutside() {
       this.toggleShopModale();
     }
+  },
+  mounted() {
+    console.log("getShopModalData", this.getShopModalData);
   }
 };
 </script>

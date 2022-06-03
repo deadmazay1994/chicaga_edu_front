@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     async setGoods() {
-      let result = await api.methods.getGoods();
+      let result = await api.methods.getProducts();
       this.storeGoods = result;
     }
   },

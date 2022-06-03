@@ -850,7 +850,6 @@
     <!--<lightbox />-->
     <!--<bg-component />-->
     <calendar-modal />
-    <store-modal />
   </v-app>
 </template>
 
@@ -859,7 +858,6 @@ import HeaderApp from "@/components/Base/Header";
 import Navigation from "@/components/Lk/Navigation";
 import vClickOutside from "v-click-outside";
 import CalendarModal from "@/components/Calendar/CalendarModal";
-import StoreModal from "@/components/Lk/Store/StoreModal";
 import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
 
@@ -880,7 +878,6 @@ export default {
     HeaderApp,
     Navigation,
     CalendarModal,
-    StoreModal,
     SidebarComponent,
     MobileMenu
   },

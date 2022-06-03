@@ -3,13 +3,12 @@
     <div class="product-card__inner">
       <div class="product-card__title">{{ productInfo.title }}</div>
       <div class="product-card__main">
-        <ProductSwiperVue :productImages="productInfo.images" />
+        <ProductSwiper :productImages="productInfo.images" />
         <div class="product-card__content-side">
           <div class="product-card__price-box">
             <div class="product-card__coin">
               <animated-coin-png ref="animatedCoin" />
             </div>
-
             <span class="product-card__price">{{ productInfo.price }} т.</span>
           </div>
 
@@ -31,16 +30,22 @@
 
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Цвет:</span>
-              <span>{{ getActiveColor }}</span>
+              <span>{{ activeColor.title }}</span>
               <div class="product-card__desc-vars">
-                <product-colors :colorsArray="productInfo.colors" />
+                <product-colors
+                  :colorsArray="colors"
+                  @changeColor="changeColor"
+                />
               </div>
             </div>
 
             <div class="product-card__desc">
               <span class="product-card__desc-caption">Таблица размеров:</span>
               <div class="product-card__desc-vars">
-                <product-sizes :productSizesArray="productInfo.sizes" />
+                <product-sizes
+                  :productSizesArray="sizes"
+                  @changeSize="changeSize"
+                />
               </div>
             </div>
           </div>
@@ -70,13 +75,16 @@ import CBtn from "@/components/UiElements/C-btn.vue";
 import ProductAdditions from "./ProductAdditions";
 import ProductColors from "./ProductColors";
 import ProductSizes from "./ProductSizes";
-import ProductSwiperVue from "./ProductSwiper.vue";
+import ProductSwiper from "./ProductSwiper.vue";
 
 export default {
-  name: "stand",
+  name: "product-card",
   data: function() {
     return {
-      productInfo: this.getShopModalData
+      colors: undefined,
+      activeColor: undefined,
+      sizes: undefined,
+      activeSize: undefined
     };
   },
   methods: {
@@ -88,8 +96,8 @@ export default {
         src: this.productInfo.images[0],
         price: this.productInfo.price,
         count: 1,
-        color: this.getActiveColor,
-        size: this.getActiveSize
+        color: this.activeColor.title,
+        size: this.activeSize.title.toUpperCase()
       };
       this.requestPushItemToBasket(item);
       this.$store.commit("pushShuckbar", {
@@ -97,15 +105,35 @@ export default {
         val: "Товар добавлен в корзину"
       });
       this.$store.commit("toggleShopModale");
+    },
+    changeColor(index) {
+      this.colors.map(color => (color.active = false));
+      this.colors[index].active = true;
+      this.activeColor = this.colors[index];
+    },
+    changeSize(index) {
+      this.sizes.map(size => (size.active = false));
+      this.sizes[index].active = true;
+      this.activeSize = this.sizes[index];
+    },
+    setColors() {
+      this.colors = this.productInfo.colors.map((color, i) => ({
+        title: color.title,
+        color: color.color,
+        active: i === 0
+      }));
+      this.activeColor = this.colors.find(color => color.active);
+    },
+    setSizes() {
+      this.sizes = this.productInfo.sizes.map((size, i) => ({
+        title: size,
+        active: i === 0
+      }));
+      this.activeSize = this.sizes.find(size => size.active);
     }
   },
   computed: {
-    ...mapGetters([
-      "getShopModalData",
-      "getActiveColor",
-      "getActiveColor",
-      "getActiveSize"
-    ])
+    ...mapGetters(["getShopModalData"])
   },
   components: {
     AnimatedCoinPng,
@@ -113,13 +141,16 @@ export default {
     ProductAdditions,
     ProductColors,
     ProductSizes,
-    ProductSwiperVue
+    ProductSwiper
   },
-  props: [],
+  props: {
+    productInfo: Object
+  },
   mixins: {},
   beforeMount() {},
   mounted() {
-    this.productInfo = this.getShopModalData;
+    this.setColors();
+    this.setSizes();
   }
 };
 </script>

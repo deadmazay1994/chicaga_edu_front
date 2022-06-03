@@ -4,9 +4,9 @@
       <button
         class="product-sizes__item"
         :class="{ 'product-sizes__item--active': size.active }"
-        v-for="(size, index) in productSizes"
+        v-for="(size, index) in productSizesArray"
         :key="index"
-        @click="changeSize(index)"
+        @click="$emit('changeSize', index)"
       >
         {{ size.title }}
       </button>
@@ -15,23 +15,12 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-
 export default {
   name: "",
   data: function() {
-    return {
-      productSizes: undefined
-    };
+    return {};
   },
-  methods: {
-    ...mapMutations(["setActiveSize"]),
-    changeSize(index) {
-      this.productSizes.map(size => (size.active = false));
-      this.setActiveSize(this.productSizes[index].title);
-      this.productSizes[index].active = true;
-    }
-  },
+  methods: {},
   computed: {},
   components: {},
   props: {
@@ -39,12 +28,7 @@ export default {
   },
   mixins: {},
   beforeMount() {},
-  mounted() {
-    console.log(this.productSizesArray);
-    this.productSizes = this.productSizesArray.map((size, i) => {
-      return { title: size, active: i === 0 ? true : false };
-    });
-  }
+  mounted() {}
 };
 </script>
 

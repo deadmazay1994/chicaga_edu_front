@@ -250,7 +250,7 @@ export default {
       return r;
     },
     // Store
-    getGoods() {
+    getProducts() {
       return [
         {
           id: 1,
@@ -291,10 +291,10 @@ export default {
           Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
         composition: ["хлопок 83%", "полиэстер 17%"],
         colors: [
-          { color: "peach", title: "Персиковый" },
-          { color: "black", title: "Чёрный" },
-          { color: "white", title: "Белый" },
-          { color: "red", title: "Красный" }
+          { color: "#F4DFC5", title: "Персиковый" },
+          { color: "#000000", title: "Чёрный" },
+          { color: "#FFFFFF", title: "Белый" },
+          { color: "#FF0000", title: "Красный" }
         ],
         sizes: ["XS", "S", "M", "L", "XL"]
       };
