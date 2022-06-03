@@ -59,6 +59,7 @@ export default {
   pointer-events: none
   transition: .5s
   opacity: 1
+  position: absolute
   &--active
     background: #000a
     pointer-events: all
