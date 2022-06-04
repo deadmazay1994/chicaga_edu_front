@@ -18,6 +18,7 @@
             type="text"
             name="ФИО"
             placeholder="Соловьева Ульяна"
+            aria-label=""
             :maxlength="30"
             v-model="fullName"
           />
@@ -27,7 +28,7 @@
           <div class="product-order__label">
             Телефон:
           </div>
-          <c-input class="product-order__input" />
+          <c-input class="product-order__input" type="tel" name="phone" placeholde="" />
         </div>
 
         <div class="product-order__item">
