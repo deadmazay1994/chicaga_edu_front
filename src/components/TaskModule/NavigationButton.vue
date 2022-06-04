@@ -36,13 +36,13 @@ export default {
   border-radius: 5px
   cursor: pointer
 
-  &--active
-    color: #FFFFFF
-    background-color: #000000
-
   &--success
     background-color: #D4FFB2
 
   &--error
     background-color: #FEA795
+  
+  &--active
+    color: #FFFFFF
+    background-color: #000000
 </style>
