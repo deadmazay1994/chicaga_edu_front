@@ -15,6 +15,7 @@
       </div>
       <shop-cart />
     </div>
+    <store-modal />
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import StoreSlider from "./StoreSlider.vue";
 import PopularContent from "./Merch/PopularContent.vue";
 import MerchShowcase from "./Merch/MerchShowcase.vue";
 import ShopCart from "./Cart/ShopCart.vue";
+import StoreModal from "@/components/Lk/Store/StoreModal";
 
 export default {
   name: "MerchComponent",
@@ -30,7 +32,8 @@ export default {
     StoreSlider,
     PopularContent,
     MerchShowcase,
-    ShopCart
+    ShopCart,
+    StoreModal
   }
 };
 </script>

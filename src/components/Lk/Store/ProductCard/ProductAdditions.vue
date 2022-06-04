@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "product-additions",
   data: function() {
     return {};
   },

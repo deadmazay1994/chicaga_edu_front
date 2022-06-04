@@ -8,7 +8,7 @@
           <use xlink:href="#coin"></use>
         </svg>
 
-        <span class="total__price">1000 т.</span>
+        <span class="total__price">{{ getBasketItemsTotal }} т.</span>
       </p>
     </div>
 
@@ -22,8 +22,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "CartTotal"
+  name: "CartTotal",
+  data() {
+    return {};
+  },
+  props: {},
+  computed: {
+    ...mapGetters(["getBasketItemsTotal"])
+  },
+  methods: {},
+  mounted() {}
 };
 </script>
 
