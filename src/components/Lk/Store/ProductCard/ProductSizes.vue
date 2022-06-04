@@ -1,20 +1,14 @@
 <template>
   <div class="product-sizes vue-component">
     <div class="product-sizes__inner">
-      <button class="product-sizes__item product-sizes__item--active">
-        xs
-      </button>
-      <button class="product-sizes__item">
-        s
-      </button>
-      <button class="product-sizes__item">
-        m
-      </button>
-      <button class="product-sizes__item">
-        l
-      </button>
-      <button class="product-sizes__item">
-        xl
+      <button
+        class="product-sizes__item"
+        :class="{ 'product-sizes__item--active': size.active }"
+        v-for="(size, index) in productSizesArray"
+        :key="index"
+        @click="$emit('changeSize', index)"
+      >
+        {{ size.title }}
       </button>
     </div>
   </div>
@@ -29,9 +23,12 @@ export default {
   methods: {},
   computed: {},
   components: {},
-  props: [],
+  props: {
+    productSizesArray: Array
+  },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {}
 };
 </script>
 

@@ -2,12 +2,13 @@
   <div class="cart__item">
     <div class="cart__item-content">
       <div class="cart__item-img">
-        <img :src="image" alt="" />
+        <img :src="item.src" alt="" />
       </div>
-
       <div class="cart__item-text">
-        <h3 class="cart__item-title">{{ title }}</h3>
-        <span class="cart__item-amount">1 шт./Размер: S</span>
+        <h3 class="cart__item-title">{{ item.title }}</h3>
+        <span class="cart__item-amount"
+          >{{ item.count }} шт./Размер: {{ item.size }}</span
+        >
       </div>
     </div>
 
@@ -17,13 +18,13 @@
           <use xlink:href="#coin"></use>
         </svg>
 
-        <span>{{ price }}</span>
+        <span>{{ item.price }}</span>
       </p>
 
       <div class="cart__item-controls">
         <div class="amount__controls">
           <button @click="$emit('decrease')">-</button>
-          <span class="amount__number">{{ count }}</span>
+          <span class="amount__number">{{ item.count }}</span>
           <button @click="$emit('increase')">+</button>
         </div>
 
@@ -41,14 +42,9 @@
 export default {
   name: "CartItem",
   props: {
-    title: String,
-    image: String,
-    price: Number,
-    count: {
-      type: Number,
-      default: 1
-    }
-  }
+    item: Object
+  },
+  mounted() {}
 };
 </script>
 

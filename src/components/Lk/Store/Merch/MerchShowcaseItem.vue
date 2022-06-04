@@ -1,21 +1,17 @@
 <template>
-  <div class="merch__item hoodie__item">
+  <div class="merch__item hoodie__item" @click="openModal(item.id)">
     <div class="merch__item-price hoodie__price">
       <svg class="merch__svg">
         <use xlink:href="#coin"></use>
       </svg>
-      <span>1000 т.</span>
+      <span>{{ item.price }} т.</span>
     </div>
 
-    <img
-      class="hoodie__img"
-      src="@/assets/imgs/shop/merch/hoodie-item.png"
-      alt="hoodie"
-    />
-    <h3 class="hoodie__title">Худи Peach</h3>
+    <img class="hoodie__img" :src="item.src" :alt="`hoodie + ${index}`" />
+    <h3 class="hoodie__title">{{ item.title }}</h3>
 
     <div class="hoodie__hover-text">
-      <span>Подробнее</span>
+      <span @click="openModal(item.id)">Подробнее</span>
       <svg class="hoodie__svg">
         <use xlink:href="#arrow-down"></use>
       </svg>
@@ -24,8 +20,22 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from "vuex";
+
 export default {
-  name: "MerchShowcaseItem"
+  name: "MerchShowcaseItem",
+  props: {
+    item: Object,
+    index: Number
+  },
+  methods: {
+    ...mapMutations(["toggleShopModale"]),
+    ...mapActions(["setShopProductInfo"]),
+    openModal(id) {
+      this.setShopProductInfo(id);
+      this.toggleShopModale();
+    }
+  }
 };
 </script>
 
