@@ -13,7 +13,9 @@
     </div>
 
     <button class="cart__btn" id="order-btn">
-      <span>Оформление заказа</span>
+      <router-link to="/lk/store/merch/order" tag="span"
+        >Оформление заказа</router-link
+      >
       <svg class="cart__bin">
         <use xlink:href="#long-arrow"></use>
       </svg>

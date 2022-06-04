@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <shop-cart />
+      <shop-cart :showTotal="true" />
     </div>
     <store-modal />
   </div>

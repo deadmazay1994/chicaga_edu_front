@@ -7,7 +7,7 @@
             Оформление заказа
           </div>
         </div>
-        {{ fullName }}
+        fullName test:{{ fullName }}
 
         <div class="product-order__item">
           <div class="product-order__label">
@@ -15,8 +15,11 @@
           </div>
           <c-input
             class="product-order__input"
+            type="text"
+            name="ФИО"
+            placeholder="Соловьева Ульяна"
+            :maxlength="30"
             v-model="fullName"
-            maxlength="30"
           />
         </div>
 
