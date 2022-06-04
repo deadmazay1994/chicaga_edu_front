@@ -22,7 +22,7 @@
         @increase="increaseBasketItemsCount(index, item)"
       />
     </div>
-    <cart-total />
+    <cart-total v-if="showTotal" />
   </div>
 </template>
 
@@ -42,6 +42,9 @@ export default {
     return {
       cartItems: undefined
     };
+  },
+  props: {
+    showTotal: Boolean
   },
   methods: {
     async setBasketItems() {
@@ -73,6 +76,11 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
 
+.shop__cart
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
 .cart__header
   display: flex
   justify-content: space-between
@@ -92,7 +100,7 @@ export default {
 .cart__content
   padding-right: 5px
   flex-grow: 1
-  max-height: 400px
+  max-height: 600px
   overflow-y: auto
 
   margin-top: 10px

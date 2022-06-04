@@ -4,9 +4,10 @@
       <div class="shop__content-inner merch__content active">
         <div class="merch__content__inner">
           <store-slider />
-
           <div class="merch__block merch__popular">
-            <h2 class="shop__title shop__title--merch mb20">Популярные товары</h2>
+            <h2 class="shop__title shop__title--merch mb20">
+              Популярные товары
+            </h2>
             <popular-content />
             <merch-showcase />
           </div>
@@ -24,7 +25,7 @@ import MerchShowcase from "./Merch/MerchShowcase.vue";
 import ShopCart from "./Cart/ShopCart.vue";
 
 export default {
-  name: "StoreComponent",
+  name: "MerchComponent",
   components: {
     StoreSlider,
     PopularContent,

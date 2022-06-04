@@ -21,7 +21,9 @@ import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
-import StoreComponent from "@/components/Lk/Store/StoreComponent";
+import StoreComponent from "@/components/Lk/Store";
+import MerchComponent from "@/components/Lk/Store/MerchComponent";
+import ProductOrder from "@/components/Lk/Store/OrderComponent";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -245,7 +247,26 @@ const routes = [
       },
       {
         path: "store",
-        component: StoreComponent
+        component: StoreComponent,
+        meta: {
+          breadcrumb: `Магазин`
+        },
+        children: [
+          {
+            path: "merch",
+            component: MerchComponent,
+            meta: {
+              breadcrumb: "Мерч"
+            }
+          },
+          {
+            path: "merch/order",
+            component: ProductOrder,
+            meta: {
+              breadcrumb: "Оформление заказа"
+            }
+          }
+        ]
       }
     ]
   },

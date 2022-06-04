@@ -6,6 +6,7 @@
       name="ФИО"
       placeholder="Соловьева Ульяна"
       aria-label="Поле для ввода ваших ФИО"
+      maxlength="50"
       required
     />
   </div>

@@ -7,12 +7,17 @@
             Оформление заказа
           </div>
         </div>
+        {{ fullName }}
 
         <div class="product-order__item">
           <div class="product-order__label">
             Имя:
           </div>
-          <c-input class="product-order__input" />
+          <c-input
+            class="product-order__input"
+            v-model="fullName"
+            maxlength="30"
+          />
         </div>
 
         <div class="product-order__item">
@@ -150,7 +155,13 @@
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      fullName: "",
+      phone: "",
+      email: "",
+      comment: "",
+      promoCode: undefined
+    };
   },
   methods: {},
   computed: {},
@@ -166,8 +177,8 @@ export default {
 
 .product-order {
   max-width: 610px;
-  margin-right: auto;
-  margin-left: auto;
+  // margin-right: auto;
+  // margin-left: auto;
 
   p {
     margin-top: 0;
