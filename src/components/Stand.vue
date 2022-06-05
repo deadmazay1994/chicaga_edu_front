@@ -1,26 +1,24 @@
 <template>
-  <div class='stand vue-component'>
-    <div>
-      <c-btn>gdfgd</c-btn>
-      <c-input />
-      <c-textarea />
-    </div>
+  <div class="stand vue-component">
+    <Evaluation />
   </div>
 </template>
 
 <script>
+import Evaluation from "@/components/LessonComponents/Evaluation";
+
 export default {
-  name: 'stand',
+  name: "stand",
   data: function() {
-    return {}
+    return {};
   },
   methods: {},
   computed: {},
-  components: {},
-  props: [],
-  mixins: {},
+  components: {
+    Evaluation
+  },
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass"></style>
