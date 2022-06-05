@@ -4,7 +4,7 @@
     <div class="task__header">
       <div class="task__header__item">
         <div class="task__header__inner">
-          <animated-cool-svg ref="animatedCool" style="position: absolute;" />
+          <animated-cool-svg ref="animatedCool" />
           <span class="points">{{ points.smile }}</span>
         </div>
 
@@ -277,7 +277,19 @@ export default {
   overflow: hidden;
 }
 
+.edu-panel .animated-svg-wrapper,
+.edu-panel .animated-cool-svg,
+.edu-panel .animated-star-svg,
+.edu-panel .animated-brain-svg,
+.edu-panel .animated-lamp-svg {
+  width: 30px;
+  height: 30px;
+}
+
 .points {
-  margin-left: 35px;
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
 }
 </style>

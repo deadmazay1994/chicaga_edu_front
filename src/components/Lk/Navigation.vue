@@ -25,6 +25,8 @@ import GroupIcon from "@/components/Icons/GroupIcon";
 import BookIcon from "@/components/Icons/BookIcon";
 import SettingsIcon from "@/components/Icons/SettingsIcon";
 import QuestionIcon from "@/components/Icons/QuestionIcon";
+import WebinarIconSvg from "../Icons/WebinarIconSvg.vue";
+import TimetableIconSvg from "../Icons/TimetableIconSvg.vue";
 
 export default {
   data() {
@@ -48,14 +50,26 @@ export default {
           name: "Вебинары",
           url: "/lk/webinars",
           src: require("@/assets/svg/group.svg"),
-          icon: "GroupIcon",
+          icon: "WebinarIconSvg",
           showCondition: () => true
+        },
+        {
+          name: "Создать комнату",
+          url: "/conference/",
+          params: () => {
+            return this.generateRoomId;
+          },
+          src: require("@/assets/svg/question.svg"),
+          icon: "GroupIcon",
+          showCondition: () => {
+            return this.user.role === "teacher";
+          }
         },
         {
           name: "Уроки",
           url: "/lk/my-groups",
           src: require("@/assets/svg/book.svg"),
-          icon: "BookIcon",
+          icon: "TimetableIconSvg",
           showCondition: () => true
         },
         {
@@ -77,18 +91,6 @@ export default {
           src: require("@/assets/svg/question.svg"),
           icon: "QuestionIcon",
           showCondition: () => true
-        },
-        {
-          name: "Создать комнату",
-          url: "/conference/",
-          params: () => {
-            return this.generateRoomId;
-          },
-          src: require("@/assets/svg/question.svg"),
-          icon: "QuestionIcon",
-          showCondition: () => {
-            return this.user.role === "teacher";
-          }
         }
       ],
       mobileDetected: false
@@ -101,7 +103,9 @@ export default {
     GroupIcon,
     BookIcon,
     SettingsIcon,
-    QuestionIcon
+    QuestionIcon,
+    WebinarIconSvg,
+    TimetableIconSvg
   },
   computed: {
     ...mapGetters(["user", "draver"]),
