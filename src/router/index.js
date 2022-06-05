@@ -246,7 +246,10 @@ const routes = [
       },
       {
         path: "store",
-        component: StoreComponent
+        component: StoreComponent,
+        meta: {
+          breadcrumb: "Магазин"
+        }
       },
       {
         path: "shop-more",
