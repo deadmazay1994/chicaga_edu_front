@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Lesson from "@/components/Lesson";
+import LessonRecord from "@/components/LessonRecord";
 import Homework from "@/components/Homework";
 import LessonPreview from "@/components/LessonPreview";
 
@@ -21,11 +22,9 @@ import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
-import StoreComponent from "@/components/Lk/Store/StoreComponent";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
-import ShopMore from "@/components/Lk/Store/ShopMore";
 
 import Page404 from "Base/404";
 
@@ -45,6 +44,19 @@ const routes = [
     redirect: "/lk/my-coursers"
   },
   {
+    path: "/lesson/:id/",
+    name: "lesson_record",
+    component: LessonRecord,
+    meta: {
+      requiresAuth: true,
+      breadcrumb: async route => {
+        let r = await api.methods.getFullLesson(route.params.id);
+        return r.name;
+      },
+      layout: "main-layout"
+    }
+  },
+  {
     path: "/lesson/:id/:groupKey/:webinarMode?",
     name: "lesson_teacher",
     component: Lesson,
@@ -56,19 +68,19 @@ const routes = [
       }
     }
   },
-  {
-    path: "/lesson/:id/",
-    name: "lesson",
-    component: Lesson,
-    meta: {
-      requiresAuth: true,
-      checkAccess: true,
-      breadcrumb: async route => {
-        let r = await api.methods.getFullLesson(route.params.id);
-        return r.name;
-      }
-    }
-  },
+  // {
+  //   path: "/lesson/:id/",
+  //   name: "lesson",
+  //   component: Lesson,
+  //   meta: {
+  //     requiresAuth: true,
+  //     checkAccess: true,
+  //     breadcrumb: async route => {
+  //       let r = await api.methods.getFullLesson(route.params.id);
+  //       return r.name;
+  //     }
+  //   }
+  // },
   {
     path: "/homework/:courseId/:id",
     name: "homework_teacher",
@@ -218,7 +230,7 @@ const routes = [
         path: "my-groups",
         component: Group,
         meta: {
-          breadcrumb: "Мои группы"
+          breadcrumb: "Расписание"
         }
       },
       {
@@ -242,19 +254,10 @@ const routes = [
       {
         path: "webinar-upcoming/:id/:code",
         name: "upcoming-webinar",
-        component: UpcomingLesson
-      },
-      {
-        path: "store",
-        component: StoreComponent,
+        component: UpcomingLesson,
         meta: {
-          breadcrumb: "Магазин"
+          breadcrumb: "Комната ожидания"
         }
-      },
-      {
-        path: "shop-more",
-        name: "shop-more",
-        component: ShopMore
       }
     ]
   },

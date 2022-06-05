@@ -1,5 +1,6 @@
 // const API_URL = "https://eng-test.avead.dev/api/";
 const API_URL = "https://edu.chicaga.ru/api/";
+import store from "@/store"
 
 import Axios from "axios";
 
@@ -132,9 +133,10 @@ export default {
     checkAccess(id) {
       // Мок
       console.log("lessonId checkAccess id:", id);
+      console.log(this, id)
       if (!id) return true;
       else {
-        this.$store.commit("pushShuckbar", {
+        store.commit("pushShuckbar", {
           success: false,
           val: "access denied"
         });
@@ -427,7 +429,7 @@ export default {
       if ("success" in r) {
         return r.data;
       } else {
-        this.$store.commit("pushShuckbar", {
+        store.commit("pushShuckbar", {
           success: false,
           val: "Не получилось получить вопросы и ответы. Попробуйте позже"
         });

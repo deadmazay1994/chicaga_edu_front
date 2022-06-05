@@ -58,8 +58,11 @@ export default {
   height: 100%
   position: absolute
   pointer-events: none
-  transition: .5s
-  opacity: 0
+  transition: .2s
+  opacity: 1
+  & > *
+    opacity: 0
+  position: absolute
   &--active
     background: #000a
     pointer-events: all

@@ -258,8 +258,8 @@ export default {
 <style lang="sass" scoped>
 .video-player-wrap
   height: 100%
-  position: relative
   background: #000
+  position: relative
   .video-slot
     height: 100%
   .vidFrame

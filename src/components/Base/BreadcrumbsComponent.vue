@@ -46,6 +46,7 @@ export default {
             path: currRoute.path
           });
       }
+      console.log(this.breadcrumbList)
     }
   },
   watch: {
