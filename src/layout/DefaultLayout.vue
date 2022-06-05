@@ -1130,20 +1130,11 @@ export default {
     &__title
       color: #000 !important
 
-  .controls__item--header
-    display: flex !important
-    align-items: center
-
   .header__svg .notifications__path
     fill: #808080 !important
 
   .header__additional-menu
     display: block !important
-
-  .controls__item
-    margin-right: 10px !important
-    &:last-child
-      margin-right: 0 !important
 
   .header__additional-menu--right
     margin-right: 10px !important
