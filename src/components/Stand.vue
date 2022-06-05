@@ -17,8 +17,6 @@ export default {
   components: {
     Evaluation
   },
-  props: [],
-  mixins: {},
   beforeMount() {}
 };
 </script>
