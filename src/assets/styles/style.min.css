@@ -34,35 +34,6 @@ button {
   color: #0d0d0d
 }
 
-.page {
-  background: url(../imgs/red-bg.jpg) no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  overflow: hidden;
-  padding: 20px 20px 20px 10px
-}
-
-@media (max-width:1200px) {
-  .page {
-    padding: 20px 10px
-  }
-}
-
-@media (max-width:1000px) {
-  .page {
-    padding: 0
-  }
-}
-
-@media (max-width:1300px) {
-  .content {
-    padding: 10px 40px 30px
-  }
-}
-
 @media (max-width:1400px) {
   .content--lessons {
     padding: 10px 30px 30px
@@ -72,31 +43,6 @@ button {
 @media (max-width:1300px) {
   .content--lessons {
     width: 100%
-  }
-}
-
-@media (max-width:1200px) {
-  .content {
-    padding: 10px 20px 30px
-  }
-}
-
-@media (max-width:1000px) {
-  .content {
-    width: 100%;
-    border-radius: 0
-  }
-}
-
-@media (max-width:800px) {
-  .content {
-    padding: 10px
-  }
-}
-
-@media (max-width:600px) {
-  .content {
-    padding: 0
   }
 }
 
@@ -312,25 +258,21 @@ button {
 }
 
 .header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  position: relative
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 
 .header:after {
   content: "";
-  width: 100%;
-  height: 2.5px;
   position: absolute;
-  bottom: -10px;
-  background: hsla(0, 0%, 50%, .1)
-}
-
-@media (max-width:600px) {
-  .header:after {
-    display: none
-  }
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(128, 128, 128, 0.2)
 }
 
 @media (max-width:600px) {
@@ -620,24 +562,6 @@ button {
   }
 }
 
-.lessons__content {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 60px
-}
-
-@media (max-width:1000px) {
-  .lessons__content {
-    flex-direction: column-reverse
-  }
-}
-
-@media (max-width:600px) {
-  .lessons__content {
-    margin-top: 15px
-  }
-}
-
 .lessons__talk {
   display: flex;
   justify-content: space-between;
@@ -750,22 +674,22 @@ button {
   font-size: 12px
 }
 
-.lessons__chat {
+/* .lessons__chat {
   flex-basis: 47%
-}
+} */
 
-@media (max-width:1000px) {
+/* @media (max-width:1000px) {
   .lessons__chat {
     width: 80%;
     margin: 0 auto
   }
-}
+} */
 
-@media (max-width:600px) {
+/* @media (max-width:600px) {
   .lessons__chat {
     display: none
   }
-}
+} */
 
 .lessons__messages {
   color: #000;
