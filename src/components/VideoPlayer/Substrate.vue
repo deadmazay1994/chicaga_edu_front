@@ -70,6 +70,7 @@ export default {
   opacity: 1
   & > *
     opacity: 0
+  position: absolute
   &--active
     background: #0005
     pointer-events: all
