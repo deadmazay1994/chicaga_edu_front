@@ -1,6 +1,10 @@
 <template>
   <div
     class="star-icon vue-component"
+    :class="{
+      'star-icon--active': active,
+      'star-icon--hover': hover
+    }"
     @click="$emit('click')"
     @mouseenter="$emit('mouseenter')"
     @mouseleave="$emit('mouseleave')"
@@ -41,7 +45,10 @@ export default {
   data: function() {
     return {};
   },
-  props: [],
+  props: [
+    'active',
+    'hover'
+  ],
   computed: {},
   methods: {}
 };
@@ -50,4 +57,11 @@ export default {
 <style scoped="scoped" lang="sass">
 .star-icon
   cursor: pointer
+  &--active
+    path
+      fill: url(#starGradient)
+  &--hover
+    svg
+      path
+        fill: #ffa44f
 </style>

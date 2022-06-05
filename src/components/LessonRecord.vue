@@ -1,5 +1,5 @@
 <template>
-  <div class="lessons-pg">
+  <div class="lessons-pg lessons">
     <div
       class="lessons__chat"
       style="flex-baisis: auto;     overflow-x: hidden;"
@@ -14,7 +14,7 @@
           ></video>
         </div>
       </video-player>
-      <evaluation class="evaluation" />
+      <evaluation class="lessons__evaluation" />
     </div>
     <div class="lessons__task" style="width: 50%; margin-left: 0">
       <edu-panel class="lesson__edu-panel lesson__item" />
@@ -132,8 +132,8 @@ export default {
   &__chat
     overflow: auto
     max-height: 100%
-    .evaluation
-      margin-top: 40px
+  &__evaluation
+    margin-top: 40px
 .lesson
   &__container
     padding: 0 20px

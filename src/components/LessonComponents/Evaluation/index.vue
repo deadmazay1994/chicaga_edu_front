@@ -5,11 +5,9 @@
     </div>
     <div class="evaluation-component__points">
       <StarIcon
-        class="star"
-        :class="[
-          { 'star--active': star.active },
-          { 'star--hover': star.hover }
-        ]"
+        class="evaluation-component__star"
+        :active="star.active"
+        :hover="star.hover"
         v-for="(star, index) in stars"
         :key="index"
         @mouseenter="hoverStars(index)"
@@ -70,22 +68,10 @@ export default {
   &__points
     margin-top: 8px
     display: flex
-    .star
-      padding: 0 8px
-      &:first-child
-        padding-left: 0px
-      &:last-child
-        padding-right: 0px
-</style>
-
-<style lang="sass">
-.evaluation-component
-  .star
-    &--hover
-      svg
-        path
-          fill: #ffa44f
-    &--active
-      path
-          fill: url(#starGradient)
+  &__star
+    padding: 0 8px
+    &:first-child
+      padding-left: 0px
+    &:last-child
+      padding-right: 0px
 </style>
