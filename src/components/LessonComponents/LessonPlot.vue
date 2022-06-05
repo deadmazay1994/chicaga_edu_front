@@ -1,6 +1,6 @@
 <template>
   <div class="lesson-plot">
-    <span><slot></slot></span>
+    <span>coming soon</span>
   </div>
 </template>
 

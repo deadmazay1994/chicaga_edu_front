@@ -24,17 +24,9 @@ export default {
     },
     mousemoveEventInit() {
       if (!this.playerElement) return;
-      let fireFunction = () => {
+      this.playerElement.addEventListener("mousemove", () => {
         this.active = true;
         this.updateDisabledTimeout();
-      }
-      let clickEvent
-      this.playerElement.addEventListener("mousemove", fireFunction);
-      this.playerElement.addEventListener("click", e => {
-        clickEvent = e
-        setTimeout(() => {
-          if (clickEvent.detail === 1) fireFunction()
-        }, 100)
       });
     }
   },
@@ -72,9 +64,7 @@ export default {
     opacity: 0
   position: absolute
   &--active
-    background: #0005
+    background: #000a
     pointer-events: all
     opacity: 1
-    & > *
-      opacity: 1
 </style>

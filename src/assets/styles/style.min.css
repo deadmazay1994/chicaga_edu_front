@@ -34,35 +34,6 @@ button {
   color: #0d0d0d
 }
 
-.page {
-  background: url(../imgs/red-bg.jpg) no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  overflow: hidden;
-  padding: 20px 20px 20px 10px
-}
-
-@media (max-width:1200px) {
-  .page {
-    padding: 20px 10px
-  }
-}
-
-@media (max-width:1000px) {
-  .page {
-    padding: 0
-  }
-}
-
-@media (max-width:1300px) {
-  .content {
-    padding: 10px 40px 30px
-  }
-}
-
 @media (max-width:1400px) {
   .content--lessons {
     padding: 10px 30px 30px
@@ -72,31 +43,6 @@ button {
 @media (max-width:1300px) {
   .content--lessons {
     width: 100%
-  }
-}
-
-@media (max-width:1200px) {
-  .content {
-    padding: 10px 20px 30px
-  }
-}
-
-@media (max-width:1000px) {
-  .content {
-    width: 100%;
-    border-radius: 0
-  }
-}
-
-@media (max-width:800px) {
-  .content {
-    padding: 10px
-  }
-}
-
-@media (max-width:600px) {
-  .content {
-    padding: 0
   }
 }
 
@@ -311,187 +257,6 @@ button {
   cursor: pointer
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative
-}
-
-.header:after {
-  content: "";
-  width: 100%;
-  height: 2.5px;
-  position: absolute;
-  bottom: -10px;
-  background: hsla(0, 0%, 50%, .1)
-}
-
-@media (max-width:600px) {
-  .header:after {
-    display: none
-  }
-}
-
-@media (max-width:600px) {
-  .header {
-    background: linear-gradient(237.57deg, #f9e1da -366.33%, red -139.4%, #ff5454 -133.33%);
-    padding: 18px 25px
-  }
-}
-
-.header--clan {
-  margin-bottom: 20px
-}
-
-@media (max-width:700px) {
-  .header--clan:after {
-    display: none
-  }
-}
-
-@media (max-width:600px) {
-  .header--clan {
-    margin-bottom: 0
-  }
-}
-
-.header__title-block {
-  display: flex;
-  align-items: center
-}
-
-.header__burger {
-  width: 23px;
-  height: 23px;
-  margin-right: 20px;
-  display: none;
-  cursor: pointer
-}
-
-@media (max-width:1000px) {
-  .header__burger {
-    display: block
-  }
-}
-
-@media (max-width:1300px) {
-  .header__burger--lessons {
-    display: block
-  }
-}
-
-.header__burger .burger__path {
-  fill: gray
-}
-
-@media (max-width:600px) {
-  .header__burger .burger__path {
-    fill: #fff
-  }
-}
-
-.header__title {
-  color: hsla(0, 0%, 50%, .6);
-  font-size: 14px
-}
-
-@media (max-width:600px) {
-  .header__title {
-    color: #fff
-  }
-}
-
-.coin__text {
-  color: gray;
-  font-size: 14px;
-  margin-left: 5px
-}
-
-.coin__text--cart {
-  color: #fff;
-  font-size: 16px
-}
-
-.coin__text--menu {
-  color: #0d0d0d;
-  font-size: 12px
-}
-
-.header__controls {
-  display: flex;
-  align-items: center
-}
-
-.header__svg {
-  width: 25px;
-  height: 25px
-}
-
-.header__svg--clickable {
-  cursor: pointer
-}
-
-@media (max-width:600px) {
-  .header__svg .choose-theme__path {
-    fill: #fff;
-    fill-opacity: 1
-  }
-}
-
-@media (max-width:600px) {
-  .header__svg .notifications__path {
-    fill: #fff
-  }
-}
-
-.header__arrow-down {
-  fill: gray
-}
-
-.header__avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  overflow: hidden
-}
-
-@media (max-width:600px) {
-  .header__avatar {
-    display: none
-  }
-}
-
-.header__avatar--menu {
-  margin-right: 15px
-}
-
-@media (max-width:600px) {
-  .header__avatar--menu {
-    display: block
-  }
-}
-
-.header__additional-menu {
-  margin-left: 20px;
-  position: relative
-}
-
-@media (max-width:600px) {
-  .header__additional-menu {
-    display: none
-  }
-}
-
-.header__additional-menu--right {
-  margin: 0 20px 0 0
-}
-
-@media (max-width:600px) {
-  .header__additional-menu--right {
-    display: block
-  }
-}
 
 .profile__menu {
   background: #fff;
@@ -547,18 +312,6 @@ button {
 .avatar__img {
   width: 100%;
   height: 100%
-}
-
-.controls__item {
-  margin-right: 25px;
-  display: flex;
-  align-items: center
-}
-
-@media (max-width:600px) {
-  .controls__item--header {
-    display: none
-  }
 }
 
 .color-inner {
@@ -617,24 +370,6 @@ button {
 @media (max-width:600px) {
   .banner {
     display: block
-  }
-}
-
-.lessons__content {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 60px
-}
-
-@media (max-width:1000px) {
-  .lessons__content {
-    flex-direction: column-reverse
-  }
-}
-
-@media (max-width:600px) {
-  .lessons__content {
-    margin-top: 15px
   }
 }
 
@@ -750,22 +485,22 @@ button {
   font-size: 12px
 }
 
-.lessons__chat {
+/* .lessons__chat {
   flex-basis: 47%
-}
+} */
 
-@media (max-width:1000px) {
+/* @media (max-width:1000px) {
   .lessons__chat {
     width: 80%;
     margin: 0 auto
   }
-}
+} */
 
-@media (max-width:600px) {
+/* @media (max-width:600px) {
   .lessons__chat {
     display: none
   }
-}
+} */
 
 .lessons__messages {
   color: #000;
@@ -1518,7 +1253,7 @@ button {
   color: #fff;
   font-size: 12px;
   display: block;
-  background: rgba(255, 0, 0, .4);
+  /* background: rgba(255, 0, 0, .4); */
   border-radius: 10px;
   padding: 10px 35px;
   margin: 35px auto 0;
@@ -3178,10 +2913,6 @@ button {
   .cart-sm__btn {
     font-size: 15px
   }
-}
-
-.cart-sm__btn .controls__item {
-  margin: 0
 }
 
 .cart-sm__p {

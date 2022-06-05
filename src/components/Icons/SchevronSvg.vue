@@ -10,7 +10,7 @@
     >
       <path
         d="M5.78947 17L11 17L5.21053 8.5L11 0L5.78948 -4.55519e-07L7.43094e-07 8.5L5.78947 17Z"
-        :fill="'#' + fill"
+        fill="#323232"
       />
     </svg>
     <svg
@@ -23,7 +23,7 @@
     >
       <path
         d="M5.21053 0H0L5.78947 8.5L0 17H5.21053L11 8.5L5.21053 0Z"
-        :fill="'#' + fill"
+        fill="#323232"
       />
     </svg>
   </div>
@@ -33,11 +33,7 @@
 export default {
   name: "SchevronSvg",
   props: {
-    on: Boolean,
-    fill: {
-      type: String,
-      default: "323232"
-    }
+    on: Boolean
   },
   methods: {
     clickElem() {

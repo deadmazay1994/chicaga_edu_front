@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="task__content">
+    <div class="task__content" style="height: 100%">
       <div class="task__menu">
         <v-tabs active-class="active" hide-slider v-model="tab">
           <v-tab class="task__menu__item">
@@ -39,29 +39,26 @@
       </div>
       <v-tabs-items v-model="tab" ref="tabsItem">
         <v-tab-item class="edu-panel__tasks">
-          <tasks
-            :tasks="lessonTasks"
-            :unique_id="$route.params.id"
-            class="edu-panel__tasks-component"
-          />
+          <tasks class="edu-panel__tasks-component" />
         </v-tab-item>
         <v-tab-item>
           <!-- здесь будет новый компонент -->
-          <lesson-plot>Coming soon</lesson-plot>
+          <lesson-plot />
         </v-tab-item>
         <v-tab-item>
-          <lesson-plot
-            >There are no additional materials for this lesson</lesson-plot
-          >
+          <attachs
+            v-for="(material, index) in materials"
+            :key="index"
+            :input="material"
+            class="mx-5"
+          />
         </v-tab-item>
         <v-tab-item class="edu-panel__tasks">
-          <!-- <tasks
+          <tasks
             class="edu-panel__tasks-component"
             :isHomework="true"
             :noAddAtempt="true"
-          /> -->
-
-          <lesson-plot>There is no homework for this lesson</lesson-plot>
+          />
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -70,8 +67,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Tasks from "@/components/TaskModule";
-// import Attachs from "@/components/LessonComponents/Tasks/Attachs";
+import Tasks from "@/components/LessonComponents/Tasks/Tasks";
+import Attachs from "@/components/LessonComponents/Tasks/Attachs";
 import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
@@ -124,14 +121,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      "user",
-      "materials",
-      "socket",
-      "getUserPoints",
-      "points",
-      "lessonTasks"
-    ]),
+    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
     taskTabTitle() {
       return "Задания";
     },
@@ -141,7 +131,7 @@ export default {
   },
   components: {
     Tasks,
-    // Attachs,
+    Attachs,
     TeacherPanel,
     LessonPlot,
     AnimatedCoolSvg,
@@ -151,9 +141,7 @@ export default {
   },
   props: [],
   mixins: {},
-  async beforeMount() {
-    await this.$store.dispatch("setLesson", this.$route.params.id);
-  },
+  beforeMount() {},
   watch: {
     points(newValue) {
       gsap.to(this.$data, { duration: 0.5, points: newValue });
@@ -242,6 +230,7 @@ export default {
 .v-tab.active {
   border-bottom: 2px solid red !important;
   padding-bottom: 5px !important;
+  transform: translateY(2px) !important;
 }
 
 .v-slide-group__content {
@@ -259,6 +248,9 @@ export default {
   display: none !important;
 }
 
+.task__menu {
+  padding: 25px 10px 20px 10px !important;
+}
 .task__menu__item:before {
   content: "";
   position: absolute;
@@ -299,78 +291,5 @@ export default {
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-}
-
-/* new styles */
-
-.edu-panel .task__content {
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-}
-
-.edu-panel .task__menu {
-  min-height: 64px;
-  padding: 0;
-  margin-bottom: 15px;
-}
-.edu-panel .task__menu * {
-  min-height: 100%;
-}
-.lessons-pg .edu-panel .v-slide-group__content {
-  align-items: center;
-  justify-content: stretch;
-}
-
-.lessons-pg .edu-panel .task__menu__item {
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 25%;
-  height: 100%;
-  margin-right: 0;
-  padding: 5px 10px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: normal;
-  text-align: center;
-  white-space: normal !important;
-}
-
-.lessons-pg .edu-panel .task__menu__item.active {
-  border-bottom: none;
-  transform: none;
-  padding-bottom: 5px;
-  color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ff6440 0%, #cc2d23 100%);
-  box-shadow: inset 0px 0px 10px rgba(169, 47, 33, 0.5);
-}
-
-.lessons-pg .edu-panel .v-tab.active {
-  border-bottom: none !important;
-  padding-bottom: 5px !important;
-}
-
-.task__menu {
-  flex-shrink: 0;
-}
-.lessons-pg .lessons__task .lesson__item .task__content {
-  height: 100%;
-}
-.task-module.vue-component.edu-panel__tasks-component {
-  height: 100%;
-}
-.task-module.vue-component.edu-panel__tasks-component .task-group {
-  height: calc(100% - 88px);
-  overflow: auto;
-}
-@media (min-width: 1360px) {
-  .lessons-pg
-    .lessons__task
-    .lesson__item
-    .task__content
-    .v-window.v-tabs-items {
-    height: calc(100% - 85px);
-  }
 }
 </style>
