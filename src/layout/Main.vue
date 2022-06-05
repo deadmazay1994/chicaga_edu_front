@@ -20,10 +20,10 @@
       />
       <c-content class="main__content">
         <template v-slot:header>
-          <header-app />
+          <header-app class="main__header" />
         </template>
         <template v-slot:default>
-          <router-view/>
+          <router-view class="main__body"/>
         </template>
       </c-content>
     <calendar-modal />
@@ -101,4 +101,11 @@ export default {
     width: calc(100vw - 150px)
     height: calc(100vh - 40px) 
     margin: 20px 20px 20px auto
+    overflow: auto
+    display: flex
+    flex-direction: column
+  &__header
+    margin-bottom: 25px
+  &__body
+    margin: 0 20px
 </style>

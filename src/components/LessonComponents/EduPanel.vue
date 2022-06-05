@@ -1,29 +1,5 @@
 <template>
   <div class="edu-panel lessons__task vue-component" style="margin-left: 0">
-    <teacher-panel></teacher-panel>
-    <div class="task__header">
-      <div class="task__header__item">
-        <div class="task__header__inner">
-          <animated-cool-svg ref="animatedCool" />
-          <span class="points">{{ points.smile }}</span>
-        </div>
-
-        <div class="task__header__inner">
-          <animated-star-svg ref="animatedStar" />
-          <span class="points">{{ points.star }}</span>
-        </div>
-
-        <div class="task__header__inner">
-          <animated-brain-svg ref="animatedBrain" />
-          <span class="points">{{ points.brain }}</span>
-        </div>
-
-        <div class="task__header__inner">
-          <animated-lamp-svg ref="animatedLamp" />
-          <span class="points">{{ points.lamp }}</span>
-        </div>
-      </div>
-    </div>
     <div class="task__content" style="height: 100%">
       <div class="task__menu">
         <v-tabs active-class="active" hide-slider v-model="tab">
@@ -69,16 +45,9 @@
 import { mapGetters, mapActions } from "vuex";
 import Tasks from "@/components/LessonComponents/Tasks/Tasks";
 import Attachs from "@/components/LessonComponents/Tasks/Attachs";
-import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
-import AnimatedCoolSvg from "@/components/Icons/AnimatedCoolSvg";
-import AnimatedStarSvg from "@/components/Icons/AnimatedStarSvg";
-import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
-import AnimatedLampSvg from "@/components/Icons/AnimatedLampSvg";
-
 import api from "@/mixins/api";
-import gsap from "gsap";
 
 export default {
   name: "edu-panel",
@@ -111,14 +80,6 @@ export default {
         }
       });
     },
-    // для тестирования анимации
-    test() {
-      this.$refs.animatedCool.animate();
-      this.$refs.animatedStar.animate();
-      this.$refs.animatedBrain.animate();
-      this.$refs.animatedLamp.animate();
-      this.$refs.animatedCoin.animate();
-    }
   },
   computed: {
     ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
@@ -132,49 +93,11 @@ export default {
   components: {
     Tasks,
     Attachs,
-    TeacherPanel,
-    LessonPlot,
-    AnimatedCoolSvg,
-    AnimatedStarSvg,
-    AnimatedBrainSvg,
-    AnimatedLampSvg
+    LessonPlot
   },
   props: [],
   mixins: {},
   beforeMount() {},
-  watch: {
-    points(newValue) {
-      gsap.to(this.$data, { duration: 0.5, points: newValue });
-      // this.clickCool();
-    },
-    // smile(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // star(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // brain(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // lamp(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // coins(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // }
-    "points.smile": function() {
-      this.$refs.animatedCool.animate();
-    },
-    "points.star": function() {
-      this.$refs.animatedStar.animate();
-    },
-    "points.brain": function() {
-      this.$refs.animatedBrain.animate();
-    },
-    "points.lamp": function() {
-      this.$refs.animatedLamp.animate();
-    }
-  },
   async mounted() {
     await this.setUserPoints();
     this.getLesson().then(res => {

@@ -26,5 +26,5 @@ export default {
   background: #FFFFFFcc
   backdrop-filter: blur(7px)
   border-radius: 30px
-  padding: 14px 24px
+  padding: 14px 0
 </style>
