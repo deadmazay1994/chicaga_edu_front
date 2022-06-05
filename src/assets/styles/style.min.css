@@ -1065,7 +1065,12 @@ button {
 .task__header {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
+  align-self: flex-end;
+  padding: 9px 46px;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 10px #F3F3F3;
+  border-radius: 20px;
 }
 
 
@@ -1088,8 +1093,11 @@ button {
 .task__header__inner {
   display: flex;
   align-items: center;
-  margin-right: 25px;
   font-size: 14px
+}
+
+.task__header__inner:not(:last-child) {
+  margin-right: 40px;
 }
 
 .task__header__inner:after {
