@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="video-player-wrap"
-    tabindex="0"
-    ref="videoWrapper"
-    v-on:keyup.right="rewindToLeftOrRight(true)"
-    v-on:keyup.left="rewindToLeftOrRight(false)"
-  >
+  <div class="video-player-wrap">
     <div class="video-slot">
       <figure
         class="vidFrame"
@@ -14,60 +8,12 @@
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
-        <div class="mobile-rewind-block">
-          <div
-            class="mobile-rewind-block__elem"
-            @click="doubleClick(false)"
-          ></div>
-          <div
-            class="mobile-rewind-block__elem"
-            @click="doubleClick(true)"
-          ></div>
-        </div>
-        <div class="show-rewind-svgs">
-          <div class="show-rewind-svgs__elem">
-            <transition name="fade">
-              <RewindSvgVue :left="true" v-if="hasRewindLeft" />
-            </transition>
-          </div>
-          <div class="show-rewind-svgs__elem">
-            <transition name="fade">
-              <RewindSvgVue :right="true" v-if="hasRewindRight" />
-            </transition>
-          </div>
-        </div>
-        <!-- <transition name="fade" class="play-button-transition" tag="div">
-          <PlayVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
-          
-        </transition>
-        <transition name="fade" class="play-button-transition" tag="div">
-          <PauseVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
-        </transition> -->
       </figure>
     </div>
     <substrate :player-element="$el" style="z-index: 2" :duration="1000">
-      <div class="mobile-rewind-block">
-        <div
-          class="mobile-rewind-block__elem"
-          @click="
-            $event => {
-              doubleClick(false);
-              playOrPauseVideo($event);
-            }
-          "
-        ></div>
-        <div
-          class="mobile-rewind-block__elem"
-          @click="
-            $event => {
-              doubleClick(true);
-              playOrPauseVideo($event);
-            }
-          "
-        ></div>
-      </div>
-      <figcaption @click.stop class="vidBar" v-if="active">
+      <figcaption class="vidBar" v-if="active">
         <div class="top">
+          <!--  ПРОГРЕССБАР ДЛЯ ВИДЕО -->
           <Progress
             @rewindTo="rewindTo"
             ref="progress"
@@ -107,18 +53,10 @@
             <div class="left-side__current-time">
               {{ currVideoTime }}
               <template v-if="formattedDuration">
-                / {{ formattedDuration }}</template
-              >
+               / {{ formattedDuration }}</template>
             </div>
           </div>
-          <div class="right-side" style="z-index: 100">
-            <div class="right-side__settings">
-              <SettingsMenuVue
-                @changeSpeed="changeVideoSpeed"
-                v-if="settingsMenu"
-              />
-              <gear @click="settingsMenu = !settingsMenu" />
-            </div>
+          <div class="right-side">
             <chat-svg
               v-if="showChatButton"
               :chatOff="chatState"
@@ -126,16 +64,11 @@
               :fullScreenMode="fullscreenOn"
               @clickElem="clickChat"
             />
-            <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
+            <expand-svg :expanded="fullscreenOn" @clickElem="clickExpand" />
           </div>
         </div>
       </figcaption>
     </substrate>
-    <timecodes
-      class="video-player-wrap__timecodes"
-      :timecodesArray="timestamps"
-      @clickTimecode="clickTimecode"
-    />
   </div>
 </template>
 
@@ -144,16 +77,10 @@ import PlaySvg from "@/components/Icons/PlaySvg";
 import SoundSvg from "@/components/Icons/SoundSvg";
 import ChatSvg from "@/components/Icons/ChatSvg";
 import ExpandSvg from "@/components/Icons/ExpandSvg";
-// import Chat from "@/components/Chat/Chat";
+import Chat from "@/components/Chat/Chat";
 import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
-import RewindSvgVue from "../Icons/RewindSvg.vue";
-import Gear from "../Icons/Gear.vue";
-import SettingsMenuVue from "./SettingsMenu.vue";
-// import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
-// import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
-import Timecodes from "./Timecodes.vue";
 
 import api from "@/mixins/api";
 
@@ -164,19 +91,12 @@ export default {
     SoundSvg,
     ChatSvg,
     ExpandSvg,
-    // Chat,
+    Chat,
     Progress,
-    Substrate,
-    RewindSvgVue,
-    Gear,
-    SettingsMenuVue,
-    // PlayVideoCenterVue,
-    // PauseVideoCenterVue,
-    Timecodes
+    Substrate
   },
   data() {
     return {
-      settingsMenu: false,
       сurrentTitle: undefined,
       duration: 0,
       currentTime: 0,
@@ -188,15 +108,7 @@ export default {
       videoElement: undefined,
       fullscreenOn: false,
       fullscreenChatState: false,
-      timestamps: [],
-      dbClickDelay: 600,
-      dbClickClicks: 0,
-      dbClickTimer: null,
-      hasRewindLeft: false,
-      hasRewindRight: false,
-      videoJustPaused: false,
-      videoJustPlayed: false,
-      playPauseClickEvent: null
+      timestamps: []
     };
   },
   props: {
@@ -217,32 +129,15 @@ export default {
       return moment.utc(this.currentTime * 1000).format("HH:mm:ss");
     },
     formattedDuration() {
-      if (!this.duration || this.duration === Infinity) return false;
+      
+      if (!this.duration || this.duration === Infinity) return false
       return moment.utc(this.duration * 1000).format("HH:mm:ss");
-    },
-    videoIsPaused() {
-      return this.videoElement.paused;
     }
   },
   methods: {
-    doubleClick(boolean) {
-      this.dbClickClicks++;
-      if (this.dbClickClicks === 1) {
-        this.dbClickTimer = setTimeout(() => {
-          this.dbClickClicks = 0;
-        }, this.dbClickDelay);
-      } else {
-        clearTimeout(this.dbClickTimer);
-        this.rewindToLeftOrRight(boolean);
-        this.dbClickClicks = 0;
-      }
-    },
-    changeVideoSpeed(speed) {
-      this.videoElement.playbackRate = speed;
-    },
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
-      if (this.duration === Infinity) return;
+
       for (let i = 0; i < this.timestamps.length; i++) {
         let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
         let currentTimeStampTime = this.timestamps[i];
@@ -254,24 +149,7 @@ export default {
         }
       }
     },
-    rewindToLeftOrRight(right) {
-      if (right) {
-        this.videoElement.currentTime += 10;
-        this.hasRewindRight = true;
-        setTimeout(() => {
-          this.hasRewindRight = false;
-        }, 800);
-      } else {
-        this.videoElement.currentTime -= 10;
-        this.hasRewindLeft = true;
-        setTimeout(() => {
-          this.hasRewindLeft = false;
-        }, 800);
-      }
-      this.onTimeUpdate();
-    },
     rewindTo(x) {
-      console.log("->", x);
       this.videoElement.currentTime =
         (x / this.$refs.progress.$el.clientWidth) * this.duration;
       this.onTimeUpdate();
@@ -281,27 +159,6 @@ export default {
     },
     pauseVideo() {
       this.videoElement.pause();
-    },
-    playOrPauseVideo(e) {
-      this.playPauseClickEvent = e;
-      setTimeout(() => {
-        if (this.playPauseClickEvent.detail != 1) return;
-        console.log(this.playPauseClickEvent.detail);
-        let paused = this.videoElement.paused;
-        if (paused) {
-          this.playVideo();
-          this.videoJustPlayed = true;
-          setTimeout(() => {
-            this.videoJustPlayed = false;
-          }, 1000);
-        } else {
-          this.pauseVideo();
-          this.videoJustPaused = true;
-          setTimeout(() => {
-            this.videoJustPaused = false;
-          }, 1000);
-        }
-      }, 100);
     },
     showVolume() {
       this.volume = true;
@@ -328,10 +185,8 @@ export default {
       else this.$emit("clickChat");
     },
     toggleExpand() {
-      console.log(1);
       if (!this.fullscreenOn) {
-        console.log(2);
-        let elem = this.$el;
+        let elem = this.$refs.vidFrame;
         this.fullscreenOn = true;
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
@@ -362,17 +217,7 @@ export default {
     },
     setTimestaps() {
       this.timestamps = api.methods.getTimestamps();
-      // Для теста
-      // console.log(api.methods.getTimestamps());
-      // this.timestamps = [
-      //   { time: 100, title: "Куку" },
-      //   { time: 300, title: "Аааааааа" }
-      // ];
       this.timestamps.push({ title: "Заключение", time: this.duration });
-    },
-    clickTimecode(time) {
-      this.videoElement.currentTime = time;
-      this.onTimeUpdate();
     }
   },
   watch: {
@@ -406,9 +251,6 @@ export default {
     this.videoElement.addEventListener("timeupdate", this.onTimeUpdate);
     this.videoElement.addEventListener("play", () => (this.paused = false));
     this.videoElement.addEventListener("pause", () => (this.paused = true));
-
-    // У videoWrapper 'tabindex = 0'. Здесь происходит автофокус на весь этот элемент
-    this.$refs.videoWrapper.focus();
   }
 };
 </script>
@@ -416,10 +258,8 @@ export default {
 <style lang="sass" scoped>
 .video-player-wrap
   height: 100%
+  position: relative
   background: #000
-  &__timecodes
-    margin-top: 21px
-    margin-left: 24px
   .video-slot
     height: 100%
   .vidFrame
@@ -431,7 +271,6 @@ export default {
     align-items: center
     justify-content: center
 .vidBar
-  z-index: 3
   position: absolute
   bottom: 0
   right: 0
@@ -487,15 +326,6 @@ export default {
       align-items: center
       .expand-svg
         margin-left: 18px
-
-      &__settings
-        position: relative
-
-      .settings-menu-wrapper
-        position: absolute
-        // top: -175px
-        // left: -254px
-        transform: translate(-100%, -100%)
     input[type=range]
       -webkit-appearance: none
       width: 50px
@@ -576,37 +406,4 @@ export default {
 video
   height: 100%
   width: 100%
-  pointer-events: none
-
-.show-rewind-svgs
-  position: absolute
-  display: flex
-  height: 100%
-  width: 100%
-
-  &__elem
-    display: flex
-    align-items: center
-    justify-content: center
-    flex: 1
-
-.mobile-rewind-block
-  display: none
-  position: absolute
-  height: 100%
-  width: 100%
-
-  @media (max-width: 1000px)
-    &
-      display: flex
-
-  &__elem
-    width: 100%
-    height: 85%
-    cursor: pointer
-
-.fade-enter-active, .fade-leave-active
-  transition: opacity 1s
-.fade-enter, .fade-leave-to
-  opacity: 0
 </style>

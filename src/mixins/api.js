@@ -144,24 +144,12 @@ export default {
     getTimestamps() {
       return [
         {
-          title: "Greeting",
-          time: 75
+          title: "первый",
+          time: 10.526667
         },
         {
-          title: "What is in the bag",
-          time: 60 * 7 + 22
-        },
-        {
-          title: "Things",
-          time: 643
-        },
-        {
-          title: "Articles",
-          time: 19 * 60 + 41
-        },
-        {
-          title: "grammar",
-          time: 28 * 60 + 7
+          title: "второй",
+          time: 50
         }
       ];
     },
@@ -260,6 +248,106 @@ export default {
       let r = await post("admin/events", data);
       console.log("api-test admin/events", r);
       return r;
+    },
+    // Store
+    getProducts() {
+      return [
+        {
+          id: 1,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          id: 2,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        },
+        {
+          id: 3,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1
+        }
+      ];
+    },
+    getProductInfo(id) {
+      console.log(id);
+      return {
+        id: 1,
+        title: "Худи Peach",
+        images: [
+          require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          require("@/assets/imgs/shop/merch/hoodie-item.png")
+        ],
+        price: 1000,
+        count: 1,
+        description: `Подробное описание... Худи свободного кроя изготовлено из хлопка...
+          Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
+        composition: ["хлопок 83%", "полиэстер 17%"],
+        colors: [
+          { color: "#F4DFC5", title: "Персиковый" },
+          { color: "#000000", title: "Чёрный" },
+          { color: "#FFFFFF", title: "Белый" },
+          { color: "#FF0000", title: "Красный" }
+        ],
+        sizes: ["XS", "S", "M", "L", "XL"]
+      };
+    },
+    // Basket
+    // fake basket items
+    pushItemToBasket(data) {
+      console.log(data);
+    },
+    getBasketItems() {
+      return [
+        {
+          id: 1,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1,
+          size: "S"
+        },
+        {
+          id: 2,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1,
+          size: "S"
+        },
+        {
+          id: 3,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1,
+          size: "S"
+        },
+        {
+          id: 4,
+          title: "Худи Peach",
+          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          price: 1000,
+          count: 1,
+          size: "S"
+        }
+      ];
+    },
+    deleteitemFromBasket(data) {
+      console.log(data);
+    },
+    increaseBasketItemsCount(data) {
+      console.log(data);
+    },
+    decreaseBasketItemsCount(data) {
+      console.log(data);
     },
     // User
     async register(userData) {

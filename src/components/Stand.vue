@@ -1,11 +1,13 @@
 <template>
   <div class="stand vue-component">
-    <Evaluation />
+    <div>
+      <product-order></product-order>
+    </div>
   </div>
 </template>
 
 <script>
-import Evaluation from "@/components/LessonComponents/Evaluation";
+import ProductOrder from "@/components/Lk/Store/ProductOrder.vue";
 
 export default {
   name: "stand",
@@ -15,10 +17,18 @@ export default {
   methods: {},
   computed: {},
   components: {
-    Evaluation
+    ProductOrder
   },
+  props: [],
+  mixins: {},
   beforeMount() {}
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.stand>div
+  width: 100%
+.stand-inner
+  width: 100%
+  position: relative
+</style>

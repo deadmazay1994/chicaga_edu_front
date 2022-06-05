@@ -128,7 +128,7 @@ export default {
       return state.lesson.dz;
     },
     lessonTasks: state => {
-      console.log(state.lesson.lesson);
+      console.log(state);
       return state.lesson.lesson;
     },
     savedTasks: state => {
