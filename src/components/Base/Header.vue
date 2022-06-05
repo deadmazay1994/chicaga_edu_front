@@ -125,13 +125,11 @@
           </div>
           <div class="header__avatar">
             <router-link to="/lk/settings">
-              <v-list-item-avatar>
-                <img
-                  class="avatar__img"
-                  :src="user.avatar_link"
-                  alt="Ваше фото"
-                />
-              </v-list-item-avatar>
+              <img
+                class="avatar__img"
+                :src="user.avatar_link"
+                alt="Ваше фото"
+              />
             </router-link>
           </div>
 
