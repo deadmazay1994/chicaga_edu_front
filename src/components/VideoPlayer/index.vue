@@ -132,9 +132,9 @@
       </figcaption>
     </substrate>
     <timecodes
+      class="video-player-wrap__timecodes"
       :timecodesArray="timestamps"
       @clickTimecode="clickTimecode"
-      style="margin-top: 21px;"
     />
   </div>
 </template>
@@ -417,6 +417,9 @@ export default {
 .video-player-wrap
   height: 100%
   background: #000
+  &__timecodes
+    margin-top: 21px
+    margin-left: 24px
   .video-slot
     height: 100%
   .vidFrame

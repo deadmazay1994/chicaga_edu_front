@@ -3,14 +3,14 @@
     <div class="timecodes__title">Таймкод:</div>
     <div class="timecodes__grid">
       <div
-        class="timecodes__item"
+        class="timecode timecodes__item"
         v-for="(timecode, index) in timecodesArray"
         :key="index"
       >
-        <span class="timecodes__time" @click="clickTime(index)">{{
+        <span class="timecode__time" @click="clickTime(index)">{{
           returnformattedTime(index)
         }}</span>
-        <span class="timecodes__title">{{ timecode.title }}</span>
+        <span class="timecode__title">{{ timecode.title }}</span>
       </div>
     </div>
   </div>
@@ -44,7 +44,6 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .timecodes
-  padding: 0 .5rem
   &__grid
     display: grid
     grid-template-columns: 1fr 1fr
@@ -55,6 +54,7 @@ export default {
     align-items: center
     font-size: 16px
     font-family: Manrope, sans-serif
+.timecode
   &__time
     font-weight: 400
     color: #007EFF
