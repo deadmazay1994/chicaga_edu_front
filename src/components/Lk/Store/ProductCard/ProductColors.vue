@@ -2,25 +2,15 @@
   <div class="product-colors vue-component">
     <div class="product-colors__inner">
       <button
-        class="product-colors__item product-colors__item--peach product-colors__item--active"
+        v-for="(color, index) in colorsArray"
+        class="product-colors__item"
+        :class="{ 'product-colors__item--active': color.active }"
+        :style="{ backgroundColor: color.color }"
+        :key="index"
+        @click="$emit('changeColor', index)"
       >
         <span class="sr-only">
-          Персиковый
-        </span>
-      </button>
-      <button class="product-colors__item product-colors__item--white">
-        <span class="sr-only">
-          Белый
-        </span>
-      </button>
-      <button class="product-colors__item product-colors__item--black">
-        <span class="sr-only">
-          Черный
-        </span>
-      </button>
-      <button class="product-colors__item product-colors__item--red">
-        <span class="sr-only">
-          Красный
+          {{ color.title }}
         </span>
       </button>
     </div>
@@ -29,16 +19,19 @@
 
 <script>
 export default {
-  name: "",
+  name: "product-colors",
   data: function() {
     return {};
   },
   methods: {},
   computed: {},
   components: {},
-  props: [],
+  props: {
+    colorsArray: Array
+  },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {}
 };
 </script>
 
@@ -84,20 +77,20 @@ export default {
     border-color: $red;
   }
 
-  &__item--peach {
-    background-color: #f4dfc5;
-  }
+  // &__item--peach {
+  //   background-color: #f4dfc5;
+  // }
 
-  &__item--white {
-    background-color: $white;
-  }
+  // &__item--white {
+  //   background-color: $white;
+  // }
 
-  &__item--black {
-    background-color: $black;
-  }
+  // &__item--black {
+  //   background-color: $black;
+  // }
 
-  &__item--red {
-    background-color: rgba(255, 0, 0, 0.8);
-  }
+  // &__item--red {
+  //   background-color: rgba(255, 0, 0, 0.8);
+  // }
 }
 </style>

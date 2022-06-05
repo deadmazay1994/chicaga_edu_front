@@ -25,6 +25,7 @@ import StoreComponent from "@/components/Lk/Store/StoreComponent";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
+import ShopMore from "@/components/Lk/Store/ShopMore";
 
 import Page404 from "Base/404";
 
@@ -249,6 +250,11 @@ const routes = [
         meta: {
           breadcrumb: "Магазин"
         }
+      },
+      {
+        path: "shop-more",
+        name: "shop-more",
+        component: ShopMore
       }
     ]
   },
