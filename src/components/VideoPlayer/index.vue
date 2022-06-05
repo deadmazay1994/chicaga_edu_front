@@ -49,11 +49,21 @@
       <div class="mobile-rewind-block">
         <div
           class="mobile-rewind-block__elem"
-          @click="($event) => {doubleClick(false); playOrPauseVideo($event)}"
+          @click="
+            $event => {
+              doubleClick(false);
+              playOrPauseVideo($event);
+            }
+          "
         ></div>
         <div
           class="mobile-rewind-block__elem"
-          @click="($event) => {doubleClick(true); playOrPauseVideo($event)}"
+          @click="
+            $event => {
+              doubleClick(true);
+              playOrPauseVideo($event);
+            }
+          "
         ></div>
       </div>
       <figcaption @click.stop class="vidBar" v-if="active">
@@ -104,7 +114,6 @@
           <div class="right-side" style="z-index: 100">
             <div class="right-side__settings">
               <SettingsMenuVue
-                
                 @changeSpeed="changeVideoSpeed"
                 v-if="settingsMenu"
               />
@@ -122,6 +131,11 @@
         </div>
       </figcaption>
     </substrate>
+    <timecodes
+      class="video-player-wrap__timecodes"
+      :timecodesArray="timestamps"
+      @clickTimecode="clickTimecode"
+    />
   </div>
 </template>
 
@@ -139,6 +153,7 @@ import Gear from "../Icons/Gear.vue";
 import SettingsMenuVue from "./SettingsMenu.vue";
 // import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
 // import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
+import Timecodes from "./Timecodes.vue";
 
 import api from "@/mixins/api";
 
@@ -156,7 +171,8 @@ export default {
     Gear,
     SettingsMenuVue,
     // PlayVideoCenterVue,
-    // PauseVideoCenterVue
+    // PauseVideoCenterVue,
+    Timecodes
   },
   data() {
     return {
@@ -255,6 +271,7 @@ export default {
       this.onTimeUpdate();
     },
     rewindTo(x) {
+      console.log("->", x);
       this.videoElement.currentTime =
         (x / this.$refs.progress.$el.clientWidth) * this.duration;
       this.onTimeUpdate();
@@ -266,10 +283,10 @@ export default {
       this.videoElement.pause();
     },
     playOrPauseVideo(e) {
-      this.playPauseClickEvent = e
+      this.playPauseClickEvent = e;
       setTimeout(() => {
-        if (this.playPauseClickEvent.detail != 1) return
-        console.log(this.playPauseClickEvent.detail)
+        if (this.playPauseClickEvent.detail != 1) return;
+        console.log(this.playPauseClickEvent.detail);
         let paused = this.videoElement.paused;
         if (paused) {
           this.playVideo();
@@ -284,7 +301,7 @@ export default {
             this.videoJustPaused = false;
           }, 1000);
         }
-      }, 100)
+      }, 100);
     },
     showVolume() {
       this.volume = true;
@@ -311,9 +328,9 @@ export default {
       else this.$emit("clickChat");
     },
     toggleExpand() {
-      console.log(1)
+      console.log(1);
       if (!this.fullscreenOn) {
-        console.log(2)
+        console.log(2);
         let elem = this.$el;
         this.fullscreenOn = true;
         if (elem.requestFullscreen) {
@@ -345,7 +362,17 @@ export default {
     },
     setTimestaps() {
       this.timestamps = api.methods.getTimestamps();
+      // Для теста
+      // console.log(api.methods.getTimestamps());
+      // this.timestamps = [
+      //   { time: 100, title: "Куку" },
+      //   { time: 300, title: "Аааааааа" }
+      // ];
       this.timestamps.push({ title: "Заключение", time: this.duration });
+    },
+    clickTimecode(time) {
+      this.videoElement.currentTime = time;
+      this.onTimeUpdate();
     }
   },
   watch: {
@@ -390,6 +417,9 @@ export default {
 .video-player-wrap
   height: 100%
   background: #000
+  &__timecodes
+    margin-top: 21px
+    margin-left: 24px
   .video-slot
     height: 100%
   .vidFrame
