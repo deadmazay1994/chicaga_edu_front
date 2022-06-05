@@ -34,35 +34,6 @@ button {
   color: #0d0d0d
 }
 
-.page {
-  background: url(../imgs/red-bg.jpg) no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  overflow: hidden;
-  padding: 20px 20px 20px 10px
-}
-
-@media (max-width:1200px) {
-  .page {
-    padding: 20px 10px
-  }
-}
-
-@media (max-width:1000px) {
-  .page {
-    padding: 0
-  }
-}
-
-@media (max-width:1300px) {
-  .content {
-    padding: 10px 40px 30px
-  }
-}
-
 @media (max-width:1400px) {
   .content--lessons {
     padding: 10px 30px 30px
@@ -72,31 +43,6 @@ button {
 @media (max-width:1300px) {
   .content--lessons {
     width: 100%
-  }
-}
-
-@media (max-width:1200px) {
-  .content {
-    padding: 10px 20px 30px
-  }
-}
-
-@media (max-width:1000px) {
-  .content {
-    width: 100%;
-    border-radius: 0
-  }
-}
-
-@media (max-width:800px) {
-  .content {
-    padding: 10px
-  }
-}
-
-@media (max-width:600px) {
-  .content {
-    padding: 0
   }
 }
 
@@ -427,24 +373,6 @@ button {
   }
 }
 
-.lessons__content {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 60px
-}
-
-@media (max-width:1000px) {
-  .lessons__content {
-    flex-direction: column-reverse
-  }
-}
-
-@media (max-width:600px) {
-  .lessons__content {
-    margin-top: 15px
-  }
-}
-
 .lessons__talk {
   display: flex;
   justify-content: space-between;
@@ -557,22 +485,22 @@ button {
   font-size: 12px
 }
 
-.lessons__chat {
+/* .lessons__chat {
   flex-basis: 47%
-}
+} */
 
-@media (max-width:1000px) {
+/* @media (max-width:1000px) {
   .lessons__chat {
     width: 80%;
     margin: 0 auto
   }
-}
+} */
 
-@media (max-width:600px) {
+/* @media (max-width:600px) {
   .lessons__chat {
     display: none
   }
-}
+} */
 
 .lessons__messages {
   color: #000;
@@ -872,7 +800,12 @@ button {
 .task__header {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
+  align-self: flex-end;
+  padding: 9px 46px;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 10px #F3F3F3;
+  border-radius: 20px;
 }
 
 
@@ -895,8 +828,11 @@ button {
 .task__header__inner {
   display: flex;
   align-items: center;
-  margin-right: 25px;
   font-size: 14px
+}
+
+.task__header__inner:not(:last-child) {
+  margin-right: 40px;
 }
 
 .task__header__inner:after {

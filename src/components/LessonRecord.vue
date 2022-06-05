@@ -1,5 +1,5 @@
 <template>
-  <div class="lessons-pg">
+  <div class="lessons-pg lessons">
     <div
       class="lessons__chat"
       style="flex-baisis: auto;     overflow-x: hidden;"
@@ -14,6 +14,7 @@
           ></video>
         </div>
       </video-player>
+      <evaluation class="lessons__evaluation" />
     </div>
     <div class="lessons__task" style="width: 50%; margin-left: 0">
       <edu-panel class="lesson__edu-panel lesson__item" />
@@ -23,6 +24,7 @@
 
 <script>
 import EduPanel from "@/components/LessonComponents/EduPanel";
+import Evaluation from "@/components/LessonComponents/Evaluation";
 
 import Io from "socket.io-client";
 import SocketMixin from "@/mixins/socket.js";
@@ -87,7 +89,8 @@ export default {
   },
   components: {
     EduPanel,
-    VideoPlayer
+    VideoPlayer,
+    Evaluation
   },
   props: ["webinarMode"],
   mixins: [OurCursor, SocketMixin],
@@ -129,6 +132,8 @@ export default {
   &__chat
     overflow: auto
     max-height: 100%
+  &__evaluation
+    margin-top: 40px
 .lesson
   &__container
     padding: 0 20px
@@ -169,7 +174,7 @@ export default {
 
 .lessons-pg
   .lessons__chat
-    max-width: 45%
+    // max-width: 45%
   @media (min-width: 1360px)
     .lessons__task
       .lesson__item

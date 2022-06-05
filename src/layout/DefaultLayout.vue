@@ -841,8 +841,12 @@
         "
       />
       <div class="content">
-        <header-app />
-        <router-view class="lessons__content main-view" />
+        <div class="content__inner">
+          <header-app class="content__header" />
+          <div class="content__lessons-wrap">
+            <router-view class="content__lessons main-view" />
+          </div>
+        </div>
       </div>
     </div>
     <!--<modals />-->
@@ -910,6 +914,78 @@ export default {
 <style lang="sass">
 @import "@/assets/styles/variables.sass"
 
+.page
+  display: flex
+  flex-direction: column
+  width: 100%
+  height: 100vh
+  // ниже паддинг для sidebar-component
+  padding-left: 87px
+  background-image: url(~@/assets/imgs/red-bg.jpg)
+  background-attachment: fixed
+  background-size: 100% 100%
+  background-repeat: no-repeat
+  overflow: hidden
+  @media (max-width: 1200px)
+    padding: 20px 10px
+  @media (max-width: 1000px)
+    padding: 0
+
+.page .content
+  $header-height: 76px
+  flex-grow: 1
+  width: 100%
+  height: 100%
+  padding: 20px 40px
+  &__inner
+    position: relative
+    display: flex
+    flex-direction: column
+    width: 100%
+    height: 100%
+    flex-grow: 1
+    background-color: #ffffff
+    border-radius: 30px
+    box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
+    overflow: hidden
+  &__header
+    flex: 0 0 $header-height
+    height: $header-height
+    background-color: #ffffff
+    overflow: hidden
+  &__lessons-wrap
+    flex-grow: 1
+    width: 100%
+    height: calc(100% - #{$header-height})
+    padding: 16px 20px 20px
+    overflow: hidden
+    @media (max-width: 1360px)
+      height: auto
+      overflow-y: auto
+  &__lessons
+    display: flex
+    justify-content: space-between
+    width: 100%
+    height: 100%
+    overflow-y: auto
+    @media (max-width: 1360px)
+      height: auto
+    @media (max-width:1000px)
+      flex-direction: column-reverse
+
+.content
+  .lessons__chat,
+  .lessons__task
+    flex-basis: calc(50% - 10px)
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+  .main-view
+    & > .container
+      height: 100% !important
+      & > .row > .col-md-12
+        height: 100%
 .main-color
   background: $main-color !important
   &--text
@@ -920,13 +996,11 @@ export default {
 .v-app
   display: block !important
   height: 100%
-.v-application--wrapp,
-.page,
-.content
+.v-application--wrapp
   height: auto !important
 
 .main-view
-  height: calc(100% - 56px - 20px)
+  // height: calc(100% - 56px - 20px)
   & > .container
     height: 100%
 
@@ -935,56 +1009,11 @@ export default {
     & > col
       height: 100%
 
-.content
-  margin-left: 127px
-  padding: 20px
-  max-width: calc( 100vw - 302px )
-  @media (max-width: 1000px)
-    margin-left: 0
-  @media (min-width: 1360px)
-    max-height: calc( 100vh - 60px )
-    display: flex
-    flex-direction: column
-    .main-view
-      overflow-y: auto
-      overflow-x: hidden
-      height: 100%
-      & > .container
-        height: 100% !important
-        & > .row > .col-md-12
-          height: 100%
-    .lessons__content
-      height: calc(100% - 60px - 56px)
-      .lessons__chat,
-      .lessons__task
-        height: 100%
-        display: flex
-        flex-direction: column
-        justify-content: space-between
 
 .response-content
   display: block
   max-width: 100%
   height: auto
-
-.page
-  background: url(~@/assets/imgs/red-bg.jpg) no-repeat
-  background-attachment: fixed
-  background-size: 100% 100%
-  width: 100%
-  height: auto
-  display: flex
-  padding: 20px 20px 20px 10px
-  @media (min-width: 1000px)
-    justify-content: center
-
-.content
-  flex-grow: 1
-  background: #fff
-  box-shadow: 0 4px 20px hsla(0, 0%, 50%, 0.2)
-  border-radius: 30px
-  @media (min-width: 1000px)
-    margin-left: 87px
 
 // magnifier
 
@@ -1013,17 +1042,6 @@ export default {
   display: block !important
 
 @media (max-width: 1460px)
-  .content
-    & .col-md-10
-      flex: inherit
-      max-width: 100%
-
-    & .lessons__content
-      margin-top: 20px
-
-    & .col-lg-4
-      flex: 0 0 50%
-      max-width: 50%
 
   .menu__nav
     display: flex
@@ -1083,10 +1101,7 @@ export default {
     transform: translateX(120%)
 
   .page
-    padding: 20px !important
-
-  .content
-    max-width: 100%
+    padding: 20px
 
   .v-application .text-h2
     font-size: 2.4rem !important
@@ -1104,9 +1119,6 @@ export default {
 @media (max-width: 767px)
   .user-settings.vue-component
     margin: 0 -10px
-
-  .content .lessons__content
-    margin-top: 0
 
   .v-btn
     width: 100%
@@ -1129,10 +1141,6 @@ export default {
 
   .header__additional-menu
     margin-left: 0 !important
-
-  .content .col-lg-4
-    flex: 0 0 100%
-    max-width: 100%
 
   .catalog-c
     margin: 0 -15px

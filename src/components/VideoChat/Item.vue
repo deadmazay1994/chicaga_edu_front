@@ -1,6 +1,6 @@
 <template>
   <div
-    class="video-component vue-component justify-center align-center rounded"
+    class="video-component vue-component justify-center align-center"
     :class="{
       'video-component--active': active,
       'video-component--video-off': mediaObject.videoOff,
@@ -209,16 +209,16 @@ export default {
 <style lang="sass" scoped>
 .video-component
   position: relative
-  z-index: 2
   display: flex
   background-size: 120%
   overflow: hidden
   height: auto
   background-position: center
   display: flex
-  flex-wrap: wrap
   align-items: center !important
-  border: 3px solid
+  flex-wrap: wrap
+  border-radius: 20px
+  z-index: 2
   &:before
     display: block
     position: absolute
