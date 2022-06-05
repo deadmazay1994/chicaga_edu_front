@@ -1,12 +1,13 @@
 <template>
   <div class="stand vue-component">
-    <LessonLeftSideComponentVue class="stand__item" />
+    <Record class="stand__item" />
     <div class="some-block stand__item"></div>
   </div>
 </template>
 
 <script>
-import LessonLeftSideComponentVue from "./LessonComponents/LessonLeftSideComponent.vue";
+
+import Record from "./LessonComponents/Record.vue";
 
 export default {
   name: "stand",
@@ -16,10 +17,8 @@ export default {
   methods: {},
   computed: {},
   components: {
-    LessonLeftSideComponentVue
+    Record
   },
-  props: [],
-  mixins: {},
   beforeMount() {}
 };
 </script>

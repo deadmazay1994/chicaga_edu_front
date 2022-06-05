@@ -1,6 +1,6 @@
 <template>
   <div class="lessons-pg">
-    <div class="lessons__chat 123" style="flex-baisis: auto">
+    <div class="lessons__chat" style="flex-baisis: auto">
       <chats-module
         class="lesson__chat-module"
         :roomId="roomId"

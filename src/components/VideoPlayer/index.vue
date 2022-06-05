@@ -425,6 +425,9 @@ export default {
 .video-player-wrap
   height: 100%
   background: #000
+  &__timecodes
+    margin-top: 21px
+    margin-left: 24px
   .video-slot
     height: 100%
   .vidFrame
