@@ -1,29 +1,5 @@
 <template>
   <div class="edu-panel lessons__task vue-component" style="margin-left: 0">
-    <teacher-panel></teacher-panel>
-    <div class="task__header">
-      <div class="task__header__item">
-        <div class="task__header__inner">
-          <animated-cool-svg ref="animatedCool" />
-          <span class="points">{{ points.smile }}</span>
-        </div>
-
-        <div class="task__header__inner">
-          <animated-star-svg ref="animatedStar" />
-          <span class="points">{{ points.star }}</span>
-        </div>
-
-        <div class="task__header__inner">
-          <animated-brain-svg ref="animatedBrain" />
-          <span class="points">{{ points.brain }}</span>
-        </div>
-
-        <div class="task__header__inner">
-          <animated-lamp-svg ref="animatedLamp" />
-          <span class="points">{{ points.lamp }}</span>
-        </div>
-      </div>
-    </div>
     <div class="task__content" style="height: 100%">
       <div class="task__menu">
         <v-tabs active-class="active" hide-slider v-model="tab">
@@ -39,26 +15,29 @@
       </div>
       <v-tabs-items v-model="tab" ref="tabsItem">
         <v-tab-item class="edu-panel__tasks">
-          <tasks class="edu-panel__tasks-component" />
+          <tasks
+            :tasks="lessonTasks"
+            :unique_id="$route.params.id"
+            class="edu-panel__tasks-component"
+          />
         </v-tab-item>
         <v-tab-item>
           <!-- здесь будет новый компонент -->
-          <lesson-plot />
+          <lesson-plot>Coming soon</lesson-plot>
         </v-tab-item>
         <v-tab-item>
-          <attachs
-            v-for="(material, index) in materials"
-            :key="index"
-            :input="material"
-            class="mx-5"
-          />
+          <lesson-plot
+            >There are no additional materials for this lesson</lesson-plot
+          >
         </v-tab-item>
         <v-tab-item class="edu-panel__tasks">
-          <tasks
+          <!-- <tasks
             class="edu-panel__tasks-component"
             :isHomework="true"
             :noAddAtempt="true"
-          />
+          /> -->
+
+          <lesson-plot>There is no homework for this lesson</lesson-plot>
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -67,18 +46,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Tasks from "@/components/LessonComponents/Tasks/Tasks";
-import Attachs from "@/components/LessonComponents/Tasks/Attachs";
-import TeacherPanel from "@/components/LessonComponents/TeacherPanel";
+import Tasks from "@/components/TaskModule";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
-import AnimatedCoolSvg from "@/components/Icons/AnimatedCoolSvg";
-import AnimatedStarSvg from "@/components/Icons/AnimatedStarSvg";
-import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
-import AnimatedLampSvg from "@/components/Icons/AnimatedLampSvg";
-
 import api from "@/mixins/api";
-import gsap from "gsap";
 
 export default {
   name: "edu-panel",
@@ -111,17 +82,16 @@ export default {
         }
       });
     },
-    // для тестирования анимации
-    test() {
-      this.$refs.animatedCool.animate();
-      this.$refs.animatedStar.animate();
-      this.$refs.animatedBrain.animate();
-      this.$refs.animatedLamp.animate();
-      this.$refs.animatedCoin.animate();
-    }
   },
   computed: {
-    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
+    ...mapGetters([
+      "user",
+      "materials",
+      "socket",
+      "getUserPoints",
+      "points",
+      "lessonTasks"
+    ]),
     taskTabTitle() {
       return "Задания";
     },
@@ -131,49 +101,12 @@ export default {
   },
   components: {
     Tasks,
-    Attachs,
-    TeacherPanel,
-    LessonPlot,
-    AnimatedCoolSvg,
-    AnimatedStarSvg,
-    AnimatedBrainSvg,
-    AnimatedLampSvg
+    LessonPlot
   },
   props: [],
   mixins: {},
-  beforeMount() {},
-  watch: {
-    points(newValue) {
-      gsap.to(this.$data, { duration: 0.5, points: newValue });
-      // this.clickCool();
-    },
-    // smile(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // star(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // brain(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // lamp(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // },
-    // coins(newValue) {
-    //   gsap.to(this.$data, { duration: 0.5, tweenedSmileData: newValue });
-    // }
-    "points.smile": function() {
-      this.$refs.animatedCool.animate();
-    },
-    "points.star": function() {
-      this.$refs.animatedStar.animate();
-    },
-    "points.brain": function() {
-      this.$refs.animatedBrain.animate();
-    },
-    "points.lamp": function() {
-      this.$refs.animatedLamp.animate();
-    }
+  async beforeMount() {
+    await this.$store.dispatch("setLesson", this.$route.params.id);
   },
   async mounted() {
     await this.setUserPoints();
@@ -183,6 +116,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+</style>
 
 <style>
 .theme--light.v-tabs > .v-tabs-bar {
@@ -230,7 +166,6 @@ export default {
 .v-tab.active {
   border-bottom: 2px solid red !important;
   padding-bottom: 5px !important;
-  transform: translateY(2px) !important;
 }
 
 .v-slide-group__content {
@@ -248,9 +183,6 @@ export default {
   display: none !important;
 }
 
-.task__menu {
-  padding: 25px 10px 20px 10px !important;
-}
 .task__menu__item:before {
   content: "";
   position: absolute;
@@ -264,6 +196,11 @@ export default {
 }
 .task__content {
   height: 100%;
+  display: flex;
+  flex-direction: column
+}
+.task__content .v-item-group {
+  overflow: auto;
 }
 .task__menu__item.active:before {
   opacity: 1 !important;
@@ -291,5 +228,78 @@ export default {
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
+}
+
+/* new styles */
+
+.edu-panel .task__content {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.edu-panel .task__menu {
+  min-height: 64px;
+  padding: 0;
+  margin-bottom: 15px;
+}
+.edu-panel .task__menu * {
+  min-height: 100%;
+}
+.edu-panel .v-slide-group__content {
+  align-items: center;
+  justify-content: stretch;
+}
+
+.edu-panel .task__menu__item {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 25%;
+  height: 100%;
+  margin-right: 0;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: normal;
+  text-align: center;
+  white-space: normal !important;
+}
+
+.edu-panel .task__menu__item.active {
+  border-bottom: none;
+  transform: none;
+  padding-bottom: 5px;
+  color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ff6440 0%, #cc2d23 100%);
+  box-shadow: inset 0px 0px 10px rgba(169, 47, 33, 0.5);
+}
+
+.edu-panel .v-tab.active {
+  border-bottom: none !important;
+  padding-bottom: 5px !important;
+}
+
+.task__menu {
+  flex-shrink: 0;
+}
+.lessons-pg .lessons__task .lesson__item .task__content {
+  height: 100%;
+}
+.task-module.vue-component.edu-panel__tasks-component {
+  height: 100%;
+}
+.task-module.vue-component.edu-panel__tasks-component .task-group {
+  height: calc(100% - 88px);
+  overflow: auto;
+}
+@media (min-width: 1360px) {
+  .lessons-pg
+    .lessons__task
+    .lesson__item
+    .task__content
+    .v-window.v-tabs-items {
+    height: calc(100% - 85px);
+  }
 }
 </style>

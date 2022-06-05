@@ -96,16 +96,15 @@ button
 
 body
   font-family: 'Manrope', sans-serif
+  
+  .v-progress-linear
+    border-radius: 10px
 
-.sr-only
-  position: absolute
-  width: 1px
-  height: 1px
-  margin: -1px
-  border: 0
-  padding: 0
-  white-space: nowrap
-  -webkit-clip-path: inset(100%)
-  clip-path: inset(100%)
-  clip: rect(0 0 0 0)
-  overflow: hidden 
+  .v-progress-linear> .v-progress-linear
+    &__buffer
+      background-color: #FEA795
+      border-radius: 10%
+    &__determinate
+      background-color: #E94A45 !important
+      border-color: #E94A45 !important
+      z-index: 1

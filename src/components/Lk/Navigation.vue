@@ -72,12 +72,12 @@ export default {
           icon: "TimetableIconSvg",
           showCondition: () => true
         },
-        {
-          name: "Словарь",
-          url: "#",
-          src: require("@/assets/svg/book.svg"),
-          icon: "BookIcon"
-        },
+        // {
+        //   name: "Словарь",
+        //   url: "#",
+        //   src: require("@/assets/svg/book.svg"),
+        //   icon: "BookIcon"
+        // },
         {
           name: "Настройки",
           url: "/lk/settings",

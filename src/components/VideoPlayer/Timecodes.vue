@@ -4,7 +4,7 @@
     <div class="timecodes__grid">
       <div
         class="timecode timecodes__item"
-        v-for="(timecode, index) in timecodesArray"
+        v-for="(timecode, index) in timecodes"
         :key="index"
       >
         <span class="timecode__time" @click="clickTime(index)">{{
@@ -26,16 +26,16 @@ export default {
     return {};
   },
   props: {
-    timecodesArray: Array
+    timecodes: Array
   },
   computed: {},
   methods: {
     returnformattedTime(index) {
-      let time = index === 0 ? 0 : this.timecodesArray[index - 1].time;
+      let time = index === 0 ? 0 : this.timecodes[index - 1].time;
       return moment.utc(time * 1000).format("HH:mm:ss");
     },
     clickTime(index) {
-      let time = index === 0 ? 0 : this.timecodesArray[index - 1].time;
+      let time = index === 0 ? 0 : this.timecodes[index - 1].time;
       this.$emit("clickTimecode", time);
     }
   }

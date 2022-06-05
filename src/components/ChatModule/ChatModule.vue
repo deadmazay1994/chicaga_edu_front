@@ -131,9 +131,6 @@ export default {
   &.horizontal
     display: flex
 
-    .video-player-wrap,
-    .video-slot
-      height: 100%
 
     .video-chat,
     .vidFrame

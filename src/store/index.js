@@ -17,8 +17,6 @@ import notifications from "./modules/notifications";
 import points from "./modules/points";
 import fullLesson from "./modules/fullLesson";
 import calendar_modal from "./modules/calendar_modal";
-import shop from "./modules/shop";
-import basket from "./modules/basket";
 
 Vue.use(Vuex);
 
@@ -51,8 +49,6 @@ export default new Vuex.Store({
     notifications,
     points,
     fullLesson,
-    calendar_modal,
-    shop,
-    basket
+    calendar_modal
   }
 });

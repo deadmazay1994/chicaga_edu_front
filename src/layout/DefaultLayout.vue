@@ -842,7 +842,9 @@
       />
       <div class="content">
         <div class="content__inner">
-          <header-app class="content__header" />
+          <header-app class="content__header">
+            <breadcrumbs-component />
+          </header-app>
           <div class="content__lessons-wrap">
             <router-view class="content__lessons main-view" />
           </div>
@@ -864,6 +866,8 @@ import vClickOutside from "v-click-outside";
 import CalendarModal from "@/components/Calendar/CalendarModal";
 import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
+import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
+
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -883,7 +887,8 @@ export default {
     Navigation,
     CalendarModal,
     SidebarComponent,
-    MobileMenu
+    MobileMenu,
+    BreadcrumbsComponent
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),

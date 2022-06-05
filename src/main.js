@@ -14,9 +14,11 @@ import VueKonva from "vue-konva";
 
 import DefaultLayout from "./layout/DefaultLayout";
 import AuthWrapper from "./layout/AuthWrapper";
+import MainLayout from "./layout/Main";
 
 Vue.component("default-layout", DefaultLayout);
 Vue.component("auth-wrapper", AuthWrapper);
+Vue.component("main-layout", MainLayout);
 Vue.component("c-btn", () => import("./components/UiElements/C-btn"));
 Vue.component("c-input", () => import("./components/UiElements/Input"));
 Vue.component("c-textarea", () => import("./components/UiElements/Textarea"));

@@ -4,9 +4,7 @@
       <div class="header__part header__part--1">
         <div class="header__title-block">
           <img src="@/assets/imgs/burger.svg" alt="" />
-          <!-- <breadcrumbs /> -->
-          <breadcrumbs-component />
-          <!-- <h2 class="header__title">Уроки с преподователем</h2> -->
+          <slot></slot>
         </div>
       </div>
 
@@ -159,13 +157,11 @@ import ProgressBar from "@/components/Lk/ProgressBar";
 import { mapGetters, mapMutations } from "vuex";
 
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
-import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
 
 export default {
   name: "header-app",
   components: {
     AnimatedCoinPng,
-    BreadcrumbsComponent,
     ProgressBar
   },
   data: function() {
