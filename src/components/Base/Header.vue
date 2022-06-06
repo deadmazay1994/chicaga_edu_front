@@ -130,11 +130,15 @@
           <div class="header__avatar">
             <router-link to="/lk/settings">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> убрал v-avatar
               <img
                 class="avatar__img"
                 :src="user.avatar_link"
                 alt="Ваше фото"
               />
+<<<<<<< HEAD
 =======
               <v-list-item-avatar>
                 <img
@@ -144,6 +148,8 @@
                 />
               </v-list-item-avatar>
 >>>>>>> Header: рестайл
+=======
+>>>>>>> убрал v-avatar
             </router-link>
           </div>
 
