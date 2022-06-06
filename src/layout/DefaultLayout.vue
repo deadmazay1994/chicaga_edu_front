@@ -958,16 +958,13 @@ export default {
     width: 100%
     height: calc(100% - #{$header-height})
     padding: 16px 20px 20px
-    overflow: hidden
     @media (max-width: 1360px)
       height: auto
-      overflow-y: auto
   &__lessons
     display: flex
     justify-content: space-between
     width: 100%
     height: 100%
-    overflow-y: auto
     @media (max-width: 1360px)
       height: auto
     @media (max-width:1000px)
