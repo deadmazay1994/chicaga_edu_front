@@ -63,6 +63,7 @@ export default {
       left: -1px
       background-position: center
       background-repeat: no-repeat
+      z-index: 2
     &::before
       background-color: rgba(#FF0000, 0.5)
       background-image: linear-gradient(180deg, #FF6440 0%, #CC2D23 100%)
