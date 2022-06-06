@@ -161,7 +161,7 @@ export default {
     Substrate,
     RewindSvgVue,
     Gear,
-    SettingsMenuVue,
+    SettingsMenuVue
     // PlayVideoCenterVue,
     // PauseVideoCenterVue,
   },
@@ -393,7 +393,7 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .video-player-wrap
   background: #000
   position: relative
