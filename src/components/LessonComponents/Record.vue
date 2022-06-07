@@ -1,14 +1,14 @@
 <template>
   <div class="record vue-component">
     <video-player :active="true" ref="videoPlayer" :timestamps="timestamps">
-      <template slot="videoSlot">
+      <div slot="videoSlot">
         <video
           ref="video"
           class="record__video"
           @click="$emit('click-by-video')"
-          src="https://chicaga-media.storage.yandexcloud.net/videos/5 урок през.mp4"
+          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
         ></video>
-      </template>
+      </div>
     </video-player>
     <div class="record__bottom bottom">
       <timecodes

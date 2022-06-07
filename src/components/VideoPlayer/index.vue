@@ -66,104 +66,49 @@
           "
         ></div>
       </div>
-      <figcaption @click.stop class="vidBar" v-if="active">
-        <div class="top">
-          <Progress
-            @rewindTo="rewindTo"
-            ref="progress"
-            :currentTime="currentTime"
-            :duration="duration"
-            :timestamps="timestamps"
-          />
-        </div>
-        <div class="bottom">
-          <div class="left-side">
-            <play-svg :onPause="paused" @clickElem="togglePlay" />
-            <div
-              class="volume-area"
-              @mouseenter="showVolume"
-              @mouseleave="hideVolume"
-            >
-              <sound-svg :muted="muteVolume" @clickElem="toggleVolume" />
-              <div class="volume-input-block">
-                <transition name="emersion">
-                  <input
-                    ref="volumeControl"
-                    v-show="volume"
-                    type="range"
-                    id="change_vol"
-                    v-model="changeVol"
-                    step="0.05"
-                    min="0"
-                    max="1"
-                    value="1"
-                  />
-                </transition>
-              </div>
-            </div>
-            <div class="left-side__current-timestamp">
-              {{ сurrentTitle }}
-            </div>
-            <div class="left-side__current-time">
-              {{ currVideoTime }}
-              <template v-if="formattedDuration">
-                / {{ formattedDuration }}</template
-              >
-            </div>
-          </div>
-          <div class="right-side" style="z-index: 100">
-            <div class="right-side__settings">
-              <SettingsMenuVue
-                @changeSpeed="changeVideoSpeed"
-                v-if="settingsMenu"
-              />
-              <gear @click="settingsMenu = !settingsMenu" />
-            </div>
-            <chat-svg
-              v-if="showChatButton"
-              :chatOff="chatState"
-              :fullscreenChatState="fullscreenChatState"
-              :fullScreenMode="fullscreenOn"
-              @clickElem="clickChat"
-            />
-            <expand-svg :expanded="fullscreenOn" @clickElem="toggleExpand" />
-          </div>
-        </div>
-      </figcaption>
+      <figcaption-component
+        class="vidBar"
+        :currentTime="currentTime"
+        :duration="duration"
+        :timestamps="timestamps"
+        :paused="paused"
+        :сurrentTitle="сurrentTitle"
+        :currentVideoTime="currVideoTime"
+        :formattedDuration="formattedDuration"
+        :showChatButton="showChatButton"
+        :chatState="chatState"
+        :fullscreenChatState="fullscreenChatState"
+        :fullscreenOn="fullscreenOn"
+        @rewindTo="rewindTo"
+        @togglePlay="togglePlay()"
+        @changeSpeed="changeVideoSpeed"
+        @clickChat="clickChat()"
+        @toggleExpand="toggleExpand()"
+      />
     </substrate>
   </div>
 </template>
 
 <script>
-import PlaySvg from "@/components/Icons/PlaySvg";
-import SoundSvg from "@/components/Icons/SoundSvg";
-import ChatSvg from "@/components/Icons/ChatSvg";
-import ExpandSvg from "@/components/Icons/ExpandSvg";
+// import SoundSvg from "@/components/Icons/SoundSvg";
 // import Chat from "@/components/Chat/Chat";
-import Progress from "./Progress";
 import moment from "moment";
 import Substrate from "./Substrate";
 import RewindSvgVue from "../Icons/RewindSvg.vue";
-import Gear from "../Icons/Gear.vue";
-import SettingsMenuVue from "./SettingsMenu.vue";
 // import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
 // import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
+import FigcaptionComponent from "./FigcaptionComponent";
 
 export default {
   name: "video-player",
   components: {
-    PlaySvg,
-    SoundSvg,
-    ChatSvg,
-    ExpandSvg,
+    // SoundSvg,
     // Chat,
-    Progress,
     Substrate,
     RewindSvgVue,
-    Gear,
-    SettingsMenuVue
     // PlayVideoCenterVue,
     // PauseVideoCenterVue,
+    FigcaptionComponent
   },
   data() {
     return {
@@ -319,7 +264,6 @@ export default {
       else this.$emit("clickChat");
     },
     toggleExpand() {
-      console.log(1);
       if (!this.fullscreenOn) {
         console.log(2);
         let elem = this.$el;
