@@ -18,18 +18,18 @@
           }
         "
       />
-      <div class="main__content-wrap">
-        <c-content class="main__content">
+      <div class="main__content">
+        <c-content class="main__content-inner">
           <template v-slot:header>
-            <div class="main__header-wrap">
-              <header-app class="main__header">
+            <div class="main__header">
+              <header-app class="main__header-inner">
                 <span class="header__lavel">Elementary</span>
               </header-app>
             </div>
           </template>
           <template v-slot:default>
-            <div class="main__body-wrap">
-              <div class="main__body">
+            <div class="main__body">
+              <div class="main__body-inner">
                 <router-view class=""/>
               </div>
             </div>
@@ -114,18 +114,18 @@ $header-height: 76px
   background-size: 100% 100%
   background-repeat: no-repeat
   overflow: hidden
-  &__content-wrap
+  &__content
     display: flex
     flex-direction: column
     flex-grow: 1
     width: 100%
     height: 100%
     padding: 20px 40px
-  &__header-wrap
+  &__header
     position: relative
     width: 100%
     height: $header-height
-  &__header-wrap::after
+  &__header::after
     content: ""
     position: absolute
     right: 0
@@ -133,16 +133,16 @@ $header-height: 76px
     width: 100%
     height: 2px
     background-color: rgba(128, 128, 128, 0.2)
-  &__header
+  &__header-inner
     width: 100%
     height: 100%
-  &__body-wrap
+  &__body
     display: flex
     flex-direction: column
     flex-grow: 1
     width: 100%
     height: calc( 100% - #{$header-height} )
-  &__body
+  &__body-inner
     flex-grow: 1
     width: 100%
     height: 100%
