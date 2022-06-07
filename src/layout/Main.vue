@@ -122,8 +122,17 @@ $header-height: 76px
     height: 100%
     padding: 20px 40px
   &__header-wrap
+    position: relative
     width: 100%
     height: $header-height
+  &__header-wrap::after
+    content: ""
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 100%
+    height: 2px
+    background-color: rgba(128, 128, 128, 0.2)
   &__header
     width: 100%
     height: 100%
@@ -137,7 +146,6 @@ $header-height: 76px
     flex-grow: 1
     width: 100%
     height: 100%
-    padding: 20px
 .header__lavel
   width: 100%
   height: 100%
