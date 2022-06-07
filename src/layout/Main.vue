@@ -1,5 +1,5 @@
 <template>
-  <main class='main vue-component'>
+  <div class='main vue-component'>
       <sidebar-component
         :mobilemenuopen="showBurger"
         v-click-outside="
@@ -18,19 +18,27 @@
           }
         "
       />
-      <c-content class="main__content">
-        <template v-slot:header>
-          <header-app class="main__header header">
-            <span class="header__lavel">Elementary</span>
-          </header-app>
-        </template>
-        <template v-slot:default>
-          <router-view class="main__body"/>
-        </template>
-      </c-content>
+      <div class="main__content-wrap">
+        <c-content class="main__content">
+          <template v-slot:header>
+            <div class="main__header-wrap">
+              <header-app class="main__header">
+                <span class="header__lavel">Elementary</span>
+              </header-app>
+            </div>
+          </template>
+          <template v-slot:default>
+            <div class="main__body-wrap">
+              <div class="main__body">
+                <router-view class=""/>
+              </div>
+            </div>
+          </template>
+        </c-content>
+      </div>
     <calendar-modal />
     <svg-sprite />
-  </main>
+  </div>
 </template>
 
 <script>
@@ -92,28 +100,52 @@ export default {
 </script>
 
 <style scoped='scoped' lang='sass'>
+$header-height: 76px
+
 .main
-  background: url(/img/red-bg.ccf9e38d.jpg) no-repeat
+  display: flex
+  flex-direction: column
+  width: 100%
+  height: 100vh
+  padding-left: 87px
+  background-color: #ffffff
+  background-image: url(~@/assets/imgs/red-bg.jpg)
   background-attachment: fixed
   background-size: 100% 100%
-  min-height: 100vh
-  width: 100%
-  overflow: auto
-  &__content
-    width: calc(100vw - 150px)
-    height: calc(100vh - 40px) 
-    margin: 20px 20px 20px auto
-    overflow: auto
+  background-repeat: no-repeat
+  overflow: hidden
+  &__content-wrap
     display: flex
     flex-direction: column
+    flex-grow: 1
+    width: 100%
+    height: 100%
+    padding: 20px 40px
+  &__header-wrap
+    width: 100%
+    height: $header-height
   &__header
-    margin-bottom: 25px
+    width: 100%
+    height: 100%
+  &__body-wrap
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    width: 100%
+    height: calc( 100% - #{$header-height} )
   &__body
-    margin: 0 20px
-.header
-  &__lavel
-    font-weight: 600
-    font-size: 40px
-    line-height: 48px
-    color: #95B423
+    flex-grow: 1
+    width: 100%
+    height: 100%
+    padding: 20px
+.header__lavel
+  width: 100%
+  height: 100%
+  font-weight: 600
+  font-size: 40px
+  line-height: 56px
+  color: #95B423
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
 </style>
