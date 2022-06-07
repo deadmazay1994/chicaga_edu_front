@@ -1,23 +1,25 @@
 <template>
-  <div class="scores vue-component task__header__item">
-    <div class="task__header__inner">
-      <animated-cool-svg ref="animatedCool" />
-      <span class="points">{{ points.smile }}</span>
-    </div>
+  <div class="scores vue-component">
+    <div class="scores__inner">
+      <div class="scores__item">
+        <animated-cool-svg ref="animatedCool" />
+        <span class="scores__points">{{ points.smile }}</span>
+      </div>
 
-    <div class="task__header__inner">
-      <animated-star-svg ref="animatedStar" />
-      <span class="points">{{ points.star }}</span>
-    </div>
+      <div class="scores__item">
+        <animated-star-svg ref="animatedStar" />
+        <span class="scores__points">{{ points.star }}</span>
+      </div>
 
-    <div class="task__header__inner">
-      <animated-brain-svg ref="animatedBrain" />
-      <span class="points">{{ points.brain }}</span>
-    </div>
+      <div class="scores__item">
+        <animated-brain-svg ref="animatedBrain" />
+        <span class="scores__points">{{ points.brain }}</span>
+      </div>
 
-    <div class="task__header__inner">
-      <animated-lamp-svg ref="animatedLamp" />
-      <span class="points">{{ points.lamp }}</span>
+      <div class="scores__item">
+        <animated-lamp-svg ref="animatedLamp" />
+        <span class="scores__points">{{ points.lamp }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -32,9 +34,9 @@ import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
 import AnimatedLampSvg from "@/components/Icons/AnimatedLampSvg";
 
 export default {
-  name: 'scores',
+  name: "scores",
   data: function() {
-    return {}
+    return {};
   },
   methods: {
     ...mapActions(["setUserPoints"]),
@@ -55,10 +57,10 @@ export default {
             break;
         }
       });
-    },
+    }
   },
   computed: {
-    ...mapGetters(['points'])
+    ...mapGetters(["points"])
   },
   watch: {
     points(newValue) {
@@ -87,17 +89,33 @@ export default {
   async mounted() {
     await this.setUserPoints();
   }
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'>
+<style scoped="scoped" lang="sass">
 .scores
-  display: inline-flex
-  justify-content: space-between
-  align-items: center
-  align-self: flex-end
-  padding: 9px 46px
-  background-color: #FFFFFF
-  box-shadow: 0 4px 10px #F3F3F3
-  border-radius: 20px
+  display: flex
+  justify-content: flex-end
+  &__inner
+    display: flex
+    align-items: center
+    padding: 8px 46px
+    background-color: #FFFFFF
+    box-shadow: 0 4px 10px #F3F3F3
+    border-radius: 20px
+  &__item
+    display: flex
+    align-items: center
+    font-size: 14px
+    line-height: 1
+  &__item:not(:last-child)
+    margin-right: 40px
+  &__points
+    margin-left: 8px
+    font-weight: 600
+    font-size: 14px
+    line-height: 16px
+  .animated-svg-wrapper
+    width: 30px
+    height: 30px
 </style>
