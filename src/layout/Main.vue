@@ -1,49 +1,49 @@
 <template>
-  <div class='main vue-component'>
-      <sidebar-component
-        :mobilemenuopen="showBurger"
-        v-click-outside="
-          () => {
-            clickedOutside(true);
-          }
-        "
-      >
-        <navigation @clicked-outside="closeMenu" @clicked-router="closeMenu" />
-      </sidebar-component>
-      <mobile-menu
-        @click="openBurgerMenu()"
-        v-click-outside="
-          () => {
-            clickedOutside(true);
-          }
-        "
-      />
-      <div class="main__content">
-        <c-content class="main__content-block">
-          <template v-slot:header>
-            <div class="main__header-wrap">
-              <header-app class="main__header">
-                <span class="header__lavel">Elementary</span>
-              </header-app>
+  <div class="main vue-component">
+    <sidebar-component
+      :mobilemenuopen="showBurger"
+      v-click-outside="
+        () => {
+          clickedOutside(true);
+        }
+      "
+    >
+      <navigation @clicked-outside="closeMenu" @clicked-router="closeMenu" />
+    </sidebar-component>
+    <mobile-menu
+      @click="openBurgerMenu()"
+      v-click-outside="
+        () => {
+          clickedOutside(true);
+        }
+      "
+    />
+    <div class="main__content">
+      <c-content class="main__content-block">
+        <template v-slot:header>
+          <div class="main__header-wrap">
+            <header-app class="main__header">
+              <span class="header__lavel">Elementary</span>
+            </header-app>
+          </div>
+        </template>
+        <template v-slot:default>
+          <div class="main__body-wrap">
+            <div class="main__body">
+              <router-view class="" />
             </div>
-          </template>
-          <template v-slot:default>
-            <div class="main__body-wrap">
-              <div class="main__body">
-                <router-view class=""/>
-              </div>
-            </div>
-          </template>
-        </c-content>
-      </div>
+          </div>
+        </template>
+      </c-content>
+    </div>
     <calendar-modal />
     <svg-sprite />
   </div>
 </template>
 
 <script>
-import SvgSprite from "@/components/Icons/Sprite"
-import Content from "@/components/Base/Content"
+import SvgSprite from "@/components/Icons/Sprite";
+import Content from "@/components/Base/Content";
 
 import HeaderApp from "@/components/Base/Header";
 import Navigation from "@/components/Lk/Navigation";
@@ -71,7 +71,7 @@ export default {
     SidebarComponent,
     MobileMenu,
     SvgSprite,
-    'c-content': Content,
+    "c-content": Content
   },
   methods: {
     ...mapMutations(["checkIsConsultation"]),
@@ -99,7 +99,7 @@ export default {
 };
 </script>
 
-<style scoped='scoped' lang='sass'>
+<style scoped="scoped" lang="sass">
 $header-height: 76px
 
 .main
