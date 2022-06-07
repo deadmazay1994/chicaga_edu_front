@@ -257,63 +257,6 @@ button {
   cursor: pointer
 }
 
-
-.profile__menu {
-  background: #fff;
-  box-shadow: 0 4px 15px hsla(0, 0%, 50%, .2);
-  border-radius: 15px;
-  width: 200px;
-  padding: 15px;
-  position: absolute;
-  z-index: -1;
-  bottom: -110px;
-  right: 0;
-  opacity: 0;
-  transition: opacity .3s
-}
-
-.profile__menu,
-.profile__menu button {
-  font-family: Manrope, sans-serif;
-  font-weight: 500;
-  font-size: 12px
-}
-
-.profile__menu button {
-  color: #000;
-  display: block;
-  width: 100%;
-  text-align: left
-}
-
-.profile__menu--2 {
-  bottom: -60px
-}
-
-.profile__menu--3 {
-  bottom: -295px
-}
-
-.profile__menu.active {
-  opacity: 1;
-  z-index: 2
-}
-
-.profile__menu-btn {
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  border-bottom: 1.5px solid hsla(0, 0%, 50%, .1)
-}
-
-.profile__menu-p {
-  color: gray
-}
-
-.avatar__img {
-  width: 100%;
-  height: 100%
-}
-
 .color-inner {
   display: flex;
   align-items: flex-start;
