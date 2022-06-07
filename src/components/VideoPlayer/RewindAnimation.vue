@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import RewindSvgVue from '../Icons/RewindSvg.vue';
+import RewindSvgVue from "../Icons/RewindSvg.vue";
 
 export default {
   name: "rewind-animation",
@@ -24,7 +24,10 @@ export default {
   data: function() {
     return {};
   },
-  props: [],
+  props: {
+    hasRewindLeft: Boolean,
+    hasRewindRight: Boolean
+  },
   computed: {},
   methods: {}
 };

@@ -3,7 +3,11 @@
     class="video-player-wrap"
     tabindex="0"
     ref="videoWrapper"
-    @click="doubleClick($event)"
+    @click="
+      $event => {
+        doubleClickOnVideo($event, defineIsClickedElement);
+      }
+    "
     v-on:keyup.right="rewindToLeftOrRight(true)"
     v-on:keyup.left="rewindToLeftOrRight(false)"
   >
@@ -15,66 +19,30 @@
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
-        <!-- <div class="mobile-rewind-block">
-          <div
-            class="mobile-rewind-block__elem"
-            @click="doubleClick(false)"
-          ></div>
-          <div
-            class="mobile-rewind-block__elem"
-            @click="doubleClick(true)"
-          ></div>
-        </div> -->
-        <div class="show-rewind-svgs">
-          <div class="show-rewind-svgs__elem">
-            <transition name="fade">
-              <RewindSvgVue :left="true" v-if="hasRewindLeft" />
-            </transition>
-          </div>
-          <div class="show-rewind-svgs__elem">
-            <transition name="fade">
-              <RewindSvgVue :right="true" v-if="hasRewindRight" />
-            </transition>
-          </div>
-        </div>
-        <!-- <transition name="fade" class="play-button-transition" tag="div">
-          <PlayVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
-          
-        </transition>
-        <transition name="fade" class="play-button-transition" tag="div">
-          <PauseVideoCenterVue style="z-index: 10" v-show="videoJustPlayed" />
-        </transition> -->
+
+        <rewind-animation-vue
+          class="show-rewind-svgs"
+          :hasRewindLeft="hasRewindLeft"
+          :hasRewindRight="hasRewindRight"
+        />
+        <play-pause-animation-vue
+          :videoJustPlayed="videoJustPlayed"
+          :videoJustPaused="videoJustPaused"
+        />
       </figure>
     </div>
     <substrate :player-element="$el" style="z-index: 2" :duration="1000">
-      <div class="mobile-rewind-block">
-        <!-- <div
-          class="mobile-rewind-block__elem"
-          @click="
-            $event => {
-              doubleClick(false);
-              playOrPauseVideo($event);
-            }
-          "
-        ></div>
-        <div
-          class="mobile-rewind-block__elem"
-          @click="
-            $event => {
-              doubleClick(true);
-              playOrPauseVideo($event);
-            }
-          "
-        ></div> -->
-      </div>
       <figcaption-component
         class="vidBar"
         ref="figcaption"
         :currentTime="currentTime"
         :duration="duration"
         :timestamps="timestamps"
+        :volumeBoolean="volume"
+        :muteVolume="muteVolume"
+        :volumeValue="changeVol"
         :paused="paused"
-        :сurrentTitle="сurrentTitle"
+        :currentTitle="currentTitle"
         :currentVideoTime="currVideoTime"
         :formattedDuration="formattedDuration"
         :showChatButton="showChatButton"
@@ -92,41 +60,34 @@
 </template>
 
 <script>
-// import SoundSvg from "@/components/Icons/SoundSvg";
-// import Chat from "@/components/Chat/Chat";
 import moment from "moment";
+
+import RewindAnimationVue from "./RewindAnimation.vue";
 import Substrate from "./Substrate";
-import RewindSvgVue from "../Icons/RewindSvg.vue";
-// import PlayVideoCenterVue from "../Icons/PlayVideoCenter.vue";
-// import PauseVideoCenterVue from "../Icons/PauseVideoCenter.vue";
 import FigcaptionComponent from "./FigcaptionComponent";
+import PlayPauseAnimationVue from "./PlayPauseAnimation.vue";
 
 export default {
   name: "video-player",
   components: {
-    // SoundSvg,
-    // Chat,
     Substrate,
-    RewindSvgVue,
-    // PlayVideoCenterVue,
-    // PauseVideoCenterVue,
-    FigcaptionComponent
+    FigcaptionComponent,
+    RewindAnimationVue,
+    PlayPauseAnimationVue
   },
   data() {
     return {
       settingsMenu: false,
-      сurrentTitle: undefined,
+      currentTitle: undefined,
       duration: 0,
       currentTime: 0,
       changeVol: null,
-      player: this.video,
       volume: false,
       muteVolume: false,
       paused: false,
       videoElement: undefined,
       fullscreenOn: false,
       fullscreenChatState: false,
-      dbClickDelay: 600,
       dbClickClicks: 0,
       dbClickTimer: null,
       hasRewindLeft: false,
@@ -167,11 +128,37 @@ export default {
       let xPosition = event.offsetX;
       let elementWidth = event.path[0].clientWidth;
       let boolean = xPosition > elementWidth / 2;
+      console.log(event.target);
+      if (event.target.offsetParent.classList.contains("video-player-wrap")) {
+        this.dbClickClicks++;
+        if (this.dbClickClicks === 1) {
+          this.dbClickTimer = setTimeout(() => {
+            this.dbClickClicks = 0;
+          }, 600);
+        } else {
+          clearTimeout(this.dbClickTimer);
+          this.rewindToLeftOrRight(boolean);
+          this.dbClickClicks = 0;
+        }
+      }
+    },
+    // Определить нажат ли нужный элемент
+    defineIsClickedElement(event, target) {
+      return event.target.offsetParent == target;
+    },
+    // Двойной клик на видео
+    doubleClickOnVideo(event, callback) {
+      if (!callback(event, this.$refs.videoWrapper)) return;
+
+      let xPosition = event.offsetX;
+      let elementWidth = event.path[0].clientWidth;
+      let boolean = xPosition > elementWidth / 2;
+
       this.dbClickClicks++;
-      if (this.dbClickClicks === 1) {
+      if (this.dbClickClicks == 1) {
         this.dbClickTimer = setTimeout(() => {
           this.dbClickClicks = 0;
-        }, this.dbClickDelay);
+        }, 600);
       } else {
         clearTimeout(this.dbClickTimer);
         this.rewindToLeftOrRight(boolean);
@@ -227,7 +214,7 @@ export default {
       this.playPauseClickEvent = e;
       setTimeout(() => {
         if (this.playPauseClickEvent.detail != 1) return;
-        console.log(this.playPauseClickEvent.detail);
+        console.log("detail:", this.playPauseClickEvent);
         let paused = this.videoElement.paused;
         if (paused) {
           this.playVideo();
@@ -270,7 +257,6 @@ export default {
     },
     toggleExpand() {
       if (!this.fullscreenOn) {
-        console.log(2);
         let elem = this.$el;
         this.fullscreenOn = true;
         if (elem.requestFullscreen) {
@@ -289,13 +275,6 @@ export default {
         this.fullscreenOn = false;
       }
     },
-    clickExpand() {
-      this.$emit("clickExpand");
-    },
-    closeExpand() {
-      document.exitFullscreen();
-      this.fullscreenOn = false;
-    },
     isMobileSafari() {
       let userAgent = window.navigator.userAgent;
       return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
@@ -303,6 +282,9 @@ export default {
     clickTimecode(time) {
       this.videoElement.currentTime = time;
       this.onTimeUpdate();
+    },
+    setPausedVideo() {
+      this.paused = this.videoElement.paused;
     }
   },
   watch: {
@@ -324,7 +306,8 @@ export default {
       });
     }
 
-    this.paused = this.videoElement.paused;
+    this.setPausedVideo();
+
     this.videoElement.addEventListener(
       "pause",
       () => (this.paused = this.videoElement.paused)
@@ -405,10 +388,12 @@ export default {
           .emersion-enter-from,
           .emersion-leave-to
             transform: translateX(-129px)
-      .left-side__current-timestamp
+      .current-time
         margin-left: .5rem
-      .left-side__current-time
-        margin-left: .5rem
+      // .left-side__current-timestamp
+      //   margin-left: .5rem
+      // .left-side__current-time
+      //   margin-left: .5rem
     .right-side
       display: flex
       align-items: center
@@ -531,6 +516,9 @@ video
     width: 100%
     height: 85%
     cursor: pointer
+
+.play-pause-animation
+  position: absolute
 
 .fade-enter-active, .fade-leave-active
   transition: opacity 1s

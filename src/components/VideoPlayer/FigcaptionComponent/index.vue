@@ -12,8 +12,15 @@
     <div class="bottom">
       <div class="left-side">
         <play-svg-vue :onPause="paused" @click="$emit('togglePlay')" />
-        <volume-area-vue />
+        <volume-area-vue
+          :volumeBoolean="volumeBoolean"
+          :value="volumeValue"
+          @clickToggleVolume="volumeBoolean = !volumeBoolean"
+          @mouseenter="volumeBoolean = true"
+          @mouseleave="volumeBoolean = false"
+        />
         <current-time-output-vue
+          class="current-time"
           :currentTitle="currentTitle"
           :currentVideoTime="currentVideoTime"
           :formattedDuration="formattedDuration"
@@ -67,7 +74,8 @@ export default {
   },
   data: function() {
     return {
-      settingsMenu: false
+      settingsMenu: false,
+      volumeBoolean: false
     };
   },
   props: {
@@ -75,9 +83,11 @@ export default {
     currentTime: Number,
     duration: Number,
     timestamps: Array,
-    // PlaySvgVue props:
+    // PlaySvg props:
     paused: Boolean,
-    // CurrentTimeOutputVue props:
+    // VolumeArea props:
+    volumeValue: Number,
+    // CurrentTimeOutput props:
     currentTitle: {
       type: String,
       default: ""
