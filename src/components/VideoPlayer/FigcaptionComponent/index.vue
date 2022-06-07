@@ -2,7 +2,7 @@
   <figcaption class="figcaption-component" @click="$emit('click')">
     <div class="top">
       <Progress
-        @rewindTo="$emit('rewindTo', x)"
+        @rewindTo="rewindTo"
         ref="progress"
         :currentTime="currentTime"
         :duration="duration"
@@ -11,7 +11,7 @@
     </div>
     <div class="bottom">
       <div class="left-side">
-        <play-svg-vue :onPause="paused" @clickElem="$emit('togglePlay')" />
+        <play-svg-vue :onPause="paused" @click="$emit('togglePlay')" />
         <volume-area-vue />
         <current-time-output-vue
           :currentTitle="currentTitle"
@@ -91,7 +91,11 @@ export default {
     fullscreenOn: Boolean // ExpandSvgVue also
   },
   computed: {},
-  methods: {}
+  methods: {
+    rewindTo(x) {
+      this.$emit("rewindTo", x);
+    }
+  }
 };
 </script>
 

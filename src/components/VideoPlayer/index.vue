@@ -3,6 +3,7 @@
     class="video-player-wrap"
     tabindex="0"
     ref="videoWrapper"
+    @click="doubleClick($event)"
     v-on:keyup.right="rewindToLeftOrRight(true)"
     v-on:keyup.left="rewindToLeftOrRight(false)"
   >
@@ -14,7 +15,7 @@
       >
         <slot name="videoSlot" class="fullscreen-video-block"></slot>
         <chat :roomId="roomId" ref="chat" v-if="fullscreenOn" />
-        <div class="mobile-rewind-block">
+        <!-- <div class="mobile-rewind-block">
           <div
             class="mobile-rewind-block__elem"
             @click="doubleClick(false)"
@@ -23,7 +24,7 @@
             class="mobile-rewind-block__elem"
             @click="doubleClick(true)"
           ></div>
-        </div>
+        </div> -->
         <div class="show-rewind-svgs">
           <div class="show-rewind-svgs__elem">
             <transition name="fade">
@@ -47,7 +48,7 @@
     </div>
     <substrate :player-element="$el" style="z-index: 2" :duration="1000">
       <div class="mobile-rewind-block">
-        <div
+        <!-- <div
           class="mobile-rewind-block__elem"
           @click="
             $event => {
@@ -64,10 +65,11 @@
               playOrPauseVideo($event);
             }
           "
-        ></div>
+        ></div> -->
       </div>
       <figcaption-component
         class="vidBar"
+        ref="figcaption"
         :currentTime="currentTime"
         :duration="duration"
         :timestamps="timestamps"
@@ -161,7 +163,10 @@ export default {
     }
   },
   methods: {
-    doubleClick(boolean) {
+    doubleClick(event) {
+      let xPosition = event.offsetX;
+      let elementWidth = event.path[0].clientWidth;
+      let boolean = xPosition > elementWidth / 2;
       this.dbClickClicks++;
       if (this.dbClickClicks === 1) {
         this.dbClickTimer = setTimeout(() => {
@@ -207,9 +212,9 @@ export default {
       this.onTimeUpdate();
     },
     rewindTo(x) {
-      console.log("->", x);
       this.videoElement.currentTime =
-        (x / this.$refs.progress.$el.clientWidth) * this.duration;
+        (x / this.$refs.figcaption.$refs.progress.$el.clientWidth) *
+        this.duration;
       this.onTimeUpdate();
     },
     playVideo() {
@@ -339,7 +344,6 @@ export default {
 
 <style lang="sass">
 .video-player-wrap
-  background: #000
   position: relative
   border-radius: 20px
   overflow: hidden

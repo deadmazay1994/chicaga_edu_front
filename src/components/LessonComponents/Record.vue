@@ -1,12 +1,12 @@
 <template>
   <div class="record vue-component">
     <video-player :active="true" ref="videoPlayer" :timestamps="timestamps">
-      <div slot="videoSlot">
+      <div slot="videoSlot" class="video-slot">
         <video
           ref="video"
           class="record__video"
           @click="$emit('click-by-video')"
-          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          src="https://chicaga-media.storage.yandexcloud.net/videos/5%20%D1%83%D1%80%D0%BE%D0%BA%20%D0%BF%D1%80%D0%B5%D0%B7.mp4"
         ></video>
       </div>
     </video-player>
@@ -96,4 +96,7 @@ export default {
   &__icon
     width: 24px
     height: 24px
+
+.video-slot
+  background-color: #000000
 </style>
