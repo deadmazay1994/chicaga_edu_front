@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 
 import Lesson from "@/components/Lesson";
 import LessonRecord from "@/components/LessonRecord";
-import Homework from "@/components/Homework";
 import LessonPreview from "@/components/LessonPreview";
 
 import Auth from "@/components/Lk/Auth/index.vue";
@@ -19,7 +18,6 @@ import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
 import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
-import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
 import StoreComponent from "@/components/Lk/Store/StoreComponent";
@@ -83,24 +81,6 @@ const routes = [
   //     }
   //   }
   // },
-  {
-    path: "/homework/:courseId/:id",
-    name: "homework_teacher",
-    component: Homework,
-    meta: {
-      requiresAuth: true,
-      breadcrumb: `Домашняя работа`
-    }
-  },
-  {
-    path: "/homework/:courseId/:id/:userid",
-    name: "homework",
-    component: Homework,
-    meta: {
-      requiresAuth: true,
-      breadcrumb: `Домашняя работа`
-    }
-  },
   {
     path: "/lesson-preview/:id",
     name: "lesson-preview",
@@ -219,13 +199,6 @@ const routes = [
         component: CoursePage,
         meta: {
           breadcrumb: routeParams => `Курс ${routeParams.id}`
-        }
-      },
-      {
-        path: "dictionary",
-        component: Dictionary,
-        meta: {
-          breadcrumb: "Словарь"
         }
       },
       {

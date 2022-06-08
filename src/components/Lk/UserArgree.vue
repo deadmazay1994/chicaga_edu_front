@@ -1,7 +1,7 @@
 <template>
   <div class="agree vue-component">
     <v-container>
-      <page-title :title="'Пользовательское соглашение'" />
+      Пользовательское соглашение
       <v-row>
         <v-col cols="12" md="8" lg="12">
           <v-card class="pa-5 front">
