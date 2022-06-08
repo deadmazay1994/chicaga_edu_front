@@ -1,51 +1,36 @@
 <template>
   <div class="edu-panel lessons__task vue-component" style="margin-left: 0">
     <div class="task__content" style="height: 100%">
-      <div class="task__menu">
-        <v-tabs active-class="active" hide-slider v-model="tab">
-          <v-tab class="task__menu__item">
-            <template v-slot:default>
-              {{ taskTabTitle }}
-            </template>
-          </v-tab>
-          <v-tab class="task__menu__item">Сюжет</v-tab>
-          <v-tab class="task__menu__item">Материалы урока</v-tab>
-          <v-tab class="task__menu__item">Домашнее задание</v-tab>
-        </v-tabs>
-      </div>
-      <v-tabs-items v-model="tab" ref="tabsItem">
-        <v-tab-item class="edu-panel__tasks">
+      <tabs-component>
+        <tab-component name="Задания" :selected="true">
           <tasks
             :tasks="lessonTasks"
             :unique_id="$route.params.id"
             class="edu-panel__tasks-component"
           />
-        </v-tab-item>
-        <v-tab-item>
-          <!-- здесь будет новый компонент -->
-          <lesson-plot>Coming soon</lesson-plot>
-        </v-tab-item>
-        <v-tab-item>
-          <lesson-plot
+        </tab-component>
+        <tab-component name="Онлайн доска"
+          ><lesson-plot>Coming soon</lesson-plot></tab-component
+        >
+        <tab-component name="Материалы урока"
+          ><lesson-plot
             >There are no additional materials for this lesson</lesson-plot
-          >
-        </v-tab-item>
-        <v-tab-item class="edu-panel__tasks">
-          <!-- <tasks
-            class="edu-panel__tasks-component"
-            :isHomework="true"
-            :noAddAtempt="true"
-          /> -->
-
-          <lesson-plot>There is no homework for this lesson</lesson-plot>
-        </v-tab-item>
-      </v-tabs-items>
+          ></tab-component
+        >
+        <tab-component name="Домашняя работа"
+          ><lesson-plot
+            >There is no homework for this lesson</lesson-plot
+          ></tab-component
+        >
+      </tabs-component>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import TabsComponent from "./TabsComponent";
+import TabComponent from "./TabsComponent/TabComponent.vue";
 import Tasks from "@/components/TaskModule";
 import LessonPlot from "@/components/LessonComponents/LessonPlot";
 
@@ -81,7 +66,7 @@ export default {
             break;
         }
       });
-    },
+    }
   },
   computed: {
     ...mapGetters([
@@ -100,6 +85,8 @@ export default {
     }
   },
   components: {
+    TabsComponent,
+    TabComponent,
     Tasks,
     LessonPlot
   },
@@ -117,8 +104,7 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
 
 <style>
 .theme--light.v-tabs > .v-tabs-bar {
@@ -197,7 +183,7 @@ export default {
 .task__content {
   height: 100%;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 .task__content .v-item-group {
   overflow: auto;
