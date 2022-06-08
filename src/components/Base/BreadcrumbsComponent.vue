@@ -27,14 +27,16 @@ export default {
   methods: {
     async updateBreadcrumbList() {
       this.breadcrumbList = [];
+      console.log("this.$route.matched:", this.$route.matched);
       for (let i = 0; i < this.$route.matched.length; i++) {
         let currRoute = this.$route.matched[i];
-        console.log("currRoute", currRoute);
-        let breadcrumbObject;
-        if (typeof currRoute.meta.breadcrumb === "function") {
-          breadcrumbObject = await currRoute.meta.breadcrumb(this.$route);
-        } else {
-          breadcrumbObject = currRoute.meta.breadcrumb;
+        let breadcrumbObject = currRoute.meta.breadcrumb;
+        for (let prop in currRoute.meta.breadcrumb) {
+          if (typeof currRoute.meta.breadcrumb[prop] === "function") {
+            breadcrumbObject[prop] = await currRoute.meta.breadcrumb[prop](
+              this.$route
+            );
+          }
         }
         if (currRoute.breadcrumbObject === this.$route.breadcrumbObject)
           this.breadcrumbList.push({
@@ -48,7 +50,6 @@ export default {
             path: currRoute.path
           });
       }
-      console.log(this.breadcrumbList);
     }
   },
   watch: {

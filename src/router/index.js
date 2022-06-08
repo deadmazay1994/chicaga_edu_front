@@ -65,7 +65,7 @@ const routes = [
     meta: {
       requiresAuth: true,
       breadcrumb: {
-        color: "#fc03db",
+        color: "#ff0000",
         title: async route => {
           let r = await api.methods.getFullLesson(route.params.id);
           return r.name;
@@ -207,7 +207,7 @@ const routes = [
         path: "catalog-coursers",
         component: CatalogCourses,
         meta: {
-          breadcrumb: { title: "Каталог курсов", color: "#fc03db" }
+          breadcrumb: { title: "Каталог курсов", color: () => "#0077ff" }
         }
       },
       {
