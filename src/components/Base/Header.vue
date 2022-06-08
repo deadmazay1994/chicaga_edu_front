@@ -18,8 +18,8 @@
             <progress-bar bar-class="bg-info" :numbers="33" :value="4" />
           </div>
           <div class="header__avatar">
-            <router-link to="/lk/settings">
-              <img :src="user.avatar_link" alt="Ваше фото" />
+            <router-link class="header__avatar-link" to="/lk/settings">
+              <img class="header__avatar-img" :src="user.avatar_link" alt="Ваше фото" />
             </router-link>
           </div>
           <div class="header__additional-menu">
@@ -114,7 +114,11 @@ export default {
     border-radius: 50%
     border: 1px solid #F4F4F4
     overflow: hidden
-  &__avatar img
+  &__avatar-link
+    display: block
+    width: 100%
+    height: 100%
+  &__avatar-img
     width: 100%
     height: 100%
     object-fit: cover
