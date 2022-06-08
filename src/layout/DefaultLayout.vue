@@ -1046,6 +1046,44 @@ export default {
 .header__avatar
   display: block !important
 
+.menu__nav
+  margin-top: 50px
+  padding-left: 10px
+
+.nav__link
+  position: relative
+  overflow: hidden
+  display: block
+  padding: 14px 50px 14px 55px
+  font-size: 16px
+
+@media (max-width:1300px)
+  .nav__link
+    padding: 15px
+    display: inline-block
+
+@media (max-width:1100px)
+  .nav__link
+    padding: 7px 15px
+
+.nav__link.active
+  background: hsla(0, 0%, 50%, .1)
+  border-radius: 5px
+  width: 100%
+
+.nav__link.active:after
+  content: ""
+  position: absolute
+  width: 5px
+  height: 100%
+  top: 0
+  left: 0
+  background: red
+
+@media (max-width:1100px)
+  .nav__link
+    padding: 10px 15px
+
 @media (max-width: 1460px)
 
   .menu__nav
@@ -1098,6 +1136,8 @@ export default {
     position: absolute
     right: 0
     top: 39px
+
+    margin-top: 30px
 
     background: #fff
     height: 100vh
