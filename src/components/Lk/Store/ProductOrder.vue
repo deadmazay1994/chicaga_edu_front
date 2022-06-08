@@ -235,9 +235,6 @@ export default {
 @import "@/assets/styles/variables.sass";
 
 .product-order {
-  max-width: 610px;
-  // margin-right: auto;
-  // margin-left: auto;
 
   p {
     margin-top: 0;

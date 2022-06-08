@@ -288,7 +288,7 @@ const routes = [
         }
       },
       {
-        path: "merch/order",
+        path: "order",
         component: ProductOrder,
         meta: {
           breadcrumb: "Оформление заказа"

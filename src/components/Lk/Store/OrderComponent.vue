@@ -1,6 +1,6 @@
 <template>
   <div class="order-component vue-component">
-    <product-order />
+    <product-order class="order-component__order" />
     <shop-cart :showTotal="false" />
   </div>
 </template>
@@ -29,4 +29,7 @@ export default {
   display: flex
   justify-content: space-between
   height: 100%
+  &__order
+    flex-grow: 1
+    margin-right: 20px
 </style>
