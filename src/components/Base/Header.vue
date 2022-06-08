@@ -76,6 +76,14 @@ export default {
 .header
   position: relative
   padding: 10px 20px
+  &::after
+    content: ""
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 100%
+    height: 2px
+    background-color: rgba(128, 128, 128, 0.2)
   &__inner
     display: flex
     align-items: center
