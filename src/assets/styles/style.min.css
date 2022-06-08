@@ -80,19 +80,3 @@
   padding: 15px 0;
   border-top: 2px solid hsla(0, 0%, 50%, .1)
 }
-
-
-.messages__author-img-block {
-  max-width: 35px;
-  max-height: 35px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 10px;
-  flex-basis: 20%
-}
-
-.messages__author-img {
-  width: 100%;
-  height: 100%
-}
-
