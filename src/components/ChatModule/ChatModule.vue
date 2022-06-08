@@ -110,7 +110,6 @@ export default {
 
   .video-chat
     min-height: 350px
-    height: 100%
     .video-chat-miniatures-wrapper
       width: 15% !important
 
@@ -132,9 +131,6 @@ export default {
   &.horizontal
     display: flex
 
-    .video-player-wrap,
-    .video-slot
-      height: 100%
 
     .video-chat,
     .vidFrame

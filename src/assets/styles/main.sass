@@ -96,6 +96,18 @@ button
 
 body
   font-family: 'Manrope', sans-serif
+  
+  .v-progress-linear
+    border-radius: 10px
+
+  .v-progress-linear> .v-progress-linear
+    &__buffer
+      background-color: #FEA795
+      border-radius: 10%
+    &__determinate
+      background-color: #E94A45 !important
+      border-color: #E94A45 !important
+      z-index: 1
 
 .sr-only
   position: absolute

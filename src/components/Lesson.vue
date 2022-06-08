@@ -161,7 +161,7 @@ export default {
 
 .lessons-pg
   .lessons__chat
-    max-width: 45%
+    // max-width: 45%
   @media (min-width: 1360px)
     .lessons__task
       .lesson__item

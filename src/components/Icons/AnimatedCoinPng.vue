@@ -49,8 +49,8 @@ export default {
 
 .coin
   position: absolute
-  width: 25px
-  height: 25px
+  width: 100%
+  height: 100%
   background-image: url("~@/assets/imgs/coin-sprites.png")
   background-position: 0px 0px
   background-size: cover

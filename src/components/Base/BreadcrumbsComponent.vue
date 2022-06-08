@@ -1,8 +1,8 @@
 <template>
-  <div class="breadcrumbs-component">
-    <ol class="breadcrumb">
+  <div class="breadcrumbs vue-component">
+    <ol class="breadcrumbs__list">
       <li
-        class="breadcrumb-item"
+        class="breadcrumbs__item"
         v-for="(breadcrumb, index) in breadcrumbList"
         :key="index"
       >
@@ -46,6 +46,7 @@ export default {
             path: currRoute.path
           });
       }
+      console.log(this.breadcrumbList)
     }
   },
   watch: {
@@ -58,3 +59,35 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped='scoped'>
+.breadcrumbs
+  &__list
+    width: 100%
+    padding-left: 0
+    font-weight: 600
+    font-size: 16px
+    line-height: 19px
+    list-style: none
+    word-break: break-word
+    color: #808080
+  &__item
+    display: inline-block
+  &__item:not(:last-child)
+    margin-right: 0.25em
+  &__item:not(:first-child)::before
+    content: "/"
+    margin-right: 0.25em
+    color: #FF0000
+  span
+    cursor: default
+  a
+    color: inherit
+    cursor: pointer
+    &:focus
+      color: #000000
+    &:hover
+      color: #95B423
+    &:active
+      opacity: 0.5
+</style>
