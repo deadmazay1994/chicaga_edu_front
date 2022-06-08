@@ -55,7 +55,7 @@ const routes = [
         let r = await api.methods.getFullLesson(route.params.id);
         return r.name;
       },
-      layout: "main-layout",
+      layout: "main-layout"
     }
   },
   {
@@ -64,9 +64,12 @@ const routes = [
     component: Lesson,
     meta: {
       requiresAuth: true,
-      breadcrumb: async route => {
-        let r = await api.methods.getFullLesson(route.params.id);
-        return r.name;
+      breadcrumb: {
+        color: "#fc03db",
+        title: async route => {
+          let r = await api.methods.getFullLesson(route.params.id);
+          return r.name;
+        }
       }
     }
   },
@@ -187,7 +190,7 @@ const routes = [
     meta: {
       requiresAuth: true,
       guest: false,
-      breadcrumb: "Личный кабинет"
+      breadcrumb: { title: "Личный кабинет" }
       // {
       //   label: "Личный кабинет"
       // }
@@ -197,49 +200,53 @@ const routes = [
         path: "settings",
         component: Settings,
         meta: {
-          breadcrumb: "Настройки"
+          breadcrumb: { title: "Настройки" }
         }
       },
       {
         path: "catalog-coursers",
         component: CatalogCourses,
         meta: {
-          breadcrumb: "Каталог курсов"
+          breadcrumb: { title: "Каталог курсов", color: "#fc03db" }
         }
       },
       {
         path: "my-coursers",
         component: MyCourses,
         meta: {
-          breadcrumb: "Мои курсы"
+          breadcrumb: { title: "Мои курсы" }
         }
       },
       {
         path: "course/:id",
         component: CoursePage,
         meta: {
-          breadcrumb: routeParams => `Курс ${routeParams.id}`
+          breadcrumb: route => `Курс ${route.params.id}`
         }
+        // breadcrumb: async route => {
+        //   let r = await api.methods.getFullLesson(route.params.id);
+        //   return r.name;
+        // }
       },
       {
         path: "dictionary",
         component: Dictionary,
         meta: {
-          breadcrumb: "Словарь"
+          breadcrumb: { title: "Словарь" }
         }
       },
       {
         path: "my-groups",
         component: Group,
         meta: {
-          breadcrumb: "Расписание"
+          breadcrumb: { title: "Расписание" }
         }
       },
       {
         path: "webinars",
         component: WebinarsComponent,
         meta: {
-          breadcrumb: "Вебинары"
+          breadcrumb: { title: "Вебинары" }
         }
       },
       {
@@ -250,7 +257,7 @@ const routes = [
           showComponent: true
         },
         meta: {
-          breadcrumb: `Комната ожидания`
+          breadcrumb: { title: "Комната ожидания" }
         }
       },
       {
@@ -258,14 +265,14 @@ const routes = [
         name: "upcoming-webinar",
         component: UpcomingLesson,
         meta: {
-          breadcrumb: "Комната ожидания"
+          breadcrumb: { title: "Комната ожидания" }
         }
       },
       {
         path: "store",
         component: StoreComponent,
         meta: {
-          breadcrumb: "Магазин"
+          breadcrumb: { title: "Магазин" }
         }
       },
       {
@@ -273,7 +280,7 @@ const routes = [
         name: "shop-more",
         component: ShopMore,
         meta: {
-          breadcrumb: "Магазин"
+          breadcrumb: { title: "Магазин" }
         }
       }
     ]
@@ -284,7 +291,7 @@ const routes = [
     component: PrivateRoomUpcoming,
     meta: {
       requiresAuth: true,
-      breadcrumb: "Частная комната"
+      breadcrumb: { title: "Частная комната" }
     }
   },
   {
@@ -293,7 +300,7 @@ const routes = [
     component: PrivateRoom,
     meta: {
       requiresAuth: true,
-      breadcrumb: "Частная комната"
+      breadcrumb: { title: "Частная комната" }
     }
   },
   {
@@ -302,7 +309,7 @@ const routes = [
     component: FAQ,
     meta: {
       requiresAuth: true,
-      breadcrumb: "FAQ"
+      breadcrumb: { title: "FAQ" }
     }
   },
   {
@@ -310,7 +317,7 @@ const routes = [
     name: "agree",
     component: Agree,
     meta: {
-      breadcrumb: "Согласие"
+      breadcrumb: { title: "Согласие" }
     }
   }
 ];

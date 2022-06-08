@@ -4,12 +4,13 @@
       <li
         class="breadcrumbs__item"
         v-for="(breadcrumb, index) in breadcrumbList"
+        :style="{ color: breadcrumb.breadcrumbObject.color }"
         :key="index"
       >
         <router-link :to="breadcrumb.path" v-if="breadcrumb.link">{{
-          breadcrumb.name
+          breadcrumb.breadcrumbObject.title
         }}</router-link>
-        <span v-else>{{ breadcrumb.name }}</span>
+        <span v-else>{{ breadcrumb.breadcrumbObject.title }}</span>
       </li>
     </ol>
   </div>
@@ -28,25 +29,26 @@ export default {
       this.breadcrumbList = [];
       for (let i = 0; i < this.$route.matched.length; i++) {
         let currRoute = this.$route.matched[i];
-        let name;
+        console.log("currRoute", currRoute);
+        let breadcrumbObject;
         if (typeof currRoute.meta.breadcrumb === "function") {
-          name = await currRoute.meta.breadcrumb(this.$route);
+          breadcrumbObject = await currRoute.meta.breadcrumb(this.$route);
         } else {
-          name = currRoute.meta.breadcrumb;
+          breadcrumbObject = currRoute.meta.breadcrumb;
         }
-        if (currRoute.name === this.$route.name)
+        if (currRoute.breadcrumbObject === this.$route.breadcrumbObject)
           this.breadcrumbList.push({
-            name,
+            breadcrumbObject,
             link: false
           });
         else
           this.breadcrumbList.push({
-            name,
+            breadcrumbObject,
             link: true,
             path: currRoute.path
           });
       }
-      console.log(this.breadcrumbList)
+      console.log(this.breadcrumbList);
     }
   },
   watch: {
@@ -60,7 +62,7 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped='scoped'>
+<style lang="sass" scoped="scoped">
 .breadcrumbs
   &__list
     width: 100%
