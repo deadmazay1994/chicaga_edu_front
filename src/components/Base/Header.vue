@@ -19,7 +19,11 @@
           </div>
           <div class="header__avatar">
             <router-link class="header__avatar-link" to="/lk/settings">
-              <img class="header__avatar-img" :src="user.avatar_link" alt="Ваше фото" />
+              <img
+                class="header__avatar-img"
+                :src="user.avatar_link"
+                alt="Ваше фото"
+              />
             </router-link>
           </div>
           <div class="header__additional-menu">
