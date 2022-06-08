@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import chat from "./modules/chat";
 import user from "./modules/user";
 import modals from "./modules/modals";
 import snackbars from "./modules/snackbars";
@@ -11,8 +10,6 @@ import tasks from "./modules/tasks";
 import socket from "./modules/socket";
 import lightbox from "./modules/lightbox";
 import faq from "./modules/faq";
-import draver from "./modules/draver";
-import consultation from "./modules/consultation";
 import notifications from "./modules/notifications";
 import points from "./modules/points";
 import fullLesson from "./modules/fullLesson";
@@ -36,7 +33,6 @@ export default new Vuex.Store({
   },
   actions: {},
   modules: {
-    chat,
     user,
     modals,
     snackbars,
@@ -46,8 +42,6 @@ export default new Vuex.Store({
     socket,
     lightbox,
     faq,
-    draver,
-    consultation,
     notifications,
     points,
     fullLesson,
