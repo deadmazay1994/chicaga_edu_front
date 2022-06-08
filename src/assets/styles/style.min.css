@@ -110,21 +110,3 @@
   cursor: pointer
 }
 
-.lessons__task {
-  flex-basis: 50%;
-  margin-left: 35px
-}
-
-@media (max-width:1000px) {
-  .lessons__task {
-    width: 80%;
-    margin: 0 auto
-  }
-}
-
-@media (max-width:600px) {
-  .lessons__task {
-    width: 100%;
-    padding: 0 15px
-  }
-}

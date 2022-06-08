@@ -978,6 +978,15 @@ export default {
     @media (max-width:1000px)
       flex-direction: column-reverse
 
+.lessons__task
+  flex-basis: 50%
+  margin-left: 35px
+  @media (max-width:1000px)
+    width: 80%
+    margin: 0 auto
+  @media (max-width:600px)
+    width: 100%
+    padding: 0 15px
 .content
   .lessons__chat,
   .lessons__task
