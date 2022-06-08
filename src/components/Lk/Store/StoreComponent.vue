@@ -6,7 +6,9 @@
           <store-slider />
 
           <div class="merch__block merch__popular">
-            <h2 class="shop__title shop__title--merch mb20">Популярные товары</h2>
+            <h2 class="shop__title shop__title--merch mb20">
+              Популярные товары
+            </h2>
             <popular-content />
             <merch-showcase />
           </div>

@@ -161,7 +161,7 @@ export default {
     Substrate,
     RewindSvgVue,
     Gear,
-    SettingsMenuVue,
+    SettingsMenuVue
     // PlayVideoCenterVue,
     // PauseVideoCenterVue,
   },

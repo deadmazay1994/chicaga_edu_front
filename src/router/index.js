@@ -53,7 +53,7 @@ const routes = [
         let r = await api.methods.getFullLesson(route.params.id);
         return r.name;
       },
-      layout: "main-layout",
+      layout: "main-layout"
     }
   },
   {

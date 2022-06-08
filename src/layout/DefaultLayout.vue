@@ -868,7 +868,6 @@ import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
 import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
 
-
 import { mapGetters, mapMutations } from "vuex";
 
 export default {

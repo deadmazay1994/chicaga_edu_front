@@ -40,7 +40,7 @@ import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
 import Grouping from "./Tasks/Grouping";
 import Comparison from "./Tasks/Comparison.vue";
-import Syllable from "./Tasks/Syllable"
+import Syllable from "./Tasks/Syllable";
 import Attachs from "./Tasks/Attachs";
 import ChooseOne from "./Tasks/ChooseOne";
 
@@ -60,7 +60,7 @@ export default {
     },
     async checkTask(index) {
       let response = await this.$refs.taskComponent[index].check();
-      console.log(response)
+      console.log(response);
       this.setPointByType(response);
     }
   },

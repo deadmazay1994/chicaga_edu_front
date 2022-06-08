@@ -45,10 +45,7 @@ export default {
   data: function() {
     return {};
   },
-  props: [
-    'active',
-    'hover'
-  ],
+  props: ["active", "hover"],
   computed: {},
   methods: {}
 };

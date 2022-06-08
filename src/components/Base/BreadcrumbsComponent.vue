@@ -46,7 +46,7 @@ export default {
             path: currRoute.path
           });
       }
-      console.log(this.breadcrumbList)
+      console.log(this.breadcrumbList);
     }
   },
   watch: {
@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped='scoped'>
+<style lang="sass" scoped="scoped">
 .breadcrumbs
   &__list
     width: 100%
