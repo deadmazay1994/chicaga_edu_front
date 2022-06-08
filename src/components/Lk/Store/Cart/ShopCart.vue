@@ -14,7 +14,7 @@
         <cart-item
           class="list-item"
           v-for="(item, index) in cartItems"
-          :key="index"
+          :key="'key-' + index"
           :item="item"
           @clickTrashButton="deleteBasketItem(index, item)"
           @decrease="decreaseBasketItemsCount(index, item)"
