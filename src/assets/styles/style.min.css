@@ -1,39 +1,5 @@
 @charset "UTF-8";
 
-*,
-:after,
-:before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box
-}
-
-input:focus,
-textarea:focus {
-  outline: 0
-}
-
-a {
-  text-decoration: none
-}
-
-button {
-  border: 0;
-  background: none;
-  cursor: pointer;
-  box-sizing: border-box
-}
-
-img {
-  max-width: 100%;
-  height: auto
-}
-
-a,
-button {
-  color: #0d0d0d
-}
-
 @media (max-width:1400px) {
   .content--lessons {
     padding: 10px 30px 30px
