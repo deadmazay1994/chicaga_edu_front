@@ -22,14 +22,6 @@ Vue.component("c-textarea", () => import("./components/UiElements/Textarea"));
 
 Vue.config.productionTip = false;
 
-Vue.mixin({
-  data() {
-    return {
-      IMGSTORE: "https://edu.chicaga.ru/images/"
-    };
-  }
-});
-
 const options = {
   position: "bottom-right",
   timeout: 5000,
