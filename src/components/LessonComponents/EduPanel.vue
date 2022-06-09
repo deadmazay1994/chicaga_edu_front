@@ -6,7 +6,6 @@
           <tasks
             :tasks="lessonTasks"
             :unique_id="$route.params.id"
-            class="edu-panel__tasks-component"
           />
         </tab-component>
         <tab-component name="Онлайн доска"
