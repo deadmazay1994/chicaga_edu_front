@@ -60,16 +60,22 @@ export default {
   flex-direction: column
   height: 100%
   &__header
+    position: relative
     display: flex
     flex-wrap: wrap
     gap: 16px
-    padding-bottom: 22px
-    border-bottom: 2px solid #E6E6E6
+    padding: 16px 8px
+  &__header::after
+    content: ""
+    position: absolute
+    right: 8px
+    bottom: 0
+    left: 8px
+    height: 2px
+    background-color: #E6E6E6
   &__body
     flex-grow: 1
-    margin-bottom: -16px
-    padding-top: 16px
-    padding-bottom: 16px
+    padding: 16px 8px
     overflow-y: auto
   &__body::-webkit-scrollbar
     width: 16px
