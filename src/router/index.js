@@ -51,9 +51,12 @@ const routes = [
     component: LessonRecord,
     meta: {
       requiresAuth: true,
-      breadcrumb: async route => {
-        let r = await api.methods.getFullLesson(route.params.id);
-        return r.name;
+      breadcrumb: {
+        color: () => "#95B423",
+        title: async route => {
+          let r = await api.methods.getFullLesson(route.params.id);
+          return r.name;
+        }
       },
       layout: "main-layout"
     }
@@ -65,7 +68,7 @@ const routes = [
     meta: {
       requiresAuth: true,
       breadcrumb: {
-        color: "#ff0000",
+        color: () => "#95B423",
         title: async route => {
           let r = await api.methods.getFullLesson(route.params.id);
           return r.name;

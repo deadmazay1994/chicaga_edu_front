@@ -4,13 +4,13 @@
       <li
         class="breadcrumbs__item"
         v-for="(breadcrumb, index) in breadcrumbList"
-        :style="{ color: breadcrumb.breadcrumbObject.color }"
+        :style="{ color: breadcrumb.breadcrumb.color }"
         :key="index"
       >
         <router-link :to="breadcrumb.path" v-if="breadcrumb.link">{{
-          breadcrumb.breadcrumbObject.title
+          breadcrumb.breadcrumb.title
         }}</router-link>
-        <span v-else>{{ breadcrumb.breadcrumbObject.title }}</span>
+        <span v-else>{{ breadcrumb.breadcrumb.title }}</span>
       </li>
     </ol>
   </div>
@@ -25,31 +25,29 @@ export default {
     };
   },
   methods: {
-    async updateBreadcrumbList() {
+    async defineFunction(value) {
+      if (typeof value == "function") return await value();
+      else return value;
+    },
+    updateBreadcrumbList() {
       this.breadcrumbList = [];
-      console.log("this.$route.matched:", this.$route.matched);
-      for (let i = 0; i < this.$route.matched.length; i++) {
-        let currRoute = this.$route.matched[i];
-        let breadcrumbObject = currRoute.meta.breadcrumb;
-        for (let prop in currRoute.meta.breadcrumb) {
-          if (typeof currRoute.meta.breadcrumb[prop] === "function") {
-            breadcrumbObject[prop] = await currRoute.meta.breadcrumb[prop](
-              this.$route
-            );
-          }
-        }
-        if (currRoute.breadcrumbObject === this.$route.breadcrumbObject)
-          this.breadcrumbList.push({
-            breadcrumbObject,
-            link: false
-          });
-        else
-          this.breadcrumbList.push({
-            breadcrumbObject,
-            link: true,
-            path: currRoute.path
-          });
-      }
+      this.$route.matched.map(async route => {
+        let breadcrumb = route.meta.breadcrumb;
+
+        if (typeof breadcrumb.color == "function")
+          breadcrumb.color = await breadcrumb.color();
+
+        if (typeof breadcrumb.title == "function")
+          breadcrumb.title = await breadcrumb.title(this.$route);
+
+        breadcrumb === this.$route.meta.breadcrumb
+          ? this.breadcrumbList.push({ breadcrumb, link: false })
+          : this.breadcrumbList.push({
+              breadcrumb,
+              link: true,
+              path: route.path
+            });
+      });
     }
   },
   watch: {
