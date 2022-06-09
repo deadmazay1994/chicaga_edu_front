@@ -131,7 +131,7 @@ export default {
       return {
         value: result.points,
         type: this.inputCopy.type,
-        answers: result.result
+        answer: result.result
       };
     },
     setVariantsList() {

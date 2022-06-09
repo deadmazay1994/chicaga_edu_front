@@ -91,7 +91,7 @@ export default {
         task.correct = result.result[i];
         this.error = result.result[i];
       });
-      return { value: result.points, type: TYPE_CHECK };
+      return { value: result.points, type: TYPE_CHECK, answers: result.result };
     },
     showAnswers() {
       this.task.shuffled.forEach((task, i) =>

@@ -10,15 +10,17 @@
           { 'task-navigation-button--error': group.success === false }
         ]"
         @moveToGroup="moveToGroup(index)"
-        >{{ index }}</navigation-button
+        >{{ group.number }}</navigation-button
       >
     </div>
     <template v-for="(task, index) in tasks">
       <task-group
         :key="index"
         v-if="index === activeGroup"
+        :taskIndex="index"
         :tasks="task.tasks"
         :unique_id="unique_id"
+        @setTaskNumberState="setTaskNumberState"
       />
     </template>
   </div>
@@ -46,6 +48,9 @@ export default {
         success: undefined,
         number: index + 1
       }));
+    },
+    setTaskNumberState(index) {
+      this.navigationList[index].success = true;
     }
   },
   computed: {},

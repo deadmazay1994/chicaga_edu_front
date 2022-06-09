@@ -52,7 +52,7 @@ export default {
   data: function() {
     return {
       addonsTypeList: ["lesson_addons_files"],
-      tasksLength: null
+      taskChecked: []
     };
   },
   methods: {
@@ -62,8 +62,12 @@ export default {
     },
     async checkTask(index) {
       let response = await this.$refs.taskComponent[index].check();
-      console.log("response", response.answer);
+      console.log("response", response.answer); // Индекс задания -> answer array
       console.log("tasks", this.tasks, this.tasks.length);
+      // response.answer.map(item => item.answers.map(bool => console.log("test_01", bool)))
+      this.taskChecked.push(
+        response.answer.map(item => item.answers.map(bool => bool))
+      );
       // response.answers.map(answer)
       this.setPointByType(response);
     }
@@ -85,13 +89,27 @@ export default {
     tasks: Array,
     index: Number,
     activeGroup: Number,
-    unique_id: String
+    unique_id: String,
+    taskIndex: Number
   },
   mixins: {},
+  watch: {
+    taskChecked() {
+      // Нужно вычислить кол-во заданий
+      // Нужно вычислить кол-во вопросов в задании
+      if (this.taskChecked.length != this.tasks.length) return;
+      console.log("test_01", this.taskChecked);
+      let booleansArray = [];
+      this.taskChecked.map(asnwers =>
+        asnwers.map(answer => booleansArray.push(answer))
+      );
+      console.log("__>", booleansArray);
+      this.$emit("setTaskNumberState", this.taskIndex);
+      // Отправить данные о выполненом задании
+    }
+  },
   beforeMount() {},
-  mounted() {
-    this.tasksLength = this.tasks.length;
-  }
+  mounted() {}
 };
 </script>
 <style lang="sass" scoped>

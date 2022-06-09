@@ -82,7 +82,7 @@ export default {
             break;
         }
       });
-    },
+    }
   },
   computed: {
     ...mapGetters([
@@ -118,8 +118,7 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
 
 <style>
 .theme--light.v-tabs > .v-tabs-bar {
@@ -198,7 +197,7 @@ export default {
 .task__content {
   height: 100%;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 .task__content .v-item-group {
   overflow: auto;
