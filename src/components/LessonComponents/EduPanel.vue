@@ -16,6 +16,7 @@
       <v-tabs-items v-model="tab" ref="tabsItem">
         <v-tab-item class="edu-panel__tasks">
           <tasks
+            v-if="lessonTasks"
             :tasks="lessonTasks"
             :unique_id="$route.params.id"
             class="edu-panel__tasks-component"

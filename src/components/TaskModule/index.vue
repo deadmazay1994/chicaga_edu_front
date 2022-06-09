@@ -2,11 +2,15 @@
   <div class="task-module vue-component">
     <div class="tasks-module__header">
       <navigation-button
-        v-for="(group, index) in tasks"
+        v-for="(group, index) in navigationList"
         :key="index"
-        :class="{ 'task-navigation-button--active': activeGroup === index }"
+        :class="[
+          { 'task-navigation-button--active': activeGroup === index },
+          { 'task-navigation-button--success': group.success },
+          { 'task-navigation-button--error': group.success === false }
+        ]"
         @moveToGroup="moveToGroup(index)"
-        >{{ index + 1 }}</navigation-button
+        >{{ index }}</navigation-button
       >
     </div>
     <template v-for="(task, index) in tasks">
@@ -28,12 +32,20 @@ export default {
   name: "task-module",
   data: function() {
     return {
-      activeGroup: 0
+      activeGroup: 0,
+      navigationList: undefined
     };
   },
   methods: {
     moveToGroup(index) {
       this.activeGroup = index;
+    },
+    setNavigationList() {
+      this.navigationList = this.tasks.map((task, index) => ({
+        task: task,
+        success: undefined,
+        number: index + 1
+      }));
     }
   },
   computed: {},
@@ -49,7 +61,9 @@ export default {
     unique_id: String
   },
   mixins: {},
-  beforeMount() {}
+  mounted() {
+    this.setNavigationList();
+  }
 };
 </script>
 

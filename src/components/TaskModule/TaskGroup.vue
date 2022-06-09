@@ -1,6 +1,7 @@
 <template>
   <div class="task-group">
     <template v-for="(task, index) in tasks">
+      {{ tasksLength }}
       <template>
         <div
           class="task-group__title"
@@ -40,7 +41,7 @@ import SelectionBox from "./Tasks/SelectionBox";
 import TF from "./Tasks/TF";
 import Grouping from "./Tasks/Grouping";
 import Comparison from "./Tasks/Comparison.vue";
-import Syllable from "./Tasks/Syllable"
+import Syllable from "./Tasks/Syllable";
 import Attachs from "./Tasks/Attachs";
 import ChooseOne from "./Tasks/ChooseOne";
 
@@ -50,7 +51,8 @@ export default {
   name: "TaskGroup",
   data: function() {
     return {
-      addonsTypeList: ["lesson_addons_files"]
+      addonsTypeList: ["lesson_addons_files"],
+      tasksLength: null
     };
   },
   methods: {
@@ -60,7 +62,9 @@ export default {
     },
     async checkTask(index) {
       let response = await this.$refs.taskComponent[index].check();
-      console.log(response)
+      console.log("response", response.answer);
+      console.log("tasks", this.tasks, this.tasks.length);
+      // response.answers.map(answer)
       this.setPointByType(response);
     }
   },
@@ -84,7 +88,10 @@ export default {
     unique_id: String
   },
   mixins: {},
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    this.tasksLength = this.tasks.length;
+  }
 };
 </script>
 <style lang="sass" scoped>
