@@ -25,4 +25,9 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.tab-component
+  display: flex
+  flex-direction: column
+  height: 100%
+</style>
