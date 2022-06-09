@@ -1,7 +1,6 @@
 <template>
   <div class="task-group">
     <template v-for="(task, index) in tasks">
-      {{ tasksLength }}
       <template>
         <div
           class="task-group__title"
@@ -52,7 +51,9 @@ export default {
   data: function() {
     return {
       addonsTypeList: ["lesson_addons_files"],
-      taskChecked: []
+      taskChecked: [],
+      totalOfQuestions: [],
+      checkRatio: 1
     };
   },
   methods: {
@@ -64,10 +65,12 @@ export default {
       let response = await this.$refs.taskComponent[index].check();
       console.log("response", response.answer); // Индекс задания -> answer array
       console.log("tasks", this.tasks, this.tasks.length);
-      // response.answer.map(item => item.answers.map(bool => console.log("test_01", bool)))
-      this.taskChecked.push(
-        response.answer.map(item => item.answers.map(bool => bool))
+      let arr = [];
+      response.answer.map(item =>
+        item.answers.map(bool => console.log("test_01", bool))
       );
+      response.answer.map(item => item.answers.map(bool => arr.push(bool)));
+      this.taskChecked.push(arr);
       // response.answers.map(answer)
       this.setPointByType(response);
     }
@@ -97,14 +100,25 @@ export default {
     taskChecked() {
       // Нужно вычислить кол-во заданий
       // Нужно вычислить кол-во вопросов в задании
+      console.log("0:", this.taskChecked.length);
+      console.log("1:", this.tasks.length);
       if (this.taskChecked.length != this.tasks.length) return;
+      let boolFlag = undefined;
       console.log("test_01", this.taskChecked);
+      this.totalOfQuestions = this.taskChecked.map(item => item);
+      let totalNumberOfQuestions = this.totalOfQuestions.length;
       let booleansArray = [];
       this.taskChecked.map(asnwers =>
         asnwers.map(answer => booleansArray.push(answer))
       );
+      boolFlag =
+        booleansArray.filter(item => item === true).length /
+          totalNumberOfQuestions <
+        this.checkRatio
+          ? true
+          : false;
       console.log("__>", booleansArray);
-      this.$emit("setTaskNumberState", this.taskIndex);
+      this.$emit("setTaskNumberState", this.taskIndex, boolFlag);
       // Отправить данные о выполненом задании
     }
   },

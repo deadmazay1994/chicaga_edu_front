@@ -49,8 +49,8 @@ export default {
         number: index + 1
       }));
     },
-    setTaskNumberState(index) {
-      this.navigationList[index].success = true;
+    setTaskNumberState(index, bool) {
+      this.navigationList[index].success = bool;
     }
   },
   computed: {},
