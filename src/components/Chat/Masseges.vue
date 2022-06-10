@@ -171,6 +171,11 @@ export default {
 <style lang="sass" scoped>
 .messages__content
   scrollbar-gutter: stable
+  width: 440px
+  display: none
+  overflow-y: auto
+  &.active
+    display: block
   &::-webkit-scrollbar
     width: 10px
   &::-webkit-scrollbar-thumb

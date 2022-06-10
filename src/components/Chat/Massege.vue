@@ -92,6 +92,18 @@ export default {
         border-bottom-right-radius: 0
         border-bottom-left-radius: 0.5rem
 
+.messages__author-img-block
+  max-width: 35px
+  max-height: 35px
+  border-radius: 50%
+  overflow: hidden
+  margin-right: 10px
+  flex-basis: 20%
+
+.messages__author-img
+  width: 100%
+  height: 100%
+
 .messages__message
   flex-grow: 1
   background: #f8f8f8

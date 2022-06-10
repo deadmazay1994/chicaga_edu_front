@@ -1,13 +1,15 @@
 <template>
   <div class="auth-page">
     <auth-page-symbols />
-    <div class="auth-intro">
-      <div class="auth-intro__logotype">
+    <div class="auth-page__intro">
+      <div class="auth-page__logotype">
         <auth-intro-logo />
       </div>
-      <p class="auth-intro__desc">Курсы английского языка в Санкт-Петербурге</p>
+      <p class="auth-page__intro-desc">
+        Курсы английского языка в Санкт-Петербурге
+      </p>
     </div>
-    <div class="auth-body">
+    <div class="auth-page__body">
       <slot />
     </div>
   </div>
@@ -15,67 +17,63 @@
 
 <style lang="sass">
 .auth-page
-  height: 100%
-  width: 100%
   display: flex
+  width: 100vw
+  height: 100vh
   @media screen and (max-width: 1000px)
-    &
-      flex-direction: column
-  .auth-intro
-    width: 42%
-    height: 100%
-    background: url(~@/assets/imgs/auth-bg.jpg)
-    background-size: 100% 100%
+    flex-direction: column
+  &__intro
     display: flex
     align-items: center
     justify-content: center
     flex-direction: column
+    width: 42%
+    height: 100%
+    background-image: url(~@/assets/imgs/auth-bg.jpg)
+    background-size: 100% 100%
     @media screen and (max-width: 1000px)
-      &
-        width: 100%
-        height: 50px
-    .auth-intro__logotype
-      margin-bottom: 40px
+      width: 100%
+      height: 50px
+  &__logotype
+    margin-bottom: 40px
+    @media screen and (max-width: 1000px)
+      margin-bottom: 0
+    svg
+      width: 322px
       @media screen and (max-width: 1000px)
-        &
-          margin-bottom: 0
-      svg
-        width: 322px
-        @media screen and (max-width: 1000px)
-          &
-            width: 140px
-    .auth-intro__desc
-      font-style: normal
-      font-weight: 300
-      font-size: 20px
-      line-height: 24px
-      display: flex
-      align-items: center
-      text-align: center
-      letter-spacing: .15em
-      max-width: 311px
-      color: #fff
-      @media screen and (max-width:1000px)
-        &
-          display: none
-  .auth-body
+        width: 140px
+  &__intro-desc
+    display: flex
+    align-items: center
+    max-width: 311px
+    text-align: center
+    font-style: normal
+    font-weight: 300
+    font-size: 20px
+    line-height: 24px
+    letter-spacing: 0.15em
+    color: #ffffff
+    @media screen and (max-width:1000px)
+      display: none
+  &__body
+    display: flex
+    flex-direction: column
+    justify-content: center
     height: 100%
     width: 58%
+    padding-top: 140px
     background-image: url(~@/assets/imgs/bg/1.svg), url(~@/assets/imgs/bg/2.svg)
     background-position: 0 100%, 100% 0
-    background-repeat: no-repeat
     background-size: 343px auto
-    display: flex
-    justify-content: center
-    flex-direction: column
+    background-repeat: no-repeat
     @media screen and (max-width:1366px)
-      &
-        padding-top: 0
-        align-items: center
+      align-items: center
+      padding-top: 0
     @media screen and (max-width:1000px)
-      &
-        width: 100%
-        background-size: 150px auto
+      width: 100%
+      background-size: 150px auto
+
+
     .auth-form
       max-width: 435px
       width: 100%
@@ -281,9 +279,9 @@
               padding-bottom: 2vh
 </style>
 
-<style>
+<!-- <style>
 @import "../assets/styles/style.min.css";
-</style>
+</style> -->
 
 <script>
 import AuthPageSymbols from "@/components/Icons/AuthPageSymbols";
