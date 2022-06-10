@@ -83,6 +83,25 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.lessons__messages
+  color: #000
+  font-family: Manrope, sans-serif
+  font-weight: 500
+  background: #fff
+  box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2)
+  border-radius: 20px
+  padding: 18px 25px 10px
+  font-size: 12px
+  max-width: 100%
+  &--fullscreen
+    height: 100%
+    margin-top: 0
+    border-radius: 0
+    box-shadow: none
+    padding: 0 0 0 25px
+    display: flex
+    flex-direction: column
+
 .chat-module
   height: auto
   max-height: 1500px

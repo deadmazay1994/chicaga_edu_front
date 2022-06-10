@@ -178,4 +178,31 @@ export default {
       right: 0
       top: 10px
       transform: rotate(-90deg)
+
+.date__item
+  width: 26px
+  height: 26px
+  background: hsla(0, 0%, 50%, .1)
+  border-radius: 5px
+  margin: 0 15px 15px 0
+  font-size: 12px
+  &.passed
+    background: hsla(0, 0%, 50%, .6)
+    color: #fff
+  &.active
+    background: rgba(255, 0, 0, .8)
+    color: #fff
+  &-svg
+    width: 14px
+    height: 14px
+
+.task__date
+  display: none
+  flex-wrap: wrap
+  padding: 0 25px
+  margin: 20px 0 35px
+  &.active
+    display: flex
+  @media (max-width:500px)
+    justify-content: center
 </style>

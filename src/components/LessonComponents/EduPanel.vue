@@ -39,7 +39,8 @@ export default {
   name: "edu-panel",
   data: function() {
     return {
-      tab: null
+      tab: null,
+      lessonTasks: undefined
     };
   },
   methods: {
@@ -65,17 +66,14 @@ export default {
             break;
         }
       });
+    },
+    async setLessonTasks() {
+      let response = await api.methods.getLesson(this.$route.params.id);
+      this.lessonTasks = response.lesson;
     }
   },
   computed: {
-    ...mapGetters([
-      "user",
-      "materials",
-      "socket",
-      "getUserPoints",
-      "points",
-      "lessonTasks"
-    ]),
+    ...mapGetters(["user", "getUserPoints", "points"]),
     taskTabTitle() {
       return "Задания";
     },
@@ -91,14 +89,12 @@ export default {
   },
   props: [],
   mixins: {},
-  async beforeMount() {
-    await this.$store.dispatch("setLesson", this.$route.params.id);
-  },
   async mounted() {
     await this.setUserPoints();
     this.getLesson().then(res => {
       this.timeData = res.time;
     });
+    this.setLessonTasks();
   }
 };
 </script>

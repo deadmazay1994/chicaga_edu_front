@@ -92,6 +92,66 @@ export default {
 };
 </script>
 
+<style>
+.messages__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid hsla(0, 0%, 50%, .1);
+  padding-bottom: 13px
+}
+
+.messages__header--hidden {
+  margin-top: 5px;
+  padding: 15px 0;
+  border-top: 2px solid hsla(0, 0%, 50%, .1)
+}
+
+.messages__number-of-members {
+  font-family: Manrope, sans-serif;
+  font-weight: 700;
+  font-size: 14px
+}
+
+.messages__number-of-members--private {
+  cursor: pointer;
+  position: relative
+}
+
+.messages__number-of-members-btns {
+  content: "Позвать в приватную комнату";
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  z-index: 10;
+  background: #f8f8f8;
+  border: 1.5px solid red;
+  color: #000;
+  border-radius: 5px;
+  width: 155px;
+  font-family: Manrope, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  display: none
+}
+
+.messages__number-of-members-btns p {
+  padding: 5px
+}
+
+.messages__number-of-members-btns p:last-child {
+  margin-bottom: 0
+}
+
+.messages__number-of-members-btns p:hover {
+  background: #dfdfdf
+}
+
+.messages__number-of-members-btns.active {
+  display: block
+}
+</style>
+
 <!--<style scoped="scoped">-->
 <!--.header-chat {-->
 <!--  display: flex;-->
