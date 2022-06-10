@@ -275,6 +275,7 @@ const routes = [
   },
   {
     path: "/store",
+    name: "store",
     component: StoreComponent,
     meta: {
       breadcrumb: `Магазин`
@@ -282,6 +283,7 @@ const routes = [
     children: [
       {
         path: "",
+        name: "merch",
         component: MerchComponent,
         meta: {
           breadcrumb: "Мерч"
@@ -289,6 +291,7 @@ const routes = [
       },
       {
         path: "merch/order",
+        name: "order",
         component: ProductOrder,
         meta: {
           breadcrumb: "Оформление заказа"
