@@ -15,7 +15,7 @@
         <volume-area-vue
           :volumeBoolean="volumeBoolean"
           v-model="volumeInputValue"
-          @clickToggleVolume="volumeBoolean = !volumeBoolean"
+          @clickToggleVolume="$emit('clickToggleVolume')"
           @mouseenter="volumeBoolean = true"
           @mouseleave="volumeBoolean = false"
         />
@@ -53,7 +53,7 @@
 <script>
 import Progress from "../Progress.vue";
 import PlaySvgVue from "../../Icons/PlaySvg.vue";
-import VolumeAreaVue from "../VolumeArea.vue";
+import VolumeAreaVue from "./VolumeArea.vue";
 import CurrentTimeOutputVue from "./CurrentTimeOutput.vue";
 import SettingsMenuVue from "../SettingsMenu.vue";
 import GearVue from "../../Icons/Gear.vue";

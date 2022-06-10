@@ -40,7 +40,9 @@
         :timestamps="timestamps"
         :volumeBoolean="volume"
         :muteVolume="muteVolume"
+        :volumeValue="changeVol"
         @volumeInput="changeVol = $event"
+        @clickToggleVolume="toggleVolume()"
         :paused="paused"
         :currentTitle="currentTitle"
         :currentVideoTime="currVideoTime"
@@ -133,6 +135,10 @@ export default {
     doubleClickHasHappened(data) {
       this.rewindToLeftOrRight(data);
     },
+    // Функция вызывается когда происходит одиночный клик по элементу
+    oneClickHasHappened(data) {
+      this.playOrPauseVideo(data);
+    },
     // Двойной клик на видео
     doubleClickOnVideo(event, callback) {
       if (!this.defineIsClickedElement(event, this.$refs.videoWrapper)) return;
@@ -145,7 +151,7 @@ export default {
       if (this.dbClickClicks == 1) {
         this.dbClickTimer = setTimeout(() => {
           this.dbClickClicks = 0;
-          this.playOrPauseVideo(event);
+          this.oneClickHasHappened(event);
         }, 400);
       } else {
         clearTimeout(this.dbClickTimer);

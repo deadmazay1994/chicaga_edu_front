@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import SoundSvgVue from "../Icons/SoundSvg.vue";
+import SoundSvgVue from "../../Icons/SoundSvg.vue";
 
 export default {
   name: "volume-area",
