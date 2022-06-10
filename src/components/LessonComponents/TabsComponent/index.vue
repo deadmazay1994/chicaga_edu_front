@@ -77,5 +77,4 @@ $header-height: 64px
   &__body
     width: 100%
     height: calc( 100% - #{$header-height} )
-    padding: 16px 8px
 </style>
