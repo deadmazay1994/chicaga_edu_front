@@ -12,7 +12,6 @@
           step="0.05"
           min="0"
           max="1"
-          value="1"
           v-show="volumeBoolean"
           v-model="inputValue"
         />
@@ -34,7 +33,7 @@ export default {
   },
   props: {
     volumeBoolean: Boolean,
-    value: Boolean,
+    value: Number,
     muteVolume: Boolean
   },
   computed: {

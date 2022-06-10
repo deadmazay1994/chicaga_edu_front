@@ -5,7 +5,7 @@
     ref="videoWrapper"
     @click="
       $event => {
-        doubleClickOnVideo($event, defineIsClickedElement);
+        doubleClickOnVideo($event, doubleClickHasHappened);
       }
     "
     v-on:keyup.right="rewindToLeftOrRight(true)"
@@ -40,7 +40,7 @@
         :timestamps="timestamps"
         :volumeBoolean="volume"
         :muteVolume="muteVolume"
-        :volumeValue="changeVol"
+        @volumeInput="changeVol = $event"
         :paused="paused"
         :currentTitle="currentTitle"
         :currentVideoTime="currVideoTime"
@@ -124,31 +124,18 @@ export default {
     }
   },
   methods: {
-    doubleClick(event) {
-      let xPosition = event.offsetX;
-      let elementWidth = event.path[0].clientWidth;
-      let boolean = xPosition > elementWidth / 2;
-      console.log(event.target);
-      if (event.target.offsetParent.classList.contains("video-player-wrap")) {
-        this.dbClickClicks++;
-        if (this.dbClickClicks === 1) {
-          this.dbClickTimer = setTimeout(() => {
-            this.dbClickClicks = 0;
-          }, 600);
-        } else {
-          clearTimeout(this.dbClickTimer);
-          this.rewindToLeftOrRight(boolean);
-          this.dbClickClicks = 0;
-        }
-      }
-    },
-    // Определить нажат ли нужный элемент
+    // Определить был ли нажат элемент переданный вторым параметром (target).
+    // Возвращает boolean
     defineIsClickedElement(event, target) {
       return event.target.offsetParent == target;
     },
+    // Функция вызывается когда происходит двойной клик по элементу
+    doubleClickHasHappened(data) {
+      this.rewindToLeftOrRight(data);
+    },
     // Двойной клик на видео
     doubleClickOnVideo(event, callback) {
-      if (!callback(event, this.$refs.videoWrapper)) return;
+      if (!this.defineIsClickedElement(event, this.$refs.videoWrapper)) return;
 
       let xPosition = event.offsetX;
       let elementWidth = event.path[0].clientWidth;
@@ -158,10 +145,11 @@ export default {
       if (this.dbClickClicks == 1) {
         this.dbClickTimer = setTimeout(() => {
           this.dbClickClicks = 0;
-        }, 600);
+          this.playOrPauseVideo(event);
+        }, 400);
       } else {
         clearTimeout(this.dbClickTimer);
-        this.rewindToLeftOrRight(boolean);
+        callback(boolean);
         this.dbClickClicks = 0;
       }
     },
@@ -214,7 +202,6 @@ export default {
       this.playPauseClickEvent = e;
       setTimeout(() => {
         if (this.playPauseClickEvent.detail != 1) return;
-        console.log("detail:", this.playPauseClickEvent);
         let paused = this.videoElement.paused;
         if (paused) {
           this.playVideo();
@@ -230,12 +217,6 @@ export default {
           }, 1000);
         }
       }, 100);
-    },
-    showVolume() {
-      this.volume = true;
-    },
-    hideVolume() {
-      this.volume = false;
     },
     toggleVolume() {
       if (!this.muteVolume) {
@@ -289,6 +270,7 @@ export default {
   },
   watch: {
     changeVol() {
+      console.log("test_01", this.changeVol);
       this.videoElement.volume = this.changeVol;
     }
   },

@@ -14,7 +14,7 @@
         <play-svg-vue :onPause="paused" @click="$emit('togglePlay')" />
         <volume-area-vue
           :volumeBoolean="volumeBoolean"
-          :value="volumeValue"
+          v-model="volumeInputValue"
           @clickToggleVolume="volumeBoolean = !volumeBoolean"
           @mouseenter="volumeBoolean = true"
           @mouseleave="volumeBoolean = false"
@@ -86,7 +86,7 @@ export default {
     // PlaySvg props:
     paused: Boolean,
     // VolumeArea props:
-    volumeValue: Number,
+    volumeValue: { required: true },
     // CurrentTimeOutput props:
     currentTitle: {
       type: String,
@@ -100,7 +100,16 @@ export default {
     fullscreenChatState: Boolean,
     fullscreenOn: Boolean // ExpandSvgVue also
   },
-  computed: {},
+  computed: {
+    volumeInputValue: {
+      get() {
+        return this.volumeValue;
+      },
+      set(value) {
+        this.$emit("volumeInput", value);
+      }
+    }
+  },
   methods: {
     rewindTo(x) {
       this.$emit("rewindTo", x);
