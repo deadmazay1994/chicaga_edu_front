@@ -4,13 +4,13 @@
       <li
         class="breadcrumbs__item"
         v-for="(breadcrumb, index) in breadcrumbList"
-        :style="{ color: breadcrumb.breadcrumb.color }"
+        :style="{ color: breadcrumb.color }"
         :key="index"
       >
         <router-link :to="breadcrumb.path" v-if="breadcrumb.link">{{
-          breadcrumb.breadcrumb.title
+          breadcrumb.title
         }}</router-link>
-        <span v-else>{{ breadcrumb.breadcrumb.title }}</span>
+        <span v-else>{{ breadcrumb.title }}</span>
       </li>
     </ol>
   </div>
@@ -33,17 +33,23 @@ export default {
       this.breadcrumbList = [];
       this.$route.matched.map(async route => {
         let breadcrumb = route.meta.breadcrumb;
+        let color = breadcrumb.color,
+          title = breadcrumb.title;
 
-        if (typeof breadcrumb.color == "function")
-          breadcrumb.color = await breadcrumb.color();
+        if (typeof color == "function") color = await breadcrumb.color();
 
-        if (typeof breadcrumb.title == "function")
-          breadcrumb.title = await breadcrumb.title(this.$route);
+        if (typeof title == "function")
+          title = await breadcrumb.title(this.$route);
 
         breadcrumb === this.$route.meta.breadcrumb
-          ? this.breadcrumbList.push({ breadcrumb, link: false })
+          ? this.breadcrumbList.push({
+              title: title,
+              color: color,
+              link: false
+            })
           : this.breadcrumbList.push({
-              breadcrumb,
+              color,
+              title: title,
               link: true,
               path: route.path
             });

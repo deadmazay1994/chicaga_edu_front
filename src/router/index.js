@@ -224,7 +224,9 @@ const routes = [
         path: "course/:id",
         component: CoursePage,
         meta: {
-          breadcrumb: route => `Курс ${route.params.id}`
+          breadcrumb: {
+            title: () => "Курс"
+          }
         }
         // breadcrumb: async route => {
         //   let r = await api.methods.getFullLesson(route.params.id);
