@@ -19,7 +19,11 @@
           </div>
           <div class="header__avatar">
             <router-link class="header__avatar-link" to="/lk/settings">
-              <img class="header__avatar-img" :src="user.avatar_link" alt="Ваше фото" />
+              <img
+                class="header__avatar-img"
+                :src="user.avatar_link"
+                alt="Ваше фото"
+              />
             </router-link>
           </div>
           <div class="header__additional-menu">
@@ -76,6 +80,14 @@ export default {
 .header
   position: relative
   padding: 10px 20px
+  &::after
+    content: ""
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 100%
+    height: 2px
+    background-color: rgba(128, 128, 128, 0.2)
   &__inner
     display: flex
     align-items: center
