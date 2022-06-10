@@ -74,7 +74,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "materials", "socket", "getUserPoints", "points"]),
+    ...mapGetters(["user", "getUserPoints", "points"]),
     taskTabTitle() {
       return "Задания";
     },
