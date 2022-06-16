@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import InnerBlock from "@/components/Lk/LkCourseCard.vue";
+import InnerBlock from "@/components/Lk/LevelCard";
 export default {
   name: "stand",
   data: function() {
