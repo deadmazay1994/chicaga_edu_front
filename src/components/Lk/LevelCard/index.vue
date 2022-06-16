@@ -1,71 +1,71 @@
 <template>
-  <div class="course-card course-card--active vue-component">
-    <div class="course-card__inner">
-      <div class="course-card__general">
-        <div class="course-card__img-side">
-          <div class="course-card__img-box">
-            <animated-brain-svg class="course-card__img" />
+  <div class="level-card level-card--active vue-component">
+    <div class="level-card__inner">
+      <div class="level-card__general">
+        <div class="level-card__img-side">
+          <div class="level-card__img-box">
+            <animated-brain-svg class="level-card__img" />
           </div>
         </div>
-        <div class="course-card__main">
-          <div class="course-card__header">
-            <div class="course-card__level-box">
-              <span class="course-card__level-intro">
+        <div class="level-card__main">
+          <div class="level-card__header">
+            <div class="level-card__level-box">
+              <span class="level-card__level-intro">
                 Уровень
               </span>
-              <span class="course-card__level">
+              <span class="level-card__level">
                 Elementary
               </span>
-              <span class="course-card__level-age">
-                (<span class="course-card__age-text">взрослые</span>)
+              <span class="level-card__level-age">
+                (<span class="level-card__age-text">взрослые</span>)
               </span>
             </div>
-            <div class="course-card__data">
-              <div class="course-card__data-item">
-                <animated-coin-png class="course-card__data-img" />
-                <span class="course-card__data-text">
+            <div class="level-card__data">
+              <div class="level-card__data-item">
+                <animated-coin-png class="level-card__data-img" />
+                <span class="level-card__data-text">
                   600
                 </span>
               </div>
-              <div class="course-card__data-item">
-                <timetable-icon-svg class="course-card__data-img" />
-                <span class="course-card__data-text">
+              <div class="level-card__data-item">
+                <timetable-icon-svg class="level-card__data-img" />
+                <span class="level-card__data-text">
                   03:04
                 </span>
               </div>
             </div>
           </div>
-          <div class="course-card__title">
+          <div class="level-card__title">
             Английский для тех, кто уже немного знаком с английским языком.
           </div>
-          <div class="course-card__desc">
+          <div class="level-card__desc">
             В основу курса заложено изучение времен английского языка: настоящее, прошедшее и настоящее совершенное.
           </div>
-          <div class="course-card__footer">
-            <div class="course-card__distance">
-              <div class="course-card__step-box">
-                <span class="course-card__step-passed">
+          <div class="level-card__footer">
+            <div class="level-card__distance">
+              <div class="level-card__step-box">
+                <span class="level-card__step-passed">
                   30
                 </span>
                 /
-                <span class="course-card__step-total">
+                <span class="level-card__step-total">
                   30
                 </span>
               </div>
-              <div class="course-card__passed-box">
-                <span class="course-card__passed">
+              <div class="level-card__passed-box">
+                <span class="level-card__passed">
                   Пройден
                 </span>
               </div>
             </div>
-            <div class="course-card__scores-box">
-              <scores class="course-card__scores" />
+            <div class="level-card__scores-box">
+              <scores class="level-card__scores" />
             </div>
           </div>
         </div>
-        <div class="course-card__btn-side">
-          <div class="course-card__btn-box">
-            <div class="course-card__btn">
+        <div class="level-card__btn-side">
+          <div class="level-card__btn-box">
+            <div class="level-card__btn">
               <span class="sr-only">
                 Показать/скрыть подробности
               </span>
@@ -73,31 +73,31 @@
           </div>
         </div>
       </div>
-      <div class="course-card__lessons">
-        <div class="course-card__lesson course-card__lesson--passed">
-          <div class="course-card__progress-side">
-            <div class="course-card__progress-img">
+      <div class="level-card__lessons">
+        <div class="level-card__lesson level-card__lesson--passed">
+          <div class="level-card__progress-side">
+            <div class="level-card__progress-img">
               <span class="sr-only">Урок пройден</span>
             </div>
           </div>
-          <div class="course-card__lesson-content">
-            <div class="course-card__lesson-title">
+          <div class="level-card__lesson-content">
+            <div class="level-card__lesson-title">
               Урок 1. Elementary Unit 1A
             </div>
-            <div class="course-card__lesson-points">
-              <div class="course-card__scores-box">
-                <scores class="course-card__scores" />
+            <div class="level-card__lesson-points">
+              <div class="level-card__scores-box">
+                <scores class="level-card__scores" />
               </div>
-              <div class="course-card__data">
-                <div class="course-card__data-item">
-                  <animated-coin-png class="course-card__data-img course-card__data-img--sm" />
-                  <span class="course-card__data-text">
+              <div class="level-card__data">
+                <div class="level-card__data-item">
+                  <animated-coin-png class="level-card__data-img level-card__data-img--sm" />
+                  <span class="level-card__data-text">
                     0
                   </span>
                 </div>
-                <div class="course-card__data-item">
-                  <timetable-icon-svg class="course-card__data-img course-card__data-img--sm" />
-                  <span class="course-card__data-text">
+                <div class="level-card__data-item">
+                  <timetable-icon-svg class="level-card__data-img level-card__data-img--sm" />
+                  <span class="level-card__data-text">
                     00:00
                   </span>
                 </div>
@@ -105,103 +105,103 @@
             </div>
           </div>
         </div>
-        <div class="course-card__lesson course-card__lesson--current">
-          <div class="course-card__lesson-pointer"></div>
-          <div class="course-card__progress-side">
-            <div class="course-card__progress-img">
+        <div class="level-card__lesson level-card__lesson--current">
+          <div class="level-card__lesson-pointer"></div>
+          <div class="level-card__progress-side">
+            <div class="level-card__progress-img">
               <span class="sr-only">Текущий урок</span>
             </div>
           </div>
-          <div class="course-card__lesson-content">
-            <div class="course-card__lesson-open">
-              <span class="course-card__lesson-intro">
+          <div class="level-card__lesson-content">
+            <div class="level-card__lesson-open">
+              <span class="level-card__lesson-intro">
                 Откроется:
               </span>
-              <span class="course-card__lesson-date">
+              <span class="level-card__lesson-date">
                 20.07.21
               </span>
-              <span class="course-card__lesson-time">
+              <span class="level-card__lesson-time">
                 16:00 
               </span>
             </div>
-            <div class="course-card__lesson-title">
+            <div class="level-card__lesson-title">
               Урок 1. Elementary Unit 1A
             </div>
-            <div class="course-card__lesson-points">
-              <div class="course-card__scores-box">
-                <scores class="course-card__scores" />
+            <div class="level-card__lesson-points">
+              <div class="level-card__scores-box">
+                <scores class="level-card__scores" />
               </div>
-              <div class="course-card__data">
-                <div class="course-card__data-item">
-                  <animated-coin-png class="course-card__data-img course-card__data-img--sm" />
-                  <span class="course-card__data-text">
+              <div class="level-card__data">
+                <div class="level-card__data-item">
+                  <animated-coin-png class="level-card__data-img level-card__data-img--sm" />
+                  <span class="level-card__data-text">
                     0
                   </span>
                 </div>
-                <div class="course-card__data-item">
-                  <timetable-icon-svg class="course-card__data-img course-card__data-img--sm" />
-                  <span class="course-card__data-text">
+                <div class="level-card__data-item">
+                  <timetable-icon-svg class="level-card__data-img level-card__data-img--sm" />
+                  <span class="level-card__data-text">
                     00:00
                   </span>
                 </div>
               </div>
             </div>
-            <div class="course-card__lesson-links">
-              <a class="course-card__lesson-link" href="#">
+            <div class="level-card__lesson-links">
+              <a class="level-card__lesson-link" href="#">
                 Перейти на урок
               </a>
-              <span class="course-card__lesson-link">
+              <span class="level-card__lesson-link">
                 Перейти на ДЗ
               </span>
             </div>
           </div>
         </div>
-        <div class="course-card__lesson course-card__lesson">
-          <div class="course-card__lesson-pointer"></div>
-          <div class="course-card__progress-side">
-            <div class="course-card__progress-img">
+        <div class="level-card__lesson level-card__lesson">
+          <div class="level-card__lesson-pointer"></div>
+          <div class="level-card__progress-side">
+            <div class="level-card__progress-img">
               <span class="sr-only">Урок временно недоступен</span>
             </div>
           </div>
-          <div class="course-card__lesson-content">
-            <div class="course-card__lesson-open">
-              <span class="course-card__lesson-intro">
+          <div class="level-card__lesson-content">
+            <div class="level-card__lesson-open">
+              <span class="level-card__lesson-intro">
                 Откроется:
               </span>
-              <span class="course-card__lesson-date">
+              <span class="level-card__lesson-date">
                 20.07.21
               </span>
-              <span class="course-card__lesson-time">
+              <span class="level-card__lesson-time">
                 16:00 
               </span>
             </div>
-            <div class="course-card__lesson-title">
+            <div class="level-card__lesson-title">
               Урок 1. Elementary Unit 1A
             </div>
-            <div class="course-card__lesson-points">
-              <div class="course-card__scores-box">
-                <scores class="course-card__scores" />
+            <div class="level-card__lesson-points">
+              <div class="level-card__scores-box">
+                <scores class="level-card__scores" />
               </div>
-              <div class="course-card__data">
-                <div class="course-card__data-item">
-                  <animated-coin-png class="course-card__data-img course-card__data-img--sm" />
-                  <span class="course-card__data-text">
+              <div class="level-card__data">
+                <div class="level-card__data-item">
+                  <animated-coin-png class="level-card__data-img level-card__data-img--sm" />
+                  <span class="level-card__data-text">
                     0
                   </span>
                 </div>
-                <div class="course-card__data-item">
-                  <timetable-icon-svg class="course-card__data-img course-card__data-img--sm" />
-                  <span class="course-card__data-text">
+                <div class="level-card__data-item">
+                  <timetable-icon-svg class="level-card__data-img level-card__data-img--sm" />
+                  <span class="level-card__data-text">
                     00:00
                   </span>
                 </div>
               </div>
             </div>
-            <div class="course-card__lesson-links">
-              <span class="course-card__lesson-link">
+            <div class="level-card__lesson-links">
+              <span class="level-card__lesson-link">
                 Перейти на урок
               </span>
-              <span class="course-card__lesson-link">
+              <span class="level-card__lesson-link">
                 Перейти на ДЗ
               </span>
             </div>
@@ -237,7 +237,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.course-card
+.level-card
   display: flex
   max-height: 100%
   font-weight: 500
@@ -494,7 +494,7 @@ export default {
 </style>
 
 <style lang="sass">
-.course-card
+.level-card
   .scores
     &__inner
       padding: 0
