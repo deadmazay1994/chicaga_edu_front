@@ -10,38 +10,40 @@
         <div class="level-card__main">
           <div class="level-card__header">
             <div class="level-card__level">
-              {{"Уровень " + level + " (" + age + ")"}}
+              {{ "Уровень " + level + " (" + age + ")" }}
             </div>
             <div class="level-card__data">
               <div class="level-card__data-item">
                 <animated-coin-png class="level-card__data-img" />
                 <span class="level-card__data-text">
-                  {{coins}}
+                  {{ coins }}
                 </span>
               </div>
               <div class="level-card__data-item">
                 <timetable-icon-svg class="level-card__data-img" />
                 <span class="level-card__data-text">
-                  {{time}}
+                  {{ time }}
                 </span>
               </div>
             </div>
           </div>
           <div class="level-card__title">
-            {{title}}
+            {{ title }}
           </div>
           <div class="level-card__desc">
-            {{description}}
+            {{ description }}
           </div>
           <div class="level-card__footer">
             <div class="level-card__distance">
               <div class="level-card__steps">
-                {{stepsPassed + " / " + stepsTotal}}
+                {{ stepsPassed + " / " + stepsTotal }}
               </div>
               <div
                 class="level-card__passed"
                 v-show="stepsPassed == stepsTotal"
-              >Пройден</div>
+              >
+                Пройден
+              </div>
             </div>
             <div class="level-card__scores-box">
               <scores class="level-card__scores" />
@@ -81,7 +83,8 @@ export default {
       coins: 600,
       time: "03:04",
       title: "Английский для тех, кто уже немного знаком с английским языком.",
-      description: "В основу курса заложено изучение времен английского языка: настоящее, прошедшее и настоящее совершенное.",
+      description:
+        "В основу курса заложено изучение времен английского языка: настоящее, прошедшее и настоящее совершенное.",
       stepsPassed: 30,
       stepsTotal: 30
     };
