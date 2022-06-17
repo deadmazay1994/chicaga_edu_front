@@ -22,5 +22,5 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .stand
-  height: 100%
+  height: 100% // без этого свойства не будет работать прокрутка внутри компонента
 </style>

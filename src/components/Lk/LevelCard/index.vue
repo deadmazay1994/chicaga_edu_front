@@ -60,9 +60,13 @@
           </div>
         </div>
       </div>
-      <level-lessons class="level-card__lessons">
-        <level-lesson></level-lesson>
-      </level-lessons>
+      <div class="level-card__lessons-wrap">
+        <level-lessons class="level-card__lessons">
+          <level-lesson class="level-lesson--passed"></level-lesson>
+          <level-lesson class="level-lesson--current"></level-lesson>
+          <level-lesson></level-lesson>
+        </level-lessons>
+      </div>
     </div>
   </div>
 </template>
@@ -126,7 +130,7 @@ export default {
     position: relative
     display: flex
     align-items: center
-    padding: 15px 25px
+    padding: 15px 25px 25px
   &__general::before
     content: ""
     position: absolute
@@ -220,12 +224,15 @@ export default {
   &__scores-box
     padding-top: 5px
     padding-bottom: 5px
-  &__lessons
+  &__lessons-wrap
+    display: flex
     height: 0
     margin-right: 25px
-  &--active &__lessons
-    height: 100%
+  &--active &__lessons-wrap
+    height: auto
     overflow-y: auto
+  &__lessons
+    width: 100%
 </style>
 
 <style lang="sass">
