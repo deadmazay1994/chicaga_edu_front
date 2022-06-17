@@ -9,55 +9,39 @@
         </div>
         <div class="level-card__main">
           <div class="level-card__header">
-            <div class="level-card__level-box">
-              <span class="level-card__level-intro">
-                Уровень
-              </span>
-              <span class="level-card__level">
-                Elementary
-              </span>
-              <span class="level-card__level-age">
-                (<span class="level-card__age-text">взрослые</span>)
-              </span>
+            <div class="level-card__level">
+              {{"Уровень " + level + " (" + age + ")"}}
             </div>
             <div class="level-card__data">
               <div class="level-card__data-item">
                 <animated-coin-png class="level-card__data-img" />
                 <span class="level-card__data-text">
-                  600
+                  {{coins}}
                 </span>
               </div>
               <div class="level-card__data-item">
                 <timetable-icon-svg class="level-card__data-img" />
                 <span class="level-card__data-text">
-                  03:04
+                  {{time}}
                 </span>
               </div>
             </div>
           </div>
           <div class="level-card__title">
-            Английский для тех, кто уже немного знаком с английским языком.
+            {{title}}
           </div>
           <div class="level-card__desc">
-            В основу курса заложено изучение времен английского языка:
-            настоящее, прошедшее и настоящее совершенное.
+            {{description}}
           </div>
           <div class="level-card__footer">
             <div class="level-card__distance">
-              <div class="level-card__step-box">
-                <span class="level-card__step-passed">
-                  30
-                </span>
-                /
-                <span class="level-card__step-total">
-                  30
-                </span>
+              <div class="level-card__steps">
+                {{stepsPassed + " / " + stepsTotal}}
               </div>
-              <div class="level-card__passed-box">
-                <span class="level-card__passed">
-                  Пройден
-                </span>
-              </div>
+              <div
+                class="level-card__passed"
+                v-show="stepsPassed == stepsTotal"
+              >Пройден</div>
             </div>
             <div class="level-card__scores-box">
               <scores class="level-card__scores" />
@@ -91,7 +75,16 @@ import Scores from "@/components/LessonComponents/Scores";
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      level: "Elementary",
+      age: "взрослые",
+      coins: 600,
+      time: "03:04",
+      title: "Английский для тех, кто уже немного знаком с английским языком.",
+      description: "В основу курса заложено изучение времен английского языка: настоящее, прошедшее и настоящее совершенное.",
+      stepsPassed: 30,
+      stepsTotal: 30
+    };
   },
   methods: {},
   computed: {},
@@ -177,10 +170,10 @@ export default {
   &__header
     display: flex
     align-items: center
+    justify-content: space-between
     flex-wrap: wrap
     margin-bottom: 10px
-  &__level-box
-    flex-grow: 1
+  &__level
     margin-right: 15px
     padding-top: 5px
     padding-bottom: 5px
@@ -198,9 +191,6 @@ export default {
     width: 25px
     height: 25px
     margin-right: 5px
-  &__data-img--sm
-    width: 15px
-    height: 15px
   &__title
     margin-bottom: 10px
     font-weight: 700
@@ -211,26 +201,23 @@ export default {
   &__footer
     display: flex
     align-items: center
+    justify-content: space-between
     flex-wrap: wrap
     font-weight: 600
   &__distance
     display: flex
     align-items: center
-    flex-grow: 1
     margin-right: 15px
     padding-top: 5px
     padding-bottom: 5px
-  &__step-box
+  &__steps
     margin-right: 8px
   &__passed
     color: #ff0000
   &__scores-box
     padding-top: 5px
     padding-bottom: 5px
-  &__scores-box:not(:last-child)
-    margin-right: 20px
   &__lessons
-    flex-grow: 1
     height: 0
     margin-right: 25px
   &--active &__lessons
