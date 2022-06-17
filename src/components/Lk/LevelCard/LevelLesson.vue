@@ -1,46 +1,8 @@
 <template>
-  <div><!-- удалить после доработки -->
-  <div class="level-lesson level-lesson--passed vue-component">
-    <div class="level-lesson__progress-side">
-      <div class="level-lesson__progress-img">
-        <span class="sr-only">Урок пройден</span>
-      </div>
-    </div>
-    <div class="level-lesson__content">
-      <div class="level-lesson__title">
-        Урок 1. Elementary Unit 1A
-      </div>
-      <div class="level-lesson__points">
-        <div class="level-lesson__scores-box">
-          <scores class="level-lesson__scores" />
-        </div>
-        <div class="level-lesson__data">
-          <div class="level-lesson__data-item">
-            <animated-coin-png
-              class="level-lesson__data-img level-lesson__data-img--sm"
-            />
-            <span class="level-lesson__data-text">
-              0
-            </span>
-          </div>
-          <div class="level-lesson__data-item">
-            <timetable-icon-svg
-              class="level-lesson__data-img level-lesson__data-img--sm"
-            />
-            <span class="level-lesson__data-text">
-              00:00
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="level-lesson level-lesson--current vue-component">
+  <div class="level-lesson">
     <div class="level-lesson__pointer"></div>
     <div class="level-lesson__progress-side">
-      <div class="level-lesson__progress-img">
-        <span class="sr-only">Текущий урок</span>
-      </div>
+      <div class="level-lesson__progress-img"></div>
     </div>
     <div class="level-lesson__content">
       <div class="level-lesson__open">
@@ -48,14 +10,14 @@
           Откроется:
         </span>
         <span class="level-lesson__date">
-          20.07.21
+          {{ date }}
         </span>
         <span class="level-lesson__time">
-          16:00
+          {{ time }}
         </span>
       </div>
       <div class="level-lesson__title">
-        Урок 1. Elementary Unit 1A
+        {{ title }}
       </div>
       <div class="level-lesson__points">
         <div class="level-lesson__scores-box">
@@ -64,18 +26,18 @@
         <div class="level-lesson__data">
           <div class="level-lesson__data-item">
             <animated-coin-png
-              class="level-lesson__data-img level-lesson__data-img--sm"
+              class="level-lesson__data-img"
             />
-            <span class="level-lesson__data-text">
-              0
+            <span class="level-lesson__data-coins">
+              {{ dataCoins }}
             </span>
           </div>
           <div class="level-lesson__data-item">
             <timetable-icon-svg
-              class="level-lesson__data-img level-lesson__data-img--sm"
+              class="level-lesson__data-img"
             />
-            <span class="level-lesson__data-text">
-              00:00
+            <span class="level-lesson__data-time">
+              {{ dataTime }}
             </span>
           </div>
         </div>
@@ -90,62 +52,6 @@
       </div>
     </div>
   </div>
-  <div class="level-lesson vue-component">
-    <div class="level-lesson__pointer"></div>
-    <div class="level-lesson__progress-side">
-      <div class="level-lesson__progress-img">
-        <span class="sr-only">Урок временно недоступен</span>
-      </div>
-    </div>
-    <div class="level-lesson__content">
-      <div class="level-lesson__open">
-        <span class="level-lesson__intro">
-          Откроется:
-        </span>
-        <span class="level-lesson__date">
-          20.07.21
-        </span>
-        <span class="level-lesson__time">
-          16:00
-        </span>
-      </div>
-      <div class="level-lesson__title">
-        Урок 1. Elementary Unit 1A
-      </div>
-      <div class="level-lesson__points">
-        <div class="level-lesson__scores-box">
-          <scores class="level-lesson__scores" />
-        </div>
-        <div class="level-lesson__data">
-          <div class="level-lesson__data-item">
-            <animated-coin-png
-              class="level-lesson__data-img level-lesson__data-img--sm"
-            />
-            <span class="level-lesson__data-text">
-              0
-            </span>
-          </div>
-          <div class="level-lesson__data-item">
-            <timetable-icon-svg
-              class="level-lesson__data-img level-lesson__data-img--sm"
-            />
-            <span class="level-lesson__data-text">
-              00:00
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="level-lesson__links">
-        <span class="level-lesson__link">
-          Перейти на урок
-        </span>
-        <span class="level-lesson__link">
-          Перейти на ДЗ
-        </span>
-      </div>
-    </div>
-  </div>
-  </div><!-- удалить после доработки -->
 </template>
 
 <script>
@@ -155,7 +61,15 @@ import Scores from "@/components/LessonComponents/Scores";
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      passedClass: 'level-lesson--passed',
+      currentClass: 'level-lesson--current',
+      date: "20.07.21",
+      time: "16:00",
+      title: "Урок 1. Elementary Unit 1A",
+      dataCoins: 0,
+      dataTime: "00:00"
+    };
   },
   methods: {},
   computed: {},
@@ -174,7 +88,7 @@ export default {
 .level-lesson
   position: relative
   display: flex
-  padding: 10px 35px 20px 25px
+  padding: 10px 25px 20px
   pointer-events: none
   &--current
     pointer-events: all
@@ -247,6 +161,8 @@ export default {
     padding-top: 3px
     padding-bottom: 3px
     font-size: 14px
+  &--passed &__open
+    display: none
   &__intro
     font-weight: 600
   &--current &__intro
@@ -274,6 +190,8 @@ export default {
     flex-wrap: wrap
   &__points:not(:last-child)
     margin-bottom: 5px
+  &__scores-box
+    margin-right: 15px
   &__data
     display: flex
     padding-top: 5px
@@ -285,12 +203,13 @@ export default {
   &__data-item:not(:last-child)
     margin-right: 15px
   &__data-img
-    width: 25px
-    height: 25px
-    margin-right: 5px
-  &__data-img--sm
     width: 15px
     height: 15px
+    margin-right: 5px
+  &__data-coins
+    min-width: 24px
+  &__data-time
+    min-width: 34px
   &__links
     display: flex
     align-items: center
@@ -299,6 +218,8 @@ export default {
     font-weight: 600
     font-size: 16px
     line-height: 19px
+  &--passed &__links
+    display: none
   &__link
     position: relative
     padding-top: 4px
