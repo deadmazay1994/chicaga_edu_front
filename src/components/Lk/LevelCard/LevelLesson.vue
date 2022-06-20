@@ -29,7 +29,7 @@
       </div>
       <div class="level-lesson__points">
         <div class="level-lesson__scores-box">
-          <scores class="level-lesson__scores" />
+          <scores-simple />
         </div>
         <div class="level-lesson__data">
           <div class="level-lesson__data-item">
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import Scores from "@/components/LessonComponents/Scores";
+import ScoresSimple from "@/components/LessonComponents/ScoresSimple";
 export default {
   name: "",
   data: function() {
@@ -80,7 +80,7 @@ export default {
   methods: {},
   computed: {},
   components: {
-    Scores
+    ScoresSimple
   },
   props: [],
   mixins: {},
@@ -200,6 +200,8 @@ export default {
     margin-bottom: 5px
   &__scores-box
     margin-right: 15px
+    padding-top: 5px
+    padding-bottom: 5px
   &__data
     display: flex
     padding-top: 5px
@@ -243,25 +245,4 @@ export default {
     cursor: pointer
   &__link:not(:last-child)
     margin-right: 15px
-</style>
-
-<style lang="sass">
-.level-lesson
-  .scores
-    &__inner
-      padding: 0
-      box-shadow: none
-    &__item
-      font-size: inherit
-      line-height: inherit
-    &__item:not(:last-child)
-      margin-right: 6px
-    &__points
-      min-width: 24px
-      margin-left: 5px
-      font-size: inherit
-      line-height: inherit
-    .animated-svg-wrapper
-      width: 15px
-      height: 15px
 </style>

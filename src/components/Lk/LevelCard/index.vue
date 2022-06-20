@@ -52,7 +52,7 @@
               </div>
             </div>
             <div class="level-card__scores-box">
-              <scores class="level-card__scores" />
+              <scores-simple />
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@
 <script>
 import LevelLessons from "./LevelLessons";
 import LevelLesson from "./LevelLesson";
-import Scores from "@/components/LessonComponents/Scores";
+import ScoresSimple from "@/components/LessonComponents/ScoresSimple";
 export default {
   name: "",
   data: function() {
@@ -104,7 +104,7 @@ export default {
   components: {
     LevelLessons,
     LevelLesson,
-    Scores
+    ScoresSimple
   },
   props: [],
   mixins: {},
@@ -234,25 +234,4 @@ export default {
     overflow-y: auto
   &__lessons
     width: 100%
-</style>
-
-<style lang="sass">
-.level-card
-  .scores
-    &__inner
-      padding: 0
-      box-shadow: none
-    &__item
-      font-size: inherit
-      line-height: inherit
-    &__item:not(:last-child)
-      margin-right: 6px
-    &__points
-      min-width: 24px
-      margin-left: 5px
-      font-size: inherit
-      line-height: inherit
-    .animated-svg-wrapper
-      width: 15px
-      height: 15px
 </style>
