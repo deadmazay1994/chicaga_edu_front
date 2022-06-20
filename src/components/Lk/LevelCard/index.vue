@@ -4,7 +4,9 @@
       <div class="level-card__general">
         <div class="level-card__img-side">
           <div class="level-card__img-box">
-            <animated-brain-svg class="level-card__img" />
+            <svg class="level-card__img" width="60" height="60">
+              <use xlink:href="#bush2"></use>
+            </svg>
           </div>
         </div>
         <div class="level-card__main">
@@ -14,13 +16,17 @@
             </div>
             <div class="level-card__data">
               <div class="level-card__data-item">
-                <animated-coin-png class="level-card__data-img" />
+                <svg class="level-card__data-img" width="25" height="25">
+                  <use xlink:href="#coin"></use>
+                </svg>
                 <span class="level-card__data-text">
                   {{ coins }}
                 </span>
               </div>
               <div class="level-card__data-item">
-                <timetable-icon-svg class="level-card__data-img" />
+                <svg class="level-card__data-img" width="25" height="25">
+                  <use xlink:href="#clock"></use>
+                </svg>
                 <span class="level-card__data-text">
                   {{ time }}
                 </span>
@@ -53,6 +59,9 @@
         <div class="level-card__btn-side">
           <div class="level-card__btn-box">
             <div class="level-card__btn">
+              <svg class="level-card__btn-icon" width="20" height="20">
+                <use xlink:href="#arrow-down"></use>
+              </svg>
               <span class="sr-only">
                 Показать/скрыть подробности
               </span>
@@ -74,9 +83,6 @@
 <script>
 import LevelLessons from "./LevelLessons";
 import LevelLesson from "./LevelLesson";
-import AnimatedBrainSvg from "@/components/Icons/AnimatedBrainSvg";
-import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
-import TimetableIconSvg from "@/components/Icons/TimetableIconSvg";
 import Scores from "@/components/LessonComponents/Scores";
 export default {
   name: "",
@@ -98,9 +104,6 @@ export default {
   components: {
     LevelLessons,
     LevelLesson,
-    AnimatedBrainSvg,
-    AnimatedCoinPng,
-    TimetableIconSvg,
     Scores
   },
   props: [],
@@ -167,13 +170,11 @@ export default {
   &__btn
     width: 100%
     height: 100%
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='20' viewBox='0 0 12 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.5558 9.2196L2.65555 0.31951C2.4497 0.113495 2.1749 0 1.8819 0C1.58889 0 1.3141 0.113495 1.10824 0.31951L0.452802 0.974789C0.0263018 1.40178 0.0263018 2.09576 0.452802 2.52209L7.92656 9.99585L0.44451 17.4779C0.238658 17.6839 0.125 17.9586 0.125 18.2514C0.125 18.5446 0.238658 18.8192 0.44451 19.0254L1.09995 19.6805C1.30597 19.8865 1.5806 20 1.8736 20C2.16661 20 2.4414 19.8865 2.64726 19.6805L11.5558 10.7723C11.7621 10.5656 11.8755 10.2897 11.8748 9.99634C11.8755 9.70187 11.7621 9.4261 11.5558 9.2196Z' fill='%230D0D0D'/%3E%3C/svg%3E%0A")
-    background-position: center
-    background-size: contain
-    background-repeat: no-repeat
     cursor: pointer
-  &--active &__btn
-    transform: rotate(90deg)
+  &__btn-icon
+    transform: rotate(-90deg)
+  &--active &__btn-icon
+    transform: rotate(0deg)
   &__header
     display: flex
     align-items: center
