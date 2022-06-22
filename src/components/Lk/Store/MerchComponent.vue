@@ -61,6 +61,7 @@ p
   display: flex
   justify-content: space-between
   height: 100%
+  width: 100%
 
   @media ($media_md2)
     padding: 0 15px
@@ -72,6 +73,7 @@ p
   height: 100%
   overflow-y: auto
   padding-right: 20px
+  padding: 32px 32px 42px 32px
 .shop__content-inner
   // flex-grow: 1;
   width: 50%
