@@ -41,18 +41,13 @@ export default {
         if (typeof title == "function")
           title = await breadcrumb.title(this.$route);
 
-        breadcrumb === this.$route.meta.breadcrumb
-          ? this.breadcrumbList.push({
-              title: title,
-              color: color,
-              link: false
-            })
-          : this.breadcrumbList.push({
-              color,
-              title: title,
-              link: true,
-              path: route.path
-            });
+        let isBreadCrumb = breadcrumb === this.$route.meta.breadcrumb
+        this.breadcrumbList.push({
+          color,
+          title,
+          link: isBreadCrumb,
+          path: route.path
+        });
       });
     }
   },
