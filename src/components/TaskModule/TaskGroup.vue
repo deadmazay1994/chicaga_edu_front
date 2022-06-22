@@ -7,6 +7,7 @@
           :key="index + 'i'"
           v-if="task.type != 'lesson_addons_files'"
         >
+          {{ task.type }}
           {{ task.description }}
         </div>
         <component
@@ -52,8 +53,7 @@ export default {
     return {
       addonsTypeList: ["lesson_addons_files"],
       taskChecked: [],
-      totalOfQuestions: [],
-      checkRatio: 1
+      checkRatio: 0.8
     };
   },
   methods: {
@@ -63,15 +63,23 @@ export default {
     },
     async checkTask(index) {
       let response = await this.$refs.taskComponent[index].check();
-      console.log("response", response.answer); // Индекс задания -> answer array
-      console.log("tasks", this.tasks, this.tasks.length);
       let arr = [];
-      response.answer.map(item =>
-        item.answers.map(bool => console.log("test_01", bool))
-      );
-      response.answer.map(item => item.answers.map(bool => arr.push(bool)));
+
+      response.answer.map(item => {
+        console.log("typeof item", typeof item);
+        if (typeof item === "boolean") {
+          arr.push(item);
+        } else if (typeof item === "object") {
+          if ("correct" in item) {
+            arr.push(item.correct);
+          } else if ("answers" in item) {
+            return item.answers.map(bool => arr.push(bool));
+          } else if (Array.isArray(item)) {
+            item.map(bool => arr.push(bool));
+          }
+        }
+      });
       this.taskChecked.push(arr);
-      // response.answers.map(answer)
       this.setPointByType(response);
     }
   },
@@ -98,28 +106,25 @@ export default {
   mixins: {},
   watch: {
     taskChecked() {
-      // Нужно вычислить кол-во заданий
-      // Нужно вычислить кол-во вопросов в задании
-      console.log("0:", this.taskChecked.length);
-      console.log("1:", this.tasks.length);
       if (this.taskChecked.length != this.tasks.length) return;
+
       let boolFlag = undefined;
-      console.log("test_01", this.taskChecked);
-      this.totalOfQuestions = this.taskChecked.map(item => item);
-      let totalNumberOfQuestions = this.totalOfQuestions.length;
       let booleansArray = [];
+
       this.taskChecked.map(asnwers =>
         asnwers.map(answer => booleansArray.push(answer))
       );
+
+      let trueAnswersInOneQuestionCount = booleansArray.filter(
+        item => item === true
+      ).length;
+
       boolFlag =
-        booleansArray.filter(item => item === true).length /
-          totalNumberOfQuestions <
-        this.checkRatio
+        trueAnswersInOneQuestionCount / booleansArray.length > this.checkRatio
           ? true
           : false;
-      console.log("__>", booleansArray);
+
       this.$emit("setTaskNumberState", this.taskIndex, boolFlag);
-      // Отправить данные о выполненом задании
     }
   },
   beforeMount() {},
