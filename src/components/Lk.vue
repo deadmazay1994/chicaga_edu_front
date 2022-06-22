@@ -1,12 +1,6 @@
 <template>
   <div class="lk vue-component">
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="12" md="12">
-          <router-view />
-        </v-col>
-      </v-row>
-    </v-container>
+    <router-view />
   </div>
 </template>
 
@@ -25,4 +19,9 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.lk
+  width: 100%
+  height: 100%
+  padding: 20px
+</style>

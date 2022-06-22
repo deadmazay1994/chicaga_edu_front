@@ -44,7 +44,7 @@ export default {
     span {
       display: flex;
       align-items: center;
-      margin: 0 12;
+      margin: 0 12px;
       img {
         margin-right: 5px;
       }

@@ -1,16 +1,13 @@
 <template>
   <div class="private-upcoming vue-component">
-    <div
-      class="row"
-      style="width: 100%; height: 100%; display: flex; justify-content: center"
-    >
-      <div class="col-md-6 col-sm-12" v-if="showVideoChat">
+    <div class="private-upcoming__inner">
+      <div class="private-upcoming__part" v-if="showVideoChat">
         <web-cam
           :roomId="'presonal__' + (Math.random() + 1).toString(36).substring(7)"
           style="height: 100%"
         />
       </div>
-      <div class="col-md-6 col-sm-12 private-ipcoming__right">
+      <div class="private-upcoming__part private-upcoming__part--right">
         <slot></slot>
         <prepare :disabled="disabled" :link="link">Присоедениться</prepare>
       </div>
@@ -54,8 +51,15 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.private-ipcoming
-  &__right
+.private-upcoming
+  &__inner
+    display: flex
+    width: 100%
+    height: 100%
+  &__part
+    width: 50%
+    height: 100%
+  &__part--right
     display: flex
     flex-direction: column
     align-items: center
