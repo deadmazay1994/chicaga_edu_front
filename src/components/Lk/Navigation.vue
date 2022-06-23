@@ -4,13 +4,14 @@
       <router-link
         :key="k"
         :to="item.url + (item.params ? item.params() : '')"
+        :title="item.name"
         class="router-link"
         v-if="item.showCondition ? item.showCondition() : false"
       >
         <component :is="item.icon" />
       </router-link>
     </template>
-    <span class="router-link exit-link" @click="exit()">
+    <span title="Выход" class="router-link exit-link" @click="exit()">
       <img src="@/assets/svg/exit.svg" alt="Выйти" />
     </span>
   </div>
@@ -27,6 +28,8 @@ import SettingsIcon from "@/components/Icons/SettingsIcon";
 import QuestionIcon from "@/components/Icons/QuestionIcon";
 import WebinarIconSvg from "../Icons/WebinarIconSvg.vue";
 import TimetableIconSvg from "../Icons/TimetableIconSvg.vue";
+import ShoppingBasketSvg from "../Icons/ShoppingBasketSvg.vue";
+import TabletIconSvg from "../Icons/TabletIconSvg.vue";
 
 export default {
   data() {
@@ -35,26 +38,23 @@ export default {
         {
           name: "Каталог курсов",
           url: "/lk/catalog-coursers",
-          src: require("@/assets/svg/courses.svg"),
           icon: "CoursesIcon",
           showCondition: () => true
         },
         {
           name: "Мои курсы",
           url: "/lk/my-coursers",
-          src: require("@/assets/svg/education.svg"),
           icon: "EducationIcon",
           showCondition: () => true
         },
         {
           name: "Вебинары",
           url: "/lk/webinars",
-          src: require("@/assets/svg/group.svg"),
           icon: "WebinarIconSvg",
           showCondition: () => true
         },
         {
-          name: "Создать комнату",
+          name: "Конференц-комнаты",
           url: "/conference/",
           params: () => {
             return this.generateRoomId;
@@ -66,29 +66,32 @@ export default {
           }
         },
         {
-          name: "Уроки",
+          name: "Консультация",
+          url: "/lk/consultation",
+          icon: "TabletIconSvg",
+          showCondition: () => true
+        },
+        {
+          name: "Расписание",
           url: "/lk/my-groups",
-          src: require("@/assets/svg/book.svg"),
           icon: "TimetableIconSvg",
           showCondition: () => true
         },
-        // {
-        //   name: "Словарь",
-        //   url: "#",
-        //   src: require("@/assets/svg/book.svg"),
-        //   icon: "BookIcon"
-        // },
+        {
+          name: "Магазин",
+          url: "/lk/store",
+          icon: "ShoppingBasketSvg",
+          showCondition: () => true
+        },
         {
           name: "Настройки",
           url: "/lk/settings",
-          src: require("@/assets/svg/settings.svg"),
           icon: "SettingsIcon",
           showCondition: () => true
         },
         {
-          name: "Вопросы и ответы",
+          name: "FAQ",
           url: "/faq",
-          src: require("@/assets/svg/question.svg"),
           icon: "QuestionIcon",
           showCondition: () => true
         }
@@ -105,7 +108,9 @@ export default {
     SettingsIcon,
     QuestionIcon,
     WebinarIconSvg,
-    TimetableIconSvg
+    TimetableIconSvg,
+    ShoppingBasketSvg,
+    TabletIconSvg
   },
   computed: {
     ...mapGetters(["user", "draver"]),
@@ -150,14 +155,15 @@ export default {
   flex-direction: column
 
   .router-link
+    position: relative
     width: 47px
     height: 47px
     display: flex
     align-items: center
     justify-content: center
     background: #fff
-    border-radius: 15px
     margin-top: 12px
+    border-radius: 15px
     transition: all .15s ease-in-out
 
     &-active
@@ -165,6 +171,21 @@ export default {
 
     &:hover
       background: #D9D9D9
+
+    &[title]:hover::after
+      content: attr(title)
+      position: absolute
+      left: calc( 100% + 4px )
+      font-family: "Manrope", sans-serif
+      font-weight: 600
+      font-size: 12px
+      white-space: nowrap
+      color: #FF6440
+      background-color: #ffffff
+      box-shadow: 0px 4px 20px rgba(128, 128, 128, 0.2)
+      border-radius: 15px
+      padding: 6px 16px
+      z-index: 999
 
   .exit-link
     cursor: pointer
@@ -174,5 +195,7 @@ export default {
 .router-link-active
   .icon
     path
+      fill: #E84145
+    .filled-path
       fill: #E84145
 </style>

@@ -69,6 +69,7 @@ export default {
   background-size: auto, cover
   height: 100%
   width: 87px
+  z-index: 1
   transition: all .25s ease-in-out
 
   &__background
