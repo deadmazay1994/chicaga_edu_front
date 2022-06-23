@@ -1,12 +1,8 @@
 <template>
-  <div class="stand vue-component">
-    <Evaluation />
-  </div>
+  <div class="stand vue-component"></div>
 </template>
 
 <script>
-import Evaluation from "@/components/LessonComponents/Evaluation";
-
 export default {
   name: "stand",
   data: function() {
@@ -14,9 +10,7 @@ export default {
   },
   methods: {},
   computed: {},
-  components: {
-    Evaluation
-  },
+  components: {},
   beforeMount() {}
 };
 </script>
