@@ -137,6 +137,7 @@ $header-height: 76px
     flex-grow: 1
     width: 100%
     height: 100%
+    overflow: auto
 .header__lavel
   width: 100%
   height: 100%
