@@ -1,8 +1,11 @@
 <template>
-  <div class="stand vue-component"></div>
+  <div class="stand vue-component">
+    <inner-block></inner-block>
+  </div>
 </template>
 
 <script>
+import InnerBlock from "@/components/Lk/LevelCard";
 export default {
   name: "stand",
   data: function() {
@@ -10,9 +13,14 @@ export default {
   },
   methods: {},
   computed: {},
-  components: {},
+  components: {
+    InnerBlock
+  },
   beforeMount() {}
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.stand
+  height: 100% // без этого свойства не будет работать прокрутка внутри компонента
+</style>
