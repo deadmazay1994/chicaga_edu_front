@@ -7,7 +7,6 @@
           :key="index + 'i'"
           v-if="task.type != 'lesson_addons_files'"
         >
-          {{ task.type }}
           {{ task.description }}
         </div>
         <component

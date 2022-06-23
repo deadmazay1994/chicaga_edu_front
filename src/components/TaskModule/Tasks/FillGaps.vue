@@ -91,7 +91,10 @@ export default {
           return r;
         }
       );
-      return { value: result.points, type: type_check, answer: result.result };
+      return { 
+        value: result.points,
+        type: type_check, answer: result.result
+      };
     },
     showAnswers() {
       if (this.$refs.gap) {
