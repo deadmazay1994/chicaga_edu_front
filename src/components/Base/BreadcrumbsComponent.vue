@@ -4,12 +4,13 @@
       <li
         class="breadcrumbs__item"
         v-for="(breadcrumb, index) in breadcrumbList"
+        :style="{ color: breadcrumb.color }"
         :key="index"
       >
         <router-link :to="breadcrumb.path" v-if="breadcrumb.link">{{
-          breadcrumb.name
+          breadcrumb.title
         }}</router-link>
-        <span v-else>{{ breadcrumb.name }}</span>
+        <span v-else>{{ breadcrumb.title }}</span>
       </li>
     </ol>
   </div>
@@ -24,29 +25,30 @@ export default {
     };
   },
   methods: {
-    async updateBreadcrumbList() {
+    async defineFunction(value) {
+      if (typeof value == "function") return await value();
+      else return value;
+    },
+    updateBreadcrumbList() {
       this.breadcrumbList = [];
-      for (let i = 0; i < this.$route.matched.length; i++) {
-        let currRoute = this.$route.matched[i];
-        let name;
-        if (typeof currRoute.meta.breadcrumb === "function") {
-          name = await currRoute.meta.breadcrumb(this.$route);
-        } else {
-          name = currRoute.meta.breadcrumb;
-        }
-        if (currRoute.name === this.$route.name)
-          this.breadcrumbList.push({
-            name,
-            link: false
-          });
-        else
-          this.breadcrumbList.push({
-            name,
-            link: true,
-            path: currRoute.path
-          });
-      }
-      console.log(this.breadcrumbList)
+      this.$route.matched.map(async route => {
+        let breadcrumb = route.meta.breadcrumb;
+        let color = breadcrumb.color,
+          title = breadcrumb.title;
+
+        if (typeof color == "function") color = await breadcrumb.color();
+
+        if (typeof title == "function")
+          title = await breadcrumb.title(this.$route);
+
+        let isBreadCrumb = breadcrumb === this.$route.meta.breadcrumb
+        this.breadcrumbList.push({
+          color,
+          title,
+          link: isBreadCrumb,
+          path: route.path
+        });
+      });
     }
   },
   watch: {
@@ -60,7 +62,7 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped='scoped'>
+<style lang="sass" scoped="scoped">
 .breadcrumbs
   &__list
     width: 100%

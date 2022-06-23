@@ -1,12 +1,12 @@
 <template>
-  <div class="lk vue-component">
-    <router-view />
+  <div class="level-lessons vue-component">
+    <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: "lk",
+  name: "",
   data: function() {
     return {};
   },
@@ -20,8 +20,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.lk
-  width: 100%
-  height: 100%
-  padding: 20px
+.level-lessons
+  display: flex
+  flex-direction: column
 </style>
