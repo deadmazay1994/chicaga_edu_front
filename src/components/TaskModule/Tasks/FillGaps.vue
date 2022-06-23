@@ -74,20 +74,6 @@ export default {
       };
     },
     async check() {
-      // let checkData = {
-      //   type: "lesson",
-      //   type_check: "insert_skipped_word",
-      //   section: this.inputCopy.section,
-      //   answer: this.$refs.gap.map(gap => {
-      //     return { answers: gap.answer };
-      //   })
-      // };
-      // this.taskCheck(this.$route.params.id, checkData).then(r => {
-      //   r.result.forEach((e, i) => {
-      //     this.$refs.gap[i].setStatus(e.answers);
-      //   });
-      //   console.log("данные this.taskCheck");
-      // });
       const type_check = this.inputCopy.type;
       const checkData = {
         type: "lesson",
@@ -105,8 +91,10 @@ export default {
           return r;
         }
       );
-      console.log("данные FillGaps.vue result:", result);
-      return { value: result.points, type: type_check };
+      return { 
+        value: result.points,
+        type: type_check, answer: result.result
+      };
     },
     showAnswers() {
       if (this.$refs.gap) {

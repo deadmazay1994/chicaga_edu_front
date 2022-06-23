@@ -128,7 +128,11 @@ export default {
         this.getDataForCheck()
       );
       this.dispalyResults(result.result);
-      return { value: result.points, type: this.inputCopy.type };
+      return {
+        value: result.points,
+        type: this.inputCopy.type,
+        answer: result.result
+      };
     },
     setVariantsList() {
       // Устнавливаем варианты из пропусков

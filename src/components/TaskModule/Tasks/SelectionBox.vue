@@ -103,7 +103,11 @@ export default {
       };
       let resultMutated = this.mutationResponse(resultObj);
       this.displayResults(resultMutated);
-      return { value: result.points, type: this.taskObject.type };
+      return {
+        value: result.points,
+        type: this.taskObject.type,
+        answer: result.result
+      };
     }
   },
   mounted() {

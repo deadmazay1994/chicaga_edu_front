@@ -115,7 +115,11 @@ export default {
         this.getDataForCheck()
       );
       this.displayResults(result.result);
-      return { value: result.points, type: this.taskObject.type };
+      return {
+        value: result.points,
+        type: this.taskObject.type,
+        answer: result.result
+      };
     },
     displayResults(results) {
       this.taskColumns.map(column => {

@@ -4,6 +4,7 @@
       <tabs-component>
         <tab-component name="Задания" :selected="true">
           <tasks
+            v-if="lessonTasks"
             :tasks="lessonTasks"
             :unique_id="$route.params.id"
           />

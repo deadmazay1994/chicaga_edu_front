@@ -154,7 +154,14 @@ export default {
       );
 
       this.displayResults(result.result.l1);
-      return { value: result.points, type: this.taskObject.type };
+      return {
+        value: result.points,
+        type: this.taskObject.type,
+        // В answer передаем l1 свойство
+        // на самом деле тут должна быть другая логика
+        // l1 это ряд. По факту в l1 все ряды (значения массива)
+        answer: result.result.l1
+      };
     },
     displayResults(results) {
       results.map((result, i) => {
