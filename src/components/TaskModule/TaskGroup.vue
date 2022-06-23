@@ -89,14 +89,11 @@ export default {
 </script>
 <style lang="sass" scoped>
 .task-group
-  margin-top: 16px
-  border-top: 2px solid #E6E6E6
-  padding-top: 22px
   &__task
     margin-bottom: 10px
-.task-group__title
-  font-weight: 300
-  margin-bottom: 10px
+  &__title
+    font-weight: 300
+    margin-bottom: 10px
 
 .check-btn
   display: block

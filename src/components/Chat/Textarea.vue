@@ -131,4 +131,16 @@ span[aria-hidden="true"]
   top: 0px
   right: 0px
   border-radius: 100%
+
+.messages__controls
+  display: flex
+  justify-content: space-between
+  align-items: center
+  border-top: 2px solid hsla(0, 0%, 50%, .1)
+  padding-top: 10px
+
+.messages__controls__svg
+  width: 24px
+  height: 24px
+  cursor: pointer
 </style>
