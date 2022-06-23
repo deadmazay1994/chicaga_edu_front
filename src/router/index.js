@@ -22,7 +22,9 @@ import CoursePage from "@/components/Lk/Courses/CoursePage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
-import StoreComponent from "@/components/Lk/Store/StoreComponent";
+import StoreComponent from "@/components/Lk/Store";
+import MerchComponent from "@/components/Lk/Store/MerchComponent";
+import ProductOrder from "@/components/Lk/Store/OrderComponent";
 import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
@@ -274,16 +276,35 @@ const routes = [
         }
       },
       {
-        path: "store",
-        component: StoreComponent,
-        meta: {
-          breadcrumb: { title: "Магазин" }
-        }
-      },
-      {
         path: "shop-more",
         name: "shop-more",
         component: ShopMore,
+        meta: {
+          breadcrumb: { title: "Магазин" }
+        }
+      }
+    ]
+  },
+  {
+    path: "/store",
+    name: "store",
+    component: StoreComponent,
+    meta: {
+      breadcrumb: `Магазин`
+    },
+    children: [
+      {
+        path: "",
+        name: "merch",
+        component: MerchComponent,
+        meta: {
+          breadcrumb: "Мерч"
+        }
+      },
+      {
+        path: "merch/order",
+        name: "order",
+        component: ProductOrder,
         meta: {
           breadcrumb: { title: "Магазин" }
         }

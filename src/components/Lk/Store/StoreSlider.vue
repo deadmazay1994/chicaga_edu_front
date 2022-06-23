@@ -17,12 +17,6 @@
 
           <button class="slider__btn">Подробнее</button>
         </div>
-        <!-- <div class="slider__dots">
-                  <div class="dots__item active"></div>
-                  <div class="dots__item"></div>
-                  <div class="dots__item"></div>
-                  <div class="dots__item"></div>
-                </div> -->
       </swiper-slide>
     </swiper>
   </div>

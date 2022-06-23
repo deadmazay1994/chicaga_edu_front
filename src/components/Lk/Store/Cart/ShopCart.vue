@@ -22,7 +22,7 @@
         />
       </transition-group>
     </div>
-    <cart-total :cartGoods="cartItems" />
+    <cart-total v-if="showTotal" :cartGoods="cartItems" />
   </div>
 </template>
 
@@ -42,6 +42,9 @@ export default {
     return {
       cartItems: undefined
     };
+  },
+  props: {
+    showTotal: Boolean
   },
   computed: {
     ...mapGetters(["getBasketItems"]),
@@ -80,6 +83,11 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
 
+.shop__cart
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
 .cart__header
   display: flex
   justify-content: space-between
@@ -99,7 +107,7 @@ export default {
 .cart__content
   padding-right: 5px
   flex-grow: 1
-  max-height: 400px
+  max-height: 600px
   overflow-y: auto
 
   margin-top: 10px

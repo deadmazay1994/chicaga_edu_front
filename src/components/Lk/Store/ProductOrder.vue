@@ -1,39 +1,68 @@
 <template>
   <div class="product-order vue-component">
-    <form class="product-order__form">
+    <form class="product-order__form" @submit.prevent="sendPaymentData()">
       <div class="product-order__top">
         <div class="product-order__header">
           <div class="product-order__title">
             Оформление заказа
           </div>
         </div>
-
         <div class="product-order__item">
           <div class="product-order__label">
             Имя:
           </div>
-          <c-input class="product-order__input" />
+          <c-input
+            class="product-order__input"
+            type="text"
+            name="ФИО"
+            placeholder="Соловьева Ульяна"
+            aria-label="Поле для ввода ФИО"
+            :maxlength="30"
+            v-model="fullName"
+          />
         </div>
 
         <div class="product-order__item">
           <div class="product-order__label">
             Телефон:
           </div>
-          <c-input class="product-order__input" />
+          <c-input
+            class="product-order__input"
+            type="tel"
+            name="phone"
+            placeholder="+792125678543"
+            aria-label="Поле для ввода номера телефона"
+            :maxlength="12"
+            v-model="phone"
+            ref="phoneInput"
+          />
         </div>
 
         <div class="product-order__item">
           <div class="product-order__label">
             Электронная почта:
           </div>
-          <c-input class="product-order__input" />
+          <c-input
+            class="product-order__input"
+            type="email"
+            name="email"
+            placeholder="qwerty@mail.ru"
+            aria-label="Поле для ввода электронной почты"
+            :maxlength="50"
+            v-model="email"
+          />
         </div>
 
         <div class="product-order__item">
           <label class="product-order__label product-order__label--align-top">
             Комментарий:
           </label>
-          <c-textarea class="product-order__textarea" />
+          <c-textarea
+            class="product-order__textarea"
+            name="comment"
+            :ariaLabel="'Поле для ввода комментария'"
+            v-model="comment"
+          />
         </div>
       </div>
 
@@ -42,7 +71,14 @@
           <div class="product-order__payment">
             <div class="product-order__title">Промокод</div>
             <div class="product-order__promocode">
-              <c-input class="product-order__input" />
+              <c-input
+                class="product-order__input"
+                type="text"
+                name="promocode"
+                aria-label="Поле для ввода промокода"
+                :maxlength="30"
+                v-model="promoCode"
+              />
               <c-btn btnClass="product-order__red-btn">Применить</c-btn>
             </div>
 
@@ -54,6 +90,8 @@
                   id="method1"
                   name="payment-method"
                   type="radio"
+                  value="token"
+                  v-model="paymentMethod"
                 />
                 <span class="product-order__method-radio"></span>
                 <label class="product-order__method-label" for="method1"
@@ -67,6 +105,8 @@
                   id="method2"
                   name="payment-method"
                   type="radio"
+                  value="cart"
+                  v-model="paymentMethod"
                 />
                 <span class="product-order__method-radio"></span>
                 <label class="product-order__method-label" for="method2"
@@ -84,7 +124,9 @@
                 <svg class="product-order__coin">
                   <use xlink:href="#coin"></use>
                 </svg>
-                <span class="product-order__price-text">4000 т.</span>
+                <span class="product-order__price-text"
+                  >{{ getBasketItemsTotal }} т.</span
+                >
               </div>
             </div>
 
@@ -94,7 +136,7 @@
                   Товары:
                 </span>
                 <span class="product-order__config-desc">
-                  4шт.
+                  {{ cartItemsLength }}шт.
                 </span>
               </div>
               <div class="product-order__config">
@@ -147,13 +189,41 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
+import api from "@/mixins/api";
+
 export default {
   name: "",
   data: function() {
-    return {};
+    return {
+      fullName: "",
+      phone: "",
+      email: "",
+      comment: "",
+      promoCode: undefined,
+      paymentMethod: ""
+    };
   },
-  methods: {},
-  computed: {},
+  methods: {
+    sendPaymentData() {
+      let paymentData = {
+        fullName: this.fullName,
+        phone: this.phone,
+        email: this.email,
+        comment: this.comment,
+        promoCode: this.promoCode,
+        paymentMethod: this.paymentMethod
+      };
+      api.methods.sendPaymentData(paymentData);
+    }
+  },
+  computed: {
+    ...mapGetters(["getBasketItems", "getBasketItemsTotal"]),
+    cartItemsLength() {
+      return this.getBasketItems.reduce((acc, item) => acc + item.count, 0);
+    }
+  },
   components: {},
   props: [],
   mixins: {},
@@ -165,9 +235,6 @@ export default {
 @import "@/assets/styles/variables.sass";
 
 .product-order {
-  max-width: 610px;
-  margin-right: auto;
-  margin-left: auto;
 
   p {
     margin-top: 0;

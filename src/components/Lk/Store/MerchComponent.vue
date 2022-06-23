@@ -4,15 +4,16 @@
       <div class="shop__content-inner merch__content active">
         <div class="merch__content__inner">
           <store-slider />
-
           <div class="merch__block merch__popular">
-            <h2 class="shop__title shop__title--merch mb20">Популярные товары</h2>
+            <h2 class="shop__title shop__title--merch mb20">
+              Популярные товары
+            </h2>
             <popular-content />
             <merch-showcase />
           </div>
         </div>
       </div>
-      <shop-cart />
+      <shop-cart :showTotal="true" />
     </div>
     <store-modal />
   </div>
@@ -26,7 +27,7 @@ import ShopCart from "./Cart/ShopCart.vue";
 import StoreModal from "@/components/Lk/Store/StoreModal";
 
 export default {
-  name: "StoreComponent",
+  name: "MerchComponent",
   components: {
     StoreSlider,
     PopularContent,
@@ -60,6 +61,7 @@ p
   display: flex
   justify-content: space-between
   height: 100%
+  width: 100%
 
   @media ($media_md2)
     padding: 0 15px
@@ -71,6 +73,7 @@ p
   height: 100%
   overflow-y: auto
   padding-right: 20px
+  padding: 32px 32px 42px 32px
 .shop__content-inner
   // flex-grow: 1;
   width: 50%

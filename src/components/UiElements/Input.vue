@@ -2,11 +2,13 @@
   <div class="g-input vue-component">
     <input
       class="g-input__input"
-      type="text"
-      name="ФИО"
-      placeholder="Соловьева Ульяна"
-      aria-label="Поле для ввода ваших ФИО"
-      required
+      :type="type"
+      :name="name"
+      :placeholder="placeholder"
+      :aria-label="ariaLabel"
+      :maxlength="maxlength"
+      :style="{ required: required }"
+      v-model="inputValue"
     />
   </div>
 </template>
@@ -18,9 +20,29 @@ export default {
     return {};
   },
   methods: {},
-  computed: {},
+  computed: {
+    inputValue: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit("input", value);
+      }
+    }
+  },
   components: {},
-  props: [],
+  props: {
+    type: String,
+    name: String,
+    placeholder: String,
+    ariaLabel: String,
+    maxlength: Number,
+    required: {
+      type: Boolean,
+      default: true
+    },
+    value: String
+  },
   mixins: {},
   beforeMount() {}
 };
