@@ -133,6 +133,7 @@ export default {
       width: 15% !important
 
   .chat-block
+    padding-top: 9px
     height: 50%
     .lessons__messages
       min-height: 350px
