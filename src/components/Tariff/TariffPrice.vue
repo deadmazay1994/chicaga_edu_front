@@ -71,7 +71,6 @@ export default {
 <style lang="sass" scoped>
 .tariff-price
   position: relative
-  max-width: 390px
   font-size: 14px
   line-height: 1.3
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)

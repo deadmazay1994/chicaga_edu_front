@@ -53,10 +53,25 @@
         </div>
       </div>
     </div>
+    <price-card
+      class="tariff__price-card"
+      :trait="trait"
+    ></price-card>
+    <price-card
+      class="tariff__price-card"
+      :trait="trait"
+      :isSale="true"
+    ></price-card>
+    <price-card
+      class="tariff__price-card"
+      :trait="trait"
+      :isSale="true"
+    ></price-card>
   </div>
 </template>
 
 <script>
+import PriceCard from "./TariffPrice.vue";
 export default {
   name: "",
   data: function() {
@@ -70,7 +85,9 @@ export default {
       default: "basic"
     }
   },
-  components: {},
+  components: {
+    PriceCard
+  },
   beforeMount() {}
 };
 </script>
@@ -78,11 +95,11 @@ export default {
 <style lang="sass" scoped>
 .tariff
   max-width: 390px
-  box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
-  border-radius: 12px
-  overflow: hidden
   &__inner
     background-color: #ffffff
+    border-radius: 12px
+    box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
+    overflow: hidden
   &__header
     padding: 30px 40px 20px
     background-color: #ffffff
@@ -107,7 +124,7 @@ export default {
     margin-bottom: 16px
   &__item
     position: relative
-    display: inline-block
+    display: block
     min-height: 24px
     padding-left: 30px
   &__item:not(:last-child)
@@ -146,4 +163,6 @@ export default {
     text-align: center
   a
     color: #487ef3
+  &__price-card
+    margin-top: -8px
 </style>
