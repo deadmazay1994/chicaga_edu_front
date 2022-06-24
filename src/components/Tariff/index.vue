@@ -1,5 +1,5 @@
 <template>
-  <div class="tariff tariff--premium">
+  <div class="tariff" :class="'tariff--' + trait">
     <div class="tariff__inner">
       <header class="tariff__header">
         <div class="tariff__title-box">
@@ -44,11 +44,11 @@
             Упражнения с автоматической проверкой
           </li>
         </ul>
-        <div v-if="spec == 'basic'" class="tariff__attention">
+        <div v-if="trait == 'basic'" class="tariff__attention">
           Тариф не предполагает обратной связи преподавателя. Полностью
           самостоятельное прохождение
         </div>
-        <div v-else-if="spec == 'premium'" class="tariff__places">
+        <div v-if="trait == 'premium'" class="tariff__places">
           Осталось 20 мест
         </div>
       </div>
@@ -60,12 +60,16 @@
 export default {
   name: "",
   data: function() {
-    return {
-      spec: "premium"
-    };
+    return {};
   },
   methods: {},
   computed: {},
+  props: {
+    trait: {
+      type: String,
+      default: "basic"
+    }
+  },
   components: {},
   beforeMount() {}
 };
