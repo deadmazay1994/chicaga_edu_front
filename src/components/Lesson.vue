@@ -175,7 +175,6 @@ $header-height: 62px
   &__video
     width: 100%
     height: 100%
-    padding-bottom: 13px
   &__edu-panel
     width: 100%
     height: 100%
