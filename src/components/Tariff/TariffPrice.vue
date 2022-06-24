@@ -1,5 +1,5 @@
 <template>
-  <div class="tariff-price tariff-price--premium">
+  <div class="tariff-price" :class="'tariff-price--' + trait">
     <div class="tariff-price__inner">
       <header class="tariff-price__header">
         <div class="tariff-price__title-box">
@@ -49,12 +49,20 @@
 export default {
   name: "",
   data: function() {
-    return {
-      isSale: true
-    };
+    return {};
   },
   methods: {},
   computed: {},
+  props: {
+    trait: {
+      type: String,
+      default: "basic"
+    },
+    isSale: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {},
   beforeMount() {}
 };
