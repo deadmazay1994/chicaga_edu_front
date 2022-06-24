@@ -210,13 +210,13 @@ export default {
 .video-component
   position: relative
   display: flex
-  background-size: 120%
-  overflow: hidden
-  height: auto
-  background-position: center
-  display: flex
-  align-items: center !important
+  align-items: center
+  justify-content: center
   flex-wrap: wrap
+  height: auto
+  overflow: hidden
+  background-size: 120%
+  background-position: center
   border-radius: 20px
   z-index: 2
   &:before

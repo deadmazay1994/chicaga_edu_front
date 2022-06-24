@@ -6,7 +6,7 @@
           <Breadcrumb></Breadcrumb>
         </div>
         <div class="lesson-template__header-part">
-          <scrores class="lesson-template__scores" />
+          <scores class="lesson-template__scores" />
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
 
 <script>
 import Breadcrumb from "@/components/Base/BreadcrumbsComponent";
-import Scrores from "@/components/LessonComponents/Scores";
+import Scores from "@/components/LessonComponents/Scores";
 import Record from "@/components/LessonComponents/Record";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 
@@ -50,7 +50,7 @@ export default {
   computed: {},
   components: {
     Breadcrumb,
-    Scrores,
+    Scores,
     Record,
     EduPanel
   },
