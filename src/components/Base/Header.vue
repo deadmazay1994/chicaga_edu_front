@@ -8,14 +8,13 @@
         </div>
       </div>
 
-      <div class="header__part header__part--2">
+      <div class="header__part header__part--2"></div>
+
+      <div class="header__part header__part--3">
         <div class="header__controls">
           <div class="header__coin-box">
             <animated-coin-png ref="animatedCoin" />
             <span class="header__coin-text">{{ points.coins }}</span>
-          </div>
-          <div class="header__progress-box">
-            <progress-bar bar-class="bg-info" :numbers="33" :value="4" />
           </div>
           <div class="header__avatar">
             <router-link class="header__avatar-link" to="/lk/settings">
@@ -40,7 +39,6 @@
 
 <script>
 // import DictAdd from "@/components/Lk/DictAdd";
-import ProgressBar from "@/components/Lk/ProgressBar";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -49,8 +47,7 @@ import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 export default {
   name: "header-app",
   components: {
-    AnimatedCoinPng,
-    ProgressBar
+    AnimatedCoinPng
   },
   data: function() {
     return {};
@@ -104,6 +101,7 @@ export default {
   &__controls
     display: flex
     align-items: center
+    justify-content: flex-end
   &__coin-box
     display: flex
     align-items: center

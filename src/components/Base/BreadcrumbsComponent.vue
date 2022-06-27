@@ -37,6 +37,7 @@ export default {
           title = breadcrumb.title;
 
         if (typeof color == "function") color = await breadcrumb.color();
+        // else color = "#FF0000";
 
         if (typeof title == "function")
           title = await breadcrumb.title(this.$route);
