@@ -12,11 +12,11 @@
       </div>
     </div>
     <div class="course-description__bottom">
-      <div class="course-info" v-for="(info, index) in courseInfo" :key="index">
-        <svg class="course-info__icon">
+      <div class="course-description__info" v-for="(info, index) in courseInfo" :key="index">
+        <svg class="course-description__info-icon">
           <use :xlink:href="'#' + info.icon"></use>
         </svg>
-        <span class="course-info__text">
+        <span class="course-description__info-text">
           {{ info.text }}
         </span>
       </div>
@@ -69,23 +69,26 @@ export default {
     flex-shrink: 0
     width: 295px
     height: 215px
-.course-description__bottom
-  display: grid
-  grid-template-columns: 1fr 1fr 1fr
-  grid-gap: 16px
-  padding: 15px 65px 27px 32px
-  .course-info
+  &__bottom
+    display: grid
+    grid-auto-flow: column
+    grid-template-rows: auto auto
+    grid-template-columns: auto auto 47%
+    grid-gap: 16px
+    padding: 15px 65px 27px 32px
+  &__info
     display: flex
     align-items: center
-    &:nth-child(2)
-      grid-column-start: 2
-      grid-column-end: 4
-    &__icon
-      width: 24px
-      height: 24px
-      display: flex
-      align-items: center
-      justify-content: center
-    .course-info__text
-      margin-left: 18px
+  &__info:nth-child(5)
+    grid-row-start: 1
+    grid-row-end: 3
+    align-self: end
+  &__info-icon
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+    width: 24px
+    height: 24px
+    margin-right: 18px
 </style>
