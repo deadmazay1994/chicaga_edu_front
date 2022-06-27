@@ -8,7 +8,9 @@
         </div>
       </div>
 
-      <div class="header__part header__part--2"></div>
+      <div class="header__part header__part--2">
+        <!-- сюда будут добавлены новые элементы -->
+      </div>
 
       <div class="header__part header__part--3">
         <div class="header__controls">
@@ -19,9 +21,9 @@
           <div class="header__avatar">
             <router-link class="header__avatar-link" to="/lk/settings">
               <img
-                class="header__avatar-img"
                 :src="user.avatar_link"
                 alt="Ваше фото"
+                class="header__avatar-img"
               />
             </router-link>
           </div>
@@ -119,9 +121,9 @@ export default {
     margin-right: 24px
   &__avatar
     flex-shrink: 0
-    width: 56px
-    height: 56px
-    border-radius: 50%
+    width: 80px
+    height: 50px
+    border-radius: 100px
     border: 1px solid #F4F4F4
     overflow: hidden
   &__avatar-link
@@ -129,9 +131,10 @@ export default {
     width: 100%
     height: 100%
   &__avatar-img
-    width: 100%
-    height: 100%
-    object-fit: cover
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
   &__additional-menu
     position: relative
     padding: 10px
