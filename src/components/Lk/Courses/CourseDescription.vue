@@ -1,12 +1,14 @@
 <template>
   <div class="course-description">
     <div class="course-description__body">
-      <div class="course-description__body__text">
-        <div class="title">{{ title }}</div>
-        <p>{{ description }}</p>
+      <div class="course-description__content">
+        <div class="course-description__title">{{ title }}</div>
+        <div class="course-description__text">
+          <p>{{ description }}</p>
+        </div>
       </div>
-      <div class="course-image">
-        <img :src="image" alt="course-image" />
+      <div class="course-description__image-box">
+        <img :src="image" width="295" height="215" alt="Девушка в очках радостно и задумчиво улыбается" />
       </div>
     </div>
     <div class="course-description__bottom">
@@ -42,21 +44,31 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .course-description
+  font-weight: 300
+  font-size: 16px
+  line-height: 1.5
   background-color: #B5D6371A
   border-radius: 20px
-  box-shadow: 0px 4px 20px rgba(128, 128, 128, 0.2)
-  .course-description__body
+  box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
+  &__body
     display: flex
     justify-content: space-between
-    padding: 32px 65px 0px 32px
-    border-bottom: solid 1px #dcdcdc
-    box-shadow: 0px 1px 0px #FFFFFF
-    &__text
-      .title
-        font-size: 40px
-        font-weight: 700
-    .course-image
-      align-self: flex-end
+    padding: 32px 65px 0 32px
+    color: #323232
+    border-bottom: 1px solid #dcdcdc
+    box-shadow: 0 1px 0 #ffffff
+  &__content
+    margin-right: 13%
+    padding-bottom: 15px
+  &__title
+    font-weight: 700
+    font-size: 40px
+    line-height: 1.4
+  &__image-box
+    align-self: flex-end
+    flex-shrink: 0
+    width: 295px
+    height: 215px
 .course-description__bottom
   display: grid
   grid-template-columns: 1fr 1fr 1fr
