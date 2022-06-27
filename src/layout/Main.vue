@@ -132,6 +132,7 @@ $header-height: 76px
   &__body
     width: 100%
     height: 100%
+    overflow-x: hidden
     overflow-y: auto
 .header__lavel
   width: 100%
