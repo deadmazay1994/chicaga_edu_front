@@ -5,7 +5,9 @@
         <div class="title">{{ title }}</div>
         <p>{{ description }}</p>
       </div>
-      <img :src="image" alt="course-image" />
+      <div class="course-image">
+        <img :src="image" alt="course-image" />
+      </div>
     </div>
     <div class="course-description__bottom">
       <div class="course-info" v-for="(info, index) in courseInfo" :key="index">
@@ -42,25 +44,18 @@ export default {
 .course-description
   background-color: #B5D6371A
   border-radius: 20px
-  -webkit-box-shadow: 0px 4px 20px rgba(128, 128, 128, 0.2)
-  -moz-box-shadow: 0px 4px 20px rgba(128, 128, 128, 0.2)
-  -moz-box-shadow: 0px 4px 20px rgba(128, 128, 128, 0.2)
   box-shadow: 0px 4px 20px rgba(128, 128, 128, 0.2)
-  // padding: 32px 65px 27px 32px
   .course-description__body
     display: flex
     justify-content: space-between
     padding: 32px 65px 0px 32px
     border-bottom: solid 1px #dcdcdc
-    -webkit-box-shadow: 0px 4px 20px #FFFFFF
-    -moz-box-shadow: 0px 4px 20px #FFFFFF
-    -o-box-shadow: 0px 4px 20px #FFFFFF
     box-shadow: 0px 1px 0px #FFFFFF
     &__text
       .title
         font-size: 40px
         font-weight: 700
-    img
+    .course-image
       align-self: flex-end
 .course-description__bottom
   display: grid
@@ -73,7 +68,7 @@ export default {
     &:nth-child(2)
       grid-column-start: 2
       grid-column-end: 4
-    .course-info__icon
+    &__icon
       width: 24px
       height: 24px
       display: flex
