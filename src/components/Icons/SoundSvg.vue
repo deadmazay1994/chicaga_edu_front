@@ -1,5 +1,5 @@
 <template>
-  <div class="sound-svg" @click="clickElem">
+  <div class="sound-svg" @click="$emit('click')">
     <svg
       v-if="!muted"
       width="18"
@@ -36,11 +36,6 @@ export default {
   name: "SoundSvg",
   props: {
     muted: Boolean
-  },
-  methods: {
-    clickElem() {
-      this.$emit("clickElem");
-    }
   }
 };
 </script>

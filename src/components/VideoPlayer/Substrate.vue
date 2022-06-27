@@ -27,14 +27,14 @@ export default {
       let fireFunction = () => {
         this.active = true;
         this.updateDisabledTimeout();
-      }
-      let clickEvent
+      };
+      let clickEvent;
       this.playerElement.addEventListener("mousemove", fireFunction);
       this.playerElement.addEventListener("click", e => {
-        clickEvent = e
+        clickEvent = e;
         setTimeout(() => {
-          if (clickEvent.detail === 1) fireFunction()
-        }, 100)
+          if (clickEvent.detail === 1) fireFunction();
+        }, 100);
       });
     }
   },
