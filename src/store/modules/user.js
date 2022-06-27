@@ -23,21 +23,19 @@ export default {
         let response = await api.methods.login(formdata);
         let barText = "";
         let barStatus = false;
-        if ("success" in response) {
-          if (response.success) {
-            commit("setUser", response.data);
-            commit("setToken", response.data.api_token);
-            let redirectUrl = "/lk/my-coursers";
-            if (localStorage.getItem("to")) {
-              redirectUrl = localStorage.getItem("to");
-            }
-            router.push({ path: redirectUrl });
-            localStorage.removeItem("to");
-            barText = "Вы успешно авторизировались";
-            barStatus = true;
+        if (response.data.api_token) {
+          commit("setUser", response.data);
+          commit("setToken", response.data.api_token);
+          let redirectUrl = "/lk/my-coursers";
+          if (localStorage.getItem("to")) {
+            redirectUrl = localStorage.getItem("to");
           }
+          router.push({ path: redirectUrl });
+          localStorage.removeItem("to");
+          barText = "Вы успешно авторизировались";
+          barStatus = true;
         }
-        if ("error" in response) {
+        else if ("error" in response || !response.data.api_token) {
           barText = api.methods.getErrorText(response);
           barStatus = false;
         }

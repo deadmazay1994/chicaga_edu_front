@@ -228,7 +228,8 @@ const routes = [
         meta: {
           breadcrumb: {
             title: () => "Курс"
-          }
+          },
+          layout: "default-layout"
         }
         // breadcrumb: async route => {
         //   let r = await api.methods.getFullLesson(route.params.id);
