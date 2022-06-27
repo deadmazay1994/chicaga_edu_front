@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import InnerBlock from "@/components/Lk/LevelCard";
+import InnerBlock from "@/components/CourseProgram/";
 export default {
   name: "stand",
   data: function() {
