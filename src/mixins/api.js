@@ -98,7 +98,8 @@ export default {
       let response = await get("lesson", id);
       return {
         lesson: response.lesson,
-        dz: response.dz
+        dz: response.dz,
+        videoId: response.video_id
       };
     },
     async getFullLesson(id) {
@@ -127,6 +128,10 @@ export default {
     },
     async getProgressOfCourse(courseId) {
       return get("teacher/course/" + courseId);
+    },
+    // video
+    async getVideo(id) {
+      return get(`user/videos/${id}`)
     },
     // Проверка доступа пользователя к уроку
     checkAccess(id) {
