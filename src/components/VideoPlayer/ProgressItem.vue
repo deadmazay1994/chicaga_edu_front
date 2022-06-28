@@ -1,6 +1,6 @@
 <template>
   <div class="progress-item" :style="progressItemWidth">
-    <span class="progress-item__title">{{ timestamp.title }}</span>
+    <div class="progress-item__title">{{ timestamp.title }}</div>
     <div class="progress-item__element" :style="progressItemElementWidth"></div>
   </div>
 </template>
@@ -69,26 +69,24 @@ export default {
 
 <style lang="sass" scoped>
 .progress-item
-  background: rgba(255, 255, 255, 0.33)
+  background-color: rgba(255, 255, 255, 0.33)
   cursor: pointer
-
-  &:hover
-    .progress-item__title
-      opacity: 1
-  & + .progress-item
-    margin-left: 2px
-
-  .progress-item__element
-    height: 8px
-    width: 0%
-    background: #FF0000
-
-  .progress-item__title
-    font-size: 16px
-    font-weight: 500
-    color: #fff
-    opacity: 0
+  &:not(:last-child)
+    margin-right: 2px
+  &__title
     position: absolute
     margin-top: -33px
-    drop-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 1)
+    font-weight: 500
+    font-size: 16px
+    color: #ffffff
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1)
+    opacity: 0
+    transition-property: opacity
+    transition-duration: 0.2s
+  &:hover &__title
+    opacity: 1
+  &__element
+    width: 0
+    height: 8px
+    background-color: #ff0000
 </style>
