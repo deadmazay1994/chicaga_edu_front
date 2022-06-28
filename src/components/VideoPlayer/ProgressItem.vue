@@ -69,10 +69,9 @@ export default {
 
 <style lang="sass" scoped>
 .progress-item
+  position: relative
   background-color: rgba(255, 255, 255, 0.33)
   cursor: pointer
-  &:not(:last-child)
-    margin-right: 2px
   &__title
     position: absolute
     margin-top: -33px
