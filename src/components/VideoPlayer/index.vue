@@ -262,7 +262,6 @@ export default {
       this.onTimeUpdate();
     },
     rewindTo(x) {
-      console.log("->", x);
       this.videoElement.currentTime =
         (x / this.$refs.progress.$el.clientWidth) * this.duration;
       this.onTimeUpdate();

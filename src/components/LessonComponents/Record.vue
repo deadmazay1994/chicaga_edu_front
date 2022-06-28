@@ -7,7 +7,7 @@
             ref="video"
             class="record__video"
             @click="$emit('click-by-video')"
-            src="https://chicaga-media.storage.yandexcloud.net/videos/5 урок през.mp4"
+            :src="src"
           ></video>
         </div>
       </video-player>
@@ -45,7 +45,12 @@ export default {
       timestamps: []
     };
   },
-  props: [],
+  props: {
+    src: {
+      type: String,
+      required: true
+    }
+  },
   computed: {},
   methods: {
     clickTimecode(time) {

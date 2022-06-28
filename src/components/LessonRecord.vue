@@ -14,7 +14,7 @@
       <div class="lesson-body">
         <div class="lesson-body__inner">
           <div class="lesson-body__item">
-            <record class="lesson-body__video" />
+            <record v-if="record && record.url" :src="record.url" class="lesson-body__video" />
           </div>
           <div class="lesson-body__item lesson-body__item--2">
             <edu-panel class="lesson-body__edu-panel" />
@@ -31,12 +31,22 @@ import Scrores from "@/components/LessonComponents/Scores";
 import Record from "@/components/LessonComponents/Record";
 import EduPanel from "@/components/LessonComponents/EduPanel";
 
+import api from "@/mixins/api";
+
 export default {
   name: "lesson-template",
   data: function() {
-    return {};
+    return {
+      record: null
+    };
   },
-  methods: {},
+  methods: {
+    async setRecord() {
+      let lesson = await this.getLesson(this.$route.params.id)
+      let record = await this.getVideo(lesson.videoId);
+      this.record = record.data
+    }
+  },
   computed: {},
   components: {
     Breadcrumb,
@@ -45,8 +55,10 @@ export default {
     EduPanel
   },
   props: [],
-  mixins: {},
-  beforeMount() {}
+  mixins: [api],
+  beforeMount() {
+    this.setRecord()
+  }
 };
 </script>
 

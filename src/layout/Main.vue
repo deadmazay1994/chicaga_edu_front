@@ -29,9 +29,7 @@
         </template>
         <template v-slot:default>
           <div class="main__body-wrap">
-            <div class="main__body">
-              <router-view class="" />
-            </div>
+            <router-view class="main__body" />
           </div>
         </template>
       </c-content>
@@ -128,15 +126,14 @@ $header-height: 76px
     width: 100%
     height: 100%
   &__body-wrap
-    display: flex
-    flex-direction: column
     flex-grow: 1
     width: 100%
     height: calc( 100% - #{$header-height} )
   &__body
-    flex-grow: 1
     width: 100%
     height: 100%
+    overflow-x: hidden
+    overflow-y: auto
 .header__lavel
   width: 100%
   height: 100%
