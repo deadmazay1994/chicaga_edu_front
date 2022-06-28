@@ -36,11 +36,4 @@ export default {
   display: flex
   align-items: center
   justify-content: center
-  .play-pause-animation__element
-    position: absolute
-
-// .fade-enter-active, .fade-leave-active
-//   transition: opacity 1s
-// .fade-enter, .fade-leave-to
-//   opacity: 0
 </style>
