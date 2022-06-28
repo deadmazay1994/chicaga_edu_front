@@ -3,8 +3,9 @@
     class="video-substrate vue-component"
     :class="{ 'video-substrate--active': active }"
   >
-    <div class="video-substrate__block"></div>
-    <slot />
+    <div class="video-substrate__inner">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -61,19 +62,16 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .video-substrate
-  top: 0
-  width: 100%
-  height: 100%
-  position: absolute
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  background-color: #00000000
+  opacity: 0
+  transition-property: background-color, opacity
+  transition-duration: 0.2s
   pointer-events: none
-  transition: .2s
-  opacity: 1
-  & > *
-    opacity: 0
   &--active
-    background: #0005
-    pointer-events: all
+    background-color: #00000050
     opacity: 1
-    & > *
-      opacity: 1
+    pointer-events: all
 </style>
