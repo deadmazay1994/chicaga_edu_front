@@ -60,13 +60,58 @@ export default {
     align-items: center
     margin-left: 5px
     overflow: hidden
+  input[type=range]
+    -webkit-appearance: none
+    width: 50px
+    background-color: transparent
+    &:focus
+      outline: none
+    &::-webkit-slider-thumb
+      -webkit-appearance: none
+      width: 6px
+      height: 6px
+      margin-top: -2px
+      background-color: #ffffff
+      border: none
+      border-radius: 50%
+      cursor: pointer
+    &::-moz-slider-thumb
+      -webkit-appearance: none
+      width: 6px
+      height: 6px
+      margin-top: -2px
+      background-color: #ffffff
+      border: none
+      border-radius: 50%
+      cursor: pointer
+    &::-webkit-slider-runnable-track
+      width: 100%
+      height: 2px
+      background-color: #ffffff
+      border-radius: 1px
+      cursor: pointer
+      animate: 0.2s
+    &::-moz-range-track
+      width: 100%
+      height: 3px
+      background-color: #ffffff
+      border-radius: 1px
+      cursor: pointer
+      animate: 0.2s
+    &::-ms-track
+      width: 100%
+      height: 3px
+      background-color: #ffffff
+      border-radius: 1px
+      cursor: pointer
+      animate: 0.2s
 
-    .emersion-enter
-      transform: translateX(-129px)
-    .emersion-enter-active,
-    .emersion-leave-active
-      transition: all 0.2s ease-in-out
-    .emersion-enter-from,
-    .emersion-leave-to
-      transform: translateX(-129px)
+  .emersion-enter
+    transform: translateX(-129px)
+  .emersion-enter-active,
+  .emersion-leave-active
+    transition: all 0.2s ease-in-out
+  .emersion-enter-from,
+  .emersion-leave-to
+    transform: translateX(-129px)
 </style>
