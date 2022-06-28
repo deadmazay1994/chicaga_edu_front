@@ -1,9 +1,9 @@
 <template>
-  <div class="current-time-output">
-    <div class="current-time-output__title">
+  <div class="current-time">
+    <div class="current-time__title">
       {{ currentTitle }}
     </div>
-    <div class="current-time-output__duration">
+    <div class="current-time__duration">
       {{ currentVideoTime }}
       <template v-if="formattedDuration">{{ formattedDuration }}</template>
     </div>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "current-time-output",
+  name: "current-time",
   components: {},
   data: function() {
     return {};
@@ -28,6 +28,12 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.current-time-output
+.current-time
   display: flex
+  align-self: center
+  font-weight: 400
+  font-size: 13px
+  line-height: 22px
+  letter-spacing: 0.01em
+  color: #eaeaea
 </style>
