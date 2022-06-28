@@ -1013,6 +1013,21 @@
       />
     </symbol>
 
+    <symbol id="list-check" viewBox="0 0 20 18">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M18 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H18C19.1 18 20 17.1 20 16V2C20 0.9 19.1 0 18 0ZM8 14H3V12H8V14ZM8 10H3V8H8V10ZM8 6H3V4H8V6ZM12.82 12L10 9.16L11.41 7.75L12.82 9.17L15.99 6L17.41 7.42L12.82 12Z"
+        fill="#FFCA7B"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M18 0H10V8V15V18H18C19.1 18 20 17.1 20 16V2C20 0.9 19.1 0 18 0ZM12.82 12L10 9.16L11.41 7.75L12.82 9.17L15.99 6L17.41 7.42L12.82 12Z"
+        fill="#FFBB7E"
+      />
+    </symbol>
+
     <symbol id="sq-school-red" viewBox="0 0 48 48">
       <rect width="48" height="48" rx="8" ry="8" fill="#FFF0F0" />
       <path
