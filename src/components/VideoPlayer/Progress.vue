@@ -1,6 +1,7 @@
 <template>
   <div class="progress" ref="progress" @click="rewind($event)">
     <progress-item
+      class="progress__item"
       v-for="(timestamp, index) in timestamps"
       ref="progressItem"
       :key="index"
@@ -43,4 +44,6 @@ export default {
 .progress
   display: flex
   width: 100%
+  &__item:not(:last-child)
+    margin-right: 2px
 </style>
