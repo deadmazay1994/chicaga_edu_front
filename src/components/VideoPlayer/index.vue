@@ -170,6 +170,7 @@ export default {
     onTimeUpdate() {
       this.currentTime = this.videoElement.currentTime;
       if (this.duration === Infinity) return;
+      if (!this.timestamps) return;
       for (let i = 0; i < this.timestamps.length; i++) {
         let previousTimeStampTime = i > 0 ? this.timestamps[i - 1].time : 0;
         let currentTimeStampTime = this.timestamps[i];
@@ -281,7 +282,6 @@ export default {
   },
   watch: {
     changeVol() {
-      console.log("test_01", this.changeVol);
       this.videoElement.volume = this.changeVol;
     }
   },

@@ -37,9 +37,9 @@
           <settings-menu-vue
             class="figcaption-component__settings-menu"
             v-if="settingsMenu"
-            @changeSpeed="$emit('changeSpeed', speed)"
+            @changeSpeed="changeSpeed"
           />
-          <gear-vue @click="settingsMenu = !settingsMenu" />
+          <gear-vue @click.native="settingsMenu = !settingsMenu" />
         </div>
         <chat-svg-vue
           class="figcaption-component__chat-svg"
@@ -52,7 +52,7 @@
         <expand-svg-vue
           class="figcaption-component__expand-svg"
           :expanded="fullscreenOn"
-          @click="$emit('toggleExpand')"
+          @click.native="$emit('toggleExpand')"
         />
       </div>
     </div>
@@ -115,13 +115,16 @@ export default {
         return this.volumeValue;
       },
       set(value) {
-        this.$emit("volumeInput", value);
+        this.$emit("volumeInput", Number(value));
       }
     }
   },
   methods: {
     rewindTo(x) {
       this.$emit("rewindTo", x);
+    },
+    changeSpeed(speed) {
+      this.$emit("changeSpeed", speed);
     }
   }
 };
