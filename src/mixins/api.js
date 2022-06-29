@@ -86,6 +86,17 @@ export default {
     async getProgressForTeacher() {
       return get("teacher/courses");
     },
+    // временный мок для получения программ курса
+    async getCourseProgramms() {
+      return [
+        {
+          title: "Урок 1. Elementary. Unit 1A. Ep.1",
+          rating: 4.8,
+          duration: 15232,
+          start_time: 1656454829
+        }
+      ];
+    },
     // Group
     async getAcademicGroups() {
       return get("user/groups");
@@ -131,7 +142,7 @@ export default {
     },
     // video
     async getVideo(id) {
-      return get(`user/videos/${id}`)
+      return get(`user/videos/${id}`);
     },
     // Проверка доступа пользователя к уроку
     checkAccess(id) {

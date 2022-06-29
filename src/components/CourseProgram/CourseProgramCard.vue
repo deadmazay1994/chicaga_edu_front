@@ -96,7 +96,8 @@ export default {
     kind: {
       type: String,
       default: "lesson"
-    }
+    },
+    courseProgramm: Object
   },
   mixins: {},
   beforeMount() {}
