@@ -2,12 +2,12 @@
   <div class="rewind-svgs vue-component">
     <div class="rewind-svgs__elem">
       <transition name="fade">
-        <rewind-svg-vue :left="true" v-if="hasRewindLeft" />
+        <rewind-svg-vue :left="true" v-show="hasRewindLeft" />
       </transition>
     </div>
     <div class="rewind-svgs__elem">
       <transition name="fade">
-        <rewind-svg-vue :right="true" v-if="hasRewindRight" />
+        <rewind-svg-vue :right="true" v-show="hasRewindRight" />
       </transition>
     </div>
   </div>
@@ -40,4 +40,9 @@ export default {
     align-items: center
     justify-content: center
     width: 50%
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 0.5s
+.fade-enter, .fade-leave-to
+  opacity: 0
 </style>
