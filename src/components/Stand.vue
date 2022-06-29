@@ -11,7 +11,6 @@
 <script>
 import api from "@/mixins/api";
 import Tariff from "./Tariff";
-// import InnerBlock from "@/components/CourseProgram/";
 export default {
   name: "stand",
   data: function() {
@@ -28,7 +27,6 @@ export default {
   computed: {},
   components: {
     Tariff
-    // InnerBlock
   },
   beforeMount() {
     this.setTariff();
