@@ -36,7 +36,8 @@
       class="video-player__substrate"
       :player-element="$el"
       style="z-index: 2"
-      :duration="1000">
+      :duration="1000"
+    >
       <figcaption-component
         ref="figcaption"
         :currentTime="currentTime"

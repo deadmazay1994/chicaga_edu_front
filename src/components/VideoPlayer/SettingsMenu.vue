@@ -6,7 +6,8 @@
         <span
           class="settings-menu__item settings-menu__item--pointed"
           @click="submenuIsOpen = true"
-          >Обычная <SchevronSvgVue class="settings-menu__item-arrow" :fill="'ffffff'"
+          >Обычная
+          <SchevronSvgVue class="settings-menu__item-arrow" :fill="'ffffff'"
         /></span>
       </div>
     </div>

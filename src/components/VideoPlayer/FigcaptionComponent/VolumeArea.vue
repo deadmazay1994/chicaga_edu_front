@@ -4,7 +4,11 @@
     @mouseenter="$emit('mouseenter')"
     @mouseleave="$emit('mouseleave')"
   >
-    <sound-svg-vue class="volume-area__sound-svg" :muted="muteVolume" @click="$emit('clickToggleVolume')" />
+    <sound-svg-vue
+      class="volume-area__sound-svg"
+      :muted="muteVolume"
+      @click="$emit('clickToggleVolume')"
+    />
     <div class="volume-area__input-box">
       <transition name="emersion">
         <input
