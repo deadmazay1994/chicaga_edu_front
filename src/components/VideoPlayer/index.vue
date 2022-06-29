@@ -317,12 +317,15 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .video-player
   position: relative
   border-radius: 20px
   outline-style: none
   overflow: hidden
+  &__slot-wrap
+    width: 100%
+    height: 100%
   &__frame
     position: relative
     display: flex
