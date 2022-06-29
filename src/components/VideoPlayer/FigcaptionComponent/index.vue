@@ -38,8 +38,9 @@
             class="figcaption-component__settings-menu"
             v-if="settingsMenu"
             @changeSpeed="changeSpeed"
+            v-click-outside="() => onClickOutside()"
           />
-          <gear-vue @click.native="settingsMenu = !settingsMenu" />
+          <gear-vue @click.native="toggleSettingMenu()" />
         </div>
         <chat-svg-vue
           class="figcaption-component__chat-svg"
@@ -68,6 +69,8 @@ import SettingsMenuVue from "../SettingsMenu.vue";
 import GearVue from "../../Icons/Gear.vue";
 import ChatSvgVue from "../../Icons/ChatSvg.vue";
 import ExpandSvgVue from "../../Icons/ExpandSvg.vue";
+
+import vClickOutside from "v-click-outside";
 
 export default {
   name: "figcaption-component",
@@ -119,12 +122,24 @@ export default {
       }
     }
   },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   methods: {
     rewindTo(x) {
       this.$emit("rewindTo", x);
     },
     changeSpeed(speed) {
       this.$emit("changeSpeed", speed);
+    },
+    toggleSettingMenu() {
+      this.settingsMenu = !this.settingsMenu;
+      this.$emit("toggleInterruptFlag", this.settingsMenu);
+    },
+    async onClickOutside() {
+      console.log("onClickOutside");
+      this.settingsMenu = false;
+      this.$emit("toggleInterruptFlag", this.settingsMenu);
     }
   }
 };

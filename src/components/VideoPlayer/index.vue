@@ -61,6 +61,7 @@
         @changeSpeed="changeVideoSpeed"
         @clickChat="clickChat()"
         @toggleExpand="toggleExpand()"
+        @toggleInterruptFlag="toggleInterruptFlag"
       />
     </substrate>
   </div>
@@ -101,7 +102,8 @@ export default {
       hasRewindRight: false,
       videoJustPaused: false,
       videoJustPlayed: false,
-      playPauseClickEvent: null
+      playPauseClickEvent: null,
+      interruptFlag: false
     };
   },
   props: {
@@ -146,6 +148,11 @@ export default {
     },
     // Двойной клик на видео
     doubleClickOnVideo(event, callback) {
+      // Прерываем выполнение метода при выполнении события
+      // onClickOutside в FigcaptionComponent
+      if (this.interruptFlag) {
+        return;
+      }
       if (!this.defineIsClickedElement(event, this.$refs.videoWrapper)) return;
 
       let xPosition = event.offsetX;
@@ -278,6 +285,9 @@ export default {
     },
     setPausedVideo() {
       this.paused = this.videoElement.paused;
+    },
+    toggleInterruptFlag(value) {
+      this.interruptFlag = value;
     }
   },
   watch: {
