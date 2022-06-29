@@ -4,35 +4,36 @@
       <header class="tariff-price__header">
         <div class="tariff-price__title-box">
           <span class="tariff-price__title">
-            1 курс
+            {{ price.title }}
           </span>
         </div>
       </header>
       <div class="tariff-price__body">
         <div class="tariff-price__body-main">
           <div class="tariff-price__month-box">
-            <span class="tariff-price__month-price">11 200</span
+            <span class="tariff-price__month-price">{{ pricePerMonth }}</span
             ><span class="tariff-price__month-currency">₽</span> за месяц
           </div>
           <div class="tariff-price__course-box">
-            1 курс –
-            <span v-if="isSale" class="tariff-price__old-price">
-              56 000
+            {{ price.course_count }} курс{{ endingOfString }} –
+            <span v-if="price.discount" class="tariff-price__old-price">
+              {{ price.price }}
             </span>
-            <span v-if="isSale" class="tariff-price__sale-box">
+            <span v-if="price.discount" class="tariff-price__sale-box">
               <span class="tariff-price__sale">
-                -20<span class="tariff-price__sale-percent">%</span>
+                -{{ price.discount
+                }}<span class="tariff-price__sale-percent">%</span>
               </span>
             </span>
             <span class="tariff-price__course-price">
-              44 800
+              {{ priceWidthDiscountOrDefaultPrice }}
             </span>
             <span class="tariff-price__course-currency">
               ₽
             </span>
           </div>
-          <div v-if="isSale" class="tariff-price__saving-box">
-            Вы экономите: 11 200 р
+          <div v-if="price.discount" class="tariff-price__saving-box">
+            Вы экономите: {{ price.price - priceWidthDiscountOrDefaultPrice }} р
           </div>
         </div>
         <div class="tariff-price__btn-box">
@@ -52,16 +53,31 @@ export default {
     return {};
   },
   methods: {},
-  computed: {},
-  props: {
-    trait: {
-      type: String,
-      default: "basic"
+  computed: {
+    priceWidthDiscountOrDefaultPrice() {
+      let price = this.price.price;
+      let discount = this.price.discount;
+      return discount ? price - (price / 100) * discount : price;
     },
-    isSale: {
-      type: Boolean,
-      default: false
+    pricePerMonth() {
+      let pricePerMonth = this.price.price / 4 / this.price.course_count;
+      return this.price.discount
+        ? pricePerMonth - (pricePerMonth / 100) * this.price.discount
+        : this.price.price / 4 / this.price.course_count;
+    },
+    endingOfString() {
+      const lastNumber = this.price.course_count % 10;
+      const lastTwoNumbers = this.price.course_count % 100;
+      if (lastNumber == 1 && lastTwoNumbers != 11) {
+        return "";
+      } else if (lastNumber > 1 && lastNumber < 5) {
+        return "а";
+      } else return "ов";
     }
+  },
+  props: {
+    price: Object,
+    trait: String
   },
   components: {},
   beforeMount() {}
