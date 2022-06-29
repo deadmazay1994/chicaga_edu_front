@@ -1,5 +1,5 @@
 <template>
-  <div class="gear vue-component" @click="$emit('click')">
+  <div class="gear vue-component">
     <svg
       width="16"
       height="17"
