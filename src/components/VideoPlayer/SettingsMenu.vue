@@ -1,28 +1,29 @@
 <template>
-  <div class="settings-menu-wrapper vue-component">
-    <div class="settings-menu" v-if="!submenuIsOpen">
-      <div class="settings-menu__row">
-        <span class="settings-menu__row__item">Скорость воспроизведения</span>
+  <div class="settings-menu vue-component">
+    <div class="settings-menu__inner" v-if="!submenuIsOpen">
+      <div class="settings-menu__list">
+        <span class="settings-menu__item">Скорость воспроизведения</span>
         <span
-          class="settings-menu__row__item settings-schevron"
+          class="settings-menu__item settings-menu__item--pointed"
           @click="submenuIsOpen = true"
-          >Обычная <SchevronSvgVue class="arrow" :fill="'ffffff'"
+          >Обычная
+          <SchevronSvgVue class="settings-menu__item-arrow" :fill="'ffffff'"
         /></span>
       </div>
     </div>
-    <div class="settings-menu sub-menu" v-if="submenuIsOpen">
-      <div class="sub-menu__title" @click="submenuIsOpen = false">
+    <div class="settings-menu__inner" v-if="submenuIsOpen">
+      <div class="settings-menu__title" @click="submenuIsOpen = false">
         <SchevronSvgVue :fill="'ffffff'" :on="true" />
         <span>Скорость воспроизведения</span>
       </div>
       <div
-        class="sub-menu__row"
+        class="settings-menu__sublist"
         v-for="(speed, index) in videoSpeedArray"
         :key="index"
-        :class="{ 'sub-menu__row--active': speed.active }"
+        :class="{ 'settings-menu__sublist--active': speed.active }"
         @click="clickSubMenuRow(speed.speed, index)"
       >
-        <span class="sub-menu__row__title">
+        <span class="settings-menu__sublist-title">
           {{ speed.title }}
         </span>
       </div>
@@ -67,53 +68,46 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .settings-menu
-  display: flex
-  align-items: center
-  flex-direction: column
-  background-color: #181818
-  color: #FFFFFF
-  font-size: 12px
-  width: 270px
-
-  &__row
+  svg path
+    fill: #ffffff
+  &__inner
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 270px
+    font-size: 12px
+    color: #ffffff
+    background-color: #181818
+  &__list
     display: flex
     justify-content: space-between
     width: 100%
-    padding: 1rem
-
-    &__item
-      display: flex
-      align-items: center
-
-  .arrow
-    margin-left: .5rem
-
-  .settings-schevron
+    padding: 1em
+  &__item
+    display: flex
+    align-items: center
+  &__item--pointed
     cursor: pointer
-
-.sub-menu
+  &__item-arrow
+    margin-left: 0.5em
   &__title
     display: flex
     align-items: center
     justify-content: space-between
     width: 100%
-    padding: 1rem
-  &__row
+    padding: 1em
+  &__sublist
     display: flex
     align-items: center
     width: 100%
     cursor: pointer
-    padding: .35rem .5rem
-    &__title
-      margin-left: 2rem
-    &:hover
-      background-color: #3d3d3d
-    &--active::before
-      content: "✓"
-      position: absolute
-      left: 10px
-
-svg
-  path
-    fill: #ffffff
+    padding: 0.35em 0.5em
+  &__sublist:hover
+    background-color: #3d3d3d
+  &__sublist--active::before
+    content: "✓"
+    position: absolute
+    left: 10px
+  &__sublist-title
+    margin-left: 2rem
 </style>

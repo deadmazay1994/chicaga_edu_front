@@ -1,7 +1,8 @@
 <template>
   <figcaption class="figcaption-component" @click="$emit('click')">
-    <div class="top">
+    <div class="figcaption-component__top">
       <Progress
+        class="figcaption-component__progress"
         @rewindTo="rewindTo"
         ref="progress"
         :currentTime="currentTime"
@@ -9,10 +10,15 @@
         :timestamps="timestamps"
       />
     </div>
-    <div class="bottom">
-      <div class="left-side">
-        <play-svg-vue :onPause="paused" @click="$emit('togglePlay')" />
+    <div class="figcaption-component__bottom">
+      <div class="figcaption-component__bottom-left">
+        <play-svg-vue
+          class="figcaption-component__play-svg"
+          :onPause="paused"
+          @click="$emit('togglePlay')"
+        />
         <volume-area-vue
+          class="figcaption-component__volume-area"
           :volumeBoolean="volumeBoolean"
           v-model="volumeInputValue"
           @clickToggleVolume="$emit('clickToggleVolume')"
@@ -20,21 +26,24 @@
           @mouseleave="volumeBoolean = false"
         />
         <current-time-output-vue
-          class="current-time"
+          class="figcaption-component__current-time"
           :currentTitle="currentTitle"
           :currentVideoTime="currentVideoTime"
           :formattedDuration="formattedDuration"
         />
       </div>
-      <div class="right-side" style="z-index: 100">
-        <div class="right-side__settings">
+      <div class="figcaption-component__bottom-right" style="z-index: 100">
+        <div class="figcaption-component__settings">
           <settings-menu-vue
+            class="figcaption-component__settings-menu"
             v-if="settingsMenu"
-            @changeSpeed="$emit('changeSpeed', speed)"
+            @changeSpeed="changeSpeed"
+            v-click-outside="() => onClickOutside()"
           />
-          <gear-vue @click="settingsMenu = !settingsMenu" />
+          <gear-vue @click.native="toggleSettingMenu()" />
         </div>
         <chat-svg-vue
+          class="figcaption-component__chat-svg"
           v-if="showChatButton"
           :chatOff="chatState"
           :fullscreenChatState="fullscreenChatState"
@@ -42,8 +51,9 @@
           @clickElem="$emit('clickChat')"
         />
         <expand-svg-vue
+          class="figcaption-component__expand-svg"
           :expanded="fullscreenOn"
-          @click="$emit('toggleExpand')"
+          @click.native="$emit('toggleExpand')"
         />
       </div>
     </div>
@@ -59,6 +69,8 @@ import SettingsMenuVue from "../SettingsMenu.vue";
 import GearVue from "../../Icons/Gear.vue";
 import ChatSvgVue from "../../Icons/ChatSvg.vue";
 import ExpandSvgVue from "../../Icons/ExpandSvg.vue";
+
+import vClickOutside from "v-click-outside";
 
 export default {
   name: "figcaption-component",
@@ -106,16 +118,67 @@ export default {
         return this.volumeValue;
       },
       set(value) {
-        this.$emit("volumeInput", value);
+        this.$emit("volumeInput", Number(value));
       }
     }
+  },
+  directives: {
+    clickOutside: vClickOutside.directive
   },
   methods: {
     rewindTo(x) {
       this.$emit("rewindTo", x);
+    },
+    changeSpeed(speed) {
+      this.$emit("changeSpeed", speed);
+    },
+    toggleSettingMenu() {
+      this.settingsMenu = !this.settingsMenu;
+      this.$emit("toggleInterruptFlag", this.settingsMenu);
+    },
+    async onClickOutside() {
+      console.log("onClickOutside");
+      this.settingsMenu = false;
+      this.$emit("toggleInterruptFlag", this.settingsMenu);
     }
   }
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.figcaption-component
+  display: flex
+  flex-direction: column
+  padding-top: 15px
+  padding-bottom: 15px
+  font-size: 13px
+  color: #ffffff
+  &__top
+    margin-bottom: 10px
+  &__bottom
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding-right: 15px
+    padding-left: 15px
+  &__bottom-left
+    display: flex
+    align-items: center
+    margin-right: 10px
+  &__play-svg
+    cursor: pointer
+  &__volume-area
+    margin-left: 20px
+  &__current-time
+    margin-left: 0.5em
+  &__bottom-right
+    display: flex
+    align-items: center
+  &__settings
+    position: relative
+  &__settings-menu
+    position: absolute
+    transform: translate(-100%, -100%)
+  &__expand-svg
+    margin-left: 18px
+</style>

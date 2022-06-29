@@ -1,13 +1,13 @@
 <template>
-  <div class="rewind-animation vue-component">
-    <div class="show-rewind-svgs__elem">
+  <div class="rewind-svgs vue-component">
+    <div class="rewind-svgs__elem">
       <transition name="fade">
-        <rewind-svg-vue :left="true" v-if="hasRewindLeft" />
+        <rewind-svg-vue :left="true" v-show="hasRewindLeft" />
       </transition>
     </div>
-    <div class="show-rewind-svgs__elem">
+    <div class="rewind-svgs__elem">
       <transition name="fade">
-        <rewind-svg-vue :right="true" v-if="hasRewindRight" />
+        <rewind-svg-vue :right="true" v-show="hasRewindRight" />
       </transition>
     </div>
   </div>
@@ -33,4 +33,16 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.rewind-svgs
+  &__elem
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 50%
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 0.5s
+.fade-enter, .fade-leave-to
+  opacity: 0
+</style>
