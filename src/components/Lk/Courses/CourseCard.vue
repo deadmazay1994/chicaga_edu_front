@@ -114,17 +114,17 @@ export default {
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
   overflow: hidden
   &--beginner
-    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(250, 216, 38, 0.2) 100%)
+    background-image: linear-gradient(360deg, #ffffff 71%, #fffcea 100%)
   &--elementary
-    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(181, 214, 55, 0.2) 100%)
+    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(181, 214, 55, 0.1) 100%)
   &--pre-intermediate
-    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(238, 97, 204, 0.2) 100%)
+    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(238, 97, 204, 0.1) 100%)
   &--intermediate
-    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(110, 208, 93, 0.2) 100%)
+    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(110, 208, 93, 0.1) 100%)
   &--upper-intermediate
-    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(93, 208, 153, 0.2) 100%)
+    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(93, 208, 153, 0.1) 100%)
   &--advanced
-    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(255, 83, 83, 0.2) 100%)
+    background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 71%, rgba(255, 83, 83, 0.1) 100%)
   &__inner
     display: flex
     flex-direction: column
