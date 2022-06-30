@@ -2,11 +2,7 @@
   <div class="record vue-component">
     <video-player :active="true" ref="videoPlayer" :timestamps="timestamps">
       <template slot="videoSlot">
-        <video
-          ref="video"
-          @click="$emit('click-by-video')"
-          :src="src"
-        ></video>
+        <video ref="video" @click="$emit('click-by-video')" :src="src"></video>
       </template>
     </video-player>
     <div class="record__bottom bottom">
@@ -46,7 +42,8 @@ export default {
   },
   data: function() {
     return {
-      timestamps: []
+      timestamps: [],
+      duration: undefined
     };
   },
   props: {

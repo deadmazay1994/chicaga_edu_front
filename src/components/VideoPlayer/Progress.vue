@@ -27,7 +27,10 @@ export default {
     currentTime: Number,
     duration: Number,
     timestamps: {
-      type: Array
+      type: Array,
+      default: function() {
+        return { type: "default" };
+      }
     }
   },
   methods: {
