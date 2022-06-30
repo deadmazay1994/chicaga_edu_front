@@ -76,7 +76,10 @@ export default {
 
 <style lang="sass" scoped>
 .tariff
+  display: flex
+  flex-direction: column
   &__inner
+    flex-grow: 1
     background-color: #ffffff
     border-radius: 12px
     box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
