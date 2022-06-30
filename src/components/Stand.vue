@@ -1,22 +1,36 @@
 <template>
   <div class="stand vue-component">
-    <inner-block></inner-block>
+    <tariff
+      v-for="(tariff, index) in tariffes"
+      :key="index"
+      :tariffData="tariff"
+    />
   </div>
 </template>
 
 <script>
-import InnerBlock from "@/components/CourseProgram/";
+import api from "@/mixins/api";
+import Tariff from "./Tariff";
 export default {
   name: "stand",
   data: function() {
-    return {};
+    return {
+      tariffes: undefined
+    };
   },
-  methods: {},
+  methods: {
+    async setTariff() {
+      const result = await api.methods.getTariffData();
+      this.tariffes = result.tariffes;
+    }
+  },
   computed: {},
   components: {
-    InnerBlock
+    Tariff
   },
-  beforeMount() {}
+  beforeMount() {
+    this.setTariff();
+  }
 };
 </script>
 

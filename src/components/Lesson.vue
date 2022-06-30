@@ -1,15 +1,26 @@
 <template>
-  <div class="lessons-pg">
-    <div class="lessons__chat" style="flex-baisis: auto">
-      <chats-module
-        class="lesson__chat-module"
-        :roomId="roomId"
-        :shareMedia="shareMedia"
-        mode="vertical"
-      />
+  <div class="lesson-template vue-component">
+    <div class="lesson-template__header">
+      <div class="lesson-template__header-inner">
+        <div class="lesson-template__header-part">
+          <Breadcrumb></Breadcrumb>
+        </div>
+        <div class="lesson-template__header-part">
+          <scores class="lesson-template__scores" />
+        </div>
+      </div>
     </div>
-    <div class="lessons__task" style="width: 50%; margin-left: 0">
-      <edu-panel class="lesson__edu-panel lesson__item" />
+    <div class="lesson-template__body">
+      <div class="lesson-body">
+        <div class="lesson-body__inner">
+          <div class="lesson-body__item">
+            <chats-module class="lesson-body__video" />
+          </div>
+          <div class="lesson-body__item lesson-body__item--2">
+            <edu-panel class="lesson-body__edu-panel" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -17,6 +28,8 @@
 <script>
 import ChatsModule from "@/components/ChatModule/ChatModule";
 import EduPanel from "@/components/LessonComponents/EduPanel";
+import Breadcrumb from "@/components/Base/BreadcrumbsComponent";
+import Scores from "@/components/LessonComponents/Scores";
 
 import Io from "socket.io-client";
 import SocketMixin from "@/mixins/socket.js";
@@ -79,7 +92,9 @@ export default {
   },
   components: {
     EduPanel,
-    ChatsModule
+    ChatsModule,
+    Breadcrumb,
+    Scores
   },
   props: ["webinarMode"],
   mixins: [OurCursor, SocketMixin],
@@ -117,155 +132,53 @@ export default {
 </script>
 
 <style lang="sass" scoped="">
-.lessons__messages
-  color: #000
-  font-family: Manrope, sans-serif
-  font-weight: 500
-  background: #fff
-  box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2)
-  border-radius: 20px
-  padding: 18px 25px 10px
-  font-size: 12px
-  max-width: 100%
-  &--fullscreen
-    height: 100%
-    margin-top: 0
-    border-radius: 0
-    box-shadow: none
-    padding: 0 0 0 25px
-    display: flex
-    flex-direction: column
+$header-height: 62px
 
-.lessons
-  &__chat
-    overflow: auto
-    max-height: 100%
-.lesson
-  &__container
-    padding: 0 20px
-    @media (max-width:580px)
-      &
-        padding: 0
-  &__video-chat
-    overflow: hidden
-    &--active
-      height: calc( 100% - 74px )
-  &__text-chat
-    height: 74px
-    overflow: hidden
+.lesson-template
+  display: flex
+  flex-direction: column
+  width: 100%
+  height: 100%
+  padding: 16px 20px 20px
+  &__header
     position: relative
-    &--active
-      height: 412px
-  &__task
-    height: 100%
-</style>
-
-<style lang="sass">
-.lessons-pg
-  height: auto
-  .chat-svg
-    display: none
-  .chat-module
-    height: 100%
-    @media (max-width: 1360px)
-      .video-chat
-        min-height: 450px
-      .chat-block
-        .lessons__messages
-          min-height: 300px
-          max-height: 400px
-      .chat-block
-      .lessons__messages
-        height: 100%
-
-.lessons-pg
-  .lessons__chat
-    // max-width: 45%
-  @media (min-width: 1360px)
-    .lessons__task
-      .lesson__item
-        height: 100%
-        flex-basis: auto
-        .task__content
-          display: flex
-          flex-direction: column
-          .v-window
-            height: 100%
-            .v-window__container
-              height: 100%
-            .v-window-item
-              height: 100%
-              .tasks
-                height: 100%
-                .tasks__wrap
-                  display: block
-                  overflow: auto
-                  .manager__workspace
-                    position: absolute
-                    width: 100%
-                    height: 100%
-
-@media (max-width: 1360px)
-  .lessons-pg
+    width: 100%
+    height: $header-height
+    padding-bottom: 16px
+    z-index: 1
+  &__header-inner
     display: flex
-    flex-direction: column-reverse !important
+    justify-content: space-between
+    height: 100%
+  &__header-part
+    width: 50%
+  &__scores
+    padding-left: 20px
+  &__body
+    flex-grow: 1
+    width: 100%
+    height: calc( 100% - #{$header-height} )
 
-    .lessons__task,
-    .lessons__chat
-      width: 100% !important
-      max-width: none
-
-    .manager__workspace
-      height: auto !important
-
-    .red-btn
-      margin-top: 0
-
-    .task__date
-      margin-bottom: 0
-
-    .task__menu__item
-      padding: 0
-      margin-right: 15px
-
-      &:last-child
-        margin-right: 0
-
-    .v-slide-group__content
-      justify-content: flex-start
-
-@media (max-width: 600px)
-  .lessons-pg
-    .task__menu
-      display: flex
-      justify-content: space-between
-      padding: 25px 20px 20px 38px
-      border-radius: 25px 25px 0 0
-      background: hsla(0, 0%, 50%, 0.1) !important
-
-    .task__menu__item
-      min-width: auto !important
-      width: auto !important
-
-    .v-tabs-bar__content
-      overflow-x: auto
-
-    .lessons__chat
-      display: block
-
-    .lessons__task
-      padding: 0 6px
-
-@media (max-width: 480px)
-  .lessons-pg
-    .is-red-btns
-      display: flex
-      flex-direction: column
-
-      .red-btn
-        width: 100%
-        margin-bottom: 15px
-
-        &:last-child
-          margin-bottom: 0
+.lesson-body
+  position: relative
+  width: 100%
+  height: 100%
+  &__inner
+    display: flex
+    width: 100%
+    height: 100%
+  &__item
+    width: 50%
+    height: 100%
+  &__item--2
+    padding-left: 20px
+  &__video
+    width: 100%
+    height: 100%
+  &__edu-panel
+    width: 100%
+    height: 100%
+    border-radius: 20px
+    box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
+    overflow: hidden
 </style>

@@ -1,71 +1,46 @@
 <template>
-  <div class="tariff" :class="'tariff--' + trait">
+  <div class="tariff" :class="'tariff--' + tariffData.type">
     <div class="tariff__inner">
       <header class="tariff__header">
         <div class="tariff__title-box">
           <span class="tariff__title">
-            Premium
+            {{ tariffData.title }}
           </span>
         </div>
       </header>
       <div class="tariff__body">
         <ul class="tariff__list">
-          <li class="tariff__item">Доступ на <b>2 года</b></li>
-          <li class="tariff__item"><b>Личный чат</b> с преподавателем</li>
-          <li class="tariff__item">
-            <b>Аттестация и сертификат</b> о прохождении курса
-          </li>
-          <li class="tariff__item">
-            Занятия в месяц:
-            <ul class="tariff__list-2">
-              <li class="tariff__item-2">8 <a href="#">видеоуроков</a></li>
-              <li class="tariff__item-2">
-                6 доп.уроков с фразами для общения
+          <li
+            class="tariff__item"
+            v-for="(item, i) in tariffData.info.list"
+            :key="i"
+          >
+            {{ item.text }}
+            <ul class="tariff__list-2" v-if="item.list">
+              <li
+                class="tariff__item-2"
+                v-for="(subitem, j) in item.list"
+                :key="j"
+              >
+                {{ subitem.text }}
               </li>
-              <li>
-                2 <a href="#">вебинара</a> на закрепление изученного материала
-              </li>
-              <li>4 <a href="#">индивидуальных урока</a></li>
             </ul>
           </li>
-          <li class="tariff__item tariff__item--mb16">
-            Помощь в подготовке резюме на английском
-          </li>
-          <li class="tariff__item">
-            Личный куратор
-          </li>
-          <li class="tariff__item">
-            Чат-бот для грамматики
-          </li>
-          <li class="tariff__item tariff__item--mb16">
-            Доп. материалы для увлекательного изучения английского
-          </li>
-          <li class="tariff__item">
-            Упражнения с автоматической проверкой
-          </li>
         </ul>
-        <div v-if="trait == 'basic'" class="tariff__attention">
-          Тариф не предполагает обратной связи преподавателя. Полностью
-          самостоятельное прохождение
+        <div v-if="tariffData.type == 'basic'" class="tariff__attention">
+          {{ tariffData.info.basic_attention }}
         </div>
-        <div v-if="trait == 'premium'" class="tariff__places">
-          Осталось 20 мест
+        <div v-if="tariffData.type == 'premium'" class="tariff__places">
+          Осталось {{ tariffData.info.places }} мест{{ endingOfString }}
         </div>
       </div>
     </div>
     <price-card
       class="tariff__price-card"
-      :trait="trait"
-    ></price-card>
-    <price-card
-      class="tariff__price-card"
-      :trait="trait"
-      :isSale="true"
-    ></price-card>
-    <price-card
-      class="tariff__price-card"
-      :trait="trait"
-      :isSale="true"
+      v-for="(price, index) in tariffData.prices"
+      :key="index"
+      :price="price"
+      :trait="tariffData.type"
     ></price-card>
   </div>
 </template>
@@ -78,12 +53,19 @@ export default {
     return {};
   },
   methods: {},
-  computed: {},
-  props: {
-    trait: {
-      type: String,
-      default: "basic"
+  computed: {
+    endingOfString() {
+      const lastNumber = this.tariffData.info.places % 10;
+      const lastTwoNumbers = this.tariffData.info.places % 100;
+      if (lastNumber == 1 && lastTwoNumbers != 11) {
+        return "о";
+      } else if (lastNumber > 1 && lastNumber < 5) {
+        return "а";
+      } else return "";
     }
+  },
+  props: {
+    tariffData: Object
   },
   components: {
     PriceCard
