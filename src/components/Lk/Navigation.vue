@@ -4,7 +4,7 @@
       <router-link
         :key="k"
         :to="item.url + (item.params ? item.params() : '')"
-        :title="item.name"
+        :aria-label="item.name"
         class="router-link"
         v-if="item.showCondition ? item.showCondition() : false"
       >
@@ -172,8 +172,8 @@ export default {
     &:hover
       background: #D9D9D9
 
-    &[title]:hover::after
-      content: attr(title)
+    &[aria-label]:hover::after
+      content: attr(aria-label)
       position: absolute
       left: calc( 100% + 4px )
       font-family: "Manrope", sans-serif

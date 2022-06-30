@@ -1,5 +1,5 @@
 <template>
-  <div class="play-svg" @click="clickElem">
+  <div class="play-svg" @click="$emit('click')">
     <svg
       v-if="onPause"
       width="12"
@@ -30,11 +30,7 @@ export default {
   props: {
     onPause: Boolean
   },
-  methods: {
-    clickElem() {
-      this.$emit("clickElem");
-    }
-  }
+  methods: {}
 };
 </script>
 

@@ -1,22 +1,26 @@
 <template>
   <div class="record vue-component">
-    <div>
-      <video-player :active="true" ref="videoPlayer" :timestamps="timestamps">
-        <div slot="videoSlot">
-          <video
-            ref="video"
-            class="record__video"
-            @click="$emit('click-by-video')"
-            :src="src"
-          ></video>
-        </div>
-      </video-player>
-    </div>
+    <video-player :active="true" ref="videoPlayer" :timestamps="timestamps">
+      <template slot="videoSlot">
+        <video
+          ref="video"
+          @click="$emit('click-by-video')"
+          :src="src"
+        ></video>
+      </template>
+    </video-player>
     <div class="record__bottom bottom">
-      <timecodes class="bottom__timecodes" @clickTimecode="clickTimecode" :timecodes="timestamps" />
+      <timecodes
+        class="bottom__timecodes"
+        @clickTimecode="clickTimecode"
+        :timecodes="timestamps"
+      />
       <evaluation class="bottom__evaluation" />
       <div class="bottom__text-review text-review">
-        <textarea-c class="text-review__textarea" placeholder="Оставьте отзыв к уроку" />
+        <textarea-c
+          class="text-review__textarea"
+          placeholder="Оставьте отзыв к уроку"
+        />
         <svg class="text-review__icon">
           <use xlink:href="#forward"></use>
         </svg>
@@ -38,7 +42,7 @@ export default {
     VideoPlayer,
     Timecodes,
     Evaluation,
-    'textarea-c': Textarea
+    "textarea-c": Textarea
   },
   data: function() {
     return {
@@ -59,7 +63,7 @@ export default {
     async setTimestaps() {
       this.timestamps = await api.methods.getTimestamps();
       this.timestamps.push({ title: "Заключение", time: this.duration });
-    },
+    }
   },
   mounted() {
     this.$refs.video.addEventListener("loadedmetadata", event => {

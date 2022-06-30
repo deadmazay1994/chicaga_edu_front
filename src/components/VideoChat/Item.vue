@@ -8,7 +8,7 @@
     }"
     :style="{ ...backgroundComputed, ...borderComputed }"
   >
-    <div style="height: inherit; display: flex; align-items: center;">
+    <div style="height: 100%; width: 100%; display: flex; align-items: center;">
       <video-player
         :video="this.$refs.video"
         :active="active"
@@ -16,6 +16,7 @@
         :chatState="chatState"
         @clickChat="$emit('clickChat')"
         @clickExpand="$emit('clickExpand')"
+        style="width: 100%; height: 100%;"
       >
         <div slot="videoSlot" class="videoSlot-block" style="height: 100%;">
           <video
@@ -210,13 +211,13 @@ export default {
 .video-component
   position: relative
   display: flex
-  background-size: 120%
-  overflow: hidden
-  height: auto
-  background-position: center
-  display: flex
-  align-items: center !important
+  align-items: center
+  justify-content: center
   flex-wrap: wrap
+  height: auto
+  overflow: hidden
+  background-size: 120%
+  background-position: center
   border-radius: 20px
   z-index: 2
   &:before
@@ -299,8 +300,6 @@ export default {
     margin: 0
     width: 100%
     height: 100%
-    display: flex
-    align-items: center !important
     .video-component__avatar
       width: 150px
     .video-component__name
@@ -310,8 +309,8 @@ export default {
     .video-component__video
       display: block
       margin: 0 auto
-      max-width: 100%
-      max-height: 100%
+      width: 100%
+      height: 100%
       // position: absolute
       // max-width: 100%
       // max-height: 100%

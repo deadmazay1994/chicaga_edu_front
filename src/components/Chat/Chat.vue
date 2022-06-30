@@ -111,7 +111,6 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  min-height: 402px;
 }
 .chat__top {
   height: 80%;
