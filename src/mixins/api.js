@@ -94,6 +94,30 @@ export default {
           rating: 4.8,
           duration: 15232,
           start_time: 1656454829
+        },
+        {
+          title: "Урок 2. Elementary. Unit 1A. Ep.1",
+          rating: 3.8,
+          duration: 15232,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 3. Elementary. Unit 1A. Ep.1",
+          rating: 4.5,
+          duration: 15232,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 4. Elementary. Unit 1A. Ep.1",
+          rating: 4.8,
+          duration: 15232,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 5. Elementary. Unit 1A. Ep.1",
+          rating: 5.0,
+          duration: 15232,
+          start_time: 1656454829
         }
       ];
     },

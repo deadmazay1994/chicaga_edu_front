@@ -19,7 +19,7 @@
       <div class="course-page__grid__title">Программа курса</div>
       <div class="course-page__grid">
         <course-program-card
-          v-for="(courseProgramm, index) in 5"
+          v-for="(courseProgramm, index) in courseProgramms"
           :key="index"
           :courseProgramm="courseProgramm"
         />
@@ -87,7 +87,10 @@ export default {
 .course-page__grid-wrapper
   .course-page__grid
     padding-top: 16px
+    padding-bottom: 1.5rem
     display: grid
+    grid-template-columns: auto auto auto
+    grid-gap: 20px
     &__title
       padding-top: 40px
       font-size: 24px

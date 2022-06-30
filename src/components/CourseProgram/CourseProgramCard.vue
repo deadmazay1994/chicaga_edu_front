@@ -22,7 +22,7 @@
         </div>
         <div class="program-card__title-box">
           <span class="program-card__title">
-            Урок 1. Elementary. Unit 1A. Ep.1
+            {{ courseProgramm.title }}
           </span>
         </div>
         <div class="program-card__rating-box">
@@ -31,7 +31,7 @@
               <use xlink:href="#star"></use>
             </svg>
             <span class="program-card__rating">
-              4.8
+              {{ courseProgramm.rating }}
             </span>
           </div>
         </div>
@@ -57,7 +57,12 @@
         </div>
         <div class="program-card__bottom-item">
           <div class="program-card__data">
-            <svg class="program-card__bottom-img" width="18" height="18">
+            <svg
+              class="program-card__bottom-img"
+              width="18"
+              height="18"
+              fill="none"
+            >
               <use xlink:href="#calendar"></use>
             </svg>
             <span class="program-card__date">
