@@ -37,7 +37,7 @@
         </div>
         <div class="program-card__lock-box">
           <svg class="program-card__lock" width="24" height="24">
-            <use xlink:href="#lock-lock"></use>
+            <use :xlink:href="'#' + returnAccessString"></use>
           </svg>
         </div>
       </div>
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="program-card__btn-box">
-          <button class="program-card__btn" disabled>
+          <button class="program-card__btn" :disabled="!access">
             <svg class="program-card__btn-img" width="14" height="14">
               <use xlink:href="#arrow-down"></use>
             </svg>
@@ -102,6 +102,13 @@ export default {
       let hours = Math.trunc(startTimeMinutes / 60);
       let minutes = startTimeMinutes % 60;
       return hours + ":" + minutes;
+    },
+    access() {
+      const now = moment();
+      return now >= moment.unix(this.courseProgramm.start_time);
+    },
+    returnAccessString() {
+      return this.access ? "lock-open" : "lock-lock";
     }
   },
   components: {},

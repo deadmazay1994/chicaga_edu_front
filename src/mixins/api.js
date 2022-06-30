@@ -406,22 +406,21 @@ export default {
       return {
         tariffes: [
           {
-            title: "BASIC",
-            type: "basic",
+            title: "PREMIUM",
+            type: "premium",
             info: {
               list: [
-                { text: "Доступ на 6 месяцев" },
-                {
-                  text:
-                    "Свидетельство о прохождении курса по результатам письменного теста"
-                },
+                { text: "Доступ на 2 года" },
                 {
                   text: "Занятия в месяц",
                   list: [
                     { text: "8 видеоуроков" },
-                    { text: "6 доп. уроков с фразами для общения" }
+                    { text: "6 доп. уроков с фразами для общения" },
+                    { text: "2 вебинара на закрепление" },
+                    { text: "4 индивидуальных урока" }
                   ]
                 },
+                { text: "Помощь в подготовке резюме на английском" },
                 { text: "Личный куратор" },
                 { text: "Чат-бот для грамматики" },
                 {
@@ -436,18 +435,18 @@ export default {
             prices: [
               {
                 title: "Помесячно",
-                price: 26000,
+                price: 56000,
                 course_count: 1
               },
               {
                 title: "1 курс",
-                price: 26000,
+                price: 56000,
                 course_count: 1,
                 discount: 20
               },
               {
                 title: "2 курса",
-                price: 52000,
+                price: 112000,
                 course_count: 2,
                 discount: 25
               }
@@ -504,21 +503,22 @@ export default {
             ]
           },
           {
-            title: "PREMIUM",
-            type: "premium",
+            title: "BASIC",
+            type: "basic",
             info: {
               list: [
-                { text: "Доступ на 2 года" },
+                { text: "Доступ на 6 месяцев" },
+                {
+                  text:
+                    "Свидетельство о прохождении курса по результатам письменного теста"
+                },
                 {
                   text: "Занятия в месяц",
                   list: [
                     { text: "8 видеоуроков" },
-                    { text: "6 доп. уроков с фразами для общения" },
-                    { text: "2 вебинара на закрепление" },
-                    { text: "4 индивидуальных урока" }
+                    { text: "6 доп. уроков с фразами для общения" }
                   ]
                 },
-                { text: "Помощь в подготовке резюме на английском" },
                 { text: "Личный куратор" },
                 { text: "Чат-бот для грамматики" },
                 {
@@ -533,18 +533,18 @@ export default {
             prices: [
               {
                 title: "Помесячно",
-                price: 56000,
+                price: 26000,
                 course_count: 1
               },
               {
                 title: "1 курс",
-                price: 56000,
+                price: 26000,
                 course_count: 1,
                 discount: 20
               },
               {
                 title: "2 курса",
-                price: 112000,
+                price: 52000,
                 course_count: 2,
                 discount: 25
               }

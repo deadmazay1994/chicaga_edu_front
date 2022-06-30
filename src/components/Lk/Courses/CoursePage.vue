@@ -19,13 +19,12 @@
     <div class="course-page__tariffes-wrapper">
       <div class="course-page__title">Тарифы</div>
       <div class="course-page__tariffes">
-        <div
+        <Tariff
           class="course-page__tariffes__tariff"
           v-for="(tariff, index) in tariffes"
           :key="index"
-        >
-          <Tariff :tariffData="tariff" />
-        </div>
+          :tariffData="tariff"
+        />
       </div>
     </div>
   </div>
@@ -76,8 +75,6 @@ export default {
     ...mapGetters(["course"])
   },
   components: {
-    // CourseMy,
-    // CourseCatalog
     CourseProgramCard,
     CourseDescription,
     Tariff
@@ -102,11 +99,14 @@ export default {
   &__programms-grid
     padding-top: 16px
     display: grid
-    grid-template-columns: auto auto auto
+    grid-template-columns: 1fr 1fr 1fr
     grid-gap: 20px
   &__tariffes
     padding-top: 16px
     display: grid
-    grid-template-columns: auto auto auto
+    grid-template-columns: 1fr 1fr 1fr
+    grid-template-rows: auto 1fr 100%
     grid-gap: 20px
+    &__tariff
+      height: 100%
 </style>

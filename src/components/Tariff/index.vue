@@ -30,7 +30,7 @@
         <div v-if="tariffData.type == 'basic'" class="tariff__attention">
           {{ tariffData.info.basic_attention }}
         </div>
-        <div v-if="tariffData.type == 'premium'" class="tariff__places">
+        <div v-if="tariffData.info.places" class="tariff__places">
           Осталось {{ tariffData.info.places }} мест{{ endingOfString }}
         </div>
       </div>
