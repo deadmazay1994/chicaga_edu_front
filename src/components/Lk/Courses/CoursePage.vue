@@ -6,9 +6,9 @@
       :description="courseRes.description"
       :courseInfo="courseInfo"
     />
-    <div class="course-page__grid-wrapper">
-      <div class="course-page__title">Программа курса</div>
-      <div class="course-page__programms-grid">
+    <div class="course-page__block">
+      <div class="course-page__block-title">Программа курса</div>
+      <div class="course-page__grid">
         <course-program-card
           v-for="(courseProgramm, index) in courseProgramms"
           :key="index"
@@ -16,11 +16,11 @@
         />
       </div>
     </div>
-    <div class="course-page__tariffes-wrapper">
-      <div class="course-page__title">Тарифы</div>
-      <div class="course-page__tariffes">
+    <div class="course-page__block">
+      <div class="course-page__block-title">Тарифы</div>
+      <div class="course-page__grid">
         <Tariff
-          class="course-page__tariffes__tariff"
+          class="course-page__tariff"
           v-for="(tariff, index) in tariffes"
           :key="index"
           :tariffData="tariff"
@@ -92,21 +92,14 @@ export default {
 <style scoped="scoped" lang="sass">
 .course-page
   width: 100%
-  &__title
+  &__block
     padding-top: 40px
+  &__block-title
     font-size: 24px
     font-weight: 700
-  &__programms-grid
+  &__grid
     padding-top: 16px
     display: grid
     grid-template-columns: 1fr 1fr 1fr
     grid-gap: 20px
-  &__tariffes
-    padding-top: 16px
-    display: grid
-    grid-template-columns: 1fr 1fr 1fr
-    grid-template-rows: auto 1fr 100%
-    grid-gap: 20px
-    &__tariff
-      height: 100%
 </style>

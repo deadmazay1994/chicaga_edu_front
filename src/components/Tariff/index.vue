@@ -27,7 +27,7 @@
             </ul>
           </li>
         </ul>
-        <div v-if="tariffData.type == 'basic'" class="tariff__attention">
+        <div v-if="tariffData.info.basic_attention" class="tariff__attention">
           {{ tariffData.info.basic_attention }}
         </div>
         <div v-if="tariffData.info.places" class="tariff__places">
@@ -145,6 +145,8 @@ export default {
     font-weight: 700
     font-size: 20px
     text-align: center
+    padding-top: 16px
+    padding-bottom: 16px
   a
     color: #487ef3
   &__price-card
