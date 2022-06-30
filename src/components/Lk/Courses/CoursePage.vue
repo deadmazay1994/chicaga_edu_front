@@ -1,14 +1,5 @@
 <template>
   <div class="course-page vue-component">
-    <!-- <page-title v-if="courseRes.name" :title="courseRes.name" />
-    <v-skeleton-loader v-else type="heading" class="mb-5" /> -->
-    <!-- <course-my v-if="courseRes.buyed" :course="courseRes" />
-    <v-row v-else class="d-flex justify-center">
-      <v-col cols="12">
-        <course-catalog :course="courseRes" />
-      </v-col>
-    </v-row> -->
-    {{ courseRes }}
     <course-description
       :title="courseRes.name"
       :image="require('@/assets/imgs/some-person.png')"
@@ -16,13 +7,25 @@
       :courseInfo="courseInfo"
     />
     <div class="course-page__grid-wrapper">
-      <div class="course-page__grid__title">Программа курса</div>
-      <div class="course-page__grid">
+      <div class="course-page__title">Программа курса</div>
+      <div class="course-page__programms-grid">
         <course-program-card
           v-for="(courseProgramm, index) in courseProgramms"
           :key="index"
           :courseProgramm="courseProgramm"
         />
+      </div>
+    </div>
+    <div class="course-page__tariffes-wrapper">
+      <div class="course-page__title">Тарифы</div>
+      <div class="course-page__tariffes">
+        <div
+          class="course-page__tariffes__tariff"
+          v-for="(tariff, index) in tariffes"
+          :key="index"
+        >
+          <Tariff :tariffData="tariff" />
+        </div>
       </div>
     </div>
   </div>
@@ -31,8 +34,7 @@
 <script>
 import CourseProgramCard from "../../CourseProgram/CourseProgramCard.vue";
 import CourseDescription from "../Courses/CourseDescription.vue";
-// import CourseMy from "./CoursePageMy";
-// import CourseCatalog from "./CoursePageCatalog";
+import Tariff from "@/components/Tariff";
 
 import api from "@/mixins/api";
 import { mapGetters } from "vuex";
@@ -43,6 +45,7 @@ export default {
     return {
       courseRes: {},
       courseProgramms: {},
+      tariffes: {},
       subtitle: "",
       // Пока нет данных с сервера
       // передаем фейковые данные courseInfo
@@ -63,6 +66,10 @@ export default {
     },
     async setCourseProgramms() {
       this.courseProgramms = await this.getCourseProgramms();
+    },
+    async setTariffes() {
+      const result = await this.getTariffesData();
+      this.tariffes = result.tariffes;
     }
   },
   computed: {
@@ -72,27 +79,34 @@ export default {
     // CourseMy,
     // CourseCatalog
     CourseProgramCard,
-    CourseDescription
+    CourseDescription,
+    Tariff
   },
   props: [],
   mixins: [api],
   beforeMount() {
     this.setCourse();
     this.setCourseProgramms();
+    this.setTariffes();
   }
 };
 </script>
 
 <style scoped="scoped" lang="sass">
-.course-page__grid-wrapper
-  .course-page__grid
+.course-page
+  width: 100%
+  &__title
+    padding-top: 40px
+    font-size: 24px
+    font-weight: 700
+  &__programms-grid
     padding-top: 16px
-    padding-bottom: 1.5rem
     display: grid
     grid-template-columns: auto auto auto
     grid-gap: 20px
-    &__title
-      padding-top: 40px
-      font-size: 24px
-      font-weight: 700
+  &__tariffes
+    padding-top: 16px
+    display: grid
+    grid-template-columns: auto auto auto
+    grid-gap: 20px
 </style>

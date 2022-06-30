@@ -92,31 +92,31 @@ export default {
         {
           title: "Урок 1. Elementary. Unit 1A. Ep.1",
           rating: 4.8,
-          duration: 15232,
+          duration: 23,
           start_time: 1656454829
         },
         {
           title: "Урок 2. Elementary. Unit 1A. Ep.1",
           rating: 3.8,
-          duration: 15232,
+          duration: 222,
           start_time: 1656454829
         },
         {
           title: "Урок 3. Elementary. Unit 1A. Ep.1",
           rating: 4.5,
-          duration: 15232,
+          duration: 60,
           start_time: 1656454829
         },
         {
           title: "Урок 4. Elementary. Unit 1A. Ep.1",
           rating: 4.8,
-          duration: 15232,
+          duration: 132,
           start_time: 1656454829
         },
         {
           title: "Урок 5. Elementary. Unit 1A. Ep.1",
           rating: 5.0,
-          duration: 15232,
+          duration: 300,
           start_time: 1656454829
         }
       ];
@@ -402,9 +402,150 @@ export default {
       console.log(data);
     },
     // Tariff
-    async getTariffData() {
+    async getTariffesData() {
       return {
         tariffes: [
+          {
+            title: "BASIC",
+            type: "basic",
+            info: {
+              list: [
+                { text: "Доступ на 2 года" },
+                {
+                  text: "Занятия в месяц",
+                  list: [
+                    { text: "8 видеоуроков" },
+                    { text: "6 доп. уроков с фразами для общения" },
+                    { text: "2 вебинара на закрепление" },
+                    { text: "4 индивидуальных урока" }
+                  ]
+                },
+                { text: "Помощь в подготовке резюме на английском" },
+                { text: "Личный куратор" },
+                { text: "Чат-бот для грамматики" },
+                {
+                  text: "Доп. материалы для увлекательного изучения английского"
+                },
+                { text: "Упражнения с автоматической проверкой" }
+              ],
+              basic_attention:
+                "Тариф не предполагает обратной связи преподавателя. Полностью самостоятельное прохождение",
+              places: 21
+            },
+            prices: [
+              {
+                title: "Помесячно",
+                price: 56000,
+                course_count: 1
+              },
+              {
+                title: "1 курс",
+                price: 56000,
+                course_count: 1,
+                discount: 20
+              },
+              {
+                title: "2 курса",
+                price: 112000,
+                course_count: 2,
+                discount: 25
+              }
+            ]
+          },
+          {
+            title: "BASIC",
+            type: "basic",
+            info: {
+              list: [
+                { text: "Доступ на 2 года" },
+                {
+                  text: "Занятия в месяц",
+                  list: [
+                    { text: "8 видеоуроков" },
+                    { text: "6 доп. уроков с фразами для общения" },
+                    { text: "2 вебинара на закрепление" },
+                    { text: "4 индивидуальных урока" }
+                  ]
+                },
+                { text: "Помощь в подготовке резюме на английском" },
+                { text: "Личный куратор" },
+                { text: "Чат-бот для грамматики" },
+                {
+                  text: "Доп. материалы для увлекательного изучения английского"
+                },
+                { text: "Упражнения с автоматической проверкой" }
+              ],
+              basic_attention:
+                "Тариф не предполагает обратной связи преподавателя. Полностью самостоятельное прохождение",
+              places: 21
+            },
+            prices: [
+              {
+                title: "Помесячно",
+                price: 56000,
+                course_count: 1
+              },
+              {
+                title: "1 курс",
+                price: 56000,
+                course_count: 1,
+                discount: 20
+              },
+              {
+                title: "2 курса",
+                price: 112000,
+                course_count: 2,
+                discount: 25
+              }
+            ]
+          },
+          {
+            title: "BASIC",
+            type: "basic",
+            info: {
+              list: [
+                { text: "Доступ на 2 года" },
+                {
+                  text: "Занятия в месяц",
+                  list: [
+                    { text: "8 видеоуроков" },
+                    { text: "6 доп. уроков с фразами для общения" },
+                    { text: "2 вебинара на закрепление" },
+                    { text: "4 индивидуальных урока" }
+                  ]
+                },
+                { text: "Помощь в подготовке резюме на английском" },
+                { text: "Личный куратор" },
+                { text: "Чат-бот для грамматики" },
+                {
+                  text: "Доп. материалы для увлекательного изучения английского"
+                },
+                { text: "Упражнения с автоматической проверкой" }
+              ],
+              basic_attention:
+                "Тариф не предполагает обратной связи преподавателя. Полностью самостоятельное прохождение",
+              places: 21
+            },
+            prices: [
+              {
+                title: "Помесячно",
+                price: 56000,
+                course_count: 1
+              },
+              {
+                title: "1 курс",
+                price: 56000,
+                course_count: 1,
+                discount: 20
+              },
+              {
+                title: "2 курса",
+                price: 112000,
+                course_count: 2,
+                discount: 25
+              }
+            ]
+          },
           {
             title: "BASIC",
             type: "basic",

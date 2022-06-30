@@ -47,9 +47,7 @@
             <svg class="program-card__bottom-img" width="18" height="18">
               <use xlink:href="#clock"></use>
             </svg>
-            <span class="program-card__time">
-              25:32 мин
-            </span>
+            <span class="program-card__time"> {{ duration }} мин </span>
           </div>
           <div class="program-card__desc">
             продолжительность
@@ -65,9 +63,7 @@
             >
               <use xlink:href="#calendar"></use>
             </svg>
-            <span class="program-card__date">
-              01.09.2022 г.
-            </span>
+            <span class="program-card__date"> {{ startTime }} г. </span>
           </div>
           <div class="program-card__desc">
             доступ к уроку
@@ -89,13 +85,25 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "",
   data: function() {
     return {};
   },
   methods: {},
-  computed: {},
+  computed: {
+    startTime() {
+      return moment.unix(this.courseProgramm.start_time).format("DD.MM.YYYY");
+    },
+    duration() {
+      let startTimeMinutes = this.courseProgramm.duration;
+      let hours = Math.trunc(startTimeMinutes / 60);
+      let minutes = startTimeMinutes % 60;
+      return hours + ":" + minutes;
+    }
+  },
   components: {},
   props: {
     kind: {

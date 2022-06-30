@@ -76,7 +76,6 @@ export default {
 
 <style lang="sass" scoped>
 .tariff
-  max-width: 390px
   &__inner
     background-color: #ffffff
     border-radius: 12px
