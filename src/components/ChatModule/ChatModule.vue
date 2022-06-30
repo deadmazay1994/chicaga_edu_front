@@ -1,16 +1,18 @@
 <template>
   <div class="chat-module" :class="viewMode" ref="chatFrame">
-    <web-cam
-      :roomId="roomId"
-      :showChatButton="modeBool"
-      :chatState="chatState"
-      @clickChat="toggleChat()"
-      @clickExpand="toggleFullScreen"
-      :shareMedia="shareMedia"
-      :class="{ chatActive: chatState }"
-      class="chat-module__web-cam"
-    />
-    <div class="chat-block" :class="chatSlide">
+    <div class="chat-module__video-box">
+      <web-cam
+        :roomId="roomId"
+        :showChatButton="modeBool"
+        :chatState="chatState"
+        @clickChat="toggleChat()"
+        @clickExpand="toggleFullScreen"
+        :shareMedia="shareMedia"
+        :class="{ chatActive: chatState }"
+        class="chat-module__web-cam"
+      />
+    </div>
+    <div class="chat-module__side" :class="chatSlide">
       <chat class="chat-module__text-chat" :roomId="roomId" />
     </div>
   </div>
@@ -83,129 +85,41 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.lessons__messages
-  color: #000
-  font-family: Manrope, sans-serif
-  font-weight: 500
-  background: #fff
-  box-shadow: 0 4px 20px hsla(0, 0%, 50%, .2)
-  border-radius: 20px
-  padding: 18px 25px 10px
-  font-size: 12px
-  max-width: 100%
-  &--fullscreen
-    height: 100%
-    margin-top: 0
-    border-radius: 0
-    box-shadow: none
-    padding: 0 0 0 25px
-    display: flex
-    flex-direction: column
-
 .chat-module
-  height: auto
-  max-height: 1500px
+  display: flex
+  width: 100%
+  height: 100%
+  padding: 16px 20px 20px
+  &__video-box
+    width: 100%
+    height: 100%
+    transition-property: width
+    transition-duration: 0.3s
+    transition-timing-function: ease-in-out
   &__web-cam
-    flex-grow: 1
-    height: 50%
+    width: 100%
+    height: 100%
+  &__side
+    width: 0
+    height: 100%
+    opacity: 0
+    transition-property: width, padding-left, opacity
+    transition-duration: 0.3s
+    transition-timing-function: ease-in-out
+  &__side.active
+    width: 50%
+    max-width: 385px
+    padding-left: 10px
+    opacity: 1
   &__text-chat
-    color: #000
-    font-family: Manrope, sans-serif
-    font-weight: 500
-    background: #fff
-    box-shadow: 0 4px 20px hsl(0deg 0% 50% / 20%)
-    border-radius: 20px
-    padding: 18px 25px 10px
-    font-size: 12px
     max-width: 100%
     height: 100%
-    @media (max-width: 1400px)
-      max-height: 300px
-  &.vertical
-    display: flex
-    flex-direction: column
-    .chat-module__text-chat
-      margin-top: 35px
-
-  .video-chat
-    min-height: 350px
-    .video-chat-miniatures-wrapper
-      width: 15% !important
-
-  .chat-block
-    height: 50%
-    .lessons__messages
-      min-height: 350px
-      position: static
-      @media (max-width: 1360px)
-        max-height: 350px
-
-
-  &.default
-    display: block
-    .video-chat,
-    .chat-block
-      flex: 1
-
-  &.horizontal
-    display: flex
-
-
-    .video-chat,
-    .vidFrame
-
-    .video-chat,
-    .chat-block
-      height: auto
-      transition: .3s ease-in-out
-
-    .video-chat
-      width: 100%
-      &.chatActive
-        width: 70%
-
-    .chat-block
-      width: 0%
-      opacity: 0
-      &.active
-        width: 30%
-        opacity: 1
-        margin-left: 10px
-
-      .lessons__messages
-        margin-top: 0
-        border-radius: 0 0 20px 20px
-        @media (min-width: 1400px)
-          border-radius: 0 20px 20px 0
-
-    // в мобильных устройствах и в маленьких экранах
-    // отображать в дефолтном виде (вертикальном)
-    @media (max-width: 1400px)
-      display: block
-      .video-chat,
-      .chat-block
-        flex: 1
-      .video-player-wrap,
-      .video-slot
-        height: auto
-      .video-chat,
-      .vidFrame
-        height: 100% !important
-      .lessons__messages
-        margin-top: 0
-      .video-chat
-        height: 50% !important
-      .chat-block
-        height: 55% !important
-      .video-chat
-        width: 100%
-        &.chatActive
-          width: 100%
-      .chat-block
-        width: 0%
-        opacity: 0
-        &.active
-          width: 100%
-          opacity: 1
-          margin-left: 0
+    min-height: 100%
+    font-weight: 500
+    font-size: 12px
+    padding: 18px 25px 10px
+    background-color: #ffffff
+    border-radius: 20px
+    box-shadow: 0 4px 20px hsl(0deg 0% 50% / 20%)
+    overflow: hidden
 </style>
