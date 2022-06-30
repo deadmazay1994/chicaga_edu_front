@@ -60,6 +60,7 @@ const routes = [
           return r.name;
         }
       },
+      lesson: true,
       layout: "main-layout"
     }
   },
@@ -75,7 +76,8 @@ const routes = [
           let r = await api.methods.getFullLesson(route.params.id);
           return r.name;
         }
-      }
+      },
+      lesson: true
     }
   },
   // {

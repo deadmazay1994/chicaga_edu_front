@@ -23,7 +23,10 @@
         <template v-slot:header>
           <div class="main__header-wrap">
             <header-app class="main__header">
-              <span class="header__lavel">Elementary</span>
+              <span class="header__lavel" v-if="$route.meta.lesson === true"
+                >Elementary</span
+              >
+              <breadcrumbs-component v-else />
             </header-app>
           </div>
         </template>
@@ -49,6 +52,7 @@ import vClickOutside from "v-click-outside";
 import CalendarModal from "@/components/Calendar/CalendarModal";
 import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
+import BreadcrumbsComponent from "../components/Base/BreadcrumbsComponent";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -69,6 +73,7 @@ export default {
     SidebarComponent,
     MobileMenu,
     SvgSprite,
+    BreadcrumbsComponent,
     "c-content": Content
   },
   methods: {
@@ -93,6 +98,9 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
+  },
+  mounted() {
+    console.log("route", this.$route.meta.lesson);
   }
 };
 </script>
