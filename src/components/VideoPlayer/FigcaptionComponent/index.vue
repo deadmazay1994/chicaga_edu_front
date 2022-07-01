@@ -37,6 +37,7 @@
           <settings-menu-vue
             class="figcaption-component__settings-menu"
             v-if="settingsMenu"
+            :videoSpeedArray="videoSpeedArray"
             @changeSpeed="changeSpeed"
             v-click-outside="() => onClickOutside()"
           />
@@ -87,7 +88,17 @@ export default {
   data: function() {
     return {
       settingsMenu: false,
-      volumeBoolean: false
+      volumeBoolean: false,
+      videoSpeedArray: [
+        { title: 0.25, speed: 0.25, active: false },
+        { title: 0.5, speed: 0.5, active: false },
+        { title: 0.75, speed: 0.75, active: false },
+        { title: "Обычная", speed: 1, active: true },
+        { title: 1.25, speed: 1.25, active: false },
+        { title: 1.5, speed: 1.5, active: false },
+        { title: 1.75, speed: 1.75, active: false },
+        { title: 2, speed: 2, active: false }
+      ]
     };
   },
   props: {
@@ -129,8 +140,10 @@ export default {
     rewindTo(x) {
       this.$emit("rewindTo", x);
     },
-    changeSpeed(speed) {
+    changeSpeed(speed, i) {
       this.$emit("changeSpeed", speed);
+      this.videoSpeedArray.map(row => (row.active = false));
+      this.videoSpeedArray[i].active = true;
     },
     toggleSettingMenu() {
       this.settingsMenu = !this.settingsMenu;

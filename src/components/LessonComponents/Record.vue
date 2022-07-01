@@ -5,7 +5,7 @@
         <video
           ref="video"
           @click="$emit('click-by-video')"
-          :src="src"
+          :src="'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'"
         ></video>
       </template>
     </video-player>
