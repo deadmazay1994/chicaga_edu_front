@@ -86,6 +86,41 @@ export default {
     async getProgressForTeacher() {
       return get("teacher/courses");
     },
+    // временный мок для получения программ курса
+    async getCourseProgramms() {
+      return [
+        {
+          title: "Урок 1. Elementary. Unit 1A. Ep.1",
+          rating: 4.8,
+          duration: 23,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 2. Elementary. Unit 1A. Ep.1",
+          rating: 3.8,
+          duration: 222,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 3. Elementary. Unit 1A. Ep.1",
+          rating: 4.5,
+          duration: 60,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 4. Elementary. Unit 1A. Ep.1",
+          rating: 4.8,
+          duration: 132,
+          start_time: 1656454829
+        },
+        {
+          title: "Урок 5. Elementary. Unit 1A. Ep.1",
+          rating: 5.0,
+          duration: 300,
+          start_time: 1656454829
+        }
+      ];
+    },
     // Group
     async getAcademicGroups() {
       return get("user/groups");
@@ -367,12 +402,12 @@ export default {
       console.log(data);
     },
     // Tariff
-    async getTariffData() {
+    async getTariffesData() {
       return {
         tariffes: [
           {
-            title: "BASIC",
-            type: "basic",
+            title: "PREMIUM",
+            type: "premium",
             info: {
               list: [
                 { text: "Доступ на 2 года" },
@@ -412,6 +447,102 @@ export default {
               {
                 title: "2 курса",
                 price: 112000,
+                course_count: 2,
+                discount: 25
+              }
+            ]
+          },
+          {
+            title: "STANDART",
+            type: "standart",
+            info: {
+              list: [
+                { text: "Доступ на 1 год" },
+                { text: "Чат с дежурным преподавателем" },
+                {
+                  text:
+                    "Свидетельство о прохождении курса по результатам письменного теста + Возможность получить сертификат (дополнительное устное тестирование)"
+                },
+                {
+                  text: "Занятия в месяц",
+                  list: [
+                    { text: "8 видеоуроков" },
+                    { text: "6 доп. уроков с фразами для общения" },
+                    { text: "2 вебинара на закрепление" }
+                  ]
+                },
+                { text: "Личный куратор" },
+                { text: "Чат-бот для грамматики" },
+                {
+                  text: "Доп. материалы для увлекательного изучения английского"
+                },
+                { text: "Упражнения с автоматической проверкой" }
+              ],
+              basic_attention:
+                "Тариф не предполагает обратной связи преподавателя. Полностью самостоятельное прохождение"
+            },
+            prices: [
+              {
+                title: "Помесячно",
+                price: 36000,
+                course_count: 1
+              },
+              {
+                title: "1 курс",
+                price: 36000,
+                course_count: 1,
+                discount: 20
+              },
+              {
+                title: "2 курса",
+                price: 67500,
+                course_count: 2,
+                discount: 25
+              }
+            ]
+          },
+          {
+            title: "BASIC",
+            type: "basic",
+            info: {
+              list: [
+                { text: "Доступ на 6 месяцев" },
+                {
+                  text:
+                    "Свидетельство о прохождении курса по результатам письменного теста"
+                },
+                {
+                  text: "Занятия в месяц",
+                  list: [
+                    { text: "8 видеоуроков" },
+                    { text: "6 доп. уроков с фразами для общения" }
+                  ]
+                },
+                { text: "Личный куратор" },
+                { text: "Чат-бот для грамматики" },
+                {
+                  text: "Доп. материалы для увлекательного изучения английского"
+                },
+                { text: "Упражнения с автоматической проверкой" }
+              ],
+              basic_attention:
+                "Тариф не предполагает обратной связи преподавателя. Полностью самостоятельное прохождение"
+            },
+            prices: [
+              {
+                title: "Помесячно",
+                price: 26000,
+                course_count: 1
+              },
+              {
+                title: "1 курс",
+                price: 26000,
+                course_count: 1,
+                discount: 20
+              },
+              {
+                title: "2 курса",
+                price: 52000,
                 course_count: 2,
                 discount: 25
               }

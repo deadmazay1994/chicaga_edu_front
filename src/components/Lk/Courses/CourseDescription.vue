@@ -8,11 +8,20 @@
         </div>
       </div>
       <div class="course-description__image-box">
-        <img :src="image" width="295" height="215" alt="Девушка в очках радостно и задумчиво улыбается" />
+        <img
+          :src="image"
+          width="295"
+          height="215"
+          alt="Девушка в очках радостно и задумчиво улыбается"
+        />
       </div>
     </div>
     <div class="course-description__bottom">
-      <div class="course-description__info" v-for="(info, index) in courseInfo" :key="index">
+      <div
+        class="course-description__info"
+        v-for="(info, index) in courseInfo"
+        :key="index"
+      >
         <svg class="course-description__info-icon">
           <use :xlink:href="'#' + info.icon"></use>
         </svg>

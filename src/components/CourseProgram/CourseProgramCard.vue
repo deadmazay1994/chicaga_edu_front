@@ -22,7 +22,7 @@
         </div>
         <div class="program-card__title-box">
           <span class="program-card__title">
-            Урок 1. Elementary. Unit 1A. Ep.1
+            {{ courseProgramm.title }}
           </span>
         </div>
         <div class="program-card__rating-box">
@@ -31,13 +31,13 @@
               <use xlink:href="#star"></use>
             </svg>
             <span class="program-card__rating">
-              4.8
+              {{ courseProgramm.rating }}
             </span>
           </div>
         </div>
         <div class="program-card__lock-box">
           <svg class="program-card__lock" width="24" height="24">
-            <use xlink:href="#lock-lock"></use>
+            <use :xlink:href="'#' + returnAccessString"></use>
           </svg>
         </div>
       </div>
@@ -47,9 +47,7 @@
             <svg class="program-card__bottom-img" width="18" height="18">
               <use xlink:href="#clock"></use>
             </svg>
-            <span class="program-card__time">
-              25:32 мин
-            </span>
+            <span class="program-card__time"> {{ duration }} мин </span>
           </div>
           <div class="program-card__desc">
             продолжительность
@@ -57,19 +55,22 @@
         </div>
         <div class="program-card__bottom-item">
           <div class="program-card__data">
-            <svg class="program-card__bottom-img" width="18" height="18">
+            <svg
+              class="program-card__bottom-img"
+              width="18"
+              height="18"
+              fill="none"
+            >
               <use xlink:href="#calendar"></use>
             </svg>
-            <span class="program-card__date">
-              01.09.2022 г.
-            </span>
+            <span class="program-card__date"> {{ startTime }} г. </span>
           </div>
           <div class="program-card__desc">
             доступ к уроку
           </div>
         </div>
         <div class="program-card__btn-box">
-          <button class="program-card__btn" disabled>
+          <button class="program-card__btn" :disabled="!access">
             <svg class="program-card__btn-img" width="14" height="14">
               <use xlink:href="#arrow-down"></use>
             </svg>
@@ -84,19 +85,39 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "",
   data: function() {
     return {};
   },
   methods: {},
-  computed: {},
+  computed: {
+    startTime() {
+      return moment.unix(this.courseProgramm.start_time).format("DD.MM.YYYY");
+    },
+    duration() {
+      let startTimeMinutes = this.courseProgramm.duration;
+      let hours = Math.trunc(startTimeMinutes / 60);
+      let minutes = startTimeMinutes % 60;
+      return hours + ":" + minutes;
+    },
+    access() {
+      const now = moment();
+      return now >= moment.unix(this.courseProgramm.start_time);
+    },
+    returnAccessString() {
+      return this.access ? "lock-open" : "lock-lock";
+    }
+  },
   components: {},
   props: {
     kind: {
       type: String,
       default: "lesson"
-    }
+    },
+    courseProgramm: Object
   },
   mixins: {},
   beforeMount() {}

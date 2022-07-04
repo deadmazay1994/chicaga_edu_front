@@ -231,7 +231,7 @@ const routes = [
           breadcrumb: {
             title: () => "Курс"
           },
-          layout: "default-layout"
+          layout: "main-layout"
         }
         // breadcrumb: async route => {
         //   let r = await api.methods.getFullLesson(route.params.id);

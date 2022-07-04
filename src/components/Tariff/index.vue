@@ -27,10 +27,10 @@
             </ul>
           </li>
         </ul>
-        <div v-if="tariffData.type == 'basic'" class="tariff__attention">
+        <div v-if="tariffData.info.basic_attention" class="tariff__attention">
           {{ tariffData.info.basic_attention }}
         </div>
-        <div v-if="tariffData.type == 'premium'" class="tariff__places">
+        <div v-if="tariffData.info.places" class="tariff__places">
           Осталось {{ tariffData.info.places }} мест{{ endingOfString }}
         </div>
       </div>
@@ -76,8 +76,10 @@ export default {
 
 <style lang="sass" scoped>
 .tariff
-  max-width: 390px
+  display: flex
+  flex-direction: column
   &__inner
+    flex-grow: 1
     background-color: #ffffff
     border-radius: 12px
     box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
@@ -143,6 +145,8 @@ export default {
     font-weight: 700
     font-size: 20px
     text-align: center
+    padding-top: 16px
+    padding-bottom: 16px
   a
     color: #487ef3
   &__price-card
