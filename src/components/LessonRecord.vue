@@ -14,7 +14,7 @@
       <div class="lesson-body">
         <div class="lesson-body__inner">
           <div class="lesson-body__item">
-            <record class="lesson-body__video" />
+            <record v-if="record && record.url" :src="record.url" class="lesson-body__video" />
           </div>
           <div class="lesson-body__item lesson-body__item--2">
             <edu-panel class="lesson-body__edu-panel" />
