@@ -6,7 +6,7 @@
         <span
           class="settings-menu__item settings-menu__item--pointed"
           @click="submenuIsOpen = true"
-          >Обычная
+          >{{ courrentSpeedName }}
           <SchevronSvgVue class="settings-menu__item-arrow" :fill="'ffffff'"
         /></span>
       </div>
@@ -41,26 +41,21 @@ export default {
   },
   data: function() {
     return {
-      submenuIsOpen: false,
-      videoSpeedArray: [
-        { title: 0.25, speed: 0.25, active: false },
-        { title: 0.5, speed: 0.5, active: false },
-        { title: 0.75, speed: 0.75, active: false },
-        { title: "Обычная", speed: 1, active: true },
-        { title: 1.25, speed: 1.25, active: false },
-        { title: 1.5, speed: 1.5, active: false },
-        { title: 1.75, speed: 1.75, active: false },
-        { title: 2, speed: 2, active: false }
-      ]
+      submenuIsOpen: false
     };
   },
-  props: [],
-  computed: {},
+  props: {
+    videoSpeedArray: Array
+  },
+  computed: {
+    courrentSpeedName() {
+      return this.videoSpeedArray.find(element => element.active === true)
+        .title;
+    }
+  },
   methods: {
     clickSubMenuRow(speed, i) {
-      this.videoSpeedArray.map(row => (row.active = false));
-      this.videoSpeedArray[i].active = true;
-      this.$emit("changeSpeed", speed);
+      this.$emit("changeSpeed", speed, i);
     }
   }
 };
