@@ -7,8 +7,8 @@
     ]"
     @click="item.subscribed ? toEventPage() : openModal()"
   >
-    <div class="calendar-cell__head">
-      <span
+    <div class="calendar-cell__header">
+      <div
         class="calendar-cell__date"
         :class="{
           'calendar-cell__date--current':
@@ -18,10 +18,10 @@
         }"
       >
         {{ item.day }}
-      </span>
+      </div>
       <schevron-svg
+        class="calendar-cell__schevron"
         :on="showDropDown"
-        v-if="item.subEvents"
         @clickElem="toggleDropDown"
       />
       <lock-svg :show="item.subscribed" v-if="item.event && !item.subEvents" />
@@ -112,84 +112,69 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+$line-height: 1.3
+$line-clamp: 3
 .calendar-cell
+  position: relative
   display: flex
   flex-direction: column
+  line-height: $line-height
+  color: #323232
+  background-color: #ffffff
   border-radius: 10px
-  padding: 12px 14px 15px
-  background: linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  box-shadow: 4px 4px 20px 0px #0000001A
-  position: relative
-  font-family: Manrope, sans-serif
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.1)
   cursor: pointer
-
-  &__head
+  &--past
+    color: #808080
+  &--many-events
+    background-image: radial-gradient(50% 76% at 50% 47%, #ffffff 0%, #f7f7ff 100%)
+  &--enroled
+    background-image: radial-gradient(50% 76% at 50% 47%, #ffffff 0%, #fcffec 100%)
+  &--non-enroled
+    background-image: radial-gradient(50% 76% at 50% 47%, #ffffff 0%, #ffeded 100%)
+  &__header
     display: flex
     align-items: center
     justify-content: space-between
-
+    padding-top: 6px
+    padding-right: 14px
+    padding-left: 14px
+    border-bottom: 1px solid #d9d9d9
   &__date
-    font-size: 24px
-    font-style: normal
+    width: 40px
+    margin-right: 10px
     font-weight: 800
-    line-height: 29px
-    letter-spacing: 0em
-    text-align: left
+    font-size: 24px
+    text-overflow: ellipsis
+    white-space: nowrap
     color: #363636
-
+    overflow: hidden
   &__date--current
-    color: red
-
-  &__date,
+    color: #ff0000
+  &--past &__date
+    color: #c4c4c4
+  &__body
+    padding: 4px 14px 9px
   &__title,
   &__desc
-    overflow: hidden
-    text-overflow: ellipsis
+    -webkit-line-clamp: $line-clamp
     display: -webkit-box
-    -webkit-line-clamp: 2
     -webkit-box-orient: vertical
-    font-style: normal
-    letter-spacing: 0
-    color: #323232
-    -moz-user-select: -moz-none
-    -o-user-select: none
-    -khtml-user-select: none
-    -webkit-user-select: none
+    text-overflow: ellipsis
+    overflow: hidden
     user-select: none
-
   &__title
-    font-size: 16px
+    height: calc( 16px * #{$line-height} * #{$line-clamp} )
     font-weight: 600
-    font-style: normal
     font-size: 16px
-    line-height: 19px
-    height: 38px
-
   &__desc
-    margin-top: 4px
+    height: calc( 12px * #{$line-height} * #{$line-clamp} )
+    font-weight: 300
     font-size: 12px
-    font-weight: 200
-    font-size: 12px
-    font-style: normal
-    line-height: 14px
-    height: 28px
-
-
-  &--past &__date,
-  &--past &__title,
-  &--past &__desc
-      color: #C4C4C4
-
-  &--many-events
-    background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &--enroled
-    background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &--non-enroled
-    background: linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
 
 
   .slide-enter
-    transform: translateX(-170px)
+    transform: translatex(-170px)
     opacity: 0
 
   .slide-enter-active,
@@ -198,6 +183,6 @@ export default {
 
   .slide-enter-from,
   .slide-leave-to
-    transform: translateX(-129px)
+    transform: translatex(-129px)
     opacity: 0
 </style>
