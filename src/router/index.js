@@ -299,10 +299,7 @@ const routes = [
       {
         path: "",
         name: "merch",
-        component: MerchComponent,
-        meta: {
-          breadcrumb: { title: "Мерч" }
-        }
+        component: MerchComponent
       },
       {
         path: "merch/order",
