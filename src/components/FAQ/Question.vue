@@ -14,7 +14,7 @@
       <transition name="fade">
         <div
           class="question__answer"
-          v-if="answerActive"
+          v-show="answerActive"
           v-html="question.answer"
         ></div>
       </transition>
@@ -59,6 +59,7 @@ export default {
 
   &__body
     padding-top: 8px
+    position: relative
 
   &__title
     font-weight: 600
@@ -75,9 +76,12 @@ export default {
       transform: rotate(0deg)
 
 .fade-enter-active, .fade-leave-active
-  transition: opacity .5s
+  transition: all .5s
+  transform: translateY(0px)
 .fade-enter, .fade-leave-to
   opacity: 0
+  position: absolute
+  transform: translateY(-10px)
 </style>
 
 <style lang="sass">
