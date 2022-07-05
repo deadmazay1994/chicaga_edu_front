@@ -7,11 +7,11 @@
     ]"
     @click="item.subscribed ? toEventPage() : openModal()"
   >
-    <div class="cell-head">
+    <div class="calendar-cell__head">
       <span
-        class="cell-head__date"
+        class="calendar-cell__date"
         :class="{
-          'cell-head__date--current':
+          'calendar-cell__date--current':
             item.day == currentDateObj.day &&
             item.year == currentDateObj.year &&
             item.month == currentDateObj.month
@@ -26,11 +26,11 @@
       />
       <lock-svg :show="item.subscribed" v-if="item.event && !item.subEvents" />
     </div>
-    <div class="cell-body">
-      <div class="cell-body__title">
+    <div class="calendar-cell__body">
+      <div class="calendar-cell__title">
         {{ item.title }}
       </div>
-      <div class="cell-body__desc">
+      <div class="calendar-cell__desc">
         {{ item.subtitle }}
       </div>
     </div>
@@ -119,18 +119,16 @@ export default {
   padding: 12px 14px 15px
   background: linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
   box-shadow: 4px 4px 20px 0px #0000001A
-  height: 125px
-  width: 154px
   position: relative
   font-family: Manrope, sans-serif
   cursor: pointer
 
-  .cell-head
+  &__head
     display: flex
     align-items: center
     justify-content: space-between
 
-  .cell-head__date
+  &__date
     font-size: 24px
     font-style: normal
     font-weight: 800
@@ -138,12 +136,13 @@ export default {
     letter-spacing: 0em
     text-align: left
     color: #363636
-    &.cell-head__date--current
-      color: red
 
-  .cell-head__date,
-  .cell-body__title,
-  .cell-body__desc
+  &__date--current
+    color: red
+
+  &__date,
+  &__title,
+  &__desc
     overflow: hidden
     text-overflow: ellipsis
     display: -webkit-box
@@ -158,7 +157,7 @@ export default {
     -webkit-user-select: none
     user-select: none
 
-  .cell-body__title
+  &__title
     font-size: 16px
     font-weight: 600
     font-style: normal
@@ -166,7 +165,7 @@ export default {
     line-height: 19px
     height: 38px
 
-  .cell-body__desc
+  &__desc
     margin-top: 4px
     font-size: 12px
     font-weight: 200
@@ -174,6 +173,20 @@ export default {
     font-style: normal
     line-height: 14px
     height: 28px
+
+
+  &--past &__date,
+  &--past &__title,
+  &--past &__desc
+      color: #C4C4C4
+
+  &--many-events
+    background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
+  &--enroled
+    background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
+  &--non-enroled
+    background: linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
+
 
   .slide-enter
     transform: translateX(-170px)
@@ -187,17 +200,4 @@ export default {
   .slide-leave-to
     transform: translateX(-129px)
     opacity: 0
-
-  &.calendar-cell--past
-    .cell-head__date,
-    .cell-body__title,
-    .cell-body__desc
-      color: #C4C4C4
-
-  &.calendar-cell--many-events
-    background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &.calendar-cell--enroled
-    background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &.calendar-cell--non-enroled
-    background: linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
 </style>
