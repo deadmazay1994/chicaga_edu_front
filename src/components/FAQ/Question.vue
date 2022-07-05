@@ -1,5 +1,5 @@
 <template>
-  <div class="question vue-component">
+  <div class="question vue-component" @click="toggle()">
     <div class="question__head">
       <div class="question__title">{{ question.question }}</div>
       <svg
@@ -51,6 +51,7 @@ export default {
   padding-left: 60px
   border-radius: 16px
   box-shadow: 0px 4px 10px rgba(128, 128, 128, 0.2)
+  cursor: pointer
 
   &__head
     display: flex
@@ -74,14 +75,6 @@ export default {
 
     &--active
       transform: rotate(0deg)
-
-.fade-enter-active, .fade-leave-active
-  transition: all .5s
-  transform: translateY(0px)
-.fade-enter, .fade-leave-to
-  opacity: 0
-  position: absolute
-  transform: translateY(-10px)
 </style>
 
 <style lang="sass">
