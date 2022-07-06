@@ -10,10 +10,7 @@
               ref="swiperDate"
               :slides-per-view="1"
             >
-              <swiper-slide
-                v-for="(item, index) in allMonths"
-                :key="index"
-              >
+              <swiper-slide v-for="(item, index) in allMonths" :key="index">
                 <span class="date">{{ item.name + " " + item.year }}</span>
               </swiper-slide>
             </swiper>
@@ -38,10 +35,7 @@
           :options="swiperGridOption"
           ref="swiperGrid"
         >
-          <swiper-slide
-            v-for="(item, index) in allMonths"
-            :key="index"
-          >
+          <swiper-slide v-for="(item, index) in allMonths" :key="index">
             <calendar-grid
               :days="eventArr(item.number, item.year)"
               :currentDateObj="currentDateObj"
