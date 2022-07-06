@@ -50,4 +50,9 @@ export default {
   display: flex
   align-items: center
   justify-content: center
+  svg
+    width: 8px
+    height: 14px
+  path
+    fill: #FF0000
 </style>
