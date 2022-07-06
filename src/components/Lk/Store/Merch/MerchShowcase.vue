@@ -1,17 +1,15 @@
 <template>
-  <!-- <div class="merch__block merch__hoodie"> -->
   <div class="merch-showcase">
     <div class="merch-showcase__head">
       <div class="merch-showcase__title">Худи</div>
       <router-link
-        class="shop__more shop__more--merch"
+        class="merch-showcase__more-link"
         tag="button"
         to="/lk/shop-more"
         >Смотреть всё</router-link
       >
     </div>
-
-    <div class="hoodie__content active">
+    <div class="merch-showcase__body">
       <merch-showcase-item
         v-for="(item, index) in storeGoods"
         :key="index"
@@ -59,25 +57,17 @@ export default {
     font-family: Manrope, sans-serif
     font-weight: 600
     font-size: 20px
-.shop__more
-  font-family: Manrope, sans-serif
-  font-weight: 900
-  font-size: 12px
-  color: $gray
-
-  cursor: pointer
-
-  &--merch
+  &__more-link
+    font-family: Manrope, sans-serif
+    font-weight: 900
+    font-size: 12px
+    color: $gray
+    cursor: pointer
+  &__body
+    display: flex
+    justify-content: space-between
     @media($media_md2)
       display: none
-
-.hoodie__content
-  display: flex
-  justify-content: space-between
-
-  @media($media_md2)
-    display: none
-
-    &.active
-      display: block
+      &.active
+        display: block
 </style>

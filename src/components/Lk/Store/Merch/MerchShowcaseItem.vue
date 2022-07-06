@@ -91,11 +91,11 @@ export default {
     color: #FFFFFF
     border-top-left-radius: 15px
     border-bottom-right-radius: 15px
-    display: inline-block
     padding: 6px 15px
   &__svg
     width: 15px
     height: 15px
+    margin-right: 6px
   &__text
     position: absolute
     top: 50%

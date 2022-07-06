@@ -306,21 +306,21 @@ export default {
       return [
         {
           id: 1,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          title: "Худи CHICAGA“EXPERT” ",
+          src: require("@/assets/imgs/shop/merch/hoodie-grey.png"),
           price: 1000,
           count: 1
         },
         {
           id: 2,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          title: "Худи CHICAGA «Стану акулой»",
+          src: require("@/assets/imgs/shop/merch/jackets.png"),
           price: 1000,
           count: 1
         },
         {
           id: 3,
-          title: "Худи Peach",
+          title: "Худи «CHICAGEST»",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
           count: 1
