@@ -1,15 +1,4 @@
 @import "@/assets/styles/variables.sass";
-
-.merch__content {
-  display: none;
-
-  &.active {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-}
-
 .merch__block {
   margin-top: 20px;
 }
@@ -45,15 +34,6 @@
       display: none;
     }
   }
-}
-
-.merch__item {
-  background: $white;
-  box-shadow: 0px 4px 10px rgba(128, 128, 128, 0.2);
-  border-radius: 15px;
-  overflow: hidden;
-
-  cursor: pointer;
 }
 
 .popular__item {

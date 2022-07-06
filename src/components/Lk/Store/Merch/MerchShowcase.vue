@@ -1,7 +1,8 @@
 <template>
-  <div class="merch__block merch__hoodie">
-    <div class="shop__more-inner">
-      <h2 class="shop__title shop__title--merch">Худи</h2>
+  <!-- <div class="merch__block merch__hoodie"> -->
+  <div class="merch-showcase">
+    <div class="merch-showcase__head">
+      <div class="merch-showcase__title">Худи</div>
       <router-link
         class="shop__more shop__more--merch"
         tag="button"
@@ -49,12 +50,15 @@ export default {
 
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
-
-.shop__more-inner
-  display: flex
-  justify-content: space-between
-  margin-bottom: 20px
-
+.merch-showcase
+  &__head
+    display: flex
+    justify-content: space-between
+    margin-bottom: 20px
+  &__title
+    font-family: Manrope, sans-serif
+    font-weight: 600
+    font-size: 20px
 .shop__more
   font-family: Manrope, sans-serif
   font-weight: 900

@@ -3,8 +3,7 @@
     <popular-item
       v-for="(item, index) in popularItems"
       :key="index"
-      :itemImg="item.src"
-      :itemTitle="item.title"
+      :item="item"
     />
   </div>
 </template>
@@ -18,16 +17,22 @@ export default {
     return {
       popularItems: [
         {
-          title: "Стакан бумажный CHICAGA",
-          src: require("@/assets/imgs/shop/merch/cup.png")
+          title: "Cертификат OZON",
+          image: require("@/assets/imgs/shop/merch/cards.png"),
+          price: 800,
+          alt: "Изображение сертификата OZON"
         },
         {
-          title: "Фирменный пакет CHICAGA",
-          src: require("@/assets/imgs/shop/merch/package.png")
+          title: "Футболка CHICAGA",
+          image: require("@/assets/imgs/shop/merch/t-shirts.png"),
+          price: 2000,
+          alt: "Изображение футболки CHICAGA"
         },
         {
-          title: "Шариковая ручка CHICAGA",
-          src: require("@/assets/imgs/shop/merch/pen.png")
+          title: "Дрип-кофе CHICAGA 8x25",
+          image: require("@/assets/imgs/shop/merch/drips.png"),
+          price: 500,
+          alt: "Изображение кофе"
         }
       ]
     };
