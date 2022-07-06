@@ -22,9 +22,14 @@
       <schevron-svg
         class="calendar-cell__schevron"
         :on="showDropDown"
+        v-if="item.subEvents"
         @clickElem="toggleDropDown"
       />
-      <lock-svg :show="item.subscribed" v-if="item.event && !item.subEvents" />
+      <lock-svg
+        class="calendar-cell__lock"
+        :show="item.subscribed"
+        v-if="item.event && !item.subEvents"
+      />
     </div>
     <div class="calendar-cell__body">
       <div class="calendar-cell__title">
@@ -137,11 +142,12 @@ $line-clamp: 3
     align-items: center
     justify-content: space-between
     padding-top: 6px
-    padding-right: 14px
+    padding-right: 4px
     padding-left: 14px
     border-bottom: 1px solid #d9d9d9
   &__date
-    width: 40px
+    flex-grow: 1
+    min-width: 40px
     margin-right: 10px
     font-weight: 800
     font-size: 24px
@@ -153,6 +159,11 @@ $line-clamp: 3
     color: #ff0000
   &--past &__date
     color: #c4c4c4
+  &__schevron
+    width: 30px
+    height: 30px
+  &__lock
+    margin-right: 10px
   &__body
     padding: 4px 14px 9px
   &__title,
