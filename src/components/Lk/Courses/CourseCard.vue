@@ -107,8 +107,6 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .course-card
-  width: 100%
-  height: 100%
   background-color: #ffffff
   border-radius: 12px
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
