@@ -164,6 +164,8 @@ $line-clamp: 3
     height: 30px
   &__lock
     margin-right: 10px
+    width: 13px
+    height: 18px
   &__body
     padding: 4px 14px 9px
   &__title,

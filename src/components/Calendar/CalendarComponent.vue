@@ -11,11 +11,10 @@
               :slides-per-view="1"
             >
               <swiper-slide
-                class="swiper-no-swiping"
                 v-for="(item, index) in allMonths"
                 :key="index"
               >
-                <span class="date-item">{{ item.name + " " + item.year }}</span>
+                <span class="date">{{ item.name + " " + item.year }}</span>
               </swiper-slide>
             </swiper>
           </div>
@@ -40,7 +39,6 @@
           ref="swiperGrid"
         >
           <swiper-slide
-            class="swiper-no-swiping"
             v-for="(item, index) in allMonths"
             :key="index"
           >
@@ -79,12 +77,12 @@ export default {
     return {
       swiperGridOption: {
         spaceBetween: 48,
-        noSwiping: true,
+        noSwipingClass: "swiper-slide",
         loop: false
       },
       swiperDateOption: {
         spaceBetween: 24,
-        noSwiping: true,
+        noSwipingClass: "swiper-slide",
         loop: false
       },
       events: []
@@ -286,10 +284,11 @@ $header-height: 32px
   &__date-inner
     width: calc( 210px + 24px )
   &__date-swiper
-    padding-left: 24px
     .swiper-slide
       display: flex
       user-select: none
+    .date
+      padding-left: 24px
   &__date-arrows
     display: flex
   &__date-arrow
