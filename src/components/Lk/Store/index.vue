@@ -4,7 +4,9 @@
       <div class="store__content-inner">
         <router-view />
       </div>
-      <shop-cart :showTotal="false" />
+      <div class="store__shop-cart-wrapper">
+        <shop-cart :showSubmit="true" class="store__shop-cart" />
+      </div>
     </div>
     <store-modal />
   </div>
@@ -46,4 +48,9 @@ export default {
   &__content-inner
     width: 50%
     overflow-y: auto
+  &__shop-cart-wrapper
+    padding: 32px
+    flex-basis: 40%
+  &__shop-cart
+    height: 100%
 </style>

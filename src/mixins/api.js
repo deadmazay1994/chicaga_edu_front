@@ -360,35 +360,32 @@ export default {
       return [
         {
           id: 1,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000,
+          title: "Худи CHICAGA «Стану акулой»",
+          src: require("@/assets/imgs/shop/merch/jackets.png"),
+          price: 3000,
           count: 1,
           size: "S"
         },
         {
           id: 2,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000,
-          count: 1,
-          size: "S"
+          title: "Шоппер CHICAGA «Some food »",
+          src: require("@/assets/imgs/shop/merch/packets.png"),
+          price: 800,
+          count: 1
         },
         {
           id: 3,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          title: "Дрип-кофе CHICAGA 8 пакетиков, 25 гр. х 8 шт.",
+          src: require("@/assets/imgs/shop/merch/drips.png"),
           price: 1000,
-          count: 1,
-          size: "S"
+          count: 1
         },
         {
           id: 4,
-          title: "Худи Peach",
+          title: "Сертификат на обучение английскому 1 месяц",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000,
-          count: 1,
-          size: "S"
+          price: 5000,
+          count: 1
         }
       ];
     },
