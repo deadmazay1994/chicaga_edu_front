@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ProductOrder from './ProductOrder.vue';
-import ShopCart from './Cart/ShopCart.vue';
+import ProductOrder from "./ProductOrder.vue";
+import ShopCart from "./Cart/ShopCart.vue";
 
 export default {
   name: "order-component",

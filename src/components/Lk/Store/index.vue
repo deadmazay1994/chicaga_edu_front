@@ -41,11 +41,9 @@ export default {
     justify-content: space-between
     height: 100%
     width: 100%
-
     @media ($media_md2)
       padding: 0 15px
-
-    &-inner
-      width: 50%
-      overflow-y: auto
+  &__content-inner
+    width: 50%
+    overflow-y: auto
 </style>
