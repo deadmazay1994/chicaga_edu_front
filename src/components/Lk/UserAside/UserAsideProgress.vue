@@ -11,6 +11,7 @@
       <div class="user-aside__title">{{ user.name }}</div>
       <div class="user-aside__add-info">{{ user.chat_auth_info.id }}</div>
       <div class="user-aside__add-info">Регистрация: 08.06.2021</div>
+      {{ $route }}
     </div>
     <div class="user-aside__points">
       <scores-vue class="user-aside__scores" />

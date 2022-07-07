@@ -1,7 +1,7 @@
 <template>
   <div
     class="course-card course-card--beginner vue-component"
-    :class="{ 'course-card--wide': isWide , 'course-card--open': isOpen }"
+    :class="{ 'course-card--wide': isWide, 'course-card--open': isOpen }"
   >
     <div class="course-card__inner">
       <div class="course-card__header">
@@ -91,6 +91,8 @@ export default {
   methods: {
     ...mapActions(["setCurrentCourse"]),
     setDescription() {
+      console.log(this.course.description);
+      if (!this.course.description) return;
       this.description = this.course.description
         .split(" ")
         .slice(0, this.maxDescriptionSize)
@@ -105,7 +107,18 @@ export default {
   },
   components: {},
   props: {
-    course: Object,
+    course: {
+      type: Object,
+      default: function() {
+        return {
+          name: "Name",
+          description:
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione quod iure sint illum fugiat minus, quae quam nam rerum non reprehenderit exercitationem mollitia dignissimos consequuntur saepe cumque laudantium ut voluptatibus!",
+          duration: 23,
+          start_time: 1656454829
+        };
+      }
+    },
     isOpen: Boolean,
     isWide: Boolean
   },

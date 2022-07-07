@@ -228,8 +228,7 @@ const routes = [
           {
             path: "",
             name: "my-courses-wrapper",
-            component: MyCourses,
-            breadcrumb: { title: "", color: "" }
+            component: MyCourses
           },
           {
             path: "course-lessons/:id",

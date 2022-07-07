@@ -5,7 +5,7 @@
       v-for="(lesson, index) in currentCourse.lessons"
       :key="index"
     >
-      <router-link :to="`/lesson/${lesson.uniq_id}`">
+      <router-link @click.native="clearTasks" :to="`/lesson/${lesson.uniq_id}`">
         {{ lesson.name }}
       </router-link>
     </div>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "course-lessons",
@@ -21,15 +21,22 @@ export default {
   data: function() {
     return {};
   },
-  props: [],
+  props: {
+    course: Object
+  },
   computed: {
     ...mapGetters(["currentCourse"])
   },
   methods: {
-    ...mapActions(["setCurrentCourse"])
+    ...mapActions(["setCurrentCourse"]),
+    ...mapMutations(["clearTasks"]),
+    setCourses() {
+      this.$store.dispatch("setMyCourses");
+    }
   },
   async beforeMount() {
-    await this.setCurrentCourse(this.$route.params.id);
+    this.setCourses();
+    await this.$store.dispatch("setCurrentCourse", this.$route.params.id);
   }
 };
 </script>
