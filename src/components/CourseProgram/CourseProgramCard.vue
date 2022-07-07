@@ -70,14 +70,14 @@
           </div>
         </div>
         <div class="program-card__btn-box">
-          <button class="program-card__btn" :disabled="!access">
+          <a v-if="access" class="program-card__btn" href="#" title="Переход к уроку">
             <svg class="program-card__btn-img" width="14" height="14">
               <use xlink:href="#arrow-down"></use>
             </svg>
             <span class="sr-only">
-              Об уроке
+              Переход к уроку
             </span>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -198,9 +198,9 @@ export default {
     min-width: 32px
     min-height: 38px
     padding: 6px
-    border: 1px solid #a9a9a9
+    border: 1px solid #ff121a
     border-radius: 8px
   &__btn-img
-    fill: #a9a9a9
+    fill: #ff121a
     transform: rotate(-90deg)
 </style>
