@@ -7,30 +7,35 @@
     ]"
     @click="item.subscribed ? toEventPage() : openModal()"
   >
-    <div class="cell-head">
-      <span
-        class="cell-head__date"
+    <div class="calendar-cell__header">
+      <div
+        class="calendar-cell__date"
         :class="{
-          'cell-head__date--current':
+          'calendar-cell__date--current':
             item.day == currentDateObj.day &&
             item.year == currentDateObj.year &&
             item.month == currentDateObj.month
         }"
       >
         {{ item.day }}
-      </span>
+      </div>
       <schevron-svg
+        class="calendar-cell__schevron"
         :on="showDropDown"
         v-if="item.subEvents"
         @clickElem="toggleDropDown"
       />
-      <lock-svg :show="item.subscribed" v-if="item.event && !item.subEvents" />
+      <lock-svg
+        class="calendar-cell__lock"
+        :show="item.subscribed"
+        v-if="item.event && !item.subEvents"
+      />
     </div>
-    <div class="cell-body">
-      <div class="cell-body__title">
+    <div class="calendar-cell__body">
+      <div class="calendar-cell__title">
         {{ item.title }}
       </div>
-      <div class="cell-body__desc">
+      <div class="calendar-cell__desc">
         {{ item.subtitle }}
       </div>
     </div>
@@ -112,71 +117,77 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+$line-height: 1.3
+$line-clamp: 3
 .calendar-cell
+  position: relative
   display: flex
   flex-direction: column
+  line-height: $line-height
+  color: #323232
+  background-color: #ffffff
   border-radius: 10px
-  padding: 12px 14px 15px
-  background: linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  box-shadow: 4px 4px 20px 0px #0000001A
-  height: 125px
-  width: 154px
-  position: relative
-  font-family: Manrope, sans-serif
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.1)
   cursor: pointer
-
-  .cell-head
+  &--past
+    color: #808080
+  &--many-events
+    background-image: radial-gradient(50% 76% at 50% 47%, #ffffff 0%, #f7f7ff 100%)
+  &--enroled
+    background-image: radial-gradient(50% 76% at 50% 47%, #ffffff 0%, #fcffec 100%)
+  &--non-enroled
+    background-image: radial-gradient(50% 76% at 50% 47%, #ffffff 0%, #ffeded 100%)
+  &__header
     display: flex
     align-items: center
     justify-content: space-between
-
-  .cell-head__date
-    font-size: 24px
-    font-style: normal
+    padding-top: 6px
+    padding-right: 4px
+    padding-left: 14px
+    border-bottom: 1px solid #d9d9d9
+  &__date
+    flex-grow: 1
+    min-width: 40px
+    margin-right: 10px
     font-weight: 800
-    line-height: 29px
-    letter-spacing: 0em
-    text-align: left
-    color: #363636
-    &.cell-head__date--current
-      color: red
-
-  .cell-head__date,
-  .cell-body__title,
-  .cell-body__desc
-    overflow: hidden
+    font-size: 24px
     text-overflow: ellipsis
+    white-space: nowrap
+    color: #363636
+    overflow: hidden
+  &__date--current
+    color: #ff0000
+  &--past &__date
+    color: #c4c4c4
+  &__schevron
+    width: 30px
+    height: 30px
+  &__lock
+    margin-right: 10px
+    width: 13px
+    height: 18px
+  &__body
+    padding: 4px 14px 9px
+  &__title,
+  &__desc
+    -webkit-line-clamp: $line-clamp
     display: -webkit-box
-    -webkit-line-clamp: 2
     -webkit-box-orient: vertical
-    font-style: normal
-    letter-spacing: 0
-    color: #323232
-    -moz-user-select: -moz-none
-    -o-user-select: none
-    -khtml-user-select: none
-    -webkit-user-select: none
+    text-overflow: ellipsis
+    overflow: hidden
     user-select: none
-
-  .cell-body__title
-    font-size: 16px
+  &__title
+    height: calc( 16px * #{$line-height} * #{$line-clamp} )
     font-weight: 600
-    font-style: normal
     font-size: 16px
-    line-height: 19px
-    height: 38px
+  &__desc
+    height: calc( 12px * #{$line-height} * #{$line-clamp} )
+    font-weight: 300
+    font-size: 12px
 
-  .cell-body__desc
-    margin-top: 4px
-    font-size: 12px
-    font-weight: 200
-    font-size: 12px
-    font-style: normal
-    line-height: 14px
-    height: 28px
 
   .slide-enter
-    transform: translateX(-170px)
+    transform: translatex(-170px)
     opacity: 0
 
   .slide-enter-active,
@@ -185,19 +196,6 @@ export default {
 
   .slide-enter-from,
   .slide-leave-to
-    transform: translateX(-129px)
+    transform: translatex(-129px)
     opacity: 0
-
-  &.calendar-cell--past
-    .cell-head__date,
-    .cell-body__title,
-    .cell-body__desc
-      color: #C4C4C4
-
-  &.calendar-cell--many-events
-    background: linear-gradient(89.7deg, #E8E8FF 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &.calendar-cell--enroled
-    background: linear-gradient(89.7deg, #F6FFC1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
-  &.calendar-cell--non-enroled
-    background: linear-gradient(89.7deg, #FFE1E1 0.28%, #FFFFFF 99.76%), linear-gradient(89.7deg, #F8F8F8 0.28%, #FFFFFF 99.76%)
 </style>
