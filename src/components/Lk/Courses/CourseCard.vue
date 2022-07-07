@@ -1,6 +1,7 @@
 <template>
   <div
-    class="course-card course-card--beginner course-card--open vue-component"
+    class="course-card course-card--beginner vue-component"
+    :class="{ 'course-card--wide': isWide , 'course-card--open': isOpen }"
   >
     <div class="course-card__inner">
       <div class="course-card__header">
@@ -80,8 +81,7 @@ export default {
       maxDescriptionSize: 20,
       description: [],
       duration: "4 месяца",
-      amount: "32 урока",
-      isOpen: false
+      amount: "32 урока"
     };
   },
   methods: {
@@ -97,7 +97,11 @@ export default {
   },
   computed: {},
   components: {},
-  props: ["course", "buy"],
+  props: {
+    course: Object,
+    isOpen: Boolean,
+    isWide: Boolean
+  },
   mixins: [api],
   beforeMount() {
     this.setDescription();
@@ -160,13 +164,24 @@ export default {
     display: -webkit-box
     -webkit-box-orient: vertical
     overflow: hidden
+  &--wide &__desc
+    min-height: calc( 22px * 2 )
+    -webkit-line-clamp: 2
   &__footer
     padding: 6px 24px 20px
+  &--wide &__footer
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding-top: 10px
   &__feature
     display: flex
     flex-wrap: wrap
     margin-bottom: 20px
     font-weight: 300
+  &--wide &__feature
+    margin-right: 20px
+    margin-bottom: 0
   &__feature-item
     display: flex
     padding-top: 4px
@@ -174,6 +189,7 @@ export default {
   &__feature-item:not(:last-child)
     margin-right: 32px
   &__feature-icon
+    flex-shrink: 0
     width: 24px
     height: 24px
     margin-right: 4px
@@ -181,6 +197,8 @@ export default {
     display: flex
     flex-direction: column
     align-items: center
+  &--wide &__btn-box
+    flex-shrink: 0
   &__btn
     display: flex
     align-items: center

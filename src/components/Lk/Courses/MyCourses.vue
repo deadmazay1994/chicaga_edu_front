@@ -9,7 +9,8 @@
               v-for="course in myCourses"
               :key="course.id"
               :course="course"
-              :buy="true"
+              :isOpen="true"
+              :isWide="true"
             />
           </div>
         </template>
