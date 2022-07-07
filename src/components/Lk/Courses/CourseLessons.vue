@@ -13,46 +13,51 @@
           {{ lesson.name }}
         </router-link>
       </div>
-      <CourseCardVue :course="currentCourse" />
-      <CourseProgramCardVue :courseProgramm="courseProgramms" />
+      <!-- <CourseCardVue :course="currentCourse" />
+      <CourseProgramCardVue :courseProgramm="courseProgramms" /> -->
     </div>
   </div>
 </template>
 
 <script>
-import CourseCardVue from "./CourseCard.vue";
-import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
-import { mapGetters, mapActions, mapMutations } from "vuex";
+// import CourseCardVue from "./CourseCard.vue";
+// import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
+
+import api from "@/mixins/api";
 
 export default {
   name: "course-lessons",
-  components: { CourseCardVue, CourseProgramCardVue },
+  components: {
+    // CourseCardVue,
+    // CourseProgramCardVue
+  },
   data: function() {
     return {
-      courseProgramms: {}
+      courseProgramms: {},
+      currentCourse: {}
     };
   },
   props: {
     course: Object
   },
-  computed: {
-    ...mapGetters(["currentCourse"])
-  },
+  computed: {},
   methods: {
-    ...mapActions(["setCurrentCourse"]),
-    ...mapMutations(["clearTasks"]),
     setCourses() {
       this.$store.dispatch("setMyCourses");
     },
+    async setCurrentCourse() {
+      const result = await api.methods.getCourseInfo(this.$route.params.id);
+      this.currentCourse = result.data;
+      console.log("lesson", this.currentCourse);
+    },
     async setCourseProgramms() {
-      this.courseProgramms = await this.getCourseProgramms();
+      this.courseProgramms = await api.methods.getCourseProgramms();
     }
   },
   async beforeMount() {
     this.setCourses();
-    await this.$store.dispatch("setCurrentCourse", this.$route.params.id);
+    this.setCurrentCourse();
     this.setCourseProgramms();
-    console.log(this.currentCourse);
   }
 };
 </script>
