@@ -1,6 +1,6 @@
 <template>
   <div class="my-courses-wrapper vue-component">
-    <interlayer class="my-courses-wrapper__body" :title="'H1'">
+    <interlayer class="my-courses-wrapper__body" :title="$route.name">
       <router-view></router-view>
     </interlayer>
     <div class="my-courses-wrapper__aside">
