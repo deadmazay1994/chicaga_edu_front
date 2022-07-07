@@ -13,18 +13,24 @@
           {{ lesson.name }}
         </router-link>
       </div>
+      <CourseCardVue :course="currentCourse" />
+      <CourseProgramCardVue :courseProgramm="courseProgramms" />
     </div>
   </div>
 </template>
 
 <script>
+import CourseCardVue from "./CourseCard.vue";
+import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "course-lessons",
-  components: {},
+  components: { CourseCardVue, CourseProgramCardVue },
   data: function() {
-    return {};
+    return {
+      courseProgramms: {}
+    };
   },
   props: {
     course: Object
@@ -37,11 +43,16 @@ export default {
     ...mapMutations(["clearTasks"]),
     setCourses() {
       this.$store.dispatch("setMyCourses");
+    },
+    async setCourseProgramms() {
+      this.courseProgramms = await this.getCourseProgramms();
     }
   },
   async beforeMount() {
     this.setCourses();
     await this.$store.dispatch("setCurrentCourse", this.$route.params.id);
+    this.setCourseProgramms();
+    console.log(this.currentCourse);
   }
 };
 </script>
