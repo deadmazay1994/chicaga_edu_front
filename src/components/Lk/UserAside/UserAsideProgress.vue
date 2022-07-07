@@ -13,7 +13,7 @@
       <div class="user-aside__add-info">Регистрация: 08.06.2021</div>
     </div>
     <div class="user-aside__points">
-      <scores-vue :withoutInner="true" class="user-aside__scores" />
+      <scores-vue class="user-aside__scores" />
     </div>
     <div class="user-aside__progress">
       <div class="user-aside__progress-title">Прогресс курса:</div>
@@ -79,9 +79,6 @@ export default {
     padding-top: 40px
   &__progress
     padding-top: 32px
-  &__scores
-    box-shadow: none
-    background-color: none
   &__progress-title
     font-size: 16px
     font-weight: 600
