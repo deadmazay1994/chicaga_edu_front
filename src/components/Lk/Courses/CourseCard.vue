@@ -57,8 +57,11 @@
             class="course-card__btn"
             href="#"
           >
-            <span class="course-card__btn-text">
+            <span v-if="!isOpen" class="course-card__btn-text">
               Подробнее о курсе
+            </span>
+            <span v-else class="course-card__btn-text">
+              К урокам курса
             </span>
             <svg class="course-card__btn-icon" width="24" height="24">
               <use xlink:href="#arrow-down"></use>
