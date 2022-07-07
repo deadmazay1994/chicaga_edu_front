@@ -2,18 +2,32 @@
   <div class="course-lessons vue-component">
     <div class="course-lessons__section">
       <div class="course-lessons__section-title">
+        Следующий урок:
+      </div>
+      <CourseProgramCardVue
+        class="course-lessons__card"
+        :key="index"
+        :title="currentCourse.lessons[0].name"
+        :rating="4.8"
+        :duration="40"
+        :start_time="1656454829"
+        :link="`/lesson/${currentCourse.lessons[0].uniq_id}`"
+      />
+    </div>
+    <div class="course-lessons__section">
+      <div class="course-lessons__section-title">
         Уроки курса:
       </div>
-      <div
-        class="course-lessons__lesson"
+      <CourseProgramCardVue
+        class="course-lessons__card"
         v-for="(lesson, index) in currentCourse.lessons"
         :key="index"
-      >
-        <router-link :to="`/lesson/${lesson.uniq_id}`">
-          {{ lesson.name }}
-        </router-link>
-      </div>
-      <CourseProgramCardVue :courseProgramm="courseProgramms" />
+        :title="lesson.name"
+        :rating="4.8"
+        :duration="40"
+        :start_time="1656454829"
+        :link="`/lesson/${lesson.uniq_id}`"
+      />
     </div>
   </div>
 </template>
@@ -62,6 +76,8 @@ export default {
 <style scoped="scoped" lang="sass">
 .course-lessons
   padding: 24px 32px
+  &__section + &__section
+    padding-top: 40px
   &__section:not(:last-child)
     margin-bottom: 40px
   &__section-title
@@ -71,4 +87,6 @@ export default {
     color: #323232
   &__lesson:not(:last-child)
     margin-bottom: 20px
+  &__card + &__card
+    margin-top: 20px
 </style>

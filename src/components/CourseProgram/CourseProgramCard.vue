@@ -22,7 +22,7 @@
         </div>
         <div class="program-card__title-box">
           <span class="program-card__title">
-            {{ courseProgramm.title }}
+            {{ title }}
           </span>
         </div>
         <div class="program-card__rating-box">
@@ -31,7 +31,7 @@
               <use xlink:href="#star"></use>
             </svg>
             <span class="program-card__rating">
-              {{ courseProgramm.rating }}
+              {{ rating }}
             </span>
           </div>
         </div>
@@ -70,14 +70,20 @@
           </div>
         </div>
         <div class="program-card__btn-box">
-          <a v-if="access" class="program-card__btn" href="#" title="Переход к уроку">
+          <router-link
+            :to="link"
+            v-if="access"
+            class="program-card__btn"
+            href="#"
+            title="Переход к уроку"
+          >
             <svg class="program-card__btn-img" width="14" height="14">
               <use xlink:href="#arrow-down"></use>
             </svg>
             <span class="sr-only">
               Переход к уроку
             </span>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
@@ -95,17 +101,17 @@ export default {
   methods: {},
   computed: {
     startTime() {
-      return moment.unix(this.courseProgramm.start_time).format("DD.MM.YYYY");
+      return moment.unix(this.start_time).format("DD.MM.YYYY");
     },
-    duration() {
-      let startTimeMinutes = this.courseProgramm.duration;
+    formattedDuration() {
+      let startTimeMinutes = this.duration;
       let hours = Math.trunc(startTimeMinutes / 60);
       let minutes = startTimeMinutes % 60;
       return hours + ":" + minutes;
     },
     access() {
       const now = moment();
-      return now >= moment.unix(this.courseProgramm.start_time);
+      return now >= moment.unix(this.start_time);
     },
     returnAccessString() {
       return this.access ? "lock-open" : "lock-lock";
@@ -117,7 +123,11 @@ export default {
       type: String,
       default: "lesson"
     },
-    courseProgramm: Object
+    title: String,
+    rating: Number,
+    duration: Number,
+    start_time: Number,
+    link: String
   },
   mixins: {},
   beforeMount() {}
