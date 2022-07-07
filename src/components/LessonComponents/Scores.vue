@@ -109,6 +109,9 @@ export default {
     background-color: #FFFFFF
     box-shadow: 0 4px 10px #F3F3F3
     border-radius: 20px
+    &--no-design
+      background-color: none
+      box-shadow: none
   &__item
     display: flex
     align-items: center
