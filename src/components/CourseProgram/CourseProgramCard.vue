@@ -1,5 +1,8 @@
 <template>
-  <div class="program-card vue-component" :class="'program-card--' + kind">
+  <div
+    class="program-card vue-component"
+    :class="'program-card--' + returnModificator"
+  >
     <div class="program-card__inner">
       <div class="program-card__top">
         <div class="program-card__img-box">
@@ -12,9 +15,12 @@
             alt="Учитель"
           />
           <svg v-else class="program-card__img" width="48" height="48">
-            <use v-if="kind == 'test'" xlink:href="#sq-school-check"></use>
             <use
-              v-else-if="kind == 'practical'"
+              v-if="returnModificator == 'test'"
+              xlink:href="#sq-school-check"
+            ></use>
+            <use
+              v-else-if="returnModificator == 'practical'"
               xlink:href="#sq-school-green"
             ></use>
             <use v-else xlink:href="#sq-school-red"></use>
@@ -115,6 +121,11 @@ export default {
     },
     returnAccessString() {
       return this.access ? "lock-open" : "lock-lock";
+    },
+    returnModificator() {
+      if (this.title.match("Elementary")) return "test";
+      else if (this.title.match("Practical")) return "practical";
+      return "";
     }
   },
   components: {},
