@@ -22,6 +22,7 @@
         <div class="catalog-c__aside-wrap">
           <div class="catalog-c__aside-inner">
             <!-- типа слот для контента боковой панели -->
+            <UserAsideProgressVue />
           </div>
         </div>
       </div>
@@ -33,6 +34,7 @@
 import Interlayer from "@/components/Interlayer.vue";
 import CourseCard from "@/components/Lk/Courses/CourseCard";
 import Plug from "./CatalogCoursePlug";
+import UserAsideProgressVue from "../UserAside/UserAsideProgress.vue";
 
 import { mapGetters } from "vuex";
 
@@ -50,7 +52,8 @@ export default {
   components: {
     Interlayer,
     CourseCard,
-    Plug
+    Plug,
+    UserAsideProgressVue
   },
   props: [],
   mixins: {},
