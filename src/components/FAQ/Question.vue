@@ -5,7 +5,6 @@
       <svg
         class="question__chevron"
         :class="{ 'question__chevron--active': answerActive }"
-        @click="toggle()"
       >
         <use xlink:href="#arrow-down"></use>
       </svg>
@@ -73,11 +72,12 @@ export default {
     transform: rotate(-90deg)
     transition: .2s ease-in-out
 
-    &--active
+  &__chevron--active
       transform: rotate(0deg)
 </style>
 
+<!-- элементы v-html находятся за пределами области видимости компонента (scoped) -->
 <style lang="sass">
-.question__answer a
+.question a
   color: #007EFF
 </style>
