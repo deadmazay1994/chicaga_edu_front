@@ -293,23 +293,20 @@ const routes = [
     name: "store",
     component: StoreComponent,
     meta: {
-      breadcrumb: `Магазин`
+      breadcrumb: { title: "Магазин" }
     },
     children: [
       {
         path: "",
         name: "merch",
-        component: MerchComponent,
-        meta: {
-          breadcrumb: "Мерч"
-        }
+        component: MerchComponent
       },
       {
         path: "merch/order",
         name: "order",
         component: ProductOrder,
         meta: {
-          breadcrumb: { title: "Магазин" }
+          breadcrumb: { title: "Оформление заказа" }
         }
       }
     ]
