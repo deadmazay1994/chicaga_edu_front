@@ -19,14 +19,17 @@
 export default {
   name: "interlayer",
   data: function() {
-    return {
-      title: "Заголовок"
-    };
+    return {};
   },
   methods: {},
   computed: {},
   components: {},
-  props: [],
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
   mixins: {},
   beforeMount() {}
 };

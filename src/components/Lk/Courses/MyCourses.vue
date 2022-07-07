@@ -1,7 +1,7 @@
 <template>
   <div class="catalog-c vue-component">
     <div class="catalog-c__inner">
-      <interlayer class="catalog-c__body">
+      <interlayer :title="'Мои курсы'" class="catalog-c__body">
         <template v-if="myCourses.length">
           <div class="course-card-container">
             <!-- По идее, тут должна вставляться сетка с карточками курса, а не вот это вот, а потом отдельно карточки. Данный компонент раньше и выполнял эту роль, но пока для нового дизайна решили сделать так. Очень желательно в дальнейшем это исправить. -->

@@ -17,7 +17,7 @@
     </div>
     <div class="user-aside__progress">
       <div class="user-aside__progress-title">Прогресс курса:</div>
-      <ProgressBarVue :value="5" :numbers="10" />
+      <ProgressBarVue :fullWidth="true" :value="5" :numbers="10" />
     </div>
   </div>
 </template>
@@ -54,15 +54,6 @@ export default {
     display: flex
     align-items: center
     flex-direction: column
-  &__title
-    font-size: 20px
-    font-weight: 600
-  &__add-info
-    font-size: 14px
-    font-weight: 500
-    color: #808080
-    &:first-child
-      padding-top: 8px
   &__image
     width: 130px
     height: 130px
@@ -74,15 +65,23 @@ export default {
     object-fit: contain
     width: 100%
     height: auto
+  &__title
+    font-size: 20px
+    font-weight: 600
+  &__add-info
+    font-size: 14px
+    font-weight: 500
+    color: #808080
+    &:first-child
+      padding-top: 8px
+  &__points
+    padding-top: 40px
+  &__progress
+    padding-top: 32px
   &__scores
     box-shadow: none
     background-color: none
-  &__progress
-    display: flex
-    align-items: center
-    flex-direction: column
   &__progress-title
-    align-self: flex-start
     font-size: 16px
     font-weight: 600
     letter: 2%
