@@ -13,23 +13,20 @@
           {{ lesson.name }}
         </router-link>
       </div>
-      <!-- <CourseCardVue :course="currentCourse" />
-      <CourseProgramCardVue :courseProgramm="courseProgramms" /> -->
+      <CourseProgramCardVue :courseProgramm="courseProgramms" />
     </div>
   </div>
 </template>
 
 <script>
-// import CourseCardVue from "./CourseCard.vue";
-// import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
+import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
 
 import api from "@/mixins/api";
 
 export default {
   name: "course-lessons",
   components: {
-    // CourseCardVue,
-    // CourseProgramCardVue
+    CourseProgramCardVue
   },
   data: function() {
     return {
