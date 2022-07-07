@@ -1,6 +1,9 @@
 <template>
   <div class="scores vue-component">
-    <div class="scores__inner">
+    <div
+      class="scores__inner"
+      :class="{ 'scores__inner--no-design': withoutInner }"
+    >
       <div class="scores__item">
         <animated-cool-svg ref="animatedCool" />
         <span class="scores__points">{{ points.smile }}</span>
@@ -37,6 +40,9 @@ export default {
   name: "scores",
   data: function() {
     return {};
+  },
+  props: {
+    withoutInner: Boolean
   },
   methods: {
     ...mapActions(["setUserPoints"]),
