@@ -214,6 +214,7 @@ const routes = [
       },
       {
         path: "catalog-coursers",
+        name: "catalog-courses",
         component: CatalogCourses,
         meta: {
           breadcrumb: { title: "Каталог курсов", color: () => "#0077ff" }
