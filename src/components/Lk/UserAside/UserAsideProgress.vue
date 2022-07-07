@@ -73,10 +73,12 @@ export default {
     font-size: 14px
     font-weight: 500
     color: #808080
-    &:first-child
-      padding-top: 8px
+  &__add-info:first-child
+    padding-top: 8px
   &__points
     padding-top: 40px
+  &__scores
+    justify-content: center
   &__progress
     padding-top: 32px
   &__progress-title

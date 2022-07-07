@@ -95,20 +95,22 @@ export default {
 .scores
   display: flex
   align-items: center
-  justify-content: center
-  padding: 8px 16px
+  justify-content: space-between
+  padding: 8px
   &__item
     display: flex
     align-items: center
     font-size: 14px
     line-height: 1
   &__item:not(:last-child)
-    margin-right: 40px
+    margin-right: 16px
   &__points
     margin-left: 8px
     font-weight: 600
     font-size: 14px
     line-height: 16px
+  &__item:not(:last-child) &__points
+    min-width: 32px
   .animated-svg-wrapper
     width: 30px
     height: 30px
