@@ -14,7 +14,11 @@
       <div class="lesson-body">
         <div class="lesson-body__inner">
           <div class="lesson-body__item">
-            <record v-if="record && record.url" :src="record.url" class="lesson-body__video" />
+            <record
+              v-if="record && record.url"
+              :src="record.url"
+              class="lesson-body__video"
+            />
           </div>
           <div class="lesson-body__item lesson-body__item--2">
             <edu-panel class="lesson-body__edu-panel" />
@@ -42,9 +46,9 @@ export default {
   },
   methods: {
     async setRecord() {
-      let lesson = await this.getLesson(this.$route.params.id)
+      let lesson = await this.getLesson(this.$route.params.id);
       let record = await this.getVideo(lesson.videoId);
-      this.record = record.data
+      this.record = record.data;
     }
   },
   computed: {},
@@ -57,7 +61,7 @@ export default {
   props: [],
   mixins: [api],
   beforeMount() {
-    this.setRecord()
+    this.setRecord();
   }
 };
 </script>
