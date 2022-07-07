@@ -4,29 +4,27 @@
       <div class="course-lessons__section-title">
         Уроки курса:
       </div>
-      <div
+      <CourseProgramCardVue
         class="course-lessons__lesson"
+        :courseProgramm="courseProgramms"
         v-for="(lesson, index) in currentCourse.lessons"
         :key="index"
       >
-        <router-link :to="`/lesson/${lesson.uniq_id}`">
+        <!-- <router-link :to="`/lesson/${lesson.uniq_id}`">
           {{ lesson.name }}
-        </router-link>
-      </div>
-      <CourseCardVue :course="currentCourse" />
-      <CourseProgramCardVue :courseProgramm="courseProgramms" />
+        </router-link> -->
+      </CourseProgramCardVue>
     </div>
   </div>
 </template>
 
 <script>
-import CourseCardVue from "./CourseCard.vue";
 import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "course-lessons",
-  components: { CourseCardVue, CourseProgramCardVue },
+  components: { CourseProgramCardVue },
   data: function() {
     return {
       courseProgramms: {}
