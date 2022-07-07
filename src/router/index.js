@@ -242,7 +242,7 @@ const routes = [
             meta: {
               breadcrumb: { title: "Уроки курса", color: "green" },
               layout: "main-layout",
-              title: "Уроки курса"
+              title: "Elementary"
             }
           }
         ]
