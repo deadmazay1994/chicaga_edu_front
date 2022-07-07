@@ -66,6 +66,7 @@ export default {
     width: 100%
     height: auto
   &__title
+    padding-top: 16px
     font-size: 20px
     font-weight: 600
   &__add-info
