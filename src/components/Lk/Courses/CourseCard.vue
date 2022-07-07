@@ -53,7 +53,7 @@
         </div>
         <div class="course-card__btn-box">
           <router-link
-            :to="'/lk/my-courses/course-lessons/' + course.id"
+            :to="'/lk/course/' + course.id"
             class="course-card__btn"
             href="#"
           >
