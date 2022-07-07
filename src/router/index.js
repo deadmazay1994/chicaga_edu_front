@@ -217,26 +217,33 @@ const routes = [
         name: "catalog-courses",
         component: CatalogCourses,
         meta: {
-          breadcrumb: { title: "Каталог курсов", color: () => "#0077ff" }
+          breadcrumb: { title: "Каталог курсов", color: () => "#0077ff" },
+          title: "Каталог курсов"
         }
       },
       {
         path: "my-courses",
         name: "my-courses-wrapper",
         component: MyCoursesWrapper,
-        breadcrumb: { title: "Мои курсы", color: "green" },
         children: [
           {
             path: "",
             name: "my-courses-wrapper",
-            component: MyCourses
+            component: MyCourses,
+            meta: {
+              breadcrumb: { title: "Мои курсы" },
+              title: "Мои курсы"
+            }
           },
           {
             path: "course-lessons/:id",
             name: "course-lessons",
             component: CourseLessons,
-            breadcrumb: { title: "Уроки курса", color: "green" },
-            layout: "main-layout"
+            meta: {
+              breadcrumb: { title: "Уроки курса", color: "green" },
+              layout: "main-layout",
+              title: "Уроки курса"
+            }
           }
         ]
       },
