@@ -5,7 +5,9 @@
         <div class="lesson-template__header-part">
           <Breadcrumb></Breadcrumb>
         </div>
-        <div class="lesson-template__header-part">
+        <div
+          class="lesson-template__header-part lesson-template__header-part--2"
+        >
           <scores class="lesson-template__scores" />
         </div>
       </div>
@@ -14,7 +16,11 @@
       <div class="lesson-body">
         <div class="lesson-body__inner">
           <div class="lesson-body__item">
-            <record v-if="record && record.url" :src="record.url" class="lesson-body__video" />
+            <record
+              v-if="record && record.url"
+              :src="record.url"
+              class="lesson-body__video"
+            />
           </div>
           <div class="lesson-body__item lesson-body__item--2">
             <edu-panel class="lesson-body__edu-panel" />
@@ -42,9 +48,9 @@ export default {
   },
   methods: {
     async setRecord() {
-      let lesson = await this.getLesson(this.$route.params.id)
+      let lesson = await this.getLesson(this.$route.params.id);
       let record = await this.getVideo(lesson.videoId);
-      this.record = record.data
+      this.record = record.data;
     }
   },
   computed: {},
@@ -57,7 +63,7 @@ export default {
   props: [],
   mixins: [api],
   beforeMount() {
-    this.setRecord()
+    this.setRecord();
   }
 };
 </script>
@@ -79,12 +85,23 @@ $header-height: 62px
     z-index: 1
   &__header-inner
     display: flex
+    align-items: center
     justify-content: space-between
     height: 100%
   &__header-part
     width: 50%
-  &__scores
+  &__header-part--2
+    display: flex
+    justify-content: flex-end
     padding-left: 20px
+  &__scores
+    flex-grow: 1
+    max-width: 448px
+    padding-right: 46px
+    padding-left: 46px
+    background-color: #FFFFFF
+    box-shadow: 0 4px 10px #F3F3F3
+    border-radius: 20px
   &__body
     flex-grow: 1
     width: 100%
