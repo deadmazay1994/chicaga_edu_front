@@ -16,9 +16,11 @@ import UpcomingLesson from "@/components/LessonComponents/Upcoming";
 import Lk from "@/components/Lk";
 import Settings from "@/components/Lk/Settings";
 import CatalogCourses from "@/components/Lk/Courses/CatalogCourses";
+import MyCoursesWrapper from "@/components/Lk/Courses/MyCoursesWrapper";
 import MyCourses from "@/components/Lk/Courses/MyCourses";
 import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
+import CourseLessons from "@/components/Lk/Courses/CourseLessons";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
@@ -218,11 +220,25 @@ const routes = [
         }
       },
       {
-        path: "my-coursers",
-        component: MyCourses,
-        meta: {
-          breadcrumb: { title: "Мои курсы" }
-        }
+        path: "my-courses",
+        name: "my-courses-wrapper",
+        component: MyCoursesWrapper,
+        breadcrumb: { title: "Мои курсы", color: "green" },
+        children: [
+          {
+            path: "",
+            name: "my-courses-wrapper",
+            component: MyCourses,
+            breadcrumb: { title: "", color: "" }
+          },
+          {
+            path: "course-lessons/:id",
+            name: "course-lessons",
+            component: CourseLessons,
+            breadcrumb: { title: "Уроки курса", color: "green" },
+            layout: "main-layout"
+          }
+        ]
       },
       {
         path: "course/:id",

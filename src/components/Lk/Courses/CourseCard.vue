@@ -53,7 +53,7 @@
         </div>
         <div class="course-card__btn-box">
           <router-link
-            :to="'/lk/course/' + course.id"
+            :to="'/lk/my-courses/course-lessons/' + course.id"
             class="course-card__btn"
             href="#"
           >
@@ -76,6 +76,7 @@
 <script>
 import api from "@/mixins/api";
 import "@/mixins/methods";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "course-card",
@@ -88,6 +89,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setCurrentCourse"]),
     setDescription() {
       this.description = this.course.description
         .split(" ")
@@ -98,7 +100,9 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["currentCourse"])
+  },
   components: {},
   props: {
     course: Object,
@@ -106,8 +110,9 @@ export default {
     isWide: Boolean
   },
   mixins: [api],
-  beforeMount() {
+  async beforeMount() {
     this.setDescription();
+    console.log("course", this.course);
   }
 };
 </script>
