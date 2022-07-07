@@ -16,6 +16,8 @@
         />
       </div>
     </div>
+    <!-- Тестовая кнопка покупки курса -->
+    <button @click="pay">TEST BUY</button>
     <div class="course-page__block">
       <div class="course-page__block-title">Тарифы</div>
       <div class="course-page__grid">
@@ -36,6 +38,7 @@ import CourseDescription from "../Courses/CourseDescription.vue";
 import Tariff from "@/components/Tariff";
 
 import api from "@/mixins/api";
+import "@/mixins/methods";
 import { mapGetters } from "vuex";
 
 export default {
@@ -62,6 +65,7 @@ export default {
       // Данный метод работает только если мы еще не запрашивали курсы
       await this.$store.dispatch("setAllCourses");
       this.courseRes = this.course(this.$route.params.id);
+      console.log(this.courseRes);
     },
     async setCourseProgramms() {
       this.courseProgramms = await this.getCourseProgramms();
@@ -69,6 +73,11 @@ export default {
     async setTariffes() {
       const result = await this.getTariffesData();
       this.tariffes = result.tariffes;
+    },
+    async requestBuyCourse() {
+      const result = await this.buyCourse();
+      console.log(result);
+      if (result) this.$router.push("/lk/my-coursers");
     }
   },
   computed: {
@@ -85,6 +94,7 @@ export default {
     this.setCourse();
     this.setCourseProgramms();
     this.setTariffes();
+    console.log("course", this.courseRes);
   }
 };
 </script>

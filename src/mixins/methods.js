@@ -3,7 +3,8 @@ import Vue from "vue";
 Vue.mixin({
   methods: {
     async pay() {
-      let response = await this.getPayCourseLink(this.course.id);
+      console.log("pay course:", this.course);
+      let response = await this.getPayCourseLink(this.courseRes.id);
       let errorText = "";
       if ("success" in response) {
         if (response.success) {
