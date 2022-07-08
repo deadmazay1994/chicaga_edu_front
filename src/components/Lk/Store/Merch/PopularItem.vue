@@ -1,5 +1,5 @@
 <template>
-  <div class="popular-item">
+  <div class="popular-item" @click="openModal(item.id)">
     <div class="popular-item__info">
       <h3 class="popular-item__title">{{ item.title }}</h3>
       <p class="popular-item__price">
@@ -18,10 +18,20 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from "vuex";
+
 export default {
   name: "PopularItem",
   props: {
     item: Object
+  },
+  methods: {
+    ...mapMutations(["toggleShopModale"]),
+    ...mapActions(["setShopProductInfo"]),
+    openModal(id) {
+      this.setShopProductInfo(id);
+      this.toggleShopModale();
+    }
   }
 };
 </script>

@@ -1,9 +1,10 @@
 <template>
   <div class="store vue-component">
     <div class="store__content">
-      <div class="store__content-inner">
+      <interlayer-vue class="store__interlayer" :title="'Магазин'">
         <router-view />
-      </div>
+      </interlayer-vue>
+
       <div class="store__shop-cart-wrapper">
         <shop-cart :showSubmit="true" class="store__shop-cart" />
       </div>
@@ -15,12 +16,14 @@
 <script>
 import ShopCart from "./Cart/ShopCart.vue";
 import StoreModal from "@/components/Lk/Store/StoreModal";
+import InterlayerVue from "../../Interlayer.vue";
 
 export default {
   name: "store",
   components: {
     ShopCart,
-    StoreModal
+    StoreModal,
+    InterlayerVue
   },
   data: function() {
     return {};
@@ -45,7 +48,8 @@ export default {
     width: 100%
     @media ($media_md2)
       padding: 0 15px
-  &__content-inner
+  &__interlayer
+    padding: 32px
     width: 50%
     overflow-y: auto
   &__shop-cart-wrapper
