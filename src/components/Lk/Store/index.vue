@@ -50,10 +50,13 @@ export default {
       padding: 0 15px
   &__interlayer
     padding: 32px
-    width: 50%
+    padding-right: 20px
+    width: 60%
     overflow-y: auto
+    overflow-x: visible
   &__shop-cart-wrapper
     padding: 32px
+    padding-left: 0px
     flex-basis: 40%
   &__shop-cart
     height: 100%
