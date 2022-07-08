@@ -31,7 +31,7 @@ export default {
   width: 28px
   height: 28px
   font-weight: 600
-  font-size: 20px
+  font-size: 16px
   line-height: 24px
   background-color: #DCDCDC
   border-radius: 5px
