@@ -1,25 +1,23 @@
 <template>
-  <div class="merch__slider">
-    <swiper class="swiper" :options="swiperOption">
-      <swiper-slide
-        class="merch-slider__item"
-        v-for="(slide, index) in 3"
-        :key="index"
-      >
-        <div class="slider__text">
-          <h3 class="slider__subtitle">Прервись на кофе-брейк</h3>
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      class="merch-slider__item"
+      v-for="(slide, index) in 3"
+      :key="index"
+    >
+      <div class="slider__text">
+        <h3 class="slider__subtitle">Купи новый мерч от CHICAGA</h3>
 
-          <div>
-            <h2 class="slider__title">Бумажные стаканчики</h2>
-            <br />
-            <h2 class="slider__title">для кофе</h2>
-          </div>
-
-          <button class="slider__btn">Подробнее</button>
+        <div>
+          <div class="slider__title">Стану акулой</div>
+          <br />
+          <div class="slider__title">в английском</div>
         </div>
-      </swiper-slide>
-    </swiper>
-  </div>
+
+        <button class="slider__btn">Подробнее</button>
+      </div>
+    </swiper-slide>
+  </swiper>
 </template>
 
 <script>
@@ -35,8 +33,8 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 1,
-        spaceBetween: 20
+        slidesPerView: 1
+        // spaceBetween: 20
       }
     };
   }
@@ -45,21 +43,16 @@ export default {
 
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
-
-.merch__slider
-  border-radius: 20px
-  overflow: hidden
-
+.swiper
+  width: 100%
   @media ($media_md2)
     display: none
-
 .merch-slider__item
   display: flex
   align-items: center
   position: relative
-  background-color: rgba(211, 182, 176, 1)
-  background: url("~@/assets/imgs/coffe-circle-bg.png") no-repeat, url("~@/assets/imgs/beans.png") repeat, rgba(211, 182, 176, 1)
-  background-position: bottom 100% right -20%, center, left
+  background: url("~@/assets/imgs/swiper-image.png") no-repeat, linear-gradient(180deg, #FFE2E4 0%, #F2F7FB 100%)
+  background-position: bottom 100% right 10%, center, left
   border-radius: 20px
   padding: 28px 0 15px 25px
   width: 100%
@@ -86,6 +79,7 @@ export default {
   font-weight: 500
   font-size: 12px
   margin-bottom: 15px
+  color: #000000
 
 .slider__title
   font-family: Manrope, sans-serif
@@ -107,7 +101,8 @@ export default {
   padding: 10px 30px
 
   font-size: 12px
-  color: $purple_light
+  font-weight: 600
+  color: #323232
 
 .slider__dots
   display: flex

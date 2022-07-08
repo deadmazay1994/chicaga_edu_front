@@ -186,7 +186,7 @@ export default {
         {
           title: "Greeting",
           time: 75
-        },
+        }
         // {
         //   title: "What is in the bag",
         //   time: 60 * 7 + 22
@@ -306,21 +306,21 @@ export default {
       return [
         {
           id: 1,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          title: "Худи CHICAGA“EXPERT” ",
+          src: require("@/assets/imgs/shop/merch/hoodie-grey.png"),
           price: 1000,
           count: 1
         },
         {
           id: 2,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          title: "Худи CHICAGA «Стану акулой»",
+          src: require("@/assets/imgs/shop/merch/jackets.png"),
           price: 1000,
           count: 1
         },
         {
           id: 3,
-          title: "Худи Peach",
+          title: "Худи «CHICAGEST»",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
           price: 1000,
           count: 1
@@ -329,27 +329,136 @@ export default {
     },
     getProductInfo(id) {
       console.log(id);
-      return {
-        id: 1,
-        title: "Худи Peach",
-        images: [
-          require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          require("@/assets/imgs/shop/merch/hoodie-item.png")
-        ],
-        price: 1000,
-        count: 1,
-        description: `Подробное описание... Худи свободного кроя изготовлено из хлопка...
-          Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
-        composition: ["хлопок 83%", "полиэстер 17%"],
-        colors: [
-          { color: "#F4DFC5", title: "Персиковый" },
-          { color: "#000000", title: "Чёрный" },
-          { color: "#FFFFFF", title: "Белый" },
-          { color: "#FF0000", title: "Красный" }
-        ],
-        sizes: ["XS", "S", "M", "L", "XL"]
-      };
+      let arr = [
+        {
+          id: 1,
+          title: "Худи CHICAGA “EXPERT” ",
+          images: [
+            require("@/assets/imgs/shop/merch/hoodie-grey.png"),
+            require("@/assets/imgs/shop/merch/hoodie-grey.png"),
+            require("@/assets/imgs/shop/merch/hoodie-grey.png")
+          ],
+          price: 5000,
+          count: 1,
+          description: `Подробное описание... Худи свободного кроя изготовлено из хлопка...
+            Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
+          composition: ["хлопок 83%", "полиэстер 17%"],
+          colors: [
+            { color: "#F4DFC5", title: "Персиковый" },
+            { color: "#000000", title: "Чёрный" },
+            { color: "#FFFFFF", title: "Белый" },
+            { color: "#FF0000", title: "Красный" }
+          ],
+          sizes: ["XS", "S", "M", "L", "XL"]
+        },
+        {
+          id: 2,
+          title: "Худи CHICAGA «Стану акулой»",
+          images: [
+            require("@/assets/imgs/shop/merch/jackets.png"),
+            require("@/assets/imgs/shop/merch/jackets.png"),
+            require("@/assets/imgs/shop/merch/jackets.png")
+          ],
+          price: 3000,
+          count: 1,
+          description: `Подробное описание... Худи свободного кроя изготовлено из хлопка...
+            Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
+          composition: ["хлопок 83%", "полиэстер 17%"],
+          colors: [
+            { color: "#F4DFC5", title: "Персиковый" },
+            { color: "#000000", title: "Чёрный" },
+            { color: "#FFFFFF", title: "Белый" },
+            { color: "#FF0000", title: "Красный" }
+          ],
+          sizes: ["XS", "S", "M", "L", "XL"]
+        },
+        {
+          id: 3,
+          title: "Худи «CHICAGEST»",
+          images: [
+            require("@/assets/imgs/shop/merch/hoodie-item.png"),
+            require("@/assets/imgs/shop/merch/hoodie-item.png"),
+            require("@/assets/imgs/shop/merch/hoodie-item.png")
+          ],
+          price: 3000,
+          count: 1,
+          description: `Подробное описание... Худи свободного кроя изготовлено из хлопка...
+            Модель с карманами, эластичными манжетами на рукавах и поясе дополнена застёжкой-молнией и капюшоном.`,
+          composition: ["хлопок 83%", "полиэстер 17%"],
+          colors: [
+            { color: "#F4DFC5", title: "Персиковый" },
+            { color: "#000000", title: "Чёрный" },
+            { color: "#FFFFFF", title: "Белый" },
+            { color: "#FF0000", title: "Красный" }
+          ],
+          sizes: ["XS", "S", "M", "L", "XL"]
+        },
+        {
+          id: 4,
+          title: "Cертификат OZON",
+          images: [
+            require("@/assets/imgs/shop/merch/card.png"),
+            require("@/assets/imgs/shop/merch/card.png"),
+            require("@/assets/imgs/shop/merch/card.png")
+          ],
+          price: 800,
+          count: 1,
+          description: `Электронные сертификаты Ozon «Миллион подарков» — идеальный выбор на любой праздник, по поводу и без. Радуйте родных, удивляйте друзей, поздравляйте коллег!
+
+          На сумму электронного сертификата можно выбирать из миллионов товаров и услуг на Ozon: технику, игрушки, косметику, книги, инструменты, мелочи для дома. Даже авиа- и Ж/Д билеты`,
+          composition: ["хлопок 83%", "полиэстер 17%"],
+          colors: [
+            { color: "#F4DFC5", title: "Персиковый" },
+            { color: "#000000", title: "Чёрный" },
+            { color: "#FFFFFF", title: "Белый" },
+            { color: "#FF0000", title: "Красный" }
+          ],
+          sizes: ["XS", "S", "M", "L", "XL"]
+        },
+        {
+          id: 5,
+          title: "Футболка CHICAGA",
+          images: [
+            require("@/assets/imgs/shop/merch/big-t-shirts.png"),
+            require("@/assets/imgs/shop/merch/big-t-shirts.png"),
+            require("@/assets/imgs/shop/merch/big-t-shirts.png")
+          ],
+          price: 2000,
+          count: 1,
+          description: `Футболка унисекс свободного силуэта оверсайз со спущенной плечевой линией. Выполнена из качественного  хлопка. Материал приятный к телу, хорошо стирается, долговечен в носке, сохраняет цвет ткани.`,
+          composition: ["хлопок 83%", "полиэстер 17%"],
+          colors: [
+            { color: "#F4DFC5", title: "Персиковый" },
+            { color: "#000000", title: "Чёрный" },
+            { color: "#FFFFFF", title: "Белый" },
+            { color: "#FF0000", title: "Красный" }
+          ],
+          sizes: ["XS", "S", "M", "L", "XL"]
+        },
+        {
+          id: 6,
+          title: "Кофе в дрип-пакетах CHICAGA 8шт*10г ",
+          images: [
+            require("@/assets/imgs/shop/merch/big-drips.png"),
+            require("@/assets/imgs/shop/merch/big-drips.png"),
+            require("@/assets/imgs/shop/merch/big-drips.png")
+          ],
+          price: 500,
+          count: 1,
+          description: `Нетипичный бразильский кофе с комплексной фруктовой и ягодной кислотностью. В аромате вы найдете какао и косточковые фрукты, а во вкусе - ягоды, косточковые фрукты и ноты цитрусовых.
+          Отличный вариант фильтр-кофе на каждый день.`,
+          composition: ["хлопок 83%", "полиэстер 17%"],
+          colors: [
+            { color: "#F4DFC5", title: "Персиковый" },
+            { color: "#000000", title: "Чёрный" },
+            { color: "#FFFFFF", title: "Белый" },
+            { color: "#FF0000", title: "Красный" }
+          ],
+          sizes: ["XS", "S", "M", "L", "XL"]
+        }
+      ];
+      console.log(arr.find(elem => elem.id == id));
+      return arr.find(elem => elem.id == id);
     },
     // Basket
     // fake basket items
@@ -360,35 +469,32 @@ export default {
       return [
         {
           id: 1,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000,
+          title: "Худи CHICAGA «Стану акулой»",
+          src: require("@/assets/imgs/shop/merch/jackets.png"),
+          price: 3000,
           count: 1,
           size: "S"
         },
         {
           id: 2,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000,
-          count: 1,
-          size: "S"
+          title: "Шоппер CHICAGA «Some food »",
+          src: require("@/assets/imgs/shop/merch/packets.png"),
+          price: 800,
+          count: 1
         },
         {
           id: 3,
-          title: "Худи Peach",
-          src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
+          title: "Дрип-кофе CHICAGA 8 пакетиков, 25 гр. х 8 шт.",
+          src: require("@/assets/imgs/shop/merch/drips.png"),
           price: 1000,
-          count: 1,
-          size: "S"
+          count: 1
         },
         {
           id: 4,
-          title: "Худи Peach",
+          title: "Сертификат на обучение английскому 1 месяц",
           src: require("@/assets/imgs/shop/merch/hoodie-item.png"),
-          price: 1000,
-          count: 1,
-          size: "S"
+          price: 5000,
+          count: 1
         }
       ];
     },
