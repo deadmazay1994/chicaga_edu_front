@@ -95,14 +95,22 @@ export default {
 
 .slider__btn
   margin-top: 15px
-  background: $white
-  box-shadow: 0px 4px 10px rgba(164, 164, 164, 0.2)
-  border-radius: 10px
   padding: 10px 30px
-
-  font-size: 12px
   font-weight: 600
+  font-size: 12px
   color: #323232
+  background-color: $white
+  border-radius: 10px
+  outline: transparent solid 1px
+  box-shadow: 0 4px 10px rgba(164, 164, 164, 0.2)
+  transition-property: outline-color, box-shadow
+  transition-duration: 0.2s
+  &:focus-visible,
+  &:hover
+    outline-color: #d9d9d9
+  &:active
+    outline-color: transparent
+    box-shadow: inset 0 4px 10px rgba(164, 164, 164, 0.2)
 
 .slider__dots
   display: flex
