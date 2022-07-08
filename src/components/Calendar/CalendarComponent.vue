@@ -1,6 +1,6 @@
 <template>
-  <div class="calendar">
-    <InterlayerVue class="calendar__interlayer" :title="'Вебинары'">
+  <InterlayerVue class="calendar-interlayer" :title="'Вебинары'">
+    <div class="calendar">
       <div class="calendar__inner">
         <div class="calendar__header">
           <div class="calendar__date">
@@ -47,8 +47,8 @@
           </swiper>
         </div>
       </div>
-    </InterlayerVue>
-  </div>
+    </div>
+  </InterlayerVue>
 </template>
 
 <script>
@@ -265,10 +265,10 @@ export default {
 
 <style lang="sass" scoped>
 $header-height: 32px
+.calendar-interlayer
+  width: 100%
+  height: 100%
 .calendar
-  &__interlayer
-    width: 100%
-    height: 100%
   &__inner
     width: 100%
     height: 100%

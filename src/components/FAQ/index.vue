@@ -1,25 +1,31 @@
 <template>
-  <div class="faq vue-component">
-    <template v-if="faq.length">
-      <question
-        class="faq__question"
-        v-for="(question, i) in faq"
-        :key="i"
-        :question="question"
-      />
-    </template>
-  </div>
+  <interlayer-vue class="faq-interlayer" :title="'Ответы на вопросы'">
+    <div class="faq vue-component">
+      <div class="faq__list">
+        <template v-if="faq.length">
+          <question
+            class="faq__question"
+            v-for="(question, i) in faq"
+            :key="i"
+            :question="question"
+          />
+        </template>
+      </div>
+    </div>
+  </interlayer-vue>
 </template>
 
 <script>
 import Question from "./Question.vue";
+import InterlayerVue from "../Interlayer.vue";
 
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "faq",
   components: {
-    Question
+    Question,
+    InterlayerVue
   },
   data: function() {
     return {
@@ -41,12 +47,17 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+.faq-interlayer
+  width: 100%
+  height: 100%
+  padding: 32px
+
 .faq
   display: flex
   flex-direction: column
-  padding-top: 32px
-  padding-right: 33px
-  padding-left: 31px
+
+  &__list
+    padding: 32px
 
   &__question + &__question
     margin-top: 24px
