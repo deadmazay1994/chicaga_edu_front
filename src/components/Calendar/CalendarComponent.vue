@@ -1,52 +1,54 @@
 <template>
-  <div class="calendar">
-    <div class="calendar__inner">
-      <div class="calendar__header">
-        <div class="calendar__date">
-          <div class="calendar__date-inner">
-            <swiper
-              class="calendar__date-swiper"
-              :options="swiperDateOption"
-              ref="swiperDate"
-              :slides-per-view="1"
-            >
-              <swiper-slide v-for="(item, index) in allMonths" :key="index">
-                <span class="date">{{ item.name + " " + item.year }}</span>
-              </swiper-slide>
-            </swiper>
-          </div>
-          <div class="calendar__date-arrows">
-            <swiper-arrow
-              class="calendar__date-arrow"
-              :left="true"
-              @clickElem="prev"
-            />
-            <swiper-arrow
-              class="calendar__date-arrow"
-              :right="true"
-              @clickElem="next"
-            />
+  <InterlayerVue class="calendar-interlayer" :title="'Вебинары'">
+    <div class="calendar">
+      <div class="calendar__inner">
+        <div class="calendar__header">
+          <div class="calendar__date">
+            <div class="calendar__date-inner">
+              <swiper
+                class="calendar__date-swiper"
+                :options="swiperDateOption"
+                ref="swiperDate"
+                :slides-per-view="1"
+              >
+                <swiper-slide v-for="(item, index) in allMonths" :key="index">
+                  <span class="date">{{ item.name + " " + item.year }}</span>
+                </swiper-slide>
+              </swiper>
+            </div>
+            <div class="calendar__date-arrows">
+              <swiper-arrow
+                class="calendar__date-arrow"
+                :left="true"
+                @clickElem="prev"
+              />
+              <swiper-arrow
+                class="calendar__date-arrow"
+                :right="true"
+                @clickElem="next"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="calendar__body">
-        <swiper
-          class="calendar__body-swiper"
-          :options="swiperGridOption"
-          ref="swiperGrid"
-        >
-          <swiper-slide v-for="(item, index) in allMonths" :key="index">
-            <calendar-grid
-              :days="eventArr(item.number, item.year)"
-              :currentDateObj="currentDateObj"
-              :currMonth="item.number"
-              :currYear="item.year"
-            />
-          </swiper-slide>
-        </swiper>
+        <div class="calendar__body">
+          <swiper
+            class="calendar__body-swiper"
+            :options="swiperGridOption"
+            ref="swiperGrid"
+          >
+            <swiper-slide v-for="(item, index) in allMonths" :key="index">
+              <calendar-grid
+                :days="eventArr(item.number, item.year)"
+                :currentDateObj="currentDateObj"
+                :currMonth="item.number"
+                :currYear="item.year"
+              />
+            </swiper-slide>
+          </swiper>
+        </div>
       </div>
     </div>
-  </div>
+  </InterlayerVue>
 </template>
 
 <script>
@@ -56,6 +58,7 @@ import moment from "moment";
 
 import CalendarGrid from "./CalendarGrid.vue";
 import SwiperArrow from "@/components/Icons/SwiperArrow";
+import InterlayerVue from "../Interlayer.vue";
 
 import api from "@/mixins/api";
 
@@ -65,7 +68,8 @@ export default {
     CalendarGrid,
     swiper,
     swiperSlide,
-    SwiperArrow
+    SwiperArrow,
+    InterlayerVue
   },
   data() {
     return {
@@ -261,10 +265,16 @@ export default {
 
 <style lang="sass" scoped>
 $header-height: 32px
+.calendar-interlayer
+  width: 100%
+  height: 100%
 .calendar
+  width: 100%
+  height: 100%
   &__inner
     width: 100%
     height: 100%
+    padding-top: 32px
   &__header
     height: $header-height
     padding-right: 24px
