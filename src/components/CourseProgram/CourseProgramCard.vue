@@ -98,10 +98,16 @@ export default {
       return moment.unix(this.courseProgramm.start_time).format("DD.MM.YYYY");
     },
     duration() {
+      const formatTime = function(str) {
+        if (str.length == 1) return `0${str}`;
+        return str;
+      };
+
       let startTimeMinutes = this.courseProgramm.duration;
       let hours = Math.trunc(startTimeMinutes / 60);
       let minutes = startTimeMinutes % 60;
-      return hours + ":" + minutes;
+
+      return formatTime(String(hours)) + ":" + formatTime(String(minutes));
     },
     access() {
       const now = moment();
