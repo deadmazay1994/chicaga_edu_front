@@ -114,16 +114,7 @@ export default {
   components: {},
   props: {
     course: {
-      type: Object,
-      default: function() {
-        return {
-          name: "Name",
-          description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione quod iure sint illum fugiat minus, quae quam nam rerum non reprehenderit exercitationem mollitia dignissimos consequuntur saepe cumque laudantium ut voluptatibus!",
-          duration: 23,
-          start_time: 1656454829
-        };
-      }
+      type: Object
     },
     isOpen: Boolean,
     isWide: Boolean
@@ -131,7 +122,6 @@ export default {
   mixins: [api],
   async beforeMount() {
     this.setDescription();
-    console.log("course", this.course);
   }
 };
 </script>
