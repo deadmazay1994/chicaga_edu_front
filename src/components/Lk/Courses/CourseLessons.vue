@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import CourseProgramCardVue from "../../CourseProgram/CourseProgramCard.vue";
+import CourseProgramCardVue from "@/components/CourseProgram/CourseProgramCard.vue";
 
 import api from "@/mixins/api";
 
@@ -59,7 +59,6 @@ export default {
     async setCurrentCourse() {
       const result = await api.methods.getCourseInfo(this.$route.params.id);
       this.currentCourse = result.data;
-      console.log("lesson", this.currentCourse);
     },
     async setCourseProgramms() {
       this.courseProgramms = await api.methods.getCourseProgramms();
