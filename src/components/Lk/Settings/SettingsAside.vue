@@ -7,6 +7,20 @@
     }"
   >
     <div class="settings-aside__avatar-box">
+      <img
+        v-if="haveAvatar"
+        class="settings-aside__avatar"
+        src=""
+        alt="Фото профиля"
+      />
+      <div class="settings-aside__avatar-overlay">
+        <svg class="settings-aside__overlay-icon" width="142" height="120">
+          <use xlink:href="#toucan"></use>
+        </svg>
+        <div class="settings-aside__overlay-text">
+          Загрузить фото профиля
+        </div>
+      </div>
       <svg
         v-if="tariff == 'premium'"
         class="settings-aside__avatar-crone"
@@ -92,6 +106,10 @@ export default {
     tariff: {
       type: String,
       default: "basic"
+    },
+    haveAvatar: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {},
@@ -108,23 +126,68 @@ export default {
   background-size: 245px 127px
   background-repeat: no-repeat
   &__avatar-box
-    min-height: 260px
+    position: relative
+    height: 260px
     margin-bottom: 4px
+    text-align: center
+    color: #ffffff
     background-color: #f8f8f8
     background-image: linear-gradient(135deg, #ffcace 0%, #d8eeff 100%)
     border-top-left-radius: 12px
     border-top-right-radius: 12px
+    overflow: hidden
   &--standart &__avatar-box
     border: 2px solid #ff9999
   &--premium &__avatar-box
-    position: relative
     border: 2px solid #ffbb7e
+  &__avatar
+    position: relative
+    width: 100%
+    height: 100%
+    object-fit: cover
+    z-index: 0
+  &__avatar-overlay
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    padding: 10px
+    font-weight: 700
+    font-size: 20px
+    cursor: pointer
+    z-index: 1
+  &__overlay-icon
+    width: 142px
+    height: 120px
+    margin-bottom: 16px
+  &__avatar + &__avatar-overlay &__overlay-icon
+    opacity: 0
+    transition-property: opacity
+    transition-duration: 0.2s
+  &__avatar + &__avatar-overlay:focus-visible &__overlay-icon,
+  &__avatar + &__avatar-overlay:hover &__overlay-icon
+    opacity: 0.4
+  &__overlay-text
+    max-width: 142px
+  &__avatar + &__avatar-overlay &__overlay-text
+    opacity: 0
+    transition-property: opacity
+    transition-duration: 0.2s
+  &__avatar + &__avatar-overlay:focus-visible &__overlay-text,
+  &__avatar + &__avatar-overlay:hover &__overlay-text
+    opacity: 1
   &--premium &__avatar-crone
     position: absolute
     top: 13px
     right: 16px
     width: 45px
     height: 30px
+    z-index: 2
   &__tariff-box
     min-height: 38px
     margin-bottom: 16px
