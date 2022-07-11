@@ -32,7 +32,7 @@
     </div>
     <div class="settings-aside__tariff-box">
       <span class="settings-aside__tariff-text">
-        Premium
+        Standart
       </span>
     </div>
     <div class="settings-aside__name-box">
@@ -136,14 +136,28 @@ export default {
     border-top-left-radius: 12px
     border-top-right-radius: 12px
     overflow: hidden
-  &--standart &__avatar-box
-    border: 2px solid #ff9999
-  &--premium &__avatar-box
-    border: 2px solid #ffbb7e
+  &__avatar-box::before
+    content: ""
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    border: 2px solid rgba(#ffffff, 0.5)
+    border-top-left-radius: inherit
+    border-top-right-radius: inherit
+    z-index: 1
+  &--standart &__avatar-box::before
+    border-color: #ff9999
+  &--premium &__avatar-box::before
+    border-color: #ffbb7e
   &__avatar
     position: relative
     width: 100%
     height: 100%
+    padding: 2px
+    border-top-left-radius: inherit
+    border-top-right-radius: inherit
     object-fit: cover
     z-index: 0
   &__avatar-overlay
@@ -160,7 +174,7 @@ export default {
     font-weight: 700
     font-size: 20px
     cursor: pointer
-    z-index: 1
+    z-index: 2
   &__overlay-icon
     width: 142px
     height: 120px
@@ -187,7 +201,7 @@ export default {
     right: 16px
     width: 45px
     height: 30px
-    z-index: 2
+    z-index: 3
   &__tariff-box
     min-height: 38px
     margin-bottom: 16px
@@ -196,6 +210,7 @@ export default {
     font-size: 16px
     text-align: center
     text-transform: uppercase
+    color: #323232
     background-color: #f8f8f8
     border-bottom-left-radius: 12px
     border-bottom-right-radius: 12px
