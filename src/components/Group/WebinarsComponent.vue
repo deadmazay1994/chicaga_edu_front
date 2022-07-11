@@ -1,6 +1,9 @@
 <template>
   <div class="webinars-component">
-    <calendar-component :title="'ВЕБИНАРЫ'" />
+    <calendar-component
+      class="webinars-component__calendar"
+      :title="'ВЕБИНАРЫ'"
+    />
   </div>
 </template>
 
@@ -15,4 +18,11 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.webinars-component
+  width: 100%
+  height: 100%
+  &__calendar
+    width: 100%
+    height: 100%
+</style>

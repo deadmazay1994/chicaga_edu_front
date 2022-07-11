@@ -33,6 +33,7 @@
               <span>{{ activeColor.title }}</span>
               <div class="product-card__desc-vars">
                 <product-colors
+                  v-if="colors"
                   :colorsArray="colors"
                   @changeColor="changeColor"
                 />

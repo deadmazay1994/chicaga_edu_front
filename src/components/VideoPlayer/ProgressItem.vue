@@ -10,11 +10,6 @@ export default {
   name: "ProgressItem",
   props: ["currentTime", "duration", "timestamps", "timestamp", "index"],
   computed: {
-    progress() {
-      if (this.currentTime && this.duration)
-        return (this.currentTime * 100) / this.duration;
-      return 0;
-    },
     // progressItemWidth - отвечает за ширину одного таймкода (полоса таймкода)
     progressItemWidth() {
       return {
@@ -31,11 +26,11 @@ export default {
   methods: {
     // возвращает значение Number, которые используется для ширины одного таймкода в процентах
     returnStampWidth(index) {
-      let currentTimeStampTime = this.timestamps[index];
-      let curr = (currentTimeStampTime.time * 100) / this.duration;
+      if (this.timestamps.type === "default") return 100;
+      let currentTimeStampTime = this.timestamps[index].time;
+      let curr = (currentTimeStampTime * 100) / this.duration;
       let prev =
         index > 0 ? (this.timestamps[index - 1].time * 100) / this.duration : 0;
-      console.log(`index: ${index}, curr: ${curr}, prev: ${prev}`);
       return curr - prev;
     },
     // возвращает значение Number, которые используется для ширины прогрессбара в процентах
@@ -43,12 +38,12 @@ export default {
       const FULL_PROGRESS = 100;
       const EMPTY_PROGRESS = 0;
 
-      let currentTimeStampTime = this.timestamps[index];
+      let currentTimeStampTime = this.timestamps[index].time;
       let previousTimeStampTime =
         index > 0 ? this.timestamps[index - 1].time : 0;
       let BooleanIsCurrentRange =
         this.currentTime > previousTimeStampTime &&
-        this.currentTime < currentTimeStampTime.time;
+        this.currentTime < currentTimeStampTime;
 
       if (BooleanIsCurrentRange) {
         return (
@@ -57,9 +52,12 @@ export default {
             : this.currentTime) *
             100) /
           (index > 0
-            ? currentTimeStampTime.time - this.timestamps[index - 1].time
-            : currentTimeStampTime.time)
+            ? currentTimeStampTime - this.timestamps[index - 1].time
+            : currentTimeStampTime)
         );
+        // при отстутсвии таймкодов высчитываем прогресс по умолчанию
+      } else if (this.timestamps.type === "default") {
+        return (this.currentTime * 100) / this.duration;
       } else if (this.currentTime > previousTimeStampTime) return FULL_PROGRESS;
       else return EMPTY_PROGRESS;
     }

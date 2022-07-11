@@ -1,41 +1,54 @@
 <template>
-  <div class="calendar-component">
-    <div class="celendar-head">
-      <div class="calendar-head__title">{{ title }}</div>
-      <div class="swiper-date">
-        <swiper-arrow :left="true" @clickElem="prev" />
-        <swiper
-          :options="swiperDateOption"
-          ref="swiperDate"
-          class="swiper"
-          :slides-per-view="1"
-        >
-          <swiper-slide
-            class="swiper-no-swiping"
-            v-for="(item, index) in allMonths"
-            :key="index"
+  <InterlayerVue class="calendar-interlayer" :title="'Вебинары'">
+    <div class="calendar">
+      <div class="calendar__inner">
+        <div class="calendar__header">
+          <div class="calendar__date">
+            <div class="calendar__date-inner">
+              <swiper
+                class="calendar__date-swiper"
+                :options="swiperDateOption"
+                ref="swiperDate"
+                :slides-per-view="1"
+              >
+                <swiper-slide v-for="(item, index) in allMonths" :key="index">
+                  <span class="date">{{ item.name + " " + item.year }}</span>
+                </swiper-slide>
+              </swiper>
+            </div>
+            <div class="calendar__date-arrows">
+              <swiper-arrow
+                class="calendar__date-arrow"
+                :left="true"
+                @clickElem="prev"
+              />
+              <swiper-arrow
+                class="calendar__date-arrow"
+                :right="true"
+                @clickElem="next"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="calendar__body">
+          <swiper
+            class="calendar__body-swiper"
+            :options="swiperGridOption"
+            ref="swiperGrid"
           >
-            <span class="date-item">{{ item.name + " " + item.year }}</span>
-          </swiper-slide>
-        </swiper>
-        <swiper-arrow :right="true" @clickElem="next" />
+            <swiper-slide v-for="(item, index) in allMonths" :key="index">
+              <calendar-grid
+                :days="eventArr(item.number, item.year)"
+                :currentDateObj="currentDateObj"
+                :currMonth="item.number"
+                :currYear="item.year"
+              />
+            </swiper-slide>
+          </swiper>
+        </div>
       </div>
     </div>
-    <swiper class="swiper-grid" :options="swiperGridOption" ref="swiperGrid">
-      <swiper-slide
-        class="swiper-no-swiping calendar__slide"
-        v-for="(item, index) in allMonths"
-        :key="index"
-      >
-        <calendar-grid
-          :days="eventArr(item.number, item.year)"
-          :currentDateObj="currentDateObj"
-          :currMonth="item.number"
-          :currYear="item.year"
-        />
-      </swiper-slide>
-    </swiper>
-  </div>
+  </InterlayerVue>
 </template>
 
 <script>
@@ -45,6 +58,7 @@ import moment from "moment";
 
 import CalendarGrid from "./CalendarGrid.vue";
 import SwiperArrow from "@/components/Icons/SwiperArrow";
+import InterlayerVue from "../Interlayer.vue";
 
 import api from "@/mixins/api";
 
@@ -54,17 +68,19 @@ export default {
     CalendarGrid,
     swiper,
     swiperSlide,
-    SwiperArrow
+    SwiperArrow,
+    InterlayerVue
   },
   data() {
     return {
       swiperGridOption: {
-        spaceBetween: 100,
-        noSwiping: true,
+        spaceBetween: 48,
+        noSwipingClass: "swiper-slide",
         loop: false
       },
       swiperDateOption: {
-        noSwiping: true,
+        spaceBetween: 24,
+        noSwipingClass: "swiper-slide",
         loop: false
       },
       events: []
@@ -247,45 +263,55 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
+$header-height: 32px
+.calendar-interlayer
+  width: 100%
+  height: 100%
 .calendar
-  &__slide
-    overflow: auto
-.celendar-head
-  display: flex
-  align-items: center
-  justify-content: space-between
-  max-width: 1078px
-  margin: 0 auto
-
-  .calendar-head__title
-    font-size: 36px
-    font-weight: 800
-    line-height: 43px
-
-.swiper-date
-  display: flex
-  align-items: center
-  justify-content: center
-  width: 230px
-  .swiper-slide
-    width: 100% !important
+  width: 100%
+  height: 100%
+  &__inner
+    width: 100%
+    height: 100%
+    padding-top: 32px
+  &__header
+    height: $header-height
+    padding-right: 24px
+  &__date
     display: flex
     align-items: center
-    justify-content: center
+    font-weight: 700
     font-size: 24px
-    font-style: normal
-    font-weight: 900
-    line-height: 29px
-    color: #A22B21
-    text-transform: uppercase
-    user-select: none
-
-.swiper-button-next:after,
-.swiper-button-prev:after
-  content: none !important
-
-.swiper-grid
-  .swiper-slide
-    width: 100% !important
+    line-height: 32px
+    color: #323232
+  &__date-inner
+    width: calc( 210px + 24px )
+  &__date-swiper
+    .swiper-slide
+      display: flex
+      user-select: none
+    .date
+      padding-left: 24px
+  &__date-arrows
+    display: flex
+  &__date-arrow
+    width: 30px
+    height: 30px
+    border: 1px solid #ff0000
+    border-radius: 50%
+  &__date-arrow:not(:last-child)
+    margin-right: 32px
+  &__body
+    width: 100%
+    height: calc( 100% - #{$header-height} )
+    padding-top: 14px
+    overflow: hidden
+  &__body-swiper
+    width: 100%
+    height: 100%
+    .swiper-slide
+      overflow: auto
+    .calendar-grid
+      min-width: 1088px
 </style>

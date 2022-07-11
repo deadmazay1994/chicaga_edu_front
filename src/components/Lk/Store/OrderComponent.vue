@@ -1,19 +1,16 @@
 <template>
   <div class="order-component vue-component">
     <product-order class="order-component__order" />
-    <shop-cart :showTotal="false" />
   </div>
 </template>
 
 <script>
-import ProductOrder from './ProductOrder.vue';
-import ShopCart from './Cart/ShopCart.vue';
+import ProductOrder from "./ProductOrder.vue";
 
 export default {
   name: "order-component",
   components: {
     ProductOrder,
-    ShopCart
   },
   data: function() {
     return {};
@@ -29,6 +26,7 @@ export default {
   display: flex
   justify-content: space-between
   height: 100%
+  padding: 32px
   &__order
     flex-grow: 1
     margin-right: 20px

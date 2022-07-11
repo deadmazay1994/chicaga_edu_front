@@ -1,51 +1,45 @@
 <template>
-  <div class="faq vue-component front relative">
-    <v-container>
-      <div class="faq__questions">
-        <v-row v-if="faq.length">
-          <v-col cols="12" md="8" lg="6" v-for="(question, i) in faq" :key="i">
-            <question class="faq__question" :question="question" />
-          </v-col>
-        </v-row>
-        <v-row v-else>
-          <v-col
-            v-for="(i, j) in new Array(4)"
-            :key="j"
-            cols="12"
-            md="8"
-            lg="6"
-          >
-            <v-card class="front">
-              <v-skeleton-loader type="article" />
-            </v-card>
-          </v-col>
-        </v-row>
+  <interlayer-vue class="faq-interlayer" :title="'Ответы на вопросы'">
+    <div class="faq vue-component">
+      <div class="faq__list">
+        <template v-if="faq.length">
+          <question
+            class="faq__question"
+            v-for="(question, i) in faq"
+            :key="i"
+            :question="question"
+          />
+        </template>
       </div>
-    </v-container>
-  </div>
+    </div>
+  </interlayer-vue>
 </template>
 
 <script>
-import Question from "./Question";
+import Question from "./Question.vue";
+import InterlayerVue from "../Interlayer.vue";
 
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "faq",
+  components: {
+    Question,
+    InterlayerVue
+  },
   data: function() {
     return {
       subtitle: "Частозадаваемые вопросы и ответы на них",
       title: "FAQ"
     };
   },
-  methods: {
-    ...mapActions(["setFaq"])
-  },
+  props: [],
   computed: {
     ...mapGetters(["faq"])
   },
-  components: { Question },
-  props: [],
-  mixins: {},
+  methods: {
+    ...mapActions(["setFaq"])
+  },
   beforeMount() {
     this.setFaq();
   }
@@ -53,7 +47,18 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+.faq-interlayer
+  width: 100%
+  height: 100%
+  padding: 32px
+
 .faq
-  &__questions
-    margin-top: 30px
+  display: flex
+  flex-direction: column
+
+  &__list
+    padding: 32px
+
+  &__question + &__question
+    margin-top: 24px
 </style>

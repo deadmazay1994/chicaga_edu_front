@@ -53,7 +53,7 @@
             <svg class="program-card__bottom-img" width="18" height="18">
               <use xlink:href="#clock"></use>
             </svg>
-            <span class="program-card__time"> {{ duration }} мин </span>
+            <span class="program-card__time"> {{ formattedDuration }} мин </span>
           </div>
           <div class="program-card__desc">
             продолжительность
@@ -111,9 +111,16 @@ export default {
     },
     formattedDuration() {
       let startTimeMinutes = this.duration;
+
+      const formatTime = function(str) {
+        if (str.length == 1) return `0${str}`;
+        return str;
+      };
+
       let hours = Math.trunc(startTimeMinutes / 60);
       let minutes = startTimeMinutes % 60;
-      return hours + ":" + minutes;
+
+      return formatTime(String(hours)) + ":" + formatTime(String(minutes));
     },
     access() {
       const now = moment();

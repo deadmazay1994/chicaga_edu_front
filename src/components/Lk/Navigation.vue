@@ -79,7 +79,7 @@ export default {
         },
         {
           name: "Магазин",
-          url: "/lk/store",
+          url: "/store",
           icon: "ShoppingBasketSvg",
           showCondition: () => true
         },
