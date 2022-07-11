@@ -38,7 +38,7 @@
     <div class="user-settings__aside">
       <div class="user-settings__aside-wrap">
         <div class="user-settings__aside-inner">
-          <settings-aside />
+          <settings-aside :tariff="'standart'" />
         </div>
       </div>
     </div>
