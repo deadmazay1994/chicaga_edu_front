@@ -1,19 +1,18 @@
 <template>
   <div class="catalog-c vue-component">
-    <v-row>
-      <template v-if="myCourses.length">
-        <v-col v-for="course in myCourses" :key="course.id" cols="12" lg="4">
-          <course-card :course="course" :buy="true" />
-        </v-col>
-      </template>
-      <v-col
-        v-else-if="myCoursesLoaded"
-        cols="12"
-        class="front relative text-h4 mt-15 text-center"
-      >
-        Вы еще не приобрели курсы
-      </v-col>
-    </v-row>
+    <div v-if="myCourses.length" class="catalog-c__list">
+      <course-card
+        class="catalog-c__item"
+        v-for="course in myCourses"
+        :key="course.id"
+        :course="course"
+        :isOpen="true"
+        :isWide="true"
+      />
+    </div>
+    <div v-else-if="myCoursesLoaded">
+      Вы еще не приобрели курсы
+    </div>
     <plug v-if="!myCoursesLoaded" />
   </div>
 </template>
@@ -47,4 +46,9 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped="scoped" lang="sass">
+.catalog-c
+  padding: 32px
+  &__item:not(:last-child)
+    margin-bottom: 20px
+</style>

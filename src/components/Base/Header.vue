@@ -78,7 +78,7 @@ export default {
 <style lang="sass" scoped="scoped">
 .header
   position: relative
-  padding: 10px 20px
+  padding: 10px 32px
   &::after
     content: ""
     position: absolute

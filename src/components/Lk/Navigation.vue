@@ -43,7 +43,7 @@ export default {
         },
         {
           name: "Мои курсы",
-          url: "/lk/my-coursers",
+          url: "/lk/my-courses",
           icon: "EducationIcon",
           showCondition: () => true
         },

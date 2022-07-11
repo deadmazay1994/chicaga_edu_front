@@ -1,25 +1,23 @@
 <template>
   <div class="scores vue-component">
-    <div class="scores__inner">
-      <div class="scores__item">
-        <animated-cool-svg ref="animatedCool" />
-        <span class="scores__points">{{ points.smile }}</span>
-      </div>
+    <div class="scores__item">
+      <animated-cool-svg ref="animatedCool" />
+      <span class="scores__points">{{ points.smile }}</span>
+    </div>
 
-      <div class="scores__item">
-        <animated-star-svg ref="animatedStar" />
-        <span class="scores__points">{{ points.star }}</span>
-      </div>
+    <div class="scores__item">
+      <animated-star-svg ref="animatedStar" />
+      <span class="scores__points">{{ points.star }}</span>
+    </div>
 
-      <div class="scores__item">
-        <animated-brain-svg ref="animatedBrain" />
-        <span class="scores__points">{{ points.brain }}</span>
-      </div>
+    <div class="scores__item">
+      <animated-brain-svg ref="animatedBrain" />
+      <span class="scores__points">{{ points.brain }}</span>
+    </div>
 
-      <div class="scores__item">
-        <animated-lamp-svg ref="animatedLamp" />
-        <span class="scores__points">{{ points.lamp }}</span>
-      </div>
+    <div class="scores__item">
+      <animated-lamp-svg ref="animatedLamp" />
+      <span class="scores__points">{{ points.lamp }}</span>
     </div>
   </div>
 </template>
@@ -38,6 +36,7 @@ export default {
   data: function() {
     return {};
   },
+  props: {},
   methods: {
     ...mapActions(["setUserPoints"]),
     setUserPointsToData() {
@@ -95,26 +94,23 @@ export default {
 <style scoped="scoped" lang="sass">
 .scores
   display: flex
-  justify-content: flex-end
-  &__inner
-    display: flex
-    align-items: center
-    padding: 8px 46px
-    background-color: #FFFFFF
-    box-shadow: 0 4px 10px #F3F3F3
-    border-radius: 20px
+  align-items: center
+  justify-content: space-between
+  padding: 8px
   &__item
     display: flex
     align-items: center
     font-size: 14px
     line-height: 1
   &__item:not(:last-child)
-    margin-right: 40px
+    margin-right: 16px
   &__points
     margin-left: 8px
     font-weight: 600
     font-size: 14px
     line-height: 16px
+  &__item:not(:last-child) &__points
+    min-width: 32px
   .animated-svg-wrapper
     width: 30px
     height: 30px
