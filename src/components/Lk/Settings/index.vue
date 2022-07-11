@@ -38,29 +38,7 @@
     <div class="user-settings__aside">
       <div class="user-settings__aside-wrap">
         <div class="user-settings__aside-inner">
-          <v-col cols="12" md="6">
-            <v-card class="pa-5 front" style="height: 100%">
-              <div class="text-subtitle-2">
-                Для загрузки аватара, нажмите на изображение
-              </div>
-              <div class="d-flex">
-                <v-avatar
-                  class="pointer mt-5"
-                  size="90"
-                  @click.native="showUpladAvatar = true"
-                >
-                  <img :src="avatar" alt="avatar" />
-                </v-avatar>
-              </div>
-              <button
-                style="margin-left: 0;"
-                class="red-btn active"
-                @click="save"
-              >
-                Сохранить настройки
-              </button>
-            </v-card>
-          </v-col>
+          <settings-aside />
         </div>
       </div>
     </div>
@@ -76,6 +54,7 @@
 
 <script>
 import Interlayer from "@/components/Interlayer.vue";
+import SettingsAside from "./SettingsAside.vue";
 import UploadAvatar from "vue-image-crop-upload";
 
 import { mapGetters } from "vuex";
@@ -130,6 +109,7 @@ export default {
   },
   components: {
     Interlayer,
+    SettingsAside,
     UploadAvatar
   },
   props: [],
