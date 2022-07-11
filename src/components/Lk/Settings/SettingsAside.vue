@@ -1,12 +1,24 @@
 <template>
   <div
     class="settings-aside vue-component"
-    :class="{ 'settings-aside--standart': tariff == 'standart' }"
+    :class="{
+      'settings-aside--standart': tariff == 'standart',
+      'settings-aside--premium': tariff == 'premium'
+    }"
   >
-    <div class="settings-aside__avatar-box"></div>
+    <div class="settings-aside__avatar-box">
+      <svg
+        v-if="tariff == 'premium'"
+        class="settings-aside__avatar-crone"
+        width="45"
+        height="30"
+      >
+        <use xlink:href="#crown"></use>
+      </svg>
+    </div>
     <div class="settings-aside__tariff-box">
       <span class="settings-aside__tariff-text">
-        Standart
+        Premium
       </span>
     </div>
     <div class="settings-aside__name-box">
@@ -104,6 +116,15 @@ export default {
     border-top-right-radius: 12px
   &--standart &__avatar-box
     border: 2px solid #ff9999
+  &--premium &__avatar-box
+    position: relative
+    border: 2px solid #ffbb7e
+  &--premium &__avatar-crone
+    position: absolute
+    top: 13px
+    right: 16px
+    width: 45px
+    height: 30px
   &__tariff-box
     min-height: 38px
     margin-bottom: 16px
@@ -133,6 +154,8 @@ export default {
     background-repeat: no-repeat
   &--standart &__tariff-box::after
     transform: scaleX(-1)
+  &--premium &__tariff-box
+    background-image: linear-gradient(96deg, rgba(255, 120, 22, 0.8) 1%, rgba(255, 160, 72, 0.8) 10%, rgba(255, 187, 126, 0.8) 30%, rgba(255, 160, 72, 0.8) 45%, rgba(255, 160, 72, 0.8) 64%, rgba(255, 187, 126, 0.8) 82%, rgba(255, 120, 22, 0.8) 99%), linear-gradient(113deg, rgba(252, 204, 110, 0.8) 12%, rgba(255, 218, 146, 0.8) 27%, rgba(252, 204, 110, 0.8) 36%, rgba(252, 204, 110, 0.8) 46%, rgba(255, 229, 177, 0.8) 59%, rgba(252, 204, 110, 0.8) 80%, rgba(252, 204, 110, 0.8) 107%, rgba(237, 191, 101, 0.8) 242%)
   &--standart &__tariff-text
     padding-right: 24px
     padding-left: 24px
