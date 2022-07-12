@@ -13,7 +13,6 @@
             placeholder="Ульяна"
             aria-label="Поле для ввода имени пользователя"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="user.name"
           />
         </label>
@@ -27,7 +26,6 @@
             placeholder="Соловьева"
             aria-label="Поле для ввода фамилии пользователя"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="usersecondname"
           />
         </label>
@@ -41,7 +39,6 @@
             placeholder="+79212567854"
             aria-label="Поле для ввода номера телефона"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-mask="'+7 (###) ###-##-##'"
             v-model="phoneNumber"
           />
@@ -56,7 +53,6 @@
             placeholder="qwerty@mail.ru"
             aria-label="Поле для ввода электронной почты"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="user.email"
           />
         </label>
@@ -70,7 +66,6 @@
             placeholder="@name"
             aria-label="Поле для ввода никнейма в телеграме"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="telegram"
           />
         </label>
@@ -84,7 +79,6 @@
             placeholder="01.01.1995"
             aria-label="Поле для ввода даты рождения"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="birthday"
           />
         </label>
@@ -98,7 +92,6 @@
             placeholder="•••••••••••"
             aria-label="Поле для ввода нового пароля"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="password"
           />
         </label>
@@ -112,7 +105,6 @@
             placeholder="•••••••••••"
             aria-label="Поле для повторного ввода пароля"
             :maxlength="30"
-            :padding="{ y: 12, x: 16 }"
             v-model="repeatPassword"
           />
         </label>
@@ -243,6 +235,7 @@ export default {
   &__input
     width: 100%
     align-self: flex-end
+    padding: 12px 16px
   &__footer
     border-top: 1px solid #D9D9D9
     padding-top: 30px
