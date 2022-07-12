@@ -232,7 +232,7 @@ export default {
   &__span
     width: 15%
     font-weight: 600
-  &__input
+  & &__input
     width: 100%
     align-self: flex-end
     padding: 12px 16px
