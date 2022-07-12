@@ -1,129 +1,133 @@
 <template>
   <div class="settings-fields vue-component">
-    <div class="settings-fields__title">Мои данные</div>
-    <div class="settings-fields__body">
-      <label class="settings-fields__label" for="username">
-        <span class="settings-fields__span">Имя:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': usernameError }"
-          type="text"
-          name="username"
-          placeholder="Ульяна"
-          aria-label="Поле для ввода имени пользователя"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="username"
-        />
-      </label>
-      <label class="settings-fields__label" for="usersecondname">
-        <span class="settings-fields__span">Фамилия:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': usersecondnameError }"
-          type="text"
-          name="usersecondname"
-          placeholder="Ульяна"
-          aria-label="Поле для ввода фамилии пользователя"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="usersecondname"
-        />
-      </label>
-      <label class="settings-fields__label" for="phone">
-        <span class="settings-fields__span">Телефон:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': phoneNumberError }"
-          type="tel"
-          name="phone"
-          placeholder="+79212567854"
-          aria-label="Поле для ввода номера телефона"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-mask="'+7 (###) ###-##-##'"
-          v-model="phoneNumber"
-        />
-      </label>
-      <label class="settings-fields__label" for="email">
-        <span class="settings-fields__span">E-mail:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': userEmailError }"
-          type="email"
-          name="email"
-          placeholder="qwerty@mail.ru"
-          aria-label="Поле для ввода электронной почты"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="userEmail"
-        />
-      </label>
-      <label class="settings-fields__label" for="telegram">
-        <span class="settings-fields__span">Telegram:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': telegramError }"
-          type="text"
-          name="telegram"
-          placeholder="@name"
-          aria-label="Поле для ввода никнейма в телеграме"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="telegram"
-        />
-      </label>
-      <label class="settings-fields__label" for="birthday">
-        <span class="settings-fields__span">Дата рождения:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': birthdayError }"
-          type="text"
-          name="birthday"
-          placeholder="01.01.1995"
-          aria-label="Поле для ввода даты рождения"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="birthday"
-        />
-      </label>
-      <label class="settings-fields__label" for="password">
-        <span class="settings-fields__span">Пароль:</span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': passwordError }"
-          type="password"
-          name="password"
-          placeholder="•••••••••••"
-          aria-label="Поле для ввода нового пароля"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="password"
-        />
-      </label>
-      <label class="settings-fields__label" for="repeatPassword">
-        <span class="settings-fields__span"></span>
-        <c-input
-          class="settings-fields__input"
-          :class="{ 'settings-fields__input--error': repeatPasswordError }"
-          type="password"
-          name="repeatPassword"
-          placeholder="•••••••••••"
-          aria-label="Поле для повторного ввода пароля"
-          :maxlength="30"
-          :padding="{ y: 12, x: 16 }"
-          v-model="repeatPassword"
-        />
-      </label>
-    </div>
-    <div class="settings-fields__footer">
-      <c-btn class="settings-fields__red-btn">Сохранить настройки</c-btn>
-    </div>
+    <form @submit="checkForm" novalidate="true">
+      <div class="settings-fields__title">Мои данные</div>
+      <div class="settings-fields__body">
+        <label class="settings-fields__label" for="username">
+          <span class="settings-fields__span">Имя:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': usernameError }"
+            type="text"
+            name="username"
+            placeholder="Ульяна"
+            aria-label="Поле для ввода имени пользователя"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="user.name"
+          />
+        </label>
+        <label class="settings-fields__label" for="usersecondname">
+          <span class="settings-fields__span">Фамилия:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': usersecondnameError }"
+            type="text"
+            name="usersecondname"
+            placeholder="Соловьева"
+            aria-label="Поле для ввода фамилии пользователя"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="usersecondname"
+          />
+        </label>
+        <label class="settings-fields__label" for="phone">
+          <span class="settings-fields__span">Телефон:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': phoneNumberError }"
+            type="tel"
+            name="phone"
+            placeholder="+79212567854"
+            aria-label="Поле для ввода номера телефона"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-mask="'+7 (###) ###-##-##'"
+            v-model="phoneNumber"
+          />
+        </label>
+        <label class="settings-fields__label" for="email">
+          <span class="settings-fields__span">E-mail:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': userEmailError }"
+            type="email"
+            name="email"
+            placeholder="qwerty@mail.ru"
+            aria-label="Поле для ввода электронной почты"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="user.email"
+          />
+        </label>
+        <label class="settings-fields__label" for="telegram">
+          <span class="settings-fields__span">Telegram:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': telegramError }"
+            type="text"
+            name="telegram"
+            placeholder="@name"
+            aria-label="Поле для ввода никнейма в телеграме"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="telegram"
+          />
+        </label>
+        <label class="settings-fields__label" for="birthday">
+          <span class="settings-fields__span">Дата рождения:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': birthdayError }"
+            type="text"
+            name="birthday"
+            placeholder="01.01.1995"
+            aria-label="Поле для ввода даты рождения"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="birthday"
+          />
+        </label>
+        <label class="settings-fields__label" for="password">
+          <span class="settings-fields__span">Пароль:</span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': passwordError }"
+            type="password"
+            name="password"
+            placeholder="•••••••••••"
+            aria-label="Поле для ввода нового пароля"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="password"
+          />
+        </label>
+        <label class="settings-fields__label" for="repeatPassword">
+          <span class="settings-fields__span"></span>
+          <c-input
+            class="settings-fields__input"
+            :class="{ 'settings-fields__input--error': repeatPasswordError }"
+            type="password"
+            name="repeatPassword"
+            placeholder="•••••••••••"
+            aria-label="Поле для повторного ввода пароля"
+            :maxlength="30"
+            :padding="{ y: 12, x: 16 }"
+            v-model="repeatPassword"
+          />
+        </label>
+      </div>
+      <div class="settings-fields__footer">
+        <c-btn class="settings-fields__red-btn">Сохранить настройки</c-btn>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import { mask } from "vue-the-mask";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "settings-fields",
@@ -138,15 +142,24 @@ export default {
       telegram: null,
       birthday: null,
       password: null,
-      repeatPassword: null
+      repeatPassword: null,
+      usernameError: false,
+      usersecondnameError: false,
+      phoneNumberError: false,
+      userEmailError: false,
+      telegramError: false,
+      birthdayError: false,
+      passwordError: false,
+      repeatPasswordError: false
     };
   },
   props: [],
-  computed: {},
+  computed: {
+    ...mapGetters(["user"])
+  },
   methods: {
     checkForm(e) {
       this.errors = [];
-      let data = {};
 
       // Проверка на пустные поля
       if (!this.username) this.usernameError = true;
@@ -168,8 +181,25 @@ export default {
       if (!this.password) this.passwordError = true;
       else this.passwordError = false;
 
+      let data = {
+        // username: this.username,
+        name: this.user.name,
+        usersecondname: this.usersecondname,
+        phone: this.phoneNumber,
+        // email: this.userEmail,
+        email: this.user.email,
+        telegram: this.telegram,
+        birthday: this.birthday,
+        password: this.password
+      };
+
       if (!this.errors.length) {
         this.$store.dispatch("updateUser", data);
+      } else {
+        this.$store.commit("pushShuckbar", {
+          val: "Форма заполненна не верно",
+          success: false
+        });
       }
 
       e.preventDefault();
