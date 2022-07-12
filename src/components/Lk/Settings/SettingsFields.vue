@@ -41,6 +41,7 @@
           aria-label="Поле для ввода номера телефона"
           :maxlength="30"
           :padding="{ y: 12, x: 16 }"
+          v-mask="'+7 (###) ###-##-##'"
           v-model="phoneNumber"
         />
       </label>
@@ -122,8 +123,12 @@
 </template>
 
 <script>
+import { mask } from "vue-the-mask";
+
 export default {
   name: "settings-fields",
+  components: {},
+  directives: { mask },
   data: function() {
     return {
       username: null,
