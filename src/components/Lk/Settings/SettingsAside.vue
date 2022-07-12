@@ -6,11 +6,11 @@
       'settings-aside--premium': tariff == 'premium'
     }"
   >
-    <div class="settings-aside__avatar-box">
+    <div class="settings-aside__avatar-box" @click="showUploadAvatar = true">
       <img
-        v-if="haveAvatar"
+        v-if="user.avatar_link"
         class="settings-aside__avatar"
-        src=""
+        :src="user.avatar_link"
         alt="Фото профиля"
       />
       <div class="settings-aside__avatar-overlay">
@@ -92,15 +92,27 @@
         </span>
       </div>
     </div>
+    <upload-avatar
+      langType="ru"
+      field="img"
+      v-model="showUploadAvatar"
+      @crop-success="updateAvatar"
+    />
   </div>
 </template>
 
 <script>
+import UploadAvatar from "vue-image-crop-upload";
+
+import { mapGetters } from "vuex";
+
 export default {
   name: "settings-aside",
-  components: {},
+  components: { UploadAvatar },
   data: function() {
-    return {};
+    return {
+      showUploadAvatar: false
+    };
   },
   props: {
     tariff: {
@@ -112,8 +124,14 @@ export default {
       default: false
     }
   },
-  computed: {},
-  methods: {}
+  computed: {
+    ...mapGetters(["user"])
+  },
+  methods: {
+    updateAvatar(avatarUri) {
+      this.$store.commit("setAvatar", avatarUri);
+    }
+  }
 };
 </script>
 

@@ -190,7 +190,8 @@ export default {
         email: this.user.email,
         telegram: this.telegram,
         birthday: this.birthday,
-        password: this.password
+        password: this.password,
+        avatar: this.user.avatar_link
       };
 
       if (!this.errors.length) {
