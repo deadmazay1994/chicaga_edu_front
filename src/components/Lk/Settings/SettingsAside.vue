@@ -6,21 +6,18 @@
       'settings-aside--premium': tariff == 'premium'
     }"
   >
-    <div class="settings-aside__avatar-box" @click="showUploadAvatar = true">
+    <button class="settings-aside__avatar-box" tabindex="0" @click="showUploadAvatar = true">
       <img
         v-if="user.avatar_link"
         class="settings-aside__avatar"
         :src="user.avatar_link"
         alt="Фото профиля"
       />
-      <div class="settings-aside__avatar-overlay">
-        <svg class="settings-aside__overlay-icon" width="142" height="120">
-          <use xlink:href="#toucan"></use>
-        </svg>
-        <div class="settings-aside__overlay-text">
+      <span class="settings-aside__avatar-overlay">
+        <span class="settings-aside__overlay-text">
           Загрузить фото профиля
-        </div>
-      </div>
+        </span>
+      </span>
       <svg
         v-if="tariff == 'premium'"
         class="settings-aside__avatar-crone"
@@ -29,7 +26,7 @@
       >
         <use xlink:href="#crown"></use>
       </svg>
-    </div>
+    </button>
     <div class="settings-aside__tariff-box">
       <span class="settings-aside__tariff-text">
         Standart
@@ -145,6 +142,7 @@ export default {
   background-repeat: no-repeat
   &__avatar-box
     position: relative
+    width: 100%
     height: 260px
     margin-bottom: 4px
     text-align: center
@@ -153,6 +151,7 @@ export default {
     background-image: linear-gradient(135deg, #ffcace 0%, #d8eeff 100%)
     border-top-left-radius: 12px
     border-top-right-radius: 12px
+    outline-width: 0
     overflow: hidden
   &__avatar-box::before
     content: ""
@@ -164,7 +163,7 @@ export default {
     border: 2px solid rgba(#ffffff, 0.5)
     border-top-left-radius: inherit
     border-top-right-radius: inherit
-    z-index: 1
+    z-index: 2
   &--standart &__avatar-box::before
     border-color: #ff9999
   &--premium &__avatar-box::before
@@ -185,33 +184,23 @@ export default {
     bottom: 0
     left: 0
     display: flex
-    flex-direction: column
     justify-content: center
-    align-items: center
+    align-items: flex-end
     padding: 10px
     font-weight: 700
     font-size: 20px
-    cursor: pointer
-    z-index: 2
-  &__overlay-icon
-    width: 142px
-    height: 120px
-    margin-bottom: 16px
-  &__avatar + &__avatar-overlay &__overlay-icon
-    opacity: 0
-    transition-property: opacity
+    transition-property: background-color
     transition-duration: 0.2s
-  &__avatar + &__avatar-overlay:focus-visible &__overlay-icon,
-  &__avatar + &__avatar-overlay:hover &__overlay-icon
-    opacity: 0.4
+    z-index: 1
+  &__avatar-box:focus-visible &__avatar-overlay,
+  &__avatar-box:hover &__avatar-overlay
+    background-color: rgba(0, 0, 0, 0.2)
   &__overlay-text
-    max-width: 142px
-  &__avatar + &__avatar-overlay &__overlay-text
     opacity: 0
     transition-property: opacity
     transition-duration: 0.2s
-  &__avatar + &__avatar-overlay:focus-visible &__overlay-text,
-  &__avatar + &__avatar-overlay:hover &__overlay-text
+  &__avatar-box:focus-visible &__overlay-text,
+  &__avatar-box:hover &__overlay-text
     opacity: 1
   &--premium &__avatar-crone
     position: absolute
