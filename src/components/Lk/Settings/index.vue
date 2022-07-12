@@ -1,39 +1,7 @@
 <template>
   <div class="user-settings vue-component">
     <interlayer class="user-settings__body" :title="$route.meta.title">
-      <v-col cols="12" md="6">
-        <v-card class="pa-5 front" style="height: 100%">
-          <div class="text-subtitle-2">Изменить ФИО</div>
-          <v-text-field
-            v-model="user.name"
-            required
-            :rules="nameRules"
-            label="ФИО"
-          />
-          <v-divider class="mb-5"></v-divider>
-          <div class="text-subtitle-2">Email</div>
-          <v-text-field
-            type="email"
-            required
-            v-model="user.email"
-            :rules="emailRules"
-            label="Email"
-          />
-          <v-divider class="mb-5"></v-divider>
-          <div class="text-subtitle-2">Сменить пароль</div>
-          <v-text-field
-            type="password"
-            v-model="oldPassword"
-            label="Введите пароль"
-          />
-          <v-text-field
-            type="password"
-            v-model="newPassword"
-            label="Повторите пароль"
-          />
-          <v-divider class="mb-5"></v-divider>
-        </v-card>
-      </v-col>
+      <SettingsFields class="user-settings__fields" />
     </interlayer>
     <div class="user-settings__aside">
       <div class="user-settings__aside-wrap">
@@ -56,6 +24,7 @@
 import Interlayer from "@/components/Interlayer.vue";
 import SettingsAside from "./SettingsAside.vue";
 import UploadAvatar from "vue-image-crop-upload";
+import SettingsFields from "./SettingsFields";
 
 import { mapGetters } from "vuex";
 
@@ -110,7 +79,8 @@ export default {
   components: {
     Interlayer,
     SettingsAside,
-    UploadAvatar
+    UploadAvatar,
+    SettingsFields
   },
   props: [],
   mixins: {},

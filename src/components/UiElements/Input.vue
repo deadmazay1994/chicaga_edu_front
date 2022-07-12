@@ -7,7 +7,8 @@
       :placeholder="placeholder"
       :aria-label="ariaLabel"
       :maxlength="maxlength"
-      :style="{ required: required }"
+      :required="required"
+      :style="{ padding: `${padding.y}px ${padding.x}px` }"
       v-model="inputValue"
     />
   </div>
@@ -28,6 +29,11 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    },
+    styleObject() {
+      return {
+        padding: `${this.padding.y} ${this.padding.x}`
+      };
     }
   },
   components: {},
@@ -41,7 +47,13 @@ export default {
       type: Boolean,
       default: true
     },
-    value: String
+    value: String,
+    padding: {
+      type: Object,
+      default: () => {
+        return { y: 5.5, x: 13.5 };
+      }
+    }
   },
   mixins: {},
   beforeMount() {}
@@ -54,7 +66,6 @@ export default {
   &__input
     width: 100%
     margin: 0
-    padding: 5.5px 13.5px
     font-weight: 500
     font-size: 12px
     line-height: 14px
