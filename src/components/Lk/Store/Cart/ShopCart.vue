@@ -10,9 +10,9 @@
     </div>
 
     <div class="shop-cart__content">
-      <transition-group name="list">
+      <transition-group name="list" tag="div" class="shop-cart__list">
         <cart-item
-          class="list-item"
+          class="shop-cart__item"
           v-for="(item, index) in cartItems"
           :key="index"
           :item="item"
@@ -122,7 +122,10 @@ export default {
     /* Handle */
     &::-webkit-scrollbar-thumb
       background: rgba(128, 128, 128, 0.1)
-      border-radius: 40p
+      border-radius: 40px
+  &__item:not(:last-child)
+    margin-bottom: 10px
+
 .list-enter-active, .list-leave-active
   transition: all 1s
 .list-enter, .list-leave-to
