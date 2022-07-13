@@ -45,15 +45,18 @@
         </demo-btn-w>
       </div>
     </div>
+    <demo-notice class="demo-note__notice demo-note__notice--open" />
   </div>
 </template>
 
 <script>
 import DemoBtnW from "./DemoBtnW.vue";
+import DemoNotice from "./DemoNotice.vue";
 export default {
   name: "demo-note",
   components: {
-    DemoBtnW
+    DemoBtnW,
+    DemoNotice
   },
   data: function() {
     return {};
@@ -66,6 +69,7 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .demo-note
+  position: relative
   display: flex
   font-size: 14px
   &__inner
@@ -120,4 +124,20 @@ export default {
     transform: rotate(90deg)
   &__close:active &__close-icon
     transform: scale(0.5)
+  &__notice
+    position: absolute
+    top: 0
+    right: 58%
+    width: 435px
+    opacity: 0
+    z-index: -1
+    transition-property: opacity, z-index
+    transition-duration: 0.2s, 0s
+    transition-delay: 0s, 0.2s
+    pointer-events: none
+  &__notice--open
+    opacity: 1
+    z-index: 1
+    transition-delay: 0s
+    pointer-events: auto
 </style>
