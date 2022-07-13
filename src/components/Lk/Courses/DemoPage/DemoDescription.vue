@@ -125,8 +125,10 @@ $description-padding: 32px
 .demo-description
   position: relative
   padding: $description-padding
-  background-color: #ffffff
-  background-image: linear-gradient(0deg, #f7f9ff, #f7f9ff)
+  background-color: #f7f9ff
+  background-image: url(~@/assets/imgs/bg/demo-desc-bg.jpg)
+  background-position: center
+  background-size: cover
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
   border-radius: 20px
   &__img-box
