@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style scoped="scoped" lang="sass">
+<style lang="sass">
 .g-input
   margin: 0
   padding: 5.5px 13.5px
