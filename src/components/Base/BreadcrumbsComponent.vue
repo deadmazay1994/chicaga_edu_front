@@ -34,7 +34,7 @@ export default {
       this.$route.matched.map(async route => {
         let breadcrumb = route.meta.breadcrumb;
         let color = breadcrumb?.color,
-          title = breadcrumb.title;
+          title = breadcrumb?.title;
 
         if (typeof color == "function") color = await breadcrumb.color();
         if (typeof title == "function")

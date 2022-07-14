@@ -21,6 +21,7 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import CourseLessons from "@/components/Lk/Courses/CourseLessons";
+import DemoPage from "@/components/Lk/Courses/DemoPage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
@@ -47,7 +48,10 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/lk/my-courses"
+    meta: {
+      redirectCondition: true
+    }
+    // redirect: "/lk/my-courses"
   },
   {
     path: "/lesson/:id/",
@@ -213,7 +217,7 @@ const routes = [
         }
       },
       {
-        path: "catalog-coursers",
+        path: "catalog-courses",
         name: "catalog-courses",
         component: CatalogCourses,
         meta: {
@@ -308,6 +312,11 @@ const routes = [
         meta: {
           breadcrumb: { title: "Магазин" }
         }
+      },
+      {
+        path: "demo-page",
+        name: "demo-page",
+        component: DemoPage
       }
     ]
   },
@@ -400,10 +409,20 @@ router.beforeEach((to, from, next) => {
       access = true;
     }
   }
+  if (to.matched.some(record => record.meta.redirectCondition)) {
+    // мок, вместо свойства demo_mode
+    const userDemoMode = true;
+    if (userDemoMode) {
+      next({
+        path: "/lk/demo-page",
+        query: { redirect: to.fullPath }
+      });
+    } else next({ path: "/lk/my-courses", query: { redirect: to.fullPath } });
+  }
   if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
-        path: "/lk/my-coursers",
+        path: "/lk/my-courses",
         query: { redirect: to.fullPath }
       });
       access = false;
@@ -414,7 +433,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
       next({
-        path: "/lk/my-coursers",
+        path: "/lk/my-courses",
         query: { redirect: to.fullPath }
       });
       store.commit("pushShuckbar", {
