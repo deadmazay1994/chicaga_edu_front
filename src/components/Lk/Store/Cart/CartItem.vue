@@ -28,6 +28,7 @@
             title="Меньше"
             aria-label="Меньше"
             @click="$emit('decrease')"
+            type="button"
           >
             -
           </button>
@@ -39,6 +40,7 @@
             title="Больше"
             aria-label="Больше"
             @click="$emit('increase')"
+            type="button"
           >
             +
           </button>
@@ -48,6 +50,7 @@
           title="Удалить"
           aria-label="Удалить"
           @click="$emit('clickTrashButton')"
+          type="button"
         >
           <svg class="cart-item__bin-icon" width="19" height="19">
             <use xlink:href="#bin"></use>

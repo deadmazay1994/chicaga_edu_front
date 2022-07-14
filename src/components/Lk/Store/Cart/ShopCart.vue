@@ -117,6 +117,7 @@ export default {
     max-height: 600px
     overflow-y: auto
     margin-top: 10px
+    margin-bottom: 40px
     &::-webkit-scrollbar
       width: 5px
     /* Handle */
