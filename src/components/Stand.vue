@@ -1,40 +1,23 @@
 <template>
   <div class="stand vue-component">
-    <tariff
-      v-for="(tariff, index) in tariffes"
-      :key="index"
-      :tariffData="tariff"
-    />
+    <inner-c />
   </div>
 </template>
 
 <script>
-import api from "@/mixins/api";
-import Tariff from "./Tariff";
+import InnerC from "@/components/Lk/TestIntro.vue";
 export default {
   name: "stand",
   data: function() {
-    return {
-      tariffes: undefined
-    };
+    return {};
   },
-  methods: {
-    async setTariff() {
-      const result = await api.methods.getTariffData();
-      this.tariffes = result.tariffes;
-    }
-  },
+  methods: {},
   computed: {},
   components: {
-    Tariff
+    InnerC
   },
-  beforeMount() {
-    this.setTariff();
-  }
+  beforeMount() {}
 };
 </script>
 
-<style scoped="scoped" lang="sass">
-.stand
-  height: 100% // без этого свойства не будет работать прокрутка внутри компонента
-</style>
+<style scoped="scoped" lang="sass"></style>
