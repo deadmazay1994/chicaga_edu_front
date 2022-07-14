@@ -9,32 +9,25 @@
       <minicourse-card @showModal="showModal = true"></minicourse-card>
       <minicourse-card @showModal="showModal = true"></minicourse-card>
     </div>
-    {{ showModal }}
-    <default-modal-vue :showModal="showModal" />
-    <div class="demo-page__modal-content">
-    </div>
+    <demo-modal-vue :showModal="showModal" @close="showModal = false" />
   </div>
 </template>
 
 <script>
 import DemoDescription from "./DemoDescription.vue";
 import MinicourseCard from "@/components/Lk/Courses/MinicourseCard.vue";
-import DefaultModalVue from "../../../Modals/DefaultModal.vue";
+import DemoModalVue from "./DemoModal.vue";
 
 export default {
   name: "demo-page",
   components: {
     DemoDescription,
     MinicourseCard,
-    DefaultModalVue
+    DemoModalVue
   },
   data: function() {
     return {
-      showModal: false,
-      modalTitle:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et odio sed est pellentesque gravida sit amet at orci.",
-      modalPrice: 1200,
-      modalOldPrice: 2700
+      showModal: false
     };
   },
   props: [],

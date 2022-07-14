@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="default-modal vue-component" v-if="showModal">
-      <div class="default-modal__inner">
+      <div class="default-modal__inner" v-click-outside="onClickOutside">
         <div class="default-modal__head">
           <div class="default-modal__title">
             {{ title }}
@@ -20,11 +20,7 @@
           </button>
         </div>
         <div class="default-modal__body">
-          <span class="default-modal__body-text">{{ text }}</span>
-          <div class="default-modal__price-block">
-            <div class="default-modal__price-title">{{ priceTitle }}:</div>
-            <div class="default-modal__price">{{ price }} ₽</div>
-          </div>
+          <slot></slot>
         </div>
         <div class="default-modal__footer">
           <button class="default-modal__cancel" @click="close()">Отмена</button>
@@ -48,16 +44,17 @@ export default {
   },
   props: {
     showModal: Boolean,
-    priceTitle: String,
-    title: String,
-    text: String,
-    price: Number
+    title: String
   },
   computed: {},
   directives: {
     clickOutside: vClickOutside.directive
   },
-  methods: {},
+  methods: {
+    onClickOutside() {
+      this.$emit("close");
+    }
+  },
   mounted() {}
 };
 </script>
@@ -74,23 +71,40 @@ export default {
   display: flex
   align-items: center
   justify-content: center
-  &__title
-    font-family: Manrope, sans-serif !important
-    font-weight: 600
-    font-size: 32px
-    line-height: 41.6px
-  &__head
-    height: 134px
-    padding: 25px 30px
-    overflow: hidden
-    border-radius: 15px 15px 0 0
-    background: url(~@/assets/imgs/calendarHeader.png) no-repeat
-  &__body
-    flex: 1
-    padding: 16px 30px 16px 30px
+  &__inner
+    position: fixed
     display: flex
     flex-direction: column
     justify-content: space-between
+    top: 50%
+    left: 50%
+    z-index: 9999
+    width: 520px
+    height: 574px
+    margin-top: -287px
+    margin-left: -260px
+    background: #FFFFFF
+    font-family: Manrope, sans-serif
+    color: #252525
+    border-radius: 15px
+  &__title
+    float: left
+    font-family: Manrope, sans-serif !important
+    font-weight: 800
+    font-size: 24px
+    line-height: 41.6px
+  &__head
+    padding: 25px 30px
+    overflow: hidden
+    border-radius: 15px 15px 0 0
+    border-bottom: 1px solid #F0F1F1
+  &__body
+    flex: 1
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding-left: 8px
+    padding-right: 8px
   &__footer
     height: 110px
     background: #F4F4F4
@@ -114,22 +128,6 @@ export default {
     color: #FFFFFF
     padding: 15px 24px
     border-radius: 16px
-  &__inner
-    position: fixed
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-    top: 50%
-    left: 50%
-    z-index: 9999
-    width: 520px
-    height: 574px
-    margin-top: -287px
-    margin-left: -260px
-    background: #FFFFFF
-    font-family: Manrope, sans-serif
-    color: #252525
-    border-radius: 15px
   &__price-block
     display: flex
     align-items: center
@@ -154,8 +152,8 @@ export default {
   &__close
     float: right
     position: relative
-    top: -12px
-    right: -10px
+    top: 0px
+    right: 0px
     display: flex
     justify-content: center
     align-items: center
