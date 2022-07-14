@@ -2,7 +2,11 @@
   <div class="demo-notice vue-component">
     <div class="demo-notice__inner">
       <div class="demo-notice__text">
-        <button class="demo-notice__close" type="button">
+        <button
+          class="demo-notice__close"
+          type="button"
+          @click="$emit('closeNotice')"
+        >
           <svg class="demo-notice__close-icon" width="15" height="15">
             <use xlink:href="#close-red"></use>
           </svg>

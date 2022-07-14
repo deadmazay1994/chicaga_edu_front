@@ -51,7 +51,6 @@ const routes = [
     meta: {
       redirectCondition: true
     }
-    // redirect: "/lk/my-courses"
   },
   {
     path: "/lesson/:id/",

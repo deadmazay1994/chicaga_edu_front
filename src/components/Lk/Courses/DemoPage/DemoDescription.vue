@@ -78,11 +78,18 @@
       </div>
       <div class="demo-description__question-box">
         <div class="demo-description__link-box">
-          <button class="demo-description__pseudo-link" type="button">
+          <button
+            class="demo-description__pseudo-link"
+            type="button"
+            @click="noteIsOpen = true"
+          >
             А мне нужен другой уровень
           </button>
           <demo-note
+            v-if="noteIsOpen"
             class="demo-description__note demo-description__note--open"
+            v-click-outside="onClickOutside"
+            @closeNote="noteIsOpen = false"
           />
         </div>
         <img
@@ -101,6 +108,9 @@
 import DemoBtn from "./DemoBtn.vue";
 import DemoBtnG from "./DemoBtnG.vue";
 import DemoNote from "./DemoNote.vue";
+
+import vClickOutside from "v-click-outside";
+
 export default {
   name: "demo-description",
   components: {
@@ -108,12 +118,21 @@ export default {
     DemoBtnG,
     DemoNote
   },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data: function() {
-    return {};
+    return {
+      noteIsOpen: false
+    };
   },
   props: [],
   computed: {},
-  methods: {}
+  methods: {
+    onClickOutside() {
+      this.noteIsOpen = false;
+    }
+  }
 };
 </script>
 

@@ -31,7 +31,7 @@
         <span class="minicourse-card__price">1200</span
         ><span class="minicourse-card__currency">₽</span>
       </div>
-      <button class="minicourse-card__btn">
+      <button class="minicourse-card__btn" @click="$emit('showModal')">
         Купить
       </button>
     </div>

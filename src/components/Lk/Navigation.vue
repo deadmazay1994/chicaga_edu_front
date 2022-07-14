@@ -6,6 +6,7 @@
         :to="item.url + (item.params ? item.params() : '')"
         :aria-label="item.name"
         class="router-link"
+        :class="{ 'router-link--disabled': item.disabled }"
         v-if="item.showCondition ? item.showCondition() : false"
       >
         <component :is="item.icon" />
@@ -93,7 +94,8 @@ export default {
           name: "FAQ",
           url: "/faq",
           icon: "QuestionIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: true
         }
       ],
       mobileDetected: false
@@ -198,4 +200,11 @@ export default {
       fill: #E84145
     .filled-path
       fill: #E84145
+.router-link--disabled
+  pointer-events: none
+  .icon
+    path
+      fill: #A9A9A9
+    .filled-path
+      fill: #A9A9A9
 </style>
