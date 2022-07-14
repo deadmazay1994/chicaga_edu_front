@@ -47,7 +47,7 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/lk/my-coursers"
+    redirect: "/lk/my-courses"
   },
   {
     path: "/lesson/:id/",
