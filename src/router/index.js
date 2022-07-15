@@ -242,13 +242,15 @@ const routes = [
             meta: {
               breadcrumb: { title: "Уроки курса", color: "green" },
               layout: "main-layout",
-              title: "Elementary"
+              title: "Elementary",
+              checkCurrentRoute: true
             }
           }
         ]
       },
       {
         path: "course/:id",
+        name: "course",
         component: CoursePage,
         meta: {
           breadcrumb: {
@@ -427,6 +429,11 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     access = true;
+  }
+  if (to.matched.some(record => record.meta.checkCurrentRoute)) {
+    if (from.name === "catalog-courses")
+      next({ name: "course", params: { id: to.params.id } });
+    else next();
   }
   if (to.matched.some(record => record.meta.checkAccess)) {
     if (api.methods.checkAccess(to.params.id)) access = true;

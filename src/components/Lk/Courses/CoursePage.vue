@@ -16,6 +16,7 @@
           :rating="courseProgramm.rating"
           :duration="courseProgramm.duration"
           :start_time="courseProgramm.start_time"
+          :link="'#'"
         />
       </div>
     </div>
