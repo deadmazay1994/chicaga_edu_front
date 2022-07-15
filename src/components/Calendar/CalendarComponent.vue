@@ -11,7 +11,7 @@
                 ref="swiperDate"
                 :slides-per-view="1"
               >
-                <swiper-slide v-for="(item, index) in allMonths" :key="index">
+                <swiper-slide v-for="(item, index) in testArr" :key="index">
                   <span class="date">{{ item.name + " " + item.year }}</span>
                 </swiper-slide>
               </swiper>
@@ -36,7 +36,7 @@
             :options="swiperGridOption"
             ref="swiperGrid"
           >
-            <swiper-slide v-for="(item, index) in allMonths" :key="index">
+            <swiper-slide v-for="(item, index) in testArr" :key="index">
               <calendar-grid
                 :days="eventArr(item.number, item.year)"
                 :currentDateObj="currentDateObj"
@@ -83,6 +83,7 @@ export default {
         noSwipingClass: "swiper-slide",
         loop: false
       },
+      testArr: [],
       events: []
     };
   },
@@ -241,24 +242,79 @@ export default {
     prev() {
       this.$refs.swiperDate.swiper.slidePrev();
       this.$refs.swiperGrid.swiper.slidePrev();
+      const currentSlideIndex = this.$refs.swiperDate.swiper.activeIndex;
+      console.log(currentSlideIndex);
     },
     next() {
       this.$refs.swiperDate.swiper.slideNext();
       this.$refs.swiperGrid.swiper.slideNext();
+      const currentSlideIndex = this.$refs.swiperDate.swiper.activeIndex;
+      if (currentSlideIndex == this.testArr.length - 1) {
+        const endOfArrayIndex = this.testArr.length;
+        const currentSlideYear = this.testArr[currentSlideIndex].year;
+        const nextMonth = moment()
+          .year(currentSlideYear)
+          .month(this.testArr[currentSlideIndex].number + 1)
+          .month();
+        const nextYear =
+          this.testArr[currentSlideIndex].number === 11
+            ? currentSlideYear + 1
+            : currentSlideYear;
+        console.log({
+          endOfArrayIndex: endOfArrayIndex,
+          nextYear: nextYear,
+          nextMonth: nextMonth
+        });
+        this.addDateToArr(endOfArrayIndex, nextYear, nextMonth);
+      } else if (currentSlideIndex == 0) {
+        const beginOfArrayIndex = 0;
+        this.addDateToArr(beginOfArrayIndex);
+      }
+      console.log(currentSlideIndex);
     },
     setCurrentMonth() {
       let currYear = this.currentDateObj.year;
       let currMonth = this.currentDateObj.month;
-      let currGridIndex = this.allMonths.findIndex(element => {
+      let currGridIndex = this.testArr.findIndex(element => {
         return element.year == currYear && element.number == currMonth;
       });
       this.$refs.swiperDate.swiper.slideTo(currGridIndex, false, false);
       this.$refs.swiperGrid.swiper.slideTo(currGridIndex, false, false);
+    },
+    addDateToArr(toIndex, year, month) {
+      this.testArr.splice(toIndex, 0, {
+        name: moment()
+          .month(month)
+          .local("en")
+          .format("MMMM"),
+        number: moment()
+          .month(month)
+          .month(),
+        year: moment().year(year)
+      });
+      console.log("testArr:", this.testArr);
+    },
+    setCurrDate() {
+      const currYear = moment().year();
+      const currMonthNumber = moment().month();
+      for (let i = currMonthNumber - 1; i <= currMonthNumber + 1; i++) {
+        this.testArr.push({
+          name: moment()
+            .month(i)
+            .locale("en")
+            .format("MMMM"),
+          number: moment()
+            .month(i)
+            .month(),
+          year: currYear
+        });
+      }
     }
   },
   mounted() {
-    this.setCurrentMonth();
     this.setEvents();
+    this.setCurrDate();
+    this.setCurrentMonth();
   }
 };
 </script>
