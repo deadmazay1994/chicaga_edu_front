@@ -38,12 +38,7 @@
             </button>
             <div class="header__profile-menu header__profile-menu--active">
               <button class="header__profile-btn">
-                <svg
-                  class="header__profile-icon"
-                  width="24"
-                  height="24"
-                  fill="none"
-                >
+                <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#messages"></use>
                 </svg>
                 <span class="header__profile-text">
@@ -215,6 +210,14 @@ export default {
     width: 20px
     height: 20px
     fill: #808080
+    transition-property: fill
+    transition-duration: 0.3s
+  &__additional-btn:focus-visible &__additional-icon,
+  &__additional-btn:hover &__additional-icon
+    fill: #ff0000
+  &__additional-btn:active &__additional-icon
+    fill: #ca2e23
+    transition-duration: 0.1s
   &__profile-menu
     position: absolute
     top: -24px
@@ -242,22 +245,29 @@ export default {
     align-items: center
     padding: 12px 6px
     color: #23262f
+    fill: #23262f
+    stroke: #23262f
     text-align: left
     border-radius: 10px
-    transition-property: color, text-shadow, opacity
-    transition-duration: 0.3s, 0.3s, 0.1s
-  &__profile-btn:focus-visible
-    outline: 1px solid #23262f
+    outline-width: 0
+    transition-property: color, fill, stroke
+    transition-duration: 0.3s
+  &__profile-btn:focus-visible,
   &__profile-btn:hover
-    color: #000000
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2)
+    color: #ff0000
+    fill: #ff0000
+    stroke: #ff0000
   &__profile-btn:active
-    opacity: 0.7
+    color: #ca2e23
+    fill: #ca2e23
+    stroke: #ca2e23
+    transition-duration: 0.1s
   &__profile-icon
     flex-shrink: 0
     width: 24px
     height: 24px
-    fill: none
+    // fill: none
+    // stroke: #23262f
   &__profile-icon:first-child
     margin-right: 8px
   &__profile-icon:last-child
