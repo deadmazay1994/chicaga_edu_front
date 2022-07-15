@@ -3,9 +3,6 @@
     <div class="default-modal vue-component" v-if="showModal">
       <div class="default-modal__inner" v-click-outside="onClickOutside">
         <div class="default-modal__head">
-          <div class="default-modal__title">
-            {{ title }}
-          </div>
           <button
             class="default-modal__close"
             type="button"
@@ -18,6 +15,9 @@
               Закрыть
             </div>
           </button>
+          <div class="default-modal__title">
+            {{ title }}
+          </div>
         </div>
         <div class="default-modal__body">
           <slot></slot>
@@ -64,104 +64,37 @@ export default {
   position: fixed
   top: 0
   left: 0
-  width: 100%
-  height: 100%
-  background: rgba(85, 85, 85, 0.25)
-  z-index: 9998
   display: flex
   align-items: center
   justify-content: center
+  width: 100%
+  height: 100%
+  line-height: 1.5
+  background-color: rgba(85, 85, 85, 0.25)
+  z-index: 9998
   &__inner
-    position: fixed
     display: flex
     flex-direction: column
-    justify-content: space-between
-    top: 50%
-    left: 50%
-    z-index: 9999
-    width: 520px
-    height: 574px
-    margin-top: -287px
-    margin-left: -260px
-    background: #FFFFFF
-    font-family: Manrope, sans-serif
+    max-width: 520px
     color: #252525
+    background-color: #ffffff
     border-radius: 15px
-  &__title
-    float: left
-    font-family: Manrope, sans-serif !important
-    font-weight: 800
-    font-size: 24px
-    line-height: 41.6px
+    overflow: hidden
   &__head
     padding: 25px 30px
-    overflow: hidden
-    border-radius: 15px 15px 0 0
-    border-bottom: 1px solid #F0F1F1
-  &__body
-    flex: 1
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-    padding-left: 8px
-    padding-right: 8px
-  &__footer
-    height: 110px
-    background: #F4F4F4
-    box-shadow: 0px 4px 16px 0px #0000001A inset
-    border-radius: 0 0 15px 15px
-    display: flex
-    align-items: center
-    justify-content: flex-end
-    padding: 30px
-  &__cancel,
-  &__pay
-    font-weight: 600
-    font-size: 20px
-    line-height: 20px
-    cursor: pointer
-  &__cancel
-    color: #A6ADAE
-    margin-right: 20px
-  &__pay
-    background: linear-gradient(0deg, #BE1C21 0%, #DC3337 100%)
-    color: #FFFFFF
-    padding: 15px 24px
-    border-radius: 16px
-  &__price-block
-    display: flex
-    align-items: center
-    justify-content: space-between
-  &__price-title
-    font-weight: 700
-    font-size: 18px
-    line-height: 27px
-  &__price
-    display: inline
-    font-weight: 900
-    font-size: 36px
-    line-height: 54px
-    text-align: right
-    background: linear-gradient(0deg, #DC3337 0%, #BE1C21 100%), linear-gradient(0deg, #6D9AF8 10.09%, #487EF3 85.32%)
-    -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
-  &__text
-    font-weight: 400
-    font-size: 18px
-    line-height: 29.8px
+    border-bottom: 1px solid #f0f1f1
   &__close
     float: right
     position: relative
-    top: 0px
-    right: 0px
+    top: -8px
+    right: -8px
     display: flex
     justify-content: center
     align-items: center
-    width: 35px
-    height: 35px
-    margin-left: 0.3em
+    width: 30px
+    height: 30px
+    margin-left: 10px
     border-radius: 3px
-    outline-width: 0
   &__close-icon
     width: 15px
     height: 15px
@@ -172,8 +105,34 @@ export default {
     transform: rotate(90deg)
   &__close:active &__close-icon
     transform: scale(0.5)
+  &__title
+    font-weight: 800
+    font-size: 24px
+    line-height: 1.3
+  &__body
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    flex-grow: 1
+  &__footer
+    display: flex
+    align-items: center
+    justify-content: flex-end
+    padding: 30px
+    font-weight: 600
+    font-size: 20px
+    line-height: 1
+    background-color: #f4f4f4
+  &__cancel
+    margin-right: 20px
+    color: #a6adae
+  &__pay
+    padding: 16px 24px
+    color: #ffffff
+    background-image: linear-gradient(0deg, #be1c21 0%, #dc3337 100%)
+    border-radius: 16px
 .fade-enter-active, .fade-leave-active
-  transition: opacity .2s
+  transition: opacity 0.2s
 .fade-enter, .fade-leave-to
   opacity: 0
 </style>
