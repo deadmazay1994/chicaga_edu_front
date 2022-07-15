@@ -1,23 +1,20 @@
 <template>
-  <div class="stand vue-component">
-    <inner-c />
-  </div>
+  <div class='stand vue-component'></div>
 </template>
 
 <script>
-import InnerC from "@/components/Lk/TestIntro.vue";
 export default {
-  name: "stand",
+  name: 'stand',
   data: function() {
-    return {};
+    return {}
   },
   methods: {},
   computed: {},
-  components: {
-    InnerC
-  },
+  components: {},
+  props: [],
+  mixins: {},
   beforeMount() {}
-};
+}
 </script>
 
-<style scoped="scoped" lang="sass"></style>
+<style scoped='scoped' lang='sass'></style>
