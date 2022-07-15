@@ -10,12 +10,12 @@
       <div class="course-page__block-title">Программа курса</div>
       <div class="course-page__grid">
         <course-program-card
-          v-for="(courseProgramm, index) in coursePrograms"
+          v-for="(courseProgram, index) in coursePrograms"
           :key="index"
-          :title="courseProgramm.title"
-          :rating="courseProgramm.rating"
-          :duration="courseProgramm.duration"
-          :start_time="courseProgramm.start_time"
+          :title="courseProgram.title"
+          :rating="courseProgram.rating"
+          :duration="courseProgram.duration"
+          :start_time="courseProgram.start_time"
         />
       </div>
     </div>
@@ -66,8 +66,9 @@ export default {
       await this.$store.dispatch("setAllCourses");
       this.courseRes = this.course(this.$route.params.id);
     },
-    async setCourseProgramms() {
+    async setCoursePrograms() {
       const result = await this.getCourseInfo(this.$route.params.id);
+      console.log("set course program", result);
       this.coursePrograms = result.data.lessons;
     },
     async setTariffes() {
@@ -87,7 +88,7 @@ export default {
   mixins: [api],
   beforeMount() {
     this.setCourse();
-    this.setCourseProgramms();
+    this.setCoursePrograms();
     this.setTariffes();
   }
 };
