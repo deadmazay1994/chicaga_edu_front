@@ -39,7 +39,6 @@
             placeholder="+79212567854"
             aria-label="Поле для ввода номера телефона"
             :maxlength="30"
-            v-mask="'+7 (###) ###-##-##'"
             v-model="phoneNumber"
           />
         </label>
@@ -117,14 +116,11 @@
 </template>
 
 <script>
-import { mask } from "vue-the-mask";
-
 import { mapGetters } from "vuex";
 
 export default {
   name: "settings-fields",
   components: {},
-  directives: { mask },
   data: function() {
     return {
       username: null,
@@ -174,11 +170,9 @@ export default {
       else this.passwordError = false;
 
       let data = {
-        // username: this.username,
         name: this.user.name,
         usersecondname: this.usersecondname,
         phone: this.phoneNumber,
-        // email: this.userEmail,
         email: this.user.email,
         telegram: this.telegram,
         birthday: this.birthday,

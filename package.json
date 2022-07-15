@@ -43,7 +43,6 @@
     "vue-konva": "^2.1.6",
     "vue-router": "^3.2.0",
     "vue-spinner": "^1.0.4",
-    "vue-the-mask": "^0.11.1",
     "vue-toastification": "^1.7.14",
     "vue-zoomer": "^0.3.6",
     "vue2-perfect-scrollbar": "^1.5.0",
