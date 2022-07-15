@@ -5,7 +5,7 @@
         <img
           class="demo-description__img"
           src="@/assets/imgs/toucan-hello.png"
-          width="221px"
+          width="221"
           height="237"
           alt="Тукан говорит вам: 'Hello'"
         />
