@@ -128,8 +128,10 @@ $header-height: 76px
     height: 100%
     padding: 20px 40px
   &__header-wrap
+    position: relative
     width: 100%
     height: $header-height
+    z-index: 2
   &__header
     width: 100%
     height: 100%
