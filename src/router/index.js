@@ -209,7 +209,8 @@ const routes = [
         path: "settings",
         component: Settings,
         meta: {
-          breadcrumb: { title: "Настройки" }
+          breadcrumb: { title: "Настройки", color: "red" },
+          title: "Настройки"
         }
       },
       {
