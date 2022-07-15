@@ -1,16 +1,14 @@
 <template>
-  <div class="g-input vue-component">
-    <input
-      class="g-input__input"
-      :type="type"
-      :name="name"
-      :placeholder="placeholder"
-      :aria-label="ariaLabel"
-      :maxlength="maxlength"
-      :style="{ required: required }"
-      v-model="inputValue"
-    />
-  </div>
+  <input
+    class="g-input vue-component"
+    :type="type"
+    :name="name"
+    :placeholder="placeholder"
+    :aria-label="ariaLabel"
+    :maxlength="maxlength"
+    :required="required"
+    v-model="inputValue"
+  />
 </template>
 
 <script>
@@ -50,22 +48,20 @@ export default {
 
 <style scoped="scoped" lang="sass">
 .g-input
-  display: block
-  &__input
-    width: 100%
-    margin: 0
-    padding: 5.5px 13.5px
-    font-weight: 500
-    font-size: 12px
-    line-height: 14px
-    text-overflow: ellipsis
-    color: #0d0d0d
-    background-color: #ffffff
-    border: 1.5px solid rgba(255, 0, 0, 0.4)
-    border-radius: 5px
-    transition: border-color 0.3s
-    &:focus
-      border-color: rgba(255, 0, 0, 0.6)
-  &__input::placeholder
+  margin: 0
+  padding: 5.5px 13.5px
+  font-weight: 500
+  font-size: 12px
+  line-height: 14px
+  text-overflow: ellipsis
+  color: #0d0d0d
+  background-color: #ffffff
+  border: 1.5px solid rgba(255, 0, 0, 0.4)
+  border-radius: 5px
+  outline-width: 0
+  transition: border-color 0.3s
+  &:focus
+    border-color: rgba(255, 0, 0, 0.6)
+  &::placeholder
     color: rgba(128, 128, 128, 0.6)
 </style>
