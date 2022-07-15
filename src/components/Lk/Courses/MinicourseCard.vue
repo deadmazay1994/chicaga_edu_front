@@ -13,7 +13,11 @@
         </span>
       </div>
       <div class="minicourse-card__more">
-        <button class="minicourse-card__more-text" type="button">
+        <button
+          class="minicourse-card__more-text"
+          type="button"
+          @click="$emit('showModal')"
+        >
           Подробнее
         </button>
       </div>
