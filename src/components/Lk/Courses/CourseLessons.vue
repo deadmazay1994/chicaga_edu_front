@@ -42,6 +42,7 @@ export default {
   components: {
     CourseProgramCardVue
   },
+  mixins: [api],
   data: function() {
     return {
       courseProgramms: {},
@@ -57,11 +58,11 @@ export default {
       this.$store.dispatch("setMyCourses");
     },
     async setCurrentCourse() {
-      const result = await api.methods.getCourseInfo(this.$route.params.id);
+      const result = await this.getCourseInfo(this.$route.params.id);
       this.currentCourse = result.data;
     },
     async setCourseProgramms() {
-      this.courseProgramms = await api.methods.getCourseProgramms();
+      this.courseProgramms = await this.getCourseProgramms();
     }
   },
   async beforeMount() {
