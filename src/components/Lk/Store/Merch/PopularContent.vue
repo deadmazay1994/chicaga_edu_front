@@ -1,6 +1,7 @@
 <template>
-  <div class="popular__content active">
+  <div class="popular-content">
     <popular-item
+      class="popular-content__item"
       v-for="(item, index) in popularItems"
       :key="index"
       :item="item"
@@ -46,4 +47,12 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.popular-content
+  display: flex
+  justify-content: space-between
+  &__item
+    flex-basis: 33.33%
+  &__item:not(:last-child)
+    margin-right: 10px
+</style>
