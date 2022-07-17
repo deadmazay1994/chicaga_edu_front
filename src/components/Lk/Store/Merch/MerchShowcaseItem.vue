@@ -92,7 +92,7 @@ export default {
   &__title
     display: -webkit-box
     -webkit-box-orient: vertical
-    min-height: calc( 18px * 2 )
+    height: calc( 18px * 2 )
     font-weight: 600
     font-size: 14px
     line-height: 18px
