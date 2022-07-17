@@ -5,8 +5,8 @@
         <router-view />
       </interlayer-vue>
 
-      <div class="store__shop-cart-wrapper">
-        <shop-cart :showSubmit="true" class="store__shop-cart" />
+      <div class="store__cart-wrapper">
+        <shop-cart :showSubmit="true" class="store__cart" />
       </div>
     </div>
     <store-modal />
@@ -39,25 +39,22 @@ export default {
 @import "./sass/merch.scss"
 @import "./sass/merch-slider.scss"
 @import "@/assets/styles/variables.sass"
+
+$cart-width: 408px
 .store
-  height: 100%
+  padding: 32px
+  color: #0d0d0d
   &__content
     display: flex
-    justify-content: space-between
-    height: 100%
     width: 100%
-    @media ($media_md2)
-      padding: 0 15px
+    height: 100%
   &__interlayer
-    padding: 32px
-    padding-right: 20px
-    width: 60%
-    overflow-y: auto
-    overflow-x: visible
-  &__shop-cart-wrapper
-    padding: 32px
-    padding-left: 0px
-    flex-basis: 40%
-  &__shop-cart
+    flex-grow: 1
+    width: calc( 100% - #{$cart-width} )
+  &__cart-wrapper
+    flex-shrink: 0
+    flex-basis: $cart-width
+    padding-left: 20px
+  &__cart
     height: 100%
 </style>
