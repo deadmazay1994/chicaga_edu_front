@@ -35,7 +35,6 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-@import "./sass/shop.scss"
 @import "./sass/merch.scss"
 @import "./sass/merch-slider.scss"
 @import "@/assets/styles/variables.sass"
