@@ -1,24 +1,32 @@
 <template>
-  <div class="merch-showcase-item" @click="openModal(item.id)">
-    <div class="merch-showcase-item__price">
-      <svg class="merch-showcase-item__svg">
+  <div class="merch-item">
+    <div class="merch-item__price-box">
+      <svg class="merch-item__price-icon" width="15" height="15">
         <use xlink:href="#coin"></use>
       </svg>
-      <span>{{ item.price }} т.</span>
+      <span class="merch-item__price">{{ item.price }} т.</span>
     </div>
-
-    <img
-      class="merch-showcase-item__img"
-      :src="item.src"
-      :alt="`hoodie + ${index}`"
-    />
-    <h3 class="merch-showcase-item__title">{{ item.title }}</h3>
-
-    <div class="merch-showcase-item__text">
-      <span>Подробнее</span>
-      <svg class="merch-showcase-item__svg">
-        <use xlink:href="#arrow-down"></use>
-      </svg>
+    <div class="merch-item__img-box">
+      <img
+        class="merch-item__img"
+        :src="item.src"
+        width="158"
+        height="158"
+        :alt="`hoodie + ${index}`"
+      />
+    </div>
+    <div class="merch-item__title">{{ item.title }}</div>
+    <div class="merch-item__overlay" tabindex="0">
+      <button
+        class="merch-item__overlay-btn"
+        type="button"
+        @click="openModal(item.id)"
+      >
+        <span class="merch-item__overlay-text">Подробнее</span>
+        <svg class="merch-item__overlay-icon" width="12" height="12">
+          <use xlink:href="#arrow-simple"></use>
+        </svg>
+      </button>
     </div>
   </div>
 </template>
@@ -45,81 +53,101 @@ export default {
 
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
-.merch-showcase-item
+.merch-item
   position: relative
   display: flex
-  align-items: center
   flex-direction: column
-  justify-content: center
-  flex-basis: 32%
-  padding: 42px 0 25px
-  background: #FFFFFF
-  box-shadow: 0px 4px 10px rgba(128, 128, 128, 0.2)
+  align-items: center
+  padding: 42px 25px 16px
+  text-align: center
+  background-color: #ffffff
   border-radius: 15px
+  box-shadow: 0 4px 10px rgba(128, 128, 128, 0.2)
   overflow: hidden
-  cursor: pointer
-  @media($media_md2)
-    width: 50%
-    margin: 0 auto 10px
-  @media($media_xs)
-    width: 70%
-  &:before
-    content: ''
+  &__price-box
     position: absolute
     top: 0
     left: 0
-    width: 100%
-    height: 100%
-    background: rgba($gray, .1)
-    border: 1.5px solid rgba($red, .8)
-    border-radius: 15px
-    opacity: 0
-    transition: opacity .3s
-    cursor: pointer
-  &:hover
-    &:before
-      opacity: 1
-    .hoodie__hover-text
-      opacity: 1
-  &__price
     display: flex
     align-items: center
-    background: rgba($red, .8)
-    font-family: Manrope, sans-serif
+    padding: 5px 16px
     font-weight: 600
     font-size: 12px
-    color: #FFFFFF
+    color: #ffffff
+    background-color: rgba($red, 0.8)
     border-top-left-radius: 15px
     border-bottom-right-radius: 15px
-    padding: 6px 15px
-  &__svg
+  &__price-icon
     width: 15px
     height: 15px
     margin-right: 6px
-  &__text
-    position: absolute
-    top: 50%
-    left: 50%
-    margin-right: -50%
-    transform: translate(-50%, -50%)
-    display: flex
-    align-items: center
-    z-index: 4
-    padding: 10px 20px
-    background: #FFFFFF
-    box-shadow: 0px 4px 10px rgba(164, 164, 164, 0.2)
-    border-radius: 10px
-    opacity: 0
-    cursor: pointer
-    transition: opacity .3s
-  &__price
+  &__img-box
+    width: 158px
+    height: 158px
+    margin-bottom: 5px
+  &__img
+    width: 100%
+    height: 100%
+    object-fit: contain
+  &__title
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    min-height: calc( 18px * 2 )
+    font-weight: 600
+    font-size: 14px
+    line-height: 18px
+    -webkit-line-clamp: 2
+    text-overflow: ellipsis
+    overflow: hidden
+  &__overlay
     position: absolute
     top: 0
     left: 0
-  &__title
-    font-family: Manrope, sans-serif
-    font-weight: 900
-    font-size: 14px
-    text-align: center
-    margin-top: 15px
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 100%
+    height: 100%
+    font-weight: 700
+    font-size: 12px
+    background-color: transparent
+    border: 1.5px solid transparent
+    border-radius: 15px
+    outline-width: 0
+    z-index: 1
+    transition-property: background-color, border-color
+    transition-duration: 0.3s
+  &__overlay:focus-visible,
+  &__overlay:hover
+    background-color: rgba($gray, 0.1)
+    border-color: rgba($red, 0.8)
+  &__overlay-btn
+    display: flex
+    align-items: center
+    padding: 10px 20px
+    background-color: #ffffff
+    outline: 1px solid transparent
+    outline-offset: -1px
+    border-radius: 10px
+    box-shadow: 0 4px 10px rgba(164, 164, 164, 0.2), inset 0 4px 10px rgba(164, 164, 164, 0)
+    opacity: 0
+    cursor: pointer
+    transition-property: opacity, outline-color, box-shadow
+    transition-duration: 0.3s
+  &__overlay:focus-visible &__overlay-btn,
+  &__overlay:hover &__overlay-btn
+    opacity: 1
+  &__overlay-btn:focus-visible,
+  &__overlay-btn:hover
+    outline-color: #d9d9d9
+    opacity: 1
+  &__overlay-btn:active
+    outline-color: transparent
+    box-shadow: 0 4px 10px rgba(164, 164, 164, 0), inset 0 4px 10px rgba(164, 164, 164, 0.2)
+    opacity: 1
+    transition-duration: 0.1s
+  &__overlay-icon
+    width: 12px
+    height: 12px
+    margin-left: 5px
 </style>
