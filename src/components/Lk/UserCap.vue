@@ -1,5 +1,5 @@
 <template>
-  <div class="user-cap" :class="'user-cap--' + tariff">
+  <div class="user-cap user-cap--standard" :class="'user-cap--' + tariff">
     <div class="user-cap__avatar">
       <router-link class="user-cap__avatar-link" to="/lk/settings">
         <img
@@ -62,9 +62,9 @@ export default {
   &--standard &__avatar::after
     content: ""
     position: absolute
-    bottom: 4px
-    width: 18px
-    height: 12px
+    bottom: 0px
+    width: 25px
+    height: 17px
     background-image: url(~@/assets/imgs/icons/wing-2.svg)
     background-position: center
     background-size: contain
@@ -98,7 +98,7 @@ export default {
     border-radius: 25px
     overflow: hidden
   &--standard &__avatar-link
-    outline-color: #ff9999
+    outline-color: #ff0000
   &--premium &__avatar-link
     outline-color: #ffbb7e
   &__avatar-link:focus-visible
