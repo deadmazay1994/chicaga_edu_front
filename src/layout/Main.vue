@@ -136,9 +136,11 @@ $header-height: 76px
     width: 100%
     height: 100%
   &__body-wrap
+    position: relative
     flex-grow: 1
     width: 100%
     height: calc( 100% - #{$header-height} )
+    z-index: 1
   &__body
     width: 100%
     height: 100%
