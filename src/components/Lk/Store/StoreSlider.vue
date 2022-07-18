@@ -1,20 +1,34 @@
 <template>
-  <swiper class="swiper" :options="swiperOption">
-    <swiper-slide
-      class="merch-slider__item"
-      v-for="(slide, index) in 3"
-      :key="index"
-    >
-      <div class="slider__text">
-        <h3 class="slider__subtitle">Купи новый мерч от CHICAGA</h3>
-
-        <div>
-          <div class="slider__title">Стану акулой</div>
-          <br />
-          <div class="slider__title">в английском</div>
+  <swiper :options="swiperOption">
+    <swiper-slide v-for="(slide, index) in 3" :key="index">
+      <div
+        class="merch-slide"
+        style="background-color: #ffe2e4; background-image: linear-gradient(180deg, #ffe2e4 0%, #f2f7fb 100%)"
+      >
+        <div class="merch-slide__content">
+          <div class="merch-slide__title-box">
+            <span class="merch-slide__title"
+              >Стану акулой<br />в английском</span
+            >
+          </div>
+          <div class="merch-slide__subtitle">
+            Купи новый мерч от CHICAGA
+          </div>
+          <div class="merch-slide__btn-box">
+            <button class="merch-slide__btn" type="button">
+              Подробнее
+            </button>
+          </div>
         </div>
-
-        <button class="slider__btn">Подробнее</button>
+        <div class="merch-slide__img-box">
+          <img
+            class="merch-slide__img"
+            src="@/assets/imgs/swiper-image.png"
+            width="380"
+            height="201"
+            alt="Худи 'Стану акулой в английском'"
+          />
+        </div>
       </div>
     </swiper-slide>
   </swiper>
@@ -33,8 +47,8 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 1
-        // spaceBetween: 20
+        slidesPerView: 1,
+        followFinger: false
       }
     };
   }
@@ -42,110 +56,68 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "@/assets/styles/variables.sass"
-.swiper
-  width: 100%
-  @media ($media_md2)
-    display: none
-.merch-slider__item
+.merch-slide
+  position: relative
   display: flex
-  align-items: center
-  position: relative
-  background: url("~@/assets/imgs/swiper-image.png") no-repeat, linear-gradient(180deg, #FFE2E4 0%, #F2F7FB 100%)
-  background-position: bottom 100% right 10%, center, left
-  border-radius: 20px
-  padding: 28px 0 15px 25px
-  width: 100%
-  height: auto
-
-  @media ($media_xl)
-    height: auto
-
-.shop__slide
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-
-.slider__text
-  position: relative
-  z-index: 2
-  color: $white
-
-
-.slider__subtitle
-  font-family: Manrope, sans-serif
-  font-weight: 500
+  justify-content: space-between
   font-size: 12px
-  margin-bottom: 15px
-  color: #000000
-
-.slider__title
-  font-family: Manrope, sans-serif
-  font-weight: 700
-  font-size: 22px
-  color: $black
-
-  display: inline-block
-  margin-bottom: 1px
-  padding: 4px 5px
-
-  background: $white
-
-.slider__btn
-  margin-top: 15px
-  padding: 10px 30px
-  font-weight: 600
-  font-size: 12px
+  line-height: 16px
   color: #323232
-  background-color: $white
-  border-radius: 10px
-  outline: transparent solid 1px
-  box-shadow: 0 4px 10px rgba(164, 164, 164, 0.2)
-  transition-property: outline-color, box-shadow
-  transition-duration: 0.2s
-  &:focus-visible,
-  &:hover
+  &__content
+    display: flex
+    flex-direction: column
+    flex-shrink: 0
+    flex-basis: 182px
+    padding: 28px 10px 28px 25px
+  &__title-box,
+  &__subtitle
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    text-overflow: ellipsis
+    overflow: hidden
+  &__title-box
+    height: calc( 29px * 2 )
+    -webkit-line-clamp: 2
+    margin-bottom: 15px
+    font-weight: 700
+    font-size: 22px
+    line-height: 29px
+    color: #0d0d0d
+  &__title
+    display: inline
+    padding-right: 8px
+    padding-left: 5px
+    box-decoration-break: clone
+    background-image: linear-gradient(0, transparent 0.15em, #ffffff 0.15em, #ffffff 1.25em, transparent 1.25em)
+  &__subtitle
+    order: -1
+    height: 16px
+    -webkit-line-clamp: 1
+    margin-bottom: 14px
+    font-weight: 500
+  &__btn
+    padding: 8px 32px
+    font-weight: 600
+    background-color: #ffffff
+    outline: 1px solid transparent
+    outline-offset: -1px
+    border-radius: 10px
+    box-shadow: 0 4px 10px rgba(164, 164, 164, 0.2), inset 0 4px 10px rgba(164, 164, 164, 0)
+    transition-property: outline-color, box-shadow
+    transition-duration: 0.3s
+  &__btn:focus-visible,
+  &__btn:hover
     outline-color: #d9d9d9
-  &:active
+  &__btn:active
     outline-color: transparent
-    box-shadow: inset 0 4px 10px rgba(164, 164, 164, 0.2)
-
-.slider__dots
-  display: flex
-  justify-content: center
-  align-items: center
-
-  position: relative
-  z-index: 2
-
-.dots__item
-  background: $white
-  width: 7px
-  height: 7px
-  border-radius: 50%
-  margin-right: 15px
-
-  cursor: pointer
-
-  &--modal
-    background: $gray
-
-    width: 8px
-    height: 8px
-
-  &:last-child
-    margin-right: 0
-
-  &.active
-    width: 10px
-    height: 10px
-    background: none
-    border: 2px solid $white
-
-  &--modal.active
-    width: 12px
-    height: 12px
-    border: 2px solid $gray
+    box-shadow: 0 4px 10px rgba(164, 164, 164, 0), inset 0 4px 10px rgba(164, 164, 164, 0.2)
+    transition-duration: 0.1s
+  &__img-box
+    display: flex
+    flex: 1 0 380px
+    height: 201px
+  &__img
+    width: 100%
+    height: 100%
+    object-fit: contain
 </style>

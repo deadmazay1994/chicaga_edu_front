@@ -1,25 +1,27 @@
 <template>
   <div class="cart-total" :class="{ 'cart-total--total': showSubmit }">
     <div class="cart-total__content">
-      <h2 class="cart-total__title">Итого:</h2>
-
-      <p class="cart-total__price">
-        <svg class="cart-total__svg">
+      <div class="cart-total__title">Итого:</div>
+      <div class="cart-total__price-box">
+        <svg class="cart-total__price-icon" width="19" height="19">
           <use xlink:href="#coin"></use>
         </svg>
-
-        <span class="cart-total__price-text">{{ getBasketItemsTotal }} т.</span>
-      </p>
+        <span class="cart-total__price">{{ getBasketItemsTotal }} м.</span>
+      </div>
     </div>
-
-    <button class="cart-total__btn" id="order-btn" v-if="showSubmit">
-      <router-link :to="{ name: 'order' }" tag="span"
-        >Оформление заказа</router-link
-      >
-      <svg class="cart-total__bin">
+    <router-link
+      :to="{ name: 'order' }"
+      tag="button"
+      class="cart-total__btn"
+      id="order-btn"
+      v-if="showSubmit"
+      type="button"
+    >
+      <span>Оформление заказа</span>
+      <svg class="cart-total__btn-icon" width="34" height="12">
         <use xlink:href="#long-arrow"></use>
       </svg>
-    </button>
+    </router-link>
   </div>
 </template>
 
@@ -45,53 +47,43 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
 .cart-total
-  border-radius: 15px
-  padding: 15px
-  margin-top: 17px
-  margin-bottom: 10px
   &--total
-    background: $gray_light
-    margin-top: 20px
-    padding-bottom: 25px
-  @media ($media_md)
-    padding: 10px
-  &__btn
-    background: $red
-    box-shadow: 0px 4px 10px rgba(164, 164, 164, 0.2)
-    border-radius: 10px
-    padding: 10px 15px
-    margin: 0 auto
-    color: #FFFFFF
-    display: flex
-    align-items: center
-    &--about
-      margin: 0 auto 35px
-  &__bin
-    width: 19px
-    height: 19px
-    margin-left: 10px
-  &__title
-    font-family: Manrope, sans-serif
-    font-weight: 600
-    font-size: 20px
-  &__price
-    display: flex
-    align-items: center
-  &__price-text
-    font-family: Manrope, sans-serif
-    font-weight: 700
-    font-size: 16px
+    padding: 20px 15px 25px
+    background-color: $gray_light
+    border-radius: 15px
   &__content
     display: flex
-    align-items: flex-start
+    align-items: center
     justify-content: space-between
-    border-bottom: 2px solid $white
-    padding-bottom: 15px
-    margin-bottom: 15px
-    &--total
-      justify-content: space-between
-  &__svg
-    width: 15px
-    height: 15px
-    margin-right: 6px
+    border-bottom: 1.5px solid $white
+    padding-bottom: 11px
+    margin-bottom: 24px
+  &__title
+    margin-right: 10px
+    font-weight: 600
+    font-size: 20px
+  &__price-box
+    display: flex
+    font-weight: 700
+    font-size: 16px
+  &__price-icon
+    width: 19px
+    height: 19px
+    margin-right: 10px
+  &__btn
+    display: flex
+    align-items: center
+    margin-right: auto
+    margin-left: auto
+    padding: 13px 32px
+    font-weight: 700
+    font-size: 14px
+    color: #ffffff
+    background-color: $red
+    border-radius: 10px
+    box-shadow: 0 4px 10px rgba(164, 164, 164, 0.2)
+  &__btn-icon
+    width: 34px
+    height: 12px
+    margin-left: 16px
 </style>
