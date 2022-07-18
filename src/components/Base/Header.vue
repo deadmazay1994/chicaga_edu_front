@@ -44,43 +44,23 @@
                 <span class="header__profile-text">
                   Связаться с куратором
                 </span>
-                <svg
-                  class="header__profile-icon"
-                  width="24"
-                  height="24"
-                  fill="none"
-                >
+                <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#arrow-right"></use>
                 </svg>
               </button>
               <button class="header__profile-btn">
-                <svg
-                  class="header__profile-icon"
-                  width="24"
-                  height="24"
-                  fill="none"
-                >
+                <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#user-square"></use>
                 </svg>
                 <span class="header__profile-text">
                   Связаться с преподавателем
                 </span>
-                <svg
-                  class="header__profile-icon"
-                  width="24"
-                  height="24"
-                  fill="none"
-                >
+                <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#arrow-right"></use>
                 </svg>
               </button>
               <button class="header__profile-btn">
-                <svg
-                  class="header__profile-icon"
-                  width="24"
-                  height="24"
-                  fill="none"
-                >
+                <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#settings"></use>
                 </svg>
                 <span class="header__profile-text">
@@ -88,12 +68,7 @@
                 </span>
               </button>
               <button class="header__profile-btn">
-                <svg
-                  class="header__profile-icon"
-                  width="24"
-                  height="24"
-                  fill="none"
-                >
+                <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#logout"></use>
                 </svg>
                 <span class="header__profile-text">
@@ -206,17 +181,18 @@ export default {
     display: flex
     margin-left: 10px
     padding: 10px
+    color: #808080
+    outline-width: 0
+    transition-property: color
+    transition-duration: 0.3s
   &__additional-icon
     width: 20px
     height: 20px
-    fill: #808080
-    transition-property: fill
-    transition-duration: 0.3s
-  &__additional-btn:focus-visible &__additional-icon,
-  &__additional-btn:hover &__additional-icon
-    fill: #ff0000
-  &__additional-btn:active &__additional-icon
-    fill: #ca2e23
+  &__additional-btn:focus-visible,
+  &__additional-btn:hover
+    color: #ff0000
+  &__additional-btn:active
+    color: #ca2e23
     transition-duration: 0.1s
   &__profile-menu
     position: absolute
@@ -245,8 +221,6 @@ export default {
     align-items: center
     padding: 12px 6px
     color: #23262f
-    fill: #23262f
-    stroke: #23262f
     text-align: left
     border-radius: 10px
     outline-width: 0
@@ -255,19 +229,13 @@ export default {
   &__profile-btn:focus-visible,
   &__profile-btn:hover
     color: #ff0000
-    fill: #ff0000
-    stroke: #ff0000
   &__profile-btn:active
     color: #ca2e23
-    fill: #ca2e23
-    stroke: #ca2e23
     transition-duration: 0.1s
   &__profile-icon
     flex-shrink: 0
     width: 24px
     height: 24px
-    // fill: none
-    // stroke: #23262f
   &__profile-icon:first-child
     margin-right: 8px
   &__profile-icon:last-child
