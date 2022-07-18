@@ -86,41 +86,6 @@ export default {
     async getProgressForTeacher() {
       return get("teacher/courses");
     },
-    // временный мок для получения программ курса
-    async getCourseProgramms() {
-      return [
-        {
-          title: "Урок 1. Elementary. Unit 1A. Ep.1",
-          rating: 4.8,
-          duration: 23,
-          start_time: 1656454829
-        },
-        {
-          title: "Урок 2. Elementary. Unit 1A. Ep.1",
-          rating: 3.8,
-          duration: 222,
-          start_time: 1656454829
-        },
-        {
-          title: "Урок 3. Elementary. Unit 1A. Ep.1",
-          rating: 4.5,
-          duration: 60,
-          start_time: 1656454829
-        },
-        {
-          title: "Урок 4. Elementary. Unit 1A. Ep.1",
-          rating: 4.8,
-          duration: 132,
-          start_time: 1656454829
-        },
-        {
-          title: "Урок 5. Elementary. Unit 1A. Ep.1",
-          rating: 5.0,
-          duration: 300,
-          start_time: 1656454829
-        }
-      ];
-    },
     // Group
     async getAcademicGroups() {
       return get("user/groups");

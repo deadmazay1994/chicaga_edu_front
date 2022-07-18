@@ -243,34 +243,13 @@ export default {
       this.$refs.swiperDate.swiper.slidePrev();
       this.$refs.swiperGrid.swiper.slidePrev();
       const currentSlideIndex = this.$refs.swiperDate.swiper.activeIndex;
-      console.log(currentSlideIndex);
+      this.addMonth(currentSlideIndex);
     },
     next() {
       this.$refs.swiperDate.swiper.slideNext();
       this.$refs.swiperGrid.swiper.slideNext();
       const currentSlideIndex = this.$refs.swiperDate.swiper.activeIndex;
-      if (currentSlideIndex == this.testArr.length - 1) {
-        const endOfArrayIndex = this.testArr.length;
-        const currentSlideYear = this.testArr[currentSlideIndex].year;
-        const nextMonth = moment()
-          .year(currentSlideYear)
-          .month(this.testArr[currentSlideIndex].number + 1)
-          .month();
-        const nextYear =
-          this.testArr[currentSlideIndex].number === 11
-            ? currentSlideYear + 1
-            : currentSlideYear;
-        console.log({
-          endOfArrayIndex: endOfArrayIndex,
-          nextYear: nextYear,
-          nextMonth: nextMonth
-        });
-        this.addDateToArr(endOfArrayIndex, nextYear, nextMonth);
-      } else if (currentSlideIndex == 0) {
-        const beginOfArrayIndex = 0;
-        this.addDateToArr(beginOfArrayIndex);
-      }
-      console.log(currentSlideIndex);
+      this.addMonth(currentSlideIndex);
     },
     setCurrentMonth() {
       let currYear = this.currentDateObj.year;
@@ -290,7 +269,9 @@ export default {
         number: moment()
           .month(month)
           .month(),
-        year: moment().year(year)
+        year: moment()
+          .year(year)
+          .year()
       });
       console.log("testArr:", this.testArr);
     },
@@ -308,6 +289,40 @@ export default {
             .month(),
           year: currYear
         });
+      }
+    },
+    addMonth(currentSlideIndex) {
+      if (currentSlideIndex == this.testArr.length - 1) {
+        const endOfArrayIndex = this.testArr.length;
+        const currentSlideYear = this.testArr[currentSlideIndex].year;
+        const nextMonth = moment()
+          .year(currentSlideYear)
+          .month(this.testArr[currentSlideIndex].number + 1)
+          .month();
+        const nextYear =
+          this.testArr[currentSlideIndex].number === 11
+            ? currentSlideYear + 1
+            : currentSlideYear;
+
+        this.addDateToArr(endOfArrayIndex, nextYear, nextMonth);
+        console.log(
+          "Добавили следующий месяц:",
+          this.testArr[this.testArr.length]
+        );
+      } else if (currentSlideIndex == 0) {
+        const startOfArrayIndex = 0;
+        const currentSlideYear = this.testArr[currentSlideIndex].year;
+        const prevMonth = moment()
+          .year(currentSlideYear)
+          .month(this.testArr[currentSlideIndex].number - 1)
+          .month();
+        const prevYear =
+          this.testArr[currentSlideIndex].number === 0
+            ? currentSlideYear - 1
+            : currentSlideYear;
+
+        this.addDateToArr(startOfArrayIndex, prevYear, prevMonth);
+        console.log("Добавили предыдущий месяц:", this.testArr[0]);
       }
     }
   },
