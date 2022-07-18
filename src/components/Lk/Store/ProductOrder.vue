@@ -235,7 +235,6 @@ export default {
 @import "@/assets/styles/variables.sass";
 
 .product-order {
-
   p {
     margin-top: 0;
     margin-bottom: 0;

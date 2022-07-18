@@ -10,20 +10,20 @@
 
 <script>
 export default {
-  name: 'inline-textarea',
+  name: "inline-textarea",
   data: function() {
-    return {}
+    return {};
   },
   methods: {},
   computed: {},
   components: {},
-  props: ['placeholder'],
+  props: ["placeholder"],
   mixins: {},
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'>
+<style scoped="scoped" lang="sass">
 .inline-textarea
   font-family: Manrope, sans-serif
   font-weight: 500

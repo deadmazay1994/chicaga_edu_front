@@ -53,7 +53,9 @@
             <svg class="program-card__bottom-img" width="18" height="18">
               <use xlink:href="#clock"></use>
             </svg>
-            <span class="program-card__time"> {{ formattedDuration }} мин </span>
+            <span class="program-card__time">
+              {{ formattedDuration }} мин
+            </span>
           </div>
           <div class="program-card__desc">
             продолжительность

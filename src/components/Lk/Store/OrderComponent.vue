@@ -10,7 +10,7 @@ import ProductOrder from "./ProductOrder.vue";
 export default {
   name: "order-component",
   components: {
-    ProductOrder,
+    ProductOrder
   },
   data: function() {
     return {};

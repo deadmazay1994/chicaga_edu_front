@@ -6,7 +6,11 @@
       'settings-aside--premium': tariff == 'premium'
     }"
   >
-    <button class="settings-aside__avatar-box" tabindex="0" @click="showUploadAvatar = true">
+    <button
+      class="settings-aside__avatar-box"
+      tabindex="0"
+      @click="showUploadAvatar = true"
+    >
       <img
         v-if="user.avatar_link"
         class="settings-aside__avatar"

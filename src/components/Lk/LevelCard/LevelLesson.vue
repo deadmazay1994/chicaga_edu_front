@@ -68,8 +68,8 @@ export default {
   name: "",
   data: function() {
     return {
-      passedClass: 'level-lesson--passed',
-      currentClass: 'level-lesson--current',
+      passedClass: "level-lesson--passed",
+      currentClass: "level-lesson--current",
       date: "20.07.21",
       time: "16:00",
       title: "Урок 1. Elementary Unit 1A",

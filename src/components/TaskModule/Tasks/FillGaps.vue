@@ -91,9 +91,10 @@ export default {
           return r;
         }
       );
-      return { 
+      return {
         value: result.points,
-        type: type_check, answer: result.result
+        type: type_check,
+        answer: result.result
       };
     },
     showAnswers() {

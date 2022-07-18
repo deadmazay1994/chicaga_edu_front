@@ -97,25 +97,25 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid hsla(0, 0%, 50%, .1);
-  padding-bottom: 13px
+  border-bottom: 2px solid hsla(0, 0%, 50%, 0.1);
+  padding-bottom: 13px;
 }
 
 .messages__header--hidden {
   margin-top: 5px;
   padding: 15px 0;
-  border-top: 2px solid hsla(0, 0%, 50%, .1)
+  border-top: 2px solid hsla(0, 0%, 50%, 0.1);
 }
 
 .messages__number-of-members {
   font-family: Manrope, sans-serif;
   font-weight: 700;
-  font-size: 14px
+  font-size: 14px;
 }
 
 .messages__number-of-members--private {
   cursor: pointer;
-  position: relative
+  position: relative;
 }
 
 .messages__number-of-members-btns {
@@ -132,23 +132,23 @@ export default {
   font-family: Manrope, sans-serif;
   font-weight: 500;
   font-size: 12px;
-  display: none
+  display: none;
 }
 
 .messages__number-of-members-btns p {
-  padding: 5px
+  padding: 5px;
 }
 
 .messages__number-of-members-btns p:last-child {
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 
 .messages__number-of-members-btns p:hover {
-  background: #dfdfdf
+  background: #dfdfdf;
 }
 
 .messages__number-of-members-btns.active {
-  display: block
+  display: block;
 }
 </style>
 
