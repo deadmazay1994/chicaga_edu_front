@@ -18,15 +18,11 @@
             <animated-coin-png ref="animatedCoin" />
             <span class="header__coin-text">{{ points.coins }}</span>
           </div>
-          <div class="header__avatar">
-            <router-link class="header__avatar-link" to="/lk/settings">
-              <img
-                :src="user.avatar_link"
-                alt="Ваше фото"
-                class="header__avatar-img"
-              />
-            </router-link>
-          </div>
+          <user-cap
+            class="header__user-cap"
+            :src="user.avatar_link"
+            :tariff="'standard'"
+          />
           <div class="header__additional-menu">
             <button class="header__additional-btn" type="button">
               <svg class="header__additional-icon" width="20" height="20">
@@ -89,11 +85,13 @@
 import { mapGetters, mapMutations } from "vuex";
 
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
+import UserCap from "@/components/Lk/UserCap.vue";
 
 export default {
   name: "header-app",
   components: {
-    AnimatedCoinPng
+    AnimatedCoinPng,
+    UserCap
   },
   data: function() {
     return {};
@@ -122,7 +120,8 @@ export default {
 <style lang="sass" scoped="scoped">
 .header
   position: relative
-  padding: 10px 32px
+  padding: 10px 20px 10px 32px
+  color: #0d0d0d
   &::after
     content: ""
     position: absolute
@@ -155,31 +154,17 @@ export default {
     height: 30px
     margin-right: 8px
   &__coin-text
-    color: #0D0D0D
     font-size: 14px
   &__progress-box
     order: -1
     flex-grow: 1
     margin-right: 24px
-  &__avatar
+  &__user-cap
     flex-shrink: 0
-    width: 80px
-    height: 50px
-    border-radius: 100px
-    border: 1px solid #F4F4F4
-    overflow: hidden
-  &__avatar-link
-    display: block
-    width: 100%
-    height: 100%
-  &__avatar-img
-    img
-      width: 100%
-      height: 100%
-      object-fit: cover
+  &__additional-menu
+    margin-left: 22px
   &__additional-btn
     display: flex
-    margin-left: 10px
     padding: 10px
     color: #808080
     outline-width: 0
