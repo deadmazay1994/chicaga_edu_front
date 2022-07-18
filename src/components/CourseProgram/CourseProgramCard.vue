@@ -1,5 +1,8 @@
 <template>
-  <div class="program-card vue-component" :class="'program-card--' + kind">
+  <div
+    class="program-card vue-component"
+    :class="'program-card--' + returnModificator"
+  >
     <div class="program-card__inner">
       <div class="program-card__top">
         <div class="program-card__img-box">
@@ -12,9 +15,12 @@
             alt="Учитель"
           />
           <svg v-else class="program-card__img" width="48" height="48">
-            <use v-if="kind == 'test'" xlink:href="#sq-school-check"></use>
             <use
-              v-else-if="kind == 'practical'"
+              v-if="returnModificator == 'test'"
+              xlink:href="#sq-school-check"
+            ></use>
+            <use
+              v-else-if="returnModificator == 'practical'"
               xlink:href="#sq-school-green"
             ></use>
             <use v-else xlink:href="#sq-school-red"></use>
@@ -22,7 +28,7 @@
         </div>
         <div class="program-card__title-box">
           <span class="program-card__title">
-            {{ courseProgramm.title }}
+            {{ title }}
           </span>
         </div>
         <div class="program-card__rating-box">
@@ -31,7 +37,7 @@
               <use xlink:href="#star"></use>
             </svg>
             <span class="program-card__rating">
-              {{ courseProgramm.rating }}
+              {{ rating }}
             </span>
           </div>
         </div>
@@ -47,7 +53,7 @@
             <svg class="program-card__bottom-img" width="18" height="18">
               <use xlink:href="#clock"></use>
             </svg>
-            <span class="program-card__time"> {{ duration }} мин </span>
+            <span class="program-card__time"> {{ formattedDuration }} мин </span>
           </div>
           <div class="program-card__desc">
             продолжительность
@@ -70,14 +76,20 @@
           </div>
         </div>
         <div class="program-card__btn-box">
-          <button class="program-card__btn" :disabled="!access">
+          <router-link
+            :to="link"
+            v-if="access"
+            class="program-card__btn"
+            href="#"
+            title="Переход к уроку"
+          >
             <svg class="program-card__btn-img" width="14" height="14">
               <use xlink:href="#arrow-down"></use>
             </svg>
             <span class="sr-only">
-              Об уроке
+              Переход к уроку
             </span>
-          </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -95,20 +107,32 @@ export default {
   methods: {},
   computed: {
     startTime() {
-      return moment.unix(this.courseProgramm.start_time).format("DD.MM.YYYY");
+      return moment.unix(this.start_time).format("DD.MM.YYYY");
     },
-    duration() {
-      let startTimeMinutes = this.courseProgramm.duration;
+    formattedDuration() {
+      let startTimeMinutes = this.duration;
+
+      const formatTime = function(str) {
+        if (str.length == 1) return `0${str}`;
+        return str;
+      };
+
       let hours = Math.trunc(startTimeMinutes / 60);
       let minutes = startTimeMinutes % 60;
-      return hours + ":" + minutes;
+
+      return formatTime(String(hours)) + ":" + formatTime(String(minutes));
     },
     access() {
       const now = moment();
-      return now >= moment.unix(this.courseProgramm.start_time);
+      return now >= moment.unix(this.start_time);
     },
     returnAccessString() {
       return this.access ? "lock-open" : "lock-lock";
+    },
+    returnModificator() {
+      if (this.title.match("Elementary")) return "test";
+      else if (this.title.match("Practical")) return "practical";
+      return "";
     }
   },
   components: {},
@@ -117,7 +141,11 @@ export default {
       type: String,
       default: "lesson"
     },
-    courseProgramm: Object
+    title: String,
+    rating: Number,
+    duration: Number,
+    start_time: Number,
+    link: String
   },
   mixins: {},
   beforeMount() {}
@@ -198,9 +226,9 @@ export default {
     min-width: 32px
     min-height: 38px
     padding: 6px
-    border: 1px solid #a9a9a9
+    border: 1px solid #ff121a
     border-radius: 8px
   &__btn-img
-    fill: #a9a9a9
+    fill: #ff121a
     transform: rotate(-90deg)
 </style>

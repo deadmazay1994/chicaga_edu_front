@@ -25,7 +25,10 @@ export default {
   computed: {},
   components: {},
   props: {
-    title: String
+    title: {
+      type: String,
+      required: true
+    }
   },
   mixins: {},
   beforeMount() {}

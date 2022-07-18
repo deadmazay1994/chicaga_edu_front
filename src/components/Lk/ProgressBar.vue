@@ -1,5 +1,8 @@
 <template>
-  <div class="progress-bar__wrapper">
+  <div
+    class="progress-bar__wrapper"
+    :class="{ 'progress-bar__wrapper--full-width': fullWidth }"
+  >
     <div class="progress-bar" :style="backgroundDashes">
       <div class="progress-bar__main" :style="barStyle"></div>
       <div class="progress-bar__ending" v-if="barStyle.width != '100%'"></div>
@@ -25,7 +28,8 @@ export default {
       // Общее количество уроков
       type: Number,
       default: 0
-    }
+    },
+    fullWidth: Boolean
   },
   computed: {
     barStyle() {
@@ -64,6 +68,8 @@ export default {
   border-radius: 26px
   border-bottom: 1px dashed #c4c4c4
   width: 314px
+  &--full-width
+    width: 100%
 
 .progress-bar
   position: relative

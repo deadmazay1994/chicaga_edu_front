@@ -3,7 +3,7 @@
     <template v-for="(item, k) in links">
       <router-link
         :key="k"
-        :to="item.url + (item.params ? item.params() : '')"
+        :to="{ path: item.url + (item.params ? item.params() : '') }"
         :aria-label="item.name"
         class="router-link"
         v-if="item.showCondition ? item.showCondition() : false"
@@ -43,7 +43,7 @@ export default {
         },
         {
           name: "Мои курсы",
-          url: "/lk/my-coursers",
+          url: "/lk/my-courses",
           icon: "EducationIcon",
           showCondition: () => true
         },
