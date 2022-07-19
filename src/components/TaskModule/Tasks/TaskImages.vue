@@ -113,7 +113,7 @@ export default {
       }
     },
     getFileName(element) {
-      return element?.file?.file_name_abs;
+      return element?.file?.file_name_abs || element?.file_name_abs;
     }
   },
   computed: {
