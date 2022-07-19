@@ -18,7 +18,7 @@ export default {
   },
   state: {
     shopModal: false,
-    shopModalData: null,
+    shopModalData: null
   },
   getters: {
     getShopModal(state) {

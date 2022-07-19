@@ -23,7 +23,9 @@
           <slot></slot>
         </div>
         <div class="default-modal__footer">
-          <button class="default-modal__cancel" @click="$emit('close')">Отмена</button>
+          <button class="default-modal__cancel" @click="$emit('close')">
+            Отмена
+          </button>
           <button class="default-modal__pay" @click="pay()">
             Оплатить
           </button>

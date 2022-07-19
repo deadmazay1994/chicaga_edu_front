@@ -40,7 +40,10 @@ export default {
         if (!route.meta.breadcrumb) {
           console.log(
             "Проверяем чайл роут:",
-            this.recursiveChildrenSearch(this.$router.options.routes, route.name)
+            this.recursiveChildrenSearch(
+              this.$router.options.routes,
+              route.name
+            )
           );
         }
         console.log(route.name);

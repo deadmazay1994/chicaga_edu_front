@@ -15,4 +15,4 @@ export default {
 };
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass"></style>

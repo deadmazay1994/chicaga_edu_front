@@ -64,7 +64,7 @@ export default {
     },
     async setLesson() {
       let r = await api.methods.getFullLesson(this.$route.params.id);
-      this.lesson = r
+      this.lesson = r;
     }
   },
   computed: {
@@ -87,7 +87,7 @@ export default {
   async mounted() {
     await this.setUserPoints();
     await this.setLesson();
-    console.log(this.lesson.time)
+    console.log(this.lesson.time);
     this.timeData = this.lesson.time;
   }
 };

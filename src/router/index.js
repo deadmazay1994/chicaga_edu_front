@@ -52,7 +52,7 @@ const routes = [
   },
   {
     path: "/",
-    name: 'index',
+    name: "index",
     meta: {
       redirectCondition: true
     }
@@ -456,7 +456,7 @@ router.beforeEach((to, from, next) => {
       return next({
         name: "start"
       });
-    } 
+    }
     next({ name: "my-courses", query: { redirect: to.fullPath } });
   }
   if (to.matched.some(record => record.meta.guest)) {

@@ -1,12 +1,12 @@
 <template>
-  <div class='stand vue-component'></div>
+  <div class="stand vue-component"></div>
 </template>
 
 <script>
 export default {
-  name: 'stand',
+  name: "stand",
   data: function() {
-    return {}
+    return {};
   },
   methods: {},
   computed: {},
@@ -14,7 +14,7 @@ export default {
   props: [],
   mixins: {},
   beforeMount() {}
-}
+};
 </script>
 
-<style scoped='scoped' lang='sass'></style>
+<style scoped="scoped" lang="sass"></style>
