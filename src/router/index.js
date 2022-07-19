@@ -52,6 +52,7 @@ const routes = [
   },
   {
     path: "/",
+    name: 'index',
     meta: {
       redirectCondition: true
     }
@@ -452,11 +453,11 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.redirectCondition)) {
     // мок, вместо свойства demo_mode
     if (store.getters.isDemo) {
-      next({
-        name: "start",
-        query: { redirect: to.fullPath }
+      return next({
+        name: "start"
       });
-    } else next({ name: "my-courses", query: { redirect: to.fullPath } });
+    } 
+    next({ name: "my-courses", query: { redirect: to.fullPath } });
   }
   if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {

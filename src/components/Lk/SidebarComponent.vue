@@ -6,7 +6,9 @@
     <div class="sidebar-component__background"></div>
     <div class="sidebar-component__content">
       <div class="content__logo">
-        <router-link to="/">
+        <router-link :to="{
+          name: 'index'
+        }">
           <sidebar-logo />
           <logo />
         </router-link>
