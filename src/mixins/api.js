@@ -86,6 +86,9 @@ export default {
     async getProgressForTeacher() {
       return get("teacher/courses");
     },
+    async getPublicCourse(id) {
+      return get("courses/public", id);
+    },
     // временный мок для получения программ курса
     async getCourseProgramms() {
       return [

@@ -21,6 +21,7 @@ import MyCourses from "@/components/Lk/Courses/MyCourses";
 import WebinarsComponent from "@/components/Group/WebinarsComponent";
 import CoursePage from "@/components/Lk/Courses/CoursePage";
 import CourseLessons from "@/components/Lk/Courses/CourseLessons";
+import DemoPage from "@/components/Lk/Courses/DemoPage";
 import Dictionary from "@/components/Lk/Dictionary";
 import PrivateRoom from "@/components/LessonComponents/PrivateRoom/PrivateRoom";
 import PrivateRoomUpcoming from "@/components/LessonComponents/PrivateRoom/Upcoming";
@@ -31,6 +32,10 @@ import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
 import ShopMore from "@/components/Lk/Store/ShopMore";
+import LevelTest from "@/components/LevelTest";
+import TestStart from "@/components/LevelTest/TestStart";
+import TestMain from "@/components/LevelTest/TestMain";
+import TestResult from "@/components/LevelTest/TestResult";
 
 import Page404 from "Base/404";
 
@@ -47,7 +52,9 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/lk/my-coursers"
+    meta: {
+      redirectCondition: true
+    }
   },
   {
     path: "/lesson/:id/",
@@ -214,7 +221,7 @@ const routes = [
         }
       },
       {
-        path: "catalog-coursers",
+        path: "catalog-courses",
         name: "catalog-courses",
         component: CatalogCourses,
         meta: {
@@ -311,6 +318,11 @@ const routes = [
         meta: {
           breadcrumb: { title: "Магазин" }
         }
+      },
+      {
+        path: "start",
+        name: "start",
+        component: DemoPage
       }
     ]
   },
@@ -371,6 +383,40 @@ const routes = [
     meta: {
       breadcrumb: { title: "Согласие" }
     }
+  },
+  {
+    path: "/level-test",
+    name: "level-test",
+    component: LevelTest,
+    meta: {
+      breadcrumb: { title: "Тест" }
+    },
+    children: [
+      {
+        path: "",
+        name: "test-start",
+        component: TestStart,
+        meta: {
+          breadcrumb: { title: "Вступление" }
+        }
+      },
+      {
+        path: "test-main",
+        name: "test-main",
+        component: TestMain,
+        meta: {
+          breadcrumb: { title: "Тест" }
+        }
+      },
+      {
+        path: "test-result",
+        name: "test-result",
+        component: TestResult,
+        meta: {
+          breadcrumb: { title: "Результаты" }
+        }
+      }
+    ]
   }
 ];
 
@@ -392,7 +438,7 @@ router.beforeEach((to, from, next) => {
     if (!localStorage.getItem("token")) {
       localStorage.setItem("to", to.fullPath);
       next({
-        path: "/auth/login"
+        name: "login"
       });
       store.commit("pushShuckbar", {
         val: "Пожалуйста, авторизируйтесь",
@@ -403,10 +449,19 @@ router.beforeEach((to, from, next) => {
       access = true;
     }
   }
+  if (to.matched.some(record => record.meta.redirectCondition)) {
+    // мок, вместо свойства demo_mode
+    if (store.getters.isDemo) {
+      next({
+        name: "start",
+        query: { redirect: to.fullPath }
+      });
+    } else next({ name: "my-courses", query: { redirect: to.fullPath } });
+  }
   if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
-        path: "/lk/my-coursers",
+        name: "my-courses",
         query: { redirect: to.fullPath }
       });
       access = false;
@@ -417,7 +472,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
       next({
-        path: "/lk/my-coursers",
+        name: "my-courses",
         query: { redirect: to.fullPath }
       });
       store.commit("pushShuckbar", {

@@ -34,8 +34,7 @@ export default {
           localStorage.removeItem("to");
           barText = "Вы успешно авторизировались";
           barStatus = true;
-        }
-        else if ("error" in response || !response.data.api_token) {
+        } else if ("error" in response || !response.data.api_token) {
           barText = api.methods.getErrorText(response);
           barStatus = false;
         }
@@ -155,7 +154,8 @@ export default {
   state: {
     user: false,
     logined: false,
-    token: localStorage.getItem("token") || false
+    token: localStorage.getItem("token") || false,
+    isDemo: true
   },
   getters: {
     user: state => {
@@ -168,6 +168,7 @@ export default {
       }
       return false;
     },
-    logined: state => state.logined
+    logined: state => state.logined,
+    isDemo: state => state.isDemo
   }
 };

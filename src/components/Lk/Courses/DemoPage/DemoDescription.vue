@@ -29,15 +29,21 @@
       </div>
     </div>
     <ul class="demo-description__list">
-      <li class="demo-description__item">
+      <router-link
+        tag="li"
+        class="demo-description__item"
+        v-for="(lesson, index) in lessons"
+        :key="index"
+        :to="{ name: 'lesson_record', params: { id: lesson.uniq_id } }"
+      >
         <demo-btn>
-          Beginner
+          {{ lesson.name }}
         </demo-btn>
         <div class="demo-description__text">
-          для начинающих
+          {{ lesson.theme }}
         </div>
-      </li>
-      <li class="demo-description__item">
+      </router-link>
+      <!-- <li class="demo-description__item">
         <demo-btn>
           Elementary
         </demo-btn>
@@ -60,7 +66,7 @@
         <div class="demo-description__text">
           если хорошо улавливаете основную мысль текста
         </div>
-      </li>
+      </li> -->
     </ul>
     <div class="demo-description__footer">
       <div class="demo-description__test-box">
@@ -72,17 +78,24 @@
             12 вопросов, результат увидите сразу
           </div>
         </div>
-        <demo-btn-g class="demo-description__btn-g">
+        <demo-btn-g class="demo-description__btn-g" @click.native="goToTest()">
           Пройти тест
         </demo-btn-g>
       </div>
       <div class="demo-description__question-box">
         <div class="demo-description__link-box">
-          <button class="demo-description__pseudo-link" type="button">
+          <button
+            class="demo-description__pseudo-link"
+            type="button"
+            @click="noteIsOpen = !noteIsOpen"
+          >
             А мне нужен другой уровень
           </button>
           <demo-note
+            v-if="noteIsOpen"
             class="demo-description__note demo-description__note--open"
+            v-click-outside="onClickOutside"
+            @closeNote="noteIsOpen = false"
           />
         </div>
         <img
@@ -101,6 +114,11 @@
 import DemoBtn from "./DemoBtn.vue";
 import DemoBtnG from "./DemoBtnG.vue";
 import DemoNote from "./DemoNote.vue";
+
+import vClickOutside from "v-click-outside";
+
+import api from "@/mixins/api";
+
 export default {
   name: "demo-description",
   components: {
@@ -108,12 +126,31 @@ export default {
     DemoBtnG,
     DemoNote
   },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
+  mixins: [api],
   data: function() {
-    return {};
+    return {
+      noteIsOpen: false,
+      lessons: []
+    };
   },
   props: [],
   computed: {},
-  methods: {}
+  methods: {
+    onClickOutside() {
+      this.noteIsOpen = false;
+    },
+    goToTest() {
+      this.$router.push({ name: "level-test", delimiter: "/" });
+    }
+  },
+  async beforeMount() {
+    const response = await this.getPublicCourse(39);
+    console.log(response);
+    this.lessons = response.data.lessons;
+  }
 };
 </script>
 
