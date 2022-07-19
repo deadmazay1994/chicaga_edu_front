@@ -12,9 +12,6 @@
         <component :is="item.icon" />
       </router-link>
     </template>
-    <span title="Выход" class="router-link exit-link" @click="exit()">
-      <img src="@/assets/svg/exit.svg" alt="Выйти" />
-    </span>
   </div>
 </template>
 
@@ -94,13 +91,6 @@ export default {
           disabled: false
         },
         {
-          name: "Настройки",
-          url: "/lk/settings",
-          icon: "SettingsIcon",
-          showCondition: () => true,
-          disabled: false
-        },
-        {
           name: "FAQ",
           url: "/faq",
           icon: "QuestionIcon",
@@ -147,18 +137,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["logout", "setDraverState"]),
-    exit() {
-      this.logout();
-      this.$router.push("/auth/login");
-      this.$store.commit("pushShuckbar", {
-        val: "Вы успешно вышли из личного кабинета",
-        success: true
-      });
-    }
+    ...mapMutations(["setDraverState"])
   },
   beforeMount() {
-    console.log("это демо?:", this.isDemo);
     if (this.isDemo) {
       this.links
         .filter(link => link.limitedAccess)

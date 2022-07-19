@@ -314,8 +314,8 @@ const routes = [
         }
       },
       {
-        path: "demo-page",
-        name: "demo-page",
+        path: "start",
+        name: "start",
         component: DemoPage
       }
     ]
