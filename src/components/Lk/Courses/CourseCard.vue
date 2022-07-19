@@ -53,7 +53,10 @@
         </div>
         <div class="course-card__btn-box">
           <router-link
-            :to="setRoute + course.id"
+            :to="{
+              name: setRoute,
+              params: { id: course.id }
+            }"
             class="course-card__btn"
             href="#"
           >
@@ -105,10 +108,8 @@ export default {
   computed: {
     ...mapGetters(["currentCourse"]),
     setRoute() {
-      if (this.$route.name == "my-courses-wrapper")
-        return "/lk/my-courses/course-lessons/";
-      if (this.$route.name == "catalog-courses") return "/lk/course/";
-      else return "";
+      if (this.$route.name == "my-courses-wrapper") return "course-lessons";
+      return "course";
     }
   },
   components: {},
