@@ -155,7 +155,8 @@ export default {
   state: {
     user: false,
     logined: false,
-    token: localStorage.getItem("token") || false
+    token: localStorage.getItem("token") || false,
+    isDemo: true
   },
   getters: {
     user: state => {
