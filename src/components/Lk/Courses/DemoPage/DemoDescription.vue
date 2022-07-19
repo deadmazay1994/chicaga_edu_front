@@ -81,7 +81,7 @@
           <button
             class="demo-description__pseudo-link"
             type="button"
-            @click="noteIsOpen = true"
+            @click="noteIsOpen = !noteIsOpen"
           >
             А мне нужен другой уровень
           </button>
