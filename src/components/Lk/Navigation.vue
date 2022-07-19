@@ -35,7 +35,7 @@ export default {
       links: [
         {
           name: "Каталог курсов",
-          url: "/lk/catalog-coursers",
+          url: "/lk/catalog-courses",
           icon: "CoursesIcon",
           showCondition: () => true,
           disabled: false
