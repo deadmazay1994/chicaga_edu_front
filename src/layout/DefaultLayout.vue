@@ -868,7 +868,6 @@ import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
 import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
 
-
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -916,7 +915,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
 
 .page

@@ -106,6 +106,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 $header-height: 76px
 
 .main
@@ -120,6 +122,9 @@ $header-height: 76px
   background-size: 100% 100%
   background-repeat: no-repeat
   overflow: hidden
+  @media ($media_lg2)
+    padding-left: 0
+    padding-top: 81px
   &__content
     display: flex
     flex-direction: column
@@ -127,11 +132,18 @@ $header-height: 76px
     width: 100%
     height: 100%
     padding: 20px 40px
+    @media ($media_lg2)
+      padding: 10px 20px
+    @media ($media_sm)
+      padding-right: 10px
+      padding-left: 10px
   &__header-wrap
     position: relative
     width: 100%
     height: $header-height
     z-index: 2
+    @media ($media_lg2)
+      height: calc( #{$header-height} - 16px )
   &__header
     width: 100%
     height: 100%
@@ -141,6 +153,8 @@ $header-height: 76px
     width: 100%
     height: calc( 100% - #{$header-height} )
     z-index: 1
+    @media ($media_lg2)
+      height: calc( 100% - #{$header-height} - 16px )
   &__body
     width: 100%
     height: 100%
