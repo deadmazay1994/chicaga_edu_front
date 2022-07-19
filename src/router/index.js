@@ -320,7 +320,10 @@ const routes = [
       {
         path: "start",
         name: "start",
-        component: DemoPage
+        component: DemoPage,
+        meta: {
+          hideSlash: true
+        }
       }
     ]
   },

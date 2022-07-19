@@ -3,6 +3,7 @@
     <ol class="breadcrumbs__list">
       <li
         class="breadcrumbs__item"
+        :class="{ 'breadcrumbs__item--first': isFirstItem(index) }"
         v-for="(breadcrumb, index) in breadcrumbList"
         :style="{ color: breadcrumb.color }"
         :key="index"
@@ -45,9 +46,17 @@ export default {
           color,
           title,
           link: isBreadCrumb,
-          path: route.path
+          path: route.path,
+          hideSlash: breadcrumb.hideSlash
         });
       });
+    },
+    isFirstItem(index) {
+      console.log(this.breadcrumbList[index]);
+      // return index === 1 ? true : false;
+      if (index === 1 && !this.breadcrumbList[index].hideSlash) {
+        return true;
+      } else return false;
     }
   },
   watch: {
@@ -76,7 +85,11 @@ export default {
     display: inline-block
   &__item:not(:last-child)
     margin-right: 0.25em
-  &__item:not(:first-child)::before
+  // &__item:not(:first-child)::before
+  //   content: "/"
+  //   margin-right: 0.25em
+  //   color: #FF0000
+  &__item--first::before
     content: "/"
     margin-right: 0.25em
     color: #FF0000
