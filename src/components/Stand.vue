@@ -1,24 +1,20 @@
 <template>
-  <div class="stand vue-component">
-    <inner-item />
-  </div>
+  <div class='stand vue-component'></div>
 </template>
 
 <script>
-import InnerItem from "@/components/Lk/Courses/DemoPage";
 export default {
-  name: "stand",
+  name: 'stand',
   data: function() {
-    return {};
+    return {}
   },
   methods: {},
   computed: {},
-  components: {
-    InnerItem
-  },
+  components: {},
+  props: [],
+  mixins: {},
   beforeMount() {}
-};
+}
 </script>
 
-<style scoped="scoped" lang="sass">
-</style>
+<style scoped='scoped' lang='sass'></style>

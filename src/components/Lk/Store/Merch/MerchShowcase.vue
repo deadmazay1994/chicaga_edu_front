@@ -6,11 +6,12 @@
         class="merch-showcase__more-link"
         tag="button"
         to="/lk/shop-more"
-        >Смотреть всё</router-link
+        >Смотреть все</router-link
       >
     </div>
     <div class="merch-showcase__body">
       <merch-showcase-item
+        class="merch-showcase__item"
         v-for="(item, index) in storeGoods"
         :key="index"
         :item="item"
@@ -51,23 +52,32 @@ export default {
 .merch-showcase
   &__head
     display: flex
+    align-items: flex-end
     justify-content: space-between
-    margin-bottom: 20px
+    margin-bottom: 13px
   &__title
-    font-family: Manrope, sans-serif
+    margin-right: 1em
     font-weight: 600
     font-size: 20px
   &__more-link
-    font-family: Manrope, sans-serif
-    font-weight: 900
+    flex-shrink: 0
+    font-weight: 500
     font-size: 12px
     color: $gray
+    outline-width: 0
     cursor: pointer
+    transition-property: color
+    transition-duration: 0.3s
+  &__more-link:focus-visible,
+  &__more-link:hover
+    color: inherit
+  &__more-link:active
+    opacity: 0.8
   &__body
     display: flex
     justify-content: space-between
-    @media($media_md2)
-      display: none
-      &.active
-        display: block
+  &__item
+    flex-basis: 33.33%
+  &__item:not(:last-child)
+    margin-right: 10px
 </style>

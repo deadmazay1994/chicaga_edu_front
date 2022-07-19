@@ -1,18 +1,22 @@
 <template>
   <div class="popular-item" @click="openModal(item.id)">
     <div class="popular-item__info">
-      <h3 class="popular-item__title">{{ item.title }}</h3>
-      <p class="popular-item__price">
-        <svg class="popular-item__svg">
+      <div class="popular-item__title">{{ item.title }}</div>
+      <div class="popular-item__price-box">
+        <svg class="popular-item__icon" width="15" height="15">
           <use xlink:href="#coin"></use>
         </svg>
-
-        <span>{{ item.price }}</span>
-      </p>
+        <span class="popular-item__price">{{ item.price }} м.</span>
+      </div>
     </div>
-
-    <div class="popular-item__img">
-      <img :src="item.image" :alt="item.alt" />
+    <div class="popular-item__img-box">
+      <img
+        class="popular-item__img"
+        :src="item.image"
+        width="54"
+        height="54"
+        :alt="item.alt"
+      />
     </div>
   </div>
 </template>
@@ -39,50 +43,52 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/styles/variables.sass"
 
+$line-height: 16px
+
 .popular-item
   display: flex
   align-items: center
   justify-content: space-between
-  flex-basis: 31%
-  padding: 15px
-  margin-right: 15px
-  background-color: #FFFFFF
-  box-shadow: 0px 4px 10px rgba(128, 128, 128, 0.2)
+  padding: 15px 20px
+  font-size: 12px
+  line-height: $line-height
+  background-color: #ffffff
   border-radius: 15px
+  box-shadow: 0 4px 10px rgba(128, 128, 128, 0.2)
   overflow: hidden
   cursor: pointer
-  @media(min-width: 700px)
-    &:last-child
-      margin-right: 0
-  @media($media_md)
-    flex-basis: 32%
-  @media($media_md2)
-    width: 50%
-    margin: 0 auto 10px auto
-  @media($media_xs)
-    width: 70%
   &__info
-    margin-right: 15px
+    flex-grow: 0
+    flex-basis: 105px
+    margin-right: 10px
   &__title
-    font-family: Manrope, sans-serif
-    font-weight: 900
-    font-size: 12px
-    margin-bottom: 10px
-  &__img
-    width: 50px
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    height: calc( $line-height * 2 )
+    margin-bottom: 6px
+    font-weight: 500
+    -webkit-line-clamp: 2
+    text-overflow: ellipsis
+    overflow: hidden
+  &__price-box
     display: flex
     align-items: center
-    justify-content: center
-    img
-      width: 100%
-  &__price
-    font-family: Manrope, sans-serif
-    font-weight: 900
-    font-size: 12px
-    display: flex
-    align-items: center
-  &__svg
+    font-weight: 700
+  &__icon
     width: 15px
     height: 15px
     margin-right: 6px
+  &__price
+    white-space: nowrap
+  &__img-box
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+    width: 54px
+    height: 54px
+  &__img
+    width: 100%
+    height: 100%
+    object-fit: contain
 </style>

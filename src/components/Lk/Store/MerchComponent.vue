@@ -1,12 +1,12 @@
 <template>
   <div class="merch">
     <store-slider class="merch__slider" />
-    <div class="merch__block merch__popular">
-      <h2 class="shop__title shop__title--merch mb20">
+    <div class="merch__block">
+      <div class="merch__title">
         Популярные товары
-      </h2>
+      </div>
       <popular-content />
-      <merch-showcase class="merch__merch-showcase" />
+      <merch-showcase class="merch__showcase" />
     </div>
   </div>
 </template>
@@ -27,14 +27,20 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "./sass/shop.scss"
 @import "./sass/merch.scss"
 @import "./sass/merch-slider.scss"
 @import "@/assets/styles/variables.sass"
 
 .merch
-  padding: 32px 32px
-
-  &__merch-showcase
-    padding-top: 20px
+  padding: 32px
+  &__slider
+    border-radius: 20px
+  &__block
+    padding-top: 40px
+  &__title
+    margin-bottom: 17px
+    font-weight: 600
+    font-size: 20px
+  &__showcase
+    padding-top: 40px
 </style>

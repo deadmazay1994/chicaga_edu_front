@@ -3,7 +3,7 @@
     <template v-for="(item, k) in links">
       <router-link
         :key="k"
-        :to="item.url + (item.params ? item.params() : '')"
+        :to="{ path: item.url + (item.params ? item.params() : '') }"
         :aria-label="item.name"
         class="router-link"
         :class="{ 'router-link--disabled': item.disabled }"
