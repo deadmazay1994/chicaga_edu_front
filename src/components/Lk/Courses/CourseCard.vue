@@ -54,7 +54,7 @@
         <div class="course-card__btn-box">
           <router-link
             :to="{
-              name: 'course-lessons',
+              name: setRoute,
               params: { id: course.id }
             }"
             class="course-card__btn"
@@ -106,7 +106,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["currentCourse"])
+    ...mapGetters(["currentCourse"]),
+    setRoute() {
+      if (this.$route.name == "my-courses-wrapper") return "course-lessons";
+      else return "course";
+    }
   },
   components: {},
   props: {
