@@ -97,7 +97,7 @@ export default {
   .logo
     display: none
 
-@media (max-width: 800px)
+@media (max-width: 1000px)
   .sidebar-component
     position: fixed
     transform: translateX(-120%)
