@@ -32,6 +32,10 @@ import Group from "@/components/Group/Group";
 import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
 import ShopMore from "@/components/Lk/Store/ShopMore";
+import LevelTest from "@/components/LevelTest";
+import TestStart from "@/components/LevelTest/TestStart";
+import TestMain from "@/components/LevelTest/TestMain";
+import TestResult from "@/components/LevelTest/TestResult";
 
 import Page404 from "Base/404";
 
@@ -377,6 +381,40 @@ const routes = [
     meta: {
       breadcrumb: { title: "Согласие" }
     }
+  },
+  {
+    path: "/level-test",
+    name: "level-test",
+    component: LevelTest,
+    meta: {
+      breadcrumb: { title: "Тест" }
+    },
+    children: [
+      {
+        path: "",
+        name: "test-start",
+        component: TestStart,
+        meta: {
+          breadcrumb: { title: "Вступление" }
+        }
+      },
+      {
+        path: "test-main",
+        name: "test-main",
+        component: TestMain,
+        meta: {
+          breadcrumb: { title: "Тест" }
+        }
+      },
+      {
+        path: "test-result",
+        name: "test-result",
+        component: TestResult,
+        meta: {
+          breadcrumb: { title: "Результаты" }
+        }
+      }
+    ]
   }
 ];
 
