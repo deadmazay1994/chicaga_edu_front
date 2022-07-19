@@ -16,7 +16,7 @@ export default {
     let texts = [];
     if (this.inputCopy.addons) {
       this.inputCopy.addons.forEach(addon =>
-        texts.push(<pre class="text-subtitle-2 pre">{addon.text}</pre>)
+        texts.push(<div style="white-space: pre;">{addon.text}</div>)
       );
     }
     return (

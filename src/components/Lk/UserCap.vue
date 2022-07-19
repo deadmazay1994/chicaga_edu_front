@@ -1,5 +1,5 @@
 <template>
-  <div class="user-cap user-cap--standard" :class="'user-cap--' + tariff">
+  <div class="user-cap" :class="'user-cap--' + tariff">
     <div class="user-cap__avatar">
       <router-link class="user-cap__avatar-link" to="/lk/settings">
         <img
@@ -13,16 +13,18 @@
     </div>
     <div class="user-cap__data">
       <div class="user-cap__name">
-        Соловьёва Ульяна
+        {{ user.name }}
       </div>
       <div class="user-cap__status">
-        student
+        {{ user.role }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "user-cap",
   components: {},
@@ -39,7 +41,14 @@ export default {
       default: "basic"
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["user"]),
+    userRole() {
+      let role = this.user.role
+      if (role === 'teacher') return 'teacher'
+      return 'Пользователь' 
+    }
+  },
   methods: {}
 };
 </script>

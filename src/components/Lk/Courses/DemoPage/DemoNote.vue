@@ -2,7 +2,11 @@
   <div class="demo-note vue-component">
     <div class="demo-note__inner">
       <div class="demo-note__text">
-        <button class="demo-note__close" type="button">
+        <button
+          class="demo-note__close"
+          type="button"
+          @click="$emit('closeNote')"
+        >
           <svg class="demo-note__close-icon" width="15" height="15">
             <use xlink:href="#close-red"></use>
           </svg>
@@ -40,12 +44,16 @@
         </p>
       </div>
       <div class="demo-note__footer">
-        <demo-btn-w class="demo-note__btn">
+        <demo-btn-w class="demo-note__btn" @click.native="noticeIsOpen = true">
           Заказать звонок
         </demo-btn-w>
       </div>
     </div>
-    <demo-notice class="demo-note__notice demo-note__notice--open" />
+    <demo-notice
+      v-if="noticeIsOpen"
+      class="demo-note__notice demo-note__notice--open"
+      @closeNotice="noticeIsOpen = false"
+    />
   </div>
 </template>
 
@@ -59,7 +67,9 @@ export default {
     DemoNotice
   },
   data: function() {
-    return {};
+    return {
+      noticeIsOpen: false
+    };
   },
   props: [],
   computed: {},

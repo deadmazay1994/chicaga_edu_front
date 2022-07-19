@@ -64,7 +64,7 @@ $line-height: 16px
   &__title
     display: -webkit-box
     -webkit-box-orient: vertical
-    height: calc( $line-height * 2 )
+    height: calc( #{$line-height} * 2 )
     margin-bottom: 6px
     font-weight: 500
     -webkit-line-clamp: 2

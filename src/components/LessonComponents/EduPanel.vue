@@ -4,24 +4,21 @@
       <tabs-component>
         <tab-component name="Задания" :selected="true">
           <tasks
-            v-if="lessonTasks"
-            :tasks="lessonTasks"
+            v-if="lesson.lesson"
+            :tasks="lesson.lesson"
             :unique_id="$route.params.id"
           />
         </tab-component>
-        <tab-component name="Онлайн доска"
-          ><lesson-plot>Coming soon</lesson-plot></tab-component
-        >
-        <tab-component name="Материалы урока"
-          ><lesson-plot
-            >There are no additional materials for this lesson</lesson-plot
-          ></tab-component
-        >
-        <tab-component name="Домашняя работа"
-          ><lesson-plot
-            >There is no homework for this lesson</lesson-plot
-          ></tab-component
-        >
+        <tab-component name="Материалы урока">
+          <tasks
+            v-if="lesson.lesson_materials"
+            :tasks="lesson.lesson_materials"
+            :unique_id="$route.params.id"
+          />
+          <lesson-plot v-else>
+            THERE ARE NO ADDITIONAL MATERIALS FOR THIS LESSON
+          </lesson-plot>
+        </tab-component>
       </tabs-component>
     </div>
   </div>
@@ -41,15 +38,12 @@ export default {
   data: function() {
     return {
       tab: null,
-      lessonTasks: undefined
+      lessonTasks: undefined,
+      lesson: undefined
     };
   },
   methods: {
     ...mapActions(["setUserPoints"]),
-    async getLesson() {
-      let r = await api.methods.getFullLesson(this.$route.params.id);
-      return r;
-    },
     setUserPointsToData() {
       this.getUserPoints.forEach(item => {
         switch (item.point_type.name) {
@@ -68,9 +62,9 @@ export default {
         }
       });
     },
-    async setLessonTasks() {
-      let response = await api.methods.getLesson(this.$route.params.id);
-      this.lessonTasks = response.lesson;
+    async setLesson() {
+      let r = await api.methods.getFullLesson(this.$route.params.id);
+      this.lesson = r
     }
   },
   computed: {
@@ -92,10 +86,9 @@ export default {
   mixins: {},
   async mounted() {
     await this.setUserPoints();
-    this.getLesson().then(res => {
-      this.timeData = res.time;
-    });
-    this.setLessonTasks();
+    await this.setLesson();
+    console.log(this.lesson.time)
+    this.timeData = this.lesson.time;
   }
 };
 </script>

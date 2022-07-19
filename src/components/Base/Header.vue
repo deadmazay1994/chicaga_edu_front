@@ -23,17 +23,29 @@
             :src="user.avatar_link"
             :tariff="'standard'"
           />
-          <div class="header__additional-menu">
-            <button class="header__additional-btn" type="button">
-              <svg class="header__additional-icon" width="20" height="20">
+          <div class="header__additional-menu" v-click-outside="onClickOutside">
+            <button
+              class="header__additional-btn"
+              type="button"
+              @click="showAddMenu = !showAddMenu"
+            >
+              <svg
+                class="header__additional-icon"
+                :class="{ 'header__additional-icon--active': showAddMenu }"
+                width="20"
+                height="20"
+              >
                 <use xlink:href="#arrow-down"></use>
               </svg>
               <span class="sr-only">
                 Вызвать меню профиля
               </span>
             </button>
-            <div class="header__profile-menu">
-              <button class="header__profile-btn">
+            <div
+              class="header__profile-menu"
+              :class="{ 'header__profile-menu--active': showAddMenu }"
+            >
+              <!-- <button class="header__profile-btn">
                 <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#messages"></use>
                 </svg>
@@ -54,16 +66,20 @@
                 <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#arrow-right"></use>
                 </svg>
-              </button>
-              <button class="header__profile-btn">
+              </button> -->
+              <router-link
+                class="header__profile-btn"
+                tag="button"
+                to="/lk/settings"
+              >
                 <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#settings"></use>
                 </svg>
                 <span class="header__profile-text">
                   Настройки
                 </span>
-              </button>
-              <button class="header__profile-btn">
+              </router-link>
+              <button class="header__profile-btn" @click="exit()">
                 <svg class="header__profile-icon" width="24" height="24">
                   <use xlink:href="#logout"></use>
                 </svg>
@@ -87,19 +103,37 @@ import { mapGetters, mapMutations } from "vuex";
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 import UserCap from "@/components/Lk/UserCap.vue";
 
+import vClickOutside from "v-click-outside";
+
 export default {
   name: "header-app",
   components: {
     AnimatedCoinPng,
     UserCap
   },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data: function() {
-    return {};
+    return {
+      showAddMenu: false
+    };
   },
   methods: {
-    ...mapMutations(["toggleDraver"]),
+    ...mapMutations(["toggleDraver", "logout"]),
     showSignIn() {
       this.$store.commit("showSignIn");
+    },
+    exit() {
+      this.logout();
+      this.$router.push("/auth/login");
+      this.$store.commit("pushShuckbar", {
+        val: "Вы вышли из личного кабинета",
+        success: true
+      });
+    },
+    onClickOutside() {
+      this.showAddMenu = false;
     }
   },
   computed: {
@@ -189,6 +223,9 @@ export default {
   &__additional-icon
     width: 20px
     height: 20px
+    transition: 0.1s all ease-in-out
+  &__additional-icon--active
+    transform: rotate(180deg)
   &__additional-btn:focus-visible,
   &__additional-btn:hover
     color: #ff0000

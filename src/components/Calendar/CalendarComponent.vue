@@ -11,7 +11,7 @@
                 ref="swiperDate"
                 :slides-per-view="1"
               >
-                <swiper-slide v-for="(item, index) in allMonths" :key="index">
+                <swiper-slide v-for="(item, index) in testArr" :key="index">
                   <span class="date">{{ item.name + " " + item.year }}</span>
                 </swiper-slide>
               </swiper>
@@ -36,7 +36,7 @@
             :options="swiperGridOption"
             ref="swiperGrid"
           >
-            <swiper-slide v-for="(item, index) in allMonths" :key="index">
+            <swiper-slide v-for="(item, index) in testArr" :key="index">
               <calendar-grid
                 :days="eventArr(item.number, item.year)"
                 :currentDateObj="currentDateObj"
@@ -83,6 +83,7 @@ export default {
         noSwipingClass: "swiper-slide",
         loop: false
       },
+      testArr: [],
       events: []
     };
   },
@@ -241,24 +242,116 @@ export default {
     prev() {
       this.$refs.swiperDate.swiper.slidePrev();
       this.$refs.swiperGrid.swiper.slidePrev();
+      // const currentSlideIndex = this.$refs.swiperDate.swiper.activeIndex;
+      // this.addMonth(currentSlideIndex);
     },
     next() {
       this.$refs.swiperDate.swiper.slideNext();
       this.$refs.swiperGrid.swiper.slideNext();
+      const currentSlideIndex = this.$refs.swiperDate.swiper.activeIndex;
+      console.log(
+        "Текущий слайд (индекс месяца):",
+        this.testArr[currentSlideIndex].number
+      );
+      this.addMonth(currentSlideIndex);
     },
     setCurrentMonth() {
       let currYear = this.currentDateObj.year;
       let currMonth = this.currentDateObj.month;
-      let currGridIndex = this.allMonths.findIndex(element => {
+      let currGridIndex = this.testArr.findIndex(element => {
         return element.year == currYear && element.number == currMonth;
       });
       this.$refs.swiperDate.swiper.slideTo(currGridIndex, false, false);
       this.$refs.swiperGrid.swiper.slideTo(currGridIndex, false, false);
+    },
+    addDateToArr(toIndex, year, month) {
+      this.testArr.splice(toIndex, 0, {
+        name: moment()
+          .month(month)
+          .local("en")
+          .format("MMMM"),
+        number: moment()
+          .month(month)
+          .month(),
+        year: moment()
+          .year(year)
+          .year()
+      });
+    },
+    setCurrDate() {
+      const currYear = moment().year();
+      const currMonthNumber = moment().month();
+      for (let i = currMonthNumber - 4; i <= currMonthNumber + 4; i++) {
+        this.testArr.push({
+          name: moment()
+            .month(i)
+            .locale("en")
+            .format("MMMM"),
+          number: moment()
+            .month(i)
+            .month(),
+          year: currYear
+        });
+      }
+    },
+    async addMonth(currentSlideIndex) {
+      if (currentSlideIndex == this.testArr.length - 3) {
+        const endOfArrayIndex = this.testArr.length;
+        const currentSlideYear = this.testArr[currentSlideIndex].year;
+
+        // Добавляем сразу три месяца (слайда)
+        for (let i = 0; i < 5; i++) {
+          const nextMonth = moment()
+            .year(currentSlideYear)
+            .month(this.testArr[currentSlideIndex].number + i + 1)
+            .month();
+
+          console.log(
+            "проверка добавляемых месяцев:",
+            this.testArr[currentSlideIndex].number + i + 1
+          );
+
+          const nextYear =
+            this.testArr[currentSlideIndex].number + i + 1 === 11
+              ? currentSlideYear + 1
+              : currentSlideYear;
+
+          this.addDateToArr(endOfArrayIndex, nextYear, nextMonth);
+        }
+
+        // const nextMonth = moment()
+        //   .year(currentSlideYear)
+        //   .month(this.testArr[currentSlideIndex].number + 1)
+        //   .month();
+        // const nextYear =
+        //   this.testArr[currentSlideIndex].number === 11
+        //     ? currentSlideYear + 1
+        //     : currentSlideYear;
+
+        // this.addDateToArr(endOfArrayIndex, nextYear, nextMonth);
+      } else if (currentSlideIndex == 0) {
+        const startOfArrayIndex = 0;
+        const currentSlideYear = this.testArr[currentSlideIndex].year;
+        const prevMonth = moment()
+          .year(currentSlideYear)
+          .month(this.testArr[currentSlideIndex].number - 1)
+          .month();
+        const prevYear =
+          this.testArr[currentSlideIndex].number === 0
+            ? currentSlideYear - 1
+            : currentSlideYear;
+
+        this.addDateToArr(startOfArrayIndex, prevYear, prevMonth);
+      }
+    },
+    test() {
+      console.log(this.testArr);
     }
   },
   mounted() {
-    this.setCurrentMonth();
     this.setEvents();
+    this.setCurrDate();
+    this.setCurrentMonth();
   }
 };
 </script>

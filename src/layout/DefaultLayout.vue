@@ -923,11 +923,12 @@ export default {
   flex-direction: column
   width: 100%
   height: 100vh
-  // ниже паддинг для sidebar-component
   padding-left: 87px
-  background-image: url(~@/assets/imgs/red-bg.jpg)
+  background-color: #f5f5f5
+  background-image: url(~@/assets/imgs/bg/1.svg), url(~@/assets/imgs/bg/2.svg)
   background-attachment: fixed
-  background-size: 100% 100%
+  background-position: left bottom, right top
+  background-size: 30% 70%
   background-repeat: no-repeat
   overflow: hidden
   @media (max-width: 1200px)

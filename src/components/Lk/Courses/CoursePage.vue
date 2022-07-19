@@ -12,10 +12,11 @@
         <course-program-card
           v-for="(courseProgram, index) in coursePrograms"
           :key="index"
-          :title="courseProgram.title"
-          :rating="courseProgram.rating"
-          :duration="courseProgram.duration"
-          :start_time="courseProgram.start_time"
+          :title="courseProgramm.title"
+          :rating="courseProgramm.rating"
+          :duration="courseProgramm.duration"
+          :start_time="courseProgramm.start_time"
+          :link="'#'"
         />
       </div>
     </div>
