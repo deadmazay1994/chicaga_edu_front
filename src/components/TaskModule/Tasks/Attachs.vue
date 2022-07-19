@@ -16,13 +16,13 @@ export default {
     let texts = [];
     if (this.inputCopy.addons) {
       this.inputCopy.addons.forEach(addon =>
-        texts.push(<div style="white-space: pre;">{addon.text}</div>)
+        texts.push(<div class="attachs__text">{addon.text}</div>)
       );
     }
     return (
       <div class="attachs">
         <div class="task-wrap">
-          <span>{...texts}</span>
+          <div class="attachs__text-box">{...texts}</div>
           <div class="attachs__files">{this.getAttachComponents()}</div>
         </div>
       </div>
@@ -210,7 +210,14 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .attachs
+  font-weight: 400
+  font-size: 18px
+  line-height: 1.5
+  @media ($media_lg2)
+    font-size: inherit
   &__files *
     margin-top: 15px
   &__img
