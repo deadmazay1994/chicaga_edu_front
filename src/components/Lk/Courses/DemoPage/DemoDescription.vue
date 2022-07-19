@@ -147,7 +147,7 @@ export default {
     }
   },
   async beforeMount() {
-    const response = await this.getPublicCourses(39);
+    const response = await this.getPublicCourse(39);
     console.log(response);
     this.lessons = response.data.lessons;
   }
