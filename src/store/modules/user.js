@@ -34,8 +34,7 @@ export default {
           localStorage.removeItem("to");
           barText = "Вы успешно авторизировались";
           barStatus = true;
-        }
-        else if ("error" in response || !response.data.api_token) {
+        } else if ("error" in response || !response.data.api_token) {
           barText = api.methods.getErrorText(response);
           barStatus = false;
         }
