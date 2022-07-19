@@ -74,28 +74,32 @@ export default {
           url: "/lk/consultation",
           icon: "TabletIconSvg",
           showCondition: () => true,
-          disabled: false
+          disabled: false,
+          limitedAccess: true,
         },
         {
           name: "Расписание",
           url: "/lk/my-groups",
           icon: "TimetableIconSvg",
           showCondition: () => true,
-          disabled: false
+          disabled: false,
+          limitedAccess: true,
         },
         {
           name: "Магазин",
           url: "/store",
           icon: "ShoppingBasketSvg",
           showCondition: () => true,
-          disabled: false
+          disabled: false,
+          limitedAccess: true,
         },
         {
           name: "FAQ",
           url: "/faq",
           icon: "QuestionIcon",
           showCondition: () => true,
-          disabled: false
+          disabled: false,
+          limitedAccess: true,
         }
       ],
       mobileDetected: false
@@ -202,7 +206,7 @@ export default {
 .router-link--disabled
   pointer-events: none
   .icon
-    path
+    path, rect
       fill: #A9A9A9
     .filled-path
       fill: #A9A9A9
