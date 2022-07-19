@@ -6,14 +6,12 @@
         :to="{ path: item.url + (item.params ? item.params() : '') }"
         :aria-label="item.name"
         class="router-link"
+        :class="{ 'router-link--disabled': item.disabled }"
         v-if="item.showCondition ? item.showCondition() : false"
       >
         <component :is="item.icon" />
       </router-link>
     </template>
-    <span title="Выход" class="router-link exit-link" @click="exit()">
-      <img src="@/assets/svg/exit.svg" alt="Выйти" />
-    </span>
   </div>
 </template>
 
@@ -34,24 +32,32 @@ import TabletIconSvg from "../Icons/TabletIconSvg.vue";
 export default {
   data() {
     return {
+      // "disabled" - свойство по
+      // которому ссылка становится некликабельной
+      // "limitedAccess" - элементы с этим свойством
+      // не отображаются при store.state.isDemo = true
       links: [
         {
           name: "Каталог курсов",
-          url: "/lk/catalog-coursers",
+          url: "/lk/catalog-courses",
           icon: "CoursesIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Мои курсы",
           url: "/lk/my-courses",
           icon: "EducationIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Вебинары",
           url: "/lk/webinars",
           icon: "WebinarIconSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          limitedAccess: true,
+          disabled: false
         },
         {
           name: "Конференц-комнаты",
@@ -63,37 +69,41 @@ export default {
           icon: "GroupIcon",
           showCondition: () => {
             return this.user.role === "teacher";
-          }
+          },
+          limitedAccess: true,
+          disabled: false
         },
         {
           name: "Консультация",
           url: "/lk/consultation",
           icon: "TabletIconSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false,
+          limitedAccess: true
         },
         {
           name: "Расписание",
           url: "/lk/my-groups",
           icon: "TimetableIconSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false,
+          limitedAccess: true
         },
         {
           name: "Магазин",
           url: "/store",
           icon: "ShoppingBasketSvg",
-          showCondition: () => true
-        },
-        {
-          name: "Настройки",
-          url: "/lk/settings",
-          icon: "SettingsIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false,
+          limitedAccess: true
         },
         {
           name: "FAQ",
           url: "/faq",
           icon: "QuestionIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false,
+          limitedAccess: true
         }
       ],
       mobileDetected: false
@@ -113,7 +123,7 @@ export default {
     TabletIconSvg
   },
   computed: {
-    ...mapGetters(["user", "draver"]),
+    ...mapGetters(["user", "draver", "isDemo"]),
     access() {
       // предоставить доступ только учителю
       return this.user.role == "teacher";
@@ -135,14 +145,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["logout", "setDraverState"]),
-    exit() {
-      this.logout();
-      this.$router.push("/auth/login");
-      this.$store.commit("pushShuckbar", {
-        val: "Вы успешно вышли из личного кабинета",
-        success: true
-      });
+    ...mapMutations(["setDraverState"])
+  },
+  beforeMount() {
+    if (this.isDemo) {
+      this.links
+        .filter(link => link.limitedAccess)
+        .map(link => (link.disabled = true));
     }
   }
 };
@@ -198,4 +207,11 @@ export default {
       fill: #E84145
     .filled-path
       fill: #E84145
+.router-link--disabled
+  pointer-events: none
+  .icon
+    path, rect
+      fill: #A9A9A9
+    .filled-path
+      fill: #A9A9A9
 </style>
