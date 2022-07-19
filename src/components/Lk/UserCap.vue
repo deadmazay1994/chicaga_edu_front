@@ -42,7 +42,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user"]),
+    userRole() {
+      let role = this.user.role
+      if (role === 'teacher') return 'teacher'
+      return 'Пользователь' 
+    }
   },
   methods: {}
 };
