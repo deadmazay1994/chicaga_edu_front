@@ -3,13 +3,13 @@
     <ol class="breadcrumbs__list">
       <li
         class="breadcrumbs__item"
-        :class="{ 'breadcrumbs__item--first': isFirstItem(index) }"
+        :class="{ 'breadcrumbs__item--slash': showSlash(index) }"
         v-for="(breadcrumb, index) in breadcrumbList"
         :style="{ color: breadcrumb.color }"
         :key="index"
       >
         <router-link :to="breadcrumb.path" v-if="breadcrumb.link">{{
-          breadcrumb.path
+          breadcrumb.title
         }}</router-link>
         <span v-else>{{ breadcrumb.title }}</span>
       </li>
@@ -37,6 +37,14 @@ export default {
         let color = breadcrumb?.color,
           title = breadcrumb?.title;
 
+        if (!route.meta.breadcrumb) {
+          console.log(
+            "Проверяем чайл роут:",
+            this.recursiveChildrenSearch(this.$router.options.routes, route.name)
+          );
+        }
+        console.log(route.name);
+
         if (typeof color == "function") color = await breadcrumb.color();
         if (typeof title == "function")
           title = await breadcrumb.title(this.$route);
@@ -47,16 +55,23 @@ export default {
           title,
           link: isBreadCrumb,
           path: route.path,
-          hideSlash: breadcrumb.hideSlash
+          hideSlash: !route.meta.breadcrumb ? true : false
         });
       });
     },
-    isFirstItem(index) {
-      console.log(this.breadcrumbList[index]);
-      // return index === 1 ? true : false;
+    showSlash(index) {
       if (index === 1 && !this.breadcrumbList[index].hideSlash) {
         return true;
       } else return false;
+    },
+    recursiveChildrenSearch(routes, name) {
+      console.log("->", name);
+      for (let route of routes) {
+        if (route.name === name) return route;
+        else if (route.children) {
+          return this.recursiveChildrenSearch(route.children, name);
+        }
+      }
     }
   },
   watch: {
@@ -89,7 +104,7 @@ export default {
   //   content: "/"
   //   margin-right: 0.25em
   //   color: #FF0000
-  &__item--first::before
+  &__item--slash::before
     content: "/"
     margin-right: 0.25em
     color: #FF0000
