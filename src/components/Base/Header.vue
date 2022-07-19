@@ -152,10 +152,14 @@ export default {
 
 <!-- <style lang="sass"> -->
 <style lang="sass" scoped="scoped">
+@import "@/assets/styles/variables.sass"
+
 .header
   position: relative
   padding: 10px 20px 10px 32px
   color: #0d0d0d
+  @media ($media_lg2)
+    padding: 5px 10px 5px 15px
   &::after
     content: ""
     position: absolute
@@ -171,6 +175,14 @@ export default {
     height: 100%
   &__part
     width: calc( (100% / 3) - 10px )
+    @media ($media_lg2)
+      width: auto
+  &__part--1
+    @media ($media_lg2)
+      margin-right: 15px
+  &__part--2
+    @media ($media_lg2)
+      display: none
   &__title-block
     display: flex
     align-items: center
@@ -183,6 +195,8 @@ export default {
     display: flex
     align-items: center
     margin-right: 24px
+    @media ($media_md)
+      display: none
   &__coin-box .animated-svg-wrapper
     width: 30px
     height: 30px
@@ -197,6 +211,8 @@ export default {
     flex-shrink: 0
   &__additional-menu
     margin-left: 22px
+    @media ($media_lg2)
+      margin-left: 10px
   &__additional-btn
     display: flex
     padding: 10px

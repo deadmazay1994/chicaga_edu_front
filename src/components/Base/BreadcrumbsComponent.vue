@@ -86,6 +86,8 @@ export default {
 </script>
 
 <style lang="sass" scoped="scoped">
+@import "@/assets/styles/variables.sass"
+
 .breadcrumbs
   &__list
     width: 100%
@@ -96,6 +98,9 @@ export default {
     list-style: none
     word-break: break-word
     color: #808080
+    @media ($media_lg2)
+      font-size: 14px
+      line-height: 16px
   &__item
     display: inline-block
   &__item:not(:last-child)
