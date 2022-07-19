@@ -32,6 +32,10 @@ import TabletIconSvg from "../Icons/TabletIconSvg.vue";
 export default {
   data() {
     return {
+      // "disabled" - свойство по
+      // которому ссылка становится некликабельной
+      // "limitedAccess" - элементы с этим свойством
+      // не отображаются при store.state.isDemo = true
       links: [
         {
           name: "Каталог курсов",
@@ -75,7 +79,7 @@ export default {
           icon: "TabletIconSvg",
           showCondition: () => true,
           disabled: false,
-          limitedAccess: true,
+          limitedAccess: true
         },
         {
           name: "Расписание",
@@ -83,7 +87,7 @@ export default {
           icon: "TimetableIconSvg",
           showCondition: () => true,
           disabled: false,
-          limitedAccess: true,
+          limitedAccess: true
         },
         {
           name: "Магазин",
@@ -91,7 +95,7 @@ export default {
           icon: "ShoppingBasketSvg",
           showCondition: () => true,
           disabled: false,
-          limitedAccess: true,
+          limitedAccess: true
         },
         {
           name: "FAQ",
@@ -99,7 +103,7 @@ export default {
           icon: "QuestionIcon",
           showCondition: () => true,
           disabled: false,
-          limitedAccess: true,
+          limitedAccess: true
         }
       ],
       mobileDetected: false
