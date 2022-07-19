@@ -1,7 +1,6 @@
 <template>
   <InterlayerVue class="calendar-interlayer" :title="'Вебинары'">
     <div class="calendar">
-      <button @click="test">test</button>
       <div class="calendar__inner">
         <div class="calendar__header">
           <div class="calendar__date">
