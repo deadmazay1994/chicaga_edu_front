@@ -45,6 +45,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .user-cap
   display: flex
   align-items: center
@@ -56,8 +58,9 @@ export default {
     flex-shrink: 0
     width: 50px
     height: 50px
-  &__avatar:not(:last-child)
     margin-right: 8px
+    @media ($media_sm)
+      margin-right: 0
   &--standard &__avatar::before,
   &--standard &__avatar::after
     content: ""
@@ -109,6 +112,8 @@ export default {
     object-fit: cover
   &__data
     flex-shrink: 0
+    @media ($media_sm)
+      display: none
   &__name
     font-weight: 600
   &--standard &__name
