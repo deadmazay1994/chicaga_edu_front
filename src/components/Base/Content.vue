@@ -21,6 +21,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .content-block
   position: relative
   display: flex
@@ -32,4 +34,6 @@ export default {
   border-radius: 30px
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
   overflow: hidden
+  @media ($media_md)
+    border-radius: 15px
 </style>

@@ -47,10 +47,16 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .faq-interlayer
   width: 100%
   height: 100%
   padding: 32px
+  @media ($media_lg2)
+    padding: 20px
+  @media ($media_md)
+    padding: 10px
 
 .faq
   display: flex

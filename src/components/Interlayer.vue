@@ -36,17 +36,22 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 $header-width: 90px
+$header-height: 54px
 $border-width: 2px
 $border-radius: 12px
 $bg-color-safe: rgb(255, 255, 255)
 $header-bg-color-main: rgba(255, 0, 0, 0.1)
+
 .interlayer
-  // height: 100% // for inner overflow
   &__inner
     display: flex
     width: 100%
     height: 100%
+    @media ($media_md)
+      display: block
   &__header
     position: relative
     display: flex
@@ -58,6 +63,16 @@ $header-bg-color-main: rgba(255, 0, 0, 0.1)
     border-top-left-radius: $border-radius
     border-bottom-left-radius: $border-radius
     z-index: 0
+    @media ($media_lg2)
+      width: calc( #{$header-width} - 30px )
+    @media ($media_md)
+      align-items: center
+      justify-content: flex-start
+      width: auto
+      height: $header-height
+      background-image: linear-gradient(180deg, $bg-color-safe 0%, $header-bg-color-main 100%)
+      border-top-right-radius: $border-radius
+      border-bottom-left-radius: 0
   &__header::before
     content: ""
     position: absolute
@@ -70,6 +85,11 @@ $header-bg-color-main: rgba(255, 0, 0, 0.1)
     background-image: linear-gradient(90deg, $header-bg-color-main 0%, $header-bg-color-main 100%)
     border-top-left-radius: calc(#{$border-radius} - #{$border-width})
     border-bottom-left-radius: calc(#{$border-radius} - #{$border-width})
+    @media ($media_md)
+      right: $border-width
+      bottom: 0
+      border-top-right-radius: calc(#{$border-radius} - #{$border-width})
+      border-bottom-left-radius: 0
   &__title
     position: relative
     z-index: 0
@@ -84,16 +104,35 @@ $header-bg-color-main: rgba(255, 0, 0, 0.1)
     color: #ff0000
     transform: rotate(180deg)
     overflow: hidden
+    @media ($media_lg2)
+      padding: 30px 10px
+      font-size: 32px
+      line-height: 40px
+    @media ($media_md)
+      padding: 10px 20px
+      writing-mode: horizontal-tb
+      transform: rotate(0)
+      text-align: left
+      font-size: 28px
+      line-height: 34px
   &__body
     position: relative
     display: flex
     flex-direction: column
     flex-grow: 1
+    min-width: 100px
+    min-height: 100px
     background-color: #fffefe
     border-top-right-radius: 12px
     border-bottom-right-radius: 12px
     box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
     overflow: hidden
+    @media ($media_md)
+      flex-grow: 0
+      height: calc( 100% - #{$header-height} )
+      border-top-right-radius: 0
+      border-bottom-left-radius: 12px
+      box-shadow: 0 4px 10px rgba(128, 128, 128, 0.2)
   &__body-inner
     position: relative
     flex-grow: 1
