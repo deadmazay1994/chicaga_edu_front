@@ -43,17 +43,32 @@ $cart-width: 408px
 .store
   padding: 32px
   color: #0d0d0d
+  @media ($media_xl)
+    padding: 20px
+  @media ($media_md)
+    padding: 10px
   &__content
     display: flex
     width: 100%
     height: 100%
+    @media ($media_xl)
+      display: block
+      height: auto
+      padding: 0
   &__interlayer
     flex-grow: 1
     width: calc( 100% - #{$cart-width} )
+    @media ($media_xl)
+      flex-grow: 0
+      width: auto
   &__cart-wrapper
     flex-shrink: 0
     flex-basis: $cart-width
     padding-left: 20px
+    @media ($media_xl)
+      flex-basis: auto
+      padding-top: 20px
+      padding-left: 0
   &__cart
     height: 100%
 </style>
