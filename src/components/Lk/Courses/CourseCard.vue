@@ -109,7 +109,7 @@ export default {
     ...mapGetters(["currentCourse"]),
     setRoute() {
       if (this.$route.name == "my-courses-wrapper") return "course-lessons";
-      else return "course";
+      return "course";
     }
   },
   components: {},
