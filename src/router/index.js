@@ -243,13 +243,15 @@ const routes = [
             meta: {
               breadcrumb: { title: "Уроки курса", color: "green" },
               layout: "main-layout",
-              title: "Elementary"
+              title: "Elementary",
+              checkCurrentRoute: true
             }
           }
         ]
       },
       {
         path: "course/:id",
+        name: "course",
         component: CoursePage,
         meta: {
           breadcrumb: {
