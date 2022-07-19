@@ -436,7 +436,7 @@ router.beforeEach((to, from, next) => {
     if (!localStorage.getItem("token")) {
       localStorage.setItem("to", to.fullPath);
       next({
-        path: "/auth/login"
+        name: "login"
       });
       store.commit("pushShuckbar", {
         val: "Пожалуйста, авторизируйтесь",
@@ -449,18 +449,17 @@ router.beforeEach((to, from, next) => {
   }
   if (to.matched.some(record => record.meta.redirectCondition)) {
     // мок, вместо свойства demo_mode
-    const userDemoMode = true;
-    if (userDemoMode) {
+    if (store.getters.isDemo) {
       next({
-        path: "/lk/demo-page",
+        name: "start",
         query: { redirect: to.fullPath }
       });
-    } else next({ path: "/lk/my-courses", query: { redirect: to.fullPath } });
+    } else next({ name: "my-courses", query: { redirect: to.fullPath } });
   }
   if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem("token")) {
       next({
-        path: "/lk/my-courses",
+        name: "my-courses",
         query: { redirect: to.fullPath }
       });
       access = false;
@@ -471,7 +470,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.forTeacher)) {
     if (store.getters.user.role != "teacher") {
       next({
-        path: "/lk/my-courses",
+        name: "my-courses",
         query: { redirect: to.fullPath }
       });
       store.commit("pushShuckbar", {
