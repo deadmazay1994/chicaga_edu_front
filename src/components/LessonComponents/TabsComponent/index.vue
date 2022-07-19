@@ -61,7 +61,7 @@ $header-height: 64px
     display: flex
     align-items: center
     justify-content: center
-    flex-basis: 25%
+    flex-basis: 50%
     height: 100%
     padding: 8px
     background-image: linear-gradient(180deg, rgba(244, 244, 244, 0) 0%, rgba(219, 218, 218, 0.5) 100%)

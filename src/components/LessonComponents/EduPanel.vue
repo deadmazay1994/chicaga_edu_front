@@ -9,21 +9,16 @@
             :unique_id="$route.params.id"
           />
         </tab-component>
-        <tab-component name="Онлайн доска"
-          ><lesson-plot>Coming soon</lesson-plot></tab-component
-        >
         <tab-component name="Материалы урока">
           <tasks
             v-if="lesson.lesson_materials"
             :tasks="lesson.lesson_materials"
             :unique_id="$route.params.id"
           />
+          <lesson-plot v-else>
+            THERE ARE NO ADDITIONAL MATERIALS FOR THIS LESSON
+          </lesson-plot>
         </tab-component>
-        <tab-component name="Домашняя работа"
-          ><lesson-plot
-            >There is no homework for this lesson</lesson-plot
-          ></tab-component
-        >
       </tabs-component>
     </div>
   </div>
