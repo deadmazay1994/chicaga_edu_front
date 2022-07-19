@@ -226,9 +226,20 @@ export default {
     min-width: 32px
     min-height: 38px
     padding: 6px
-    border: 1px solid #ff121a
+    color: #ff121a
     border-radius: 8px
+    outline: 1px solid #ff121a
+    outline-offset: -1px
+    transition-property: color, background-color, box-shadow
+    transition-duration: 0.3s
+  &__btn:focus-visible,
+  &__btn:hover
+    color: #ffffff
+    background-color: #ff121a
+  &__btn:active
+    outline-color: transparent
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25)
+    transition-duration: 0.1s
   &__btn-img
-    fill: #ff121a
     transform: rotate(-90deg)
 </style>

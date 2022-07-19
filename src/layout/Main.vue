@@ -114,10 +114,11 @@ $header-height: 76px
   width: 100%
   height: 100vh
   padding-left: 87px
-  background-color: #ffffff
-  background-image: url(~@/assets/imgs/red-bg.jpg)
+  background-color: #f5f5f5
+  background-image: url(~@/assets/imgs/bg/1.svg), url(~@/assets/imgs/bg/2.svg)
   background-attachment: fixed
-  background-size: 100% 100%
+  background-position: left bottom, right top
+  background-size: 30% 70%
   background-repeat: no-repeat
   overflow: hidden
   &__content
@@ -128,15 +129,19 @@ $header-height: 76px
     height: 100%
     padding: 20px 40px
   &__header-wrap
+    position: relative
     width: 100%
     height: $header-height
+    z-index: 2
   &__header
     width: 100%
     height: 100%
   &__body-wrap
+    position: relative
     flex-grow: 1
     width: 100%
     height: calc( 100% - #{$header-height} )
+    z-index: 1
   &__body
     width: 100%
     height: 100%

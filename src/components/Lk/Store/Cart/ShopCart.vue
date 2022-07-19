@@ -1,18 +1,18 @@
 <template>
   <div class="shop-cart">
     <div class="shop-cart__header">
-      <h3 class="shop-cart__title">
+      <div class="shop-cart__title">
         Корзина <span class="shop-cart__number">{{ cartItemsLength }}</span>
-      </h3>
-      <svg class="shop-cart__svg">
+      </div>
+      <svg class="shop-cart__icon" width="20" height="20">
         <use xlink:href="#cart"></use>
       </svg>
     </div>
 
     <div class="shop-cart__content">
-      <transition-group name="list">
+      <transition-group name="list" tag="div" class="shop-cart__list">
         <cart-item
-          class="list-item"
+          class="shop-cart__item"
           v-for="(item, index) in cartItems"
           :key="index"
           :item="item"
@@ -85,44 +85,40 @@ export default {
 .shop-cart
   display: flex
   flex-direction: column
-  // justify-content: space-between
-  background: #FFFFFF
-  box-shadow: 0px 4px 10px rgba(128, 128, 128, 0.2)
+  padding: 24px
+  background-color: #ffffff
   border-radius: 20px
-  padding: 25px
-  margin: 0 0 0 35px
-  @media ($media_xl)
-    margin: 50px 0 0 15px
-    padding: 20px 15px
-  @media ($media_md)
-    margin: 50px 0 0 10px
-    padding: 15px 5px 15px 10px
-  @media ($media_md2)
-    display: none
+  box-shadow: 0 4px 10px rgba(128, 128, 128, 0.2)
+  overflow: hidden
   &__header
     display: flex
     justify-content: space-between
-  &__svg
-    width: 20px
-    height: 20px
-    .cart__path
-      fill: $white
+    margin-bottom: 24px
+  &__title
+    margin-right: 20px
+    font-weight: 600
+    font-size: 20px
+    line-height: 1.3
   &__number
     border-left: 1.5px solid rgba($gray, 0.1)
     padding-left: 10px
     margin-left: 5px
+  &__icon
+    width: 20px
+    height: 20px
   &__content
-    padding-right: 5px
     flex-grow: 1
     max-height: 600px
-    overflow-y: auto
-    margin-top: 10px
-    &::-webkit-scrollbar
-      width: 5px
-    /* Handle */
-    &::-webkit-scrollbar-thumb
-      background: rgba(128, 128, 128, 0.1)
-      border-radius: 40p
+    margin-bottom: 40px
+    padding-right: 5px
+    overflow: hidden auto
+  &__content::-webkit-scrollbar
+    width: 5px
+  &__content::-webkit-scrollbar-thumb
+    background-color: rgba(128, 128, 128, 0.1)
+  &__item:not(:last-child)
+    margin-bottom: 10px
+
 .list-enter-active, .list-leave-active
   transition: all 1s
 .list-enter, .list-leave-to
