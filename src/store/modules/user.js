@@ -168,6 +168,7 @@ export default {
       }
       return false;
     },
-    logined: state => state.logined
+    logined: state => state.logined,
+    isDemo: state => state.isDemo
   }
 };

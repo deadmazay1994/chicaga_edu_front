@@ -40,19 +40,23 @@ export default {
           name: "Каталог курсов",
           url: "/lk/catalog-coursers",
           icon: "CoursesIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Мои курсы",
           url: "/lk/my-courses",
           icon: "EducationIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Вебинары",
           url: "/lk/webinars",
           icon: "WebinarIconSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          limitedAccess: true,
+          disabled: false
         },
         {
           name: "Конференц-комнаты",
@@ -64,38 +68,44 @@ export default {
           icon: "GroupIcon",
           showCondition: () => {
             return this.user.role === "teacher";
-          }
+          },
+          limitedAccess: true,
+          disabled: false
         },
         {
           name: "Консультация",
           url: "/lk/consultation",
           icon: "TabletIconSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Расписание",
           url: "/lk/my-groups",
           icon: "TimetableIconSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Магазин",
           url: "/store",
           icon: "ShoppingBasketSvg",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "Настройки",
           url: "/lk/settings",
           icon: "SettingsIcon",
-          showCondition: () => true
+          showCondition: () => true,
+          disabled: false
         },
         {
           name: "FAQ",
           url: "/faq",
           icon: "QuestionIcon",
           showCondition: () => true,
-          disabled: true
+          disabled: false
         }
       ],
       mobileDetected: false
@@ -115,7 +125,7 @@ export default {
     TabletIconSvg
   },
   computed: {
-    ...mapGetters(["user", "draver"]),
+    ...mapGetters(["user", "draver", "isDemo"]),
     access() {
       // предоставить доступ только учителю
       return this.user.role == "teacher";
@@ -145,6 +155,14 @@ export default {
         val: "Вы успешно вышли из личного кабинета",
         success: true
       });
+    }
+  },
+  beforeMount() {
+    console.log("это демо?:", this.isDemo);
+    if (this.isDemo) {
+      this.links
+        .filter(link => link.limitedAccess)
+        .map(link => (link.disabled = true));
     }
   }
 };
