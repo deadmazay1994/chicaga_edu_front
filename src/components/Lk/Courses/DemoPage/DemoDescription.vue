@@ -29,15 +29,21 @@
       </div>
     </div>
     <ul class="demo-description__list">
-      <li class="demo-description__item">
+      <router-link
+        tag="li"
+        class="demo-description__item"
+        v-for="(lesson, index) in lessons"
+        :key="index"
+        :to="{ name: 'lesson_record', params: { id: lesson.uniq_id } }"
+      >
         <demo-btn>
-          Beginner
+          {{ lesson.name }}
         </demo-btn>
         <div class="demo-description__text">
-          для начинающих
+          {{ lesson.theme }}
         </div>
-      </li>
-      <li class="demo-description__item">
+      </router-link>
+      <!-- <li class="demo-description__item">
         <demo-btn>
           Elementary
         </demo-btn>
@@ -60,7 +66,7 @@
         <div class="demo-description__text">
           если хорошо улавливаете основную мысль текста
         </div>
-      </li>
+      </li> -->
     </ul>
     <div class="demo-description__footer">
       <div class="demo-description__test-box">
@@ -111,6 +117,8 @@ import DemoNote from "./DemoNote.vue";
 
 import vClickOutside from "v-click-outside";
 
+import api from "@/mixins/api";
+
 export default {
   name: "demo-description",
   components: {
@@ -121,9 +129,11 @@ export default {
   directives: {
     clickOutside: vClickOutside.directive
   },
+  mixins: [api],
   data: function() {
     return {
-      noteIsOpen: false
+      noteIsOpen: false,
+      lessons: []
     };
   },
   props: [],
@@ -132,6 +142,11 @@ export default {
     onClickOutside() {
       this.noteIsOpen = false;
     }
+  },
+  async beforeMount() {
+    const response = await this.getPublicCourses(39);
+    console.log(response);
+    this.lessons = response.data.lessons;
   }
 };
 </script>
