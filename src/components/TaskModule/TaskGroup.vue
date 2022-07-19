@@ -131,7 +131,14 @@ export default {
 };
 </script>
 <style lang="sass" scoped>
+@import "@/assets/styles/variables.sass"
+
 .task-group
+  font-weight: 400
+  font-size: 18px
+  line-height: 1.5
+  @media ($media_lg2)
+    font-size: inherit
   &__task
     margin-bottom: 10px
   &__title
