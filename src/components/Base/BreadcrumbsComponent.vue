@@ -8,7 +8,7 @@
         :key="index"
       >
         <router-link :to="breadcrumb.path" v-if="breadcrumb.link">{{
-          breadcrumb.title
+          breadcrumb.path
         }}</router-link>
         <span v-else>{{ breadcrumb.title }}</span>
       </li>
