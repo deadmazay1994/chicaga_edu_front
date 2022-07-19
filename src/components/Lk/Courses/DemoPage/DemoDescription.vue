@@ -78,7 +78,7 @@
             12 вопросов, результат увидите сразу
           </div>
         </div>
-        <demo-btn-g class="demo-description__btn-g">
+        <demo-btn-g class="demo-description__btn-g" @click.native="goToTest()">
           Пройти тест
         </demo-btn-g>
       </div>
@@ -141,6 +141,9 @@ export default {
   methods: {
     onClickOutside() {
       this.noteIsOpen = false;
+    },
+    goToTest() {
+      this.$router.push({ name: "level-test", delimiter: "/" });
     }
   },
   async beforeMount() {
