@@ -14,15 +14,19 @@
       >
     </div>
     <template v-for="(task, index) in tasks">
-      <task-group
-        class="task-module__body"
-        :key="index"
-        v-if="index === activeGroup"
-        :taskIndex="index"
-        :tasks="task.tasks"
-        :unique_id="unique_id"
-        @setTaskNumberState="setTaskNumberState"
-      />
+      <template>
+        <keep-alive :key="index">
+          <task-group
+            class="task-module__body"
+            :key="index"
+            v-if="index === activeGroup"
+            :taskIndex="index"
+            :tasks="task.tasks"
+            :unique_id="unique_id"
+            @setTaskNumberState="setTaskNumberState"
+          />
+        </keep-alive>
+      </template>
     </template>
   </div>
 </template>
