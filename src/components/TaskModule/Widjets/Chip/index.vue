@@ -59,38 +59,19 @@ export default {
 
 <style lang="sass" scoped>
 .chip
-  display: inline-block
-  padding: 0 12px
-  border-radius: 15px
-  border: 1.5px solid #C4C4C4
-  cursor: pointer
   box-sizing: border-box
-
-  .chip__text
-    font-family: Manrope, sans-serif
-    font-size: 16px
-    font-weight: 500
-    line-height: 20px
-    background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
-    -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
-    user-select: none
-
-  .chip__empty
-    display: inline-block
-    width: 50px
-
+  display: inline-block
+  padding: 4px 16px
+  font-weight: 500
+  font-size: 16px
+  line-height: 25px
+  border: 1.5px solid #C4C4C4
+  border-radius: 22px
+  cursor: pointer
   &--default
     border-color: #C4C4C4
     background-color: #FFFFFF
     box-shadow: 0px 1.5px 0px 0px #C4C4C4
-  &--part
-    line-height: 24px
-    .chip__text
-      font-size: 20px
-      line-height: 20px
-      background: transparent
-      -webkit-text-fill-color: inherit
   &--part:not(:last-child)
     margin-right: 2px
   &--part-first
@@ -108,8 +89,6 @@ export default {
   &--part-selected
     border-color: #404040
     box-shadow: 0px 1.5px 0px #404040
-    .chip__text
-      font-weight: 700
   &--success
     color: #8EDC51
     border-color: #8EDC51
@@ -125,13 +104,26 @@ export default {
     background: #E6E6E6
     box-shadow: none
     pointer-events: none !important
-    .chip__text
-      opacity: 0
   &--empty-answer
     box-shadow: none
   &--selected
     border-color: #99CBFF
     box-shadow: 0px 0px 6px 0px #99CBFF
-    // .chip__text
-    //   font-weight: 700
+
+  &__text
+    background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+    user-select: none
+  &--part &__text
+    background: transparent
+    -webkit-text-fill-color: inherit
+  &--part-selected &__text
+      font-weight: 700
+  &--empty &__text
+      opacity: 0
+
+  &__empty
+    display: inline-block
+    width: 50px
 </style>
