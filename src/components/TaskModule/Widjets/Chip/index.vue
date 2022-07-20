@@ -66,13 +66,13 @@ export default {
   font-weight: 500
   font-size: 16px
   line-height: 25px
+  text-align: center
+  color: #303030
+  background-color: #FFFFFF
   border: 1.5px solid #C4C4C4
   border-radius: 22px
+  box-shadow: 0px 1.5px 0px 0px #C4C4C4
   cursor: pointer
-  &--default
-    border-color: #C4C4C4
-    background-color: #FFFFFF
-    box-shadow: 0px 1.5px 0px 0px #C4C4C4
   &--part:not(:last-child)
     margin-right: 2px
   &--part-first
@@ -94,35 +94,27 @@ export default {
     color: #8EDC51
     border-color: #8EDC51
     box-shadow: 0px 1.5px 0px 0px #8EDC51
-    background: linear-gradient(0deg, rgba(142, 220, 81, 0.1), rgba(142, 220, 81, 0.1)), #FFFFFF
+    background-image: linear-gradient(0deg, rgba(142, 220, 81, 0.1), rgba(142, 220, 81, 0.1))
   &--error
     color: #E94A45
     border-color: #E94A45
     box-shadow: 0px 1.5px 0px 0px #E94A45
-    background: linear-gradient(0deg, rgba(233, 74, 69, 0.1), rgba(233, 74, 69, 0.1)), #FFFFFF
+    background-image: linear-gradient(0deg, rgba(233, 74, 69, 0.1), rgba(233, 74, 69, 0.1))
   &--empty
+    background-color: #E6E6E6
     border-color: #E6E6E6
-    background: #E6E6E6
     box-shadow: none
-    pointer-events: none !important
+    pointer-events: none
   &--empty-answer
     box-shadow: none
   &--selected
     border-color: #99CBFF
     box-shadow: 0px 0px 6px 0px #99CBFF
+  &--part-selected
+    font-weight: 700
 
-  &__text
-    background: linear-gradient(0deg, #303030, #303030), linear-gradient(0deg, #484A65, #484A65), linear-gradient(0deg, #000000, #000000), linear-gradient(0deg, #FFFFFF, #FFFFFF)
-    -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
-    user-select: none
-  &--part &__text
-    background: transparent
-    -webkit-text-fill-color: inherit
-  &--part-selected &__text
-      font-weight: 700
   &--empty &__text
-      opacity: 0
+    opacity: 0
 
   &__empty
     display: inline-block
