@@ -143,20 +143,19 @@ export default {
   overflow: hidden
   &__inner
     display: flex
-    flex-wrap: wrap
-    width: calc(100% + 8px)
-    margin: -4px
-    overflow: hidden
+    column-gap: 4px
+    padding-bottom: 4px
+    overflow: auto hidden
 
 .img-task
   position: relative
   display: flex
   align-items: center
   justify-content: center
+  flex-shrink: 0
   min-width: 50px
   max-width: 250px
   height: 180px
-  margin: 4px
   background-color: #ffffff
   border: 2px solid #dcdcdc
   border-radius: 4px
