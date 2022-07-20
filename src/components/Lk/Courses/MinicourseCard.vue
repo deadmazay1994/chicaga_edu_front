@@ -56,6 +56,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .minicourse-card
   display: flex
   justify-content: space-between
@@ -66,14 +68,26 @@ export default {
   font-weight: 300
   font-size: 16px
   line-height: 1.3
+  @media ($media_sm)
+    flex-direction: column
+  @media ($media_sm2)
+    padding: 15px
+  &__main
+    @media ($media_sm)
+      margin-bottom: 10px
   &__title
     margin-bottom: 24px
     font-weight: 800
     font-size: 24px
+    @media ($media_md)
+      font-size: 20px
+      margin-bottom: 12px
   &__text-box
     display: flex
     align-items: center
     margin-bottom: 24px
+    @media ($media_md)
+      margin-bottom: 12px
   &__icon
     flex-shrink: 0
     margin-right: 16px
@@ -82,7 +96,10 @@ export default {
     line-height: 1.5
   &__more
     padding-left: 76px
+    @media ($media_sm)
+      padding-left: 0
   &__more-text
+    display: block
     line-height: 1.5
     color: #007eff
     border-bottom: 1px dashed #007eff
@@ -93,14 +110,24 @@ export default {
     align-items: flex-end
     flex-shrink: 0
     padding-left: 24px
+    @media ($media_sm)
+      flex-direction: row
+      flex-wrap: wrap
+      padding-left: 0
   &__price-box
     margin-bottom: 16px
     font-size: 36px
     color: #202020
+    @media ($media_sm)
+      margin-bottom: 0
+      line-height: 1
   &__price-box--old
     margin-bottom: 8px
     font-size: 24px
     color: #c4c4c4
+    @media ($media_sm)
+      margin-bottom: 0
+      margin-right: 10px
   &__price-old
     display: inline-block
     font-weight: 600
@@ -120,6 +147,9 @@ export default {
     transition-property: color, background-color, border-color
     transition-duration: 0.2s
     transition-timing-function: ease-out
+    @media ($media_sm)
+      flex-basis: 100%
+      margin-top: 10px
   &__btn:focus-visible,
   &__btn:hover
     color: #ffffff
