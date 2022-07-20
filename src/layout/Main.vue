@@ -1,6 +1,7 @@
 <template>
   <div class="main vue-component">
     <sidebar-component
+      class="main__sidebar"
       :mobilemenuopen="showBurger"
       v-click-outside="
         () => {
@@ -11,6 +12,7 @@
       <navigation @clicked-outside="closeMenu" @clicked-router="closeMenu" />
     </sidebar-component>
     <mobile-menu
+      class="main__mobile-menu"
       @click="openBurgerMenu()"
       v-click-outside="
         () => {
@@ -126,7 +128,15 @@ $header-height: 76px
   @media ($media_lg2)
     padding-left: 0
     padding-top: 81px
+  &__sidebar
+    position: fixed
+    z-index: 2
+  &__mobile-menu
+    position: fixed
+    z-index: 3
   &__content
+    position: relative
+    z-index: 1
     display: flex
     flex-direction: column
     flex-grow: 1
