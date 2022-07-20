@@ -89,7 +89,9 @@
             type="button"
             @click="noteIsOpen = !noteIsOpen"
           >
-            А мне нужен другой уровень
+            <span class="demo-description__link-text">
+              А мне нужен другой уровень
+            </span>
           </button>
           <demo-note
             v-if="noteIsOpen"
@@ -250,12 +252,14 @@ $description-padding: 32px
     margin-right: 8px
     text-align: center
     color: #007eff
-    border-bottom: 1px dashed #007eff
     outline-width: 0
+  &__link-text
+    display: inline
+    border-bottom: 1px dashed currentColor
     transition-property: border-bottom-color
     transition-duration: 0.2s
-  &__pseudo-link:focus-visible,
-  &__pseudo-link:hover
+  &__pseudo-link:focus-visible &__link-text,
+  &__pseudo-link:hover &__link-text
     border-bottom-color: transparent
   &__note
     position: absolute
