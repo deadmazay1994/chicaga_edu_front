@@ -16,7 +16,7 @@ export default {
     let texts = [];
     if (this.inputCopy.addons) {
       this.inputCopy.addons.forEach(addon =>
-        texts.push(<div class="attachs__text">{addon.text}</div>)
+        texts.push(<div class="attachs__text" domPropsInnerHTML={addon.text}></div>)
       );
     }
     return (
