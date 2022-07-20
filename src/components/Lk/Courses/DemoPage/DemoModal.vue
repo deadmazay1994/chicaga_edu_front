@@ -77,22 +77,42 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .demo-modal
+  position: relative
+  overflow: hidden
   &__body
     display: flex
     justify-content: space-between
     padding-right: 30px
     padding-left: 8px
+    @media ($media_md)
+      padding-right: 15px
+      padding-left: 15px
   &__img-box
     flex-shrink: 0
     width: 209px
     height: 302px
     margin-right: 8px
+    @media ($media_md)
+      position: absolute
+      top: 50%
+      right: 0
+      z-index: 0
+      width: 100%
+      height: 100%
+      margin-right: 0
+      opacity: 0.05
+      transform: translateY(-50%)
   &__img
     width: 100%
     height: 100%
     object-fit: contain
+    @media ($media_md)
+      object-fit: cover
   &__content
+    position: relative
     display: flex
     flex-direction: column
     justify-content: space-between
@@ -102,6 +122,10 @@ export default {
     font-weight: 400
     font-size: 18px
     line-height: 1.6
+    @media ($media_md)
+      padding-top: 12px
+      padding-bottom: 12px
+      font-size: 16px
   &__teacher-info
     display: flex
     align-items: center
@@ -110,6 +134,8 @@ export default {
     padding-bottom: 20px
     line-height: 1.5
     text-align: right
+    @media ($media_md)
+      padding-bottom: 10px
   &__teacher-text
     display: flex
     flex-direction: column
@@ -117,9 +143,13 @@ export default {
   &__teacher-title
     font-weight: 200
     font-size: 16px
+    @media ($media_md)
+      font-size: 14px
   &__teacher-name
     font-weight: 700
     font-size: 18px
+    @media ($media_md)
+      font-size: 16px
   &__avatar-wrapper
     display: flex
     align-items: center
@@ -133,14 +163,20 @@ export default {
     height: 100%
     object-fit: cover
   &__price-wrapper
+    position: relative
     display: flex
     align-items: center
     justify-content: space-between
     padding: 10px 30px 8px
+    @media ($media_md)
+      padding-right: 15px
+      padding-left: 15px
   &__price-title
     margin-right: 10px
     font-weight: 700
     font-size: 18px
+    @media ($media_md)
+      font-size: 16px
   &__price-block
     display: flex
     flex-direction: column
@@ -149,6 +185,8 @@ export default {
   &__price-box--old
     font-size: 20px
     color: #c4c4c4
+    @media ($media_md)
+      font-size: 16px
   &__price-box--new
     font-weight: 200
     font-size: 40px
@@ -158,6 +196,8 @@ export default {
     -webkit-text-fill-color: transparent
     background-clip: text
     text-fill-color: transparent
+    @media ($media_md)
+      font-size: 36px
   &__old-price
     position: relative
     display: inline-block
