@@ -14,14 +14,12 @@
         <div class="demo-description__title">
           Пройдите бесплатный вводный урок
         </div>
-        <div class="demo-description__gift-box">
-          <svg class="demo-description__gift-icon" width="50" height="50">
-            <use xlink:href="#gift-box-open"></use>
-          </svg>
-          <div class="demo-description__text">
-            <b>и получите подарок</b>: 10 разговорных карточек c выражениями,
-            которыми вы поразите носителей английского
-          </div>
+        <div
+          class="demo-description__text-box"
+          :style="{ backgroundImage: `url(${backgroundUrl})` }"
+        >
+          <b>и получите подарок</b>: 10 разговорных карточек c выражениями,
+          которыми вы поразите носителей английского
         </div>
         <div class="demo-description__list-title">
           Выберите уровень урока:
@@ -121,6 +119,8 @@ import vClickOutside from "v-click-outside";
 
 import api from "@/mixins/api";
 
+import backgroundUrl from "@/assets/imgs/open_gift_box.svg";
+
 export default {
   name: "demo-description",
   components: {
@@ -134,6 +134,7 @@ export default {
   mixins: [api],
   data: function() {
     return {
+      backgroundUrl,
       noteIsOpen: false,
       lessons: []
     };
@@ -193,14 +194,15 @@ $description-padding: 32px
     font-weight: 700
     font-size: 36px
     line-height: 1.3
-  &__gift-box
-    display: flex
+  &__text-box
+    display: block
     flex-grow: 1
     max-width: 570px
+    min-height: 50px
     margin-bottom: 24px
-  &__gift-icon
-    flex-shrink: 0
-    margin-right: 24px
+    padding-left: 74px
+    background-position: left top
+    background-size: 50px 50px
   &__list-title
     margin-bottom: 12px
     font-weight: 700
