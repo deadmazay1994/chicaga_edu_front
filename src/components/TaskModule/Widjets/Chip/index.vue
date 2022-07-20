@@ -5,7 +5,8 @@
       'chip--' + state,
       { 'chip--empty-answer': !checkText },
       { 'chip--selected': selected },
-      postionClass,
+      { 'chip--part': positionClass },
+      positionClass,
       borderSelectedClass
     ]"
     @click="click"
@@ -38,7 +39,7 @@ export default {
     borderSelected: Boolean
   },
   computed: {
-    postionClass() {
+    positionClass() {
       if (this.position === "start") return "chip--part-first";
       if (this.position === "center") return "chip--part-center";
       if (this.position === "end") return "chip--part-last";
