@@ -157,10 +157,13 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 $image-box-width: 221px
 $image-box-height: 237px
 $image-right: 64px
 $description-padding: 32px
+
 .demo-description
   position: relative
   padding: $description-padding
@@ -170,12 +173,25 @@ $description-padding: 32px
   background-size: cover
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
   border-radius: 20px
+  @media ($media_lg2)
+    padding: calc( #{$description-padding} - 12px )
+  @media ($media_sm)
+    padding: 10px
   &__img-box
     position: absolute
     top: 0
     right: $image-right
     width: $image-box-width
     height: $image-box-height
+    @media ($media_xxl)
+      right: $description-padding
+    @media ($media_lg2)
+      right: calc( #{$description-padding} - 12px )
+    @media ($media_sm)
+      position: static
+      margin-right: auto
+      margin-bottom: 10px
+      margin-left: auto
   &__img
     width: 100%
     height: 100%
@@ -186,68 +202,125 @@ $description-padding: 32px
     display: flex
     flex-direction: column
     min-height: calc( #{$image-box-height} - #{$description-padding} )
-    padding-right: calc( 24px + #{$image-box-width} + ( #{$image-right} - #{$description-padding} ) )
+    padding-right: calc( #{$image-box-width} + #{$image-right} )
+    @media ($media_xxl)
+      padding-right: calc( #{$image-box-width} + #{$description-padding} )
+    @media ($media_lg2)
+      padding-right: calc( #{$image-box-width} + #{$description-padding} - 12px )
+    @media ($media_sm)
+      min-height: auto
+      padding-right: 0
   &__title
     margin-bottom: 16px
     padding-top: 8px
     font-weight: 700
     font-size: 36px
     line-height: 1.3
+    @media ($media_lg2)
+      padding-top: 0
+      font-size: 32px
+    @media ($media_md)
+      margin-bottom: 8px
+      font-size: 28px
   &__gift-box
     display: flex
     flex-grow: 1
     max-width: 570px
     margin-bottom: 24px
+    @media ($media_md)
+      flex-direction: column
   &__gift-icon
     flex-shrink: 0
     margin-right: 24px
+    @media ($media_md)
+      margin-right: 0
+      margin-bottom: 8px
+    @media ($media_sm)
+      align-self: center
   &__list-title
     margin-bottom: 12px
     font-weight: 700
     font-size: 24px
     line-height: 1.3
+    @media ($media_md)
+      margin-bottom: 0
+      font-size: 20px
   &__list
     display: flex
     flex-wrap: wrap
+    gap: 10px 40px
     margin-bottom: 40px
     list-style-type: none
+    @media ($media_xxxl)
+      column-gap: 30px
+    @media ($media_md)
+      justify-content: center
+      margin-bottom: 30px
   &__item
     display: flex
     flex-direction: column
     flex-shrink: 0
     flex-basis: 220px
-    gap: 8px
+    row-gap: 8px
     text-align: center
-  &__item:not(:last-child)
-    margin-right: 40px
+    @media ($media_sm)
+      flex-basis: 100%
   &__footer
     display: flex
     align-items: center
     justify-content: space-between
+    @media ($media_xxl)
+      flex-direction: column
+      align-items: stretch
   &__test-box
     display: flex
-    flex-basis: 620px
+    justify-content: space-between
+    flex-grow: 1
+    max-width: 620px
     padding: 24px
     line-height: 1.3
     background-color: #ffffff
     box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
     border-radius: 12px
+    @media ($media_md)
+      max-width: none
+    @media ($media_sm)
+      flex-direction: column
   &__test-content
     margin-right: 23px
+    @media ($media_sm)
+      margin-right: 0
+      margin-bottom: 16px
   &__test-title
     margin-bottom: 8px
     font-weight: 700
     font-size: 24px
+    @media ($media_md)
+      font-size: 20px
   &__btn-g
     align-self: center
     flex-shrink: 0
     flex-basis: 220px
+    @media ($media_sm)
+      align-self: stretch
+      flex-basis: auto
+      width: 100%
   &__question-box
     display: flex
     align-items: center
+    flex-shrink: 0
     padding: 26px 30px 10px
+    @media ($media_xxl)
+      padding-bottom: 0
+    @media ($media_lg2)
+      padding-right: 0
+      padding-left: 0
   &__link-box
     position: relative
+    @media ($media_xxl)
+      display: flex
+      justify-content: flex-end
+      flex-grow: 1
   &__pseudo-link
     margin-right: 8px
     text-align: center
@@ -272,9 +345,16 @@ $description-padding: 32px
     transition-duration: 0.2s, 0s
     transition-delay: 0s, 0.2s
     pointer-events: none
+    @media ($media_xxl)
+      left: auto
+      right: -36px
+    @media ($media_sm)
+      left: auto
+      width: auto
+      max-width: 435px
   &__note--open
     opacity: 1
-    z-index: 1
+    z-index: 4
     transition-delay: 0s
     pointer-events: auto
 </style>
