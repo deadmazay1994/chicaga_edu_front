@@ -406,7 +406,7 @@ const routes = [
         name: "test-main",
         component: TestMain,
         meta: {
-          breadcrumb: { title: "Тест" }
+          breadcrumb: { title: "Тестовое задание" }
         }
       },
       {
