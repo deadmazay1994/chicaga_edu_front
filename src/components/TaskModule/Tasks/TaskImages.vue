@@ -165,10 +165,10 @@ export default {
     bottom: 3px
     left: 3px
     display: flex
-    max-width: 40px
+    width: 80px
     font-weight: 600
-    font-size: 16px
-    line-height: 18px
+    font-size: 32px
+    line-height: 38px
     background-color: #ffffff
     border: 1px solid #dcdcdc
     border-radius: 5px
@@ -184,7 +184,8 @@ export default {
       -moz-appearance: textfield
   &__word, &__input
     width: 50%
-    padding: 0 2px
+    padding-right: 2px
+    padding-left: 2px
     text-align: center
   &__word
     border-right: 1px solid #dcdcdc
