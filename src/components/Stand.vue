@@ -1,8 +1,12 @@
 <template>
-  <div class="stand vue-component"></div>
+  <div class="stand vue-component">
+    <audio-player-vue></audio-player-vue>
+  </div>
 </template>
 
 <script>
+import AudioPlayerVue from "./AudioPLayer";
+
 export default {
   name: "stand",
   data: function() {
@@ -10,7 +14,7 @@ export default {
   },
   methods: {},
   computed: {},
-  components: {},
+  components: { AudioPlayerVue },
   props: [],
   mixins: {},
   beforeMount() {}
