@@ -127,7 +127,9 @@ $header-height: 76px
   overflow: hidden
   @media ($media_lg2)
     padding-left: 0
-    padding-top: 81px
+    padding-top: 75px
+  @media ($media_sm)
+    padding-top: 55px
   &__sidebar
     position: fixed
     z-index: 2

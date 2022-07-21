@@ -65,6 +65,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "@/assets/styles/variables.sass"
+
 .sidebar-component
   position: fixed
   top: 0
@@ -101,13 +103,17 @@ export default {
   .logo
     display: none
 
-@media (max-width: 1000px)
+@media ($media_lg2)
   .sidebar-component
     position: fixed
     transform: translateX(-120%)
-    top: 80px
+    top: 75px
     z-index: 9998
 
     &--mobile-active
       transform: translateX(0)
+
+@media ($media_sm)
+  .sidebar-component
+    top: 55px
 </style>
