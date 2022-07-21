@@ -5,42 +5,44 @@
   >
     <div class="program-card__inner">
       <div class="program-card__top">
-        <div class="program-card__img-box">
-          <img
-            v-if="kind == 'teacher'"
-            class="program-card__img"
-            width="48"
-            height="48"
-            src="@/assets/imgs/lessons/teacher.jpg"
-            alt="Учитель"
-          />
-          <svg v-else class="program-card__img" width="48" height="48">
-            <use
-              v-if="returnModificator == 'test'"
-              xlink:href="#sq-school-check"
-            ></use>
-            <use
-              v-else-if="returnModificator == 'practical'"
-              xlink:href="#sq-school-green"
-            ></use>
-            <use v-else xlink:href="#sq-school-red"></use>
-          </svg>
-        </div>
-        <div class="program-card__title-box">
-          <span class="program-card__title">
-            {{ title }}
-          </span>
-        </div>
-        <!-- <div class="program-card__rating-box">
-          <div class="program-card__rating-inner">
-            <svg class="program-card__star" width="16" height="16">
-              <use xlink:href="#star"></use>
+        <div class="program-card__top-main">
+          <div class="program-card__img-box">
+            <img
+              v-if="kind == 'teacher'"
+              class="program-card__img"
+              width="48"
+              height="48"
+              src="@/assets/imgs/lessons/teacher.jpg"
+              alt="Учитель"
+            />
+            <svg v-else class="program-card__img" width="48" height="48">
+              <use
+                v-if="returnModificator == 'test'"
+                xlink:href="#sq-school-check"
+              ></use>
+              <use
+                v-else-if="returnModificator == 'practical'"
+                xlink:href="#sq-school-green"
+              ></use>
+              <use v-else xlink:href="#sq-school-red"></use>
             </svg>
-            <span class="program-card__rating">
-              {{ rating }}
+          </div>
+          <div class="program-card__title-box">
+            <span class="program-card__title" :title="title">
+              {{ title }}
             </span>
           </div>
-        </div> -->
+          <!-- <div class="program-card__rating-box">
+            <div class="program-card__rating-inner">
+              <svg class="program-card__star" width="16" height="16">
+                <use xlink:href="#star"></use>
+              </svg>
+              <span class="program-card__rating">
+                {{ rating }}
+              </span>
+            </div>
+          </div> -->
+        </div>
         <div class="program-card__lock-box">
           <svg class="program-card__lock" width="24" height="24">
             <use :xlink:href="'#' + returnAccessString"></use>
@@ -48,33 +50,35 @@
         </div>
       </div>
       <div class="program-card__bottom">
-        <div class="program-card__bottom-item">
-          <div class="program-card__data">
-            <svg class="program-card__bottom-img" width="18" height="18">
-              <use xlink:href="#clock"></use>
-            </svg>
-            <span class="program-card__time">
-              {{ formattedDuration }} мин
-            </span>
+        <div class="program-card__bottom-main">
+          <div class="program-card__bottom-item">
+            <div class="program-card__data">
+              <svg class="program-card__bottom-img" width="18" height="18">
+                <use xlink:href="#clock"></use>
+              </svg>
+              <span class="program-card__time">
+                {{ formattedDuration }} мин
+              </span>
+            </div>
+            <div class="program-card__desc">
+              продолжительность
+            </div>
           </div>
-          <div class="program-card__desc">
-            продолжительность
-          </div>
-        </div>
-        <div class="program-card__bottom-item">
-          <div class="program-card__data">
-            <svg
-              class="program-card__bottom-img"
-              width="18"
-              height="18"
-              fill="none"
-            >
-              <use xlink:href="#calendar"></use>
-            </svg>
-            <span class="program-card__date"> {{ startTime }} г. </span>
-          </div>
-          <div class="program-card__desc">
-            доступ к уроку
+          <div class="program-card__bottom-item">
+            <div class="program-card__data">
+              <svg
+                class="program-card__bottom-img"
+                width="18"
+                height="18"
+                fill="none"
+              >
+                <use xlink:href="#calendar"></use>
+              </svg>
+              <span class="program-card__date"> {{ startTime }} г. </span>
+            </div>
+            <div class="program-card__desc">
+              доступ к уроку
+            </div>
           </div>
         </div>
         <div class="program-card__btn-box">
@@ -177,12 +181,15 @@ export default {
     border-bottom: 1px solid #dcdcdc
     @media ($media_sm)
       padding: 16px
+  &__top-main
+    display: flex
+    flex-wrap: wrap
+    gap: 8px 16px
   &__img-box
     display: flex
     flex-shrink: 0
     width: 48px
     height: 48px
-    margin-right: 16px
     border-radius: 8px
     overflow: hidden
   &__img
@@ -192,7 +199,6 @@ export default {
   &__title-box
     flex-shrink: 0
     flex-basis: 166px
-    margin-right: 40px
     font-weight: 700
     font-size: 16px
     line-height: 1.5
@@ -226,13 +232,15 @@ export default {
     align-items: center
     padding: 16px 24px
     @media ($media_sm)
-      flex-wrap: wrap
       padding-right: 16px
       padding-left: 16px
+  &__bottom-main
+    display: flex
+    align-items: center
+    flex-wrap: wrap
+    gap: 12px 24px
   &__bottom-item
     flex-shrink: 0
-  &__bottom-item:not(:last-child)
-    margin-right: 24px
   &__data
     display: flex
     align-items: center
@@ -246,6 +254,7 @@ export default {
     flex-grow: 1
     display: flex
     justify-content: flex-end
+    padding-left: 10px
   &__btn
     display: flex
     align-items: center
