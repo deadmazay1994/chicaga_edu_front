@@ -31,7 +31,7 @@
             {{ title }}
           </span>
         </div>
-        <div class="program-card__rating-box">
+        <!-- <div class="program-card__rating-box">
           <div class="program-card__rating-inner">
             <svg class="program-card__star" width="16" height="16">
               <use xlink:href="#star"></use>
@@ -40,7 +40,7 @@
               {{ rating }}
             </span>
           </div>
-        </div>
+        </div> -->
         <div class="program-card__lock-box">
           <svg class="program-card__lock" width="24" height="24">
             <use :xlink:href="'#' + returnAccessString"></use>
@@ -155,6 +155,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .program-card
   font-weight: 600
   font-size: 14px
@@ -164,6 +166,7 @@ export default {
     background-color: #ffffff
     border-radius: 12px
     box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
+    overflow: hidden
   &--practical &__inner
     background-image: linear-gradient(360deg, rgba(255, 255, 255, 0.2) 42%, rgba(181, 214, 55, 0.2) 100%)
   &--test &__inner
@@ -172,6 +175,8 @@ export default {
     display: flex
     padding: 24px
     border-bottom: 1px solid #dcdcdc
+    @media ($media_sm)
+      padding: 16px
   &__img-box
     display: flex
     flex-shrink: 0
@@ -185,12 +190,22 @@ export default {
     height: 100%
     fill: none
   &__title-box
-    flex-grow: 1
-    margin-right: 10px
+    flex-shrink: 0
+    flex-basis: 166px
+    margin-right: 40px
     font-weight: 700
     font-size: 16px
     line-height: 1.5
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    text-overflow: ellipsis
+    overflow: hidden
+    -webkit-line-clamp: 2
   &__rating-box
+    display: flex
+    align-items: flex-start
+    justify-content: flex-end
+    flex-grow: 1
     margin-right: 10px
   &__rating-inner
     display: flex
@@ -201,11 +216,21 @@ export default {
   &__star
     margin-right: 1px
   &__lock-box
-    padding-left: 20px
+    display: flex
+    align-items: flex-start
+    justify-content: flex-end
+    flex-grow: 1
+    padding-left: 10px
   &__bottom
     display: flex
     align-items: center
     padding: 16px 24px
+    @media ($media_sm)
+      flex-wrap: wrap
+      padding-right: 16px
+      padding-left: 16px
+  &__bottom-item
+    flex-shrink: 0
   &__bottom-item:not(:last-child)
     margin-right: 24px
   &__data
