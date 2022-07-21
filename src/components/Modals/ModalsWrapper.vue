@@ -7,14 +7,14 @@
 </template>
 
 <script>
+// Вызывать все модальные окна здесь
 import DemoModal from "../Lk/Courses/DemoPage/DemoModal.vue";
-import CalendarModalVue from "../Calendar/CalendarModal.vue";
 
 import { eventBus } from "@/main";
 
 export default {
   name: "modals-wrapper",
-  components: { DemoModal, CalendarModalVue },
+  components: { DemoModal },
   data: function() {
     return {
       activeModal: undefined
