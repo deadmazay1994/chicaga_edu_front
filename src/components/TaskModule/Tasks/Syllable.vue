@@ -6,7 +6,7 @@
       :key="row"
     >
       <chip
-        v-for="(syllable, i) in chip"
+        v-for="(syllable, i) in shuffle(chip)"
         :key="i"
         :text="syllable.text"
         :checkText="true"
@@ -40,6 +40,21 @@ export default {
     unique_id: String
   },
   methods: {
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     selectSyllable(row, i) {
       this.selectedChipsArray[row].forEach(chip => (chip.selected = false));
       this.selectedChipsArray[row][i].selected = !this.selectedChipsArray[row][

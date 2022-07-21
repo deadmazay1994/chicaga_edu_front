@@ -58,6 +58,21 @@ export default {
     }
   },
   methods: {
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     // Метод для вычисления текущей колонки
     returnColumnIndex(chip, columnIndex) {
       this.selectedChipsArray[
@@ -187,6 +202,7 @@ export default {
         });
       }
     });
+    this.selectedChipsArray = this.shuffle(this.selectedChipsArray);
   }
 };
 </script>
@@ -197,8 +213,4 @@ export default {
   align-items: center
   flex-direction: column
   gap: 7px
-
-// Надо заменить анимацию
-// .flip-list-move
-//   transition: transform 1s
 </style>
