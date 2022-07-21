@@ -1,6 +1,7 @@
 <template>
   <div class="task-group">
     <template v-for="(task, index) in tasks">
+      {{ returnComponent(task.type) }}
       <template>
         <div
           class="task-group__title"
