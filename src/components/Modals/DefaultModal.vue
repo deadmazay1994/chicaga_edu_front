@@ -1,42 +1,36 @@
 <template>
-  <transition name="fade">
-    <div class="default-modal vue-component" v-if="showModal">
-      <div class="default-modal__inner" v-click-outside="onClickOutside">
-        <div class="default-modal__head">
-          <button
-            class="default-modal__close"
-            type="button"
-            @click="$emit('close')"
-          >
-            <svg class="default-modal__close-icon" width="15" height="15">
-              <use xlink:href="#close-red"></use>
-            </svg>
-            <div class="sr-only">
-              Закрыть
-            </div>
-          </button>
-          <div class="default-modal__title">
-            {{ title }}
-          </div>
+  <div class="default-modal" v-click-outside="onClickOutside">
+    <div class="default-modal__head">
+      <button class="default-modal__close" type="button" @click="closeModal()">
+        <svg class="default-modal__close-icon" width="15" height="15">
+          <use xlink:href="#close-red"></use>
+        </svg>
+        <div class="sr-only">
+          Закрыть
         </div>
-        <div class="default-modal__body">
-          <slot></slot>
-        </div>
-        <div class="default-modal__footer">
-          <button class="default-modal__cancel" @click="$emit('close')">
-            Отмена
-          </button>
-          <button class="default-modal__pay" @click="pay()">
-            Оплатить
-          </button>
-        </div>
+      </button>
+      <div class="default-modal__title">
+        {{ title }}
       </div>
     </div>
-  </transition>
+    <div class="default-modal__body">
+      <slot></slot>
+    </div>
+    <div class="default-modal__footer">
+      <button class="default-modal__cancel" @click="closeModal()">
+        Отмена
+      </button>
+      <button class="default-modal__pay" @click="pay()">
+        Оплатить
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
 import vClickOutside from "v-click-outside";
+
+import { eventBus } from "@/main";
 
 export default {
   name: "store-modal",
@@ -45,7 +39,6 @@ export default {
     return {};
   },
   props: {
-    showModal: Boolean,
     title: String
   },
   computed: {},
@@ -53,8 +46,11 @@ export default {
     clickOutside: vClickOutside.directive
   },
   methods: {
+    closeModal() {
+      eventBus.$emit("closeModal");
+    },
     onClickOutside() {
-      this.$emit("close");
+      this.closeModal();
     }
   },
   mounted() {}
@@ -65,26 +61,14 @@ export default {
 @import "@/assets/styles/variables.sass"
 
 .default-modal
-  position: fixed
-  top: 0
-  left: 0
-  display: flex
-  width: 100%
-  height: 100%
-  padding: 20px
-  line-height: 1.5
-  background-color: rgba(85, 85, 85, 0.25)
-  z-index: 9998
-  overflow: hidden auto
-  &__inner
-    max-width: 520px
-    margin: auto
-    color: #252525
-    background-color: #ffffff
-    border-radius: 15px
-    overflow: hidden
-    @media ($media_md)
-      max-width: 420px
+  max-width: 520px
+  margin: auto
+  color: #252525
+  background-color: #ffffff
+  border-radius: 15px
+  overflow: hidden
+  @media ($media_md)
+    max-width: 420px
   &__head
     padding: 25px 30px
     border-bottom: 1px solid #f0f1f1

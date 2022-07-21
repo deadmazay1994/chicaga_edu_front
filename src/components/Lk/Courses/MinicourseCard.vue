@@ -16,7 +16,7 @@
         <button
           class="minicourse-card__more-text"
           type="button"
-          @click="$emit('showModal')"
+          @click="showModal()"
         >
           Подробнее
         </button>
@@ -35,7 +35,7 @@
         <span class="minicourse-card__price">1200</span
         ><span class="minicourse-card__currency">₽</span>
       </div>
-      <button class="minicourse-card__btn" @click="$emit('showModal')">
+      <button class="minicourse-card__btn" @click="showModal()">
         Купить
       </button>
     </div>
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { eventBus } from "@/main";
+
 export default {
   name: "minicourse-card",
   components: {},
@@ -51,7 +53,11 @@ export default {
   },
   props: [],
   computed: {},
-  methods: {}
+  methods: {
+    showModal() {
+      eventBus.$emit("showModal", { name: "demo-modal" });
+    }
+  }
 };
 </script>
 

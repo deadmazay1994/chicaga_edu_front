@@ -5,30 +5,25 @@
       Мини-курсы можно пройти уже сейчас:
     </div>
     <div class="demo-page__grid">
-      <minicourse-card @showModal="showModal = true"></minicourse-card>
-      <minicourse-card @showModal="showModal = true"></minicourse-card>
-      <minicourse-card @showModal="showModal = true"></minicourse-card>
+      <minicourse-card></minicourse-card>
+      <minicourse-card></minicourse-card>
+      <minicourse-card></minicourse-card>
     </div>
-    <demo-modal-vue :showModal="showModal" @close="showModal = false" />
   </div>
 </template>
 
 <script>
 import DemoDescription from "./DemoDescription.vue";
 import MinicourseCard from "@/components/Lk/Courses/MinicourseCard.vue";
-import DemoModalVue from "./DemoModal.vue";
 
 export default {
   name: "demo-page",
   components: {
     DemoDescription,
-    MinicourseCard,
-    DemoModalVue
+    MinicourseCard
   },
   data: function() {
-    return {
-      showModal: false
-    };
+    return {};
   },
   props: [],
   computed: {},

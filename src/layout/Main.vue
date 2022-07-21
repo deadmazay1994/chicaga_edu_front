@@ -37,6 +37,7 @@
         </template>
       </c-content>
     </div>
+    <modals-wrapper />
     <calendar-modal />
     <svg-sprite />
   </div>
@@ -52,7 +53,8 @@ import vClickOutside from "v-click-outside";
 import CalendarModal from "@/components/Calendar/CalendarModal";
 import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
-import BreadcrumbsComponent from "../components/Base/BreadcrumbsComponent";
+import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
+import ModalsWrapper from "@/components/Modals/ModalsWrapper.vue";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -74,6 +76,7 @@ export default {
     MobileMenu,
     SvgSprite,
     BreadcrumbsComponent,
+    ModalsWrapper,
     "c-content": Content
   },
   methods: {
