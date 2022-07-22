@@ -6,38 +6,42 @@
       'settings-aside--premium': tariff == 'premium'
     }"
   >
-    <button
-      class="settings-aside__avatar-box"
-      tabindex="0"
-      @click="showUploadAvatar = true"
-    >
-      <img
-        v-if="user.avatar_link"
-        class="settings-aside__avatar"
-        :src="user.avatar_link"
-        alt="Фото профиля"
-      />
-      <span class="settings-aside__avatar-overlay">
-        <span class="settings-aside__overlay-text">
-          Загрузить фото профиля
-        </span>
-      </span>
-      <svg
-        v-if="tariff == 'premium'"
-        class="settings-aside__avatar-crone"
-        width="45"
-        height="30"
+    <div class="settings-aside__avatar-container">
+      <button
+        class="settings-aside__avatar-box"
+        tabindex="0"
+        @click="showUploadAvatar = true"
       >
-        <use xlink:href="#crown"></use>
-      </svg>
-    </button>
-    <div class="settings-aside__tariff-box">
-      <span class="settings-aside__tariff-text">
-        Standart
-      </span>
-    </div>
-    <div class="settings-aside__name-box">
-      Соловьева Ульяна
+        <img
+          v-if="user.avatar_link"
+          class="settings-aside__avatar"
+          :src="user.avatar_link"
+          width="295"
+          height="260"
+          alt="Фото профиля"
+        />
+        <span class="settings-aside__avatar-overlay">
+          <span class="settings-aside__overlay-text">
+            Загрузить фото профиля
+          </span>
+        </span>
+        <svg
+          v-if="tariff == 'premium'"
+          class="settings-aside__avatar-crone"
+          width="45"
+          height="30"
+        >
+          <use xlink:href="#crown"></use>
+        </svg>
+      </button>
+      <div class="settings-aside__tariff-box">
+        <span class="settings-aside__tariff-text">
+          Standart
+        </span>
+      </div>
+      <div class="settings-aside__name-box">
+        Соловьева Ульяна
+      </div>
     </div>
     <div class="settings-aside__list">
       <div class="settings-aside__item">
@@ -137,6 +141,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .settings-aside
   min-height: 100%
   padding: 32px
@@ -144,10 +150,29 @@ export default {
   background-position: 100% 100%
   background-size: 245px 127px
   background-repeat: no-repeat
+  @media ($media_xl)
+    display: flex
+    justify-content: center
+    gap: 16px
+    padding: 16px
+  @media ($media_sm)
+    flex-direction: column
+    align-items: center
+  &__avatar-container
+    display: flex
+    flex-direction: column
+    width: 100%
+    max-width: 295px
+    margin-bottom: 60px
+    @media ($media_xl)
+      max-width: 250px
+      margin-bottom: 0
+    @media ($media_sm)
+      max-width: 200px
   &__avatar-box
     position: relative
-    width: 100%
-    height: 260px
+    display: block
+    height: calc( 295px * 0.88 )
     margin-bottom: 4px
     text-align: center
     color: #ffffff
@@ -157,6 +182,10 @@ export default {
     border-top-right-radius: 12px
     outline-width: 0
     overflow: hidden
+    @media ($media_xl)
+      height: calc( 250px * 0.88 )
+    @media ($media_sm)
+      height: calc( 200px * 0.88 )
   &__avatar-box::before
     content: ""
     position: absolute
@@ -225,6 +254,9 @@ export default {
     background-color: #f8f8f8
     border-bottom-left-radius: 12px
     border-bottom-right-radius: 12px
+    @media ($media_xl)
+      margin-bottom: 8px
+      font-size: 14px
   &--standart &__tariff-box
     display: flex
     align-items: center
@@ -248,17 +280,26 @@ export default {
   &--standart &__tariff-text
     padding-right: 24px
     padding-left: 24px
+    @media ($media_xl)
+      padding-right: 16px
+      padding-left: 16px
+    @media ($media_sm)
+      padding-right: 8px
+      padding-left: 8px
   &__name-box
-    margin-bottom: 60px
     font-weight: 600
     font-size: 20px
     text-align: center
     color: #0d0d0d
+    @media ($media_xl)
+      font-size: 16px
   &__item
     display: flex
     align-items: center
   &__item:not(:last-child)
     margin-bottom: 24px
+    @media ($media_sm)
+      margin-bottom: 8px
   &__item-icon
     flex-shrink: 0
     margin-right: 8px
@@ -272,6 +313,11 @@ export default {
     font-size: 20px
     line-height: 27px
     color: #323232
+    @media ($media_xl)
+      font-size: 16px
+    @media ($media_sm)
+      min-height: 23px
+      line-height: 23px
   &__item-desc
     font-weight: 500
     font-size: 12px
