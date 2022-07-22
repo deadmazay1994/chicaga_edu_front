@@ -52,6 +52,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .course-description
   font-weight: 300
   font-size: 16px
@@ -66,18 +68,40 @@ export default {
     color: #323232
     border-bottom: 1px solid #dcdcdc
     box-shadow: 0 1px 0 #ffffff
+    @media ($media_xxl)
+      padding-right: 24px
+      padding-left: 24px
+    @media ($media_lg2)
+      padding-top: 24px
+    @media ($media_md2)
+      padding-top: 16px
+      padding-right: 16px
+      padding-left: 16px
   &__content
     margin-right: 13%
     padding-bottom: 15px
+    @media ($media_xxl)
+      margin-right: 16px
+    @media ($media_lg2)
+      margin-right: 0
   &__title
     font-weight: 700
     font-size: 40px
     line-height: 1.4
+    @media ($media_xxl)
+      margin-bottom: 8px
+      font-size: 32px
+    @media ($media_lg2)
+      font-size: 28px
+    @media ($media_md2)
+      font-size: 24px
   &__image-box
     align-self: flex-end
     flex-shrink: 0
     width: 295px
     height: 215px
+    @media ($media_lg2)
+      display: none
   &__bottom
     display: grid
     grid-auto-flow: column
@@ -85,13 +109,39 @@ export default {
     grid-template-columns: auto auto 47%
     grid-gap: 16px
     padding: 15px 65px 27px 32px
+    @media ($media_xxl)
+      grid-auto-flow: row
+      grid-template-columns: auto auto
+      padding-right: 24px
+      padding-left: 24px
+    @media ($media_md2)
+      grid-template-columns: auto
+      grid-row-gap: 8px
+      padding-right: 16px
+      padding-bottom: 16px
+      padding-left: 16px
   &__info
     display: flex
     align-items: center
+  &__info:nth-child(2)
+    @media ($media_xxl)
+      grid-row-start: 1
+      grid-row-end: 3
+      grid-column-start: 2
+      align-self: end
+    @media ($media_lg2)
+      grid-row-start: auto
+      grid-row-end: auto
+      grid-column-start: auto
+      align-self: auto
   &__info:nth-child(5)
     grid-row-start: 1
     grid-row-end: 3
     align-self: end
+    @media ($media_xxl)
+      grid-row-start: auto
+      grid-row-end: auto
+      align-self: auto
   &__info-icon
     display: flex
     align-items: center
@@ -100,4 +150,6 @@ export default {
     width: 24px
     height: 24px
     margin-right: 18px
+    @media ($media_xl)
+      margin-right: 12px
 </style>
