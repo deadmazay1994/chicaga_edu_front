@@ -26,14 +26,17 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .page-404
   display: flex
-  flex-wrap: wrap
-  justify-content: center
-  height: 80vh
   align-items: center
+  justify-content: center
+  padding: 10px
+  text-align: center
   &__404
     font-size: 300px
-    line-height: 300px
-    text-align: center
+    line-height: 1
+    @media ($media_md)
+      font-size: 150px
 </style>
