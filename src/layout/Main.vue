@@ -25,7 +25,7 @@
         <template v-slot:header>
           <div class="main__header-wrap">
             <header-app class="main__header">
-              <span class="header__lavel" v-if="$route.meta.lesson === true"
+              <span class="header-level" v-if="$route.meta.lesson === true"
                 >Elementary</span
               >
               <breadcrumbs-component v-else />
@@ -176,7 +176,8 @@ $header-height: 76px
     height: 100%
     overflow-x: hidden
     overflow-y: auto
-.header__lavel
+
+.header-level
   width: 100%
   height: 100%
   font-weight: 600
@@ -186,4 +187,8 @@ $header-height: 76px
   overflow: hidden
   white-space: nowrap
   text-overflow: ellipsis
+  @media ($media_lg2)
+    font-size: 32px
+  @media ($media_sm)
+    font-size: 24px
 </style>

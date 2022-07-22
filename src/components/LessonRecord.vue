@@ -69,6 +69,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 $header-height: 62px
 
 .lesson-template
@@ -77,23 +79,37 @@ $header-height: 62px
   width: 100%
   height: 100%
   padding: 16px 20px 20px
+  @media ($media_sm)
+    padding: 10px
   &__header
     position: relative
     width: 100%
     height: $header-height
     padding-bottom: 16px
     z-index: 1
+    @media ($media_xl)
+      height: auto
   &__header-inner
     display: flex
     align-items: center
     justify-content: space-between
     height: 100%
+    @media ($media_xl)
+      flex-direction: column
   &__header-part
     width: 50%
+    @media ($media_xl)
+      width: 100%
   &__header-part--2
     display: flex
     justify-content: flex-end
     padding-left: 20px
+    @media ($media_xl)
+      padding-top: 10px
+      padding-left: 0
+    @media ($media_xs)
+      align-self: center
+      width: auto
   &__scores
     flex-grow: 1
     max-width: 448px
@@ -102,10 +118,25 @@ $header-height: 62px
     background-color: #FFFFFF
     box-shadow: 0 4px 10px #F3F3F3
     border-radius: 20px
+    @media ($media_xl)
+      max-width: 370px
+      padding-right: 34px
+      padding-left: 34px
+    @media ($media_sm)
+      max-width: 320px
+      padding-right: 24px
+      padding-left: 24px
+    @media ($media_xs)
+      padding-right: 8px
+      padding-left: 8px
+      background-color: transparent
+      box-shadow: none
   &__body
     flex-grow: 1
     width: 100%
     height: calc( 100% - #{$header-height} )
+    @media ($media_xl)
+      height: auto
 
 .lesson-body
   position: relative
@@ -115,11 +146,22 @@ $header-height: 62px
     display: flex
     width: 100%
     height: 100%
+    @media ($media_xl)
+      flex-direction: column
   &__item
     width: 50%
     height: 100%
+    @media ($media_xl)
+      width: 100%
+      height: auto
   &__item--2
     padding-left: 20px
+    @media ($media_xl)
+      max-width: 800px
+      margin-right: auto
+      margin-left: auto
+      padding-top: 20px
+      padding-left: 0
   &__video
     width: 100%
     height: 100%
