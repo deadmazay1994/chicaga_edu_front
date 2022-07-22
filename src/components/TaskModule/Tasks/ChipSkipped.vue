@@ -15,7 +15,7 @@
     <div class="answer-item" v-for="(item, i) in sentencesMap" :key="'3' + i">
       <template v-for="(text, j) in item">
         <template>
-          {{ text.replaceAll("{gap}", "") }}
+          <span v-html="text.replaceAll('{gap}', '')" :key="'40' + j"></span>
           <chip-input
             v-if="text.endsWith('{gap}')"
             :key="'4' + j"
@@ -223,9 +223,7 @@ export default {
     }
   },
   beforeMount() {
-    // this.setInputCopy();
     this.inputCopy = this.taskObject;
-    console.log("inputCopy:", this.inputCopy);
     this.setVariantsList();
     this.setSentencesMap();
     this.initResultArr();
