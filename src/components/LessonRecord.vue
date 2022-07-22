@@ -107,8 +107,9 @@ $header-height: 62px
     @media ($media_xl)
       padding-top: 10px
       padding-left: 0
-    @media ($media_sm2)
-      display: none
+    @media ($media_xs)
+      align-self: center
+      width: auto
   &__scores
     flex-grow: 1
     max-width: 448px
@@ -117,6 +118,19 @@ $header-height: 62px
     background-color: #FFFFFF
     box-shadow: 0 4px 10px #F3F3F3
     border-radius: 20px
+    @media ($media_xl)
+      max-width: 370px
+      padding-right: 34px
+      padding-left: 34px
+    @media ($media_sm)
+      max-width: 320px
+      padding-right: 24px
+      padding-left: 24px
+    @media ($media_xs)
+      padding-right: 8px
+      padding-left: 8px
+      background-color: transparent
+      box-shadow: none
   &__body
     flex-grow: 1
     width: 100%
