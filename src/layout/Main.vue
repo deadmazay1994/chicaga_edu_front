@@ -25,7 +25,7 @@
         <template v-slot:header>
           <div class="main__header-wrap">
             <header-app class="main__header">
-              <span class="header__lavel" v-if="$route.meta.lesson === true"
+              <span class="header-level" v-if="$route.meta.lesson === true"
                 >Elementary</span
               >
               <breadcrumbs-component v-else />
@@ -39,6 +39,7 @@
         </template>
       </c-content>
     </div>
+    <modals-wrapper />
     <calendar-modal />
     <svg-sprite />
   </div>
@@ -54,7 +55,8 @@ import vClickOutside from "v-click-outside";
 import CalendarModal from "@/components/Calendar/CalendarModal";
 import SidebarComponent from "@/components/Lk/SidebarComponent";
 import MobileMenu from "@/components/Lk/MobileMenu";
-import BreadcrumbsComponent from "../components/Base/BreadcrumbsComponent";
+import BreadcrumbsComponent from "@/components/Base/BreadcrumbsComponent";
+import ModalsWrapper from "@/components/Modals/ModalsWrapper.vue";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -76,6 +78,7 @@ export default {
     MobileMenu,
     SvgSprite,
     BreadcrumbsComponent,
+    ModalsWrapper,
     "c-content": Content
   },
   methods: {
@@ -127,7 +130,9 @@ $header-height: 76px
   overflow: hidden
   @media ($media_lg2)
     padding-left: 0
-    padding-top: 81px
+    padding-top: 75px
+  @media ($media_sm)
+    padding-top: 55px
   &__sidebar
     position: fixed
     z-index: 2
@@ -171,7 +176,8 @@ $header-height: 76px
     height: 100%
     overflow-x: hidden
     overflow-y: auto
-.header__lavel
+
+.header-level
   width: 100%
   height: 100%
   font-weight: 600
@@ -181,4 +187,8 @@ $header-height: 76px
   overflow: hidden
   white-space: nowrap
   text-overflow: ellipsis
+  @media ($media_lg2)
+    font-size: 32px
+  @media ($media_sm)
+    font-size: 24px
 </style>

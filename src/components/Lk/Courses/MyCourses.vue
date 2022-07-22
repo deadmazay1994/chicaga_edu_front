@@ -47,8 +47,16 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .catalog-c
   padding: 32px
+  @media ($media_xxl)
+    padding: 20px
+  @media ($media_md)
+    padding: 10px
   &__item:not(:last-child)
     margin-bottom: 20px
+    @media ($media_md)
+      margin-bottom: 10px
 </style>

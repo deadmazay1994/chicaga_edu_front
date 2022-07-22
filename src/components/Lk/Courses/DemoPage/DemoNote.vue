@@ -78,6 +78,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .demo-note
   position: relative
   display: flex
@@ -145,6 +147,12 @@ export default {
     transition-duration: 0.2s, 0s
     transition-delay: 0s, 0.2s
     pointer-events: none
+    @media ($media_xxl)
+      top: auto
+      right: 10px
+      bottom: 30px
+      left: 10px
+      width: auto
   &__notice--open
     opacity: 1
     z-index: 1

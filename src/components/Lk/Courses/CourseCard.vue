@@ -128,6 +128,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .course-card
   background-color: #ffffff
   border-radius: 12px
@@ -159,6 +161,11 @@ export default {
     background-size: 48px 48px
     background-position: left 24px center
     border-bottom: 1px solid #dcdcdc
+    @media ($media_md)
+      min-height: 72px
+      padding: 16px 16px 16px 72px
+      background-size: 40px 40px  
+      background-position: left 16px center
   &__title
     flex-grow: 1
     font-weight: 700
@@ -168,6 +175,8 @@ export default {
     overflow: hidden
     white-space: nowrap
     text-overflow: ellipsis
+    @media ($media_md)
+      font-size: 20px
   &__status
     display: flex
     padding-left: 0.5em
@@ -175,6 +184,9 @@ export default {
     flex-grow: 1
     padding: 8px 24px
     color: #323232
+    @media ($media_md)
+      padding-right: 16px
+      padding-left: 16px
   &__desc
     min-height: calc( 22px * 4 )
     line-height: 22px
@@ -185,32 +197,46 @@ export default {
   &--wide &__desc
     min-height: calc( 22px * 2 )
     -webkit-line-clamp: 2
+    @media ($media_sm)
+      -webkit-line-clamp: 4
   &__footer
     padding: 6px 24px 20px
+    @media ($media_md)
+      padding-right: 16px
+      padding-bottom: 12px
+      padding-left: 16px
   &--wide &__footer
     display: flex
     align-items: center
     justify-content: space-between
     padding-top: 10px
+    @media ($media_sm)
+      flex-direction: column
+      align-items: stretch
   &__feature
     display: flex
     flex-wrap: wrap
+    column-gap: 32px
     margin-bottom: 20px
     font-weight: 300
   &--wide &__feature
     margin-right: 20px
     margin-bottom: 0
+    @media ($media_sm)
+      margin-right: 0
+      margin-bottom: 10px
   &__feature-item
     display: flex
     padding-top: 4px
     padding-bottom: 4px
-  &__feature-item:not(:last-child)
-    margin-right: 32px
   &__feature-icon
     flex-shrink: 0
     width: 24px
     height: 24px
     margin-right: 4px
+  &__feature-text
+    @media ($media_md)
+      flex-shrink: 0
   &__btn-box
     display: flex
     flex-direction: column

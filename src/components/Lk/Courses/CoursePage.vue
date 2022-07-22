@@ -96,16 +96,26 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .course-page
   width: 100%
   &__block
     padding-top: 40px
+    @media ($media_md)
+      padding-top: 30px
   &__block-title
     font-size: 24px
     font-weight: 700
+    @media ($media_md)
+      font-size: 20px
   &__grid
     padding-top: 16px
     display: grid
     grid-template-columns: 1fr 1fr 1fr
     grid-gap: 20px
+    @media ($media_xxl)
+      grid-template-columns: 1fr 1fr
+    @media ($media_md)
+      grid-template-columns: 1fr
 </style>
