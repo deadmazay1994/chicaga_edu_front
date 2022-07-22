@@ -5,7 +5,7 @@
       <span></span>
       <span></span>
     </div>
-    <logo />
+    <logo class="mobile-menu__logo" />
   </div>
 </template>
 
@@ -26,6 +26,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "@/assets/styles/variables.sass"
+ 
 .mobile-menu
   display: none
   background: #fff
@@ -36,17 +38,26 @@ export default {
   left: 0
   width: 100%
   z-index: 9999
-
-  @media (max-width: 1000px)
+  @media ($media_lg2)
     display: flex
     align-items: center
     justify-content: space-between
+  @media ($media_sm)
+    padding-top: 10px
+    padding-bottom: 10px
+  &__logo
+    @media ($media_sm)
+      width: 150px
+      height: 36px
 
 .menu-btn
   display: flex
   align-items: center
   justify-content: center
   flex-direction: column
+  width: 36px
+  height: 36px
+  margin-right: 15px
 
   span
     display: block

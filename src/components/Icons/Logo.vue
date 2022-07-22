@@ -1,8 +1,6 @@
 <template>
-  <div class="logo vue-component">
+  <div class="logo vue-component" width="192" height="46">
     <svg
-      width="192"
-      height="46"
       viewBox="0 0 192 46"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -315,9 +313,12 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-.logo svg
-  max-width: 200px
-  height: auto
-.logo g rect
-  fill: #fff
+.logo
+  width: 192px
+  height: 46px
+  svg
+    width: 100%
+    height: 100%
+  g rect
+    fill: #fff
 </style>
