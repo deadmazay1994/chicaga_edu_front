@@ -172,16 +172,14 @@ export default {
     display: flex
     align-items: center
     justify-content: space-between
+    column-gap: 10px
+    width: 100%
     height: 100%
-  &__part
-    width: calc( (100% / 3) - 10px )
-    @media ($media_lg2)
-      width: auto
   &__part--1
-    @media ($media_lg2)
-      margin-right: 15px
+    @media ($media_xl)
+      max-width: 60%
   &__part--2
-    @media ($media_lg2)
+    @media ($media_xl)
       display: none
   &__title-block
     display: flex
