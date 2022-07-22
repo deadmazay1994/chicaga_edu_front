@@ -74,19 +74,29 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .course-lessons
   padding: 24px 32px
-  &__section + &__section
-    padding-top: 40px
+  @media ($media_md)
+    padding: 16px
   &__section:not(:last-child)
     margin-bottom: 40px
+    @media ($media_md)
+      margin-bottom: 30px
+    @media ($media_sm)
+      margin-bottom: 20px
   &__section-title
     margin-bottom: 16px
     font-weight: 700
     font-size: 24px
     color: #323232
-  &__lesson:not(:last-child)
+    @media ($media_md)
+      font-size: 20px
+    @media ($media_sm)
+      margin-bottom: 8px
+  &__card:not(:last-child)
     margin-bottom: 20px
-  &__card + &__card
-    margin-top: 20px
+    @media ($media_sm)
+      margin-bottom: 10px
 </style>
