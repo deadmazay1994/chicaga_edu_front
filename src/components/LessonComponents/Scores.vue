@@ -1,22 +1,22 @@
 <template>
   <div class="scores vue-component">
     <div class="scores__item">
-      <animated-cool-svg ref="animatedCool" />
+      <animated-cool-svg class="scores__icon" ref="animatedCool" />
       <span class="scores__points">{{ points.smile }}</span>
     </div>
 
     <div class="scores__item">
-      <animated-star-svg ref="animatedStar" />
+      <animated-star-svg class="scores__icon" ref="animatedStar" />
       <span class="scores__points">{{ points.star }}</span>
     </div>
 
     <div class="scores__item">
-      <animated-brain-svg ref="animatedBrain" />
+      <animated-brain-svg class="scores__icon" ref="animatedBrain" />
       <span class="scores__points">{{ points.brain }}</span>
     </div>
 
     <div class="scores__item">
-      <animated-lamp-svg ref="animatedLamp" />
+      <animated-lamp-svg class="scores__icon" ref="animatedLamp" />
       <span class="scores__points">{{ points.lamp }}</span>
     </div>
   </div>
@@ -92,6 +92,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .scores
   display: flex
   align-items: center
@@ -104,6 +106,10 @@ export default {
     line-height: 1
   &__item:not(:last-child)
     margin-right: 16px
+    @media ($media_xl)
+      margin-right: 8px
+    @media ($media_sm)
+      margin-right: 6px
   &__points
     margin-left: 8px
     font-weight: 600
@@ -111,7 +117,15 @@ export default {
     line-height: 16px
   &__item:not(:last-child) &__points
     min-width: 32px
-  .animated-svg-wrapper
+    @media ($media_sm)
+      margin-left: 6px
+  &__icon
     width: 30px
     height: 30px
+    @media ($media_xl)
+      width: 25px
+      height: 25px
+    @media ($media_sm)
+      width: 20px
+      height: 20px
 </style>
