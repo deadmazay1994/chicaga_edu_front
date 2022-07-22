@@ -85,6 +85,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "@/assets/styles/variables.sass"
+
 .tariff-price
   position: relative
   font-size: 14px
@@ -97,25 +99,41 @@ export default {
     flex-direction: column
     min-height: 213px
     background-color: #ffffff
+    @media ($media_xxl)
+      min-height: auto
   &__header
     padding: 24px 66px 16px
     border-bottom: 1px solid #dcdcdc
+    @media ($media_md)
+      padding: 16px 16px 10px
   &__title-box
     font-weight: 800
     font-size: 32px
     text-align: center
     color: #202020
+    @media ($media_xxl)
+      font-size: 28px
+    @media ($media_md)
+      font-size: 24px
   &__body
     display: flex
     justify-content: space-between
     flex-grow: 1
     padding: 16px 24px 24px
+    @media ($media_md)
+      padding-top: 10px
+      padding-right: 16px
+      padding-left: 16px
+    @media ($media_xs)
+      flex-direction: column
   &__body-main
-    margin-right: 15px
+    margin-right: 10px
   &__month-box
     margin-bottom: 10px
     font-weight: 300
     font-size: 16px
+    @media ($media_md)
+      margin-bottom: 0
   &__month-price
     display: inline-block
     font-weight: 600
@@ -126,6 +144,10 @@ export default {
     background-clip: text
     -webkit-text-fill-color: transparent
     text-fill-color: transparent
+    @media ($media_xxl)
+      font-size: 28px
+    @media ($media_md)
+      font-size: 24px
   &--standart &__month-price
     background-image: linear-gradient(114deg, #909090 17%, #b8b8b8 25%, #909090 34%, #909090 47%, #bcbcbc 54%, #909090 67%, #909090 84%, #727272 91%), linear-gradient(124deg, rgba(252, 204, 110, 0.8) -32%, rgba(255, 218, 146, 0.8) -22%, rgba(252, 204, 110, 0.8) -16%, rgba(252, 204, 110, 0.8) -10%, rgba(255, 229, 177, 0.8) -2%, rgba(252, 204, 110, 0.8) 12%, rgba(252, 204, 110, 0.8) 29%, rgba(163, 125, 52, 0.8) 35%, rgba(163, 125, 52, 0.8) 43%, rgba(244, 197, 106, 0.8) 61%, rgba(162, 124, 51, 0.8) 75%, rgba(237, 191, 101, 0.8) 116%)
   &--premium &__month-price
@@ -140,6 +162,9 @@ export default {
     height: 100px
     line-height: 1
     background-image: linear-gradient(135deg, #ffbdad 0%, #ff6a61 50%, rgba(255, 255, 255, 0) 50.1%)
+    @media ($media_md)
+      width: 80px
+      height: 80px
   &__sale
     position: absolute
     top: 0
@@ -156,9 +181,14 @@ export default {
     text-shadow: 0 -1px 1px rgba(255, 106, 97, 0.5), 1px 0 1px rgba(255, 106, 97, 0.5), 0 1px 1px rgba(255, 106, 97, 0.5), -1px 0 1px rgba(255, 106, 97, 0.5)
     transform: rotate(-45deg)
     transform-origin: center bottom
+    @media ($media_xxl)
+      font-size: 28px
+    @media ($media_md)
+      padding-bottom: 2px
+      font-size: 24px
   &__sale-percent
     font-weight: 400
-    font-size: 24px
+    font-size: 0.75em
   &__old-price
     margin-right: 3px
     margin-left: 2px
@@ -174,12 +204,16 @@ export default {
   &__btn-box
     align-self: center
     padding-top: 16px
+    @media ($media_xs)
+      align-self: stretch
+      padding-top: 10px
   &__btn
     display: inline-block
     padding: 6px 22px
     font-weight: 700
     font-size: 16px
     line-height: 1.5
+    text-align: center
     color: #e84145
     background-color: transparent
     border: 1.5px solid #e84145
@@ -187,6 +221,8 @@ export default {
     transition-property: color, background-color, border-color
     transition-duration: 0.2s
     outline: none
+    @media ($media_xs)
+      width: 100%
   &__btn:focus-visible,
   &__btn:hover
     color: #ffffff

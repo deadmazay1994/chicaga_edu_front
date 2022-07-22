@@ -75,6 +75,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "@/assets/styles/variables.sass"
+
 .tariff
   display: flex
   flex-direction: column
@@ -88,6 +90,10 @@ export default {
     padding: 30px 40px 20px
     background-color: #ffffff
     border-bottom: 1px solid #dcdcdc
+    @media ($media_xxl)
+      padding: 24px 30px 16px
+    @media ($media_md)
+      padding: 16px 16px 10px
   &--standart &__header
     background-image: linear-gradient(96deg, rgba(79, 79, 79, 0.5) 1%, rgba(111, 111, 111, 0.5) 10%, rgba(177, 177, 177, 0.5) 30%, rgba(111, 111, 111, 0.5) 45%, rgba(111, 111, 111, 0.5) 64%, rgba(177, 177, 177, 0.5) 82%, rgba(79, 79, 79, 0.5) 99%)
   &--premium &__header
@@ -98,14 +104,22 @@ export default {
     line-height: 1.5
     text-align: center
     text-transform: uppercase
+    @media ($media_xxl)
+      font-size: 28px
+    @media ($media_md)
+      font-size: 24px
   &__body
     padding: 24px 32px
     font-size: 16px
     line-height: 1.5
+    @media ($media_md)
+      padding: 16px
   &__list
     list-style-type: none
   &__list:not(:last-child)
     margin-bottom: 16px
+    @media ($media_md)
+      margin-bottom: 8px
   &__item
     position: relative
     display: block
@@ -135,18 +149,26 @@ export default {
     list-style-type: disc
   &__attention
     padding-top: 16px
+    padding-bottom: 16px
     padding-left: 32px
     font-weight: 700
     background-image: url("~@/assets/imgs/icons/attention.svg")
     background-position: left top 16px
     background-size: 24px 24px
     background-repeat: no-repeat
+    @media ($media_md)
+      padding-top: 8px
+      padding-bottom: 8px
+      background-position: left top 8px
   &__places
     font-weight: 700
     font-size: 20px
     text-align: center
     padding-top: 16px
     padding-bottom: 16px
+    @media ($media_md)
+      padding-top: 8px
+      padding-bottom: 8px
   a
     color: #487ef3
   &__price-card
