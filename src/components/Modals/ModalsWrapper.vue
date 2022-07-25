@@ -45,7 +45,7 @@ export default {
   padding: 20px
   line-height: 1.5
   background-color: rgba(85, 85, 85, 0.25)
-  z-index: 9998
+  z-index: 9999
   overflow: hidden auto
 .fade-enter-active, .fade-leave-active
   transition: opacity 0.2s
