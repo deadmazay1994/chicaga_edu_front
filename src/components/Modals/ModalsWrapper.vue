@@ -1,7 +1,11 @@
 <template>
   <transition name="fade" v-if="activeModal">
     <div class="modals-wrapper vue-component">
-      <component :is="activeModal" :modalData="modalData"></component>
+      <component
+        :is="activeModal"
+        :modalData="modalData"
+        v-click-outside="onClickOutside"
+      ></component>
     </div>
   </transition>
 </template>
@@ -11,11 +15,16 @@
 import DemoModal from "../Lk/Courses/DemoPage/DemoModal.vue";
 import CalendarModal from "@/components/Calendar/CalendarModal.vue";
 
+import vClickOutside from "v-click-outside";
+
 import { eventBus } from "@/main";
 
 export default {
   name: "modals-wrapper",
   components: { DemoModal, CalendarModal },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data: function() {
     return {
       activeModal: undefined,
@@ -24,7 +33,11 @@ export default {
   },
   props: [],
   computed: {},
-  methods: {},
+  methods: {
+    onClickOutside() {
+      this.activeModal = false;
+    }
+  },
   created() {
     eventBus.$on("showModal", data => {
       this.activeModal = data.name;
