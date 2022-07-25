@@ -63,17 +63,21 @@ export default {
       });
     },
     showSlash(index) {
-      if (index === 1 && !this.breadcrumbList[index].hideSlash) {
+      if (index > 0 && !this.breadcrumbList[index].hideSlash) {
         return true;
       } else return false;
     },
     recursiveChildrenSearch(routes, name) {
-      console.log("->", name);
+      console.log("recursive test name", name);
       for (let route of routes) {
-        if (route.name === name) return route;
-        else if (route.children) {
+        // console.log("recursive test", route);
+        if (route.name == name) return route;
+        else if (route.children)
           return this.recursiveChildrenSearch(route.children, name);
-        }
+        // if (route.name === name) return route;
+        // else if (route.children) {
+        //   return this.recursiveChildrenSearch(route.children, name);
+        // }
       }
     }
   },
