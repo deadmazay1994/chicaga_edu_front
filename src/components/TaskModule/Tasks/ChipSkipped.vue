@@ -172,7 +172,7 @@ export default {
           state: "default"
         }))
       ];
-      // Перемешаем, чтобы проходить задание было интересней
+      // Перемешиваем, чтобы проходить задание было интересней
       this.variantsList = this.shuffle(this.variantsList);
     },
     setSentencesMap() {
