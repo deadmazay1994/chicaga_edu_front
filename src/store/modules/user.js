@@ -155,7 +155,7 @@ export default {
     user: false,
     logined: false,
     token: localStorage.getItem("token") || false,
-    isDemo: false
+    isDemo: true
   },
   getters: {
     user: state => {
