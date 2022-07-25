@@ -17,7 +17,9 @@
         :class="{ 'navigation__link--disabled': item.disabled }"
         v-if="item.showCondition ? item.showCondition() : false"
       >
-        <component :is="item.icon" />
+        <svg class="navigation__link-icon" width="24" height="24">
+          <use :xlink:href="'#' + item.icon"></use>
+        </svg>
       </router-link>
     </template>
   </div>
@@ -26,17 +28,6 @@
 <script>
 import SidebarLogo from "@/components/Icons/SidebarLogo.vue";
 import { mapGetters, mapMutations } from "vuex";
-
-import CoursesIcon from "@/components/Icons/CoursesIcon";
-import EducationIcon from "@/components/Icons/EducationIcon";
-import GroupIcon from "@/components/Icons/GroupIcon";
-import BookIcon from "@/components/Icons/BookIcon";
-import SettingsIcon from "@/components/Icons/SettingsIcon";
-import QuestionIcon from "@/components/Icons/QuestionIcon";
-import WebinarIconSvg from "../Icons/WebinarIconSvg.vue";
-import TimetableIconSvg from "../Icons/TimetableIconSvg.vue";
-import ShoppingBasketSvg from "../Icons/ShoppingBasketSvg.vue";
-import TabletIconSvg from "../Icons/TabletIconSvg.vue";
 
 export default {
   data() {
@@ -49,21 +40,21 @@ export default {
         {
           name: "Каталог курсов",
           url: "/lk/catalog-courses",
-          icon: "CoursesIcon",
+          icon: "courses-icon",
           showCondition: () => true,
           disabled: false
         },
         {
           name: "Мои курсы",
           url: "/lk/my-courses",
-          icon: "EducationIcon",
+          icon: "education-icon",
           showCondition: () => true,
           disabled: false
         },
         {
           name: "Вебинары",
           url: "/lk/webinars",
-          icon: "WebinarIconSvg",
+          icon: "webinar-icon",
           showCondition: () => true,
           limitedAccess: true,
           disabled: false
@@ -75,7 +66,7 @@ export default {
             return this.generateRoomId;
           },
           src: require("@/assets/svg/question.svg"),
-          icon: "GroupIcon",
+          icon: "group-icon",
           showCondition: () => {
             return this.user.role === "teacher";
           },
@@ -85,7 +76,7 @@ export default {
         {
           name: "Консультация",
           url: "/lk/consultation",
-          icon: "TabletIconSvg",
+          icon: "tablet-icon",
           showCondition: () => true,
           disabled: false,
           limitedAccess: true
@@ -93,7 +84,7 @@ export default {
         {
           name: "Расписание",
           url: "/lk/my-groups",
-          icon: "TimetableIconSvg",
+          icon: "timetable-icon",
           showCondition: () => true,
           disabled: false,
           limitedAccess: true
@@ -101,7 +92,7 @@ export default {
         {
           name: "Магазин",
           url: "/store",
-          icon: "ShoppingBasketSvg",
+          icon: "shopping-icon",
           showCondition: () => true,
           disabled: false,
           limitedAccess: true
@@ -109,7 +100,7 @@ export default {
         {
           name: "FAQ",
           url: "/faq",
-          icon: "QuestionIcon",
+          icon: "question-icon",
           showCondition: () => true,
           disabled: false,
           limitedAccess: true
@@ -120,17 +111,7 @@ export default {
   },
   props: ["mobilemenuopen"],
   components: {
-    SidebarLogo,
-    CoursesIcon,
-    EducationIcon,
-    GroupIcon,
-    BookIcon,
-    SettingsIcon,
-    QuestionIcon,
-    WebinarIconSvg,
-    TimetableIconSvg,
-    ShoppingBasketSvg,
-    TabletIconSvg
+    SidebarLogo
   },
   computed: {
     ...mapGetters(["user", "draver", "isDemo"]),
@@ -174,6 +155,7 @@ export default {
   display: flex
   align-items: center
   flex-direction: column
+  color: #323232
   @media ($media_lg2)
     flex-direction: row
     justify-content: space-between
@@ -202,18 +184,17 @@ export default {
     display: flex
     align-items: center
     justify-content: center
-    background-color: #fff
+    background-color: #ffffff
     border-radius: 15px
-    transition: background-color 0.15s ease-in-out
+    transition-property: color, background-color, box-shadow
+    transition-duration: 0.15s
+    transition-timing-function: ease-in-out
     @media ($media_lg2)
       background-color: transparent
-      transition: none
   &__link:not(:last-child)
     margin-bottom: 12px
     @media ($media_lg2)
       margin-bottom: 0
-  &__link-active
-    box-shadow: inset 3px 0 1px rgba(147, 43, 31, 0.5)
   &__link:hover
     background-color: #d9d9d9
     @media ($media_lg2)
@@ -226,27 +207,26 @@ export default {
     font-weight: 600
     font-size: 12px
     white-space: nowrap
-    color: #FF6440
+    color: #ff6440
     background-color: #ffffff
     border-radius: 15px
     box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
     z-index: 999
     @media ($media_lg2)
       content: none
-</style>
+  &__link--disabled
+    color: #a9a9a9
+    pointer-events: none
 
-<style lang="sass">
-.navigation__link-active
-  .icon
-    path
-      fill: #E84145
-    .filled-path
-      fill: #E84145
-.navigation__link--disabled
-  pointer-events: none
-  .icon
-    path, rect
-      fill: #A9A9A9
-    .filled-path
-      fill: #A9A9A9
+  &__link.router-link-active
+    color: #e84145
+    box-shadow: inset 3px 0 1px rgba(147, 43, 31, 0.5)
+    @media ($media_lg2)
+      box-shadow: none
+  &__link-icon
+    width: 24px
+    height: 24px
+    @media ($media_lg2)
+      width: 28px
+      height: 28px
 </style>
