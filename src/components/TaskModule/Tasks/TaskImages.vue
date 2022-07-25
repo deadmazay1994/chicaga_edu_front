@@ -156,8 +156,8 @@ export default {
   min-width: 50px
   max-width: 250px
   height: 180px
-  background-color: #ffffff
-  border: 2px solid #dcdcdc
+  background-color: #fff
+  border: 2px solid #fff
   border-radius: 4px
   overflow: hidden
   &__check
@@ -165,13 +165,13 @@ export default {
     bottom: 3px
     left: 3px
     display: flex
-    width: 80px
+    width: 60px
     font-weight: 600
-    font-size: 32px
-    line-height: 38px
-    background-color: #ffffff
-    border: 1px solid #dcdcdc
-    border-radius: 5px
+    font-size: 24px
+    line-height: 32px
+    background-color: #dcdcdc
+    border: 2px solid #fff
+    border-radius: 10px
     overflow: hidden
     z-index: 4
     input::-webkit-outer-spin-button,
@@ -188,7 +188,7 @@ export default {
     padding-left: 2px
     text-align: center
   &__word
-    border-right: 1px solid #dcdcdc
+    border-right: 1px solid #fff
   img
     max-width: 100%
     max-height: 100%
