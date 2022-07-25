@@ -41,7 +41,7 @@ export default {
   created() {
     eventBus.$on("showModal", data => {
       this.activeModal = data.name;
-      this.modalData = data.data;
+      if (data.data) this.modalData = data.data;
     });
     eventBus.$on("closeModal", () => {
       this.activeModal = undefined;
