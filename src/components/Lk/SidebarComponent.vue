@@ -1,43 +1,23 @@
 <template>
-  <div
-    class="sidebar-component"
-    :class="{ 'sidebar-component--mobile-active': mobilemenuopen }"
-  >
-    <div class="sidebar-component__background"></div>
+  <div class="sidebar-component">
     <div class="sidebar-component__content">
-      <div class="content__logo">
-        <router-link
-          :to="{
-            name: 'index'
-          }"
-        >
-          <sidebar-logo />
-          <logo />
-        </router-link>
-      </div>
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-import SidebarLogo from "@/components/Icons/SidebarLogo.vue";
-import Logo from "@/components/Icons/Logo.vue";
-
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "SidebarComponent",
-  components: {
-    SidebarLogo,
-    Logo
-  },
+  components: {},
   data() {
     return {
       mobileDetected: false
     };
   },
-  props: ["mobilemenuopen"],
+  props: [],
   computed: {
     ...mapGetters(["draver"])
   },
@@ -68,52 +48,40 @@ export default {
 @import "@/assets/styles/variables.sass"
 
 .sidebar-component
-  position: fixed
-  top: 0
-  left: 0
+  position: relative
+  background-color: #f5f5f5
   background-image: linear-gradient(rgba(196, 196, 196, 0.113), rgba(196, 196, 196, 0.113)), url("~@/assets/imgs/sidebar-bg.png")
   background-size: auto, cover
-  height: 100%
-  width: 87px
-  z-index: 1
-  transition: all .25s ease-in-out
-
-  &__background
+  @media ($media_lg2)
+    background-image: none
+    box-shadow: 0 -4px 20px rgba(128, 128, 128, 0.1)
+  &::before
+    content: ""
     position: absolute
     top: 0
     left: 0
+    z-index: 1
     width: 100%
     height: 100%
+    background-color: #f5f5f5
     background-image: linear-gradient(rgba(196, 196, 196, 0.113), rgba(196, 196, 196, 0.113)), url("~@/assets/imgs/sidebar-bg.png")
     background-size: auto, cover
-    -webkit-filter: blur(2.5px)
-    -moz-filter: blur(2.5px)
-    -o-filter: blur(2.5px)
-    -ms-filter: blur(2.5px)
-    filter: blur(2.5px)
-    z-index: 1
-
+    filter: blur(5px)
+    pointer-events: none
+    @media ($media_lg2)
+      height: 1px
+      background-color: #e3e3e3
+      background-image: none
+      filter: none
   &__content
     position: relative
     z-index: 2
-    display: flex
-    align-items: center
-    flex-direction: column
-
-  .logo
-    display: none
-
-@media ($media_lg2)
-  .sidebar-component
-    position: fixed
-    transform: translateX(-120%)
-    top: 75px
-    z-index: 9998
-
-    &--mobile-active
-      transform: translateX(0)
-
-@media ($media_sm)
-  .sidebar-component
-    top: 55px
+    width: 100%
+    height: 100%
+    padding: 20px 22px
+    @media ($media_lg2)
+      max-width: 340px
+      margin-right: auto
+      margin-left: auto
+      padding: 6px 10px
 </style>
