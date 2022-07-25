@@ -1,11 +1,11 @@
 <template>
   <div class="catalog-c vue-component">
     <v-row>
-      <v-col v-for="course in catalogCourses" :key="course.id" cols="12" lg="4">
-        <course-card :course="course" :buy="false" />
+      <v-col v-for="course in courses" :key="course.id" cols="12" lg="4">
+        <course-card :course="course" :isOpen="course.buyed" />
       </v-col>
     </v-row>
-    <plug v-if="!catalogCourses.length" />
+    <plug v-if="!courses.length" />
   </div>
 </template>
 
@@ -13,31 +13,32 @@
 import CourseCard from "@/components/Lk/Courses/CourseCard";
 import Plug from "./CatalogCoursePlug";
 
-import { mapGetters } from "vuex";
+import api from "@/mixins/api";
 
 export default {
   name: "catalog-c",
   data: function() {
     return {
       title: "Каталог курсов",
-      subtitle: ""
+      subtitle: "",
+      courses: {}
     };
   },
   methods: {
-    setCourses() {
-      // Данный метод работает только если мы еще не запрашивали курсы
-      this.$store.dispatch("setCatalogCourses");
+    async setCourses() {
+      const response = await this.getCatalogCourses();
+      // Даем понять фронту, что курс не куплен
+      response.data.map(e => (e.buyed = false));
+      this.courses = response.data;
     }
   },
-  computed: {
-    ...mapGetters(["catalogCourses"])
-  },
+  computed: {},
   components: {
     CourseCard,
     Plug
   },
   props: [],
-  mixins: {},
+  mixins: [api],
   beforeMount() {
     this.setCourses();
   }

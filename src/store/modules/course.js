@@ -21,7 +21,7 @@ export default {
       commit("setMyCourses", removeRepeat(data));
     },
     async setCatalogCourses({ commit }) {
-      let response = await api.methods.getCatalogCaourses();
+      let response = await api.methods.getCatalogCourses();
       let data = response.data;
       // Даем понять фронту, что курс не куплен
       data.map(e => (e.buyed = false));

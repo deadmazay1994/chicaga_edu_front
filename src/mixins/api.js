@@ -74,7 +74,7 @@ import { mapGetters } from "vuex";
 export default {
   methods: {
     // Courses
-    async getCatalogCaourses() {
+    async getCatalogCourses() {
       return get("courses");
     },
     async getMyCourses() {
