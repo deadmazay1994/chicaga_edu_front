@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" v-if="activeModal">
     <div class="modals-wrapper vue-component">
-      <component :is="activeModal"></component>
+      <component :is="activeModal" :modalData="modalData"></component>
     </div>
   </transition>
 </template>
@@ -9,15 +9,17 @@
 <script>
 // Вызывать все модальные окна здесь
 import DemoModal from "../Lk/Courses/DemoPage/DemoModal.vue";
+import CalendarModal from "@/components/Calendar/CalendarModal.vue";
 
 import { eventBus } from "@/main";
 
 export default {
   name: "modals-wrapper",
-  components: { DemoModal },
+  components: { DemoModal, CalendarModal },
   data: function() {
     return {
-      activeModal: undefined
+      activeModal: undefined,
+      modalData: {}
     };
   },
   props: [],
@@ -26,6 +28,7 @@ export default {
   created() {
     eventBus.$on("showModal", data => {
       this.activeModal = data.name;
+      this.modalData = data.data;
     });
     eventBus.$on("closeModal", () => {
       this.activeModal = undefined;

@@ -54,7 +54,7 @@ import LockSvg from "@/components/Icons/LockSvg";
 import SchevronSvg from "@/components/Icons/SchevronSvg";
 import CalendarDropdown from "./CalendarDropdown.vue";
 
-import { mapMutations } from "vuex";
+import { eventBus } from "@/main";
 
 export default {
   name: "CalendarCell",
@@ -80,7 +80,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["toggleModale", "setEventData"]),
     itemState(item) {
       return {
         "calendar-cell--enroled": item?.subscribed === true && !item.subEvents,
@@ -109,8 +108,8 @@ export default {
     },
     openModal() {
       if (!this.item.event || this.hasSubEvents) return;
-      this.setEventData({ item: this.item });
-      this.toggleModale();
+      // В data передаем объект события даты
+      eventBus.$emit("showModal", { name: "calendar-modal", data: this.item });
     }
   }
 };
