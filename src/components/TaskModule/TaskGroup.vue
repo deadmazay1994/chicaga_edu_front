@@ -6,9 +6,8 @@
           class="task-group__title"
           :key="index + 'i'"
           v-if="task.type != 'lesson_addons_files'"
-        >
-          {{ task.description }}
-        </div>
+          v-html="task.description"
+        ></div>
         <component
           :key="index + 'j'"
           :is="returnComponent(task.type)"

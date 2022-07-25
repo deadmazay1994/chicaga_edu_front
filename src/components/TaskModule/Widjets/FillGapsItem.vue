@@ -30,13 +30,14 @@ export default {
         // Если это пропуск
         if (gap) {
           res.push(
-            h(
-              "span",
-              {
-                class: "fill-gaps-item__text"
-              },
-              letters
-            )
+            // h(
+            //   "span",
+            //   {
+            //     class: "fill-gaps-item__text"
+            //   },
+            //   letters
+            // )
+            <span domPropsInnerHTML={letters.join('')}></span>
           );
           letters = [];
           this.pushMissingAnswers(gapNum);
@@ -77,13 +78,7 @@ export default {
         }
         if (i == this.newSentence.split("").length - 1) {
           res.push(
-            h(
-              "span",
-              {
-                class: "fill-gaps-item__text"
-              },
-              letters
-            )
+            <span domPropsInnerHTML={letters.join('')}></span>
           );
           letters = [];
         }
@@ -163,19 +158,13 @@ export default {
         });
       }
     },
-    getTitle(h) {
-      this.newSentence = this.newSentence.replace(/<(.*?)>/g, "");
-      let titleText = "";
-      if (this.sentence.match(/<(.*?)>/g)) {
-        titleText = this.sentence.match(/<(.*?)>/g)[0];
-      }
-      return h(
-        "span",
-        {
-          class: "fill-gaps-item__title"
-        },
-        titleText.slice(1, titleText.length - 1)
-      );
+    getTitle() {
+      // this.newSentence = this.newSentence.replace(/<(.*?)>/g, "");
+      // let titleText = "";
+      // if (this.sentence.match(/<(.*?)>/g)) {
+      //   titleText = this.sentence.match(/<(.*?)>/g)[0];
+      // }
+      return <span domPropsInnerHTML={this.newSentence}></span>
     },
     getImg(h) {
       if (this.img) {
@@ -280,7 +269,7 @@ export default {
     }
   },
   mounted() {
-    this.parseText();
+    // this.parseText();
     if (this.childSaved) {
       this.updateAllmodels();
     }

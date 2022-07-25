@@ -3,7 +3,7 @@
     <template v-for="(task, index) in taskBody">
       <template v-if="task.text !== null">
         <div class="task" :key="index">
-          <div class="task__title">{{ index + 1 }}. {{ task.text }}</div>
+          <div class="task__title" v-html="index + 1 + '. ' + task.text"></div>
           <div class="task__selection">
             <template v-for="(answerObject, i) in selectAnswersArray[index]">
               <template>
