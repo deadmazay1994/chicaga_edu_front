@@ -220,16 +220,17 @@ export default {
   &__label
     display: flex
     align-items: center
-    justify-content: space-between
+    max-width: 890px
     font-size: 16px
-    & + .settings-fields__label
+    & + &
       padding-top: 24px
   &__span
-    width: 15%
+    flex-shrink: 0
+    flex-basis: 140px
+    padding-right: 5px
     font-weight: 600
   & &__input
-    width: 100%
-    align-self: flex-end
+    flex-basis: 750px
     padding: 12px 16px
   &__footer
     border-top: 1px solid #D9D9D9
