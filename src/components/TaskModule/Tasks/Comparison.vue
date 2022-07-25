@@ -188,7 +188,12 @@ export default {
   },
   mounted() {
     this.taskBody = this.taskObject.body;
-    this.taskObject.body.map((wordObject, i) => {
+    let arr1 = this.shuffle(this.taskBody.map(item => item.w1));
+    let arr2 = this.shuffle(this.taskBody.map(item => item.w2));
+    this.taskBody.map((_, i) => {
+      this.taskBody[i] = { w1: arr1[i], w2: arr2[i] };
+    });
+    this.taskBody.map((wordObject, i) => {
       for (let prop in wordObject) {
         this.selectedChipsArray.push({
           // Устанавливаем начальные значения свойств
@@ -202,7 +207,6 @@ export default {
         });
       }
     });
-    this.selectedChipsArray = this.shuffle(this.selectedChipsArray);
   }
 };
 </script>
