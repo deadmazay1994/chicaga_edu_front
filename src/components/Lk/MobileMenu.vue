@@ -13,6 +13,7 @@
       <div class="mobile-menu__btns-box">
         <button
           class="mobile-menu__btn"
+          :class="{ 'mobile-menu__btn--active': showAddMenu }"
           type="button"
           @click="showAddMenu = !showAddMenu"
         >
@@ -21,6 +22,18 @@
           </svg>
           <span class="sr-only">
             Настройки
+          </span>
+        </button>
+        <button
+          class="mobile-menu__btn mobile-menu__btn--disabled"
+          type="button"
+          disabled
+        >
+          <svg class="mobile-menu__icon" width="24" height="24">
+            <use xlink:href="#messages-icon"></use>
+          </svg>
+          <span class="sr-only">
+            Чаты
           </span>
         </button>
       </div>
@@ -79,11 +92,26 @@ export default {
   &__logo
     width: 149px
     height: 26px
+  &__btns-box
+    display: flex
   &__btn
+    display: flex
+    align-items: center
+    justify-content: center
     width: 50px
     height: 50px
-  &__icon
     color: #292d32
+    transition-property: color
+    transition-duration: 0.3s
+  &__btn--active
+    color: #ff0000
+  &__btn--disabled,
+  &__btn:disabled
+    color: #a9a9a9
+    pointer-events: none
+  &__icon
+    width: 24px
+    height: 24px
   &__profile-menu
     position: absolute
     top: -24px
