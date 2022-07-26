@@ -132,6 +132,8 @@ $header-height: 76px
     padding-top: 50px
     padding-bottom: 60px
     padding-left: 0
+  @media ($media_sm2)
+    background-image: none
   &__sidebar
     position: fixed
     top: 0
@@ -167,13 +169,18 @@ $header-height: 76px
     @media ($media_sm)
       padding-right: 10px
       padding-left: 10px
+    @media ($media_sm2)
+      padding: 0
+  &__content-block
+    @media ($media_sm2)
+      border-radius: 0
   &__header-wrap
     position: relative
     width: 100%
     height: $header-height
     z-index: 2
     @media ($media_lg2)
-      height: calc( #{$header-height} - 16px )
+      display: none
   &__header
     width: 100%
     height: 100%
@@ -184,7 +191,7 @@ $header-height: 76px
     height: calc( 100% - #{$header-height} )
     z-index: 1
     @media ($media_lg2)
-      height: calc( 100% - #{$header-height} - 16px )
+      height: 100%
   &__body
     width: 100%
     height: 100%
