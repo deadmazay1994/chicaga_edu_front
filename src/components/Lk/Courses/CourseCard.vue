@@ -94,7 +94,6 @@ export default {
   methods: {
     ...mapActions(["setCurrentCourse"]),
     setDescription() {
-      console.log(this.course.description);
       if (!this.course.description) return;
       this.description = this.course.description
         .split(" ")
