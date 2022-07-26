@@ -1,6 +1,6 @@
 <template>
   <div class="user-aside vue-component">
-    <div class="user-aside__head">
+    <div class="user-aside__head" v-if="user">
       <div class="user-aside__avatar-box">
         <img
           :src="user.avatar_link"
