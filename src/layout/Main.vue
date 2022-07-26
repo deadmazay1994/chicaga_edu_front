@@ -120,7 +120,7 @@ $header-height: 76px
   flex-direction: column
   width: 100%
   height: 100vh
-  padding-left: 87px
+  padding-left: 90px
   background-color: #f5f5f5
   background-image: url(~@/assets/imgs/bg/1.svg), url(~@/assets/imgs/bg/2.svg)
   background-attachment: fixed
@@ -129,13 +129,23 @@ $header-height: 76px
   background-repeat: no-repeat
   overflow: hidden
   @media ($media_lg2)
-    padding-left: 0
     padding-top: 75px
+    padding-bottom: 60px
+    padding-left: 0
   @media ($media_sm)
     padding-top: 55px
   &__sidebar
     position: fixed
+    top: 0
+    left: 0
+    width: auto
+    height: 100%
     z-index: 2
+    @media ($media_lg2)
+      top: auto
+      bottom: 0
+      width: 100%
+      height: auto
   &__mobile-menu
     position: fixed
     z-index: 3
