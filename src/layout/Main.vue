@@ -151,10 +151,8 @@ $header-height: 76px
       top: 0
       left: 0
       z-index: 3
-      display: flex
+      display: block
       width: 100%
-      padding-right: 10px
-      padding-left: 10px
   &__content
     position: relative
     z-index: 1
