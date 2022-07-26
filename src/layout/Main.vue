@@ -103,9 +103,6 @@ export default {
     // Пока авторизация не закончена мы не создаем дочерних компонентов
     this.canRenderChild = true;
     this.checkIsConsultation();
-  },
-  mounted() {
-    console.log("route", this.$route.meta.lesson);
   }
 };
 </script>
