@@ -41,53 +41,10 @@
                 Вызвать меню профиля
               </span>
             </button>
-            <div
+            <profile-menu
               class="header__profile-menu"
               :class="{ 'header__profile-menu--active': showAddMenu }"
-            >
-              <!-- <button class="header__profile-btn">
-                <svg class="header__profile-icon" width="24" height="24">
-                  <use xlink:href="#messages"></use>
-                </svg>
-                <span class="header__profile-text">
-                  Связаться с куратором
-                </span>
-                <svg class="header__profile-icon" width="24" height="24">
-                  <use xlink:href="#arrow-right"></use>
-                </svg>
-              </button>
-              <button class="header__profile-btn">
-                <svg class="header__profile-icon" width="24" height="24">
-                  <use xlink:href="#user-square"></use>
-                </svg>
-                <span class="header__profile-text">
-                  Связаться с преподавателем
-                </span>
-                <svg class="header__profile-icon" width="24" height="24">
-                  <use xlink:href="#arrow-right"></use>
-                </svg>
-              </button> -->
-              <router-link
-                class="header__profile-btn"
-                tag="button"
-                to="/lk/settings"
-              >
-                <svg class="header__profile-icon" width="24" height="24">
-                  <use xlink:href="#settings"></use>
-                </svg>
-                <span class="header__profile-text">
-                  Настройки
-                </span>
-              </router-link>
-              <button class="header__profile-btn" @click="exit()">
-                <svg class="header__profile-icon" width="24" height="24">
-                  <use xlink:href="#logout"></use>
-                </svg>
-                <span class="header__profile-text">
-                  Выход
-                </span>
-              </button>
-            </div>
+            ></profile-menu>
           </div>
         </div>
       </div>
@@ -102,6 +59,7 @@ import { mapGetters, mapMutations } from "vuex";
 
 import AnimatedCoinPng from "@/components/Icons/AnimatedCoinPng";
 import UserCap from "@/components/Lk/UserCap.vue";
+import ProfileMenu from "@/components/Base/ProfileMenu.vue";
 
 import vClickOutside from "v-click-outside";
 
@@ -109,7 +67,8 @@ export default {
   name: "header-app",
   components: {
     AnimatedCoinPng,
-    UserCap
+    UserCap,
+    ProfileMenu
   },
   directives: {
     clickOutside: vClickOutside.directive
@@ -234,48 +193,12 @@ export default {
     position: absolute
     top: -24px
     right: 0
-    display: flex
-    flex-direction: column
-    padding: 12px 26px
-    font-weight: 400
-    font-size: 12px
-    line-height: 16px
-    background-color: #ffffff
-    border-bottom-right-radius: 30px
-    border-bottom-left-radius: 30px
-    box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
-    transform: translateY(-100%)
     z-index: 1
+    transform: translateY(-100%)
     transition-property: transform, top
     transition-duration: 0.3s
     transition-timing-function: ease-in-out
   &__profile-menu--active
     top: 100%
     transform: translateY(0)
-  &__profile-btn
-    display: flex
-    align-items: center
-    padding: 12px 6px
-    color: #23262f
-    text-align: left
-    border-radius: 10px
-    outline-width: 0
-    transition-property: color, fill, stroke
-    transition-duration: 0.3s
-  &__profile-btn:focus-visible,
-  &__profile-btn:hover
-    color: #ff0000
-  &__profile-btn:active
-    color: #ca2e23
-    transition-duration: 0.1s
-  &__profile-icon
-    flex-shrink: 0
-    width: 24px
-    height: 24px
-  &__profile-icon:first-child
-    margin-right: 8px
-  &__profile-icon:last-child
-    margin-left: 8px
-  &__profile-text
-    flex-grow: 1
 </style>
