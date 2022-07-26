@@ -129,11 +129,9 @@ $header-height: 76px
   background-repeat: no-repeat
   overflow: hidden
   @media ($media_lg2)
-    padding-top: 75px
+    padding-top: 50px
     padding-bottom: 60px
     padding-left: 0
-  @media ($media_sm)
-    padding-top: 55px
   &__sidebar
     position: fixed
     top: 0
@@ -147,8 +145,16 @@ $header-height: 76px
       width: 100%
       height: auto
   &__mobile-menu
-    position: fixed
-    z-index: 3
+    display: none
+    @media ($media_lg2)
+      position: fixed
+      top: 0
+      left: 0
+      z-index: 3
+      display: flex
+      width: 100%
+      padding-right: 10px
+      padding-left: 10px
   &__content
     position: relative
     z-index: 1
