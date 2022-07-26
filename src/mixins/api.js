@@ -174,7 +174,6 @@ export default {
     // Проверка доступа пользователя к уроку
     checkAccess(id) {
       // Мок
-      console.log("lessonId checkAccess id:", id);
       if (!id) return true;
       else {
         this.$store.commit("pushShuckbar", {
@@ -190,37 +189,11 @@ export default {
           title: "Greeting",
           time: 75
         }
-        // {
-        //   title: "What is in the bag",
-        //   time: 60 * 7 + 22
-        // },
-        // {
-        //   title: "Things",
-        //   time: 643
-        // },
-        // {
-        //   title: "Articles",
-        //   time: 19 * 60 + 41
-        // },
-        // {
-        //   title: "grammar",
-        //   time: 28 * 60 + 7
-        // }
       ];
     },
     async getUserPoints() {
       let r = await get(`user/points`);
-      console.log("r user:", await get("user"));
-      console.log("r:", r);
       return r;
-      // return {
-      //   smile: 100,
-      //   star: 200,
-      //   brain: 300,
-      //   lamp: 400,
-      //   coins: 999,
-      //   time: 1649937589
-      // };
     },
     // Calendar
     async getWebinarEvents() {
@@ -231,62 +204,6 @@ export default {
         webinars[1].data.forEach(e => (e.subscribed = true));
         return [...webinars[0].data, ...webinars[1].data];
       });
-      // return [
-      //   {
-      //     date: 1647959401,
-      //     title:
-      //       "Lorem Ipsum has been the indus Lorem Ipsum has been the indus",
-      //     subtitle:
-      //       "Lorem Ipsum has been the industry's standard Lorem Ipsum has been the indus",
-      //     poster: null,
-      //     price: 0,
-      //     responsible: "user_id",
-      //     subEvents: [
-      //       {
-      //         date: 1647959401,
-      //         title: "Lorem Ipsum has been the indus...",
-      //         subtitle: "Lorem Ipsum has been the industry's standard...",
-      //         poster: null,
-      //         price: 0,
-      //         responsible: "user_id",
-      //         subscribed: false,
-      //         bodyOfEvent: null
-      //       },
-      //       {
-      //         date: 1647959401,
-      //         title: "Lorem Ipsum has been the indus...",
-      //         subtitle: "Lorem Ipsum has been the industry's standard...",
-      //         poster: null,
-      //         price: 0,
-      //         responsible: "user_id",
-      //         subscribed: true,
-      //         bodyOfEvent: null
-      //       }
-      //     ],
-      //     subscribed: true,
-      //     bodyOfEvent: null
-      //   },
-      //   {
-      //     date: 1648034654,
-      //     title: "Lorem Ipsum has been the indus...",
-      //     subtitle: "Lorem Ipsum has been the industry's standard...",
-      //     poster: null,
-      //     price: 0,
-      //     responsible: "user_id",
-      //     subscribed: false,
-      //     bodyOfEvent: null
-      //   },
-      //   {
-      //     date: 1648207454,
-      //     title: "Lorem Ipsum has been the indus...",
-      //     subtitle: "Lorem Ipsum has been the industry's standard...",
-      //     poster: null,
-      //     price: 0,
-      //     responsible: "user_id",
-      //     subscribed: true,
-      //     bodyOfEvent: null
-      //   }
-      // ];
     },
     async getWebinar(id) {
       return get(`events/${id}`).then(r => {
@@ -296,12 +213,10 @@ export default {
     },
     async subscribeToEvent(eventId) {
       let r = await post("user/events/subscribe", { id: eventId });
-      console.log("api-test user/events/subscribe:", r);
       return r;
     },
     async storeEvent(data) {
       let r = await post("admin/events", data);
-      console.log("api-test admin/events", r);
       return r;
     },
     // Store
@@ -331,7 +246,6 @@ export default {
       ];
     },
     getProductInfo(id) {
-      console.log(id);
       let arr = [
         {
           id: 1,
@@ -460,7 +374,6 @@ export default {
           sizes: ["XS", "S", "M", "L", "XL"]
         }
       ];
-      console.log(arr.find(elem => elem.id == id));
       return arr.find(elem => elem.id == id);
     },
     // Basket
@@ -692,9 +605,7 @@ export default {
       if (test)
         return [Math.random() < 0.5, Math.random() < 0.5, Math.random() < 0.5];
       else {
-        console.log("task check answers:", data);
         let result = await post(`user/lesson/${lessonId}/task-check`, data);
-        console.log("answer check response api result:", result);
         return result;
       }
     },
@@ -721,11 +632,6 @@ export default {
     async getPayCourseLink(id, type = "course", count = 1) {
       // Если покупаем курс, то автоматически выставляем количество 1
       count = type == "course" ? 1 : count;
-      console.log({
-        type: type,
-        id,
-        count
-      });
       return post("payment", {
         type: type,
         id,
