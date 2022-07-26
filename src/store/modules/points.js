@@ -4,7 +4,6 @@ export default {
   namespaces: true,
   actions: {
     async setUserPoints({ commit }) {
-      console.log("actions in action!");
       let response = await api.methods.getUserPoints();
       let data = response.data;
       commit("setUserPoints", data);
@@ -13,7 +12,6 @@ export default {
   mutations: {
     setUserPoints(state, pointsArr) {
       pointsArr.forEach(item => {
-        console.log("points item:", item);
         switch (item.point_type.name) {
           case "Мозги":
             state.points.brain = item.points;
