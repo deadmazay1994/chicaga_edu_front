@@ -18,11 +18,7 @@
             <animated-coin-png ref="animatedCoin" />
             <span class="header__coin-text">{{ points.coins }}</span>
           </div>
-          <user-cap
-            class="header__user-cap"
-            :src="user.avatar_link"
-            :tariff="'standard'"
-          />
+          <user-cap class="header__user-cap" :tariff="'standard'" />
           <div class="header__additional-menu" v-click-outside="onClickOutside">
             <button
               class="header__additional-btn"

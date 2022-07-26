@@ -4,7 +4,7 @@
       <router-link class="user-cap__avatar-link" to="/lk/settings">
         <img
           class="user-cap__avatar-img"
-          :src="src"
+          :src="user.avatar_link"
           width="50"
           height="50"
           alt="Ваше фото"
@@ -32,10 +32,6 @@ export default {
     return {};
   },
   props: {
-    src: {
-      type: String,
-      required: true
-    },
     tariff: {
       type: String,
       default: "basic"
