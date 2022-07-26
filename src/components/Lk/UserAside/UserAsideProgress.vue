@@ -43,16 +43,12 @@ export default {
   computed: {
     ...mapGetters(["user"])
   },
-  methods: {},
-  mounted() {
-    console.log(this.user);
-  }
+  methods: {}
 };
 </script>
 
 <style scoped="scoped" lang="sass">
 @import "@/assets/styles/variables.sass"
-
 .user-aside
   @media ($media_xl)
     display: flex
