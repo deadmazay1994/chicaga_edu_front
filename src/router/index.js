@@ -36,6 +36,7 @@ import LevelTest from "@/components/LevelTest";
 import TestStart from "@/components/LevelTest/TestStart";
 import TestMain from "@/components/LevelTest/TestMain";
 import TestResult from "@/components/LevelTest/TestResult";
+import DemoLessonResults from "@/components/Lk/DemoLessonResults";
 
 import Page404 from "Base/404";
 
@@ -324,6 +325,11 @@ const routes = [
         path: "start",
         name: "start",
         component: DemoPage
+      },
+      {
+        path: "tariffes",
+        name: "tariffes",
+        component: DemoLessonResults
       }
     ]
   },

@@ -7,16 +7,16 @@
       :courseInfo="courseInfo"
       :result="true"
     />
-    <div class="course-page__block" v-if="coursePrograms.length">
+    <div class="course-page__block" v-if="coursePrograms">
       <div class="course-page__block-title">Программа курса</div>
       <div class="course-page__grid">
         <course-program-card
           v-for="(courseProgram, index) in coursePrograms"
           :key="index"
-          :title="courseProgramm.title"
-          :rating="courseProgramm.rating"
-          :duration="courseProgramm.duration"
-          :start_time="courseProgramm.start_time"
+          :title="courseProgram.title"
+          :rating="courseProgram.rating"
+          :duration="courseProgram.duration"
+          :start_time="courseProgram.start_time"
           :link="'#'"
         />
       </div>
@@ -47,6 +47,17 @@
         />
       </div>
     </div>
+    <!-- <div class="course-page__block">
+      <div class="course-page__block-title">Программа курса</div>
+      <div class="course-page__grid">
+        <course-card
+          v-for="(course, index) in coursePrograms"
+          :key="index"
+          :course="course"
+          :buy="false"
+        />
+      </div>
+    </div> -->
     <div class="course-page__block">
       <div class="course-page__block-title">Тарифы</div>
       <div class="course-page__grid">
@@ -64,6 +75,7 @@
 <script>
 import CourseProgramCard from "../../CourseProgram/CourseProgramCard.vue";
 import CourseDescription from "../Courses/CourseDescription.vue";
+// import CourseCard from "@/components/Lk/Courses/CourseCard";
 import Tariff from "@/components/Tariff";
 
 import api from "@/mixins/api";
@@ -95,9 +107,28 @@ export default {
       this.courseRes = this.course(this.$route.params.id);
     },
     async setCoursePrograms() {
-      const result = await this.getCourseInfo(this.$route.params.id);
+      const result = await this.getCourse(this.$route.params.id);
       console.log("set course program", result);
-      this.coursePrograms = result.data.lessons;
+      this.coursePrograms = result.data;
+      console.log("log coursePrograms:", this.coursePrograms);
+      this.coursePrograms.lessons = [
+        {
+          title: "Урок 1. Elementary. Welcome to the class",
+          kind: "result"
+        },
+        {
+          title: "Урок 1. Elementary. Welcome to the class",
+          kind: "result"
+        },
+        {
+          title: "Урок 1. Elementary. Welcome to the class",
+          kind: "result"
+        },
+        {
+          title: "Урок 1. Elementary. Welcome to the class",
+          kind: "result"
+        }
+      ]
     },
     async setTariffes() {
       const result = await this.getTariffesData();
@@ -110,9 +141,12 @@ export default {
   components: {
     CourseProgramCard,
     CourseDescription,
+    // CourseCard,
     Tariff
   },
-  props: [],
+  props: {
+    kind: String
+  },
   mixins: [api],
   beforeMount() {
     this.setCourse();
