@@ -234,13 +234,15 @@ const routes = [
         path: "my-courses",
         name: "my-courses-wrapper",
         component: MyCoursesWrapper,
+        meta: {
+          breadcrumb: { title: "Мои курсы" }
+        },
         children: [
           {
             path: "",
             name: "my-courses-wrapper",
             component: MyCourses,
             meta: {
-              breadcrumb: { title: "Мои курсы" },
               title: "Мои курсы"
             }
           },
