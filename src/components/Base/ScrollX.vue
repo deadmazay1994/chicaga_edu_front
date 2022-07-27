@@ -1,6 +1,6 @@
 <template>
   <div class="scroll-x vue-component">
-    <div class="scroll-x__slot">
+    <div class="scroll-x__slot" :style="'column-gap:' + gap + 'px'">
       <slot></slot>
     </div>
     <div class="scroll-x__btns">
@@ -31,7 +31,12 @@ export default {
   data: function() {
     return {};
   },
-  props: [],
+  props: {
+    gap: {
+      type: String,
+      default: "6"
+    }
+  },
   computed: {},
   methods: {}
 };
@@ -46,7 +51,6 @@ export default {
   width: 100%
   &__slot
     display: flex
-    column-gap: 5px
     width: 100%
     overflow: auto hidden
     @media ($media_lg2)
@@ -78,6 +82,7 @@ export default {
     transition-duration: 0.1s
   &__btn:disabled
     color: #ececec
+    cursor: default
   &__icon
     width: 12px
     height: 14px
