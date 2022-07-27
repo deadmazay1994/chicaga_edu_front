@@ -1,29 +1,31 @@
 <template>
   <div class="task-image-numbers">
-    <div class="task-image-numbers__inner">
-      <div
-        class="img-task"
-        v-for="(tasks, index) in task.shuffled"
-        :key="tasks.word"
-        @click="setFocus(index)"
-        :class="answeredClass(index)"
-      >
-        <div class="img-task__check">
-          <div class="img-task__word">{{ tasks.word }}</div>
-          <div class="img-task__input">
-            <input
-              class="input"
-              ref="input"
-              v-model="task.answers[index]"
-              maxlength="1"
-              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-              type="number"
-            />
+    <scroll-x>
+      <div class="task-imgs">
+        <div
+          class="img-task"
+          v-for="(tasks, index) in task.shuffled"
+          :key="tasks.word"
+          @click="setFocus(index)"
+          :class="answeredClass(index)"
+        >
+          <div class="img-task__check">
+            <div class="img-task__word">{{ tasks.word }}</div>
+            <div class="img-task__input">
+              <input
+                class="input"
+                ref="input"
+                v-model="task.answers[index]"
+                maxlength="1"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                type="number"
+              />
+            </div>
           </div>
+          <img :src="getFileName(tasks)" />
         </div>
-        <img :src="getFileName(tasks)" />
       </div>
-    </div>
+    </scroll-x>
   </div>
 </template>
 
@@ -31,6 +33,7 @@
 import "@/mixins/methods";
 import api from "@/mixins/api";
 import { mapGetters, mapMutations } from "vuex";
+import ScrollX from "@/components/Base/ScrollX.vue";
 
 export default {
   name: "task-images",
@@ -119,7 +122,7 @@ export default {
   computed: {
     ...mapGetters(["activeGroupIndexLesson"])
   },
-  components: {},
+  components: { ScrollX },
   directives: {},
   props: ["input", "taskObject", "unique_id"],
   beforeMount() {
@@ -140,12 +143,10 @@ export default {
 
 .task-image-numbers
   width: 100%
-  overflow: hidden
-  &__inner
-    display: flex
-    column-gap: 4px
-    padding-bottom: 4px
-    overflow: auto hidden
+
+.task-imgs
+  display: flex
+  column-gap: 4px
 
 .img-task
   position: relative
