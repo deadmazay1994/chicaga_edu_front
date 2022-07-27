@@ -81,6 +81,7 @@ export default {
 .task-module
   display: flex
   flex-direction: column
+  width: 100%
   height: 100%
   &__header
     position: relative
@@ -98,14 +99,16 @@ export default {
     background-color: #E6E6E6
   &__body
     flex-grow: 1
+    width: 100%
     padding: 16px 8px
-    overflow-y: auto
-  &__body::-webkit-scrollbar
+    overflow: hidden auto
+  & ::-webkit-scrollbar
     width: 16px
-  &__body::-webkit-scrollbar-track
+    height: 16px
+  & ::-webkit-scrollbar-track
     margin-top: 10px
     margin-bottom: 10px
-  &__body::-webkit-scrollbar-thumb
+  & ::-webkit-scrollbar-thumb
     border: 6px solid transparent
     background-clip: padding-box
 </style>
