@@ -57,8 +57,10 @@ export default {
   &__btns
     display: flex
     justify-content: flex-end
-    column-gap: 8px
+    column-gap: 16px
     color: #909090
+    @media ($media_lg2)
+      column-gap: 8px
   &__btn
     display: flex
     align-items: center
