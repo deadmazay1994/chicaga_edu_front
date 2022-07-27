@@ -1,17 +1,19 @@
 <template>
   <div class="chip-skipped">
     <!-- <description :index="index">{{ inputCopy.description }}</description> -->
-    <div class="chip-list">
-      <chip
-        v-for="(chip, i) in variantsList"
-        :key="'2' + i"
-        :state="chip.state"
-        :text="chip.text"
-        :answer="chip.text"
-        :checkText="Boolean(chip.text)"
-        @click="selectChip(i, chip.text)"
-      />
-    </div>
+    <scroll-x>
+      <div class="chip-list">
+        <chip
+          v-for="(chip, i) in variantsList"
+          :key="'2' + i"
+          :state="chip.state"
+          :text="chip.text"
+          :answer="chip.text"
+          :checkText="Boolean(chip.text)"
+          @click="selectChip(i, chip.text)"
+        />
+      </div>
+    </scroll-x>
     <div class="answer-item" v-for="(item, i) in sentencesMap" :key="'3' + i">
       <template v-for="(text, j) in item">
         <template>
@@ -39,6 +41,7 @@ import Chip from "../Widjets/Chip";
 
 import { mapMutations } from "vuex";
 import api from "@/mixins/api";
+import ScrollX from "@/components/Base/ScrollX.vue";
 
 const regularGaps = /\[(.*?)\]/g;
 
@@ -47,7 +50,8 @@ export default {
   components: {
     // Description,
     ChipInput,
-    Chip
+    Chip,
+    ScrollX
   },
   data() {
     return {
@@ -250,15 +254,17 @@ export default {
 <style lang="sass" scoped>
 .chip-skipped
   display: block
-  overflow: visible !important
+  width: 100%
 
   .answer-item
     margin-top: 10px
 
   .chip-list
+    display: flex
+    column-gap: 5px
+    width: 100%
+    padding-top: 2px
+    padding-bottom: 7px
     .chip
-      margin-bottom: 3.5px
-      margin-right: 5px
-      &:last-child
-        margin-right: 0
+      flex-shrink: 0
 </style>
