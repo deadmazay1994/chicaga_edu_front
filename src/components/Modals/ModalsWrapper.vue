@@ -1,7 +1,11 @@
 <template>
   <transition name="fade" v-if="activeModal">
     <div class="modals-wrapper vue-component">
-      <component :is="activeModal"></component>
+      <component
+        :is="activeModal"
+        :modalData="modalData"
+        v-click-outside="onClickOutside"
+      ></component>
     </div>
   </transition>
 </template>
@@ -9,23 +13,35 @@
 <script>
 // Вызывать все модальные окна здесь
 import DemoModal from "../Lk/Courses/DemoPage/DemoModal.vue";
+import CalendarModal from "@/components/Calendar/CalendarModal.vue";
+
+import vClickOutside from "v-click-outside";
 
 import { eventBus } from "@/main";
 
 export default {
   name: "modals-wrapper",
-  components: { DemoModal },
+  components: { DemoModal, CalendarModal },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data: function() {
     return {
-      activeModal: undefined
+      activeModal: undefined,
+      modalData: {}
     };
   },
   props: [],
   computed: {},
-  methods: {},
+  methods: {
+    onClickOutside() {
+      this.activeModal = false;
+    }
+  },
   created() {
     eventBus.$on("showModal", data => {
       this.activeModal = data.name;
+      if (data.data) this.modalData = data.data;
     });
     eventBus.$on("closeModal", () => {
       this.activeModal = undefined;
@@ -45,7 +61,7 @@ export default {
   padding: 20px
   line-height: 1.5
   background-color: rgba(85, 85, 85, 0.25)
-  z-index: 9998
+  z-index: 9999
   overflow: hidden auto
 .fade-enter-active, .fade-leave-active
   transition: opacity 0.2s
