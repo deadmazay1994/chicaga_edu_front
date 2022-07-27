@@ -190,8 +190,8 @@ export default {
     this.taskBody = this.taskObject.body;
     let arr1 = this.shuffle(this.taskBody.map(item => item.w1));
     let arr2 = this.shuffle(this.taskBody.map(item => item.w2));
-    this.taskBody.map((_, i) => {
-      this.taskBody[i] = { w1: arr1[i], w2: arr2[i] };
+    this.taskBody = this.taskBody.map((_, i) => {
+      return { w1: arr1[i], w2: arr2[i] };
     });
     this.taskBody.map((wordObject, i) => {
       for (let prop in wordObject) {
