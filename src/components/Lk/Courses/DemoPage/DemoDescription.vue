@@ -146,7 +146,7 @@ export default {
       this.noteIsOpen = false;
     },
     goToTest() {
-      this.$router.push({ name: "level-test", delimiter: "/" });
+      this.$router.push({ name: "test-intro" });
     }
   },
   async beforeMount() {
