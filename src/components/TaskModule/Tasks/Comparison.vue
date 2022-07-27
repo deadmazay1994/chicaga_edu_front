@@ -58,6 +58,21 @@ export default {
     }
   },
   methods: {
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     // Метод для вычисления текущей колонки
     returnColumnIndex(chip, columnIndex) {
       this.selectedChipsArray[
@@ -173,7 +188,10 @@ export default {
   },
   mounted() {
     this.taskBody = this.taskObject.body;
-    this.taskObject.body.map((wordObject, i) => {
+    let arr1 = this.shuffle(this.taskBody.map(item => item.w1));
+    let arr2 = this.shuffle(this.taskBody.map(item => item.w2));
+    this.taskBody = this.taskBody.map((_, i) => {
+      let wordObject = { w1: arr1[i], w2: arr2[i] };
       for (let prop in wordObject) {
         this.selectedChipsArray.push({
           // Устанавливаем начальные значения свойств
@@ -186,6 +204,7 @@ export default {
           state: "default"
         });
       }
+      return wordObject
     });
   }
 };
@@ -197,8 +216,4 @@ export default {
   align-items: center
   flex-direction: column
   gap: 7px
-
-// Надо заменить анимацию
-// .flip-list-move
-//   transition: transform 1s
 </style>

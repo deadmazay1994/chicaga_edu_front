@@ -37,12 +37,6 @@ export default {
     },
     mutation(response) {
       return response.result.map(result => [result, result]);
-      // console.log("0", response);
-      // return response.userSelected.map((row, i) => {
-      //   return [
-
-      //   ]
-      // });
     },
     changeAnswerRequest(selectAnswersArray) {
       return selectAnswersArray.map(row => {

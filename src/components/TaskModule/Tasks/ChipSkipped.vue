@@ -73,6 +73,21 @@ export default {
   },
   methods: {
     ...mapMutations(["setPointByType"]),
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     unselect(i, k) {
       this.resultArr[i][k].text = "";
       let answerIndex = this.resultArr[i][k].answerIndex;
@@ -157,8 +172,8 @@ export default {
           state: "default"
         }))
       ];
-      // Перемашиваем, чтобы проходить задание было интересней
-      this.variantsList = this.variantsList.sort(() => Math.random() - 0.5);
+      // Перемешиваем, чтобы проходить задание было интересней
+      this.variantsList = this.shuffle(this.variantsList);
     },
     setSentencesMap() {
       this.sentencesMap = this.inputCopy.body.map(element => {

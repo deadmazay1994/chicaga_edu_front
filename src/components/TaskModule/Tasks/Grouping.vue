@@ -60,6 +60,21 @@ export default {
     Chip
   },
   methods: {
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     selectChip(chip) {
       // Выделение чипсов ставим на false
       this.selectedChipsArray.map(chip => (chip.selected = false));
@@ -144,6 +159,7 @@ export default {
       });
       this.taskColumns.push({ name: object.name, state: undefined });
     });
+    this.selectedChipsArray = this.shuffle(this.selectedChipsArray);
   }
 };
 </script>
