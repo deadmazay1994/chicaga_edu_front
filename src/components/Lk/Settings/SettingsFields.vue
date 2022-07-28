@@ -1,6 +1,6 @@
 <template>
   <div class="settings-fields vue-component">
-    <form @submit="checkForm" novalidate="true">
+    <form class="settings-fields__form" @submit="checkForm" novalidate="true">
       <div class="settings-fields__title">Мои данные</div>
       <div class="settings-fields__body">
         <label class="settings-fields__label" for="username">
@@ -27,6 +27,7 @@
             aria-label="Поле для ввода фамилии пользователя"
             :maxlength="30"
             v-model="usersecondname"
+            :required="false"
           />
         </label>
         <label class="settings-fields__label" for="phone">
@@ -66,6 +67,7 @@
             aria-label="Поле для ввода никнейма в телеграме"
             :maxlength="30"
             v-model="telegram"
+            :required="false"
           />
         </label>
         <label class="settings-fields__label" for="birthday">
@@ -79,6 +81,7 @@
             aria-label="Поле для ввода даты рождения"
             :maxlength="30"
             v-model="birthday"
+            :required="false"
           />
         </label>
         <label class="settings-fields__label" for="password">
@@ -204,26 +207,49 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
-// Изменить размер шрифта у "input" компонента
+@import "@/assets/styles/variables.sass"
+
 .settings-fields
+  display: flex
+  width: 100%
+  min-height: 100%
+  &__form
+    display: flex
+    flex-direction: column
+    width: 100%
+    min-height: 100%
+    padding: 24px 32px 32px
+    @media ($media_md)
+      padding: 16px
   &__title
+    margin-bottom: 48px
     font-weight: 700
     font-size: 24px
-    padding-left: 35px
-    padding-right: 35px
-    padding-top: 24px
+    @media ($media_md)
+      margin-bottom: 36px
+      font-size: 22px
+    @media ($media_sm2)
+      margin-bottom: 24px
   &__body
-    padding-top: 60px
-    padding-bottom: 47px
-    padding-left: 35px
-    padding-right: 35px
+    flex-grow: 1
+    margin-bottom: 48px
+    @media ($media_md)
+      margin-bottom: 36px
+    @media ($media_sm2)
+      margin-bottom: 24px
   &__label
     display: flex
     align-items: center
     max-width: 890px
     font-size: 16px
-    & + &
-      padding-top: 24px
+    @media ($media_md)
+      font-size: 14px
+    @media ($media_sm2)
+      flex-wrap: wrap
+  &__label + &__label
+    padding-top: 16px
+    @media ($media_md)
+      padding-top: 8px
   &__span
     flex-shrink: 0
     flex-basis: 140px
@@ -231,10 +257,10 @@ export default {
     font-weight: 600
   & &__input
     flex-basis: 750px
-    padding: 12px 16px
+    font-size: inherit
+    padding: 10.5px 14.5px
+    border-radius: 12px
   &__footer
-    border-top: 1px solid #D9D9D9
-    padding-top: 30px
     display: flex
     align-items: center
     justify-content: center
@@ -242,4 +268,7 @@ export default {
     font-size: 14px
     border-radius: 10px
     box-shadow: none
+    @media ($media_sm2)
+      flex-grow: 1
+      max-width: none
 </style>
