@@ -42,6 +42,9 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
+
 export default {
   name: "ProfileMenu",
   components: {},
@@ -50,7 +53,17 @@ export default {
   },
   props: [],
   computed: {},
-  methods: {}
+  methods: {
+    ...mapMutations(["logout"]),
+    exit() {
+      this.logout();
+      this.$router.push("/auth/login");
+      this.$store.commit("pushShuckbar", {
+        val: "Вы вышли из личного кабинета",
+        success: true
+      });
+    },
+  }
 };
 </script>
 

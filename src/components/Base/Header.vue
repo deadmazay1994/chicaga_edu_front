@@ -79,17 +79,9 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["toggleDraver", "logout"]),
+    ...mapMutations(["toggleDraver"]),
     showSignIn() {
       this.$store.commit("showSignIn");
-    },
-    exit() {
-      this.logout();
-      this.$router.push("/auth/login");
-      this.$store.commit("pushShuckbar", {
-        val: "Вы вышли из личного кабинета",
-        success: true
-      });
     },
     onClickOutside() {
       this.showAddMenu = false;
