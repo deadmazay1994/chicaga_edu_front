@@ -218,7 +218,7 @@ export default {
     background-color: transparent
     border: 1.5px solid #e84145
     border-radius: 16px
-    transition-property: color, background-color, border-color
+    transition-property: color, background-color, border-color, box-shadow
     transition-duration: 0.2s
     outline: none
     @media ($media_xs)
