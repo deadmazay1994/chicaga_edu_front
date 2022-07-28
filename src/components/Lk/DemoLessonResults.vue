@@ -70,126 +70,29 @@
         Ваш подарок был отправлен вам на почту
       </span>
     </div>
-    <div class="demo-lesson-results__description-block">
-      <course-description-vue
-        class="demo-lesson-results__description"
-        :title="'Курс Elementary'"
-        :image="require('@/assets/imgs/some-person.png')"
-        :description="
-          'Elementary — это фундамент, на котором будет держаться ваше знание английского языка'
-        "
-        :courseInfo="courseInfo"
-        kind="result"
-      />
-    </div>
-    <div class="demo-lesson-results__modules-block">
-      <div class="demo-lesson-results__block-title">
-        Курс состоит из 6 модулей
-      </div>
-      <div class="demo-lesson-results__modules-content">
-        <div class="demo-lesson-results__modules-title">
-          В каждом модуле для <b>максимального эффекта:</b>
-        </div>
-        <div class="demo-lesson-results__modules-list">
-          <span class="demo-lesson-results__modules-item">
-            уроки
-          </span>
-          <span class="demo-lesson-results__modules-item">
-            разговорные фразы
-          </span>
-          <span class="demo-lesson-results__modules-item">
-            дополнительные материалы
-          </span>
-        </div>
-        <div>для увлекательного изучения английского</div>
-      </div>
-      <div class="demo-lesson-results__image-wrapper">
-        <img
-          class="demo-lesson-results__modules-img"
-          src="~@/assets/svg/course-results-frame.svg"
-          alt="Карта прохождения курса"
-        />
-      </div>
-    </div>
-    <div class="demo-lesson-results__programs-block">
-      <div class="demo-lesson-results__block-title">Программа курса</div>
-      <div class="demo-lesson-results__grid">
-        <course-program-card-vue
-          class="demo-lesson-results__program"
-          v-for="(courseProgram, index) in coursePrograms"
-          :key="index"
-          :title="courseProgram.title"
-          :kind="'result'"
-          :vocabulary="'Days of the week, numbers 0-20'"
-          :grammar="'Verb be +, subject pronouns: I, you, etc.'"
-        />
-      </div>
-      <div class="demo-lesson-results__more-wrapper">
-        <span class="demo-lesson-results__more"
-          >развернуть
-          <svg class="demo-lesson-results__more-icon">
-            <use :xlink:href="'#arrow-down'"></use>
-          </svg>
-        </span>
-      </div>
-    </div>
-    <div class="demo-lesson-results__tariffes-block">
-      <div
-        class="demo-lesson-results__block-title demo-lesson-results__block-title--with-icon"
-      >
-        Тарифы для любых задач
-      </div>
-      <div class="demo-lesson-results__grid demo-lesson-results__grid--3fr">
-        <div
-          v-for="(tariff, index) in tariffes"
-          :key="index"
-          class="demo-lesson-results__tariff-wrapper"
-        >
-          <tariff class="demo-lesson-results__tariff" :tariffData="tariff" />
-          <page-button class="demo-lesson-results__tariff-btn"
-            >ЗАБРОНИРОВАТЬ ЗА 2000 ₽</page-button
-          >
-        </div>
-      </div>
-    </div>
-    <div class="demo-lesson-results__final-block">
-      <div class="demo-lesson-results__final">
-        <div class="demo-lesson-results__final-left">
-          <div class="demo-lesson-results__final-title">
-            Или просто оставьте заявку
-          </div>
-          <ul class="demo-lesson-results__list">
-            <li>Позвоним, расскажем о курсе</li>
-            <li>Поможем определиться с тарифом</li>
-          </ul>
-        </div>
-        <div class="demo-lesson-results__final-right">
-          <button class="demo-lesson-results__final-btn">
-            ОСТАВИТЬ ЗАЯВКУ
-          </button>
-        </div>
-      </div>
-    </div>
+    <course
+      :course="{ name: 'test', description: 'test' }"
+      :courseInfo="courseInfo"
+      :coursePrograms="coursePrograms"
+      :grammar="'Verb be +, subject pronouns: I, you, etc.'"
+      :vocabulary="'Days of the week, numbers 0-20'"
+      kind="result"
+    />
   </div>
 </template>
 
 <script>
-import CourseDescriptionVue from "@/components/Lk/Courses/CourseDescription.vue";
 import CourseProgramCardVue from "@/components/CourseProgram/CourseProgramCard.vue";
 import ScoresVue from "@/components/LessonComponents/Scores.vue";
-import Tariff from "@/components/Tariff";
-import PageButton from "./DemoLessonResultsBtn.vue";
-
+import Course from "./Courses/Course.vue";
 import api from "@/mixins/api";
 
 export default {
   name: "demo-lesson-results",
   components: {
-    CourseDescriptionVue,
     CourseProgramCardVue,
     ScoresVue,
-    Tariff,
-    PageButton
+    Course
   },
   data: function() {
     return {
