@@ -141,8 +141,20 @@ export default {
   &__task
     margin-bottom: 10px
   &__title
+    position: relative
     font-weight: 300
     margin-bottom: 10px
+    padding-bottom: 16px
+  &__title::after
+    content: ""
+    position: absolute
+    right: 140px
+    bottom: 0
+    left: 0
+    height: 2px
+    background-color: #e6e6e6
+    @media ($media_lg2)
+      right: 100px
 
 .check-btn
   display: block

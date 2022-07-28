@@ -1,6 +1,6 @@
 <template>
   <div class="task-image-numbers">
-    <div class="task-image-numbers__inner">
+    <scroll-x :gap="'8'">
       <div
         class="img-task"
         v-for="(tasks, index) in task.shuffled"
@@ -21,9 +21,9 @@
             />
           </div>
         </div>
-        <img :src="getFileName(tasks)" />
+        <img width="120" height="120" :src="getFileName(tasks)" />
       </div>
-    </div>
+    </scroll-x>
   </div>
 </template>
 
@@ -31,6 +31,7 @@
 import "@/mixins/methods";
 import api from "@/mixins/api";
 import { mapGetters, mapMutations } from "vuex";
+import ScrollX from "@/components/Base/ScrollX.vue";
 
 export default {
   name: "task-images",
@@ -119,7 +120,7 @@ export default {
   computed: {
     ...mapGetters(["activeGroupIndexLesson"])
   },
-  components: {},
+  components: { ScrollX },
   directives: {},
   props: ["input", "taskObject", "unique_id"],
   beforeMount() {
@@ -140,12 +141,6 @@ export default {
 
 .task-image-numbers
   width: 100%
-  overflow: hidden
-  &__inner
-    display: flex
-    column-gap: 4px
-    padding-bottom: 4px
-    overflow: auto hidden
 
 .img-task
   position: relative
@@ -153,25 +148,28 @@ export default {
   align-items: center
   justify-content: center
   flex-shrink: 0
-  min-width: 50px
+  min-width: 120px
   max-width: 250px
-  height: 180px
+  height: 120px
+  color: #303030
   background-color: #fff
-  border: 2px solid #fff
-  border-radius: 4px
+  outline: 1.5px solid rgba(255, 255, 255, 0.5)
+  outline-offset: -1.5px
+  border-radius: 10px
   overflow: hidden
   &__check
     position: absolute
-    bottom: 3px
-    left: 3px
+    bottom: 6px
+    left: 6px
     display: flex
-    width: 60px
-    font-weight: 600
-    font-size: 24px
-    line-height: 32px
-    background-color: #dcdcdc
-    border: 2px solid #fff
-    border-radius: 10px
+    width: 66px
+    font-weight: 500
+    font-size: 20px
+    line-height: 31px
+    background-color: #fff
+    border: 1.5px solid #c4c4c4
+    border-radius: 22px
+    box-shadow: 0 1.5px 0 #c4c4c4
     overflow: hidden
     z-index: 4
     input::-webkit-outer-spin-button,
@@ -179,17 +177,19 @@ export default {
       -webkit-appearance: none
     input[type='number']
       width: 100%
+      text-align: left
+      color: inherit
       outline: none
-      text-align: center
       -moz-appearance: textfield
   &__word, &__input
     width: 50%
-    padding-right: 2px
-    padding-left: 2px
-    text-align: center
+    padding-right: 3px
+    padding-left: 3px
   &__word
-    border-right: 1px solid #fff
+    border-right: 1.5px solid #c4c4c4
+    text-align: right
   img
+    width: 100%
     max-width: 100%
     max-height: 100%
     object-fit: contain
