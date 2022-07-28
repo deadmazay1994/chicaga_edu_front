@@ -329,7 +329,10 @@ const routes = [
       {
         path: "tariffes",
         name: "tariffes",
-        component: DemoLessonResults
+        component: DemoLessonResults,
+        meta: {
+          breadcrumb: { title: "Тарифы" }
+        }
       }
     ]
   },

@@ -4,9 +4,9 @@
     :class="'demo-lesson-results--' + kind"
   >
     <div class="demo-lesson-results__head">
-      <div class="demo-lesson-results__content">
-        <div class="demo-lesson-results__title">Поздравляем!</div>
-        <div class="demo-lesson-results__subtitle">
+      <div class="demo-lesson-results__head-content">
+        <div class="demo-lesson-results__head-title">Поздравляем!</div>
+        <div class="demo-lesson-results__head-subtitle">
           Вы прошли вводный урок уровня
           <span class="demo-lesson-results__subtitle-level">Elementary</span>
         </div>
@@ -21,10 +21,10 @@
             Вы можете:
           </div>
           <ul class="demo-lesson-results__trade-list">
-            <li class="demo-lesson-results__list-item">
+            <li class="demo-lesson-results__trade-item">
               продолжить копить баллы для покупки более ценных призов
             </li>
-            <li class="demo-lesson-results__list-item">
+            <li class="demo-lesson-results__trade-item">
               или обменять их на
               <span class="demo-lesson-results__coin">монеты</span
               ><button class="demo-lesson-results__trade-button">
@@ -47,6 +47,7 @@
           class="demo-lesson-results__program-wrapper"
           :title="'Урок. Разбор песни'"
           :duration="392"
+          :start_time="1659060146"
         />
         <div class="demo-lesson-results__access-right">
           <button class="demo-lesson-results__access-button">
@@ -72,12 +73,43 @@
     <div class="demo-lesson-results__description-block">
       <course-description-vue
         class="demo-lesson-results__description"
-        :title="course.name"
+        :title="'Курс Elementary'"
         :image="require('@/assets/imgs/some-person.png')"
-        :description="course.description"
+        :description="
+          'Elementary — это фундамент, на котором будет держаться ваше знание английского языка'
+        "
         :courseInfo="courseInfo"
-        :result="true"
+        kind="result"
       />
+    </div>
+    <div class="demo-lesson-results__modules-block">
+      <div class="demo-lesson-results__block-title">
+        Курс состоит из 6 модулей
+      </div>
+      <div class="demo-lesson-results__modules-content">
+        <div class="demo-lesson-results__modules-title">
+          В каждом модуле для <b>максимального эффекта:</b>
+        </div>
+        <div class="demo-lesson-results__modules-list">
+          <span class="demo-lesson-results__modules-item">
+            уроки
+          </span>
+          <span class="demo-lesson-results__modules-item">
+            разговорные фразы
+          </span>
+          <span class="demo-lesson-results__modules-item">
+            дополнительные материалы
+          </span>
+        </div>
+        <div>для увлекательного изучения английского</div>
+      </div>
+      <div class="demo-lesson-results__image-wrapper">
+        <img
+          class="demo-lesson-results__modules-img"
+          src="~@/assets/svg/course-results-frame.svg"
+          alt="Карта прохождения курса"
+        />
+      </div>
     </div>
     <div class="demo-lesson-results__programs-block">
       <div class="demo-lesson-results__block-title">Программа курса</div>
@@ -88,6 +120,8 @@
           :key="index"
           :title="courseProgram.title"
           :kind="'result'"
+          :vocabulary="'Days of the week, numbers 0-20'"
+          :grammar="'Verb be +, subject pronouns: I, you, etc.'"
         />
       </div>
       <div class="demo-lesson-results__more-wrapper">
@@ -212,22 +246,22 @@ export default {
 <style scoped="scoped" lang="sass">
 @import "@/assets/styles/variables.sass"
 .demo-lesson-results
-  &--elementary &__subtitle-level
-    color: #B5D637
   &__head
     display: flex
   &__image-box
     flex-grow: 1
     display: flex
     justify-content: center
-  &__title
+  &__head-title
     font-size: 32px
     font-weight: 700
+  &__head-subtitle
+    font-size: 24px
+    font-weight: 700
+  &--elementary &__subtitle-level
+    color: #B5D637
   &__block-title
     font-size: 36px
-    font-weight: 700
-  &__subtitle
-    font-size: 24px
     font-weight: 700
   &__progress
     display: flex
@@ -243,7 +277,7 @@ export default {
   &__trade-list
     list-style: inside
     padding-left: .5rem
-  &__list-item:last-child
+  &__trade-item:last-child
     padding-top: 16px
     font-weight: 600
   &__coin
@@ -329,6 +363,34 @@ export default {
     background-position: center
     background-size: contain
     background-repeat: no-repeat
+  &__modules-block
+    padding-top: 80px
+  &__modules-content
+    padding-top: 16px
+  &__modules-list
+    display: flex
+  &__modules-item
+    position: relative
+    padding-left: 26.5px
+  &__modules-item + &__modules-item
+    padding-left: 44px
+  &__modules-item + &__modules-item::before
+    left: 17.5px
+  &__modules-item::before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0px
+    width: 21px
+    height: 21px
+    background-image: url("~@/assets/imgs/icons/star-3.svg")
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+  &__image-wrapper
+    margin-top: 35px
+  &__modules-img
+    width: 100%
   &__programs-block
     padding-top: 14px
   &__more-wrapper

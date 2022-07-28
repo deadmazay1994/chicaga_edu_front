@@ -5,7 +5,6 @@
       :image="require('@/assets/imgs/some-person.png')"
       :description="courseRes.description"
       :courseInfo="courseInfo"
-      :result="true"
     />
     <div class="course-page__block" v-if="coursePrograms">
       <div class="course-page__block-title">Программа курса</div>
@@ -18,32 +17,6 @@
           :duration="courseProgram.duration"
           :start_time="courseProgram.start_time"
           :link="'#'"
-        />
-      </div>
-    </div>
-    <div class="course-page__block">
-      <div class="course-page__block-title">Курс состоит из 6 модулей</div>
-      <div class="course-page__block-info">
-        <div class="course-page__info-title">
-          В каждом модуле для <b>максимального эффекта:</b>
-        </div>
-        <div class="course-page__info-list">
-          <span class="course-page__list-item">
-            уроки
-          </span>
-          <span class="course-page__list-item">
-            разговорные фразы
-          </span>
-          <span class="course-page__list-item">
-            дополнительные материалы
-          </span>
-        </div>
-        <div>для увлекательного изучения английского</div>
-      </div>
-      <div class="course-page__svg-wrapper">
-        <img
-          src="~@/assets/svg/course-results-frame.svg"
-          alt="Карта прохождения курса"
         />
       </div>
     </div>
@@ -170,32 +143,6 @@ export default {
     font-weight: 700
     @media ($media_md)
       font-size: 20px
-  &__block-info
-    padding-top: 16px
-  &__info-list
-    display: flex
-  &__list-item
-    position: relative
-    padding-left: 26.5px
-  &__list-item + &__list-item
-    padding-left: 44px
-    &:before
-      left: 17.5px
-  &__list-item::before
-    content: ""
-    position: absolute
-    top: 0
-    left: 0px
-    width: 21px
-    height: 21px
-    background-image: url("~@/assets/imgs/icons/star-3.svg")
-    background-position: center
-    background-size: contain
-    background-repeat: no-repeat
-  &__svg-wrapper
-    margin-top: 35px
-    img
-      width: 100%
   &__grid
     padding-top: 16px
     display: grid

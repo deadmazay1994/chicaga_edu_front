@@ -1,15 +1,15 @@
 <template>
-  <div
-    class="course-description"
-    :class="{ 'course-description--result': result }"
-  >
+  <div class="course-description" :class="'course-description--' + kind">
     <div class="course-description__body">
       <div class="course-description__content">
         <div class="course-description__title">{{ title }}</div>
         <div class="course-description__text">
           <p>{{ description }}</p>
         </div>
-        <div class="course-description__additional-list">
+        <div
+          class="course-description__additional-list"
+          v-if="kind == 'result'"
+        >
           <div class="course-description__list-item">
             <p>
               для людей с базовыми знаниями <br />
@@ -18,15 +18,22 @@
             </p>
           </div>
         </div>
-        <div class="course-description__additional-info">
+        <div
+          class="course-description__additional-info"
+          v-if="kind == 'result'"
+        >
           <div class="course-description__info-title">
             После курса Elementary вы:
           </div>
-          <p class="course-description__info-text">
-            <b>Общаетесь</b> на бытовые темы, рассказываете о работе, хобби,
-            семье и друзьях <br />
-            <b>Умеете объясниться в ресторане, магазине и отеле</b>
-          </p>
+          <div class="course-description__info-text">
+            <p>
+              <span class="course-description__bold">Общаетесь</span> на бытовые
+              темы, рассказываете о работе, хобби, семье и друзьях
+            </p>
+            <p class="course-description__bold">
+              Умеете объясниться в ресторане, магазине и отеле
+            </p>
+          </div>
         </div>
       </div>
       <div class="course-description__image-box">
@@ -67,7 +74,7 @@ export default {
     title: String,
     description: String,
     courseInfo: Array,
-    result: Boolean
+    kind: String
   },
   computed: {},
   methods: {}
@@ -204,4 +211,6 @@ export default {
     margin-right: 18px
     @media ($media_xl)
       margin-right: 12px
+  &__bold
+    font-weight: 700
 </style>
