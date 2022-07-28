@@ -1,5 +1,4 @@
-// const API_URL = "https://eng-test.avead.dev/api/";
-const API_URL = "https://edu.chicaga.ru/api/";
+const API_URL = process.env.VUE_APP_REST_API_URL;
 
 import Axios from "axios";
 

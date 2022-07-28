@@ -1,71 +1,128 @@
 <template>
   <div class="mobile-menu">
-    <div class="menu-btn" @click.prevent="openBurgerMenu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="mobile-menu__inner">
+      <div class="mobile-menu__logo-box">
+        <img
+          class="mobile-menu__logo"
+          src="~@/assets/imgs/logo-online.svg"
+          width="149"
+          height="26"
+          alt="Логотип"
+        />
+      </div>
+      <div class="mobile-menu__btns-box">
+        <button
+          class="mobile-menu__btn"
+          :class="{ 'mobile-menu__btn--active': showAddMenu }"
+          type="button"
+          @click="showAddMenu = !showAddMenu"
+        >
+          <svg class="mobile-menu__icon" width="24" height="24">
+            <use xlink:href="#settings-icon-2"></use>
+          </svg>
+          <span class="sr-only">
+            Настройки
+          </span>
+        </button>
+        <button
+          class="mobile-menu__btn mobile-menu__btn--disabled"
+          type="button"
+          disabled
+        >
+          <svg class="mobile-menu__icon" width="24" height="24">
+            <use xlink:href="#messages-icon"></use>
+          </svg>
+          <span class="sr-only">
+            Чаты
+          </span>
+        </button>
+      </div>
     </div>
-    <logo class="mobile-menu__logo" />
+    <profile-menu
+      class="mobile-menu__profile-menu"
+      :class="{ 'mobile-menu__profile-menu--active': showAddMenu }"
+    ></profile-menu>
   </div>
 </template>
 
 <script>
-import Logo from "@/components/Icons/Logo";
+import ProfileMenu from "../Base/ProfileMenu.vue";
 
 export default {
   name: "MobileMenu",
-  components: {
-    Logo
+  components: { ProfileMenu },
+  data: function() {
+    return {
+      showAddMenu: false
+    };
   },
   methods: {
-    openBurgerMenu() {
-      this.$emit("click");
+    onClickOutside() {
+      this.showAddMenu = false;
     }
   }
 };
 </script>
 
 <style lang="sass" scoped>
-@import "@/assets/styles/variables.sass"
- 
+
 .mobile-menu
-  display: none
-  background: #fff
-  padding: 15px
-  box-shadow: 0 4px 20px hsl(0deg 0% 50% / 20%)
-  position: fixed
-  top: 0
-  left: 0
-  width: 100%
-  z-index: 9999
-  @media ($media_lg2)
+  &__inner
+    position: relative
     display: flex
     align-items: center
     justify-content: space-between
-  @media ($media_sm)
-    padding-top: 10px
-    padding-bottom: 10px
+    width: 100%
+    height: 100%
+    padding-right: 10px
+    padding-left: 10px
+    background-color: #ffffff
+    box-shadow: 0 4px 20px rgba(128, 128, 128, 0.1)
+  &__inner::before
+    content: ""
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 100%
+    height: 1px
+    background-color: #e3e3e3
+  &__logo-box
+    display: flex
+    padding: 12px 10px
   &__logo
-    @media ($media_sm)
-      width: 150px
-      height: 36px
-
-.menu-btn
-  display: flex
-  align-items: center
-  justify-content: center
-  flex-direction: column
-  width: 36px
-  height: 36px
-  margin-right: 15px
-
-  span
-    display: block
-    width: 22px
-    height: 3px
-    margin-bottom: 3.5px
-    position: relative
-    background: #323232
-    border-radius: 3px
-    z-index: 1
+    width: 149px
+    height: 26px
+  &__btns-box
+    display: flex
+  &__btn
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 50px
+    height: 50px
+    color: #292d32
+    transition-property: color
+    transition-duration: 0.3s
+  &__btn--active
+    color: #ff0000
+  &__btn--disabled,
+  &__btn:disabled
+    color: #a9a9a9
+    pointer-events: none
+  &__icon
+    width: 24px
+    height: 24px
+  &__profile-menu
+    position: absolute
+    top: -24px
+    right: 10px
+    z-index: -1
+    width: 256px
+    transform: translateY(-100%)
+    transition-property: transform, top
+    transition-duration: 0.3s
+    transition-timing-function: ease-in-out
+  &__profile-menu--active
+    top: 100%
+    transform: translateY(0)
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="default-modal" v-click-outside="onClickOutside">
+  <div class="default-modal">
     <div class="default-modal__head">
       <button class="default-modal__close" type="button" @click="closeModal()">
         <svg class="default-modal__close-icon" width="15" height="15">
@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import vClickOutside from "v-click-outside";
-
 import { eventBus } from "@/main";
 
 export default {
@@ -42,15 +40,9 @@ export default {
     title: String
   },
   computed: {},
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
   methods: {
     closeModal() {
       eventBus.$emit("closeModal");
-    },
-    onClickOutside() {
-      this.closeModal();
     }
   },
   mounted() {}

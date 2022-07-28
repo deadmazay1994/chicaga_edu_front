@@ -33,7 +33,7 @@ import FAQ from "@/components/FAQ/";
 import Agree from "@/components/Lk/UserArgree";
 import ShopMore from "@/components/Lk/Store/ShopMore";
 import LevelTest from "@/components/LevelTest";
-import TestStart from "@/components/LevelTest/TestStart";
+import TestIntro from "@/components/LevelTest/TestIntro";
 import TestMain from "@/components/LevelTest/TestMain";
 import TestResult from "@/components/LevelTest/TestResult";
 import DemoLessonResults from "@/components/Lk/DemoLessonResults";
@@ -235,13 +235,15 @@ const routes = [
         path: "my-courses",
         name: "my-courses-wrapper",
         component: MyCoursesWrapper,
+        meta: {
+          breadcrumb: { title: "Мои курсы" }
+        },
         children: [
           {
             path: "",
             name: "my-courses-wrapper",
             component: MyCourses,
             meta: {
-              breadcrumb: { title: "Мои курсы" },
               title: "Мои курсы"
             }
           },
@@ -404,8 +406,8 @@ const routes = [
     children: [
       {
         path: "",
-        name: "test-start",
-        component: TestStart,
+        name: "test-intro",
+        component: TestIntro,
         meta: {
           breadcrumb: { title: "Вступление" }
         }
