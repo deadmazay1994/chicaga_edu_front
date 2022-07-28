@@ -21,6 +21,7 @@
         </tab-component>
       </tabs-component>
     </div>
+    <router-link :to="{ name: 'tariffes', id: generatedId }">test</router-link>
   </div>
 </template>
 
@@ -74,6 +75,9 @@ export default {
     },
     brain() {
       return this.points.brain.toFixed(0);
+    },
+    generatedId() {
+      return (Math.random() + 1).toString(36).substring(7);
     }
   },
   components: {
@@ -89,6 +93,7 @@ export default {
     await this.setLesson();
     console.log(this.lesson.time);
     this.timeData = this.lesson.time;
+    console.log("test edupanel");
   }
 };
 </script>
