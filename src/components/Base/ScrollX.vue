@@ -5,22 +5,18 @@
     </div>
     <div class="scroll-x__btns">
       <button class="scroll-x__btn scroll-x__btn--left" type="button" disabled>
-        <svg v-if="mobile" class="scroll-x__icon" width="12" height="14">
-          <use xlink:href="#arrow-double"></use>
-        </svg>
-        <svg v-else class="scroll-x__icon" width="12" height="14">
-          <use xlink:href="#arrow-simple"></use>
+        <svg class="scroll-x__icon" width="12" height="14">
+          <use v-if="mobile" xlink:href="#arrow-double"></use>
+          <use v-else xlink:href="#arrow-simple"></use>
         </svg>
         <span class="sr-only">
           Назад
         </span>
       </button>
       <button class="scroll-x__btn scroll-x__btn--right" type="button">
-        <svg v-if="mobile" class="scroll-x__icon" width="12" height="14">
-          <use xlink:href="#arrow-double"></use>
-        </svg>
-        <svg v-else class="scroll-x__icon" width="12" height="14">
-          <use xlink:href="#arrow-simple"></use>
+        <svg class="scroll-x__icon" width="12" height="14">
+          <use v-if="mobile" xlink:href="#arrow-double"></use>
+          <use v-else xlink:href="#arrow-simple"></use>
         </svg>
         <span class="sr-only">
           Вперёд
