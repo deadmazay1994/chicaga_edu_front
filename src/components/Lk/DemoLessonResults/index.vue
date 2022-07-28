@@ -64,32 +64,99 @@
         </div>
       </div>
     </div>
-    <course-description-vue
-      :title="course.name"
-      :image="require('@/assets/imgs/some-person.png')"
-      :description="course.description"
-      :courseInfo="courseInfo"
-      :result="true"
-    />
-    <course-program-card-vue
-      v-for="(courseProgram, index) in coursePrograms"
-      :key="index"
-      :title="courseProgram.title"
-      :kind="'result'"
-    />
+    <div class="demo-lesson-results__gift-block">
+      <span class="demo-lesson-results__gift-text">
+        Ваш подарок был отправлен вам на почту
+      </span>
+    </div>
+    <div class="demo-lesson-results__description-block">
+      <course-description-vue
+        class="demo-lesson-results__description"
+        :title="course.name"
+        :image="require('@/assets/imgs/some-person.png')"
+        :description="course.description"
+        :courseInfo="courseInfo"
+        :result="true"
+      />
+    </div>
+    <div class="demo-lesson-results__programs-block">
+      <div class="demo-lesson-results__block-title">Программа курса</div>
+      <div class="demo-lesson-results__grid">
+        <course-program-card-vue
+          class="demo-lesson-results__program"
+          v-for="(courseProgram, index) in coursePrograms"
+          :key="index"
+          :title="courseProgram.title"
+          :kind="'result'"
+        />
+      </div>
+      <div class="demo-lesson-results__more-wrapper">
+        <span class="demo-lesson-results__more"
+          >развернуть
+          <svg class="demo-lesson-results__more-icon">
+            <use :xlink:href="'#arrow-down'"></use>
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="demo-lesson-results__tariffes-block">
+      <div
+        class="demo-lesson-results__block-title demo-lesson-results__block-title--with-icon"
+      >
+        Тарифы для любых задач
+      </div>
+      <div class="demo-lesson-results__grid demo-lesson-results__grid--3fr">
+        <div
+          v-for="(tariff, index) in tariffes"
+          :key="index"
+          class="demo-lesson-results__tariff-wrapper"
+        >
+          <tariff class="demo-lesson-results__tariff" :tariffData="tariff" />
+          <page-button class="demo-lesson-results__tariff-btn"
+            >ЗАБРОНИРОВАТЬ ЗА 2000 ₽</page-button
+          >
+        </div>
+      </div>
+    </div>
+    <div class="demo-lesson-results__final-block">
+      <div class="demo-lesson-results__final">
+        <div class="demo-lesson-results__final-left">
+          <div class="demo-lesson-results__final-title">
+            Или просто оставьте заявку
+          </div>
+          <ul class="demo-lesson-results__list">
+            <li>Позвоним, расскажем о курсе</li>
+            <li>Поможем определиться с тарифом</li>
+          </ul>
+        </div>
+        <div class="demo-lesson-results__final-right">
+          <button class="demo-lesson-results__final-btn">
+            ОСТАВИТЬ ЗАЯВКУ
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import CourseDescriptionVue from "./Courses/CourseDescription.vue";
-import CourseProgramCardVue from "../CourseProgram/CourseProgramCard.vue";
-import ScoresVue from "../LessonComponents/Scores.vue";
+import CourseDescriptionVue from "@/components/Lk/Courses/CourseDescription.vue";
+import CourseProgramCardVue from "@/components/CourseProgram/CourseProgramCard.vue";
+import ScoresVue from "@/components/LessonComponents/Scores.vue";
+import Tariff from "@/components/Tariff";
+import PageButton from "./DemoLessonResultsBtn.vue";
 
 import api from "@/mixins/api";
 
 export default {
   name: "demo-lesson-results",
-  components: { CourseDescriptionVue, CourseProgramCardVue, ScoresVue },
+  components: {
+    CourseDescriptionVue,
+    CourseProgramCardVue,
+    ScoresVue,
+    Tariff,
+    PageButton
+  },
   data: function() {
     return {
       kind: "elementary",
@@ -155,6 +222,9 @@ export default {
     justify-content: center
   &__title
     font-size: 32px
+    font-weight: 700
+  &__block-title
+    font-size: 36px
     font-weight: 700
   &__subtitle
     font-size: 24px
@@ -235,15 +305,113 @@ export default {
     line-height: 17px
     padding-top: 17px
     text-align: center
+  &__description-block
+    padding-top: 47px
+  &__gift-block
+    padding-top: 32px
+    display: flex
+    justify-content: center
+  &__gift-text
+    padding-top: 7px
+    padding-bottom: 7px
+    position: relative
+    display: inline-flex
+    align-items: center
+    padding-right: 44px
+    color: #A9A9A9
+  &__gift-text::after
+    content: ""
+    position: absolute
+    right: 0
+    width: 36px
+    height: 36px
+    background-image: url("~@/assets/svg/open-gift-box.svg")
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+  &__programs-block
+    padding-top: 14px
+  &__more-wrapper
+    padding-top: 32px
+    display: flex
+    justify-content: center
+  &__more
+    color: #A9A9A9
+    font-weight: 700
+    font-size: 16px
+    cursor: pointer
+  &__more-icon
+    width: 14px
+    height: 8px
+  &__tariffes-block
+    padding-top: 40px
+  &__block-title--with-icon
+    position: relative
+    display: flex
+    align-items: center
+    padding-left: 142px
+    padding-top: 34.5px
+    padding-bottom: 34.5px
+  &__block-title--with-icon::before
+    content: ""
+    position: absolute
+    left: 0
+    width: 118px
+    height: 107px
+    background-image: url("~@/assets/svg/look-toucan.svg")
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+  &__tariff-wrapper
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+  &__tariff-btn
+    margin-top: 24px
+  &__final-block
+    padding-top: 60px
+    display: flex
+    justify-content: center
+  &__final
+    display: flex
+    border: 2px dashed #BFC2DD
+    border-radius: 20px
+    width: 972px
+  &__final-right
+    flex-grow: 1
+    display: flex
+    align-items: center
+    justify-content: center
+  &__final-left
+    flex-grow: 1
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+    padding: 24px 0
+  &__final-title
+    font-weight: 600
+    font-size: 24px
+  &__list
+    padding-top: 16px
+    list-style: inside
+  &__final-btn
+    padding: 16px 32px
+    border: 2px solid #E84145
+    color: #E84145
+    border-radius: 10px
+    font-weight: 700
   &__grid
     padding-top: 16px
     display: grid
-    grid-template-columns: 1fr 1fr 1fr
+    grid-template-columns: 1fr 1fr
     grid-gap: 20px
     @media ($media_xxl)
       grid-template-columns: 1fr 1fr
     @media ($media_md)
       grid-template-columns: 1fr
+  &__grid--3fr
+    grid-template-columns: 1fr 1fr 1fr
   &__scores
     justify-content: space-evenly
     @media ($media_xl)

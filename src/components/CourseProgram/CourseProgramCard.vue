@@ -3,6 +3,7 @@
     class="program-card vue-component"
     :class="'program-card--' + returnModificator"
   >
+    {{ returnModificator }}
     <div class="program-card__inner">
       <div class="program-card__top">
         <div class="program-card__top-main">
