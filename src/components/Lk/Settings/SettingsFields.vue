@@ -84,32 +84,49 @@
             :required="false"
           />
         </label>
-        <label class="settings-fields__label" for="password">
-          <span class="settings-fields__span">Пароль:</span>
-          <c-input
-            class="settings-fields__input"
-            :class="{ 'settings-fields__input--error': passwordError }"
-            type="password"
-            name="password"
-            placeholder="•••••••••••"
-            aria-label="Поле для ввода нового пароля"
-            :maxlength="30"
-            v-model="password"
-          />
-        </label>
-        <label class="settings-fields__label" for="repeatPassword">
-          <span class="settings-fields__span"></span>
-          <c-input
-            class="settings-fields__input"
-            :class="{ 'settings-fields__input--error': repeatPasswordError }"
-            type="password"
-            name="repeatPassword"
-            placeholder="•••••••••••"
-            aria-label="Поле для повторного ввода пароля"
-            :maxlength="30"
-            v-model="repeatPassword"
-          />
-        </label>
+        <div
+          class="settings-fields__btn-wrap"
+          :class="{ 'settings-fields__btn-wrap--hidden': showPasswords }"
+        >
+          <button
+            class="settings-fields__passwords-btn"
+            type="button"
+            @click="showPasswords = true"
+          >
+            Сменить пароль
+          </button>
+        </div>
+        <div
+          class="settings-fields__passwords-wrap"
+          :class="{ 'settings-fields__passwords-wrap--visible': showPasswords }"
+        >
+          <label class="settings-fields__label" for="password">
+            <span class="settings-fields__span">Пароль:</span>
+            <c-input
+              class="settings-fields__input"
+              :class="{ 'settings-fields__input--error': passwordError }"
+              type="password"
+              name="password"
+              placeholder="•••••••••••"
+              aria-label="Поле для ввода нового пароля"
+              :maxlength="30"
+              v-model="password"
+            />
+          </label>
+          <label class="settings-fields__label" for="repeatPassword">
+            <span class="settings-fields__span"></span>
+            <c-input
+              class="settings-fields__input"
+              :class="{ 'settings-fields__input--error': repeatPasswordError }"
+              type="password"
+              name="repeatPassword"
+              placeholder="•••••••••••"
+              aria-label="Поле для повторного ввода пароля"
+              :maxlength="30"
+              v-model="repeatPassword"
+            />
+          </label>
+        </div>
       </div>
       <div class="settings-fields__footer">
         <c-btn class="settings-fields__red-btn">Сохранить настройки</c-btn>
@@ -126,6 +143,7 @@ export default {
   components: {},
   data: function() {
     return {
+      showPasswords: false,
       username: null,
       usersecondname: null,
       phoneNumber: null,
@@ -260,6 +278,33 @@ export default {
     font-size: inherit
     padding: 10.5px 14.5px
     border-radius: 12px
+  &__btn-wrap
+    padding-top: 16px
+    padding-left: 140px
+    @media ($media_md)
+      padding-top: 8px
+    @media ($media_sm2)
+      padding-left: 0
+  &__btn-wrap--hidden
+    display: none
+  &__passwords-btn
+    height: 46px
+    color: #007eff
+    transition-property: color
+    transition-duration: 0.3s
+  &__passwords-btn:focus-visible,
+  &__passwords-btn:hover
+    color: #ff0000
+  &__passwords-btn:active
+    transition-duration: 0.1s
+    color: #ca2e23
+  &__passwords-wrap
+    display: none
+  &__passwords-wrap--visible
+    display: block
+    padding-top: 16px
+    @media ($media_md)
+      padding-top: 8px
   &__footer
     display: flex
     align-items: center
