@@ -2,18 +2,19 @@
   <div class="comparison">
     <Table :tableColumns="returnColumnNames">
       <template v-slot:default="slotProps">
-        <transition-group name="flip-list" tag="div" class="comparison__column">
+        <transition-group name="flip-list" tag="div" class="comparison-column">
           <template v-for="(chip, index) in selectedChipsArray">
             <template v-if="slotProps.columnIndex === index % 2">
-              <chip
-                class="comprasion__item"
-                :key="index"
-                :checkText="true"
-                :text="chip.w1 ? chip.w1 : chip.w2"
-                :selected="chip.selected"
-                :state="chip.state"
-                @click="selectChip(chip)"
-              />
+              <div class="comprasion-item" :key="index">
+                <chip
+                  class="comprasion-chip"
+                  :checkText="true"
+                  :text="chip.w1 ? chip.w1 : chip.w2"
+                  :selected="chip.selected"
+                  :state="chip.state"
+                  @click="selectChip(chip)"
+                />
+              </div>
               <!-- Вызываем метод для вычисления текущей колонки -->
               {{ returnColumnIndex(chip, slotProps.columnIndex) }}
             </template>
@@ -204,16 +205,29 @@ export default {
           state: "default"
         });
       }
-      return wordObject
+      return wordObject;
     });
   }
 };
 </script>
 
 <style lang="sass" scoped>
-.comparison__column
+.comparison-column
   display: flex
-  align-items: center
   flex-direction: column
-  gap: 7px
+  overflow: hidden
+
+  .comprasion-item
+    display: flex
+    flex-shrink: 0
+    padding: 6px 12px
+    overflow: auto
+    &:not(:last-child)
+      border-bottom: 1px solid #e8e8e8
+    &::-webkit-scrollbar
+      width: 0
+      height: 0
+
+  .comprasion-chip
+    flex-shrink: 0
 </style>

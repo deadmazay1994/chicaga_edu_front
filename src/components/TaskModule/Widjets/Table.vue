@@ -103,7 +103,6 @@ export default {
     border-bottom-left-radius: 10px
   &__field
     flex-grow: 1
-    padding: 9px
     &--success
       background-color: rgba(142, 220, 81, .35)
     &--error
