@@ -164,24 +164,15 @@ export default {
       );
     },
     async getProgressOfCourse(courseId) {
-      return get("teacher/course/" + courseId);
+      return get("teacher/course" + courseId);
     },
     // video
     async getVideo(id) {
       return get(`user/videos/${id}`);
     },
     // Проверка доступа пользователя к уроку
-    checkAccess(id) {
-      // Мок
-      console.log("lessonId checkAccess id:", id);
-      if (!id) return true;
-      else {
-        this.$store.commit("pushShuckbar", {
-          success: false,
-          val: "access denied"
-        });
-        return false;
-      }
+    checkAccess(uniq_id) {
+      return get("lesson/access-check", uniq_id);
     },
     getTimestamps() {
       return [

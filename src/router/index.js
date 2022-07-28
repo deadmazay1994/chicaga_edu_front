@@ -71,7 +71,8 @@ const routes = [
         }
       },
       lesson: true,
-      layout: "main-layout"
+      layout: "main-layout",
+      checkAccess: true
     }
   },
   {
@@ -490,14 +491,16 @@ router.beforeEach((to, from, next) => {
     access = true;
   }
   if (to.matched.some(record => record.meta.checkAccess)) {
-    if (api.methods.checkAccess(to.params.id)) access = true;
-    else {
-      store.commit("pushShuckbar", {
-        val: "access denied",
-        success: false
-      });
-      access = false;
-    }
+    api.methods.checkAccess(to.params.id).then(res => {
+      if (res.success) access = true;
+      else {
+        store.commit("pushShuckbar", {
+          val: "access denied",
+          success: false
+        });
+        access = false;
+      }
+    });
   }
   if (access) next();
 });
