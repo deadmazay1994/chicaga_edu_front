@@ -37,7 +37,7 @@ export default {
             //   },
             //   letters
             // )
-            <span domPropsInnerHTML={letters.join('')}></span>
+            <span domPropsInnerHTML={letters.join("")}></span>
           );
           letters = [];
           this.pushMissingAnswers(gapNum);
@@ -77,9 +77,7 @@ export default {
           letters.push(l);
         }
         if (i == this.newSentence.split("").length - 1) {
-          res.push(
-            <span domPropsInnerHTML={letters.join('')}></span>
-          );
+          res.push(<span domPropsInnerHTML={letters.join("")}></span>);
           letters = [];
         }
       }
@@ -164,7 +162,7 @@ export default {
       // if (this.sentence.match(/<(.*?)>/g)) {
       //   titleText = this.sentence.match(/<(.*?)>/g)[0];
       // }
-      return <span domPropsInnerHTML={this.newSentence}></span>
+      return <span domPropsInnerHTML={this.newSentence}></span>;
     },
     getImg(h) {
       if (this.img) {
@@ -302,6 +300,7 @@ export default {
   &__title
     font-weight: bold
   &__input
+    max-width: 100%
     outline: none
     text-align: center
     border-bottom: 1px solid #000

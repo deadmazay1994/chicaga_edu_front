@@ -149,6 +149,8 @@ export default {
   display: flex
   align-items: center
   justify-content: space-between
+  flex-wrap: wrap
+  column-gap: 8px
 
   .task__title
     color: rgba(95, 0, 47, 1)
@@ -156,5 +158,9 @@ export default {
   .task__selection
     display: flex
     align-items: center
+    flex-wrap: wrap
     gap: 8px
+
+  .chip
+    text-align: left
 </style>
