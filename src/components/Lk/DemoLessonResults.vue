@@ -71,6 +71,7 @@
       </span>
     </div>
     <course
+      class="demo-lesson-results__course"
       :course="{ name: 'test', description: 'test' }"
       :courseInfo="courseInfo"
       :coursePrograms="coursePrograms"
@@ -242,8 +243,6 @@ export default {
     line-height: 17px
     padding-top: 17px
     text-align: center
-  &__description-block
-    padding-top: 47px
   &__gift-block
     padding-top: 32px
     display: flex
@@ -266,120 +265,11 @@ export default {
     background-position: center
     background-size: contain
     background-repeat: no-repeat
-  &__modules-block
-    padding-top: 80px
-  &__modules-content
-    padding-top: 16px
-  &__modules-list
-    display: flex
-  &__modules-item
-    position: relative
-    padding-left: 26.5px
-  &__modules-item + &__modules-item
-    padding-left: 44px
-  &__modules-item + &__modules-item::before
-    left: 17.5px
-  &__modules-item::before
-    content: ""
-    position: absolute
-    top: 0
-    left: 0px
-    width: 21px
-    height: 21px
-    background-image: url("~@/assets/imgs/icons/star-3.svg")
-    background-position: center
-    background-size: contain
-    background-repeat: no-repeat
-  &__image-wrapper
-    margin-top: 35px
-  &__modules-img
-    width: 100%
-  &__programs-block
-    padding-top: 14px
-  &__more-wrapper
-    padding-top: 32px
-    display: flex
-    justify-content: center
-  &__more
-    color: #A9A9A9
-    font-weight: 700
-    font-size: 16px
-    cursor: pointer
-  &__more-icon
-    width: 14px
-    height: 8px
-  &__tariffes-block
-    padding-top: 40px
-  &__block-title--with-icon
-    position: relative
-    display: flex
-    align-items: center
-    padding-left: 142px
-    padding-top: 34.5px
-    padding-bottom: 34.5px
-  &__block-title--with-icon::before
-    content: ""
-    position: absolute
-    left: 0
-    width: 118px
-    height: 107px
-    background-image: url("~@/assets/svg/look-toucan.svg")
-    background-position: center
-    background-size: contain
-    background-repeat: no-repeat
-  &__tariff-wrapper
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-  &__tariff-btn
-    margin-top: 24px
-  &__final-block
-    padding-top: 60px
-    display: flex
-    justify-content: center
-  &__final
-    display: flex
-    border: 2px dashed #BFC2DD
-    border-radius: 20px
-    width: 972px
-  &__final-right
-    flex-grow: 1
-    display: flex
-    align-items: center
-    justify-content: center
-  &__final-left
-    flex-grow: 1
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: column
-    padding: 24px 0
-  &__final-title
-    font-weight: 600
-    font-size: 24px
-  &__list
-    padding-top: 16px
-    list-style: inside
-  &__final-btn
-    padding: 16px 32px
-    border: 2px solid #E84145
-    color: #E84145
-    border-radius: 10px
-    font-weight: 700
-  &__grid
-    padding-top: 16px
-    display: grid
-    grid-template-columns: 1fr 1fr
-    grid-gap: 20px
-    @media ($media_xxl)
-      grid-template-columns: 1fr 1fr
-    @media ($media_md)
-      grid-template-columns: 1fr
-  &__grid--3fr
-    grid-template-columns: 1fr 1fr 1fr
   &__scores
     justify-content: space-evenly
     @media ($media_xl)
       padding-right: 0
       padding-left: 0
+  &__course
+    margin-top: 47px
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="course-page vue-component">
+    <div class="course-page__block-title">Познакомьтесь с курсом</div>
     <course-description
       class="course-page__description"
       :title="'Курс Elementary'"
@@ -154,6 +155,8 @@ export default {
     font-weight: 700
     @media ($media_md)
       font-size: 20px
+  &__description
+    margin-top: 17px
   &__modules-block
     padding-top: 80px
   &__modules-content
