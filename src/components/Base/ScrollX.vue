@@ -5,16 +5,22 @@
     </div>
     <div class="scroll-x__btns">
       <button class="scroll-x__btn scroll-x__btn--left" type="button" disabled>
-        <svg class="scroll-x__icon" width="12" height="14">
+        <svg v-if="mobile" class="scroll-x__icon" width="12" height="14">
           <use xlink:href="#arrow-double"></use>
+        </svg>
+        <svg v-else class="scroll-x__icon" width="12" height="14">
+          <use xlink:href="#arrow-simple"></use>
         </svg>
         <span class="sr-only">
           Назад
         </span>
       </button>
       <button class="scroll-x__btn scroll-x__btn--right" type="button">
-        <svg class="scroll-x__icon" width="12" height="14">
+        <svg v-if="mobile" class="scroll-x__icon" width="12" height="14">
           <use xlink:href="#arrow-double"></use>
+        </svg>
+        <svg v-else class="scroll-x__icon" width="12" height="14">
+          <use xlink:href="#arrow-simple"></use>
         </svg>
         <span class="sr-only">
           Вперёд
@@ -29,7 +35,10 @@ export default {
   name: "scroll-x",
   components: {},
   data: function() {
-    return {};
+    return {
+      width: 0,
+      mobile: true
+    };
   },
   props: {
     gap: {
@@ -38,7 +47,20 @@ export default {
     }
   },
   computed: {},
-  methods: {}
+  methods: {
+    updateWidth() {
+      this.width = window.innerWidth;
+      if (this.width > 1000) {
+        this.mobile = false;
+      } else {
+        this.mobile = true;
+      }
+    }
+  },
+  created() {
+    window.addEventListener("resize", this.updateWidth);
+    this.updateWidth();
+  }
 };
 </script>
 
