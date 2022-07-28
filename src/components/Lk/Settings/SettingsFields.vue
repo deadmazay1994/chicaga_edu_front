@@ -281,6 +281,10 @@ export default {
     font-size: inherit
     padding: 10.5px 14.5px
     border-radius: 12px
+  & &__input[required]
+    background-image: url("data:image/svg+xml,%3Csvg width='5' height='5' viewBox='0 0 5 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.59371 5L0.554036 4.20863L1.59371 2.8705L0 2.40288L0.396717 1.11511L1.9357 1.7482L1.85363 0H3.13954L3.05746 1.7482L4.60328 1.11511L5 2.40288L3.39945 2.8705L4.43913 4.20863L3.39945 5L2.49658 3.56115L1.59371 5Z' fill='%23FF0000'/%3E%3C/svg%3E%0A")
+    background-position: right 7px top 6px
+    background-size: 5px 5px
   &__btn-wrap
     padding-top: 16px
     padding-left: 140px
