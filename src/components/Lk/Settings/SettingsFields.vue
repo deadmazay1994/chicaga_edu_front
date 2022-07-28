@@ -250,11 +250,11 @@ export default {
       margin-bottom: 24px
   &__body
     flex-grow: 1
-    margin-bottom: 48px
+    margin-bottom: 60px
     @media ($media_md)
-      margin-bottom: 36px
+      margin-bottom: 48px
     @media ($media_sm2)
-      margin-bottom: 24px
+      margin-bottom: 36px
   &__label
     display: flex
     align-items: center
@@ -273,6 +273,9 @@ export default {
     flex-basis: 140px
     padding-right: 5px
     font-weight: 600
+    @media ($media_sm2)
+      padding-right: 0
+      padding-bottom: 2px
   & &__input
     flex-basis: 750px
     font-size: inherit
@@ -289,9 +292,13 @@ export default {
     display: none
   &__passwords-btn
     height: 46px
+    font-size: 16px
     color: #007eff
     transition-property: color
     transition-duration: 0.3s
+    @media ($media_md)
+      height: 43px
+      font-size: 14px
   &__passwords-btn:focus-visible,
   &__passwords-btn:hover
     color: #ff0000
