@@ -36,6 +36,7 @@ import LevelTest from "@/components/LevelTest";
 import TestIntro from "@/components/LevelTest/TestIntro";
 import TestMain from "@/components/LevelTest/TestMain";
 import TestResult from "@/components/LevelTest/TestResult";
+import DemoLessonResults from "@/components/Lk/DemoLessonResults";
 
 import Page404 from "Base/404";
 
@@ -327,6 +328,14 @@ const routes = [
         path: "start",
         name: "start",
         component: DemoPage
+      },
+      {
+        path: "tariffes",
+        name: "tariffes",
+        component: DemoLessonResults,
+        meta: {
+          breadcrumb: { title: "Тарифы" }
+        }
       }
     ]
   },

@@ -1,10 +1,39 @@
 <template>
-  <div class="course-description">
+  <div class="course-description" :class="'course-description--' + kind">
     <div class="course-description__body">
       <div class="course-description__content">
         <div class="course-description__title">{{ title }}</div>
         <div class="course-description__text">
           <p>{{ description }}</p>
+        </div>
+        <div
+          class="course-description__additional-list"
+          v-if="kind == 'result'"
+        >
+          <div class="course-description__list-item">
+            <p>
+              для людей с базовыми знаниями <br />
+              (отсутствие разговорных навыков, систематических знаний
+              грамматики, словарного запаса для поддержания свободной беседы)
+            </p>
+          </div>
+        </div>
+        <div
+          class="course-description__additional-info"
+          v-if="kind == 'result'"
+        >
+          <div class="course-description__info-title">
+            После курса Elementary вы:
+          </div>
+          <div class="course-description__info-text">
+            <p>
+              <span class="course-description__bold">Общаетесь</span> на бытовые
+              темы, рассказываете о работе, хобби, семье и друзьях
+            </p>
+            <p class="course-description__bold">
+              Умеете объясниться в ресторане, магазине и отеле
+            </p>
+          </div>
         </div>
       </div>
       <div class="course-description__image-box">
@@ -44,7 +73,8 @@ export default {
     image: String,
     title: String,
     description: String,
-    courseInfo: Array
+    courseInfo: Array,
+    kind: String
   },
   computed: {},
   methods: {}
@@ -61,6 +91,8 @@ export default {
   background-color: #B5D6371A
   border-radius: 20px
   box-shadow: 0 4px 20px rgba(128, 128, 128, 0.2)
+  &--result
+    font-weight: 400
   &__body
     display: flex
     justify-content: space-between
@@ -95,6 +127,33 @@ export default {
       font-size: 28px
     @media ($media_md2)
       font-size: 24px
+  &--result &__text
+    font-size: 20px
+  &__additional-list
+    padding-top: 16px
+    display: flex
+    flex-direction: column
+  &__list-item
+    position: relative
+    display: flex
+    padding-left: 30px
+  &__list-item::before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    width: 24px
+    height: 24px
+    background-image: url("~@/assets/imgs/icons/star-3.svg")
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+  &__additional-info
+    padding-top: 16px
+  &__info-title
+    font-weight: 700
+  &__info-text
+    padding-left: 32px
   &__image-box
     align-self: flex-end
     flex-shrink: 0
@@ -152,4 +211,6 @@ export default {
     margin-right: 18px
     @media ($media_xl)
       margin-right: 12px
+  &__bold
+    font-weight: 700
 </style>

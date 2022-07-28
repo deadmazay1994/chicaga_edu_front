@@ -3,6 +3,7 @@
     class="program-card vue-component"
     :class="'program-card--' + returnModificator"
   >
+    {{ returnModificator }}
     <div class="program-card__inner">
       <div class="program-card__top">
         <div class="program-card__top-main">
@@ -50,7 +51,33 @@
         </div>
       </div>
       <div class="program-card__bottom">
-        <div class="program-card__bottom-main">
+        <div
+          class="program-card__bottom-main program-card__bottom-main--result"
+          v-if="kind == 'result'"
+        >
+          <div class="program-card__bottom-item">
+            <div class="program-card__data">
+              <svg class="program-card__bottom-img" width="18" height="18">
+                <use xlink:href="#grammar"></use>
+              </svg>
+              <span class="program-card__time"> {{ grammar }}</span>
+            </div>
+          </div>
+          <div class="program-card__bottom-item">
+            <div class="program-card__data">
+              <svg
+                class="program-card__bottom-img"
+                width="18"
+                height="18"
+                fill="none"
+              >
+                <use xlink:href="#vocabulary"></use>
+              </svg>
+              <span class="program-card__date"> {{ vocabulary }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="program-card__bottom-main" v-else>
           <div class="program-card__bottom-item">
             <div class="program-card__data">
               <svg class="program-card__bottom-img" width="18" height="18">
@@ -136,7 +163,8 @@ export default {
       return this.access ? "lock-open" : "lock-lock";
     },
     returnModificator() {
-      if (this.title.match("Elementary")) return "test";
+      // if (this.title.match("Elementary")) return "test";
+      if (this.title.match("Test")) return "test";
       else if (this.title.match("Practical")) return "practical";
       return "";
     }
@@ -151,7 +179,9 @@ export default {
     rating: Number,
     duration: Number,
     start_time: Number,
-    link: String
+    link: String,
+    vocabulary: String,
+    grammar: String
   },
   mixins: {},
   beforeMount() {}
@@ -239,6 +269,9 @@ export default {
     align-items: center
     flex-wrap: wrap
     gap: 12px 24px
+  &__bottom-main--result
+    flex-direction: column
+    align-items: flex-start
   &__bottom-item
     flex-shrink: 0
   &__data

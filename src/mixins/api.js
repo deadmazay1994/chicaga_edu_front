@@ -82,6 +82,9 @@ export default {
     async getCourseInfo(id) {
       return get("user/course", id);
     },
+    async getCourse(id) {
+      return get("course", id);
+    },
     async getProgressForTeacher() {
       return get("teacher/courses");
     },
