@@ -65,6 +65,8 @@ export default {
     },
     async setLesson() {
       let r = await api.methods.getFullLesson(this.$route.params.id);
+      // Последний элемент массива - компонент результатов (иконка звездочки)
+      r?.lesson.push({ tasks: [{ type: "task-results" }] });
       this.lesson = r;
     }
   },

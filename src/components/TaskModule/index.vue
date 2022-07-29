@@ -7,7 +7,8 @@
         :class="[
           { 'task-navigation-button--active': activeGroup === index },
           { 'task-navigation-button--success': group.success },
-          { 'task-navigation-button--error': group.success === false }
+          { 'task-navigation-button--error': group.success === false },
+          { 'task-navigation-button--result': group.result }
         ]"
         @moveToGroup="moveToGroup(index)"
         >{{ group.number }}</navigation-button
@@ -48,11 +49,14 @@ export default {
       this.activeGroup = index;
     },
     setNavigationList() {
-      this.navigationList = this.tasks.map((task, index) => ({
-        task: task,
-        success: undefined,
-        number: index + 1
-      }));
+      this.navigationList = this.tasks.map((task, index) => {
+        if (task.tasks[0]?.type == "task-results") return { result: true };
+        return {
+          task: task,
+          success: undefined,
+          number: index + 1
+        };
+      });
     },
     setTaskNumberState(index, bool) {
       this.navigationList[index].success = bool;
