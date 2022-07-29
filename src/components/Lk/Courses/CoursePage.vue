@@ -30,7 +30,7 @@ export default {
       this.courseData = this.course(this.$route.params.id);
     },
     async setCoursePrograms() {
-      const result = await this.getCourseInfo(this.$route.params.id);
+      const result = await this.getCourse(this.$route.params.id);
       this.coursePrograms = result.data.lessons;
     },
     async setCourseInfo() {
