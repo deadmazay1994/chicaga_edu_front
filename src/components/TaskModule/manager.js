@@ -58,6 +58,9 @@ export default function manager(type) {
     case "consultationLevel":
       componentName = "consultationLevel";
       break;
+    case "task-results":
+      componentName = "task-results";
+      break;
   }
   return componentName;
 }

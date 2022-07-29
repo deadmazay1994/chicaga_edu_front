@@ -32,7 +32,10 @@
         class="demo-description__item"
         v-for="(lesson, index) in lessons"
         :key="index"
-        :to="{ name: 'lesson_record', params: { id: lesson.uniq_id } }"
+        :to="{
+          name: 'lesson_record',
+          params: { id: lesson.uniq_id, course_id: 15 }
+        }"
       >
         <demo-btn>
           {{ lesson.name }}

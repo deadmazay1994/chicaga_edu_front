@@ -16,14 +16,27 @@
           ref="taskComponent"
           class="task-group__task"
         ></component>
-        <button
-          class="check-btn"
-          @click="checkTask(index)"
-          :key="index + 'k'"
-          v-if="!addonsTypeList.includes(task.type)"
-        >
-          Проверить
-        </button>
+        <div class="task-group__button-wrapper" :key="index + 'k'">
+          <button
+            class="task-group__check-btn"
+            @click="checkTask(index)"
+            v-if="
+              !addonsTypeList.includes(task.type) &&
+                returnComponent(task.type) != 'task-results'
+            "
+          >
+            Проверить
+          </button>
+          <button
+            @click="redirect()"
+            :to="{ name: 'tariffes', course_id }"
+            :key="index + 'l'"
+            v-else
+            class="task-group__complete-btn"
+          >
+            ЗАВЕРШИТЬ УРОК
+          </button>
+        </div>
       </template>
     </template>
   </div>
@@ -42,6 +55,7 @@ import Comparison from "./Tasks/Comparison.vue";
 import Syllable from "./Tasks/Syllable";
 import Attachs from "./Tasks/Attachs";
 import ChooseOne from "./Tasks/ChooseOne";
+import TaskResults from "./TaskResults.vue";
 
 import manager from "./manager";
 
@@ -64,7 +78,6 @@ export default {
       let arr = [];
 
       response.answer.map(item => {
-        console.log("typeof item", typeof item);
         if (typeof item === "boolean") {
           arr.push(item);
         } else if (typeof item === "object") {
@@ -79,6 +92,14 @@ export default {
       });
       this.taskChecked.push(arr);
       this.setPointByType(response);
+    },
+    redirect() {
+      if (this.$route.params.course_id) {
+        this.$router.push({
+          name: "tariffes",
+          params: { course_id: this.$route.params.course_id }
+        });
+      }
     }
   },
   computed: {},
@@ -92,7 +113,8 @@ export default {
     Comparison,
     Attachs,
     ChooseOne,
-    Syllable
+    Syllable,
+    TaskResults
   },
   props: {
     tasks: Array,
@@ -156,13 +178,24 @@ export default {
     @media ($media_lg2)
       right: 100px
 
-.check-btn
-  display: block
-  width: 137px
-  height: 32px
-  border-radius: 16px
-  color: #FFFFFF
-  background: linear-gradient(360deg, #FF0000 -20.31%, #FFA3A3 120.31%)
-  margin: 0 auto
-  margin-top: 40px
+  &__button-wrapper
+    display: flex
+    align-items: center
+    justify-content: center
+    padding-top: 40px
+
+  &__check-btn
+    display: block
+    width: 137px
+    height: 32px
+    border-radius: 16px
+    color: #FFFFFF
+    background: linear-gradient(360deg, #FF0000 -20.31%, #FFA3A3 120.31%)
+
+  &__complete-btn
+    background: linear-gradient(180deg, #FF6440 0%, #CC2D23 100%), linear-gradient(360deg, #FF0000 -20.31%, #FFA3A3 120.31%)
+    padding: 12px 32px
+    border-radius: 16px
+    font-weight: 700
+    color: #FFFFFF
 </style>
