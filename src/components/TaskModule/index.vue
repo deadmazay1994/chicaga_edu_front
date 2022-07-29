@@ -9,7 +9,8 @@
           :class="[
             { 'task-navigation-button--active': activeGroup === index },
             { 'task-navigation-button--success': group.success },
-            { 'task-navigation-button--error': group.success === false }
+            { 'task-navigation-button--error': group.success === false },
+            { 'task-navigation-button--result': group.result }
           ]"
           @moveToGroup="moveToGroup(index)"
           >{{ group.number }}</navigation-button
