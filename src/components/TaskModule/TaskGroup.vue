@@ -27,15 +27,15 @@
           >
             Проверить
           </button>
-          <router-link
-            tag="button"
-            :to="{ name: 'tariffes' }"
+          <button
+            @click="redirect()"
+            :to="{ name: 'tariffes', course_id }"
             :key="index + 'l'"
             v-else
             class="task-group__complete-btn"
           >
             ЗАВЕРШИТЬ УРОК
-          </router-link>
+          </button>
         </div>
       </template>
     </template>
@@ -92,6 +92,14 @@ export default {
       });
       this.taskChecked.push(arr);
       this.setPointByType(response);
+    },
+    redirect() {
+      if (this.$route.params.course_id) {
+        this.$router.push({
+          name: "tariffes",
+          params: { course_id: this.$route.params.course_id }
+        });
+      }
     }
   },
   computed: {},
