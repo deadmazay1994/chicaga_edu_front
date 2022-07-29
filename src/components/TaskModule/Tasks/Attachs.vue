@@ -16,7 +16,9 @@ export default {
     let texts = [];
     if (this.inputCopy.addons) {
       this.inputCopy.addons.forEach(addon =>
-        texts.push(<div class="attachs__text" domPropsInnerHTML={addon.text}></div>)
+        texts.push(
+          <div class="attachs__text" domPropsInnerHTML={addon.text}></div>
+        )
       );
     }
     return (
@@ -218,6 +220,8 @@ export default {
   line-height: 1.5
   @media ($media_lg2)
     font-size: inherit
+  &__text:not(:last-child)
+    margin-bottom: 0.5em
   &__files *
     margin-top: 15px
   &__img

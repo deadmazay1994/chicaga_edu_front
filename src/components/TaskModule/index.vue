@@ -1,18 +1,20 @@
 <template>
   <div class="task-module vue-component">
     <div class="task-module__header">
-      <navigation-button
-        v-for="(group, index) in navigationList"
-        :key="index"
-        :class="[
-          { 'task-navigation-button--active': activeGroup === index },
-          { 'task-navigation-button--success': group.success },
-          { 'task-navigation-button--error': group.success === false },
-          { 'task-navigation-button--result': group.result }
-        ]"
-        @moveToGroup="moveToGroup(index)"
-        >{{ group.number }}</navigation-button
-      >
+      <scroll-x :gap="'16'">
+        <navigation-button
+          class="nav-btn"
+          v-for="(group, index) in navigationList"
+          :key="index"
+          :class="[
+            { 'task-navigation-button--active': activeGroup === index },
+            { 'task-navigation-button--success': group.success },
+            { 'task-navigation-button--error': group.success === false }
+          ]"
+          @moveToGroup="moveToGroup(index)"
+          >{{ group.number }}</navigation-button
+        >
+      </scroll-x>
     </div>
     <template v-for="(task, index) in tasks">
       <template>
@@ -35,6 +37,7 @@
 <script>
 import NavigationButton from "./NavigationButton";
 import TaskGroup from "./TaskGroup";
+import ScrollX from "@/components/Base/ScrollX.vue";
 
 export default {
   name: "task-module",
@@ -65,7 +68,8 @@ export default {
   computed: {},
   components: {
     NavigationButton,
-    TaskGroup
+    TaskGroup,
+    ScrollX
   },
   props: {
     tasks: {
@@ -82,16 +86,20 @@ export default {
 </script>
 
 <style scoped="scoped" lang="sass">
+@import "@/assets/styles/variables.sass"
+
 .task-module
   display: flex
   flex-direction: column
+  width: 100%
   height: 100%
   &__header
     position: relative
     display: flex
-    flex-wrap: wrap
-    gap: 16px
-    padding: 16px 8px
+    padding: 16px 8px 8px
+    @media ($media_lg2)
+      padding-top: 8px
+      padding-bottom: 16px
   &__header::after
     content: ""
     position: absolute
@@ -102,14 +110,19 @@ export default {
     background-color: #E6E6E6
   &__body
     flex-grow: 1
+    width: 100%
     padding: 16px 8px
-    overflow-y: auto
-  &__body::-webkit-scrollbar
+    overflow: hidden auto
+  & ::-webkit-scrollbar
     width: 16px
-  &__body::-webkit-scrollbar-track
+    height: 16px
+  & ::-webkit-scrollbar-track
     margin-top: 10px
     margin-bottom: 10px
-  &__body::-webkit-scrollbar-thumb
+  & ::-webkit-scrollbar-thumb
     border: 6px solid transparent
     background-clip: padding-box
+
+.nav-btn
+  flex-shrink: 0
 </style>

@@ -2,18 +2,19 @@
   <div class="comparison">
     <Table :tableColumns="returnColumnNames">
       <template v-slot:default="slotProps">
-        <transition-group name="flip-list" tag="div" class="comparison__column">
+        <transition-group name="flip-list" tag="div" class="comparison-column">
           <template v-for="(chip, index) in selectedChipsArray">
             <template v-if="slotProps.columnIndex === index % 2">
-              <chip
-                class="comprasion__item"
-                :key="index"
-                :checkText="true"
-                :text="chip.w1 ? chip.w1 : chip.w2"
-                :selected="chip.selected"
-                :state="chip.state"
-                @click="selectChip(chip)"
-              />
+              <div class="comprasion-item" :key="index">
+                <chip
+                  class="comprasion-chip"
+                  :checkText="true"
+                  :text="chip.w1 ? chip.w1 : chip.w2"
+                  :selected="chip.selected"
+                  :state="chip.state"
+                  @click="selectChip(chip)"
+                />
+              </div>
               <!-- Вызываем метод для вычисления текущей колонки -->
               {{ returnColumnIndex(chip, slotProps.columnIndex) }}
             </template>
@@ -58,6 +59,21 @@ export default {
     }
   },
   methods: {
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     // Метод для вычисления текущей колонки
     returnColumnIndex(chip, columnIndex) {
       this.selectedChipsArray[
@@ -173,7 +189,10 @@ export default {
   },
   mounted() {
     this.taskBody = this.taskObject.body;
-    this.taskObject.body.map((wordObject, i) => {
+    let arr1 = this.shuffle(this.taskBody.map(item => item.w1));
+    let arr2 = this.shuffle(this.taskBody.map(item => item.w2));
+    this.taskBody = this.taskBody.map((_, i) => {
+      let wordObject = { w1: arr1[i], w2: arr2[i] };
       for (let prop in wordObject) {
         this.selectedChipsArray.push({
           // Устанавливаем начальные значения свойств
@@ -186,19 +205,29 @@ export default {
           state: "default"
         });
       }
+      return wordObject;
     });
   }
 };
 </script>
 
 <style lang="sass" scoped>
-.comparison__column
+.comparison-column
   display: flex
-  align-items: center
   flex-direction: column
-  gap: 7px
+  overflow: hidden
 
-// Надо заменить анимацию
-// .flip-list-move
-//   transition: transform 1s
+  .comprasion-item
+    display: flex
+    flex-shrink: 0
+    padding: 6px 12px
+    overflow: auto
+    &:not(:last-child)
+      border-bottom: 1px solid #e8e8e8
+    &::-webkit-scrollbar
+      width: 0
+      height: 0
+
+  .comprasion-chip
+    flex-shrink: 0
 </style>

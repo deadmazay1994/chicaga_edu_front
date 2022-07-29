@@ -57,6 +57,22 @@ export default {
     Chip
   },
   methods: {
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex]
+        ];
+      }
+
+      return array;
+    },
     selectAnswer(row, i) {
       // "Выбрать / Отменить" вариант ответа
       if (this.singleSelect) {
@@ -111,17 +127,14 @@ export default {
     }
   },
   mounted() {
-    console.log("test123", this.taskObject.body);
     this.taskBody = this.taskObject.body;
-    console.log(this.taskBody);
-    this.selectAnswersArray = this.taskBody
-      // .filter(element => element.text !== null)
-      .map(element => {
-        return element.answers.map(element => {
-          // Добавляем новые свойства в объект
+    this.selectAnswersArray = this.taskBody.map(element => {
+      return this.shuffle(
+        element.answers.map(element => {
           return { answer: element, selected: false, state: "default" };
-        });
-      });
+        })
+      );
+    });
   }
 };
 </script>
@@ -136,6 +149,8 @@ export default {
   display: flex
   align-items: center
   justify-content: space-between
+  flex-wrap: wrap
+  column-gap: 8px
 
   .task__title
     color: rgba(95, 0, 47, 1)
@@ -143,5 +158,9 @@ export default {
   .task__selection
     display: flex
     align-items: center
+    flex-wrap: wrap
     gap: 8px
+
+  .chip
+    text-align: left
 </style>

@@ -19,6 +19,7 @@
             <record
               v-if="record && record.url"
               :src="record.url"
+              :timecodes="record.timecodes"
               class="lesson-body__video"
             />
           </div>
@@ -49,8 +50,7 @@ export default {
   methods: {
     async setRecord() {
       let lesson = await this.getLesson(this.$route.params.id);
-      let record = await this.getVideo(lesson.videoId);
-      this.record = record.data;
+      this.record = await this.getVideo(lesson.videoId);
     }
   },
   computed: {},

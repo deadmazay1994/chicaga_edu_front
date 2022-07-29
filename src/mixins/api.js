@@ -1,5 +1,4 @@
-// const API_URL = "https://eng-test.avead.dev/api/";
-const API_URL = "https://edu.chicaga.ru/api/";
+const API_URL = process.env.VUE_APP_REST_API_URL;
 
 import Axios from "axios";
 
@@ -168,48 +167,29 @@ export default {
       );
     },
     async getProgressOfCourse(courseId) {
-      return get("teacher/course/" + courseId);
+      return get("teacher/course" + courseId);
     },
     // video
     async getVideo(id) {
-      return get(`user/videos/${id}`);
+      return get(`user/videos/${id}`).then(r => r.data).then(t => {
+        let timecodes;
+        try {
+          timecodes = JSON.parse(t.timecodes);
+        } catch (error) {
+          timecodes = {};
+          console.error('In getVideo: ' + error);
+        }
+        t.timecodes = timecodes.map(t => {
+          t.title = t.comment;
+          delete t.comment;
+          return t;
+        })
+        return t
+      });
     },
     // Проверка доступа пользователя к уроку
-    checkAccess(id) {
-      // Мок
-      console.log("lessonId checkAccess id:", id);
-      if (!id) return true;
-      else {
-        this.$store.commit("pushShuckbar", {
-          success: false,
-          val: "access denied"
-        });
-        return false;
-      }
-    },
-    getTimestamps() {
-      return [
-        {
-          title: "Greeting",
-          time: 75
-        }
-        // {
-        //   title: "What is in the bag",
-        //   time: 60 * 7 + 22
-        // },
-        // {
-        //   title: "Things",
-        //   time: 643
-        // },
-        // {
-        //   title: "Articles",
-        //   time: 19 * 60 + 41
-        // },
-        // {
-        //   title: "grammar",
-        //   time: 28 * 60 + 7
-        // }
-      ];
+    checkAccess(uniq_id) {
+      return get("lesson/access-check", uniq_id);
     },
     async getUserPoints() {
       let r = await get(`user/points`);

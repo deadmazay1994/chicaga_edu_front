@@ -149,8 +149,6 @@ export default {
   display: flex
   justify-content: space-between
   flex-wrap: wrap
-
-  .content-massege__time
   color: $main_color
 
 .content-massege__user
