@@ -171,35 +171,25 @@ export default {
     },
     // video
     async getVideo(id) {
-      return get(`user/videos/${id}`);
+      return get(`user/videos/${id}`).then(r => r.data).then(t => {
+        let timecodes;
+        try {
+          timecodes = JSON.parse(t.timecodes);
+        } catch (error) {
+          timecodes = {};
+          console.error('In getVideo: ' + error);
+        }
+        t.timecodes = timecodes.map(t => {
+          t.title = t.comment;
+          delete t.comment;
+          return t;
+        })
+        return t
+      });
     },
     // Проверка доступа пользователя к уроку
     checkAccess(uniq_id) {
       return get("lesson/access-check", uniq_id);
-    },
-    getTimestamps() {
-      return [
-        {
-          title: "Greeting",
-          time: 75
-        }
-        // {
-        //   title: "What is in the bag",
-        //   time: 60 * 7 + 22
-        // },
-        // {
-        //   title: "Things",
-        //   time: 643
-        // },
-        // {
-        //   title: "Articles",
-        //   time: 19 * 60 + 41
-        // },
-        // {
-        //   title: "grammar",
-        //   time: 28 * 60 + 7
-        // }
-      ];
     },
     async getUserPoints() {
       let r = await get(`user/points`);

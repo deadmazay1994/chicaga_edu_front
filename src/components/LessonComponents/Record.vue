@@ -1,6 +1,6 @@
 <template>
   <div class="record vue-component">
-    <video-player :active="true" ref="videoPlayer" :timestamps="timestamps">
+    <video-player :active="true" ref="videoPlayer" :timestamps="timecodesComputed">
       <template slot="videoSlot">
         <video ref="video" @click="$emit('click-by-video')" :src="src"></video>
       </template>
@@ -9,7 +9,7 @@
       <timecodes
         class="bottom__timecodes"
         @clickTimecode="clickTimecode"
-        :timecodes="timestamps"
+        :timecodes="timecodesComputed"
       />
       <evaluation class="bottom__evaluation" />
       <div class="bottom__text-review text-review">
@@ -30,7 +30,6 @@ import VideoPlayer from "@/components/VideoPlayer";
 import Timecodes from "@/components/VideoPlayer/Timecodes.vue";
 import Evaluation from "@/components/LessonComponents/Evaluation";
 import Textarea from "@/components/UiElements/InlineTextarea";
-import api from "@/mixins/api";
 
 export default {
   name: "record",
@@ -42,7 +41,6 @@ export default {
   },
   data: function() {
     return {
-      timestamps: [],
       duration: undefined
     };
   },
@@ -50,17 +48,25 @@ export default {
     src: {
       type: String,
       required: true
+    },
+    timecodes: {
+      type: Array,
+      required: false,
+      default: () => {({})}
     }
   },
-  computed: {},
+  computed: {
+    timecodesComputed() {
+      return [
+        ...this.timecodes,
+        { title: "Заключение", time: this.duration },
+      ]
+    }
+  },
   methods: {
     clickTimecode(time) {
       this.$refs.videoPlayer.clickTimecode(time);
     },
-    async setTimestaps() {
-      this.timestamps = await api.methods.getTimestamps();
-      this.timestamps.push({ title: "Заключение", time: this.duration });
-    }
   },
   mounted() {
     this.$refs.video.addEventListener("loadedmetadata", event => {
